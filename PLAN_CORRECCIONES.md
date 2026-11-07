@@ -49,10 +49,15 @@ Cada cambio en las páginas de clases arrastra el código de la sesión 3, que d
 | **4a** · identidad y transversal | H9 (rotular `EventPublisherPort` como Publish-Subscribe), H10 (`EventPublisherPort` en `IniciarSesionService`), H11 (`EventoDominio` con `id()`, `usuario()` y `correlacionId()`, más una nota del outbox), H15 (`CifradorPort.cifrar()` y la regla de 8+ caracteres), H22 (leyenda) |
 | **4b** · pedidos, inventario y menú | H2 (líneas `(platoId, cantidad)` en `PedidoRegistradoEvent`; ms-inventario consume `menu.actualizado` y guarda las recetas), H3 (`actualizarCatalogo()` y un puerto del catálogo persistido), H6 (`Mesa`, `GET /api/pedidos/catalogo` y `GET /api/pedidos/mesas`), H13 (el umbral es de ms-inventario), D4 (ms-inventario consume `solicitud.registrada` y atiende la alerta), D5 (`editar()` y `desactivar()` de platos), H22 |
 | **4c** · solicitudes y cotizaciones | DEC-05 (`solicitudNumeros: List` y la validación "al menos una"), H5 (`detalle(numero)` y `GET /api/cotizaciones/{id}`), H8 (`cadenaPorDefecto()`), H12 (`completar(numero)` para todas las solicitudes), H18 (`PENDIENTE_PRECIO` y `reenviar()`), D1 (`AlmacenArchivosPort` y `pdfUrl`), D3 (estado `CON ORDEN` y consumo de `orden.generada`), DEC-07/D7 (`Proveedor` completo y `ProveedorRestController /api/proveedores/**`), H22 |
-| **4d** · órdenes, integración y notificaciones | H4 (`GeneradorPdfPort` y almacén en ms-ordenes; `OrdenGeneradaEvent` con `correoProveedor`, `pdfUrl` y `cotizacionNumero`), D3 (rechazar una segunda orden sobre la misma cotización), H10 (`EventPublisherPort` en `NotificacionService` y `ConsultarPrecioService`), H25 (`Correo` en `puertos.salida`), E3 (6 tópicos), D6 (EN TRÁMITE por correo), H22 |
-| **4e** · administración y analítica | H7 (`kpis(desde, hasta, sucursalId)`), H10 (ms-administracion escribe directo en su bitácora, con una nota), H13 (`GET /api/admin/parametros/tema`; el umbral sale de `ParametrosSistema`), H14 (`LogsPort` y su adaptador de Elasticsearch), DEC-07/D8 (`SugerenciaPromocion`, histórico, aceptar o descartar, y un `tendencia.detectada` al día), H22 |
+| **4d** · órdenes y notificaciones | H4 (`GeneradorPdfPort` y almacén en ms-ordenes; `OrdenGeneradaEvent` con `correoProveedor`, `pdfUrl` y `cotizacionNumero`), D3 (rechazar una segunda orden sobre la misma cotización), H10 (`EventPublisherPort` en `NotificacionService`), H25 (`Correo` en `puertos.salida`), E3 (6 tópicos), D6 (EN TRÁMITE por correo), H22 |
+| **4e** · integración, administración y analítica | H7 (`kpis(desde, hasta, sucursalId)`), H10 (`EventPublisherPort` en `ConsultarPrecioService`; ms-administracion escribe directo en su bitácora, con una nota), H13 (`GET /api/admin/parametros/tema`; el umbral sale de `ParametrosSistema`), H14 (`LogsPort` y su adaptador de Elasticsearch), DEC-07/D8 (`SugerenciaPromocion`, histórico, aceptar o descartar, y un `tendencia.detectada` al día), H22 |
 
 Al terminar: exportar las 5 páginas a PNG para revisarlas, y validar con `arquitecto-revisor`.
+
+**Validación de la fase 2a:** el revisor encontró 15 hallazgos nuevos (N1–N15, en `VALIDACION_FASE2A.md`).
+- Se decidieron DEC-11 a DEC-14.
+- Todos se aplicaron, salvo N6, que no cambia las páginas 4a–4e: se aplica en las sesiones 2 y 5.
+- Con eso hay 191 clases en 4a–4e (antes 155).
 
 ## Sesión 2 · `.drawio`, páginas 1, 2, 3a, 3b, 5 y 6
 
@@ -60,12 +65,12 @@ Propagar lo de la fase 2a a las vistas de arquitectura y corregir lo propio de c
 
 | Página | Correcciones |
 |---|---|
-| **1** · Mapa integrado | E1 (Redis · TLS), E2 (3 zonas), D2 (11 rutas en el gateway), nuevos consumidores: ms-inventario ← `menu.actualizado` y `solicitud.registrada`, ms-cotizaciones ← `orden.generada`. Rutas nuevas: proveedores, catálogo y mesas, detalle de cotización, sugerencias |
+| **1** · Mapa integrado | E1 (Redis · TLS), E2 (3 zonas), D2 y DEC-12 (13 prefijos en el gateway: los 11 de antes más `/api/usuarios` y `/api/proveedores`), H10 (la auditoría la publican los otros 10 servicios; ms-administracion escribe directo), los adaptadores nuevos de 4a–4e en cada hexágono, nuevos consumidores: ms-inventario ← `menu.actualizado` y `solicitud.registrada`, ms-cotizaciones ← `orden.generada`. Rutas nuevas: usuarios, proveedores, catálogo y mesas, detalle y reenvío de cotización, tema, sugerencias, destinatarios |
 | **2** · Contexto | H22 (leyenda, y `[SMTP]` en la flecha correo → proveedor) |
-| **3a** · Contenedores | H17 (Eureka `[HTTPS · mTLS]`), H22 (protocolo en las flechas de Kafka, `[SMTP]`), D2 (ruta de ms-notificaciones; el SOAP externo entra por el gateway), H4 (PDF de órdenes), los consumidores nuevos |
+| **3a** · Contenedores | H17 (Eureka `[HTTPS · mTLS]`), H22 (protocolo en las flechas de Kafka, `[SMTP]`), D2 (ruta de ms-notificaciones; el SOAP externo entra por el gateway), H4 (PDF de órdenes), los consumidores nuevos, H14 (ms-administracion → ELK `[HTTPS]`), N4 (ms-notificaciones → almacén de objetos), H10 (auditoría de 10 servicios), DEC-12 |
 | **3b** · Componentes de ms-cotizaciones | H5 (consulta por número), D1 (almacén y `pdfUrl`), DEC-05 (varias solicitudes), DEC-07 (proveedores), H18 (reenvío), D3 (consumo de `orden.generada` → CON ORDEN) |
 | **5** · Despliegue | H16 (réplica y respaldo del almacén de objetos), H24 (3 sub-cajas de zona y réplica de Redis), H22 (leyenda) |
-| **6** · Dinámico | H23 (numerar 4.1, 4.2…), DEC-05 (varias solicitudes en los pasos de cotización), H4 (PDF de la orden en el paso 12), H12 (las solicitudes pasan a COMPLETADA), D3 (CON ORDEN) |
+| **6** · Dinámico | H23 (numerar 4.1, 4.2…), DEC-05 (varias solicitudes en los pasos de cotización), H4 (PDF de la orden en el paso 12), H12 (las solicitudes pasan a COMPLETADA), D3 (CON ORDEN), N4 (el PDF sale del almacén en los pasos 5 y 12), H10 (auditoría) |
 
 Al terminar: exportar las páginas a PNG y validar con `arquitecto-revisor`.
 
@@ -73,9 +78,11 @@ Al terminar: exportar las páginas a PNG y validar con `arquitecto-revisor`.
 
 En `KonradGourmet/`, rama `correcciones-revision`. El código debe quedar idéntico al `.drawio` corregido.
 - **H1:** declarar en cada controlador los métodos de la §15 del reporte, con el comentario `// Atiende la ventana Vxx`. Hacer lo mismo con los métodos de casos de uso, puertos y dominio de 4a–4e; los cuerpos lanzan `UnsupportedOperationException` hasta la sesión 4.
-- **H1:** agregar las 33 relaciones `implements`/`extends` que faltan.
-- **H8:** corregir los 6 tipos de clase (`ReglaValidacion` abstracta con `siguiente` y `enlazar()`, `Correo` como interfaz, etc.).
-- Agregar las clases nuevas de la fase 2a (`Mesa`, `SugerenciaPromocion`, `LogsPort`, `AlmacenArchivosPort`, etc.) y mover `Correo` a `puertos.salida` (H25).
+- **H1:** agregar las relaciones `implements`/`extends` de 4a–4e: 65 flechas en el diagrama, más 18 escritas dentro de las cajas. La cifra de 33 que daba la revisión ya no sirve: hay que contar de nuevo contra el código.
+- **H8:** corregir los 5 tipos de clase (`ReglaValidacion` abstracta con `siguiente` y `enlazar()`, `Correo` como interfaz, etc.). `EventoDominio` ya es abstracta en el código y así quedó en el diagrama (DEC-09).
+- Agregar las 36 clases nuevas de la fase 2a (`Mesa`, `SugerenciaPromocion`, `LogsPort`, `AlmacenArchivosPort`, etc.) y mover `Correo` a `puertos.salida` (H25).
+  - Quedan 191 clases más la demo.
+  - `AlmacenArchivosPort`, `AlmacenObjetosAdapter` y `GeneradorPdfPort` se repiten en varios paquetes: hay que comparar por nombre completo.
 - **H19 y D10:** la tabla de patrones del `README.md`, igual a la p. 22 del reporte.
 - Compilar con `javac` sin errores, y anotar el nuevo total de clases para la lista del reporte.
 
@@ -99,9 +106,12 @@ Al terminar: correr la demo y validar con `arquitecto-revisor`.
     - H1 (ya cierto) y D12;
     - "ocho" → 11 páginas, y agregar las páginas 3a, 3b y 6;
     - §11 (consumidores nuevos), §15 (métodos y rutas nuevas) y p. 22 (H8, H9, H13);
-    - H21, H25 y el total de clases.
+    - H21, H25 y el total de clases;
+    - p. 21: la auditoría la publican 10 servicios, no 11 (H10);
+    - p. 7: 13 prefijos en el gateway (DEC-12);
+    - supuesto S5 y §15: el alta de usuarios (DEC-10) y las rutas nuevas.
   - **`CORRECCIONES_HU_Y_MOCKUPS.md`:**
-    - el mockup V13 con varias solicitudes (DEC-05);
+    - los mockups V13 y V21 con varias solicitudes (DEC-05);
     - reescribir la tarjeta HU-07 con los filtros de `CriteriosConsulta` (D9);
     - las etiquetas del Story Mapping (H26 y DEC-06);
     - mockups opcionales para HU-15 y HU-19 (DEC-07).
@@ -121,7 +131,7 @@ Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiand
 | Sesión | Estado |
 |---|---|
 | 1 · Fase 1 (Git) | ✅ Hecha (2026-11-07) |
-| 1 · Fase 2a (clases 4a–4e) | Aplicada (2026-11-07). El revisor la validó con 15 hallazgos nuevos (`VALIDACION_FASE2A.md`). Falta el OK |
+| 1 · Fase 2a (clases 4a–4e) | Aplicada (2026-11-07), con N1–N15 corregidos (DEC-11 a DEC-14). Falta la segunda validación y el OK de Mauricio |
 | 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | Pendiente |
 | 3 · Código: firmas | Pendiente |
 | 4 · Código: demo | Pendiente |

@@ -64,3 +64,24 @@ Validó el agente `arquitecto-revisor` sobre la rama `correcciones-revision`. Lo
 - El mockup V21 (UX p. 28) también muestra una sola solicitud. Se suma a V13 en la lista de DEC-05.
 
 **Corrección al plan:** H10 de `ConsultarPrecioService` está en la 4e, no en la 4d.
+
+## Seguimiento (2026-11-07)
+
+**Decisiones de Mauricio:**
+- **DEC-11:** N1 se corrige ya.
+- **DEC-12:** N6 se resuelve con 13 prefijos.
+- **DEC-13:** N5 queda mixto: el correo del solicitante viaja en el evento, y ms-notificaciones guarda una libreta de jefes por sucursal.
+- **DEC-14:** se aplica todo lo demás.
+
+| # | Estado | Commit |
+|---|---|---|
+| N1 | Aplicada | `N1: el plato pertenece a una sucursal…` |
+| N2 | Aplicada | `N2: ms-inventario acumula el consumo por sucursal…` |
+| N3 | Aplicada. El evento lleva `precios: Map<Long, BigDecimal>` (precio unitario sugerido); la solicitud guarda `cotizacionesAplicadas` y responde `yaAplicada()` | `N3: …` |
+| N4 | Aplicada. `CorreoSmtpAdapter` usa `AlmacenArchivosPort.obtener()` de ms-notificaciones | `N4: …` |
+| N5 | Aplicada. `DestinatarioRestController` en `/api/notificaciones/destinatarios`, dentro del prefijo de ms-notificaciones | `N5: …` |
+| N6 | Decidida (DEC-12). No cambia las páginas 4a–4e: se aplica en las sesiones 2 y 5 | — |
+| N7 | Aplicada. Para hacer espacio, ms-analitica se corrió 380 px a la derecha | `N7: …` |
+| N8–N15 | Aplicadas | un commit cada una |
+
+Clases en 4a–4e: 191 (antes 155).
