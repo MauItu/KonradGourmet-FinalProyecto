@@ -17,6 +17,10 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-08 | Recomendaciones del revisor y D1–D8 | Se aceptan las recomendaciones | Asumida, por confirmar |
 | DEC-09 | Datos comunes de los eventos (H11) | `EventoDominio` pasa a clase abstracta con id, usuario, correlación y fecha | Por aplicar (sesiones 1 y 3) |
 | DEC-10 | Regla de contraseña (H15) | Regla en el dominio, `cifrar()` y alta de usuarios por el administrador | Por aplicar (sesiones 1 y 3) |
+| DEC-11 | Platos por sucursal (N1) | Se corrige ya, en la fase 2a | Por aplicar (sesiones 1 y 3) |
+| DEC-12 | Rutas del gateway (N6) | 13 prefijos: `/api/usuarios` y `/api/proveedores` aparte | Por aplicar (sesiones 2 y 5) |
+| DEC-13 | Destinatarios de los correos (N5) | Mixto: el correo del solicitante viaja en el evento, y ms-notificaciones guarda una libreta de jefes por sucursal | Por aplicar (sesiones 1 y 3) |
+| DEC-14 | Resto de la validación de la fase 2a | Se aplican N2–N4 y N7–N15 como los propone el revisor | Por aplicar (sesión 1) |
 
 ---
 
@@ -220,6 +224,74 @@ En realidad las 156 clases están vacías y la demo solo imprime una línea. Un 
 - **4a:** `PoliticaContrasena`, `CifradorPort.cifrar()`, `RegistrarUsuarioUseCase`, `RegistrarUsuarioService`, `UsuarioRestController` (`/api/usuarios`, rol Administrador) y `UsuarioRepositoryPort.guardar()`. El alta publica `auditoria.evento`.
 - **Sesiones 2 y 5:** la ruta `/api/usuarios` se suma a las rutas de ms-identidad. En el reporte, §15 y supuesto S5.
 - **Sin cambios** en servicios, tópicos ni ventanas: siguen 11 servicios, 10 tópicos y 23 ventanas.
+
+
+## DEC-11 · ¿Se corrige ya que el plato no tenga sucursal? (N1)
+
+**Por qué hubo que decidir.** La validación de la fase 2a (`VALIDACION_FASE2A.md`, N1, severidad alta) encontró que, en la 4b, el plato no tiene sucursal. La tarjeta HU-04 (Story Mapping, p. 11) pide «asociar automáticamente el plato a mi sucursal y a mi usuario» y «nombre único por sucursal». Sin sucursal, el catálogo de V03 no se puede filtrar para el mesero. El problema venía del diseño original, y H6 lo dejó a la vista.
+
+**Opciones:**
+- **A. Corregir ya, en la fase 2a.** Son las mismas clases que ya cambiaron H3, H6 y D5. ✅ **Escogida.**
+- **B. Dejarlo para después.** Las sesiones 2 y 3 copiarían el diseño sin sucursal, y habría que corregirlo en varios lados.
+
+**Qué implica:**
+- `Plato` lleva `sucursalId` y `creadoPor`.
+- El puerto de platos verifica `existeNombre(sucursalId, nombre)`.
+- `menu.actualizado` y `PlatoCatalogo` llevan `sucursalId`.
+- El catálogo de ms-pedidos se pide con `catalogo(sucursalId)`.
+
+## DEC-12 · ¿Cuántos prefijos tiene el gateway? (N6)
+
+**Por qué hubo que decidir.** El alta de usuarios (DEC-10) y los proveedores (DEC-07) agregan los prefijos `/api/usuarios` y `/api/proveedores`. D2 y DEC-08 hablan de 11 rutas, una por servicio, igual que la tabla del reporte (p. 7).
+
+**Opciones:**
+- **A. 13 prefijos.** `/api/usuarios` va a ms-identidad y `/api/proveedores` a ms-cotizaciones. Un gateway puede tener varios prefijos por servicio, y las rutas quedan más claras. ✅ **Escogida.**
+- **B. Bajo prefijos existentes.** Pasan a `/api/auth/usuarios` y `/api/cotizaciones/proveedores`, y se mantienen 11 prefijos. Pero `/api/cotizaciones/proveedores` se puede confundir con `/api/cotizaciones/{id}`.
+
+**Qué implica:**
+- En las páginas 4a–4e no cambia nada.
+- **Sesión 2:** el mapa (p. 1) y la 3a pasan de 11 a 13 rutas, con los mismos 11 servicios.
+- **Sesión 5:** se corrige la tabla del reporte (p. 7).
+
+## DEC-13 · ¿De dónde saca ms-notificaciones el correo del destinatario? (N5)
+
+**Por qué hubo que decidir.** ms-notificaciones manda tres tipos de correo: stock bajo, «su solicitud está EN TRÁMITE» y promociones. Pero no sabe a qué dirección:
+- los eventos no traen ningún correo;
+- la lista de usuarios vive en ms-identidad, que tiene su propia base.
+
+Además, HU-16 (p. 23) pide que la alerta muestre el producto, la cantidad restante, la unidad y la sucursal, y `StockBajoEvent` solo traía el id del producto y el porcentaje.
+
+**Opciones:**
+- **A. Mixto.**
+  - Los eventos de una solicitud traen el correo de quien la creó (ms-solicitudes lo sabe por el inicio de sesión).
+  - Para el stock bajo y las promociones, que no los crea nadie, ms-notificaciones guarda su propia libreta de jefes de cocina por sucursal, que llena el administrador.
+
+  Ningún servicio depende de otro y no hay tópicos nuevos. ✅ **Escogida.**
+- **B. Todo en los eventos.** Quien publica pone los correos. Pero ms-inventario y ms-analitica tendrían que saber los correos de los jefes, que no son datos suyos.
+- **C. Preguntar a ms-identidad por REST en cada evento.** Si ms-identidad está caído, no salen los correos, y los dos servicios quedan acoplados.
+
+**Qué implica:**
+- **ms-solicitudes:** `SolicitudAlimentos`, `SolicitudRegistradaEvent` y `SolicitudEnTramiteEvent` llevan `correoSolicitante`.
+- **ms-inventario:** `StockBajoEvent` suma `nombreProducto`, `stockActual` y `unidad`.
+- **ms-notificaciones:**
+  - `DestinatarioRepositoryPort` (`jefesDe(sucursalId)`, `jefes()`) y su adaptador JPA;
+  - `DestinatarioRestController` en `/api/notificaciones/destinatarios`, para el administrador.
+
+  La ruta cae dentro del prefijo `/api/notificaciones/**` que ya tiene ms-notificaciones (D2).
+- Siguen 11 servicios y 10 tópicos.
+
+## DEC-14 · ¿Qué se hace con el resto de la validación de la fase 2a?
+
+**Por qué hubo que decidir.** El revisor dejó, además de N1, N5 y N6, otros 12 hallazgos que no traen una decisión de diseño (`VALIDACION_FASE2A.md`).
+
+**Opciones:**
+- **A. Aplicarlos todos**, un commit por hallazgo, como los propone el revisor, y volver a validar. ✅ **Escogida.**
+- **B. Solo los de severidad media** (N2, N3, N4, N7 y N8), y dejar N9–N15 anotados.
+- **C. Ninguno por ahora**, para revisarlos con el equipo.
+
+**Qué implica:**
+- N2, N3, N4, N7, N8 y N9–N15 se aplican en las páginas 4a–4e.
+- Después se exportan otra vez las PNG y se pide una segunda validación.
 
 ---
 
