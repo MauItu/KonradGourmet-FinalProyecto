@@ -121,7 +121,7 @@ Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiand
 | Sesión | Estado |
 |---|---|
 | 1 · Fase 1 (Git) | ✅ Hecha (2026-11-07) |
-| 1 · Fase 2a (clases 4a–4e) | Pendiente |
+| 1 · Fase 2a (clases 4a–4e) | Aplicada (2026-11-07). El revisor la validó con 15 hallazgos nuevos (`VALIDACION_FASE2A.md`). Falta el OK |
 | 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | Pendiente |
 | 3 · Código: firmas | Pendiente |
 | 4 · Código: demo | Pendiente |
