@@ -85,3 +85,21 @@ Validó el agente `arquitecto-revisor` sobre la rama `correcciones-revision`. Lo
 | N8–N15 | Aplicadas | un commit cada una |
 
 Clases en 4a–4e: 191 (antes 155).
+
+## Segunda validación (2026-11-07)
+
+**Veredicto del revisor: la fase 2a está lista para el OK.**
+- Resueltos: los 14 hallazgos que tocaban 4a–4e.
+- N6 no aplica a estas páginas (DEC-12).
+- No entró ningún error de severidad media o mayor.
+- Se sigue respetando lo acordado:
+  - 11 servicios y 10 tópicos;
+  - las páginas 1, 2, 3a, 3b, 5 y 6, idénticas a `main`;
+  - el original, intacto.
+- Cifras: 191 clases y 65 flechas `implements`/`extends`, más 18 relaciones escritas dentro de las cajas.
+
+El revisor dejó dos detalles opcionales de severidad baja. Se aplicaron como ajustes de N2 y N3 (DEC-14):
+- **N2 (ajuste):** `sucursalesConConsumo()` en el puerto de inventario, para que el descuento diario sepa qué sucursales tienen consumo pendiente.
+- **N3 (ajuste):** `yaAplicada(cotizacion)` usa el mismo nombre de parámetro que `registrarCotizacion`.
+
+También comentó que, en N4, se puede defender que `CorreoSmtpAdapter` use `AlmacenArchivosPort`: la dependencia apunta hacia una interfaz del núcleo. Si el profesor lo cuestiona, la alternativa es que `NotificacionService` lea el PDF y el `Mensaje` lleve los bytes.
