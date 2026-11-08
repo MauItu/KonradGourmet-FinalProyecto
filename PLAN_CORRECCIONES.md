@@ -178,6 +178,7 @@ Al terminar: correr la demo y validar con `arquitecto-revisor`.
     - H21, H25 y el total de clases;
     - p. 21: la auditoría la publican 10 servicios, no 11 (H10);
     - DEC-43, confirmada por Mauricio: cambiar «Existencia ≤ 25 %» en la tabla de eventos (p. 21) y aclarar «llega al 25 %» (p. 9). Se compara el porcentaje redondeado a 2 decimales (`HALF_UP`) con **< 25 %**; la alarma sale solo al cruzar ese umbral (DEC-46). También se redondea antes de aplicar las reglas de cotizaciones.
+    - DEC-42, límite confirmado por Mauricio: el reporte promete usuario en la auditoría (p. 5) y correlación para las trazas (p. 9). Aclarar que la demo usa `sistema` (o el correo de la entidad) y una correlación nueva por evento; no propaga la identidad autenticada ni una correlación común a toda la compra. Separar este límite de la arquitectura prevista para el sistema real.
     - p. 7: 13 prefijos en el gateway (DEC-12);
     - supuesto S5 y §15: el alta de usuarios (DEC-10) y las rutas nuevas;
     - p. 13, §9: el mapa muestra también el almacén de objetos, ELK y la BD PostgreSQL de ms-integracion (DEC-16 y DEC-17), y una caja de adaptador agrupa los de una misma tecnología (DEC-15);
@@ -191,6 +192,7 @@ Al terminar: correr la demo y validar con `arquitecto-revisor`.
       - §15: faltan `catalogo()` y `mesas()` (W-03), `productosPorCategoria()` (W-06), el desplegable de proveedores (W-13) y `detalle()` de la cotización (W-20 y W-21);
       - opcional: una tabla con los métodos de controlador que no atienden una ventana (W-24 a W-35).
       - p. 26: junto a las anotaciones, una frase que diga que el Proxy de precios lleva `@Primary` y que los 2 jobs llevan `@SchedulerLock` (ShedLock), para que corran en una sola réplica (DEC-35, DEC-36 y DEC-38).
+  - **Nota de la 4a, `n_outbox` (DEC-42):** aclarar que la promesa de usuario y de una correlación que une el recorrido corresponde al sistema real. La demo conserva el límite confirmado: `sistema` o correo de la entidad y una correlación por evento. No modificar la nota hasta la sesión 5.
   - **4d del `.drawio` (DEC-42):** agregar `adjuntoUrl: String` a `Notificacion.enviar()`, `AlarmaApp.enviar()`, `NotificacionCorreo.enviar()` y `CreadorNotificacion.notificar()`, para que el diagrama quede igual al código.
   - **`CORRECCIONES_HU_Y_MOCKUPS.md`:**
     - los mockups V13 y V21 con varias solicitudes (DEC-05);
