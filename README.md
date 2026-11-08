@@ -18,7 +18,9 @@ Cada módulo se divide siempre en las mismas capas:
 | `adaptadores/salida/` | Persistencia, clientes HTTP/SOAP, correo | Implementan los puertos de salida |
 
 La dependencia siempre apunta hacia adentro: los adaptadores conocen los puertos,
-nunca al revés. El dominio no conoce a nadie.
+nunca al revés. El dominio no importa frameworks ni adaptadores. Hay una sola excepción
+a «el dominio no conoce a nadie»: en `notificaciones`, el Factory Method usa las
+interfaces `Correo` y `AlarmaPushPort`, que son puertos del mismo núcleo.
 
 ## Módulos
 
