@@ -1,5 +1,5 @@
 package co.edu.konradlorenz.notificaciones.dominio;
 
-public class NotificacionCorreo extends Notificacion {
+public class NotificacionCorreo implements Notificacion {
 
 }
