@@ -1,5 +1,6 @@
 package co.edu.konradlorenz.ordenes.aplicacion;
 
+import co.edu.konradlorenz.compartido.eventos.AuditoriaEvent;
 import co.edu.konradlorenz.compartido.puertos.EventPublisherPort;
 import co.edu.konradlorenz.ordenes.dominio.CotizacionOpcionada;
 import co.edu.konradlorenz.ordenes.dominio.EstadoOrden;
@@ -42,6 +43,7 @@ public class OrdenCompraService implements GenerarOrdenUseCase {
         OrdenCompra orden = repositorio.guardar(new OrdenCompra(numerada, pdfUrl));
         eventos.publicar(new OrdenGeneradaEvent("sistema", orden.numero(), orden.cotizacionNumero(), orden.solicitudNumeros(),
                 orden.proveedor(), orden.correoProveedor(), pdfUrl, orden.total()));
+        eventos.publicar(new AuditoriaEvent("sistema", "Orden " + orden.numero() + " generada sobre " + orden.cotizacionNumero()));
         return orden;
     }
 
