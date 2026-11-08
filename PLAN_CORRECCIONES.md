@@ -74,10 +74,12 @@ Propagar lo de la fase 2a a las vistas de arquitectura y corregir lo propio de c
 
 Al terminar: exportar las páginas a PNG y validar con `arquitecto-revisor`.
 
-**Estado (2026-11-08):** aplicada, en validación.
+**Estado (2026-11-08):** aplicada y validada por el revisor; espera el OK de Mauricio.
 - El inventario previo del revisor (`INVENTARIO_SESION2.md`, 149 ítems con el id de cada celda) y las decisiones DEC-15 a DEC-22 guiaron los cambios.
 - No se aplicaron 6 ítems opcionales (DEC-21): P1-08, P1-09, P1-13, P1-29, P2-07 y P3b-26. P5-13 no cambia nada, porque DEC-17 mantiene «PostgreSQL ×11».
 - Cifras del mapa: 11 servicios, 10 tópicos, 19 flechas de consumo, 10 de publicación y 11 rutas del gateway con los 13 prefijos.
+- Validación (`VALIDACION_SESION2.md`): S1–S11 en la primera ronda y S12–S14 en la segunda. Todos están aplicados. El arquitecto decidió S5 (DEC-23) y S9 (DEC-24) a pedido de Mauricio.
+- PNG de las 6 páginas en `FinalProyecto/exportes/sesion2/`, fuera del repo.
 
 ## Sesión 3 · Código: firmas, relaciones y tipos
 
@@ -142,7 +144,7 @@ Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiand
 |---|---|
 | 1 · Fase 1 (Git) | ✅ Hecha (2026-11-07) |
 | 1 · Fase 2a (clases 4a–4e) | ✅ Aprobada por Mauricio (2026-11-07). Validada por el revisor, con N1–N15 corregidos (DEC-11 a DEC-14) |
-| 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | Aplicada (2026-11-08), en validación del revisor. Decisiones DEC-15 a DEC-22 |
+| 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | Aplicada y validada por el revisor (2026-11-08), con S1–S14 corregidos. Decisiones DEC-15 a DEC-24. Espera el OK de Mauricio |
 | 3 · Código: firmas | Pendiente |
 | 4 · Código: demo | Pendiente |
 | 5 · Excel y documentos | Pendiente |
