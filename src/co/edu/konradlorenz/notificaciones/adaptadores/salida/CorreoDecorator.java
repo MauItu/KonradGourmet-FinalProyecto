@@ -16,7 +16,7 @@ public abstract class CorreoDecorator implements Correo {
 
     @Override
     public void enviar(Mensaje m) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        envuelto.enviar(m); // por defecto, el decorador solo pasa el mensaje al correo que envuelve
     }
 
 }
