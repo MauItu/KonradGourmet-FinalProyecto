@@ -110,6 +110,18 @@ javac --release 21 -d out $(find src -name "*.java")
 java -cp out co.edu.konradlorenz.demo.DemoArquitectura
 ```
 
+## Historia en git
+
+`Correo.java` y `CorreoDecorator.java` venían de `notificaciones/dominio`. Eran archivos
+tan pequeños que, al cambiarles el `package`, `git log --follow` no reconoce el
+movimiento y les asigna la historia de `AlarmaPushPort.java` y `AlarmaPushAdapter.java`.
+Para ver su historia real:
+
+```bash
+git log --follow -M30% -- src/co/edu/konradlorenz/notificaciones/puertos/salida/Correo.java
+git log --follow -M30% -- src/co/edu/konradlorenz/notificaciones/adaptadores/salida/CorreoDecorator.java
+```
+
 ## Interfaz web
 
 La pantalla de inicio de sesión está en la raíz del proyecto:
