@@ -24,7 +24,7 @@ public class TableroRestController {
 
     // GET /api/bam/kpis?desde&hasta&sucursalId
     public List<ResultadoKpi> kpis(LocalDate desde, LocalDate hasta, Long sucursalId) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.kpis(desde, hasta, sucursalId);
     }
 
 }
