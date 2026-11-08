@@ -39,8 +39,13 @@ clases, atributos, métodos y relaciones `extends`/`implements`.
   `// Atiende la ventana Vxx de los mockups`, una línea por ventana. Si alguna fuente
   fija la ruta REST, la línea siguiente la dice, por ejemplo `// POST /api/cotizaciones`.
 - El texto de color de cada caja (patrón, ruta, tópico o tecnología) y las notas del
-  diagrama van en el Javadoc de la clase. Las anotaciones de Spring y de JAX-WS van
-  solo en ese comentario, para que el código compile solo con `javac`.
+  diagrama van en el Javadoc de la clase.
+- El código no usa Spring ni JAX-WS, para que compile solo con `javac`. Cada adaptador
+  dice en su Javadoc qué anotación lleva en el proyecto real, por ejemplo
+  «En el proyecto real: @RestController.»; el endpoint SOAP dice `@WebService`. Los
+  servicios de aplicación y los decoradores no llevan anotación: una clase de
+  configuración los arma con sus constructores, y ahí se fija el orden de los
+  decoradores.
 - Los métodos todavía lanzan `UnsupportedOperationException("Pendiente de implementar")`.
 
 ## Módulos
