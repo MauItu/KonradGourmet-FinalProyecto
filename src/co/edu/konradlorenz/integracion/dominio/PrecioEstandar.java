@@ -9,4 +9,22 @@ public class PrecioEstandar {
     private BigDecimal valor;
     private LocalDateTime consultadoEn;
 
+    public PrecioEstandar(Long productoId, BigDecimal valor, LocalDateTime consultadoEn) {
+        this.productoId = productoId;
+        this.valor = valor;
+        this.consultadoEn = consultadoEn;
+    }
+
+    public Long productoId() {
+        return productoId;
+    }
+
+    public BigDecimal valor() {
+        return valor;
+    }
+
+    public LocalDateTime consultadoEn() {
+        return consultadoEn;
+    }
+
 }
