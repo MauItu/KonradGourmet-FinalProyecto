@@ -419,16 +419,25 @@ Además, HU-16 (p. 23) pide que la alerta muestre el producto, la cantidad resta
 
 **Qué implica:** el mapa no cambia.
 
-## DEC-24 · ¿Cómo se distingue en el contexto (p. 2, S9) al proveedor, que es una persona externa?
+## DEC-24 · ¿Cómo se distingue al proveedor, que es una persona externa, en el contexto (p. 2, S9)?
 
 **Por qué hubo que decidir.** La leyenda nueva de la p. 2 distingue a la «persona externa» por su color. Pero el gris del proveedor (`v22`, #6B7079) casi no se diferencia del gris (#5B6474) que ya usan el director comercial (`v10`) y el administrador (`v12`).
 
 **Opciones:**
-- **A. Gris claro con borde gris** para el proveedor y para su muestra en la leyenda (`p2_sw2`). Así se ve que está fuera del sistema, como en el C4, que dibuja en gris claro lo externo. El revisor proponía relleno blanco; se usa gris claro para que la figura no se pierda sobre el fondo blanco. ✅ **Escogida.**
+- **A. Gris claro (#DCDFE4) con borde gris (#6B7079)** para el proveedor y para su muestra en la leyenda (`p2_sw2`). Lo externo sigue en gris, pero en uno más claro que el de los roles, para no confundirlos. ✅ **Escogida.**
 - **B. Dejarlo así.** La leyenda queda menos clara.
+- **C. Relleno blanco con borde gris**, como proponía el revisor. La figura se pierde sobre el fondo blanco.
+- **D. El mismo gris de los sistemas externos (#8A8F98).** Se parece más al gris de los roles que el gris claro.
 
-**Qué implica:** en la p. 2 solo cambian `v22` y `p2_sw2`.
+El C4 no fija colores. La paleta habitual pinta lo externo en gris medio, y así están los sistemas externos de la p. 2 (#8A8F98). Aquí se escogió un gris más claro solo para que la persona externa no se confunda con los roles grises.
 
+**Qué implica:** el proveedor usa el mismo color en todas las páginas donde aparece:
+- p. 2: `v22` y su muestra en la leyenda, `p2_sw2`;
+- p. 1: `v225`;
+- 3a: `c3a_p_proveedor`;
+- p. 6: `c6_v16` y `c6_v154`.
+
+La validación pidió extenderlo a esas páginas (S13).
 ---
 
 ## Preguntas abiertas (sin decidir)
