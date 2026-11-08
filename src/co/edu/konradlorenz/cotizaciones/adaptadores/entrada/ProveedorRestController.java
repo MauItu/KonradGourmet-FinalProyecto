@@ -21,6 +21,7 @@ public class ProveedorRestController {
     }
 
     // Atiende la ventana V13 de los mockups
+    // GET /api/proveedores
     public List<Proveedor> consultar(boolean soloActivos) {
         throw new UnsupportedOperationException("Pendiente de implementar");
     }
