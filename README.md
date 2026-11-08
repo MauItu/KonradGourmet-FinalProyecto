@@ -15,7 +15,7 @@ Cada módulo se divide siempre en las mismas capas:
 | `puertos/salida/` | Lo que el módulo necesita del exterior | Interfaces |
 | `aplicacion/` | Servicios que implementan los casos de uso | Orquesta el dominio |
 | `adaptadores/entrada/` | Controladores REST, listeners, jobs | Llaman a los puertos de entrada |
-| `adaptadores/salida/` | Persistencia, clientes HTTP/SOAP, correo | Implementan los puertos de salida |
+| `adaptadores/salida/` | Persistencia, clientes HTTP/SOAP, correo | Implementan los puertos de salida, salvo el cliente SOAP generado del WSDL, que es el Adaptee |
 
 La dependencia siempre apunta hacia adentro: los adaptadores conocen los puertos,
 nunca al revés. El dominio no importa frameworks ni adaptadores. Hay una sola excepción
