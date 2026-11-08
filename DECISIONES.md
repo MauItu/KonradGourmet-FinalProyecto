@@ -9,7 +9,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-33 y DEC-34:** las decidió Mauricio el 2026-11-08, al revisar la validación de la sesión 3 (hallazgos K1 y K4 de `VALIDACION_SESION3.md`). En DEC-33 no siguió la recomendación del revisor.
 - **DEC-35 a DEC-37:** las decidió Mauricio el 2026-11-08, al revisar la segunda validación de la sesión 3 (hallazgos K9, K10 y K11 de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor en las tres.
 - **DEC-38:** la decidió Mauricio el 2026-11-08, al revisar la tercera validación de la sesión 3 (la duda de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor.
-- **DEC-39 a DEC-45:** las tomó la sesión 4 (el código de la demo) mientras trabajaba sola, sin poder preguntar. Ninguna cambia un nombre ni una firma de 4a–4e; todas están **asumidas, por confirmar** con Mauricio. Cada una dice cuál es la alternativa si no se confirma.
+- **DEC-39 a DEC-46:** las tomó la sesión 4 (el código de la demo) mientras trabajaba sola, sin poder preguntar. Ninguna cambia un nombre ni una firma de 4a–4e; todas están **asumidas, por confirmar** con Mauricio. Cada una dice cuál es la alternativa si no se confirma.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -58,6 +58,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como enlace en el cuerpo del correo; usuario `sistema`; un `correlacionId` por evento; T-06 sigue abierta | Asumida, por confirmar |
 | DEC-43 | Límites de la cadena de reglas y del umbral | «Más de 25 %» y «más de 50 %» son estrictos; el umbral de stock es «por debajo de» | Asumida, por confirmar |
 | DEC-44 | Dónde van las pruebas y el script | Carpeta `pruebas/` fuera de `src/`, sin JUnit, y `ejecutar.sh` | Asumida, por confirmar |
+| DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura | Asumida, por confirmar |
 | DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | Asumida, por confirmar |
 
 ---
@@ -722,6 +723,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **A. Lectura literal.** +25,00 % y −50,00 % siguen OPCIONADA (rango −50 a +25, con los dos extremos dentro); +25,01 % es RECHAZADA y −50,01 % es SOSPECHOSA. El stock está «superado» si queda por debajo del 25 % (el 25 % exacto no alerta). `descontar()` siempre reactiva la alerta. ✅ **Asumida.** Está en `PruebasCotizacion` y en `PruebasFlujoDeCompra`.
 - **B. Límites inclusivos hacia afuera** (+25,00 % ya es RECHAZADA, y el 25 % de stock ya alerta). Más cautela, pero no es lo que dice «más de».
 
+**Redondeo.** La diferencia porcentual se redondea a 2 decimales antes de compararla con los límites, así que +25,004 % se ve y se trata como +25,00 % (OPCIONADA). Es lo que ve el usuario en V19; comparar sin redondear sería la alternativa (hallazgo S4-6 del revisor).
+
 **Qué implica:** si el profesor o el equipo prefieren B, se cambia una comparación en `ReglaRechazada`, `ReglaSospechosa` y `UmbralStock`, y las pruebas dicen exactamente cuáles son los casos de borde.
 
 ## DEC-44 · ¿Dónde van las pruebas y el script?
@@ -729,7 +732,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Por qué hubo que decidir.** El plan pide «pruebas simples que no necesiten Maven» y un script. El README y el reporte cuentan 191 clases más la demo, y un paquete de pruebas dentro de `src/` cambiaría la cuenta.
 
 **Opciones:**
-- **A. Carpeta `pruebas/` junto a `src/`**, con un marco mínimo propio (`Prueba`) y `ejecutar.sh` ✅ **Asumida.** No cambia los paquetes de los 12 servicios ni la cuenta de clases. 146 verificaciones en 3 clases de prueba.
+- **A. Carpeta `pruebas/` junto a `src/`**, con un marco mínimo propio (`Prueba`) y `ejecutar.sh` ✅ **Asumida.** No cambia los paquetes de los 12 servicios ni la cuenta de clases. 159 verificaciones en 3 clases de prueba.
 - **B. Dentro de `src/…/pruebas`.** Cuenta como un paquete más y como más clases en el reporte.
 - **C. JUnit con Maven.** Pide Maven, que el plan descarta.
 
@@ -744,6 +747,26 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **B. Dibujarlas en una página nueva del `.drawio`.** Es mucho trabajo para clases que no son arquitectura.
 
 **Qué implica:** el total de archivos `.java` en `src/` pasa de 192 a 211, y `pruebas/` suma 6 más (fuera de `src/`).
+
+## DEC-46 · Tres reglas que la validación de la sesión 4 encontró mal
+
+**Por qué hubo que decidir.** El revisor (`VALIDACION_SESION4.md`) reprodujo tres comportamientos que contradecían notas del propio diagrama. Cada uno tiene más de una salida correcta, y en las tres se escogió la que no cambia ninguna firma.
+
+**1. ¿Cuándo sale la alarma de stock bajo? (S4-1).** La nota de `InsumoInventario` dice que la alerta sigue activa hasta que llega `solicitud.registrada`, pero el cierre de cada noche volvía a publicar `inventario.stock-bajo` de todos los insumos bajo el umbral, incluso con la alerta atendida.
+- **A. Solo cuando el insumo cruza el umbral en esa ejecución.** Una alerta atendida sigue atendida aunque el stock siga bajando. ✅ **Asumida.**
+- **B. Un recordatorio cada noche mientras no haya solicitud.** Es más insistente, pero hay que distinguir «sin atender» de «atendida» en el evento, o el jefe recibe correos de algo que ya pidió.
+- **C. Dejarlo como estaba.** La alarma se repite aunque V05 diga 0 alertas.
+
+**2. ¿Qué hace una orden con una solicitud que la cotización cubrió solo en parte? (S4-2).** `completar()` lanzaba «sigue pendiente» y el bucle de `orden.generada` se cortaba: la orden quedaba guardada, pero ni las otras solicitudes se completaban ni la cotización pasaba a CON_ORDEN.
+- **A. `completar()` acepta PENDIENTE.** La nota de `GestionarSolicitudUseCase` dice que con `orden.generada` «cada solicitud pasa a COMPLETADA». ✅ **Asumida.**
+- **B. Una solicitud parcial se queda abierta.** Hay que decirle a `completar()` qué productos se compraron, y la firma no tiene dónde llevarlos.
+- **C. Obligar a que la cotización cubra todos los productos de cada solicitud.** Cambia V13 (el mockup).
+
+**3. ¿Qué escrituras dejan auditoría? (S4-3).** La p. 6 y la 3a dicen que cada uno de los otros 10 servicios publica `auditoria.evento` después de cada escritura, y solo lo hacían `ProveedorService`, las notificaciones y las consultas de precio.
+- **A. Publicarlo en las escrituras del recorrido de compra** (pedido, solicitud, cotización, orden, consumo diario y alertas). ✅ **Asumida.** No cambia ninguna firma, porque los servicios ya tienen `EventPublisherPort`.
+- **B. Dejarlo como límite anotado en el README.** El reporte seguiría afirmando algo que el código no hace.
+
+**Qué implica:** otros hallazgos del revisor se corrigieron sin decisión de diseño: parámetro nulo (S4-9), número de cotización repetido y fallo del almacén de PDF (S4-10), proveedores de la demo (S4-7), comentarios (S4-8), README (S4-5 y S4-11) y pruebas (S4-4). Los consumidores siguen sin descartar eventos repetidos (S4-5): queda anotado en el README. Las 4 preguntas del revisor para Mauricio están al final de `VALIDACION_SESION4.md`.
 
 ---
 
