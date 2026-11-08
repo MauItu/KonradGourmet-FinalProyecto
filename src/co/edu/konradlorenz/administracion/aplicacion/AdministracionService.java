@@ -31,6 +31,9 @@ public class AdministracionService implements AdministracionUseCase {
         if (clave == null || clave.isBlank()) {
             throw new IllegalArgumentException("La clave del parámetro es obligatoria");
         }
+        if (valor == null) {
+            throw new IllegalArgumentException("El valor del parámetro " + clave + " es obligatorio");
+        }
         parametros.guardar(clave, valor);
         ParametrosSistema.getInstancia().actualizar(clave, valor); // refresca la caché de esta réplica
         // ms-administracion no publica auditoria.evento: escribe directo en su bitácora (H10)
