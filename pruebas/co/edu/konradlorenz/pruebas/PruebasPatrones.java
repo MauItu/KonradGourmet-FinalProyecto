@@ -75,7 +75,9 @@ final class PruebasPatrones {
         Prueba.igual("un grupo guarda lo que se le agrega", 1, grupo.hijos().size());
         Prueba.lanza("los hijos de un grupo no se modifican desde afuera", UnsupportedOperationException.class, "",
                 () -> grupo.hijos().add(new OpcionMenu("Dos", "/g/2")));
-        Prueba.igual("el Mesero todavía no tiene menú (pendiente)", "MESERO", new Mesero(1L, "Isabella", "i@kg.co", centro).rol());
+        Mesero mesero = new Mesero(1L, "Isabella", "i@kg.co", centro);
+        Prueba.igual("el rol del Mesero", "MESERO", mesero.rol());
+        Prueba.lanza("el menú del Mesero todavía está pendiente", UnsupportedOperationException.class, "Pendiente de implementar", mesero::construirMenu);
     }
 
     private static void factoryMethod() {
