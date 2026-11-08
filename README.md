@@ -25,6 +25,17 @@ interfaces `Correo` y `AlarmaPushPort`, que son puertos del mismo núcleo.
 Entre microservicios, un módulo solo puede importar el paquete `eventos` de otro, que
 es el contrato de su tópico, y nunca su `dominio`. Todos pueden usar `compartido`.
 
+## El código y los diagramas de clases
+
+El código sigue las páginas 4a–4e del diagrama de arquitectura: los mismos paquetes,
+clases, atributos, métodos y relaciones `extends`/`implements`.
+
+- Como es habitual en UML, los diagramas omiten los constructores y los métodos de
+  acceso. En el código, los servicios, controladores, listeners, jobs y adaptadores
+  reciben por el constructor lo que su caja lista como atributos; `ParametrosSistema`
+  tiene el constructor privado del Singleton, y cada decorador recibe el correo que
+  envuelve.
+
 ## Módulos
 
 | Módulo | Microservicio | Historias | Responsabilidad |
