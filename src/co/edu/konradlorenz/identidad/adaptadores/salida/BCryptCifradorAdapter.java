@@ -2,6 +2,9 @@ package co.edu.konradlorenz.identidad.adaptadores.salida;
 
 import co.edu.konradlorenz.identidad.puertos.salida.CifradorPort;
 
+/**
+ * En el proyecto real: @Component.
+ */
 public class BCryptCifradorAdapter implements CifradorPort {
 
     @Override
