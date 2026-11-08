@@ -3,6 +3,7 @@ package co.edu.konradlorenz.inventario.adaptadores.entrada;
 import co.edu.konradlorenz.compartido.eventos.EventListener;
 import co.edu.konradlorenz.compartido.eventos.EventoDominio;
 import co.edu.konradlorenz.inventario.puertos.entrada.GestionarInventarioUseCase;
+import co.edu.konradlorenz.pedidos.eventos.PedidoRegistradoEvent;
 
 /**
  * «Listener · pedido.registrado»
@@ -19,7 +20,9 @@ public class PedidoRegistradoListener implements EventListener<EventoDominio> {
 
     @Override
     public void alRecibir(EventoDominio evento) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        if (evento instanceof PedidoRegistradoEvent pedido) {
+            casoDeUso.acumularConsumo(pedido.sucursalId(), pedido.lineas());
+        }
     }
 
 }
