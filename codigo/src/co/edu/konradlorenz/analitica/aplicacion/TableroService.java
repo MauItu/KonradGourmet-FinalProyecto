@@ -31,12 +31,14 @@ public class TableroService implements TableroUseCase {
 
     @Override
     public List<ResultadoKpi> kpis(LocalDate desde, LocalDate hasta, Long sucursalId) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        List<HechoNegocio> hechos = repositorio.hechos(desde, hasta, sucursalId);
+        // Strategy: cada KPI es un algoritmo intercambiable sobre los mismos hechos
+        return estrategias.stream().map(e -> e.calcular(hechos)).toList();
     }
 
     @Override
     public void registrarHecho(HechoNegocio h) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        repositorio.guardar(h);
     }
 
     @Override

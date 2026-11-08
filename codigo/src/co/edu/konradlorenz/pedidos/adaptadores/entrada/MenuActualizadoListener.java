@@ -2,6 +2,8 @@ package co.edu.konradlorenz.pedidos.adaptadores.entrada;
 
 import co.edu.konradlorenz.compartido.eventos.EventListener;
 import co.edu.konradlorenz.compartido.eventos.EventoDominio;
+import co.edu.konradlorenz.menu.eventos.MenuActualizadoEvent;
+import co.edu.konradlorenz.pedidos.dominio.PlatoCatalogo;
 import co.edu.konradlorenz.pedidos.puertos.entrada.RegistrarPedidoUseCase;
 
 /**
@@ -19,7 +21,9 @@ public class MenuActualizadoListener implements EventListener<EventoDominio> {
 
     @Override
     public void alRecibir(EventoDominio evento) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        if (evento instanceof MenuActualizadoEvent menu) {
+            casoDeUso.actualizarCatalogo(new PlatoCatalogo(menu.platoId(), menu.sucursalId(), menu.nombre(), menu.precioVenta(), menu.activo()));
+        }
     }
 
 }

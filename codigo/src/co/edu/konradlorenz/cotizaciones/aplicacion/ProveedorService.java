@@ -1,5 +1,6 @@
 package co.edu.konradlorenz.cotizaciones.aplicacion;
 
+import co.edu.konradlorenz.compartido.eventos.AuditoriaEvent;
 import co.edu.konradlorenz.compartido.puertos.EventPublisherPort;
 import co.edu.konradlorenz.cotizaciones.dominio.Proveedor;
 import co.edu.konradlorenz.cotizaciones.puertos.entrada.GestionarProveedorUseCase;
@@ -24,27 +25,48 @@ public class ProveedorService implements GestionarProveedorUseCase {
 
     @Override
     public Proveedor registrar(Proveedor p) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        p.validar();
+        if (repositorio.existeNit(p.nit())) {
+            throw new IllegalStateException("Ya existe un proveedor con el NIT " + p.nit());
+        }
+        Proveedor guardado = repositorio.guardar(p);
+        eventos.publicar(new AuditoriaEvent("sistema", "Proveedor registrado: " + guardado.razonSocial()));
+        return guardado;
     }
 
     @Override
     public List<Proveedor> consultar(boolean soloActivos) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return soloActivos ? repositorio.activos() : repositorio.todos();
     }
 
     @Override
     public Proveedor detalle(Long id) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        Proveedor p = repositorio.porId(id);
+        if (p == null) {
+            throw new IllegalArgumentException("No existe el proveedor " + id);
+        }
+        return p;
     }
 
     @Override
     public Proveedor editar(Long id, Proveedor p) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        Proveedor existente = detalle(id);
+        p.validar();
+        if (!existente.nit().equals(p.nit()) && repositorio.existeNit(p.nit())) {
+            throw new IllegalStateException("Ya existe un proveedor con el NIT " + p.nit());
+        }
+        existente.editar(p);
+        Proveedor guardado = repositorio.guardar(existente);
+        eventos.publicar(new AuditoriaEvent("sistema", "Proveedor editado: " + guardado.razonSocial()));
+        return guardado;
     }
 
     @Override
     public void inactivar(Long id) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        Proveedor p = detalle(id);
+        p.inactivar();
+        repositorio.guardar(p);
+        eventos.publicar(new AuditoriaEvent("sistema", "Proveedor inactivado: " + p.razonSocial()));
     }
 
 }

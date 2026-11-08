@@ -1,6 +1,7 @@
 package co.edu.konradlorenz.inventario.dominio;
 
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -14,8 +15,23 @@ public class RecetaPlato {
     private Long platoId;
     private Map<Long, BigDecimal> insumos;
 
+    public RecetaPlato(Long platoId, Map<Long, BigDecimal> insumos) {
+        this.platoId = platoId;
+        this.insumos = insumos;
+    }
+
+    public Long platoId() {
+        return platoId;
+    }
+
+    public Map<Long, BigDecimal> insumos() {
+        return insumos;
+    }
+
     public Map<Long, BigDecimal> consumoPara(int cantidad) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        Map<Long, BigDecimal> consumo = new LinkedHashMap<>();
+        insumos.forEach((productoId, porPlato) -> consumo.put(productoId, porPlato.multiply(BigDecimal.valueOf(cantidad))));
+        return consumo;
     }
 
 }

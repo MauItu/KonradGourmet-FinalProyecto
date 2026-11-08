@@ -20,7 +20,7 @@ public class PrecioRestController {
     }
 
     public BigDecimal precioSugerido(Long productoId) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.precioSugerido(productoId);
     }
 
 }

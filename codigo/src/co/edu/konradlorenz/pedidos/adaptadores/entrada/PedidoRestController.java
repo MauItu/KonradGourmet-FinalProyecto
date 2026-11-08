@@ -24,25 +24,25 @@ public class PedidoRestController {
     // Atiende la ventana V04 de los mockups
     // POST /api/pedidos → 201 Created
     public Pedido registrar(Pedido p) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.registrar(p);
     }
 
     // Atiende la ventana V02 de los mockups
     // GET /api/pedidos?turno=actual (el mesero sale del token)
     public List<Pedido> pedidosDelTurno(Long meseroId) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.pedidosDelTurno(meseroId);
     }
 
     // Atiende la ventana V03 de los mockups
     // GET /api/pedidos/catalogo
     public List<PlatoCatalogo> catalogo(Long sucursalId) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.catalogo(sucursalId);
     }
 
     // Atiende la ventana V03 de los mockups
     // GET /api/pedidos/mesas
     public List<Mesa> mesas(Long sucursalId) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.mesas(sucursalId);
     }
 
 }

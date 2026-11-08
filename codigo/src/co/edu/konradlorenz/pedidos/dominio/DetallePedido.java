@@ -9,8 +9,31 @@ public class DetallePedido {
     private String nota;
     private BigDecimal precioUnitario;
 
+    public DetallePedido(Long platoId, int cantidad, String nota, BigDecimal precioUnitario) {
+        this.platoId = platoId;
+        this.cantidad = cantidad;
+        this.nota = nota;
+        this.precioUnitario = precioUnitario;
+    }
+
+    public Long platoId() {
+        return platoId;
+    }
+
+    public int cantidad() {
+        return cantidad;
+    }
+
+    public String nota() {
+        return nota;
+    }
+
+    public BigDecimal precioUnitario() {
+        return precioUnitario;
+    }
+
     public BigDecimal subtotal() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return precioUnitario.multiply(BigDecimal.valueOf(cantidad));
     }
 
 }

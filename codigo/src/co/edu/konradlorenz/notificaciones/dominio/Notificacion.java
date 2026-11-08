@@ -5,6 +5,6 @@ package co.edu.konradlorenz.notificaciones.dominio;
  */
 public interface Notificacion {
 
-    void enviar(String destino, String contenido);
+    void enviar(String destino, String contenido, String adjuntoUrl);
 
 }

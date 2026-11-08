@@ -12,9 +12,33 @@ public class CotizacionValidadaEvent extends EventoDominio {
     private EstadoCotizacion estado;
     private BigDecimal valorCotizado;
 
+    public CotizacionValidadaEvent(String usuario, String numero, Long proveedorId, EstadoCotizacion estado, BigDecimal valorCotizado) {
+        super(usuario);
+        this.numero = numero;
+        this.proveedorId = proveedorId;
+        this.estado = estado;
+        this.valorCotizado = valorCotizado;
+    }
+
+    public String numero() {
+        return numero;
+    }
+
+    public Long proveedorId() {
+        return proveedorId;
+    }
+
+    public EstadoCotizacion estado() {
+        return estado;
+    }
+
+    public BigDecimal valorCotizado() {
+        return valorCotizado;
+    }
+
     @Override
     public String tipo() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return "cotizacion.validada";
     }
 
 }

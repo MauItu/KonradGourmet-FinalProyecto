@@ -1,5 +1,7 @@
 package co.edu.konradlorenz.identidad.dominio;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -7,21 +9,25 @@ import java.util.List;
  */
 public class GrupoMenu extends ElementoMenu {
 
-    private List<ElementoMenu> hijos;
+    private List<ElementoMenu> hijos = new ArrayList<>();
+
+    public GrupoMenu(String titulo, String ruta) {
+        super(titulo, ruta);
+    }
 
     @Override
     public void agregar(ElementoMenu e) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        hijos.add(e);
     }
 
     @Override
     public List<ElementoMenu> hijos() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return Collections.unmodifiableList(hijos);
     }
 
     @Override
     public boolean esHoja() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return false;
     }
 
 }

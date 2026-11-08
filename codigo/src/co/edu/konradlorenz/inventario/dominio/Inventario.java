@@ -7,8 +7,21 @@ public class Inventario {
     private Long sucursalId;
     private List<InsumoInventario> insumos;
 
+    public Inventario(Long sucursalId, List<InsumoInventario> insumos) {
+        this.sucursalId = sucursalId;
+        this.insumos = insumos;
+    }
+
+    public Long sucursalId() {
+        return sucursalId;
+    }
+
+    public List<InsumoInventario> insumos() {
+        return insumos;
+    }
+
     public List<InsumoInventario> insumosBajoUmbral(UmbralStock umbral) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return insumos.stream().filter(umbral::superado).toList();
     }
 
 }

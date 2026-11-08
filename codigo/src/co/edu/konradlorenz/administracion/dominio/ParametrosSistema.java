@@ -1,5 +1,6 @@
 package co.edu.konradlorenz.administracion.dominio;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,22 +14,30 @@ import java.util.Map;
 public class ParametrosSistema {
 
     private static ParametrosSistema instancia;
-    private Map<String, String> valores;
+    private Map<String, String> valores = new HashMap<>();
 
     private ParametrosSistema() {
         // Singleton: solo getInstancia() crea la instancia.
     }
 
-    public static ParametrosSistema getInstancia() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+    public static synchronized ParametrosSistema getInstancia() {
+        if (instancia == null) {
+            instancia = new ParametrosSistema();
+        }
+        return instancia;
     }
 
-    public String valor(String clave) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+    /** Copia de solo lectura de todos los parámetros. */
+    public synchronized Map<String, String> valores() {
+        return Map.copyOf(valores);
     }
 
-    public void actualizar(String clave, String valor) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+    public synchronized String valor(String clave) {
+        return valores.get(clave);
+    }
+
+    public synchronized void actualizar(String clave, String valor) {
+        valores.put(clave, valor);
     }
 
 }

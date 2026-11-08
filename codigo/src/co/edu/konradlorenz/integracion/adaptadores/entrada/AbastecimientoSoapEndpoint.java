@@ -21,7 +21,7 @@ public class AbastecimientoSoapEndpoint {
     }
 
     public BigDecimal consultarPrecioSugerido(Long productoId) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.precioSugerido(productoId);
     }
 
 }

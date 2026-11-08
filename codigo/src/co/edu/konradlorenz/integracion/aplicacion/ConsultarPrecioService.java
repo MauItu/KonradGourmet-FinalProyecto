@@ -1,5 +1,6 @@
 package co.edu.konradlorenz.integracion.aplicacion;
 
+import co.edu.konradlorenz.compartido.eventos.AuditoriaEvent;
 import co.edu.konradlorenz.compartido.puertos.EventPublisherPort;
 import co.edu.konradlorenz.integracion.puertos.entrada.ConsultarPrecioUseCase;
 import co.edu.konradlorenz.integracion.puertos.salida.PrecioReferenciaPort;
@@ -18,7 +19,9 @@ public class ConsultarPrecioService implements ConsultarPrecioUseCase {
 
     @Override
     public BigDecimal precioSugerido(Long productoId) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        BigDecimal valor = precios.precioEstandar(productoId).valor();
+        eventos.publicar(new AuditoriaEvent("sistema", "Precio sugerido consultado: producto " + productoId));
+        return valor;
     }
 
 }

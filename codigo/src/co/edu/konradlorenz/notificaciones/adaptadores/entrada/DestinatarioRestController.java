@@ -18,11 +18,11 @@ public class DestinatarioRestController {
     }
 
     public void registrar(Long sucursalId, String correo) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        casoDeUso.registrarDestinatario(sucursalId, correo);
     }
 
     public List<String> consultar(Long sucursalId) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.destinatarios(sucursalId);
     }
 
 }

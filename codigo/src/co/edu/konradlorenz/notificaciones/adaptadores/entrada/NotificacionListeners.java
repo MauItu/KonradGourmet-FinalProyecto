@@ -31,7 +31,7 @@ public class NotificacionListeners implements EventListener<EventoDominio> {
 
     @Override
     public void alRecibir(EventoDominio evento) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        casoDeUso.notificarEvento(evento);
     }
 
 }

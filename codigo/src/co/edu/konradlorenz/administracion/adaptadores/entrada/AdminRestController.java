@@ -22,20 +22,20 @@ public class AdminRestController {
     }
 
     public void parametrizar(String clave, String valor) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        casoDeUso.parametrizar(clave, valor);
     }
 
     public List<RegistroAuditoria> auditoria(LocalDate desde, LocalDate hasta) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.auditoria(desde, hasta);
     }
 
     public List<LogError> logs(String servicio) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.logs(servicio);
     }
 
     // GET /api/admin/parametros/tema
     public Map<String, String> tema() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.tema();
     }
 
 }

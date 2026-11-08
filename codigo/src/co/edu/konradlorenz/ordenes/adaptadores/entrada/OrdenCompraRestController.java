@@ -28,13 +28,13 @@ public class OrdenCompraRestController {
     // Atiende la ventana V22 de los mockups
     // POST /api/ordenes-compra → 201 Created
     public OrdenCompra generar(String cotizacionNumero) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.generar(cotizacionNumero);
     }
 
     // Atiende la ventana V23 de los mockups
     // GET /api/ordenes-compra
     public List<OrdenCompra> consultar(EstadoOrden estado) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.consultar(estado);
     }
 
 }

@@ -10,9 +10,28 @@ public class PedidoRegistradoEvent extends EventoDominio {
     private Long sucursalId;
     private Map<Long, Integer> lineas;
 
+    public PedidoRegistradoEvent(String usuario, String numero, Long sucursalId, Map<Long, Integer> lineas) {
+        super(usuario);
+        this.numero = numero;
+        this.sucursalId = sucursalId;
+        this.lineas = lineas;
+    }
+
+    public String numero() {
+        return numero;
+    }
+
+    public Long sucursalId() {
+        return sucursalId;
+    }
+
+    public Map<Long, Integer> lineas() {
+        return lineas;
+    }
+
     @Override
     public String tipo() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return "pedido.registrado";
     }
 
 }

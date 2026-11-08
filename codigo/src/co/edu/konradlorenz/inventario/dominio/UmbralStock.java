@@ -10,8 +10,17 @@ public class UmbralStock {
 
     private BigDecimal porcentaje;
 
+    public UmbralStock(BigDecimal porcentaje) {
+        this.porcentaje = porcentaje;
+    }
+
+    public BigDecimal porcentaje() {
+        return porcentaje;
+    }
+
     public boolean superado(InsumoInventario insumo) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        // "superado" quiere decir que la existencia cayó por debajo del umbral
+        return insumo.porcentajeExistencia().compareTo(porcentaje) < 0;
     }
 
 }
