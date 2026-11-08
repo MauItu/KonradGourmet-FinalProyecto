@@ -1,5 +1,5 @@
 package co.edu.konradlorenz.cotizaciones.dominio;
 
-public class ReglaOpcionada implements ReglaValidacion {
+public class ReglaOpcionada extends ReglaValidacion {
 
 }

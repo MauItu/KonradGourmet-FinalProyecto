@@ -1,5 +1,5 @@
 package co.edu.konradlorenz.cotizaciones.dominio;
 
-public interface ReglaValidacion {
+public abstract class ReglaValidacion {
 
 }
