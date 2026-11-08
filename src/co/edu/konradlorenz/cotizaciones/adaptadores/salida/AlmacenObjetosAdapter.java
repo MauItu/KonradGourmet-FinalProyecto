@@ -5,6 +5,8 @@ import co.edu.konradlorenz.cotizaciones.puertos.salida.AlmacenArchivosPort;
 /**
  * «almacén de objetos (S3 compatible) · HTTPS»
  *
+ * En el proyecto real: @Component.
+ *
  * Nota del diagrama: El PDF se guarda en el almacén de objetos y cotizacion.enviada lleva solo pdfUrl
  * (claim check): Kafka no transporta archivos. pdf(numero) lo lee del almacén para V14.
  */
