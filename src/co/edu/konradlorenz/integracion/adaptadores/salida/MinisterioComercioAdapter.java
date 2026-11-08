@@ -5,6 +5,8 @@ import co.edu.konradlorenz.integracion.puertos.salida.PrecioReferenciaPort;
 
 /**
  * «Adapter»
+ *
+ * En el proyecto real: @Component.
  */
 public class MinisterioComercioAdapter implements PrecioReferenciaPort {
 
