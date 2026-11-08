@@ -115,11 +115,12 @@ public class SolicitudAlimentos {
         estado = EstadoSolicitud.EN_TRAMITE;
     }
 
-    /** EN_TRAMITE pasa a COMPLETADA; si ya lo está no hace nada; una PENDIENTE no puede completarse. */
+    /**
+     * Pasa a COMPLETADA, también desde PENDIENTE: una orden puede salir de una cotización que cubrió solo
+     * una parte de sus productos, y orden.generada completa todas las solicitudes de la cotización (DEC-05).
+     * Si ya estaba completada no hace nada.
+     */
     public void completar() {
-        if (estado == EstadoSolicitud.PENDIENTE) {
-            throw new IllegalStateException("La solicitud " + numero + " sigue pendiente: no puede completarse");
-        }
         estado = EstadoSolicitud.COMPLETADA;
     }
 
