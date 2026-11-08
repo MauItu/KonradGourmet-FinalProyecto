@@ -1,5 +1,14 @@
 package co.edu.konradlorenz.pruebas;
 
+import co.edu.konradlorenz.compartido.eventos.AuditoriaEvent;
+import co.edu.konradlorenz.cotizaciones.adaptadores.salida.CotizacionJpaAdapter;
+import co.edu.konradlorenz.cotizaciones.aplicacion.CotizacionService;
+import co.edu.konradlorenz.cotizaciones.aplicacion.GenerarCotizacionFacade;
+import co.edu.konradlorenz.cotizaciones.dominio.ReglaValidacion;
+import co.edu.konradlorenz.cotizaciones.puertos.salida.AlmacenArchivosPort;
+import co.edu.konradlorenz.demo.AlmacenEnMemoria;
+import co.edu.konradlorenz.demo.BusEnMemoria;
+import co.edu.konradlorenz.demo.PdfSimulado;
 import co.edu.konradlorenz.cotizaciones.dominio.Cotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.EstadoCotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.ItemCotizacion;
@@ -15,6 +24,7 @@ import co.edu.konradlorenz.solicitudes.dominio.SolicitudAlimentos;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.HashMap;
 
 /** El recorrido de compra de punta a punta, con todos los servicios conectados por el bus en memoria. */
 final class PruebasFlujoDeCompra {
@@ -29,6 +39,7 @@ final class PruebasFlujoDeCompra {
         orden();
         variasSolicitudes();
         precioFaltante();
+        pdfFaltante();
         proveedores();
     }
 
@@ -202,10 +213,60 @@ final class PruebasFlujoDeCompra {
         Prueba.igual("queda PENDIENTE_PRECIO, sin perderla", EstadoCotizacion.PENDIENTE_PRECIO, pendiente.estado());
         Prueba.igual("no se publicó cotizacion.enviada", 0L, s.bus.cuantos("cotizacion.enviada"));
         Prueba.igual("la cotización quedó guardada", EstadoCotizacion.PENDIENTE_PRECIO, s.cotizaciones.detalle("COT-030").estado());
+        Prueba.igual("el fallo de precio deja una auditoría con su causa", 1L,
+                s.bus.publicados().stream().filter(e -> e instanceof AuditoriaEvent a
+                        && a.usuario().equals("sistema") && a.accion().contains("COT-030")
+                        && a.accion().contains("PENDIENTE_PRECIO")
+                        && a.accion().contains("El Ministerio no tiene precio para el producto 3")).count());
         s.ministerio.definirPrecio("3", 3000);
         s.cotizaciones.reenviar("COT-030");
         Prueba.igual("con el precio disponible, reenviar() la completa", EstadoCotizacion.ENVIADA, s.cotizaciones.detalle("COT-030").estado());
         Prueba.igual("y publica cotizacion.enviada", 1L, s.bus.cuantos("cotizacion.enviada"));
+    }
+
+    private static void pdfFaltante() {
+        Prueba.grupo("Fallo del almacén de PDF: estado, auditoría y recuperación (S4-13)");
+        Ensamble s = Datos.sistema();
+        BusEnMemoria bus = new BusEnMemoria();
+        CotizacionJpaAdapter repositorio = new CotizacionJpaAdapter(new HashMap<>());
+        AlmacenEnMemoria archivos = new AlmacenEnMemoria();
+        boolean[] falla = {true};
+        AlmacenArchivosPort almacen = new AlmacenArchivosPort() {
+            @Override
+            public String guardar(String nombre, byte[] contenido) {
+                if (falla[0]) {
+                    throw new IllegalStateException("Almacén de PDF no disponible");
+                }
+                return archivos.guardar(nombre, contenido);
+            }
+
+            @Override
+            public byte[] obtener(String url) {
+                return archivos.obtener(url);
+            }
+        };
+        GenerarCotizacionFacade fachada = new GenerarCotizacionFacade(
+                repositorio, id -> BigDecimal.TEN, new PdfSimulado(), almacen, bus);
+        CotizacionService servicio = new CotizacionService(
+                fachada, repositorio, ReglaValidacion.cadenaPorDefecto(), almacen, bus);
+        Cotizacion pendiente = servicio.generar(Datos.cotizacionNueva(s, "COT-PDF", 1L));
+        Prueba.igual("el fallo de PDF queda guardado como PENDIENTE_PRECIO", EstadoCotizacion.PENDIENTE_PRECIO,
+                servicio.detalle("COT-PDF").estado());
+        Prueba.igual("sin PDF no se publica cotizacion.enviada", 0L, bus.cuantos("cotizacion.enviada"));
+        Prueba.igual("no queda una URL de PDF inexistente", null, pendiente.pdfUrl());
+        Prueba.igual("la escritura pendiente publica exactamente una auditoría", 1L, bus.cuantos("auditoria.evento"));
+        Prueba.verificar("la auditoría identifica cotización, estado, usuario y causa del fallo de PDF",
+                bus.publicados().stream().anyMatch(e -> e instanceof AuditoriaEvent a
+                        && a.usuario().equals("sistema") && a.accion().contains("COT-PDF")
+                        && a.accion().contains("PENDIENTE_PRECIO")
+                        && a.accion().contains("Almacén de PDF no disponible")));
+        falla[0] = false;
+        servicio.reenviar("COT-PDF");
+        Prueba.igual("reenviar recupera la cotización cuando vuelve el almacén", EstadoCotizacion.ENVIADA,
+                servicio.detalle("COT-PDF").estado());
+        Prueba.igual("la recuperación publica un solo envío", 1L, bus.cuantos("cotizacion.enviada"));
+        Prueba.verificar("el PDF recuperado se puede consultar", servicio.pdf("COT-PDF").length > 0);
+        Prueba.igual("el envío recuperado también deja auditoría", 2L, bus.cuantos("auditoria.evento"));
     }
 
     private static void proveedores() {

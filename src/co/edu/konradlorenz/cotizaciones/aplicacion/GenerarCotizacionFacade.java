@@ -58,7 +58,10 @@ public class GenerarCotizacionFacade {
             // el Ministerio no responde: se guarda sin perderla, queda en el log y el usuario puede reenviar
             LOG.log(Level.WARNING, "No se pudo consultar el precio estándar de " + c.numero() + ": " + e.getMessage());
             c.cambiarEstado(EstadoCotizacion.PENDIENTE_PRECIO);
-            return repositorio.guardar(c);
+            Cotizacion pendiente = repositorio.guardar(c);
+            eventos.publicar(new AuditoriaEvent("sistema", "Cotización " + pendiente.numero()
+                    + " guardada PENDIENTE_PRECIO por fallo al consultar el precio estándar: " + e.getMessage()));
+            return pendiente;
         }
         c.items().clear();
         c.items().addAll(conPrecio);
@@ -71,7 +74,10 @@ public class GenerarCotizacionFacade {
             // sin PDF no hay qué enviar: queda pendiente y se puede reenviar
             LOG.log(Level.WARNING, "No se pudo guardar el PDF de " + c.numero() + ": " + e.getMessage());
             c.cambiarEstado(EstadoCotizacion.PENDIENTE_PRECIO);
-            return repositorio.guardar(c);
+            Cotizacion pendiente = repositorio.guardar(c);
+            eventos.publicar(new AuditoriaEvent("sistema", "Cotización " + pendiente.numero()
+                    + " guardada PENDIENTE_PRECIO por fallo al generar o guardar el PDF: " + e.getMessage()));
+            return pendiente;
         }
         Cotizacion enviada = repositorio.guardar(new Cotizacion(c, pdfUrl));
         // 3. evento cotizacion.enviada con la lista de solicitudes y el precio sugerido de cada producto
