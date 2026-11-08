@@ -111,7 +111,8 @@ Al terminar: validar con `arquitecto-revisor`.
 - **Cómo se trabaja:**
   - un commit por clase, y uno por familia cuando la clase y sus subclases solo compilan juntas;
   - los cambios de paquete con `git mv`, en commits propios;
-  - se compila con `javac --release 21`.
+  - se compila con `javac --release 21`;
+  - la historia de `Correo.java` y `CorreoDecorator.java` se ve con `git log --follow -M30%`, porque con el umbral normal git no reconoce su movimiento (DEC-34). También está anotado en el README de `KonradGourmet`.
 
 **Resultado (2026-11-08):**
 - **4e** (`documentos/`, 2 commits): `{Redis}` en `PrecioReferenciaCacheProxy.cache` y la nota `n_cache` con su conector `en_cache` (DEC-27); `/api/integracion/**` en el estereotipo de `AbastecimientoSoapEndpoint` (DEC-32). Las demás páginas no cambiaron.
