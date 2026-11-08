@@ -3,6 +3,9 @@ package co.edu.konradlorenz.integracion.adaptadores.salida;
 import co.edu.konradlorenz.integracion.dominio.PrecioEstandar;
 import co.edu.konradlorenz.integracion.puertos.salida.PrecioReferenciaPort;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 /**
  * «Adapter»
  *
@@ -18,7 +21,9 @@ public class MinisterioComercioAdapter implements PrecioReferenciaPort {
 
     @Override
     public PrecioEstandar precioEstandar(Long productoId) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        // el Ministerio identifica el producto con un código de texto y responde un double: aquí se traduce al puerto
+        double valor = cliente.consultarPrecioEstandar(String.valueOf(productoId));
+        return new PrecioEstandar(productoId, BigDecimal.valueOf(valor), LocalDateTime.now());
     }
 
 }
