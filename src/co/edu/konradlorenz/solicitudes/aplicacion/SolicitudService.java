@@ -1,5 +1,6 @@
 package co.edu.konradlorenz.solicitudes.aplicacion;
 
+import co.edu.konradlorenz.compartido.eventos.AuditoriaEvent;
 import co.edu.konradlorenz.compartido.puertos.EventPublisherPort;
 import co.edu.konradlorenz.solicitudes.dominio.CriteriosConsulta;
 import co.edu.konradlorenz.solicitudes.dominio.EstadoSolicitud;
@@ -31,6 +32,7 @@ public class SolicitudService implements GestionarSolicitudUseCase {
         List<Long> productoIds = guardada.items().stream().map(ItemSolicitud::productoId).toList();
         eventos.publicar(new SolicitudRegistradaEvent(guardada.correoSolicitante(), guardada.numero(), guardada.sucursalId(),
                 guardada.solicitanteId(), guardada.correoSolicitante(), productoIds));
+        eventos.publicar(new AuditoriaEvent(guardada.correoSolicitante(), "Solicitud " + guardada.numero() + " registrada"));
         return guardada;
     }
 
@@ -61,6 +63,7 @@ public class SolicitudService implements GestionarSolicitudUseCase {
             s.pasarAEnTramite();
         }
         repositorio.guardar(s);
+        eventos.publicar(new AuditoriaEvent("sistema", "Cotización " + cotizacion + " aplicada a la solicitud " + numero));
         if (pasaAEnTramite) {
             eventos.publicar(new SolicitudEnTramiteEvent(s.correoSolicitante(), s.numero(), s.correoSolicitante()));
         }
@@ -71,6 +74,7 @@ public class SolicitudService implements GestionarSolicitudUseCase {
         SolicitudAlimentos s = detalle(numero);
         s.completar();
         repositorio.guardar(s);
+        eventos.publicar(new AuditoriaEvent("sistema", "Solicitud " + numero + " completada"));
     }
 
 }
