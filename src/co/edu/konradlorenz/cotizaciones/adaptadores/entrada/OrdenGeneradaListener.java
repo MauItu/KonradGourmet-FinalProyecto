@@ -7,6 +7,8 @@ import co.edu.konradlorenz.cotizaciones.puertos.entrada.GestionarCotizacionUseCa
 /**
  * «Listener · orden.generada»
  *
+ * En el proyecto real: @Component, y alRecibir() lleva @KafkaListener con sus tópicos.
+ *
  * Nota del diagrama: CON_ORDEN: la cotización ya tiene orden de compra y sale de V20; no admite otra
  * orden (HU-14).
  */
