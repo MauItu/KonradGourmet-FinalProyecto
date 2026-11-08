@@ -1,5 +1,17 @@
 package co.edu.konradlorenz.identidad.adaptadores.salida;
 
-public class BCryptCifradorAdapter {
+import co.edu.konradlorenz.identidad.puertos.salida.CifradorPort;
+
+public class BCryptCifradorAdapter implements CifradorPort {
+
+    @Override
+    public String cifrar(String clave) {
+        throw new UnsupportedOperationException("Pendiente de implementar");
+    }
+
+    @Override
+    public boolean coincide(String clave, String hash) {
+        throw new UnsupportedOperationException("Pendiente de implementar");
+    }
 
 }
