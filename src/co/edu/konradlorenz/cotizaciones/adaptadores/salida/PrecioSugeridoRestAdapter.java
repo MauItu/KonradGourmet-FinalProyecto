@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 
 /**
  * «REST cliente → ms-integracion»
+ *
+ * En el proyecto real: @Component.
  */
 public class PrecioSugeridoRestAdapter implements PrecioSugeridoPort {
 
