@@ -27,6 +27,7 @@ final class PruebasFlujoDeCompra {
         inventario();
         solicitudYCotizacion();
         orden();
+        variasSolicitudes();
         precioFaltante();
         proveedores();
     }
@@ -79,6 +80,39 @@ final class PruebasFlujoDeCompra {
 
         s.solicitudes.registrar(Datos.solicitud());
         Prueba.igual("solicitud.registrada con la res atiende la alerta", 0, s.inventario.alertas(1L).size());
+
+        // al día siguiente se vende un ajiaco más: la alerta ya atendida no se repite ni se reactiva (S4-1)
+        Pedido otro = new Pedido("PED-0260", new Mesa(5, 1L, 4, true));
+        otro.agregarPlato(2L, 1, null, new BigDecimal("18000"));
+        s.pedidos.registrar(otro);
+        s.consumoDiario.ejecutar();
+        Prueba.igual("el cierre del día siguiente no repite la alerta de la res", 1L, s.bus.cuantos("inventario.stock-bajo"));
+        Prueba.igual("ni manda otra alarma", 1, s.alarmas.alarmas().size());
+        Prueba.igual("y V05 no la vuelve a mostrar", 0, s.inventario.alertas(1L).size());
+    }
+
+    private static void variasSolicitudes() {
+        Prueba.grupo("Una cotización con varias solicitudes (DEC-05)");
+        Ensamble s = Datos.sistema();
+        s.solicitudes.registrar(Datos.solicitud());
+        SolicitudAlimentos otra = new SolicitudAlimentos("SOL-032", 1L, 8L, "ana.ruiz@konradgourmet.com");
+        otra.agregarItem(new co.edu.konradlorenz.solicitudes.dominio.ItemSolicitud(3L, new BigDecimal("10"), "Marca Y", "kg")); // papa: la cotización no la cubre
+        s.solicitudes.registrar(otra);
+        Cotizacion c = new Cotizacion("COT-040", List.of("SOL-031", "SOL-032"), s.proveedores.detalle(1L), LocalDate.of(2026, 9, 30), List.of(
+                new ItemCotizacion(1L, new BigDecimal("20"), "kg"), new ItemCotizacion(2L, new BigDecimal("15"), "kg")));
+        s.cotizaciones.generar(c);
+        Prueba.igual("SOL-031 queda EN_TRAMITE: todos sus productos están cotizados", EstadoSolicitud.EN_TRAMITE, s.solicitudes.detalle("SOL-031").estado());
+        Prueba.igual("SOL-032 sigue PENDIENTE: la cotización no cubre la papa", EstadoSolicitud.PENDIENTE, s.solicitudes.detalle("SOL-032").estado());
+        s.cotizaciones.registrarValores("COT-040", Datos.precios("21250", "8000"));
+        s.cotizaciones.validar("COT-040");
+        s.ordenes.generar("COT-040");
+        Prueba.igual("la orden completa SOL-031", EstadoSolicitud.COMPLETADA, s.solicitudes.detalle("SOL-031").estado());
+        Prueba.igual("y también SOL-032, aunque estaba pendiente", EstadoSolicitud.COMPLETADA, s.solicitudes.detalle("SOL-032").estado());
+        Prueba.igual("la cotización pasa a CON_ORDEN", EstadoCotizacion.CON_ORDEN, s.cotizaciones.detalle("COT-040").estado());
+        Prueba.verificar("y el proveedor recibe el correo de la orden",
+                s.correos.enviados().stream().anyMatch(m -> m.asunto().contains("OC-0012")));
+        Prueba.lanza("generar() con un número de cotización repetido se rechaza", IllegalStateException.class, "Ya existe la cotización COT-040",
+                () -> s.cotizaciones.generar(c));
     }
 
     private static void solicitudYCotizacion() {
@@ -184,6 +218,11 @@ final class PruebasFlujoDeCompra {
         Prueba.igual("un proveedor inactivo sale del desplegable de V13", 1, s.proveedores.consultar(true).size());
         Prueba.igual("pero sigue en la lista completa", 2, s.proveedores.consultar(false).size());
         Prueba.igual("cada acción publicó auditoria.evento", true, s.bus.cuantos("auditoria.evento") >= 3);
+        Prueba.lanza("un parámetro del sistema sin valor se rechaza", IllegalArgumentException.class, "obligatorio",
+                () -> s.admin.parametrizar("tema.x", null));
+        long antes = s.bus.cuantos("auditoria.evento");
+        s.pedidos.registrar(Datos.pedido());
+        Prueba.verificar("registrar un pedido también deja auditoría (S4-3)", s.bus.cuantos("auditoria.evento") > antes);
     }
 
 }
