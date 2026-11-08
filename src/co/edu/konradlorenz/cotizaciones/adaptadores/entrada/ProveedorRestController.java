@@ -19,25 +19,25 @@ public class ProveedorRestController {
     }
 
     public Proveedor registrar(Proveedor p) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.registrar(p);
     }
 
     // Atiende la ventana V13 de los mockups
     // GET /api/proveedores
     public List<Proveedor> consultar(boolean soloActivos) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.consultar(soloActivos);
     }
 
     public Proveedor detalle(Long id) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.detalle(id);
     }
 
     public Proveedor editar(Long id, Proveedor p) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.editar(id, p);
     }
 
     public void inactivar(Long id) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        casoDeUso.inactivar(id);
     }
 
 }
