@@ -162,7 +162,7 @@ Al terminar: correr la demo y validar con `arquitecto-revisor`.
   - 19 clases de apoyo en `demo/` (adaptadores en memoria, bus y `Ensamble`), que no cuentan entre las 191 del modelo; 211 archivos `.java` en `src/`;
   - `pruebas/` con 160 verificaciones, sin Maven ni JUnit, y `ejecutar.sh` (compila, corre la demo y corre las pruebas);
   - el README dice qué métodos tienen lógica, qué imprime la demo y cuál es el comando de las pruebas (K8).
-- **Decisiones** (`DECISIONES.md`): DEC-39 a DEC-46, asumidas mientras Mauricio no estaba. Después las revisó: confirmó el pedido de $82.000, el precio por kilo, la solicitud parcial y la alarma, y **decidió agregar `adjuntoUrl`** a `Notificacion.enviar()` y `CreadorNotificacion.notificar()`. Ese cambio ya está en el código y **la página 4d queda por actualizar en la sesión 5** (el código y el diagrama difieren en esas 2 firmas hasta entonces).
+- **Decisiones** (`DECISIONES.md`): DEC-39 a DEC-46, asumidas mientras Mauricio no estaba. Después las revisó: confirmó el pedido de $82.000, el precio por kilo, la solicitud parcial y la alarma, y **decidió agregar `adjuntoUrl`** a `Notificacion.enviar()` y `CreadorNotificacion.notificar()`. Ese cambio ya está en el código y **la página 4d queda por actualizar en la sesión 5** (dos contratos afectados, reflejados en cuatro declaraciones: `Notificacion`, `AlarmaApp`, `NotificacionCorreo` y `CreadorNotificacion`).
 - **Validación** (`VALIDACION_SESION4.md`): el revisor la dio por **lista con correcciones**. S4-1 y S4-2 (lógica) y S4-3 a S4-12 están aplicados o anotados. Falta una segunda ronda del revisor sobre los arreglos.
 - Los dos `.drawio` y el reporte PDF no se tocaron.
 

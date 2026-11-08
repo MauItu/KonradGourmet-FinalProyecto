@@ -9,7 +9,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-33 y DEC-34:** las decidió Mauricio el 2026-11-08, al revisar la validación de la sesión 3 (hallazgos K1 y K4 de `VALIDACION_SESION3.md`). En DEC-33 no siguió la recomendación del revisor.
 - **DEC-35 a DEC-37:** las decidió Mauricio el 2026-11-08, al revisar la segunda validación de la sesión 3 (hallazgos K9, K10 y K11 de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor en las tres.
 - **DEC-38:** la decidió Mauricio el 2026-11-08, al revisar la tercera validación de la sesión 3 (la duda de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor.
-- **DEC-39 a DEC-46:** las tomó la sesión 4 (el código de la demo) mientras trabajaba sola, sin poder preguntar. Después, Mauricio las revisó una por una el 2026-11-08 y **confirmó** las asumidas sobre el pedido de $82.000, el precio por kilo, la solicitud parcial (se completa igual) y la alarma (una vez, al cruzar el umbral); en DEC-42 **escogió agregar `adjuntoUrl` a la firma**, que sí cambia 2 firmas de la 4d. Las demás siguen **asumidas, por confirmar**. Cada una dice cuál es la alternativa si no se confirma.
+- **DEC-39 a DEC-46:** se propusieron durante la sesión 4. Mauricio confirmó el 2026-11-08 el pedido de $82.000, los precios por unidad, completar las solicitudes parciales y la alarma solo al cruzar el umbral. Escogió `adjuntoUrl` (DEC-42): dos contratos, reflejados en cuatro declaraciones de la 4d. En la segunda ronda confirmó también el redondeo de cotizaciones y stock (DEC-43), y `sistema` con una correlación por evento como límite de la demo (DEC-42); autorizó completar la auditoría de los fallos (DEC-46, S4-13). Las demás partes siguen asumidas, por confirmar, según indica cada decisión.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -53,12 +53,12 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-37 | Ventanas de ms-cotizaciones (K11) | El README vuelve a «V13–V20»; revierte K5 | Aplicada |
 | DEC-38 | ShedLock y `@Primary` fuera del código | Nada ahora; una frase en el reporte (p. 26) si aparece el script | Aplicada (plan de la sesión 5) |
 | DEC-39 | Qué métodos tienen lógica en la sesión 4 | Solo lo que usa el recorrido de compra; los adaptadores de tecnología externa y los módulos que la demo no usa siguen pendientes (94 cuerpos) | Asumida, por confirmar |
-| DEC-40 | Datos del recorrido que los mockups no fijan | Precios por unidad; pedido de $82.000; res en 12,5 kg; histórico del tablero cargado a mano | Asumida, por confirmar |
+| DEC-40 | Datos del recorrido que los mockups no fijan | Precios por unidad; pedido de $82.000; res en 12,5 kg; histórico del tablero cargado a mano | Mauricio confirmó precios por unidad y pedido; inventario inicial e histórico del tablero siguen asumidos |
 | DEC-41 | Cómo cambia una entidad sin métodos para eso | Constructores de copia y accesores de lista modificables; no se agregan métodos | Asumida, por confirmar |
 | DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 sigue abierta | `adjuntoUrl` y límite de usuario/correlación: **confirmados por Mauricio**; 4d y aclaraciones del reporte/4a pendientes para sesión 5; T-06 sigue asumida, por confirmar |
 | DEC-43 | Límites de la cadena de reglas y del umbral | Porcentajes redondeados a 2 decimales antes de comparar; límites estrictos y stock por debajo del 25 % | Decidida por Mauricio en la segunda ronda de la sesión 4 (2026-11-08), incluido el redondeo del stock |
 | DEC-44 | Dónde van las pruebas y el script | Carpeta `pruebas/` fuera de `src/`, sin JUnit, y `ejecutar.sh` | Asumida, por confirmar |
-| DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura | Asumida, por confirmar |
+| DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura del recorrido, incluidos los fallos | Confirmada por Mauricio; auditoría de los fallos autorizada en la fase 2 (S4-13) |
 | DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | Asumida, por confirmar |
 
 ---
@@ -676,11 +676,11 @@ El plan de la sesión 4 solo cubría la tercera. Con el reporte sin tocar (DEC-0
 - V05 muestra la res con stock 4 kg, que no sirve para el «23 %» que promete el reporte.
 
 **Opciones:**
-- **A. Precios por unidad.** Estándar: res $20.000/kg y arroz $8.000/kg. El proveedor cotiza la res a $21.250/kg y el arroz a $8.000/kg (COT-018, $545.000); a $29.000 y $8.000 (COT-019, $700.000, +34,62 %); a $4.000 y $8.000 (COT-020, $200.000, −61,54 %). ✅ **Asumida**: reproduce los totales de V19 y deja la cantidad en la línea, como el modelo.
+- **A. Precios por unidad.** Estándar: res $20.000/kg y arroz $8.000/kg. El proveedor cotiza la res a $21.250/kg y el arroz a $8.000/kg (COT-018, $545.000); a $29.000 y $8.000 (COT-019, $700.000, +34,62 %); a $4.000 y $8.000 (COT-020, $200.000, −61,54 %). ✅ **Confirmada por Mauricio**: reproduce los totales de V19 y deja la cantidad en la línea, como el modelo.
 - **B. Precios por línea** ($400.000 y $120.000 como en los mockups). El valor de la línea ya no depende de la cantidad, y habría que cambiar lo que significa `precio` en 4c y 4d.
 - **C. Otro reparto del $545.000** (por ejemplo res a $21.000 y arroz a $8.333,33). No da cifras exactas por kilo.
 
-Para el pedido: **A. $82.000, con 2 bandejas paisas y 1 ajiaco (3 platos)** ✅ **Asumida**, porque coincide con el reporte y con «Platos: 3» de V04. **B. $88.000**, con la limonada de V03: contradice el reporte. Para el inventario: la res arranca en 12,5 kg de 50 (25 %) y cada bandeja lleva 0,5 kg, de modo que después de 2 bandejas queda en 11,5 kg (23 %) y la alerta salta con el cierre del día, no antes.
+Para el pedido: **A. $82.000, con 2 bandejas paisas y 1 ajiaco (3 platos)** ✅ **Confirmada por Mauricio**, porque coincide con el reporte y con «Platos: 3» de V04. **B. $88.000**, con la limonada de V03: contradice el reporte. Para el inventario: la res arranca en 12,5 kg de 50 (25 %) y cada bandeja lleva 0,5 kg, de modo que después de 2 bandejas queda en 11,5 kg (23 %) y la alerta salta con el cierre del día, no antes.
 
 Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40, y Proveedor B con el promedio más bajo): el listener que lo armaría con los eventos (`NegocioEventsListener`) sigue pendiente. La alternativa, alimentarlo con `cotizacion.validada`, activaría T-06 y haría ganar a COT-020, que es SOSPECHOSA.
 
@@ -707,7 +707,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **El usuario y la correlación.** Los casos de uso no reciben al usuario autenticado, y no hay cómo pasar el `correlacionId` de un evento al siguiente.
 - **T-06.** `TendenciaDetectadaEvent.sugerencias` y `CotizacionValidadaEvent.estado` usan tipos del dominio de otro servicio, y DEC-29 no deja importarlos.
 
-**Opciones para el adjunto:** **A.** El enlace del PDF va en el cuerpo del correo, y `adjuntoUrl` queda vacío (lo que se hizo al principio de la sesión). **B.** Agregar `adjuntoUrl` a `Notificacion.enviar()` y a `CreadorNotificacion.notificar()`: cambia una firma de la 4d ✅ **Escogida por Mauricio el 2026-11-08**, al revisar esta sesión; el código ya la tiene y la página 4d se actualiza en la sesión 5 (hasta entonces el código y el diagrama difieren en esas 2 firmas). **C.** Meter la URL en el contenido con una marca que `NotificacionCorreo` separe: funciona, pero es un truco que nadie lee en el diagrama.
+**Opciones para el adjunto:** **A.** El enlace del PDF va en el cuerpo del correo, y `adjuntoUrl` queda vacío (lo que se hizo al principio de la sesión). **B.** Agregar `adjuntoUrl` a `Notificacion.enviar()` y a `CreadorNotificacion.notificar()`: cambia dos contratos de la 4d, reflejados en cuatro declaraciones (`Notificacion`, `AlarmaApp`, `NotificacionCorreo` y `CreadorNotificacion`) ✅ **Escogida por Mauricio el 2026-11-08**, al revisar esta sesión; el código ya la tiene y la página 4d se actualiza en la sesión 5 (hasta entonces el código y el diagrama difieren en esas cuatro declaraciones). **C.** Meter la URL en el contenido con una marca que `NotificacionCorreo` separe: funciona, pero es un truco que nadie lee en el diagrama.
 
 **Opciones para el usuario y la correlación:** **A.** Los eventos llevan `sistema` (o el correo de la solicitud) y cada evento crea su propio `correlacionId` ✅ **Confirmada por Mauricio el 2026-11-08**, como límite de la demo, en la segunda ronda de la sesión 4. **B.** Pasar el usuario y la correlación por parámetro: cambia las firmas de todos los casos de uso.
 
@@ -755,17 +755,17 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Por qué hubo que decidir.** El revisor (`VALIDACION_SESION4.md`) reprodujo tres comportamientos que contradecían notas del propio diagrama. Cada uno tiene más de una salida correcta, y en las tres se escogió la que no cambia ninguna firma.
 
 **1. ¿Cuándo sale la alarma de stock bajo? (S4-1).** La nota de `InsumoInventario` dice que la alerta sigue activa hasta que llega `solicitud.registrada`, pero el cierre de cada noche volvía a publicar `inventario.stock-bajo` de todos los insumos bajo el umbral, incluso con la alerta atendida.
-- **A. Solo cuando el insumo cruza el umbral en esa ejecución.** Una alerta atendida sigue atendida aunque el stock siga bajando. ✅ **Asumida.**
+- **A. Solo cuando el insumo cruza el umbral en esa ejecución.** Una alerta atendida sigue atendida aunque el stock siga bajando. ✅ **Confirmada por Mauricio.**
 - **B. Un recordatorio cada noche mientras no haya solicitud.** Es más insistente, pero hay que distinguir «sin atender» de «atendida» en el evento, o el jefe recibe correos de algo que ya pidió.
 - **C. Dejarlo como estaba.** La alarma se repite aunque V05 diga 0 alertas.
 
 **2. ¿Qué hace una orden con una solicitud que la cotización cubrió solo en parte? (S4-2).** `completar()` lanzaba «sigue pendiente» y el bucle de `orden.generada` se cortaba: la orden quedaba guardada, pero ni las otras solicitudes se completaban ni la cotización pasaba a CON_ORDEN.
-- **A. `completar()` acepta PENDIENTE.** La nota de `GestionarSolicitudUseCase` dice que con `orden.generada` «cada solicitud pasa a COMPLETADA». ✅ **Asumida.**
+- **A. `completar()` acepta PENDIENTE.** La nota de `GestionarSolicitudUseCase` dice que con `orden.generada` «cada solicitud pasa a COMPLETADA». ✅ **Confirmada por Mauricio.**
 - **B. Una solicitud parcial se queda abierta.** Hay que decirle a `completar()` qué productos se compraron, y la firma no tiene dónde llevarlos.
 - **C. Obligar a que la cotización cubra todos los productos de cada solicitud.** Cambia V13 (el mockup).
 
 **3. ¿Qué escrituras dejan auditoría? (S4-3).** La p. 6 y la 3a dicen que cada uno de los otros 10 servicios publica `auditoria.evento` después de cada escritura, y solo lo hacían `ProveedorService`, las notificaciones y las consultas de precio.
-- **A. Publicarlo en las escrituras del recorrido de compra** (pedido, solicitud, cotización, orden, consumo diario y alertas). ✅ **Asumida.** No cambia ninguna firma, porque los servicios ya tienen `EventPublisherPort`.
+- **A. Publicarlo en las escrituras del recorrido de compra** (pedido, solicitud, cotización, orden, consumo diario y alertas), incluidas las cotizaciones que quedan pendientes por fallo del precio o del PDF, con su causa (S4-13). ✅ **Confirmada por Mauricio al autorizar la fase 2.** No cambia ninguna firma, porque los servicios ya tienen `EventPublisherPort`.
 - **B. Dejarlo como límite anotado en el README.** El reporte seguiría afirmando algo que el código no hace.
 
 **Qué implica:** otros hallazgos del revisor se corrigieron sin decisión de diseño: parámetro nulo (S4-9), número de cotización repetido y fallo del almacén de PDF (S4-10), proveedores de la demo (S4-7), comentarios (S4-8), README (S4-5 y S4-11) y pruebas (S4-4). Los consumidores siguen sin descartar eventos repetidos (S4-5): queda anotado en el README. Las 4 preguntas del revisor para Mauricio están al final de `VALIDACION_SESION4.md`.
