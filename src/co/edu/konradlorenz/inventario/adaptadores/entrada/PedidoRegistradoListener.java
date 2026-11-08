@@ -1,5 +1,23 @@
 package co.edu.konradlorenz.inventario.adaptadores.entrada;
 
-public class PedidoRegistradoListener {
+import co.edu.konradlorenz.compartido.eventos.EventListener;
+import co.edu.konradlorenz.compartido.eventos.EventoDominio;
+import co.edu.konradlorenz.inventario.puertos.entrada.GestionarInventarioUseCase;
+
+/**
+ * «Listener · pedido.registrado»
+ */
+public class PedidoRegistradoListener implements EventListener<EventoDominio> {
+
+    private final GestionarInventarioUseCase casoDeUso;
+
+    public PedidoRegistradoListener(GestionarInventarioUseCase casoDeUso) {
+        this.casoDeUso = casoDeUso;
+    }
+
+    @Override
+    public void alRecibir(EventoDominio evento) {
+        throw new UnsupportedOperationException("Pendiente de implementar");
+    }
 
 }
