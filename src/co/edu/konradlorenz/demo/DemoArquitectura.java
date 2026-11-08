@@ -310,7 +310,7 @@ public class DemoArquitectura {
     private void mostrarCorreos(boolean conEncabezados) {
         List<Mensaje> todos = sistema.correos.enviados();
         for (Mensaje m : todos.subList(correosVistos, todos.size())) {
-            System.out.println("   ✉ Correo a " + m.para() + " · " + m.asunto());
+            System.out.println("   ✉ Correo a " + m.para() + " · " + m.asunto() + (m.adjuntoUrl() == null ? "" : " · adjunto " + m.adjuntoUrl()));
             if (conEncabezados) {
                 m.cabeceras().forEach((k, v) -> System.out.println("       " + k + ": " + v));
             }
