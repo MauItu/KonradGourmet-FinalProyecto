@@ -6,7 +6,8 @@ package co.edu.konradlorenz.notificaciones.dominio;
 public abstract class CreadorNotificacion {
 
     public void notificar(String destino, String contenido) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        // Factory Method: la subclase decide qué producto crear; aquí solo se usa
+        crearNotificacion().enviar(destino, contenido);
     }
 
     protected abstract Notificacion crearNotificacion();
