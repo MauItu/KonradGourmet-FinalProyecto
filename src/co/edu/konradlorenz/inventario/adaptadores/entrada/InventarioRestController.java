@@ -21,13 +21,13 @@ public class InventarioRestController {
     // Atiende la ventana V05 de los mockups
     // GET /api/inventario/alertas
     public List<InsumoInventario> alertas(Long sucursalId) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.alertas(sucursalId);
     }
 
     // Atiende la ventana V07 de los mockups
     // GET /api/inventario/insumos
     public List<InsumoInventario> insumos(Long sucursalId) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.insumos(sucursalId);
     }
 
 }
