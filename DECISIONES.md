@@ -5,6 +5,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **Decidió:** Mauricio Iturriza, el 2026-11-07, salvo que se indique otra cosa.
 - **DEC-15 a DEC-22:** las decidió Mauricio el 2026-11-08 en la sesión 2. Siguió la recomendación del arquitecto-revisor, que revisó cada caso en el `.drawio`, el reporte y las HU. Los ítems P1-…, P2-…, P3a-…, P3b-…, P5-… y P6-… están en `INVENTARIO_SESION2.md`.
 - **DEC-23 y DEC-24:** las tomó el arquitecto-revisor el 2026-11-08, a pedido de Mauricio («toma la mejor decisión»), al validar la sesión 2. Responden a los hallazgos S5 y S9 de `VALIDACION_SESION2.md`.
+- **DEC-25 a DEC-32:** las decidió Mauricio el 2026-11-08, al empezar la sesión 3. Siguió la recomendación del arquitecto-revisor, salvo en DEC-25 y DEC-28, donde se escogió la variante que no toca las páginas 4a–4d (en la sesión 3 solo se puede cambiar la 4e). Los ítems C-…, M-…, R-…, T-…, W-…, P-…, J-… y Q-… están en `INVENTARIO_SESION3.md`.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -30,9 +31,17 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-19 | Ejemplo de varias solicitudes (p. 6) | «Una o varias (aquí SOL-031)», con las listas escritas como listas | Aplicada |
 | DEC-20 | Zonas en el despliegue (p. 5) | Tres cajas de zona con el reparto; Eureka y la SPA en las zonas A y B | Aplicada; lo de Eureka y la SPA es asumido, por confirmar con el equipo (sesión 5) |
 | DEC-21 | Ítems fuera del plan de la sesión 2 | Se aplican 27 de 33; 6 no se aplican | Aplicada |
-| DEC-22 | Caché del Proxy en memoria (4e) | No se toca la 4e; se anota para la sesión 3 | Por aplicar (sesión 3) |
+| DEC-22 | Caché del Proxy en memoria (4e) | No se toca la 4e; se anota para la sesión 3 | Resuelta en la sesión 3 por DEC-27 |
 | DEC-23 | Ruta del gateway a ms-integracion (p. 1, S5) | Se deja como está: entra por arriba al endpoint SOAP | Decidida, sin cambio |
 | DEC-24 | Color del proveedor (p. 2, S9) | Gris claro con borde gris, en el dibujo y en la leyenda | Aplicada |
+| DEC-25 | Constructores y accesores (Q1) | Constructores en el código ya; la convención «se omiten constructores y accesores» va en el README, no en las leyendas | Por aplicar (sesión 3) |
+| DEC-26 | Comentario de ventana (Q2) | «Atiende la ventana Vxx de los mockups», una línea por ventana | Por aplicar (sesión 3) |
+| DEC-27 | Caché del Proxy en Redis (Q3, cierra DEC-22) | `{Redis}` en el atributo y una nota en la 4e | Por aplicar (sesión 3) |
+| DEC-28 | El dominio de notificaciones usa puertos (Q4) | Se deja la 4d; se precisa la regla del README | Por aplicar (sesión 3) |
+| DEC-29 | Eventos entre servicios (Q5) | Un servicio solo importa el paquete `eventos` de otro, nunca su dominio | Por aplicar (README, sesión 3) |
+| DEC-30 | Adaptadores JPA con colecciones en memoria (Q6) | Se copian tal cual, explicados en el Javadoc | Por aplicar (sesión 3) |
+| DEC-31 | Alcance de la demo (Q7) | La demo cubre las 7 salidas del reporte; el Singleton muestra un parámetro del tema | Por aplicar (sesión 4) |
+| DEC-32 | `/api/integracion/**` en la 4e (D2) | En la misma línea del estereotipo de `AbastecimientoSoapEndpoint` | Por aplicar (sesión 3) |
 
 ---
 
@@ -438,6 +447,118 @@ El C4 no fija colores. La paleta habitual pinta lo externo en gris medio, y así
 - p. 6: `c6_v16` y `c6_v154`.
 
 La validación pidió extenderlo a esas páginas (S13).
+
+## DEC-25 · ¿El código lleva constructores y accesores, aunque 4a–4e no los dibuja? (Q1)
+
+**Por qué hubo que decidir.** La regla de la sesión 3 es que el código quede idéntico a 4a–4e, y los diagramas no dibujan constructores ni accesores: en UML es habitual omitirlos. Pero sin ellos, dos patrones quedan mal construidos en el código:
+- **Singleton:** sin constructor privado, `ParametrosSistema` no es un Singleton, porque cualquiera puede crear otra instancia;
+- **Decorator y Proxy:** sin constructor, no reciben el objeto que envuelven.
+
+Además, sin accesores ningún listener puede leer los datos de un evento (J-01 y J-02 del inventario).
+
+**Opciones:**
+- **A. Constructores ahora y la convención escrita.** Unos 53 constructores en la sesión 3; los accesores, al estilo record (`numero()`, no `getNumero()`), solo donde los use la sesión 4.
+  - **A1.** Escribir la convención en la leyenda de las 5 páginas, como proponía el revisor. Toca 4a–4d.
+  - **A2.** Escribirla en el `README.md`. ✅ **Escogida**, porque en la sesión 3 solo se puede tocar la 4e.
+- **B. Dibujarlos en 4a–4e.** Son cientos de líneas y cajas más grandes.
+- **C. Dejarlo todo para la sesión 4.** Mientras tanto, el Singleton del código no es un Singleton; si la sesión 4 no toca esa clase, se entrega así.
+
+**Qué implica:**
+- **Constructor de inyección**, con todos sus atributos, en cada clase de `aplicacion` y de los adaptadores que tenga atributos, y en las 4 clases del Factory Method de ms-notificaciones que tienen un colaborador. Los colaboradores quedan `final`.
+- **Constructor `private`** en `ParametrosSistema`.
+- **Constructor `protected`** en `CorreoDecorator`, y uno público en cada decorador concreto, que le pasa el envuelto.
+- **Las entidades y los eventos** reciben sus constructores y accesores en la sesión 4, según lo que use la demo.
+- **El README** dice que los diagramas omiten constructores y accesores.
+
+## DEC-26 · ¿Qué dice el comentario de cada ventana? (Q2)
+
+**Por qué hubo que decidir.** El plan decía `// Atiende la ventana Vxx`. Pero el reporte (p. 26), que no se toca (DEC-03), afirma que el código lleva «Atiende la ventana Vxx de los mockups». Además, 5 métodos atienden dos ventanas.
+
+**Opciones:**
+- **A. La frase del reporte, una línea por ventana.** Son 29 líneas en 24 métodos. Lo que dice el reporte queda literalmente cierto, y `grep "Atiende la ventana V04"` encuentra cada ventana. ✅ **Escogida.**
+- **B. La frase del plan.** Es más corta, pero no coincide con la que cita el reporte.
+- **C. Una línea con varias ventanas** («Atiende las ventanas V03 y V04»). Un `grep` de una sola ventana no la encuentra.
+
+**Qué implica:** cada método marcado ‹Vxx› en 4a–4e lleva, encima, `// Atiende la ventana Vxx de los mockups`, una vez por ventana.
+
+## DEC-27 · ¿Cómo dice la 4e que la caché del Proxy vive en Redis? (Q3, cierra DEC-22)
+
+**Por qué hubo que decidir.** Ver DEC-22. Las demás páginas y el reporte (p. 12 y p. 31) dicen Redis, y la 4e dibuja un `Map` en memoria. Pesan dos restricciones:
+- el código no usa frameworks y compila solo con `javac`, así que no puede declarar un cliente de Redis;
+- el reporte (§13) promete que la demo lee el segundo precio desde la caché, así que la caché tiene que funcionar sin Redis en la demo.
+
+**Opciones:**
+- **A. Solo una nota** junto al Proxy. Quien mire la caja sigue viendo un `Map` en memoria.
+- **B. `{Redis}` en el atributo, más la nota.** El atributo pasa a `- cache: Map<Long, PrecioEstandar> {Redis}`, la misma notación que `{único}` en la 4d. `Map` es una interfaz: en producción se inyecta un mapa respaldado por Redis (el `RMap` de Redisson implementa `java.util.Map`) y en la demo un `HashMap`. ✅ **Escogida.**
+- **C. Un puerto de caché con su adaptador Redis.** Suma 2 clases (193), una flecha y un cambio en el mapa (p. 1). Es lo más hexagonal, pero cuesta más por una caché.
+- **D. Un tipo de cliente Redis en el atributo.** Descartada: no compila sin dependencias.
+
+**Qué implica:**
+- **4e:** el atributo cambia y se agrega la nota `n_cache` con su conector.
+- **Código:** el Proxy recibe el `Map` por su constructor.
+- **Cifras:** siguen 191 clases y 65 flechas.
+
+## DEC-28 · ¿Qué se hace con el dominio de ms-notificaciones, que usa puertos? (Q4)
+
+**Por qué hubo que decidir.** Cuatro clases de `notificaciones.dominio` tienen atributos de tipo `Correo` o `AlarmaPushPort`, que están en `puertos.salida`: `NotificacionCorreo`, `CreadorCorreo`, `AlarmaApp` y `CreadorAlarmaApp`, las del Factory Method. Desde H25, también `Correo` es un puerto. El README dice «El dominio no conoce a nadie» (T-07 del inventario).
+
+**Opciones:**
+- **A. Dejar la 4d y precisar la regla del README.** El dominio no importa frameworks ni adaptadores; en ms-notificaciones, el Factory Method usa las interfaces `Correo` y `AlarmaPushPort`, que son puertos del mismo núcleo. Se puede defender, porque los puertos son parte del hexágono. ✅ **Escogida**, porque en la sesión 3 no se puede tocar la 4d.
+- **B. Pasar las 6 clases del Factory Method de «dominio» a «aplicacion»** en la 4d y en el código. Es la que prefería el revisor: el `grep` de imports por capa queda limpio sin excepciones. Pero toca la 4d.
+- **C. Devolver `Correo` al dominio.** Deshace H25, y `AlarmaPushPort` sigue igual.
+
+**Qué implica:** la línea 21 del README cambia. Si el equipo prefiere B, se puede hacer más adelante: son 6 estereotipos en la 4d y 6 `git mv`.
+
+## DEC-29 · ¿Qué puede importar un servicio de otro? (Q5)
+
+**Por qué hubo que decidir.** Para leer los datos de un evento ajeno, un listener tiene que importar su clase. Por ejemplo, `solicitudes.CotizacionEventsListener` lee `cotizaciones.eventos.CotizacionEnviadaEvent`. Además, dos eventos llevan tipos del dominio de su servicio: `CotizacionValidadaEvent.estado` y `TendenciaDetectadaEvent.sugerencias` (T-06).
+
+**Opciones:**
+- **A. Regla en el README:** un servicio solo puede importar el paquete `eventos` de otro, que es el contrato del tópico, y nunca su `dominio`. Los dos atributos de T-06 se resuelven en la sesión 4, solo si la demo consume esos eventos. ✅ **Escogida.**
+- **B. Lo mismo, más `CotizacionValidadaEvent.estado: String`** en la 4c. Toca la 4c.
+- **C. Mover los 10 eventos a `compartido.eventos`.** Es un cambio grande en 4a–4e y en el mapa.
+
+**Qué implica:** en la sesión 3 no cambia ninguna firma; la regla queda escrita en el README.
+
+## DEC-30 · ¿Qué se hace con los adaptadores JPA que guardan datos en memoria? (Q6)
+
+**Por qué hubo que decidir.** Tres de los 15 `*JpaAdapter` tienen en el diagrama una colección que simula la tabla: `CotizacionJpaAdapter.datos`, `KpiJpaAdapter.hechos` y `AuditoriaJpaAdapter.bitacora`. Vienen del diseño original, y los otros 12 no tienen atributos.
+
+**Opciones:**
+- **A. Copiarlos tal cual.** El Javadoc explica que en el esqueleto simulan la tabla y que en el proyecto real serían un repositorio JPA. ✅ **Escogida.**
+- **B. Quitar los 3 atributos y la flecha `e25`** de la 4c y la 4e, para que los 15 queden iguales. Toca dos páginas aprobadas por algo que no está mal.
+
+**Qué implica:** nada más que el Javadoc. Los adaptadores en memoria que necesite la demo van en el paquete `demo` (sesión 4).
+
+## DEC-31 · ¿Qué salidas debe mostrar la demo? (Q7)
+
+**Por qué hubo que decidir.** El reporte (§13, p. 26) promete 7 salidas de la demo:
+1. Composite y Factory Method: el menú del director de compras;
+2. Observer: el pedido de $82.000;
+3. Facade y Chain of Responsibility: COT-018, COT-019 y COT-020;
+4. Factory Method y Decorator: el correo con `X-Certificado`;
+5. Proxy y Adapter: el segundo precio, desde la caché;
+6. Singleton: `umbral.stock = 25 %`;
+7. Strategy: la bandeja paisa y el proveedor B.
+
+El plan de la sesión 4 solo cubría la tercera. Con el reporte sin tocar (DEC-03), cada salida que falte es una afirmación falsa. Además, la del Singleton contradice la 4e (`n_parametros`): desde H13 el umbral es de ms-inventario.
+
+**Opciones:**
+- **A. Las 7 salidas.** La del Singleton muestra un parámetro del tema en lugar del umbral, y esa frase se corrige en `CORRECCIONES_REPORTE.md` (sesión 5). ✅ **Escogida.**
+- **B. Solo el flujo de compra**, y anotar las otras 6 como falsas en `CORRECCIONES_REPORTE.md`.
+- **C. Las 7, con `umbral.stock` en el Singleton.** Contradice la 4b y la 4e.
+
+**Qué implica:** la sesión 4 crece. Su plan se actualiza al cerrar la sesión 3.
+
+## DEC-32 · ¿Cómo se anota en la 4e que el endpoint SOAP se publica bajo `/api/integracion/**`? (D2)
+
+**Por qué hubo que decidir.** Desde la sesión 2, el mapa y la 3a publican el SOAP de ms-integracion por el gateway, bajo el prefijo `/api/integracion/**` (DEC-12). La 4e no lo escribe.
+
+**Opciones:**
+- **A. En la misma línea del estereotipo:** `«SOAP · @WebService · /api/integracion/** (RNF integración)»`. Cabe en el ancho actual de la caja. ✅ **Escogida.**
+- **B. Una línea nueva debajo:** «publicado por el API Gateway en /api/integracion/**». La caja crece unos 10 px.
+
+**Qué implica:** cambia una celda de la 4e (`cls_integracion_AbastecimientoSoapEndpoint`). El Javadoc de la clase lo explica, y aclara que `@WebService` va solo en el comentario, porque JAX-WS no está en el JDK. El diagrama no menciona el número del prefijo: S12 quitó los ids internos de las páginas.
 ---
 
 ## Preguntas abiertas (sin decidir)

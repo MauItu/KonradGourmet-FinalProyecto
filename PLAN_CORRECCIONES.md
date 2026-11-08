@@ -74,7 +74,7 @@ Propagar lo de la fase 2a a las vistas de arquitectura y corregir lo propio de c
 
 Al terminar: exportar las páginas a PNG y validar con `arquitecto-revisor`.
 
-**Estado (2026-11-08):** aplicada y validada por el revisor; espera el OK de Mauricio.
+**Estado (2026-11-08):** aplicada, validada por el revisor y aprobada por Mauricio, que pidió seguir con la sesión 3.
 - El inventario previo del revisor (`INVENTARIO_SESION2.md`, 149 ítems con el id de cada celda) y las decisiones DEC-15 a DEC-22 guiaron los cambios.
 - No se aplicaron 6 ítems opcionales (DEC-21): P1-08, P1-09, P1-13, P1-29, P2-07 y P3b-26. P5-13 no cambia nada, porque DEC-17 mantiene «PostgreSQL ×11».
 - Cifras del mapa: 11 servicios, 10 tópicos, 19 flechas de consumo, 10 de publicación y 11 rutas del gateway con los 13 prefijos.
@@ -96,6 +96,22 @@ En `KonradGourmet/`, rama `correcciones-revision`. El código debe quedar idént
 - Compilar con `javac` sin errores, y anotar el nuevo total de clases para la lista del reporte.
 
 Al terminar: validar con `arquitecto-revisor`.
+
+**Avance (2026-11-08):**
+- **Inventario previo:** `INVENTARIO_SESION3.md`, del revisor. Faltan 40 clases por nombre completo (36 nuevas y 4 en otro paquete), 5 tienen el tipo equivocado (H8) y hay 714 miembros por declarar. De las 82 relaciones (65 flechas y 17 escritas en las cajas, no 18), el código tiene bien 19.
+- **Decisiones DEC-25 a DEC-32**, que siguen la recomendación del revisor:
+  - constructores ya, con la convención en el README;
+  - «Atiende la ventana Vxx de los mockups»;
+  - `{Redis}` en la caché del Proxy;
+  - el dominio de notificaciones se deja como está;
+  - regla de imports entre servicios;
+  - los adaptadores en memoria, tal cual;
+  - la demo cubre las 7 salidas del reporte (sesión 4);
+  - `/api/integracion/**` en el estereotipo del endpoint SOAP.
+- **Cómo se trabaja:**
+  - un commit por clase, y uno por familia cuando la clase y sus subclases solo compilan juntas;
+  - los cambios de paquete con `git mv`, en commits propios;
+  - se compila con `javac --release 21`.
 
 ## Sesión 4 · Código: demo real
 
@@ -144,7 +160,7 @@ Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiand
 |---|---|
 | 1 · Fase 1 (Git) | ✅ Hecha (2026-11-07) |
 | 1 · Fase 2a (clases 4a–4e) | ✅ Aprobada por Mauricio (2026-11-07). Validada por el revisor, con N1–N15 corregidos (DEC-11 a DEC-14) |
-| 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | Aplicada y validada por el revisor (2026-11-08), con S1–S14 corregidos. Decisiones DEC-15 a DEC-24. Espera el OK de Mauricio |
-| 3 · Código: firmas | Pendiente |
+| 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | ✅ Aprobada por Mauricio (2026-11-08). Validada por el revisor, con S1–S14 corregidos. Decisiones DEC-15 a DEC-24 |
+| 3 · Código: firmas | En curso (2026-11-08): inventario del revisor (`INVENTARIO_SESION3.md`) y decisiones DEC-25 a DEC-32 |
 | 4 · Código: demo | Pendiente |
 | 5 · Excel y documentos | Pendiente |
