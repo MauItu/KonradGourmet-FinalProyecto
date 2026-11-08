@@ -6,6 +6,9 @@ import co.edu.konradlorenz.ordenes.puertos.salida.OrdenRepositoryPort;
 
 import java.util.List;
 
+/**
+ * En el proyecto real: @Repository.
+ */
 public class OrdenJpaAdapter implements OrdenRepositoryPort {
 
     @Override
