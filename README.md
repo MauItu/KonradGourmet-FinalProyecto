@@ -45,7 +45,7 @@ clases, atributos, métodos y relaciones `extends`/`implements`.
 
 ## Módulos
 
-| Módulo | Microservicio | Historias | Responsabilidad |
+| Módulo | Microservicio | Ventanas | Responsabilidad |
 |---|---|---|---|
 | `compartido` | — | — | Librería común: publicación de eventos y auditoría |
 | `identidad` | ms-identidad | V01 | Usuarios, roles, sucursales y autenticación |
@@ -100,7 +100,7 @@ KonradGourmet/
 ## Ejecutar la demo
 
 ```bash
-javac -d out $(find src -name "*.java")
+javac --release 21 -d out $(find src -name "*.java")
 java -cp out co.edu.konradlorenz.demo.DemoArquitectura
 ```
 
