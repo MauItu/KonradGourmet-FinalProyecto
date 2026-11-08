@@ -162,3 +162,26 @@ El revisor no reportó como hallazgo lo que ya se sabía y está planificado:
 | K4 | ¿Qué se hace con la historia de `Correo` y `CorreoDecorator`? | **A.** Dejarla y anotar que se usa `-M30%`. **B.** Reescribir la historia desde `7cb9e8f`: cada movimiento llevaría una línea de Javadoc para superar el 50 %, y habría que rehacer los 176 commits | **A.** Solo se pierde la creación de un archivo vacío, y B arriesga lo que ya está validado |
 
 Las demás correcciones (K2, K3 y K5–K8) son mecánicas y no traen duda: la sesión principal puede aplicarlas una por commit, como S12–S14.
+
+## Seguimiento (2026-11-08)
+
+Mauricio decidió los dos hallazgos que traían duda:
+- **K1 → DEC-33:** escribir en el Javadoc de cada adaptador la anotación de Spring que lleva en el proyecto real, en los 54 adaptadores, y no cambiar la frase del README como recomendaba el revisor.
+- **K4 → DEC-34:** no reescribir la historia y dejar un commit con la nota de `-M30%`. Mauricio propuso primero «un commit solo para corregirlos», pero un commit nuevo no cambia cómo git lee los commits viejos.
+
+Lo demás se aplicó tal como lo propone el revisor.
+
+| # | Estado | Commit |
+|---|---|---|
+| K1 | Aplicada (DEC-33). Los 54 adaptadores dicen en su Javadoc la anotación que llevan en el proyecto real: `@RestController` (14), `@Repository` (15), `@Component` con `@KafkaListener` (8 listeners), `@Component` con `@Scheduled` (2 jobs) y `@Component` (15). Además, el README explica por qué los servicios, los decoradores, el cliente SOAP y el endpoint SOAP no llevan | `KonradGourmet`: 54 commits, de `ccec468` a `451c69e`, uno por adaptador; README `9b43ed6` |
+| K2 | Aplicada: H1 ya es cierto en la p. 26 y la p. 30; la frase de la p. 22 queda anotada para la sesión 5 | `eaa9242` |
+| K3 | Aplicada: `// GET /api/proveedores` | `KonradGourmet` `6f19885` |
+| K4 | Aplicada (DEC-34): la nota está en el README de `KonradGourmet` y en el plan | `KonradGourmet` `4bb25a0`; `4d12725` |
+| K5 | Aplicada: «V13–V21» | `KonradGourmet` `69d8011` |
+| K6 | Aplicada | `KonradGourmet` `48989da` |
+| K7 | Aplicada | `f901146` |
+| K8 | Aplicada | `f918288` |
+
+Cada commit de código compila con `javac --release 21 -Xlint:all`, sin errores ni avisos. Al terminar, las 191 clases son exactamente la salida del generador a partir de 4a–4e.
+
+**Opcional:** la PNG al día de la 4e está en `FinalProyecto/exportes/sesion3/4e.png` (escala 1, fuera del repo).

@@ -121,6 +121,10 @@ Al terminar: validar con `arquitecto-revisor`.
   - 5 cambios de tipo (H8);
   - 162 commits de contenido, uno por clase o por familia;
   - 7 commits del README: la tabla de los 10 patrones (H19 y D10), DEC-25, DEC-26, DEC-28, DEC-29, P-08 y P-09.
+- **Validación** (`VALIDACION_SESION3.md`): el revisor la dio por lista con correcciones. El código es idéntico a 4a–4e y los 176 commits compilan. Encontró 8 hallazgos de texto (K1–K8), y todos están aplicados:
+  - K1 con DEC-33: la anotación de Spring en el Javadoc de los 54 adaptadores, 54 commits;
+  - K4 con DEC-34: la nota de `-M30%`;
+  - con eso, `KonradGourmet` tiene 235 commits sobre `ad71e69`.
 - **Total de clases para el reporte:** 191, más `DemoArquitectura`, en 192 archivos. Antes eran 155 más la demo.
 - **Cifras:**
   - compila con `javac --release 21 -Xlint:all` sin errores ni avisos;
@@ -188,6 +192,6 @@ Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiand
 | 1 · Fase 1 (Git) | ✅ Hecha (2026-11-07) |
 | 1 · Fase 2a (clases 4a–4e) | ✅ Aprobada por Mauricio (2026-11-07). Validada por el revisor, con N1–N15 corregidos (DEC-11 a DEC-14) |
 | 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | ✅ Aprobada por Mauricio (2026-11-08). Validada por el revisor, con S1–S14 corregidos. Decisiones DEC-15 a DEC-24 |
-| 3 · Código: firmas | Aplicada (2026-11-08): 191 clases más la demo, que compilan. Decisiones DEC-25 a DEC-32. En validación del revisor |
+| 3 · Código: firmas | Aplicada y validada por el revisor (2026-11-08), con K1–K8 corregidos. Son 191 clases más la demo, que compilan. Decisiones DEC-25 a DEC-34. Falta la segunda validación y el OK de Mauricio |
 | 4 · Código: demo | Pendiente |
 | 5 · Excel y documentos | Pendiente |

@@ -43,8 +43,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-30 | Adaptadores JPA con colecciones en memoria (Q6) | Se copian tal cual, explicados en el Javadoc | Aplicada |
 | DEC-31 | Alcance de la demo (Q7) | La demo cubre las 7 salidas del reporte; el Singleton muestra un parámetro del tema | Por aplicar (sesión 4) |
 | DEC-32 | `/api/integracion/**` en la 4e (D2) | En la misma línea del estereotipo de `AbastecimientoSoapEndpoint` | Aplicada |
-| DEC-33 | Anotaciones de Spring en el código (K1) | Cada uno de los 54 adaptadores dice en su Javadoc qué anotación lleva en el proyecto real | Por aplicar (sesión 3) |
-| DEC-34 | Historia de `Correo` y `CorreoDecorator` en git (K4) | No se reescribe; un commit anota que se ve con `git log --follow -M30%` | Por aplicar (sesión 3) |
+| DEC-33 | Anotaciones de Spring en el código (K1) | Cada uno de los 54 adaptadores dice en su Javadoc qué anotación lleva en el proyecto real | Aplicada |
+| DEC-34 | Historia de `Correo` y `CorreoDecorator` en git (K4) | No se reescribe; un commit anota que se ve con `git log --follow -M30%` | Aplicada |
 
 ---
 
