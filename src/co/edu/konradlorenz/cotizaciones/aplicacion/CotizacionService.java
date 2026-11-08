@@ -1,5 +1,6 @@
 package co.edu.konradlorenz.cotizaciones.aplicacion;
 
+import co.edu.konradlorenz.compartido.eventos.AuditoriaEvent;
 import co.edu.konradlorenz.compartido.puertos.EventPublisherPort;
 import co.edu.konradlorenz.cotizaciones.dominio.Cotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.EstadoCotizacion;
@@ -45,7 +46,9 @@ public class CotizacionService implements GestionarCotizacionUseCase {
             throw new IllegalStateException("Solo se registran valores en una cotización enviada (estado actual: " + c.estado() + ")");
         }
         precios.forEach(c::registrarValor);
-        return repositorio.guardar(c);
+        Cotizacion guardada = repositorio.guardar(c);
+        eventos.publicar(new AuditoriaEvent("sistema", "Valores del proveedor registrados en " + numero));
+        return guardada;
     }
 
     @Override
@@ -59,6 +62,7 @@ public class CotizacionService implements GestionarCotizacionUseCase {
         Cotizacion validada = repositorio.guardar(c);
         eventos.publicar(new CotizacionValidadaEvent("sistema", validada.numero(), validada.proveedor().id(),
                 validada.estado(), validada.valorCotizadoTotal()));
+        eventos.publicar(new AuditoriaEvent("sistema", "Cotización " + numero + " validada: " + validada.estado()));
         return validada;
     }
 
@@ -117,6 +121,7 @@ public class CotizacionService implements GestionarCotizacionUseCase {
         }
         c.cambiarEstado(EstadoCotizacion.CON_ORDEN);
         repositorio.guardar(c);
+        eventos.publicar(new AuditoriaEvent("sistema", "Cotización " + numero + " pasó a CON_ORDEN"));
     }
 
 }
