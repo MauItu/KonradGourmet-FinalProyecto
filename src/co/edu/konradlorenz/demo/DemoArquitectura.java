@@ -83,13 +83,13 @@ public class DemoArquitectura {
         sistema.ministerio.definirPrecio("1", 20000); // res, por kg
         sistema.ministerio.definirPrecio("2", 8000);  // arroz, por kg
         sistema.repositorioInventario.guardar(new Inventario(1L, List.of(
-                new InsumoInventario(1L, "Res", new BigDecimal("12"), new BigDecimal("50"), "kg"),
+                new InsumoInventario(1L, "Res", new BigDecimal("12.5"), new BigDecimal("50"), "kg"),
                 new InsumoInventario(2L, "Arroz", new BigDecimal("40"), new BigDecimal("60"), "kg"),
                 new InsumoInventario(3L, "Papa", new BigDecimal("30"), new BigDecimal("40"), "kg"),
                 new InsumoInventario(4L, "Pollo", new BigDecimal("25"), new BigDecimal("40"), "kg"))));
         // ms-menu publica menu.actualizado por cada plato: ms-pedidos arma su catálogo y ms-inventario guarda la receta
         sistema.bus.publicar(new MenuActualizadoEvent("jefe.cocina", 1L, 1L, "Bandeja paisa", new BigDecimal("32000"), true,
-                receta(1L, "0.25", 2L, "0.1")));
+                receta(1L, "0.5", 2L, "0.1")));
         sistema.bus.publicar(new MenuActualizadoEvent("jefe.cocina", 2L, 1L, "Ajiaco", new BigDecimal("18000"), true,
                 receta(4L, "0.2", 3L, "0.3")));
         sistema.proveedores.registrar(new Proveedor(1L, "Proveedor ABC", "900123456-1", "ventas@proveedorabc.com", "6011234567", "Cra 7 # 10-20", List.of("Carnes", "Granos")));
