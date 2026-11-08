@@ -2,7 +2,10 @@ package co.edu.konradlorenz.inventario.adaptadores.entrada;
 
 import co.edu.konradlorenz.compartido.eventos.EventListener;
 import co.edu.konradlorenz.compartido.eventos.EventoDominio;
+import co.edu.konradlorenz.inventario.dominio.RecetaPlato;
 import co.edu.konradlorenz.inventario.puertos.entrada.GestionarInventarioUseCase;
+import co.edu.konradlorenz.menu.eventos.MenuActualizadoEvent;
+import co.edu.konradlorenz.solicitudes.eventos.SolicitudRegistradaEvent;
 
 /**
  * «Listener · menu.actualizado · solicitud.registrada»
@@ -19,7 +22,11 @@ public class InventarioEventsListener implements EventListener<EventoDominio> {
 
     @Override
     public void alRecibir(EventoDominio evento) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        if (evento instanceof MenuActualizadoEvent menu) {
+            casoDeUso.actualizarReceta(new RecetaPlato(menu.platoId(), menu.receta()));
+        } else if (evento instanceof SolicitudRegistradaEvent solicitud) {
+            casoDeUso.atenderAlertas(solicitud.sucursalId(), solicitud.productoIds());
+        }
     }
 
 }
