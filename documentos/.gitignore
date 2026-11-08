@@ -1,0 +1,6 @@
+# Respaldos y bloqueos temporales de draw.io, LibreOffice y Excel
+*.bkp
+.$*
+~$*
+.~lock.*#
+*.dtmp
