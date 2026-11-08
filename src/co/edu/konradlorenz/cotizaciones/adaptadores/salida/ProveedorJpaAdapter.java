@@ -5,6 +5,9 @@ import co.edu.konradlorenz.cotizaciones.puertos.salida.ProveedorRepositoryPort;
 
 import java.util.List;
 
+/**
+ * En el proyecto real: @Repository.
+ */
 public class ProveedorJpaAdapter implements ProveedorRepositoryPort {
 
     @Override
