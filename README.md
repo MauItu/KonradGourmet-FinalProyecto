@@ -22,6 +22,9 @@ nunca al revés. El dominio no importa frameworks ni adaptadores. Hay una sola e
 a «el dominio no conoce a nadie»: en `notificaciones`, el Factory Method usa las
 interfaces `Correo` y `AlarmaPushPort`, que son puertos del mismo núcleo.
 
+Entre microservicios, un módulo solo puede importar el paquete `eventos` de otro, que
+es el contrato de su tópico, y nunca su `dominio`. Todos pueden usar `compartido`.
+
 ## Módulos
 
 | Módulo | Microservicio | Historias | Responsabilidad |
