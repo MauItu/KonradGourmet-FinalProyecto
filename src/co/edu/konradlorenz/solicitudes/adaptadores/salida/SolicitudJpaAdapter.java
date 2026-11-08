@@ -6,6 +6,9 @@ import co.edu.konradlorenz.solicitudes.puertos.salida.SolicitudRepositoryPort;
 
 import java.util.List;
 
+/**
+ * En el proyecto real: @Repository.
+ */
 public class SolicitudJpaAdapter implements SolicitudRepositoryPort {
 
     @Override
