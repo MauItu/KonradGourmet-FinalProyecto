@@ -49,14 +49,14 @@ Lo demás se aplica tal como lo propone el revisor.
 
 | # | Estado | Commit |
 |---|---|---|
-| S1 | Por aplicar | — |
-| S2 | Por aplicar | — |
-| S3 | Por aplicar | — |
-| S4 | Por aplicar | — |
+| S1 | Aplicada: «…todos los consumidores de su tópico, según los diagramas de clases 4a–4e» | `9994836` |
+| S2 | Aplicada: 3 líneas, a la derecha de la flecha (offset 114) | `c40b3f8` |
+| S3 | Aplicada: sin offset y alineada a la izquierda, pegada a su línea. Centrada sobre la línea tapaba la línea JDBC vecina | `b3d1521` |
+| S4 | Aplicada: 2 líneas de 190 px, subida 16 px para no tapar su ruta | `a9f4af1` |
 | S5 | Decidida (DEC-23): sin cambio | — |
-| S6 | Por aplicar | — |
-| S7 | Por aplicar | — |
-| S8 | Por aplicar | — |
-| S9 | Por aplicar (DEC-24) | — |
-| S10 | Por aplicar | — |
-| S11 | Por aplicar | — |
+| S6 | Aplicada, con el texto propuesto | `6f467b9` |
+| S7 | Aplicada: 262 px y 4 líneas | `4ffd96c` |
+| S8 | Aplicada, con el texto propuesto | `57ba2d1` |
+| S9 | Aplicada (DEC-24): relleno #DCDFE4 y borde #6B7079 | `3a039d2` |
+| S10 | Aplicada | `9707d94` |
+| S11 | Aplicada. También se pusieron al día los estados de DEC-05 a DEC-14, que seguían diciendo «sesión 1» | `cf9ae22` |
