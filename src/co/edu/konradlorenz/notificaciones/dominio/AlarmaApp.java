@@ -12,7 +12,7 @@ public class AlarmaApp implements Notificacion {
 
     @Override
     public void enviar(String destino, String contenido) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        canal.empujar(destino, contenido);
     }
 
 }
