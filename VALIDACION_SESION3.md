@@ -419,3 +419,21 @@ K14 y K16 son mecánicos. K15 queda resuelto con esta sección.
 **Pendientes conocidos:** no cambian frente a las validaciones anteriores.
 - E1–E3, D1–D8 y D10 siguen resueltos (D2, salvo la p. 7 del reporte).
 - D9, D11 y D12 siguen pendientes: la demo de `ef29eed` imprime una sola línea.
+
+## Seguimiento de la tercera validación (2026-11-08)
+
+Mauricio aceptó las dos recomendaciones:
+- **La duda → DEC-38:** ShedLock y `@Primary` no van ahora en el reporte ni en los diagramas. El plan de la sesión 5 suma una frase para la p. 26 del reporte.
+- **El opcional:** se completa la frase del README sobre la clase de configuración.
+
+| # | Estado | Commit |
+|---|---|---|
+| K14 | Aplicada: la l. 124 y la fila 3 de «Avance» dicen que K5 se revirtió por K11 | `3804808` |
+| K15 | Sin cambio: la errata queda anotada en la tercera validación | — |
+| K16 | Aplicada: DEC-36 nombra las cajas «Scheduler» del mapa (`ad_inventario_t1`, `ad_analitica_t2`) | `138ebc0` |
+| Duda | Aplicada (DEC-38) | `e5db1c6` |
+| Opcional | Aplicada: «…los arma con sus constructores, igual que al cliente SOAP, al mapa de Redis del Proxy y a las fábricas de notificaciones, y ahí se fija el orden de los decoradores.» | `KonradGourmet` `37d655b` |
+
+- `KonradGourmet` tiene 241 commits sobre `ad71e69`.
+- Compila con `javac --release 21 -Xlint:all`, sin errores ni avisos, con 192 archivos.
+- El código Java y el `.drawio` no cambiaron.
