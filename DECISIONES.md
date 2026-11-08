@@ -62,6 +62,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura del recorrido, incluidos los fallos | Confirmada por Mauricio; auditoría de los fallos autorizada en la fase 2 (S4-13) |
 | DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | Asumida, por confirmar |
 | DEC-47 | Plan de sprints del Excel (H20) | 1 PHU = 25 h y 9 PHU por sprint; HU-14 = 1 (total 35); HU-17 al sprint 3 (8, 8, 6, 8 y 5 PHU); inicio el lunes 03/08/2026; 5 sprints y 10 semanas en todo el Excel | Aplicada en el Excel (sesión 5); fecha y «EN SEMANAS» decididos por Mauricio; el orden de filas es asumido, por confirmar |
+| DEC-48 | Dónde van las páginas 3a, 3b y 6 en el reporte | La 6 en §10, después de la tabla del recorrido; la 3a y la 3b en §14, después del contexto | Asumida, por confirmar (sesión 5) |
 
 ---
 
@@ -799,6 +800,17 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - El archivo se guardó con openpyxl: conserva estilos, celdas combinadas y fórmulas, con sus valores calculados, y pierde solo los metadatos propios de Google Sheets. La copia de `../proyecto/contexto/` queda con el contenido anterior.
 
 **Para la fase 5 (`CORRECCIONES_HU_Y_MOCKUPS.md`):** el Story Mapping p. 31 («SPRINT») contradice el Excel: dice 4 sprints, 8 semanas y «2 Meses», con los sprints 2 y 3 «sobrecargados (10 sobre 9)» y los sobrantes de 1 PHU en los sprints 1 y 4. Por decisión de Mauricio, la corrección es que diga 5 sprints, 10 semanas y «2 meses y medio», con el reparto y las fechas del Excel. Hay que anotarlo junto a las etiquetas de H26 (el título «Capacidad … (120)» de las pp. 2, 5, 27 y 30). El Story Mapping no se modifica (DEC-03).
+
+## DEC-48 · ¿Dónde van las páginas 3a, 3b y 6 en el reporte?
+
+**Por qué hubo que decidir.** Al escribir `CORRECCIONES_REPORTE.md` (sesión 5) hubo que proponer dónde entran las tres páginas nuevas del `.drawio`. El reporte (p. 4) dice que el C4 es obligatorio en sus cuatro niveles y que «los diagramas dinámico y de despliegue son complementarios», pero solo muestra el contexto (§14), el código (§12 y anexo) y el despliegue (§14). Ninguna fuente dice dónde deben ir.
+
+**Opciones:**
+- **A. Cada una junto a lo que explica.** La página 6 en §10, justo después de la tabla «Recorrido completo de una compra», que recorre los mismos 14 pasos; la 3a y la 3b en §14, después del nivel 1, para que el C4 se lea en orden (contexto, contenedores, componentes) antes del despliegue. Las figuras se renumeran del 7 al 14. ✅ **Asumida, por confirmar** (R-02 y R-03).
+- **B. Una sección nueva, «El modelo C4»,** con las páginas 2, 3a, 3b y 6 juntas. Ordena mejor el C4, pero mueve el contexto fuera de §14 y cambia la numeración de todas las secciones siguientes.
+- **C. En el anexo**, como figuras A6 a A8. Es lo que menos toca el cuerpo del reporte, pero deja los niveles 2 y 3 del C4 fuera del texto, que es justo lo que señaló la revisión.
+
+**Qué implica:** solo cambia `CORRECCIONES_REPORTE.md` (R-02, R-03 y R-05). El PDF no se toca (DEC-03). Si el equipo prefiere B o C, hay que rehacer R-02 y R-03.
 
 ---
 
