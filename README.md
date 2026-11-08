@@ -58,7 +58,7 @@ clases, atributos, métodos y relaciones `extends`/`implements`.
 | `menu` | ms-menu | V06 | Platos, ingredientes y categorías |
 | `inventario` | ms-inventario | V05, V07 | Stock, umbrales y consumo diario |
 | `solicitudes` | ms-solicitudes | V08–V12 | Solicitudes de alimentos |
-| `cotizaciones` | ms-cotizaciones | V13–V20 | Cotizaciones, proveedores y reglas de validación |
+| `cotizaciones` | ms-cotizaciones | V13–V21 | Cotizaciones, proveedores y reglas de validación |
 | `ordenes` | ms-ordenes | V21–V23 | Órdenes de compra |
 | `notificaciones` | ms-notificaciones | — | Correos y alarmas en la aplicación |
 | `integracion` | ms-integracion | — | Frontera SOAP con el Ministerio de Comercio |
