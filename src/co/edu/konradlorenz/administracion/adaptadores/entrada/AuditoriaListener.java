@@ -6,6 +6,8 @@ import co.edu.konradlorenz.compartido.eventos.EventoDominio;
 
 /**
  * «Listener · auditoria.evento»
+ *
+ * En el proyecto real: @Component, y alRecibir() lleva @KafkaListener con sus tópicos.
  */
 public class AuditoriaListener implements EventListener<EventoDominio> {
 
