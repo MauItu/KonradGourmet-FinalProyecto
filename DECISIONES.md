@@ -3,6 +3,7 @@
 Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se escogió y qué implica. Las opciones descartadas se dejan escritas para poder revisarlas después con el equipo.
 
 - **Decidió:** Mauricio Iturriza, el 2026-11-07, salvo que se indique otra cosa.
+- **DEC-15 a DEC-22:** las decidió Mauricio el 2026-11-08 en la sesión 2. Siguió la recomendación del arquitecto-revisor, que revisó cada caso en el `.drawio`, el reporte y las HU. Los ítems P1-…, P2-…, P3a-…, P3b-…, P5-… y P6-… están en `INVENTARIO_SESION2.md`.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -21,6 +22,14 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-12 | Rutas del gateway (N6) | 13 prefijos: `/api/usuarios` y `/api/proveedores` aparte | Por aplicar (sesiones 2 y 5) |
 | DEC-13 | Destinatarios de los correos (N5) | Mixto: el correo del solicitante viaja en el evento, y ms-notificaciones guarda una libreta de jefes por sucursal | Por aplicar (sesiones 1 y 3) |
 | DEC-14 | Resto de la validación de la fase 2a | Se aplican N2–N4 y N7–N15 como los propone el revisor | Por aplicar (sesión 1) |
+| DEC-15 | Adaptadores nuevos en el mapa (p. 1) | Una caja por tecnología y destino, explicada en la leyenda; cajas angostas solo en 2 filas | Por aplicar (sesión 2) |
+| DEC-16 | Infraestructura nueva en el mapa | Almacén de objetos y ELK, este en pequeño y con una sola flecha | Por aplicar (sesión 2) |
+| DEC-17 | Base de datos de ms-integracion | PostgreSQL propia para la tabla outbox | Por aplicar (sesiones 2 y 5) |
+| DEC-18 | ms-inventario en el recorrido (p. 6) | Línea de vida propia, antes del servidor de correo | Por aplicar (sesión 2) |
+| DEC-19 | Ejemplo de varias solicitudes (p. 6) | «Una o varias (aquí SOL-031)», con las listas escritas como listas | Por aplicar (sesión 2) |
+| DEC-20 | Zonas en el despliegue (p. 5) | Tres cajas de zona con el reparto; Eureka y la SPA en las zonas A y B | Asumida en parte, por confirmar (sesión 2) |
+| DEC-21 | Ítems fuera del plan de la sesión 2 | Se aplican 27 de 33; 6 no se aplican | Por aplicar (sesión 2) |
+| DEC-22 | Caché del Proxy en memoria (4e) | No se toca la 4e; se anota para la sesión 3 | Por aplicar (sesión 3) |
 
 ---
 
@@ -292,6 +301,108 @@ Además, HU-16 (p. 23) pide que la alerta muestre el producto, la cantidad resta
 **Qué implica:**
 - N2, N3, N4, N7, N8 y N9–N15 se aplican en las páginas 4a–4e.
 - Después se exportan otra vez las PNG y se pide una segunda validación.
+
+## DEC-15 · ¿Cómo caben los adaptadores nuevos en los hexágonos del mapa (p. 1)?
+
+**Por qué hubo que decidir.** La fase 2a agregó 18 adaptadores, y el mapa dibuja cada uno como una caja verde alrededor del hexágono de su servicio. Cada servicio tiene 6 posiciones: 3 arriba y 3 abajo. A ms-cotizaciones y a ms-notificaciones les faltan 4 cajas cada uno, y la fila de abajo de ms-inventario ya está llena.
+
+**Opciones:**
+- **A. Una caja por tecnología y por destino.** Se agrupan en una caja los adaptadores JPA que van a la misma base, los REST de un mismo servicio y sus listeners. Por ejemplo: «AuthRestController / UsuarioRestController» o «CotizacionJpaAdapter / ProveedorJpaAdapter». Es la regla de la arquitectura hexagonal, donde el adaptador se nombra por su tecnología, y así describe el reporte (p. 13, §9) las filas del mapa. Una línea de la leyenda la explica. Solo las filas de abajo de ms-cotizaciones y de ms-notificaciones necesitan 4 cajas angostas. ✅ **Escogida.**
+- **B. Una caja por clase**, con filas de 4 cajas angostas en todos los servicios. La letra queda pequeña.
+- **C. Ensanchar los 11 servicios.** Hay que mover todo el mapa y sus ~141 flechas para ganar poco.
+
+**Qué implica:**
+- En el mapa una caja ya no es una clase. El detalle por clase sigue en 4a–4e.
+- `/api/usuarios/**` y `/api/proveedores/**` no llevan flechas nuevas desde el gateway: se suman a las etiquetas de las flechas que ya llegan a la caja REST (`v208` y `v218`).
+- `ElasticsearchLogsAdapter` va en la fila de abajo de ms-administracion, en el lugar que deja libre agrupar `ParametrosJpaAdapter`, para que su flecha a ELK no cruce el hexágono.
+
+## DEC-16 · ¿Qué infraestructura nueva se dibuja en el mapa?
+
+**Por qué hubo que decidir.** En la fase 2a, los PDF pasaron al almacén de objetos (D1, H4 y N4) y ms-administracion consulta los logs en ELK (H14). El mapa dibuja las bases de datos y Redis, pero ninguno de los dos.
+
+**Opciones:**
+- **A. Solo el almacén de objetos.** ELK aparece en la 3a y en el despliegue. Pero la caja de `ElasticsearchLogsAdapter` sería la única del mapa que apunta a algo que no está dibujado.
+- **B. Los dos, con ELK en pequeño.** El almacén, con sus flechas desde ms-cotizaciones, ms-ordenes y ms-notificaciones. ELK, como una caja pequeña con una sola flecha. Prometheus y Grafana no se dibujan, porque ningún adaptador los llama. ✅ **Escogida.**
+
+**Qué implica:**
+- En el mapa, todo adaptador de salida apunta a lo que usa. Solo BCrypt y la generación de PDF no apuntan a nada, porque son librerías.
+- **Sesión 5:** la lista de lo que muestra el mapa (reporte, p. 13) suma el almacén y ELK.
+
+## DEC-17 · ¿ms-integracion tiene base PostgreSQL propia?
+
+**Por qué hubo que decidir.** El mapa (`db_integracion`) y la 3a (`c3a_db_integracion`) solo le dibujan Redis a ms-integracion. En cambio:
+- el reporte dice «once servicios… cada uno con su base de datos» (p. 3), «cada uno de los once microservicios… con su propia base PostgreSQL» (p. 7) y «costo de once bases de datos» (p. 31);
+- el despliegue dice «PostgreSQL ×11, una base por servicio» (p8 `v24`);
+- en la 4a, `KafkaEventPublisher` escribe el evento en la tabla outbox de cada servicio (`n_outbox`), y en la 4e ms-integracion publica auditoría (`ConsultarPrecioService.eventos`).
+
+**Opciones:**
+- **A. Darle su base.** Se dibuja «BD integración [PostgreSQL] · tabla outbox» en el mapa y en la 3a, colgada del publicador. No lleva adaptador JPA, porque la 4e no lo tiene ni lo necesita. ✅ **Escogida.**
+- **B. Dejarlo sin base** y poner «×10» en el despliegue. Contradice tres páginas del reporte y la 4a, y el servicio no tendría dónde guardar el outbox.
+
+**Qué implica:**
+- El despliegue no cambia (×11).
+- Si preguntan «¿una base para una sola tabla?»: el evento de auditoría no se puede perder, y el reporte (p. 31) ya prevé que «las bases pequeñas pueden compartir servidor con esquemas separados».
+- **Sesión 5:** la lista del mapa en el reporte (p. 13) suma la BD de integración.
+
+## DEC-18 · ¿Cómo aparece ms-inventario en el recorrido de compra (p. 6)?
+
+**Por qué hubo que decidir.** En la fase 2a, ms-inventario consume `solicitud.registrada` (`InventarioEventsListener`, 4b) para apagar la alerta de stock bajo. Cumple un criterio literal de HU-16 (Story Mapping, p. 23): «la alerta debe permanecer activa hasta que se registre una solicitud para ese producto». La página 6 no tiene línea de vida para ms-inventario.
+
+**Opciones:**
+- **A. Una nota en el paso 2.** No mueve nada, pero contradice la regla que la misma página escribe en su leyenda (`c6_v188`): «en cada evento se dibujan todos los consumidores».
+- **B. Línea de vida propia, entre ms-administracion y el servidor de correo.** Solo se corren las dos últimas columnas (servidor de correo y proveedor) con sus 7 mensajes. La flecha nueva cabe en el paso 2 sin mover nada hacia abajo. ✅ **Escogida.**
+
+**Qué implica:** la página 6 muestra a ms-inventario recibiendo `solicitud.registrada` en el paso 2, y la leyenda queda fiel a su regla.
+
+## DEC-19 · ¿Cómo muestra la página 6 que una cotización puede tener varias solicitudes (DEC-05)?
+
+**Por qué hubo que decidir.** El ejemplo de la página 6 sale de los mockups: SOL-031 → COT-018, con una sola solicitud. V13 (UX, p. 19) y V21 muestran solo SOL-031.
+
+**Opciones:**
+- **A. «Una o varias solicitudes (aquí SOL-031)».** Las listas se escriben como listas, por ejemplo `solicitudes: [SOL-031]`. Una lista de un elemento es un caso válido de «una o varias». ✅ **Escogida.**
+- **B. Inventar una segunda solicitud, SOL-032.** No existe en ninguna fuente, y habría que inventar productos y cantidades que la demo de la sesión 4 tendría que reproducir.
+
+**Qué implica:** los pasos 4, 5, 6 y 12 dicen «por cada solicitud de COT-018 (aquí SOL-031)».
+
+## DEC-20 · ¿Cómo se ven las tres zonas en el despliegue (p. 5, H24)?
+
+**Por qué hubo que decidir.** El sistema corre en 3 zonas de disponibilidad para cumplir el 99,7 %. Hoy la página 5 solo lo dice en un texto. Ninguna fuente dice qué corre en cada zona.
+
+**Opciones:**
+- **A. Franjas detrás del clúster.** Las cajas «×3» y «×11» no pueden estar en una sola zona: cada caja parecería pertenecer a la franja que tapa.
+- **B. Tres cajas «Zona A», «Zona B» y «Zona C»** en el espacio libre de la derecha, tituladas «Reparto por zona (las mismas instancias de la izquierda)», para que nadie cuente 6 gateways. ✅ **Escogida.**
+
+**Qué se deduce de las fuentes:**
+- **Un gateway y un broker de Kafka por zona.** El reporte (p. 5) pide «sin punto único de falla… tres réplicas del gateway, Kafka con factor de réplica 3, clúster en tres zonas». Con 3 réplicas en 3 zonas, cualquier otro reparto pierde 2 de 3 si cae una zona. `ESTADO_PROYECTO_Y_C4.md` (E2) ya dice «una por zona».
+- **Las réplicas de cada servicio se reparten entre las zonas.** Con un mínimo de 2, ocupan 2 de las 3 zonas.
+- **PostgreSQL, Redis y el almacén** están en la capa de datos, fuera del clúster, y no van en las cajas de zona. Su etiqueta dice el reparto: PostgreSQL con réplica síncrona en otra zona (reporte, p. 27), Redis con réplica en otra zona y el almacén multizona.
+
+**Qué es asumido, por confirmar con el equipo:** que Eureka (×2) y la SPA (×2) están en las zonas A y B. La zona C se registra en las dos instancias de Eureka.
+
+## DEC-21 · ¿Qué se hace con los 33 ítems del inventario que no estaban en el plan?
+
+**Por qué hubo que decidir.** El inventario previo de la sesión 2 marcó 33 ítems como «N/P» (no estaba en el plan) u «opcional».
+
+**Opciones:**
+- **A. Aplicarlos con un filtro.** ✅ **Escogida.**
+  - **21 se aplican** porque vienen de 4a–4e o de DEC-17: P1-28, P1-32, P1-39, P1-52, P1-53, P2-02, P2-04, P2-05, P2-06, P3a-24, P3a-25, P3a-26, P3a-27, P3a-28, P3b-21, P3b-24, P5-11, P5-12, P5-13, P6-12 y P6-20.
+  - **4 se aplican** porque hoy la página se contradice o rompe la notación C4: P2-03 (`v1` promete el protocolo en cada flecha), P5-09, P5-10 y P3a-20 (en C4, entre corchetes va la tecnología, no el contenido).
+  - **2 de forma** se aplican en un commit aparte: P1-54 y P5-14. Los cilindros de p1 y p8 pasan a `cylinder3`, como en la 3a, porque al exportar cortan la palabra «PostgreSQL».
+  - **6 no se aplican**: P1-08, P1-09, P1-13, P1-29, P2-07 y P3b-26. Solo agregan nombres de métodos o descripciones, no corrigen nada y llenan cajas que ya están justas.
+- **B. Solo los que vienen de 4a–4e.** Quedan contradicciones a la vista, como p2 sin protocolos.
+- **C. Ninguno por ahora**, anotados para la sesión 5, que ya está cargada.
+
+**Qué implica:** `c6_v137` (p. 6), que dice «en la BD de auditoría», también pasa a «BD de administración», junto con P1-28 y P3a-27.
+
+## DEC-22 · ¿Qué se hace con la caché en memoria del Proxy de precios (4e)?
+
+**Por qué hubo que decidir.** El revisor encontró, al preparar estas decisiones, que en la 4e `PrecioReferenciaCacheProxy` tiene `- cache: Map<Long, PrecioEstandar>`, una caché en la memoria de cada réplica. Viene así desde `main`. En cambio, el mapa, la 3a, el despliegue (p8 `v25`), la página 6 (`c6_v49`) y el reporte (p. 12) dicen que la caché está en Redis. Con 2 a 4 réplicas, cada una tendría su propia caché: el mismo problema de N7. Severidad media.
+
+**Opciones:**
+- **A. No tocar la 4e ahora** (las páginas 4a–4e ya están aprobadas) y anotarlo para la sesión 3. Las páginas de la sesión 2 siguen diciendo Redis, que es el diseño correcto. ✅ **Escogida.**
+- **B. Hacer una excepción** y agregar ya en la 4e una nota de una línea: «la caché vive en Redis, compartida por las réplicas».
+
+**Qué implica:** en la sesión 3 se corrige la 4e, con una nota o con un puerto hacia Redis.
 
 ---
 
