@@ -9,6 +9,8 @@ import java.util.List;
 
 /**
  * «REST · /api/pedidos · GET …/catalogo · GET …/mesas»
+ *
+ * En el proyecto real: @RestController.
  */
 public class PedidoRestController {
 
