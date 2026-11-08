@@ -12,7 +12,7 @@ public class CreadorAlarmaApp extends CreadorNotificacion {
 
     @Override
     protected Notificacion crearNotificacion() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return new AlarmaApp(canal);
     }
 
 }
