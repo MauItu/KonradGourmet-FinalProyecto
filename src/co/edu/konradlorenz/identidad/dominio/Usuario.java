@@ -11,12 +11,39 @@ public abstract class Usuario {
     protected String passwordHash;
     protected Sucursal sucursal;
 
+    protected Usuario(Long id, String nombre, String correo, Sucursal sucursal) {
+        this.id = id;
+        this.nombre = nombre;
+        this.correo = correo;
+        this.sucursal = sucursal;
+    }
+
+    public Long id() {
+        return id;
+    }
+
+    public String nombre() {
+        return nombre;
+    }
+
+    public String correo() {
+        return correo;
+    }
+
+    public String passwordHash() {
+        return passwordHash;
+    }
+
+    public Sucursal sucursal() {
+        return sucursal;
+    }
+
     public abstract ElementoMenu construirMenu();
 
     public abstract String rol();
 
     public void asignarPasswordHash(String hash) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        this.passwordHash = hash;
     }
 
 }
