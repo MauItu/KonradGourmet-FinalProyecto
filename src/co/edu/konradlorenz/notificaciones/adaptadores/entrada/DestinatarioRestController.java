@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * «REST · /api/notificaciones/destinatarios (Administrador)»
+ *
+ * En el proyecto real: @RestController.
  */
 public class DestinatarioRestController {
 
