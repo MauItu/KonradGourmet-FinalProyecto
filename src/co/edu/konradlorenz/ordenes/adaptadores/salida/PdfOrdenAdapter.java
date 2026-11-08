@@ -6,6 +6,8 @@ import co.edu.konradlorenz.ordenes.puertos.salida.GeneradorPdfPort;
 /**
  * «OpenPDF»
  *
+ * En el proyecto real: @Component.
+ *
  * Nota del diagrama: El PDF de la orden (HU-14) se genera en ms-ordenes y se guarda en el almacén de
  * objetos. orden.generada lleva pdfUrl, correoProveedor y cotizacionNumero: ms-notificaciones lo envía
  * por correo certificado al proveedor, y ms-cotizaciones pasa la cotización a CON_ORDEN.
