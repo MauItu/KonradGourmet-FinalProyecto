@@ -42,12 +42,16 @@ nunca al revés. El dominio no conoce a nadie.
 
 | Patrón | Dónde | Clases |
 |---|---|---|
-| Factory Method | `notificaciones/dominio` | `CreadorNotificacion`, `CreadorCorreo`, `CreadorAlarmaApp` |
-| Decorator | `notificaciones/dominio` | `CorreoDecorator`, `CorreoCertificadoDecorator`, `EstampaCronologicaDecorator` |
-| Strategy | `cotizaciones/dominio` | `ReglaValidacion`, `ReglaRechazada`, `ReglaSospechosa`, `ReglaOpcionada` |
-| Facade | `cotizaciones/aplicacion` | `GenerarCotizacionFacade` |
-| Proxy | `integracion/adaptadores/salida` | `PrecioReferenciaCacheProxy` |
-| Observer | `compartido/eventos` | `EventoDominio`, `EventListener` |
+| Facade | `cotizaciones/aplicacion` | `GenerarCotizacionFacade`; a escala de sistema, el API Gateway |
+| Chain of Responsibility | `cotizaciones/dominio` | `ReglaValidacion` → `ReglaRechazada` → `ReglaSospechosa` → `ReglaOpcionada`; la cadena se arma en `ReglaValidacion.cadenaPorDefecto()` |
+| Composite | `identidad/dominio` | `ElementoMenu` (componente), `GrupoMenu` (compuesto), `OpcionMenu` (hoja) |
+| Factory Method | `identidad/dominio`, `notificaciones/dominio` | `Usuario.construirMenu()` en cada rol; `CreadorNotificacion` → `CreadorCorreo`, `CreadorAlarmaApp`, que crean una `Notificacion` |
+| Decorator | `notificaciones/puertos/salida`, `notificaciones/adaptadores/salida` | `Correo` (componente), `CorreoSmtpAdapter` (componente concreto), `CorreoDecorator`, `CorreoCertificadoDecorator`, `EstampaCronologicaDecorator` |
+| Adapter | `integracion/adaptadores/salida` | `MinisterioComercioAdapter` adapta `MinisterioSoapClient` a `PrecioReferenciaPort`; además, todos los `*Adapter` de la hexagonal |
+| Proxy | `integracion/adaptadores/salida` | `PrecioReferenciaCacheProxy`: implementa `PrecioReferenciaPort`, como el adaptador real, y guarda la caché en Redis |
+| Publish-Subscribe (Observer distribuido) | `compartido/puertos`, `compartido/eventos`, `compartido/adaptadores` y los listeners de cada servicio | `EventPublisherPort`, `KafkaEventPublisher`, `EventListener<T>`, `EventoDominio` y los `*Listener` |
+| Singleton | `administracion/dominio` | `ParametrosSistema.getInstancia()`: tema, logos y parámetros generales |
+| Strategy | `analitica/dominio` | `CalculadorKpi` → `ProductoMayorDemanda`, `SucursalMayorDemanda`, `ProveedorMejoresPrecios` |
 
 ## Estructura
 
