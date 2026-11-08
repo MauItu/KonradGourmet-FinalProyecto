@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * «REST · /api/inventario»
+ *
+ * En el proyecto real: @RestController.
  */
 public class InventarioRestController {
 
