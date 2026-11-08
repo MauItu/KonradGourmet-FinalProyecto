@@ -734,7 +734,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Por qué hubo que decidir.** El plan pide «pruebas simples que no necesiten Maven» y un script. El README y el reporte cuentan 191 clases más la demo, y un paquete de pruebas dentro de `src/` cambiaría la cuenta.
 
 **Opciones:**
-- **A. Carpeta `pruebas/` junto a `src/`**, con un marco mínimo propio (`Prueba`) y `ejecutar.sh` ✅ **Asumida.** No cambia los paquetes de los 12 servicios ni la cuenta de clases. 160 verificaciones en 3 clases de prueba.
+- **A. Carpeta `pruebas/` junto a `src/`**, con un marco mínimo propio (`Prueba`) y `ejecutar.sh` ✅ **Asumida.** No cambia los paquetes de los 12 servicios ni la cuenta de clases. 171 verificaciones en 3 clases de prueba.
 - **B. Dentro de `src/…/pruebas`.** Cuenta como un paquete más y como más clases en el reporte.
 - **C. JUnit con Maven.** Pide Maven, que el plan descarta.
 

@@ -155,15 +155,16 @@ Al terminar: validar con `arquitecto-revisor`.
 Al terminar: correr la demo y validar con `arquitecto-revisor`.
 
 **Resultado (2026-11-08):**
-- **Código** (`KonradGourmet/`, 126 commits sobre `37d655b`; cada uno compila con `-Xlint:all`, verificado uno por uno):
+- **Código** (`KonradGourmet/`, 134 commits sobre `37d655b`; cada uno compila con `-Xlint:all`, verificado uno por uno):
   - los 274 cuerpos «Pendiente de implementar» pasan a 94: lógica real en todo el recorrido de compra, de punta a punta, y en los 8 patrones; sigue pendiente lo que habla con tecnología externa y lo que la demo no usa (la tabla está en el README);
   - `DemoArquitectura` recorre un día en la sucursal Centro: SOL-031, COT-018/019/020 y OC-0012, con las 7 salidas del reporte (DEC-31): menú del director de compras, pedido de $82.000, correo con `X-Certificado` y `X-Sello-Tiempo` más la alarma «Res al 23 %», precio de la res desde el servicio web y después desde la caché, Singleton con un parámetro del tema, y Bandeja paisa (40) con Proveedor B. Reproduce $520.000, $545.000, +4,81 % → OPCIONADA, +34,62 % → RECHAZADA y −61,54 % → SOSPECHOSA;
   - DEC-05 (lista de solicitudes) y D3 (CON ORDEN y segunda orden rechazada) funcionan; T-06 (DEC-29) no se activó, porque la demo no consume `cotizacion.validada` ni `tendencia.detectada`;
   - 19 clases de apoyo en `demo/` (adaptadores en memoria, bus y `Ensamble`), que no cuentan entre las 191 del modelo; 211 archivos `.java` en `src/`;
-  - `pruebas/` con 160 verificaciones, sin Maven ni JUnit, y `ejecutar.sh` (compila, corre la demo y corre las pruebas);
+  - `pruebas/` con 171 verificaciones, sin Maven ni JUnit, y `ejecutar.sh` (compila, corre la demo y corre las pruebas);
   - el README dice qué métodos tienen lógica, qué imprime la demo y cuál es el comando de las pruebas (K8).
 - **Decisiones** (`DECISIONES.md`): DEC-39 a DEC-46, asumidas mientras Mauricio no estaba. Después las revisó: confirmó el pedido de $82.000, el precio por kilo, la solicitud parcial y la alarma, y **decidió agregar `adjuntoUrl`** a `Notificacion.enviar()` y `CreadorNotificacion.notificar()`. Ese cambio ya está en el código y **la página 4d queda por actualizar en la sesión 5** (dos contratos afectados, reflejados en cuatro declaraciones: `Notificacion`, `AlarmaApp`, `NotificacionCorreo` y `CreadorNotificacion`).
-- **Validación** (`VALIDACION_SESION4.md`): el revisor la dio por **lista con correcciones**. S4-1 y S4-2 (lógica) y S4-3 a S4-12 están aplicados o anotados. Falta una segunda ronda del revisor sobre los arreglos.
+- **Validación** (`VALIDACION_SESION4.md`): el revisor la dio por **lista con correcciones**. La segunda ronda encontró S4-13 a S4-16; Mauricio autorizó la fase 2 y los arreglos quedaron aplicados. Cierre: **lista dentro del alcance de la demo**, con los límites documentados. No se cambiaron firmas.
+- Mauricio confirmó además el redondeo previo de cotizaciones y stock (DEC-43), y el usuario `sistema` con una correlación por evento como límite de la demo (DEC-42). Las aclaraciones del «≤ 25 %», del usuario y de la correlación quedan en la sesión 5.
 - Los dos `.drawio` y el reporte PDF no se tocaron.
 
 ## Sesión 5 · Excel + documentos de cierre
@@ -218,5 +219,5 @@ Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiand
 | 1 · Fase 2a (clases 4a–4e) | ✅ Aprobada por Mauricio (2026-11-07). Validada por el revisor, con N1–N15 corregidos (DEC-11 a DEC-14) |
 | 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | ✅ Aprobada por Mauricio (2026-11-08). Validada por el revisor, con S1–S14 corregidos. Decisiones DEC-15 a DEC-24 |
 | 3 · Código: firmas | Aplicada y validada por el revisor cuatro veces (2026-11-08); la cuarta la dio por **lista**. K1–K18 resueltos (K5, revertida por K11; K15 y K17 son erratas anotadas en los registros). Falta el OK de Mauricio. Son 191 clases más la demo, que compilan, en 241 commits sobre `ad71e69`. Decisiones DEC-25 a DEC-38 |
-| 4 · Código: demo | Aplicada y validada una vez por el revisor (2026-11-08): **lista con correcciones**, ya aplicadas (S4-1 a S4-12). 126 commits sobre `37d655b` más los del adjunto, 160 pruebas, la demo cubre las 7 salidas del reporte. Mauricio confirmó las decisiones principales (DEC-40, DEC-42 y DEC-46); queda por actualizar la 4d (`adjuntoUrl`) en la sesión 5. Falta su OK final y, si quiere, una segunda ronda del revisor |
+| 4 · Código: demo | Segunda ronda y fase 2 terminadas (2026-11-08): **lista dentro del alcance de la demo**. S4-13 a S4-16 corregidos; S4-1 a S4-12 corregidos o documentados. 134 commits sobre `37d655b`, 171 verificaciones y 94 cuerpos pendientes. Mauricio confirmó DEC-43 (cotizaciones y stock) y el límite de usuario/correlación de DEC-42. La demo cubre las siete salidas según DEC-31. Pendientes para sesión 5: 4d (`adjuntoUrl`), «≤ 25 %» y aclaraciones de usuario/correlación en reporte y 4a |
 | 5 · Excel y documentos | Pendiente |
