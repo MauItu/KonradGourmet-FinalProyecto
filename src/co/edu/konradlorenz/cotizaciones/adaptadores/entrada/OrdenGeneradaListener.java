@@ -3,6 +3,7 @@ package co.edu.konradlorenz.cotizaciones.adaptadores.entrada;
 import co.edu.konradlorenz.compartido.eventos.EventListener;
 import co.edu.konradlorenz.compartido.eventos.EventoDominio;
 import co.edu.konradlorenz.cotizaciones.puertos.entrada.GestionarCotizacionUseCase;
+import co.edu.konradlorenz.ordenes.eventos.OrdenGeneradaEvent;
 
 /**
  * «Listener · orden.generada»
@@ -22,7 +23,9 @@ public class OrdenGeneradaListener implements EventListener<EventoDominio> {
 
     @Override
     public void alRecibir(EventoDominio evento) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        if (evento instanceof OrdenGeneradaEvent orden) {
+            casoDeUso.marcarConOrden(orden.cotizacionNumero());
+        }
     }
 
 }
