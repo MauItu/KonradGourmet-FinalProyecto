@@ -133,8 +133,10 @@ final class PruebasFlujoDeCompra {
         Prueba.igual("SOL-031 pasó a EN_TRAMITE", EstadoSolicitud.EN_TRAMITE, s.solicitudes.detalle("SOL-031").estado());
         Prueba.igual("se publicó solicitud.en-tramite", 1L, s.bus.cuantos("solicitud.en-tramite"));
         Prueba.igualValor("SOL-031 calcula su valor sugerido", "520000", s.solicitudes.detalle("SOL-031").valorSugeridoTotal());
-        Prueba.verificar("el proveedor recibió un correo con el enlace del PDF",
-                s.correos.enviados().stream().anyMatch(m -> m.para().equals("ventas@proveedorabc.com") && m.cuerpo().contains("COT-018.pdf")));
+        Prueba.verificar("el proveedor recibió el correo con el PDF adjunto",
+                s.correos.enviados().stream().anyMatch(m -> m.para().equals("ventas@proveedorabc.com") && m.adjuntoUrl() != null && m.adjuntoUrl().endsWith("COT-018.pdf")));
+        Prueba.verificar("y los otros correos no llevan adjunto",
+                s.correos.enviados().stream().filter(m -> m.para().contains("carlos")).allMatch(m -> m.adjuntoUrl() == null));
 
         s.cotizaciones.reenviar("COT-018");
         Prueba.igual("reenviar() vuelve a publicar cotizacion.enviada", 2L, s.bus.cuantos("cotizacion.enviada"));
@@ -182,7 +184,8 @@ final class PruebasFlujoDeCompra {
         Prueba.igual("COT-018 pasó a CON_ORDEN", EstadoCotizacion.CON_ORDEN, s.cotizaciones.detalle("COT-018").estado());
         Prueba.igual("SOL-031 pasó a COMPLETADA", EstadoSolicitud.COMPLETADA, s.solicitudes.detalle("SOL-031").estado());
         Prueba.verificar("el proveedor recibió el correo de la orden",
-                s.correos.enviados().stream().anyMatch(m -> m.para().equals("ventas@proveedorabc.com") && m.asunto().contains("OC-0012")));
+                s.correos.enviados().stream().anyMatch(m -> m.para().equals("ventas@proveedorabc.com") && m.asunto().contains("OC-0012")
+                        && m.adjuntoUrl() != null && m.adjuntoUrl().endsWith("OC-0012.pdf")));
         Prueba.lanza("una segunda orden sobre COT-018 se rechaza", IllegalStateException.class, "Ya existe una orden de compra para la cotización COT-018",
                 () -> s.ordenes.generar("COT-018"));
         Prueba.igual("sigue habiendo una sola orden", 1, s.ordenes.consultar(null).size());
