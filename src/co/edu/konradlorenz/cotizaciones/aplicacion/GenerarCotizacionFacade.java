@@ -1,5 +1,6 @@
 package co.edu.konradlorenz.cotizaciones.aplicacion;
 
+import co.edu.konradlorenz.compartido.eventos.AuditoriaEvent;
 import co.edu.konradlorenz.compartido.puertos.EventPublisherPort;
 import co.edu.konradlorenz.cotizaciones.dominio.Cotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.EstadoCotizacion;
@@ -70,6 +71,7 @@ public class GenerarCotizacionFacade {
         enviada.items().forEach(i -> sugeridos.put(i.productoId(), i.precioEstandar()));
         eventos.publicar(new CotizacionEnviadaEvent("sistema", enviada.numero(), enviada.solicitudNumeros(),
                 sugeridos, enviada.proveedor().correo(), pdfUrl));
+        eventos.publicar(new AuditoriaEvent("sistema", "Cotización " + enviada.numero() + " enviada a " + enviada.proveedor().razonSocial()));
         return enviada;
     }
 
