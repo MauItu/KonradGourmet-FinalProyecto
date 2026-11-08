@@ -17,7 +17,7 @@ public class ConsumoDiarioJob {
     }
 
     public void ejecutar() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        casoDeUso.descontarConsumoDiario();
     }
 
 }
