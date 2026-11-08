@@ -33,8 +33,9 @@ clases, atributos, métodos y relaciones `extends`/`implements`.
 - Como es habitual en UML, los diagramas omiten los constructores y los métodos de
   acceso. En el código, los servicios, controladores, listeners, jobs y adaptadores
   reciben por el constructor lo que su caja lista como atributos; `ParametrosSistema`
-  tiene el constructor privado del Singleton, y cada decorador recibe el correo que
-  envuelve.
+  tiene el constructor privado del Singleton, cada decorador recibe el correo que
+  envuelve, y las clases del Factory Method de `notificaciones` reciben el canal que
+  usan (`Correo` o `AlarmaPushPort`).
 - Cada método marcado ‹Vxx› en el diagrama lleva el comentario
   `// Atiende la ventana Vxx de los mockups`, una línea por ventana. Si alguna fuente
   fija la ruta REST, la línea siguiente la dice, por ejemplo `// POST /api/cotizaciones`.
