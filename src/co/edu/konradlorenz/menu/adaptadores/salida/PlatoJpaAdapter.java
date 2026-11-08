@@ -6,6 +6,9 @@ import co.edu.konradlorenz.menu.puertos.salida.PlatoRepositoryPort;
 
 import java.util.List;
 
+/**
+ * En el proyecto real: @Repository.
+ */
 public class PlatoJpaAdapter implements PlatoRepositoryPort {
 
     @Override
