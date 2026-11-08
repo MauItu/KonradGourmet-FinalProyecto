@@ -124,7 +124,13 @@ Al terminar: validar con `arquitecto-revisor`.
 - **Validación** (`VALIDACION_SESION3.md`): el revisor la dio por lista con correcciones. El código es idéntico a 4a–4e y los 176 commits compilan. Encontró 8 hallazgos de texto (K1–K8), y todos están aplicados:
   - K1 con DEC-33: la anotación de Spring en el Javadoc de los 54 adaptadores, 54 commits;
   - K4 con DEC-34: la nota de `-M30%`;
-  - con eso, `KonradGourmet` tiene 235 commits sobre `ad71e69`.
+  - con eso, `KonradGourmet` tenía 235 commits sobre `ad71e69`.
+- **Segunda validación** (`VALIDACION_SESION3.md`): K1–K8 resueltos y el código compilado no cambió. Encontró 5 hallazgos de texto (K9–K13), y todos están aplicados:
+  - K9 con DEC-35: `@Primary` en el Proxy de precios;
+  - K10 con DEC-36: `@SchedulerLock` (ShedLock) en los 2 jobs;
+  - K11 con DEC-37: el README vuelve a «V13–V20» para ms-cotizaciones (revierte K5);
+  - K12 y K13: redacción del README y de `DECISIONES.md`;
+  - con eso, `KonradGourmet` tiene 240 commits sobre `ad71e69`.
 - **Total de clases para el reporte:** 191, más `DemoArquitectura`, en 192 archivos. Antes eran 155 más la demo.
 - **Cifras:**
   - compila con `javac --release 21 -Xlint:all` sin errores ni avisos;
@@ -192,6 +198,6 @@ Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiand
 | 1 · Fase 1 (Git) | ✅ Hecha (2026-11-07) |
 | 1 · Fase 2a (clases 4a–4e) | ✅ Aprobada por Mauricio (2026-11-07). Validada por el revisor, con N1–N15 corregidos (DEC-11 a DEC-14) |
 | 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | ✅ Aprobada por Mauricio (2026-11-08). Validada por el revisor, con S1–S14 corregidos. Decisiones DEC-15 a DEC-24 |
-| 3 · Código: firmas | Aplicada y validada por el revisor dos veces (2026-11-08). K1–K8 están corregidos. La segunda validación dejó K9–K13, que esperan la decisión de Mauricio (K9, K10 y K11). Son 191 clases más la demo, que compilan. Decisiones DEC-25 a DEC-34 |
+| 3 · Código: firmas | Aplicada y validada por el revisor dos veces (2026-11-08). K1–K13 están corregidos; falta que el revisor valide K9–K13 y el OK de Mauricio. Son 191 clases más la demo, que compilan. Decisiones DEC-25 a DEC-37 |
 | 4 · Código: demo | Pendiente |
 | 5 · Excel y documentos | Pendiente |

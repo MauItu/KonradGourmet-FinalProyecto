@@ -177,12 +177,12 @@ Lo demás se aplicó tal como lo propone el revisor.
 | K2 | Aplicada: H1 ya es cierto en la p. 26 y la p. 30; la frase de la p. 22 queda anotada para la sesión 5 | `eaa9242` |
 | K3 | Aplicada: `// GET /api/proveedores` | `KonradGourmet` `6f19885` |
 | K4 | Aplicada (DEC-34): la nota está en el README de `KonradGourmet` y en el plan | `KonradGourmet` `4bb25a0`; `4d12725` |
-| K5 | Aplicada: «V13–V21» | `KonradGourmet` `69d8011` |
+| K5 | Aplicada: «V13–V21». Revertida por K11 (DEC-37): vuelve a «V13–V20» | `KonradGourmet` `69d8011`; revertida en `aeceef7` |
 | K6 | Aplicada | `KonradGourmet` `48989da` |
 | K7 | Aplicada | `f901146` |
 | K8 | Aplicada | `f918288` |
 
-Cada commit de código compila con `javac --release 21 -Xlint:all`, sin errores ni avisos. Al terminar, las 191 clases son exactamente la salida del generador a partir de 4a–4e.
+Cada commit de código compila con `javac --release 21 -Xlint:all`, sin errores ni avisos. Estos commits solo agregan comentarios: el código compilado no cambió frente a `67d9edd`, que la primera validación encontró idéntico a 4a–4e. (Antes decía «las 191 clases son exactamente la salida del generador»; el revisor no pudo comprobarlo, porque el generador no está en los repos, y la segunda validación comprobó lo equivalente.)
 
 **Opcional:** la PNG al día de la 4e está en `FinalProyecto/exportes/sesion3/4e.png` (escala 1, fuera del repo).
 
@@ -251,3 +251,25 @@ K12 y K13 son mecánicos y no traen duda.
 **Nota:** el revisor no pudo comprobar la frase del seguimiento «las 191 clases son exactamente la salida del generador a partir de 4a–4e» (l. 185), porque el generador no está en ninguno de los dos repos. Comprobó lo equivalente: el código no cambió frente a `67d9edd`, que la primera validación encontró idéntico a 4a–4e.
 
 **Pendientes conocidos:** no cambian frente a la primera validación. E1–E3, D1–D8 y D10 siguen resueltos (D2, salvo la p. 7 del reporte), y D9, D11 y D12 siguen pendientes.
+
+## Seguimiento de la segunda validación (2026-11-08)
+
+Mauricio decidió los tres hallazgos que traían duda, y en los tres siguió la recomendación del revisor:
+- **K9 → DEC-35:** el Proxy de precios lleva además `@Primary`.
+- **K10 → DEC-36:** los 2 jobs llevan además `@SchedulerLock` (ShedLock).
+- **K11 → DEC-37:** el README vuelve a «V13–V20» para ms-cotizaciones.
+
+K12 y K13 se aplicaron como los propone el revisor.
+
+| # | Estado | Commit |
+|---|---|---|
+| K9 | Aplicada (DEC-35): «En el proyecto real: @Component y @Primary: ConsultarPrecioService recibe el Proxy, y el Proxy recibe el adaptador real.» DEC-33 lo anota | `KonradGourmet` `96e211a`; `ca2402d` |
+| K10 | Aplicada (DEC-36): en los dos jobs, `ejecutar()` lleva además «@SchedulerLock (ShedLock), para que lo ejecute una sola réplica». DEC-33 lo anota | `KonradGourmet` `6756be5` (`ConsumoDiarioJob`) y `ab988e9` (`TendenciasJob`); `ca2402d` |
+| K11 | Aplicada (DEC-37): «V13–V20». K5 queda revertida | `KonradGourmet` `aeceef7` |
+| K12 | Aplicada: el README dice que el cliente SOAP no lleva anotación porque lo genera `wsimport`, y que la clase de configuración es del proyecto real y este código no la incluye. Con eso, la fila de K1 del seguimiento anterior queda cierta | `KonradGourmet` `ef29eed` |
+| K13 | Aplicada | `4b98ace` |
+
+- Los 3 commits de código solo cambian una línea de Javadoc por clase, que pasa a ocupar dos.
+- Cada uno compila con `javac --release 21 -Xlint:all`, sin errores ni avisos, con 192 archivos.
+- `KonradGourmet` tiene 240 commits sobre `ad71e69`.
+- El `.drawio` no cambió.
