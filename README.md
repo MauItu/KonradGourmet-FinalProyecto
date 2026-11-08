@@ -194,8 +194,9 @@ Límites que conviene conocer:
 - Los casos de uso no reciben al usuario (en el proyecto real sale del token JWT), así que los eventos llevan
   `sistema` o el correo de la entidad. Cada evento crea su propio `correlacionId`; propagarlo entre
   servicios queda para el proyecto real.
-- `Notificacion.enviar(destino, contenido)` no tiene dónde llevar la URL del PDF, y `Mensaje.adjuntoUrl`
-  queda vacío. Los correos a los proveedores llevan el enlace en el cuerpo.
+- `Notificacion.enviar(destino, contenido, adjuntoUrl)` y `CreadorNotificacion.notificar(...)` llevan un
+  parámetro más que la página 4d (DEC-42, decidido por Mauricio): el correo certificado al proveedor lleva
+  el PDF en `Mensaje.adjuntoUrl`. El diagrama se actualiza en la sesión 5.
 - `descontarConsumoDiario()` no repite el descuento si se ejecuta dos veces, porque resta del consumo
   pendiente lo que ya descontó. Aun así, DEC-36 sigue valiendo: con varias réplicas, `@SchedulerLock`
   evita que dos corran a la vez.
@@ -212,7 +213,7 @@ Límites que conviene conocer:
 
 ### Pruebas
 
-`pruebas/` tiene 159 verificaciones en 3 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
+`pruebas/` tiene 160 verificaciones en 3 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
 - `PruebasCotizacion`: los valores de V19 y los límites de la cadena de reglas (+25,00 % y −50,00 % siguen
   OPCIONADA; +25,01 % y −50,01 % no);
 - `PruebasPatrones`: los 8 patrones, uno por uno;
