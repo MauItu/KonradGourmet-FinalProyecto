@@ -24,6 +24,7 @@ import co.edu.konradlorenz.cotizaciones.aplicacion.GenerarCotizacionFacade;
 import co.edu.konradlorenz.cotizaciones.aplicacion.ProveedorService;
 import co.edu.konradlorenz.cotizaciones.dominio.Cotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.ReglaValidacion;
+import co.edu.konradlorenz.integracion.adaptadores.entrada.PrecioRestController;
 import co.edu.konradlorenz.integracion.adaptadores.salida.MinisterioComercioAdapter;
 import co.edu.konradlorenz.integracion.adaptadores.salida.PrecioReferenciaCacheProxy;
 import co.edu.konradlorenz.integracion.aplicacion.ConsultarPrecioService;
@@ -75,8 +76,11 @@ public class Ensamble {
     public final DestinatarioEnMemoria destinatarios = new DestinatarioEnMemoria();
     public final Bitacora bitacora = new Bitacora();
     public final List<HechoNegocio> hechos = new ArrayList<>();
+    public final PedidoEnMemoria repositorioPedidos = new PedidoEnMemoria();
+    public final InventarioEnMemoria repositorioInventario = new InventarioEnMemoria();
 
     // ---- puntos de entrada (controladores y job) ----
+    public final PrecioRestController precios;
     public final PedidoRestController pedidos;
     public final InventarioRestController inventario;
     public final ConsumoDiarioJob consumoDiario;
@@ -94,6 +98,8 @@ public class Ensamble {
         ConsultarPrecioService integracion = new ConsultarPrecioService(
                 new PrecioReferenciaCacheProxy(new MinisterioComercioAdapter(ministerio), cachePrecios), bus);
 
+        precios = new PrecioRestController(integracion);
+
         // ms-notificaciones: el orden de los decoradores se fija aquí
         Correo correo = new CorreoCertificadoDecorator(new EstampaCronologicaDecorator(correos));
         NotificacionService notificaciones = new NotificacionService(
@@ -102,12 +108,12 @@ public class Ensamble {
         NotificacionListeners alNotificar = new NotificacionListeners(notificaciones);
 
         // ms-pedidos
-        PedidoService pedidoService = new PedidoService(new PedidoEnMemoria(), new CatalogoEnMemoria(), bus);
+        PedidoService pedidoService = new PedidoService(repositorioPedidos, new CatalogoEnMemoria(), bus);
         pedidos = new PedidoRestController(pedidoService);
 
         // ms-inventario
         InventarioService inventarioService = new InventarioService(
-                new InventarioEnMemoria(), new UmbralStock(new BigDecimal("25")), bus);
+                repositorioInventario, new UmbralStock(new BigDecimal("25")), bus);
         inventario = new InventarioRestController(inventarioService);
         consumoDiario = new ConsumoDiarioJob(inventarioService);
         InventarioEventsListener alInventario = new InventarioEventsListener(inventarioService);
