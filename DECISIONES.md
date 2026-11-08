@@ -616,11 +616,11 @@ El plan de la sesión 4 solo cubría la tercera. Con el reporte sin tocar (DEC-0
 
 ## DEC-36 · ¿Cómo se asegura que cada job corra en una sola réplica? (K10)
 
-**Por qué hubo que decidir.** `@Scheduled` se ejecuta en cada réplica, y el despliegue (p. 5, `v15`) le da a ms-inventario de 2 a 6 réplicas y a ms-analitica de 2 a 4. Así, el descuento de las 23:59 de `ConsumoDiarioJob` se haría de 2 a 6 veces cada noche; `descontarConsumoDiario()` no recibe la fecha, así que no puede saber si ya se hizo. Las sugerencias semanales de `TendenciasJob` también se repetirían: `notificadaEl` solo evita repetir la notificación. DEC-33 no creó el problema, porque las cajas «Scheduler» ya estaban en la 4b y la 4e, pero lo dejó escrito.
+**Por qué hubo que decidir.** `@Scheduled` se ejecuta en cada réplica, y el despliegue (p. 5, `v15`) le da a ms-inventario de 2 a 6 réplicas y a ms-analitica de 2 a 4. Así, el descuento de las 23:59 de `ConsumoDiarioJob` se haría de 2 a 6 veces cada noche; `descontarConsumoDiario()` no recibe la fecha, así que no puede saber si ya se hizo. Las sugerencias semanales de `TendenciasJob` también se repetirían: `notificadaEl` solo evita repetir la notificación. DEC-33 no creó el problema, porque las cajas «Scheduler» ya estaban en el mapa (`ad_inventario_t1`, `ad_analitica_t2`), la 4b y la 4e, pero lo dejó escrito.
 
 **Opciones:**
 - **A. `@SchedulerLock` (ShedLock):** antes de correr, la réplica toma un candado en una tabla de su base, y las demás se saltan el turno. Es la solución habitual con `@Scheduled`. Agrega una librería y una tabla en la base de cada servicio: ms-inventario y ms-analitica tienen su PostgreSQL en la 3a (`c3a_db_inventario`, `c3a_db_analitica`). ✅ **Escogida**, como recomendaba el revisor.
-- **B. Un CronJob de Kubernetes** en lugar de `@Scheduled`. Cambia lo que dicen las cajas «Scheduler» de la 4b y la 4e, que en esta sesión no se pueden tocar, y necesita otra forma de llamar a `ejecutar()`.
+- **B. Un CronJob de Kubernetes** en lugar de `@Scheduled`. Cambia lo que dicen las cajas «Scheduler» del mapa, la 4b y la 4e: el mapa ya está aprobado (sesión 2), y la 4b y la 4e no se pueden tocar para esto en esta sesión, y necesita otra forma de llamar a `ejecutar()`.
 - **C. Dejar `@Scheduled` y hacer idempotente el descuento en la sesión 4**, para que repetirlo no haga daño. No evita que dos réplicas corran a la vez: si despiertan en el mismo segundo, las dos ven que falta el descuento.
 
 **Qué implica:** el Javadoc de los dos jobs dice que `ejecutar()` lleva además `@SchedulerLock (ShedLock)`, para que lo ejecute una sola réplica (2 commits), y DEC-33 lo anota. El diagrama y las firmas no cambian. La demo de la sesión 4 corre una sola réplica, así que no necesita nada de esto.
