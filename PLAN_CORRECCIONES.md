@@ -177,6 +177,7 @@ Al terminar: correr la demo y validar con `arquitecto-revisor`.
     - §11 (consumidores nuevos), §15 (métodos y rutas nuevas) y p. 22 (H8, H9, H13);
     - H21, H25 y el total de clases;
     - p. 21: la auditoría la publican 10 servicios, no 11 (H10);
+    - DEC-43, confirmada por Mauricio: cambiar «Existencia ≤ 25 %» en la tabla de eventos (p. 21) y aclarar «llega al 25 %» (p. 9). Se compara el porcentaje redondeado a 2 decimales (`HALF_UP`) con **< 25 %**; la alarma sale solo al cruzar ese umbral (DEC-46). También se redondea antes de aplicar las reglas de cotizaciones.
     - p. 7: 13 prefijos en el gateway (DEC-12);
     - supuesto S5 y §15: el alta de usuarios (DEC-10) y las rutas nuevas;
     - p. 13, §9: el mapa muestra también el almacén de objetos, ELK y la BD PostgreSQL de ms-integracion (DEC-16 y DEC-17), y una caja de adaptador agrupa los de una misma tecnología (DEC-15);

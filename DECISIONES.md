@@ -56,7 +56,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-40 | Datos del recorrido que los mockups no fijan | Precios por unidad; pedido de $82.000; res en 12,5 kg; histórico del tablero cargado a mano | Asumida, por confirmar |
 | DEC-41 | Cómo cambia una entidad sin métodos para eso | Constructores de copia y accesores de lista modificables; no se agregan métodos | Asumida, por confirmar |
 | DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 sigue abierta | `adjuntoUrl`: **decidida por Mauricio**, código aplicado y 4d por actualizar en la sesión 5; el resto, asumida, por confirmar |
-| DEC-43 | Límites de la cadena de reglas y del umbral | «Más de 25 %» y «más de 50 %» son estrictos; el umbral de stock es «por debajo de» | Asumida, por confirmar |
+| DEC-43 | Límites de la cadena de reglas y del umbral | Porcentajes redondeados a 2 decimales antes de comparar; límites estrictos y stock por debajo del 25 % | Decidida por Mauricio en la segunda ronda de la sesión 4 (2026-11-08), incluido el redondeo del stock |
 | DEC-44 | Dónde van las pruebas y el script | Carpeta `pruebas/` fuera de `src/`, sin JUnit, y `ejecutar.sh` | Asumida, por confirmar |
 | DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura | Asumida, por confirmar |
 | DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | Asumida, por confirmar |
@@ -720,12 +720,12 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Por qué hubo que decidir.** El diagrama dice «más de 25 % por encima», «más de 50 % por debajo» y «dentro del rango», pero no dice qué pasa con +25,00 % o −50,00 %. Tampoco dice si el 25 % del stock «superado» incluye el 25 % exacto, ni cuándo `descontar()` reactiva la alerta (el Javadoc dice «cuando el insumo vuelve a cruzar el umbral», y el insumo no conoce el umbral).
 
 **Opciones:**
-- **A. Lectura literal.** +25,00 % y −50,00 % siguen OPCIONADA (rango −50 a +25, con los dos extremos dentro); +25,01 % es RECHAZADA y −50,01 % es SOSPECHOSA. El stock está «superado» si queda por debajo del 25 % (el 25 % exacto no alerta). `descontar()` siempre reactiva la alerta. ✅ **Asumida.** Está en `PruebasCotizacion` y en `PruebasFlujoDeCompra`.
+- **A. Lectura literal.** +25,00 % y −50,00 % siguen OPCIONADA (rango −50 a +25, con los dos extremos dentro); +25,01 % es RECHAZADA y −50,01 % es SOSPECHOSA. El stock está «superado» si queda por debajo del 25 % (el 25 % exacto no alerta). `descontar()` reactiva la alerta, y el servicio conserva la atención previa si el insumo ya estaba bajo el umbral (DEC-46). ✅ **Decidida por Mauricio el 2026-11-08**, en la segunda ronda de la sesión 4. Está en `PruebasCotizacion` y en `PruebasFlujoDeCompra`.
 - **B. Límites inclusivos hacia afuera** (+25,00 % ya es RECHAZADA, y el 25 % de stock ya alerta). Más cautela, pero no es lo que dice «más de».
 
-**Redondeo.** La diferencia porcentual se redondea a 2 decimales antes de compararla con los límites, así que +25,004 % se ve y se trata como +25,00 % (OPCIONADA). Es lo que ve el usuario en V19; comparar sin redondear sería la alternativa (hallazgo S4-6 del revisor).
+**Redondeo — decidido por Mauricio el 2026-11-08.** Se mantiene el redondeo a 2 decimales (`HALF_UP`) antes de comparar, tanto en cotizaciones como en el porcentaje de stock. +25,004 % se ve y se trata como +25,00 % (OPCIONADA). Un stock real de 24,995 % se redondea a 25,00 % y no activa la alarma; 24,994 % se redondea a 24,99 % y sí queda bajo el umbral. La alarma se publica al cruzarlo (DEC-46). Comparar sin redondear sería la alternativa descartada para esta demo (S4-6).
 
-**Qué implica:** si el profesor o el equipo prefieren B, se cambia una comparación en `ReglaRechazada`, `ReglaSospechosa` y `UmbralStock`, y las pruebas dicen exactamente cuáles son los casos de borde.
+**Qué implica:** no cambia el código ni ninguna firma. En la sesión 5 se corregirá la tabla de eventos del reporte (p. 21), que dice «Existencia ≤ 25 %»: la regla decidida es porcentaje redondeado **< 25 %**, con alarma solo al cruzar el umbral. La descripción de la p. 9 («llega al 25 %») también debe aclararse. El PDF se conserva intacto en esta sesión.
 
 ## DEC-44 · ¿Dónde van las pruebas y el script?
 
