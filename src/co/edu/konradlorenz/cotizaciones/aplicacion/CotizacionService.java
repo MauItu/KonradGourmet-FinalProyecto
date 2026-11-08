@@ -36,6 +36,9 @@ public class CotizacionService implements GestionarCotizacionUseCase {
 
     @Override
     public Cotizacion generar(Cotizacion c) {
+        if (repositorio.porNumero(c.numero()) != null) {
+            throw new IllegalStateException("Ya existe la cotización " + c.numero());
+        }
         return fachada.generarYEnviar(c);
     }
 
