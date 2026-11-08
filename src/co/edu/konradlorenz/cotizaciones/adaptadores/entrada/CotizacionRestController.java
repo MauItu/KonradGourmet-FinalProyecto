@@ -10,6 +10,8 @@ import java.util.Map;
 
 /**
  * «REST · /api/cotizaciones · GET …/{id} · POST …/{id}/reenvio»
+ *
+ * En el proyecto real: @RestController.
  */
 public class CotizacionRestController {
 
