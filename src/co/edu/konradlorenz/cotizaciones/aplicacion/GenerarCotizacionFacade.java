@@ -64,7 +64,15 @@ public class GenerarCotizacionFacade {
         c.items().addAll(conPrecio);
         c.cambiarEstado(EstadoCotizacion.ENVIADA);
         // 2. PDF al almacén de objetos (claim check): el evento lleva solo la URL
-        String pdfUrl = almacen.guardar(c.numero() + ".pdf", pdf.generar(c));
+        String pdfUrl;
+        try {
+            pdfUrl = almacen.guardar(c.numero() + ".pdf", pdf.generar(c));
+        } catch (RuntimeException e) {
+            // sin PDF no hay qué enviar: queda pendiente y se puede reenviar
+            LOG.log(Level.WARNING, "No se pudo guardar el PDF de " + c.numero() + ": " + e.getMessage());
+            c.cambiarEstado(EstadoCotizacion.PENDIENTE_PRECIO);
+            return repositorio.guardar(c);
+        }
         Cotizacion enviada = repositorio.guardar(new Cotizacion(c, pdfUrl));
         // 3. evento cotizacion.enviada con la lista de solicitudes y el precio sugerido de cada producto
         Map<Long, BigDecimal> sugeridos = new LinkedHashMap<>();
