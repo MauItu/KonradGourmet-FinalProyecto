@@ -9,6 +9,8 @@ import java.util.List;
 /**
  * «REST · /api/platos · PUT …/{id} · PATCH …/{id}/desactivar»
  *
+ * En el proyecto real: @RestController.
+ *
  * Nota del diagrama: El plato queda asociado a la sucursal y al usuario que lo crea, y su nombre es
  * único en la sucursal (existeNombre). editar() y desactivar() publican menu.actualizado; con activo =
  * false el plato sale del catálogo de los meseros. Sin ventana en el prototipo (HU-04).
