@@ -60,3 +60,28 @@ Lo demás se aplica tal como lo propone el revisor.
 | S9 | Aplicada (DEC-24): relleno #DCDFE4 y borde #6B7079 | `3a039d2` |
 | S10 | Aplicada | `9707d94` |
 | S11 | Aplicada. También se pusieron al día los estados de DEC-05 a DEC-14, que seguían diciendo «sesión 1» | `cf9ae22` |
+
+## Segunda validación (2026-11-08)
+
+**Veredicto del revisor: lista con correcciones.**
+- S1–S11 quedaron bien resueltos. El revisor revisó el diff de cada commit, y cada uno cambia solo la celda que nombra.
+- DEC-23 y DEC-24 están bien registradas.
+- Lo acordado se sigue respetando:
+  - p3–p7 tienen el mismo SHA-256 que en `9c8c93d`;
+  - el original no cambió;
+  - el `.drawio` tiene 1642 celdas, una por línea;
+  - el mapa tiene 11 servicios, 10 tópicos, 19 flechas de consumo y 10 de publicación;
+  - están los 13 prefijos, la auditoría de 10 servicios y el PDF leído del almacén.
+- `/api/integracion` está en el mapa y en la 3a, pero no en 4a–4e. Ya está planificado para la sesión 3 (D2 de la 4e).
+
+Quedaban tres detalles de severidad baja, todos mecánicos:
+
+| # | Dónde | Qué estaba mal | Estado | Commit |
+|---|---|---|---|---|
+| S12 | p. 5 `v46` y p. 6 `c6_v188` | Los diagramas citaban ids internos del registro, «(DEC-20)» y «DEC-18», que el profesor no conoce | Aplicada: se quitaron | `653c513` |
+| S13 | p. 1 `v225`, 3a `c3a_p_proveedor`, p. 6 `c6_v16` y `c6_v154` | El proveedor solo estaba en gris claro en la p. 2, y cambiaba de color entre páginas | Aplicada: mismo color en las 4 celdas (DEC-24) | `61d1c71` |
+| S14 | `DECISIONES.md`, DEC-24 | Decía que el C4 dibuja en gris claro lo externo, y no dejaba como opciones aparte el relleno blanco ni el gris de sistema externo | Aplicada: opciones A–D y frase corregida | `6487cbf` |
+
+Como en la fase 2a, estos detalles menores se aplicaron sin otra ronda de validación completa. Cada commit pasó la comprobación automática: formato, 4a–4e, original, ids y referencias.
+
+El revisor dejó una nota menor, sin acción: 5.1 dice «solicitudes: [SOL-031]» y 12.1 dice «[SOL-031]». Las dos coinciden con 4c y 4d.
