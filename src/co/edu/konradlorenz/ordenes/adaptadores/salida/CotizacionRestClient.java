@@ -5,6 +5,8 @@ import co.edu.konradlorenz.ordenes.puertos.salida.CotizacionConsultaPort;
 
 /**
  * «REST cliente → GET /api/cotizaciones/{id}»
+ *
+ * En el proyecto real: @Component.
  */
 public class CotizacionRestClient implements CotizacionConsultaPort {
 
