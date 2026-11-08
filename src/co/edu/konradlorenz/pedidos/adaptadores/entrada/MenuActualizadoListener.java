@@ -6,6 +6,8 @@ import co.edu.konradlorenz.pedidos.puertos.entrada.RegistrarPedidoUseCase;
 
 /**
  * «Listener · menu.actualizado»
+ *
+ * En el proyecto real: @Component, y alRecibir() lleva @KafkaListener con sus tópicos.
  */
 public class MenuActualizadoListener implements EventListener<EventoDominio> {
 
