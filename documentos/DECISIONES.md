@@ -10,6 +10,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-35 a DEC-37:** las decidió Mauricio el 2026-11-08, al revisar la segunda validación de la sesión 3 (hallazgos K9, K10 y K11 de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor en las tres.
 - **DEC-38:** la decidió Mauricio el 2026-11-08, al revisar la tercera validación de la sesión 3 (la duda de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor.
 - **DEC-39 a DEC-46:** se propusieron durante la sesión 4. Mauricio confirmó el 2026-11-08 el pedido de $82.000, los precios por unidad, completar las solicitudes parciales y la alarma solo al cruzar el umbral. Escogió `adjuntoUrl` (DEC-42): dos contratos, reflejados en cuatro declaraciones de la 4d. En la segunda ronda confirmó también el redondeo de cotizaciones y stock (DEC-43), y `sistema` con una correlación por evento como límite de la demo (DEC-42); autorizó completar la auditoría de los fallos (DEC-46, S4-13). Las demás partes siguen asumidas, por confirmar, según indica cada decisión.
+- **DEC-47:** la fecha de inicio del sprint 1 y la forma de mostrar «EN SEMANAS» las decidió Mauricio el 2026-11-08, al empezar la sesión 5 (hallazgo H20), y en las dos escogió la opción recomendada. Después pidió que todo diga 5 sprints y 10 semanas, y se quitó la fila de sprints mínimos. El orden de las filas del Excel es asumido, por confirmar.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -60,6 +61,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-44 | Dónde van las pruebas y el script | Carpeta `pruebas/` fuera de `src/`, sin JUnit, y `ejecutar.sh` | Asumida, por confirmar |
 | DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura del recorrido, incluidos los fallos | Confirmada por Mauricio; auditoría de los fallos autorizada en la fase 2 (S4-13) |
 | DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | Asumida, por confirmar |
+| DEC-47 | Plan de sprints del Excel (H20) | 1 PHU = 25 h y 9 PHU por sprint; HU-14 = 1 (total 35); HU-17 al sprint 3 (8, 8, 6, 8 y 5 PHU); inicio el lunes 03/08/2026; 5 sprints y 10 semanas en todo el Excel | Aplicada en el Excel (sesión 5); fecha y «EN SEMANAS» decididos por Mauricio; el orden de filas es asumido, por confirmar |
 
 ---
 
@@ -769,6 +771,34 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **B. Dejarlo como límite anotado en el README.** El reporte seguiría afirmando algo que el código no hace.
 
 **Qué implica:** otros hallazgos del revisor se corrigieron sin decisión de diseño: parámetro nulo (S4-9), número de cotización repetido y fallo del almacén de PDF (S4-10), proveedores de la demo (S4-7), comentarios (S4-8), README (S4-5 y S4-11) y pruebas (S4-4). Los consumidores siguen sin descartar eventos repetidos (S4-5): queda anotado en el README. Las 4 preguntas del revisor para Mauricio están al final de `VALIDACION_SESION4.md`.
+
+## DEC-47 · ¿Cómo queda el plan de sprints del Excel? (H20)
+
+**Por qué hubo que decidir.** El Excel se contradecía con el Story Mapping y consigo mismo (H20): HU-14 valía 2 y no 1 (total 36 y no 35), el PHU valía 30 h en una hoja y 100 h en la otra, «EN SEMANAS 21,43» salía de dividir 3.600 h por una semana de 24 h × 7 días y contradecía las 10 semanas de la otra hoja, y «SOBRAN 2» y «SOBRAN 4» suponían capacidades de 10 y 9 PHU mientras el encabezado decía 8. El profesor pidió «cuántos sprints, cómo lo calcularon y qué fechas tienen», y ninguna fuente da una fecha de inicio. Lo que fija el plan (1 PHU = 25 h, 9 PHU por sprint, HU-14 = 1, HU-17 al sprint 3) no se discutió; sí hubo tres puntos abiertos.
+
+**1. ¿Con qué fecha empieza el sprint 1?** El Story Mapping lleva «Agosto 2026» en la portada final y el reporte dice «Octubre de 2026».
+- **A. Lunes 3 de agosto de 2026.** Coincide con el «Agosto 2026» del Story Mapping. Los 5 sprints van del 03/08 al 11/10/2026 (14 días cada uno, de lunes a domingo). ✅ **Decidida por Mauricio.**
+- **B. Lunes 16 de noviembre de 2026.** El plan queda hacia adelante (16/11/2026 a 24/01/2027), como la construcción que sigue a esta entrega.
+- **C. Celda vacía.** No inventa nada, pero el Excel no muestra fechas hasta que alguien las escriba.
+
+**2. ¿Cómo se muestra «EN SEMANAS»?** Por capacidad, 35 PHU × 25 h = 875 h, y a 224 h por sprint salen 3,9 sprints (4 sprints, 8 semanas). El cronograma recomendado usa 5 sprints (10 semanas), con 10 PHU de holgura (45 de capacidad contra 35). El Story Mapping p. 31 dice 4 sprints y 8 semanas.
+- **A. 10 semanas más una fila «Sprints mínimos (capacidad)» = 4.** «EN SEMANAS» = 5 sprints × 2 semanas, que coincide con la otra hoja y con «2 meses y medio»; la fila extra muestra de dónde sale la holgura. Mauricio la escogió primero y se aplicó (commit `21900dd`).
+- **B. Solo 10 semanas.** Más simple, pero no explica por qué no bastan 4 sprints si la capacidad los alcanza. ✅ **Decidida por Mauricio el 2026-11-08, al revisar la fase 4:** «acomódalos todos para que sean 5 y 10 semanas». Se quitó la fila de sprints mínimos; la holgura sigue a la vista en la columna «Sobran» del resumen (10 PHU).
+- **C. Cambiar el plan a 4 sprints (8 semanas).** Alinea el Excel con la p. 31, pero los 35 PHU caben justos (36 de capacidad), exige repartir distinto a lo que fija el plan y deja el sprint 5 sin contenido.
+
+**3. ¿Dónde queda F17 en la hoja SPRINT?** Las funcionalidades están ordenadas por número y el dibujo en escalera exige que cada sprint ocupe filas seguidas; F17 va en el sprint 3 y F16 en el 4.
+- **A. Subir F17 una fila, antes de F16**, y dejar los números F1…F19 como están (siguen siendo los de las HU). El bloque «Sprint 3» (F13, F14, F15, F17) queda contiguo. ✅ **Asumida, por confirmar.**
+- **B. Dejar el orden y partir el bloque del sprint 3 en dos tramos.** Una columna «SPRINT» lo diría igual, pero el dibujo quedaría confuso.
+- **C. Renumerar las funcionalidades.** Rompe la correspondencia F-n = HU-n.
+
+**Qué implica en el Excel (`Copia de ARQUITECTURA-Supuestos de Capacidad  del equipo.xlsx`):**
+- Una sola celda de entrada, «Inicio del Sprint 1» (D15 de la hoja «Supuestos de Capacidad»); las fechas de inicio y fin de los sprints, las duraciones, los PHU por sprint, «SOBRAN», las horas y las semanas son fórmulas. Si el equipo cambia la fecha, todo se recalcula.
+- Reparto resultante: sprint 1 = 8 PHU (F1–F8), sprint 2 = 8 (F9–F12), sprint 3 = 6 (F13, F14, F15 y F17), sprint 4 = 8 (F16 y F18) y sprint 5 = 5 (F19); sobran 1, 1, 3, 1 y 4 (10 en total).
+- Los entregables del sprint 3 suman «consulta de cotizaciones opcionadas», que antes no aparecía en ningún sprint.
+- Las etiquetas «Sprint» → «Duración del sprint (semanas)» y «SPRINT» → «PHU POR SPRINT» se aclararon porque ahora alimentan fórmulas.
+- El archivo se guardó con openpyxl: conserva estilos, celdas combinadas y fórmulas, con sus valores calculados, y pierde solo los metadatos propios de Google Sheets. La copia de `../proyecto/contexto/` queda con el contenido anterior.
+
+**Para la fase 5 (`CORRECCIONES_HU_Y_MOCKUPS.md`):** el Story Mapping p. 31 («SPRINT») contradice el Excel: dice 4 sprints, 8 semanas y «2 Meses», con los sprints 2 y 3 «sobrecargados (10 sobre 9)» y los sobrantes de 1 PHU en los sprints 1 y 4. Por decisión de Mauricio, la corrección es que diga 5 sprints, 10 semanas y «2 meses y medio», con el reparto y las fechas del Excel. Hay que anotarlo junto a las etiquetas de H26 (el título «Capacidad … (120)» de las pp. 2, 5, 27 y 30). El Story Mapping no se modifica (DEC-03).
 
 ---
 
