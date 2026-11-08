@@ -6,6 +6,8 @@ import co.edu.konradlorenz.notificaciones.puertos.salida.Correo;
 
 /**
  * «Decorator · componente concreto (SMTP/TLS)»
+ *
+ * En el proyecto real: @Component.
  */
 public class CorreoSmtpAdapter implements Correo {
 
