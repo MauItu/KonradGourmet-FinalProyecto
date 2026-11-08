@@ -9,15 +9,16 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-33 y DEC-34:** las decidió Mauricio el 2026-11-08, al revisar la validación de la sesión 3 (hallazgos K1 y K4 de `VALIDACION_SESION3.md`). En DEC-33 no siguió la recomendación del revisor.
 - **DEC-35 a DEC-37:** las decidió Mauricio el 2026-11-08, al revisar la segunda validación de la sesión 3 (hallazgos K9, K10 y K11 de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor en las tres.
 - **DEC-38:** la decidió Mauricio el 2026-11-08, al revisar la tercera validación de la sesión 3 (la duda de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor.
+- **DEC-39 a DEC-46:** se propusieron durante la sesión 4. Mauricio confirmó el 2026-11-08 el pedido de $82.000, los precios por unidad, completar las solicitudes parciales y la alarma solo al cruzar el umbral. Escogió `adjuntoUrl` (DEC-42): dos contratos, reflejados en cuatro declaraciones de la 4d. En la segunda ronda confirmó también el redondeo de cotizaciones y stock (DEC-43), y `sistema` con una correlación por evento como límite de la demo (DEC-42); autorizó completar la auditoría de los fallos (DEC-46, S4-13). Las demás partes siguen asumidas, por confirmar, según indica cada decisión.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
 |---|---|---|---|
 | DEC-01 | Carpetas y control de versiones | Dos carpetas hermanas, cada una con su repo, en la rama local `correcciones-revision` | Aplicada |
-| DEC-02 | Código (hallazgo bloqueante H1 y D12) | Firmas, relaciones y tipos, más una demo real | Firmas, relaciones y tipos aplicados en el código (sesión 3); falta la demo (sesión 4) |
+| DEC-02 | Código (hallazgo bloqueante H1 y D12) | Firmas, relaciones y tipos, más una demo real | Firmas, relaciones y tipos aplicados en el código (sesión 3); la demo real, aplicada en la sesión 4 |
 | DEC-03 | Reporte PDF | No tocarlo hasta que aparezca el script original | Vigente |
 | DEC-04 | Ritmo de trabajo | Por fases con pausa, en 5 sesiones | Vigente |
-| DEC-05 | HU-09: solicitudes por cotización | Varias solicitudes; anotar que hay que corregir el mockup V13 | Aplicada en el `.drawio` y en las firmas del código; faltan la lógica (sesión 4) y los mockups (sesión 5) |
+| DEC-05 | HU-09: solicitudes por cotización | Varias solicitudes; anotar que hay que corregir el mockup V13 | Aplicada en el `.drawio`, en las firmas y en la lógica del código (sesión 4); falta el mockup V13 (sesión 5) |
 | DEC-06 | Dueño de los KPI | Director comercial, para revisar con el equipo | Decidida |
 | DEC-07 | Alcance de HU-15 y HU-19 | Las dos dentro de la arquitectura | Aplicada en el `.drawio` y en el código; faltan los mockups opcionales (sesión 5) |
 | DEC-08 | Recomendaciones del revisor y D1–D8 | Se aceptan las recomendaciones | Asumida, por confirmar |
@@ -37,13 +38,13 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-22 | Caché del Proxy en memoria (4e) | No se toca la 4e; se anota para la sesión 3 | Resuelta en la sesión 3 por DEC-27 |
 | DEC-23 | Ruta del gateway a ms-integracion (p. 1, S5) | Se deja como está: entra por arriba al endpoint SOAP | Decidida, sin cambio |
 | DEC-24 | Color del proveedor (p. 2, S9) | Gris claro con borde gris, en el dibujo y en la leyenda | Aplicada |
-| DEC-25 | Constructores y accesores (Q1) | Constructores en el código ya; la convención «se omiten constructores y accesores» va en el README, no en las leyendas | Aplicada en aplicación y adaptadores; entidades y eventos en la sesión 4 |
+| DEC-25 | Constructores y accesores (Q1) | Constructores en el código ya; la convención «se omiten constructores y accesores» va en el README, no en las leyendas | Aplicada en aplicación y adaptadores (sesión 3) y en entidades y eventos (sesión 4) |
 | DEC-26 | Comentario de ventana (Q2) | «Atiende la ventana Vxx de los mockups», una línea por ventana | Aplicada |
 | DEC-27 | Caché del Proxy en Redis (Q3, cierra DEC-22) | `{Redis}` en el atributo y una nota en la 4e | Aplicada |
 | DEC-28 | El dominio de notificaciones usa puertos (Q4) | Se deja la 4d; se precisa la regla del README | Aplicada |
-| DEC-29 | Eventos entre servicios (Q5) | Un servicio solo importa el paquete `eventos` de otro, nunca su dominio | Aplicada (README); T-06 en la sesión 4, si la demo lo necesita |
+| DEC-29 | Eventos entre servicios (Q5) | Un servicio solo importa el paquete `eventos` de otro, nunca su dominio | Aplicada (README). La demo no consume `cotizacion.validada` ni `tendencia.detectada`, así que T-06 sigue abierta (DEC-42) |
 | DEC-30 | Adaptadores JPA con colecciones en memoria (Q6) | Se copian tal cual, explicados en el Javadoc | Aplicada |
-| DEC-31 | Alcance de la demo (Q7) | La demo cubre las 7 salidas del reporte; el Singleton muestra un parámetro del tema | Por aplicar (sesión 4) |
+| DEC-31 | Alcance de la demo (Q7) | La demo cubre las 7 salidas del reporte; el Singleton muestra un parámetro del tema | Aplicada (sesión 4) |
 | DEC-32 | `/api/integracion/**` en la 4e (D2) | En la misma línea del estereotipo de `AbastecimientoSoapEndpoint` | Aplicada |
 | DEC-33 | Anotaciones de Spring en el código (K1) | Cada uno de los 54 adaptadores dice en su Javadoc qué anotación lleva en el proyecto real | Aplicada |
 | DEC-34 | Historia de `Correo` y `CorreoDecorator` en git (K4) | No se reescribe; un commit anota que se ve con `git log --follow -M30%` | Aplicada |
@@ -51,6 +52,14 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-36 | Los jobs y las réplicas (K10) | Los 2 jobs llevan además `@SchedulerLock` (ShedLock) | Aplicada |
 | DEC-37 | Ventanas de ms-cotizaciones (K11) | El README vuelve a «V13–V20»; revierte K5 | Aplicada |
 | DEC-38 | ShedLock y `@Primary` fuera del código | Nada ahora; una frase en el reporte (p. 26) si aparece el script | Aplicada (plan de la sesión 5) |
+| DEC-39 | Qué métodos tienen lógica en la sesión 4 | Solo lo que usa el recorrido de compra; los adaptadores de tecnología externa y los módulos que la demo no usa siguen pendientes (94 cuerpos) | Asumida, por confirmar |
+| DEC-40 | Datos del recorrido que los mockups no fijan | Precios por unidad; pedido de $82.000; res en 12,5 kg; histórico del tablero cargado a mano | Mauricio confirmó precios por unidad y pedido; inventario inicial e histórico del tablero siguen asumidos |
+| DEC-41 | Cómo cambia una entidad sin métodos para eso | Constructores de copia y accesores de lista modificables; no se agregan métodos | Asumida, por confirmar |
+| DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 sigue abierta | `adjuntoUrl` y límite de usuario/correlación: **confirmados por Mauricio**; 4d y aclaraciones del reporte/4a pendientes para sesión 5; T-06 sigue asumida, por confirmar |
+| DEC-43 | Límites de la cadena de reglas y del umbral | Porcentajes redondeados a 2 decimales antes de comparar; límites estrictos y stock por debajo del 25 % | Decidida por Mauricio en la segunda ronda de la sesión 4 (2026-11-08), incluido el redondeo del stock |
+| DEC-44 | Dónde van las pruebas y el script | Carpeta `pruebas/` fuera de `src/`, sin JUnit, y `ejecutar.sh` | Asumida, por confirmar |
+| DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura del recorrido, incluidos los fallos | Confirmada por Mauricio; auditoría de los fallos autorizada en la fase 2 (S4-13) |
+| DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | Asumida, por confirmar |
 
 ---
 
@@ -647,6 +656,119 @@ El plan de la sesión 4 solo cubría la tercera. Con el reporte sin tocar (DEC-0
 - **C. Una nota en la 4b y en la 4e.** Son páginas que en esta sesión no se pueden tocar para esto.
 
 **Qué implica:** el plan de la sesión 5 suma la frase a `CORRECCIONES_REPORTE.md`. El código y el `.drawio` no cambian.
+
+## DEC-39 · ¿Qué métodos de las 191 clases reciben lógica en la sesión 4?
+
+**Por qué hubo que decidir.** Al terminar la sesión 3 había 274 cuerpos que lanzaban `Pendiente de implementar`. El plan pide lógica real en la fachada, la cadena de reglas «y en todo lo que use la demo», pero no dice qué hacer con el resto.
+
+**Opciones:**
+- **A. Solo lo que usa el recorrido de compra y los 7 patrones.** Quedan pendientes los adaptadores de tecnología externa (JPA, Kafka, SMTP, OpenPDF, S3, BCrypt, WebSocket, Elasticsearch, clientes REST y SOAP) y los módulos que la demo no toca: autenticación, platos, y promociones (HU-19). ✅ **Asumida.** Queda con lógica lo que el plan y DEC-31 piden, y de los 274 cuerpos quedan 94.
+- **B. Los 274.** Los adaptadores de tecnología no se pueden escribir de verdad sin las librerías (el esqueleto compila solo con `javac`), así que habría que inventar versiones falsas dentro de `src/` que parecerían reales.
+- **C. Solo el flujo de COT-018.** Es lo que pedía el plan original, pero DEC-31 ya decidió que la demo cubre las 7 salidas.
+
+**Qué implica:** el README tiene la tabla de qué métodos tienen lógica y cuáles no. Para los puertos de salida que la demo necesita, hay adaptadores en memoria en el paquete `demo` (DEC-30), y `Ensamble` los conecta como lo haría la clase de configuración del proyecto real. Si Mauricio prefiere B, el trabajo grande son los 12 `*JpaAdapter` sin atributos, que tendrían que ganar una colección que el diagrama no dibuja.
+
+## DEC-40 · ¿Qué cifras usa la demo cuando los mockups no las fijan?
+
+**Por qué hubo que decidir.** V19 da los totales ($520.000 y $545.000) pero no el reparto por producto, y los mockups se contradicen en el pedido.
+- V18 y V19 muestran el valor de la línea (res 20 kg = $400.000, arroz 15 kg = $120.000), pero `ItemCotizacion` tiene `precioEstandar` y `precioProveedor` por producto, y `CotizacionEnviadaEvent.precios` habla del «precio sugerido de cada producto».
+- V03 (mesero) muestra un pedido con 2 bandejas paisas, 1 ajiaco y 1 limonada: 4 platos y **$88.000**. V04 dice «Platos: 3». El reporte promete **$82.000**.
+- V05 muestra la res con stock 4 kg, que no sirve para el «23 %» que promete el reporte.
+
+**Opciones:**
+- **A. Precios por unidad.** Estándar: res $20.000/kg y arroz $8.000/kg. El proveedor cotiza la res a $21.250/kg y el arroz a $8.000/kg (COT-018, $545.000); a $29.000 y $8.000 (COT-019, $700.000, +34,62 %); a $4.000 y $8.000 (COT-020, $200.000, −61,54 %). ✅ **Confirmada por Mauricio**: reproduce los totales de V19 y deja la cantidad en la línea, como el modelo.
+- **B. Precios por línea** ($400.000 y $120.000 como en los mockups). El valor de la línea ya no depende de la cantidad, y habría que cambiar lo que significa `precio` en 4c y 4d.
+- **C. Otro reparto del $545.000** (por ejemplo res a $21.000 y arroz a $8.333,33). No da cifras exactas por kilo.
+
+Para el pedido: **A. $82.000, con 2 bandejas paisas y 1 ajiaco (3 platos)** ✅ **Confirmada por Mauricio**, porque coincide con el reporte y con «Platos: 3» de V04. **B. $88.000**, con la limonada de V03: contradice el reporte. Para el inventario: la res arranca en 12,5 kg de 50 (25 %) y cada bandeja lleva 0,5 kg, de modo que después de 2 bandejas queda en 11,5 kg (23 %) y la alerta salta con el cierre del día, no antes.
+
+Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40, y Proveedor B con el promedio más bajo): el listener que lo armaría con los eventos (`NegocioEventsListener`) sigue pendiente. La alternativa, alimentarlo con `cotizacion.validada`, activaría T-06 y haría ganar a COT-020, que es SOSPECHOSA.
+
+**Qué implica:** los mockups V03 y V18/V19 se comentan en `CORRECCIONES_HU_Y_MOCKUPS.md` (sesión 5): V03 suma $88.000 con 4 platos y V04 dice 3; V18 y V19 muestran el valor de la línea y el modelo guarda el precio por unidad.
+
+## DEC-41 · ¿Cómo cambia una entidad cuando no tiene un método para eso?
+
+**Por qué hubo que decidir.** Tres casos que el diagrama no resuelve con ningún método:
+- el número de la orden (OC-0012) lo da la base al guardarla, pero `OrdenCompra.desde()` no lo recibe;
+- el `pdfUrl` de la cotización y de la orden se conoce después de guardar el PDF;
+- el precio estándar de cada ítem lo completa la fachada, y el precio del proveedor, `registrarValor()`.
+
+**Opciones:**
+- **A. Constructores de copia y accesores de lista modificables.** `Cotizacion(base, pdfUrl)`, `OrdenCompra(numero, sinNumero)` y `OrdenCompra(base, pdfUrl)`; `items()` y `cotizacionesAplicadas()` devuelven la lista modificable. ✅ **Asumida**: DEC-25 ya permite constructores y accesores, y no cambia ninguna firma.
+- **B. Mutadores** (`asignarNumero()`, `asignarPdfUrl()`). Son métodos que 4a–4e no dibujan; hay que agregarlos a las páginas de clases o dejar el código distinto del diagrama.
+- **C. Cambiar las firmas de los puertos** (por ejemplo, que `guardar()` reciba el número). Rompe las páginas aprobadas.
+
+**Qué implica:** el README lo dice. Además, `GenerarCotizacionFacade` tiene un `Logger` privado (para «dejar el error en el log», H18) y algunas clases tienen métodos privados auxiliares (`huella()`, `enviar()`); no se ven desde fuera. `ParametrosSistema.valores()`, `Bitacora.registros()` y `Mensaje.cabeceras()` son accesores.
+
+## DEC-42 · ¿Qué hacer con lo que los contratos entre servicios no alcanzan a llevar?
+
+**Por qué hubo que decidir.** Al conectar los servicios aparecieron tres huecos de diseño:
+- **El adjunto.** `Notificacion.enviar(destino, contenido)` solo lleva dos textos, y `Mensaje.adjuntoUrl` no tiene cómo llenarse. El correo certificado al proveedor «con el PDF» no puede llevar la URL en el campo del adjunto.
+- **El usuario y la correlación.** Los casos de uso no reciben al usuario autenticado, y no hay cómo pasar el `correlacionId` de un evento al siguiente.
+- **T-06.** `TendenciaDetectadaEvent.sugerencias` y `CotizacionValidadaEvent.estado` usan tipos del dominio de otro servicio, y DEC-29 no deja importarlos.
+
+**Opciones para el adjunto:** **A.** El enlace del PDF va en el cuerpo del correo, y `adjuntoUrl` queda vacío (lo que se hizo al principio de la sesión). **B.** Agregar `adjuntoUrl` a `Notificacion.enviar()` y a `CreadorNotificacion.notificar()`: cambia dos contratos de la 4d, reflejados en cuatro declaraciones (`Notificacion`, `AlarmaApp`, `NotificacionCorreo` y `CreadorNotificacion`) ✅ **Escogida por Mauricio el 2026-11-08**, al revisar esta sesión; el código ya la tiene y la página 4d se actualiza en la sesión 5 (hasta entonces el código y el diagrama difieren en esas cuatro declaraciones). **C.** Meter la URL en el contenido con una marca que `NotificacionCorreo` separe: funciona, pero es un truco que nadie lee en el diagrama.
+
+**Opciones para el usuario y la correlación:** **A.** Los eventos llevan `sistema` (o el correo de la solicitud) y cada evento crea su propio `correlacionId` ✅ **Confirmada por Mauricio el 2026-11-08**, como límite de la demo, en la segunda ronda de la sesión 4. **B.** Pasar el usuario y la correlación por parámetro: cambia las firmas de todos los casos de uso.
+
+**Opciones para T-06:** **A.** La demo no consume `cotizacion.validada` ni `tendencia.detectada`: se publica la primera, nadie la lee, y la rama `tendencia.detectada` de `NotificacionService.notificarEvento()` lanza `Pendiente de implementar: … (T-06)` ✅ **Asumida**. **B.** Cambiar `estado` a `String` en la 4c (era la opción B de DEC-29). **C.** Mover los eventos a `compartido.eventos` (opción C de DEC-29).
+
+**Qué implica:** `Notificacion.enviar(destino, contenido, adjuntoUrl)` y `CreadorNotificacion.notificar(destino, contenido, adjuntoUrl)` tienen un parámetro más que la 4d; `AlarmaApp` lo ignora. Los correos a los proveedores llevan el PDF en `Mensaje.adjuntoUrl`. La sesión 5 actualiza la 4d (`Notificacion`, `AlarmaApp`, `NotificacionCorreo` y `CreadorNotificacion`) y lo anota en `PLAN_CORRECCIONES.md`.
+
+**Límite confirmado de auditoría y trazabilidad:** el reporte promete usuario en la auditoría (p. 5) y correlación para las trazas (p. 9); la nota `n_outbox` de la 4a dice que `correlacionId` une todos los eventos de un mismo recorrido. La demo usa `sistema` (o el correo de la entidad) y genera una correlación nueva por evento: no identifica siempre al usuario autenticado ni enlaza el recorrido completo. En la sesión 5 se debe distinguir expresamente esa simplificación de lo prometido para el sistema real, tanto en el reporte como en la nota de la 4a. Esta aceptación no elimina la auditoría de escrituras, incluidos los estados pendientes por fallos (S4-13). No se cambian firmas, diagramas ni PDF en esta fase.
+
+## DEC-43 · ¿Qué pasa justo en los límites de la cadena de reglas y del umbral?
+
+**Por qué hubo que decidir.** El diagrama dice «más de 25 % por encima», «más de 50 % por debajo» y «dentro del rango», pero no dice qué pasa con +25,00 % o −50,00 %. Tampoco dice si el 25 % del stock «superado» incluye el 25 % exacto, ni cuándo `descontar()` reactiva la alerta (el Javadoc dice «cuando el insumo vuelve a cruzar el umbral», y el insumo no conoce el umbral).
+
+**Opciones:**
+- **A. Lectura literal.** +25,00 % y −50,00 % siguen OPCIONADA (rango −50 a +25, con los dos extremos dentro); +25,01 % es RECHAZADA y −50,01 % es SOSPECHOSA. El stock está «superado» si queda por debajo del 25 % (el 25 % exacto no alerta). `descontar()` reactiva la alerta, y el servicio conserva la atención previa si el insumo ya estaba bajo el umbral (DEC-46). ✅ **Decidida por Mauricio el 2026-11-08**, en la segunda ronda de la sesión 4. Está en `PruebasCotizacion` y en `PruebasFlujoDeCompra`.
+- **B. Límites inclusivos hacia afuera** (+25,00 % ya es RECHAZADA, y el 25 % de stock ya alerta). Más cautela, pero no es lo que dice «más de».
+
+**Redondeo — decidido por Mauricio el 2026-11-08.** Se mantiene el redondeo a 2 decimales (`HALF_UP`) antes de comparar, tanto en cotizaciones como en el porcentaje de stock. +25,004 % se ve y se trata como +25,00 % (OPCIONADA). Un stock real de 24,995 % se redondea a 25,00 % y no activa la alarma; 24,994 % se redondea a 24,99 % y sí queda bajo el umbral. La alarma se publica al cruzarlo (DEC-46). Comparar sin redondear sería la alternativa descartada para esta demo (S4-6).
+
+**Qué implica:** no cambia el código ni ninguna firma. En la sesión 5 se corregirá la tabla de eventos del reporte (p. 21), que dice «Existencia ≤ 25 %»: la regla decidida es porcentaje redondeado **< 25 %**, con alarma solo al cruzar el umbral. La descripción de la p. 9 («llega al 25 %») también debe aclararse. El PDF se conserva intacto en esta sesión.
+
+## DEC-44 · ¿Dónde van las pruebas y el script?
+
+**Por qué hubo que decidir.** El plan pide «pruebas simples que no necesiten Maven» y un script. El README y el reporte cuentan 191 clases más la demo, y un paquete de pruebas dentro de `src/` cambiaría la cuenta.
+
+**Opciones:**
+- **A. Carpeta `pruebas/` junto a `src/`**, con un marco mínimo propio (`Prueba`) y `ejecutar.sh` ✅ **Asumida.** No cambia los paquetes de los 12 servicios ni la cuenta de clases. 171 verificaciones en 3 clases de prueba.
+- **B. Dentro de `src/…/pruebas`.** Cuenta como un paquete más y como más clases en el reporte.
+- **C. JUnit con Maven.** Pide Maven, que el plan descarta.
+
+**Qué implica:** `ejecutar.sh` compila el código y las pruebas en `out/` (que `.gitignore` ahora ignora), ejecuta la demo y corre las pruebas. En Windows, el README da las órdenes sueltas.
+
+## DEC-45 · ¿La demo cambia la cuenta de clases del reporte?
+
+**Por qué hubo que decidir.** El plan de la sesión 3 dejó «191 clases más la demo». La demo necesita 19 clases de apoyo (los adaptadores en memoria, el bus y el ensamblador) que no están en 4a–4e.
+
+**Opciones:**
+- **A. Dejarlas en `demo/` y no contarlas como clases del diagrama.** Son parte de la demo, como lo era `DemoArquitectura` ✅ **Asumida.** El reporte seguiría diciendo «191 clases» del modelo, más la demo (que ahora son 20 archivos), y la sesión 5 lo anota en `CORRECCIONES_REPORTE.md`.
+- **B. Dibujarlas en una página nueva del `.drawio`.** Es mucho trabajo para clases que no son arquitectura.
+
+**Qué implica:** el total de archivos `.java` en `src/` pasa de 192 a 211, y `pruebas/` suma 6 más (fuera de `src/`).
+
+## DEC-46 · Tres reglas que la validación de la sesión 4 encontró mal
+
+**Por qué hubo que decidir.** El revisor (`VALIDACION_SESION4.md`) reprodujo tres comportamientos que contradecían notas del propio diagrama. Cada uno tiene más de una salida correcta, y en las tres se escogió la que no cambia ninguna firma.
+
+**1. ¿Cuándo sale la alarma de stock bajo? (S4-1).** La nota de `InsumoInventario` dice que la alerta sigue activa hasta que llega `solicitud.registrada`, pero el cierre de cada noche volvía a publicar `inventario.stock-bajo` de todos los insumos bajo el umbral, incluso con la alerta atendida.
+- **A. Solo cuando el insumo cruza el umbral en esa ejecución.** Una alerta atendida sigue atendida aunque el stock siga bajando. ✅ **Confirmada por Mauricio.**
+- **B. Un recordatorio cada noche mientras no haya solicitud.** Es más insistente, pero hay que distinguir «sin atender» de «atendida» en el evento, o el jefe recibe correos de algo que ya pidió.
+- **C. Dejarlo como estaba.** La alarma se repite aunque V05 diga 0 alertas.
+
+**2. ¿Qué hace una orden con una solicitud que la cotización cubrió solo en parte? (S4-2).** `completar()` lanzaba «sigue pendiente» y el bucle de `orden.generada` se cortaba: la orden quedaba guardada, pero ni las otras solicitudes se completaban ni la cotización pasaba a CON_ORDEN.
+- **A. `completar()` acepta PENDIENTE.** La nota de `GestionarSolicitudUseCase` dice que con `orden.generada` «cada solicitud pasa a COMPLETADA». ✅ **Confirmada por Mauricio.**
+- **B. Una solicitud parcial se queda abierta.** Hay que decirle a `completar()` qué productos se compraron, y la firma no tiene dónde llevarlos.
+- **C. Obligar a que la cotización cubra todos los productos de cada solicitud.** Cambia V13 (el mockup).
+
+**3. ¿Qué escrituras dejan auditoría? (S4-3).** La p. 6 y la 3a dicen que cada uno de los otros 10 servicios publica `auditoria.evento` después de cada escritura, y solo lo hacían `ProveedorService`, las notificaciones y las consultas de precio.
+- **A. Publicarlo en las escrituras del recorrido de compra** (pedido, solicitud, cotización, orden, consumo diario y alertas), incluidas las cotizaciones que quedan pendientes por fallo del precio o del PDF, con su causa (S4-13). ✅ **Confirmada por Mauricio al autorizar la fase 2.** No cambia ninguna firma, porque los servicios ya tienen `EventPublisherPort`.
+- **B. Dejarlo como límite anotado en el README.** El reporte seguiría afirmando algo que el código no hace.
+
+**Qué implica:** otros hallazgos del revisor se corrigieron sin decisión de diseño: parámetro nulo (S4-9), número de cotización repetido y fallo del almacén de PDF (S4-10), proveedores de la demo (S4-7), comentarios (S4-8), README (S4-5 y S4-11) y pruebas (S4-4). Los consumidores siguen sin descartar eventos repetidos (S4-5): queda anotado en el README. Las 4 preguntas del revisor para Mauricio están al final de `VALIDACION_SESION4.md`.
 
 ---
 
