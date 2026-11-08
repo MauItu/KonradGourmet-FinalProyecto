@@ -6,6 +6,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-15 a DEC-22:** las decidió Mauricio el 2026-11-08 en la sesión 2. Siguió la recomendación del arquitecto-revisor, que revisó cada caso en el `.drawio`, el reporte y las HU. Los ítems P1-…, P2-…, P3a-…, P3b-…, P5-… y P6-… están en `INVENTARIO_SESION2.md`.
 - **DEC-23 y DEC-24:** las tomó el arquitecto-revisor el 2026-11-08, a pedido de Mauricio («toma la mejor decisión»), al validar la sesión 2. Responden a los hallazgos S5 y S9 de `VALIDACION_SESION2.md`.
 - **DEC-25 a DEC-32:** las decidió Mauricio el 2026-11-08, al empezar la sesión 3. Siguió la recomendación del arquitecto-revisor, salvo en DEC-25 y DEC-28, donde se escogió la variante que no toca las páginas 4a–4d (en la sesión 3 solo se puede cambiar la 4e). Los ítems C-…, M-…, R-…, T-…, W-…, P-…, J-… y Q-… están en `INVENTARIO_SESION3.md`.
+- **DEC-33 y DEC-34:** las decidió Mauricio el 2026-11-08, al revisar la validación de la sesión 3 (hallazgos K1 y K4 de `VALIDACION_SESION3.md`). En DEC-33 no siguió la recomendación del revisor.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -42,6 +43,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-30 | Adaptadores JPA con colecciones en memoria (Q6) | Se copian tal cual, explicados en el Javadoc | Aplicada |
 | DEC-31 | Alcance de la demo (Q7) | La demo cubre las 7 salidas del reporte; el Singleton muestra un parámetro del tema | Por aplicar (sesión 4) |
 | DEC-32 | `/api/integracion/**` en la 4e (D2) | En la misma línea del estereotipo de `AbastecimientoSoapEndpoint` | Aplicada |
+| DEC-33 | Anotaciones de Spring en el código (K1) | Cada uno de los 54 adaptadores dice en su Javadoc qué anotación lleva en el proyecto real | Por aplicar (sesión 3) |
+| DEC-34 | Historia de `Correo` y `CorreoDecorator` en git (K4) | No se reescribe; un commit anota que se ve con `git log --follow -M30%` | Por aplicar (sesión 3) |
 
 ---
 
@@ -561,6 +564,41 @@ El plan de la sesión 4 solo cubría la tercera. Con el reporte sin tocar (DEC-0
 - **B. Una línea nueva debajo:** «publicado por el API Gateway en /api/integracion/**». La caja crece unos 10 px.
 
 **Qué implica:** cambia una celda de la 4e (`cls_integracion_AbastecimientoSoapEndpoint`). El Javadoc de la clase lo explica, y aclara que `@WebService` va solo en el comentario, porque JAX-WS no está en el JDK. El diagrama no menciona el número del prefijo: S12 quitó los ids internos de las páginas.
+
+## DEC-33 · ¿Dónde se ve qué anotación de Spring lleva cada clase? (K1)
+
+**Por qué hubo que decidir.** El README decía que «las anotaciones de Spring y de JAX-WS van solo en ese comentario», es decir, en el Javadoc. Pero ningún comentario tenía una: el código no usa Spring, para compilar solo con `javac`, y el reporte (p. 26) solo dice en general que «los adaptadores reciben sus anotaciones (@RestController, @Repository, @KafkaListener)».
+
+**Opciones:**
+- **A. Cambiar la frase del README** para que diga que el código no usa anotaciones. Es 1 commit, y era la recomendación del revisor.
+- **B. Escribir en el Javadoc de cada adaptador la anotación que lleva en el proyecto real**, por ejemplo «En el proyecto real: @RestController». ✅ **Escogida.** Sobre el alcance:
+  - **B1. Los 54 adaptadores**, cada uno con su anotación. ✅ **Escogida.**
+  - **B2. Solo las 37 clases** de las tres anotaciones que nombra el reporte.
+
+**Qué implica:**
+- **Qué anotación lleva cada adaptador:**
+  - `@RestController` en los 14 controladores;
+  - `@Repository` en los 15 adaptadores JPA;
+  - `@Component` en los 8 listeners, con `@KafkaListener` en `alRecibir()`;
+  - `@Component` en los 2 jobs, con `@Scheduled` en `ejecutar()`;
+  - `@Component` en los otros 15 adaptadores.
+- **Sin anotación:**
+  - los servicios de aplicación y los 3 decoradores, porque una clase de configuración los arma con sus constructores (DEC-25), y ahí se fija el orden de los decoradores (reporte, p. 22);
+  - el cliente SOAP, que lo genera `wsimport`;
+  - el endpoint SOAP, que ya decía `@WebService`.
+- **Commits:** uno por adaptador (54) y uno para la frase del README.
+
+## DEC-34 · ¿Qué se hace con la historia de `Correo` y `CorreoDecorator` en git? (K4)
+
+**Por qué hubo que decidir.** Antes de moverlos, `Correo.java` y `CorreoDecorator.java` eran esqueletos de 5 líneas. Al cambiarles el `package` quedaron con 30 % y 41 % de similitud. Por eso `git log --follow` no reconoce los movimientos `7cb9e8f` (H25) y `5f50178` (N8), y les asigna la historia de `AlarmaPushPort.java` y `AlarmaPushAdapter.java`. Con `git log --follow -M30%` sí se sigue bien.
+
+**Opciones:**
+- **A. Dejar la historia y anotar lo de `-M30%` en el plan.** Era la recomendación del revisor.
+- **B. Reescribir la historia** desde el movimiento: primero un commit que solo mueve los archivos y después otro que cambia el `package`. El código queda igual, pero los ~176 commits siguientes cambian de id, y hay que volver a validar.
+- **C. Un commit nuevo que lo corrija**, como propuso Mauricio. No es posible: un commit nuevo no cambia cómo git lee los commits viejos.
+- **D. Un commit con la nota, en el README de `KonradGourmet` y en el plan.** ✅ **Escogida**, después de explicar por qué C no es posible.
+
+**Qué implica:** la historia no cambia y la validación sigue valiendo. Quien busque de dónde vienen esos dos archivos tiene la nota con el comando.
 ---
 
 ## Preguntas abiertas (sin decidir)
