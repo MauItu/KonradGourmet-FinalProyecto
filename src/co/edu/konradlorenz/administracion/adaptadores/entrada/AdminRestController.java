@@ -10,6 +10,8 @@ import java.util.Map;
 
 /**
  * «REST · /api/admin · GET …/parametros/tema»
+ *
+ * En el proyecto real: @RestController.
  */
 public class AdminRestController {
 
