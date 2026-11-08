@@ -2,6 +2,8 @@ package co.edu.konradlorenz.solicitudes.adaptadores.entrada;
 
 import co.edu.konradlorenz.compartido.eventos.EventListener;
 import co.edu.konradlorenz.compartido.eventos.EventoDominio;
+import co.edu.konradlorenz.cotizaciones.eventos.CotizacionEnviadaEvent;
+import co.edu.konradlorenz.ordenes.eventos.OrdenGeneradaEvent;
 import co.edu.konradlorenz.solicitudes.puertos.entrada.GestionarSolicitudUseCase;
 
 /**
@@ -19,7 +21,15 @@ public class CotizacionEventsListener implements EventListener<EventoDominio> {
 
     @Override
     public void alRecibir(EventoDominio evento) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        if (evento instanceof CotizacionEnviadaEvent enviada) {
+            for (String solicitud : enviada.solicitudNumeros()) {
+                casoDeUso.registrarCotizacion(solicitud, enviada.numero(), enviada.precios());
+            }
+        } else if (evento instanceof OrdenGeneradaEvent orden) {
+            for (String solicitud : orden.solicitudNumeros()) {
+                casoDeUso.completar(solicitud);
+            }
+        }
     }
 
 }
