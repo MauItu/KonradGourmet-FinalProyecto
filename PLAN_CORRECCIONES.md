@@ -145,7 +145,7 @@ Al terminar: correr la demo y validar con `arquitecto-revisor`.
 - **Fase 6, documentos:**
   - Actualizar `ESTADO_PROYECTO_Y_C4.md`: rutas nuevas (`documentos/`), Git, cambios hechos y estado de cada pendiente.
   - **`CORRECCIONES_REPORTE.md`:** todo lo que hay que cambiar en el reporte cuando aparezca el script (DEC-03). Incluye:
-    - H1 (ya cierto) y D12;
+    - H1: ya es cierto en la p. 26 y la p. 30 (métodos, comentarios y relaciones); la p. 3 depende de la demo (D12);
     - "ocho" → 11 páginas, y agregar las páginas 3a, 3b y 6;
     - §11 (consumidores nuevos), §15 (métodos y rutas nuevas) y p. 22 (H8, H9, H13);
     - H21, H25 y el total de clases;
@@ -158,6 +158,7 @@ Al terminar: correr la demo y validar con `arquitecto-revisor`.
     - de la sesión 3 (`INVENTARIO_SESION3.md`):
       - p. 26: 191 clases, no 155 (P-12);
       - p. 22: «Publish-Subscribe», y el Singleton sin el umbral (P-10);
+      - p. 22: «el esqueleto Java implementa el mismo comportamiento» pasa a «el esqueleto Java declara las mismas clases, firmas y relaciones, y la demo ejecuta los patrones» (K2, P-10);
       - §13: la salida del Singleton (P-11, DEC-31);
       - §15: faltan `catalogo()` y `mesas()` (W-03), `productosPorCategoria()` (W-06), el desplegable de proveedores (W-13) y `detalle()` de la cotización (W-20 y W-21);
       - opcional: una tabla con los métodos de controlador que no atienden una ventana (W-24 a W-35).
