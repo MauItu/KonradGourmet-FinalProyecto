@@ -5,6 +5,8 @@ import co.edu.konradlorenz.identidad.puertos.entrada.RegistrarUsuarioUseCase;
 /**
  * «REST · POST /api/usuarios (Administrador)»
  *
+ * En el proyecto real: @RestController.
+ *
  * Nota del diagrama: Alta de usuarios (sin ventana en el prototipo, supuesto S5): el administrador
  * registra al usuario con su rol y sucursal; el servicio crea la subclase de Usuario que corresponde
  * al rol, aplica la PoliticaContrasena, guarda solo el hash BCrypt, publica auditoria.evento y
