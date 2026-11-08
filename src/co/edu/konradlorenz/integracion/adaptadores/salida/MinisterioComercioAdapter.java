@@ -1,5 +1,22 @@
 package co.edu.konradlorenz.integracion.adaptadores.salida;
 
-public class MinisterioComercioAdapter {
+import co.edu.konradlorenz.integracion.dominio.PrecioEstandar;
+import co.edu.konradlorenz.integracion.puertos.salida.PrecioReferenciaPort;
+
+/**
+ * «Adapter»
+ */
+public class MinisterioComercioAdapter implements PrecioReferenciaPort {
+
+    private final MinisterioSoapClient cliente;
+
+    public MinisterioComercioAdapter(MinisterioSoapClient cliente) {
+        this.cliente = cliente;
+    }
+
+    @Override
+    public PrecioEstandar precioEstandar(Long productoId) {
+        throw new UnsupportedOperationException("Pendiente de implementar");
+    }
 
 }
