@@ -137,6 +137,8 @@ Al terminar: validar con `arquitecto-revisor`.
 - **DEC-31:** la demo cubre las 7 salidas que promete el reporte (§13, p. 26): el menú del director de compras, el pedido de $82.000, COT-018/019/020, el correo con `X-Certificado`, el segundo precio desde la caché del Proxy, el Singleton y el KPI. El Singleton muestra un parámetro del tema, no el umbral (H13).
 - Los constructores y accesores de entidades y eventos se agregan según lo que use la demo (DEC-25). Si la demo consume `cotizacion.validada` o `tendencia.detectada`, se resuelve T-06 (DEC-29).
 
+- Al terminar, actualizar en el README qué métodos tienen lógica, qué imprime la demo y el comando de las pruebas (K8).
+
 Al terminar: correr la demo y validar con `arquitecto-revisor`.
 
 ## Sesión 5 · Excel + documentos de cierre
