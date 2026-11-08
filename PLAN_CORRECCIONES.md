@@ -74,6 +74,11 @@ Propagar lo de la fase 2a a las vistas de arquitectura y corregir lo propio de c
 
 Al terminar: exportar las páginas a PNG y validar con `arquitecto-revisor`.
 
+**Estado (2026-11-08):** aplicada, en validación.
+- El inventario previo del revisor (`INVENTARIO_SESION2.md`, 149 ítems con el id de cada celda) y las decisiones DEC-15 a DEC-22 guiaron los cambios.
+- No se aplicaron 6 ítems opcionales (DEC-21): P1-08, P1-09, P1-13, P1-29, P2-07 y P3b-26. P5-13 no cambia nada, porque DEC-17 mantiene «PostgreSQL ×11».
+- Cifras del mapa: 11 servicios, 10 tópicos, 19 flechas de consumo, 10 de publicación y 11 rutas del gateway con los 13 prefijos.
+
 ## Sesión 3 · Código: firmas, relaciones y tipos
 
 En `KonradGourmet/`, rama `correcciones-revision`. El código debe quedar idéntico al `.drawio` corregido.
@@ -84,6 +89,8 @@ En `KonradGourmet/`, rama `correcciones-revision`. El código debe quedar idént
   - Quedan 191 clases más la demo.
   - `AlmacenArchivosPort`, `AlmacenObjetosAdapter` y `GeneradorPdfPort` se repiten en varios paquetes: hay que comparar por nombre completo.
 - **H19 y D10:** la tabla de patrones del `README.md`, igual a la p. 22 del reporte.
+- **DEC-22 (4e):** `PrecioReferenciaCacheProxy` tiene `cache: Map`, una caché en la memoria de cada réplica. Corregirlo en la 4e y en el código para que la caché viva en Redis, como dicen las demás páginas y el reporte.
+- **D2 (4e):** anotar que el `@WebService` de `AbastecimientoSoapEndpoint` se publica bajo `/api/integracion/**`, el prefijo 13 del gateway, que la 4e no escribe.
 - Compilar con `javac` sin errores, y anotar el nuevo total de clases para la lista del reporte.
 
 Al terminar: validar con `arquitecto-revisor`.
@@ -109,7 +116,10 @@ Al terminar: correr la demo y validar con `arquitecto-revisor`.
     - H21, H25 y el total de clases;
     - p. 21: la auditoría la publican 10 servicios, no 11 (H10);
     - p. 7: 13 prefijos en el gateway (DEC-12);
-    - supuesto S5 y §15: el alta de usuarios (DEC-10) y las rutas nuevas.
+    - supuesto S5 y §15: el alta de usuarios (DEC-10) y las rutas nuevas;
+    - p. 13, §9: el mapa muestra también el almacén de objetos, ELK y la BD PostgreSQL de ms-integracion (DEC-16 y DEC-17), y una caja de adaptador agrupa los de una misma tecnología (DEC-15);
+    - tabla de eventos y tabla del recorrido: ms-inventario consume `solicitud.registrada` en el paso 2 y ms-cotizaciones consume `orden.generada` en el paso 12 (DEC-18 y D3);
+    - despliegue: el reparto por zona, con Eureka y la SPA en las zonas A y B, está asumido y hay que confirmarlo con el equipo (DEC-20).
   - **`CORRECCIONES_HU_Y_MOCKUPS.md`:**
     - los mockups V13 y V21 con varias solicitudes (DEC-05);
     - reescribir la tarjeta HU-07 con los filtros de `CriteriosConsulta` (D9);
@@ -132,7 +142,7 @@ Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiand
 |---|---|
 | 1 · Fase 1 (Git) | ✅ Hecha (2026-11-07) |
 | 1 · Fase 2a (clases 4a–4e) | ✅ Aprobada por Mauricio (2026-11-07). Validada por el revisor, con N1–N15 corregidos (DEC-11 a DEC-14) |
-| 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | Pendiente |
+| 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | Aplicada (2026-11-08), en validación del revisor. Decisiones DEC-15 a DEC-22 |
 | 3 · Código: firmas | Pendiente |
 | 4 · Código: demo | Pendiente |
 | 5 · Excel y documentos | Pendiente |
