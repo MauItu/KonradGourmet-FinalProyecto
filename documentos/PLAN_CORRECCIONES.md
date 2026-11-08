@@ -121,10 +121,18 @@ Al terminar: validar con `arquitecto-revisor`.
   - 5 cambios de tipo (H8);
   - 162 commits de contenido, uno por clase o por familia;
   - 7 commits del README: la tabla de los 10 patrones (H19 y D10), DEC-25, DEC-26, DEC-28, DEC-29, P-08 y P-09.
-- **Validación** (`VALIDACION_SESION3.md`): el revisor la dio por lista con correcciones. El código es idéntico a 4a–4e y los 176 commits compilan. Encontró 8 hallazgos de texto (K1–K8), y todos están aplicados:
+- **Validación** (`VALIDACION_SESION3.md`): el revisor la dio por lista con correcciones. El código es idéntico a 4a–4e y los 176 commits compilan. Encontró 8 hallazgos de texto (K1–K8), y todos se aplicaron (K5 se revirtió después, por K11):
   - K1 con DEC-33: la anotación de Spring en el Javadoc de los 54 adaptadores, 54 commits;
   - K4 con DEC-34: la nota de `-M30%`;
-  - con eso, `KonradGourmet` tiene 235 commits sobre `ad71e69`.
+  - con eso, `KonradGourmet` tenía 235 commits sobre `ad71e69`.
+- **Segunda validación** (`VALIDACION_SESION3.md`): K1–K8 resueltos y el código compilado no cambió. Encontró 5 hallazgos de texto (K9–K13), y todos están aplicados:
+  - K9 con DEC-35: `@Primary` en el Proxy de precios;
+  - K10 con DEC-36: `@SchedulerLock` (ShedLock) en los 2 jobs;
+  - K11 con DEC-37: el README vuelve a «V13–V20» para ms-cotizaciones (revierte K5);
+  - K12 y K13: redacción del README y de `DECISIONES.md`;
+  - con eso, `KonradGourmet` tiene 240 commits sobre `ad71e69`.
+- **Tercera validación** (`VALIDACION_SESION3.md`): K9–K13 bien aplicados, y el código compilado sigue igual. Dejó 3 hallazgos de texto en `documentos/` (K14–K16) y una duda: si ShedLock y `@Primary` deben ir también en el reporte o en un diagrama. Todo está aplicado: K14 y K16, DEC-38 (una frase para el reporte en la sesión 5) y la frase completa del README sobre la clase de configuración. `KonradGourmet` tiene 241 commits sobre `ad71e69`.
+- **Cuarta validación** (`VALIDACION_SESION3.md`): **lista**. Dejó dos detalles de redacción: K17, una errata del registro que no se cambia, y K18, una frase de DEC-36, ya corregida.
 - **Total de clases para el reporte:** 191, más `DemoArquitectura`, en 192 archivos. Antes eran 155 más la demo.
 - **Cifras:**
   - compila con `javac --release 21 -Xlint:all` sin errores ni avisos;
@@ -169,6 +177,7 @@ Al terminar: correr la demo y validar con `arquitecto-revisor`.
       - §13: la salida del Singleton (P-11, DEC-31);
       - §15: faltan `catalogo()` y `mesas()` (W-03), `productosPorCategoria()` (W-06), el desplegable de proveedores (W-13) y `detalle()` de la cotización (W-20 y W-21);
       - opcional: una tabla con los métodos de controlador que no atienden una ventana (W-24 a W-35).
+      - p. 26: junto a las anotaciones, una frase que diga que el Proxy de precios lleva `@Primary` y que los 2 jobs llevan `@SchedulerLock` (ShedLock), para que corran en una sola réplica (DEC-35, DEC-36 y DEC-38).
   - **`CORRECCIONES_HU_Y_MOCKUPS.md`:**
     - los mockups V13 y V21 con varias solicitudes (DEC-05);
     - reescribir la tarjeta HU-07 con los filtros de `CriteriosConsulta` (D9);
@@ -192,6 +201,6 @@ Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiand
 | 1 · Fase 1 (Git) | ✅ Hecha (2026-11-07) |
 | 1 · Fase 2a (clases 4a–4e) | ✅ Aprobada por Mauricio (2026-11-07). Validada por el revisor, con N1–N15 corregidos (DEC-11 a DEC-14) |
 | 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | ✅ Aprobada por Mauricio (2026-11-08). Validada por el revisor, con S1–S14 corregidos. Decisiones DEC-15 a DEC-24 |
-| 3 · Código: firmas | Aplicada y validada por el revisor dos veces (2026-11-08). K1–K8 están corregidos. La segunda validación dejó K9–K13, que esperan la decisión de Mauricio (K9, K10 y K11). Son 191 clases más la demo, que compilan. Decisiones DEC-25 a DEC-34 |
+| 3 · Código: firmas | Aplicada y validada por el revisor cuatro veces (2026-11-08); la cuarta la dio por **lista**. K1–K18 resueltos (K5, revertida por K11; K15 y K17 son erratas anotadas en los registros). Falta el OK de Mauricio. Son 191 clases más la demo, que compilan, en 241 commits sobre `ad71e69`. Decisiones DEC-25 a DEC-38 |
 | 4 · Código: demo | Pendiente |
 | 5 · Excel y documentos | Pendiente |
