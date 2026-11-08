@@ -3,6 +3,7 @@ package co.edu.konradlorenz.integracion.adaptadores.salida;
 import co.edu.konradlorenz.integracion.dominio.PrecioEstandar;
 import co.edu.konradlorenz.integracion.puertos.salida.PrecioReferenciaPort;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -28,7 +29,14 @@ public class PrecioReferenciaCacheProxy implements PrecioReferenciaPort {
 
     @Override
     public PrecioEstandar precioEstandar(Long productoId) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        PrecioEstandar guardado = cache.get(productoId);
+        // cada precio vale un día según consultadoEn (supuesto S3)
+        if (guardado != null && guardado.consultadoEn().plusDays(1).isAfter(LocalDateTime.now())) {
+            return guardado;
+        }
+        PrecioEstandar nuevo = real.precioEstandar(productoId);
+        cache.put(productoId, nuevo);
+        return nuevo;
     }
 
 }
