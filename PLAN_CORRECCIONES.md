@@ -41,7 +41,7 @@ git switch correcciones-revision       # volver al trabajo
 - [x] Rama `correcciones-revision` en `KonradGourmet` y push desactivado
 - [x] `REVISION_2026-11-07.md`, `DECISIONES.md` y este plan
 
-### Fase 2a · Diagramas de clases 4a–4e
+### Fase 2a · Diagramas de clases 4a–4e ✅ (2026-11-07)
 Cada cambio en las páginas de clases arrastra el código de la sesión 3, que debe quedar igual al diagrama.
 
 | Página | Correcciones |
@@ -131,7 +131,7 @@ Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiand
 | Sesión | Estado |
 |---|---|
 | 1 · Fase 1 (Git) | ✅ Hecha (2026-11-07) |
-| 1 · Fase 2a (clases 4a–4e) | Aplicada y validada por el revisor (2026-11-07), con N1–N15 corregidos (DEC-11 a DEC-14). Falta el OK de Mauricio |
+| 1 · Fase 2a (clases 4a–4e) | ✅ Aprobada por Mauricio (2026-11-07). Validada por el revisor, con N1–N15 corregidos (DEC-11 a DEC-14) |
 | 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | Pendiente |
 | 3 · Código: firmas | Pendiente |
 | 4 · Código: demo | Pendiente |
