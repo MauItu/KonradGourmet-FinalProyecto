@@ -5,9 +5,13 @@ package co.edu.konradlorenz.identidad.dominio;
  */
 public class OpcionMenu extends ElementoMenu {
 
+    public OpcionMenu(String titulo, String ruta) {
+        super(titulo, ruta);
+    }
+
     @Override
     public boolean esHoja() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return true;
     }
 
 }
