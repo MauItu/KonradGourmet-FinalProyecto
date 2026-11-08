@@ -5,6 +5,8 @@ import co.edu.konradlorenz.notificaciones.puertos.salida.EnvioRepositoryPort;
 import java.time.LocalDateTime;
 
 /**
+ * En el proyecto real: @Repository.
+ *
  * Nota del diagrama: Si el correo falla, registrarFallo() deja la traza y el evento pasa a una cola de
  * errores (DLQ) para reintentarlo; el auxiliar también puede reenviar la cotización (HU-12).
  */
