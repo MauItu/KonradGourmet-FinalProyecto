@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * «HTTPS → APIs de redes»
+ *
+ * En el proyecto real: @Component.
  */
 public class RedesSocialesAdapter implements TendenciasPort {
 
