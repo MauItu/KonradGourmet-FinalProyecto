@@ -4,6 +4,9 @@ import co.edu.konradlorenz.pedidos.dominio.CatalogoPlatos;
 import co.edu.konradlorenz.pedidos.dominio.PlatoCatalogo;
 import co.edu.konradlorenz.pedidos.puertos.salida.CatalogoRepositoryPort;
 
+/**
+ * En el proyecto real: @Repository.
+ */
 public class CatalogoJpaAdapter implements CatalogoRepositoryPort {
 
     @Override
