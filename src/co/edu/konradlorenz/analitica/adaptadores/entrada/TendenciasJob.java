@@ -5,7 +5,8 @@ import co.edu.konradlorenz.analitica.puertos.entrada.TableroUseCase;
 /**
  * «Scheduler · semanal»
  *
- * En el proyecto real: @Component, y ejecutar() lleva @Scheduled (semanal).
+ * En el proyecto real: @Component, y ejecutar() lleva @Scheduled (semanal) y @SchedulerLock
+ * (ShedLock), para que lo ejecute una sola réplica.
  */
 public class TendenciasJob {
 
