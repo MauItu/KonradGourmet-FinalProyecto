@@ -8,7 +8,8 @@ import java.util.Map;
 /**
  * «Proxy»
  *
- * En el proyecto real: @Component.
+ * En el proyecto real: @Component y @Primary: ConsultarPrecioService recibe el Proxy, y el Proxy
+ * recibe el adaptador real.
  *
  * Nota del diagrama: La caché vive en Redis y la comparten todas las réplicas de ms-integracion: cache
  * es un mapa respaldado por Redis, no la memoria de la réplica. Cada precio vale un día según

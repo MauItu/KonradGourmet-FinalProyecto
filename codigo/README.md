@@ -43,10 +43,12 @@ clases, atributos, métodos y relaciones `extends`/`implements`.
   diagrama van en el Javadoc de la clase.
 - El código no usa Spring ni JAX-WS, para que compile solo con `javac`. Cada adaptador
   dice en su Javadoc qué anotación lleva en el proyecto real, por ejemplo
-  «En el proyecto real: @RestController.»; el endpoint SOAP dice `@WebService`. Los
+  «En el proyecto real: @RestController.»; el endpoint SOAP dice `@WebService`, y el
+  cliente SOAP no dice ninguna, porque lo genera `wsimport`. En el proyecto real, los
   servicios de aplicación y los decoradores no llevan anotación: una clase de
-  configuración los arma con sus constructores, y ahí se fija el orden de los
-  decoradores.
+  configuración, que este código no incluye, los arma con sus constructores, igual que
+  al cliente SOAP, al mapa de Redis del Proxy y a las fábricas de notificaciones, y ahí
+  se fija el orden de los decoradores.
 - Los métodos todavía lanzan `UnsupportedOperationException("Pendiente de implementar")`.
 
 ## Módulos
@@ -59,7 +61,7 @@ clases, atributos, métodos y relaciones `extends`/`implements`.
 | `menu` | ms-menu | V06 | Platos, ingredientes y categorías |
 | `inventario` | ms-inventario | V05, V07 | Stock, umbrales y consumo diario |
 | `solicitudes` | ms-solicitudes | V08–V12 | Solicitudes de alimentos |
-| `cotizaciones` | ms-cotizaciones | V13–V21 | Cotizaciones, proveedores y reglas de validación |
+| `cotizaciones` | ms-cotizaciones | V13–V20 | Cotizaciones, proveedores y reglas de validación |
 | `ordenes` | ms-ordenes | V21–V23 | Órdenes de compra |
 | `notificaciones` | ms-notificaciones | — | Correos y alarmas en la aplicación |
 | `integracion` | ms-integracion | — | Frontera SOAP con el Ministerio de Comercio |
