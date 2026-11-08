@@ -622,7 +622,7 @@ El plan de la sesión 4 solo cubría la tercera. Con el reporte sin tocar (DEC-0
 
 **Opciones:**
 - **A. `@SchedulerLock` (ShedLock):** antes de correr, la réplica toma un candado en una tabla de su base, y las demás se saltan el turno. Es la solución habitual con `@Scheduled`. Agrega una librería y una tabla en la base de cada servicio: ms-inventario y ms-analitica tienen su PostgreSQL en la 3a (`c3a_db_inventario`, `c3a_db_analitica`). ✅ **Escogida**, como recomendaba el revisor.
-- **B. Un CronJob de Kubernetes** en lugar de `@Scheduled`. Cambia lo que dicen las cajas «Scheduler» del mapa, la 4b y la 4e: el mapa ya está aprobado (sesión 2), y la 4b y la 4e no se pueden tocar para esto en esta sesión, y necesita otra forma de llamar a `ejecutar()`.
+- **B. Un CronJob de Kubernetes** en lugar de `@Scheduled`. Cambia lo que dicen las cajas «Scheduler» del mapa, la 4b y la 4e: el mapa ya está aprobado (sesión 2), y la 4b y la 4e no se pueden tocar para esto en esta sesión. Además, el CronJob necesita otra forma de llamar a `ejecutar()`.
 - **C. Dejar `@Scheduled` y hacer idempotente el descuento en la sesión 4**, para que repetirlo no haga daño. No evita que dos réplicas corran a la vez: si despiertan en el mismo segundo, las dos ven que falta el descuento.
 
 **Qué implica:** el Javadoc de los dos jobs dice que `ejecutar()` lleva además `@SchedulerLock (ShedLock)`, para que lo ejecute una sola réplica (2 commits), y DEC-33 lo anota. El diagrama y las firmas no cambian. La demo de la sesión 4 corre una sola réplica, así que no necesita nada de esto.
