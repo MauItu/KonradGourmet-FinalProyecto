@@ -23,12 +23,15 @@ public class AuditoriaJpaAdapter implements AuditoriaRepositoryPort {
 
     @Override
     public void guardar(RegistroAuditoria r) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        bitacora.registrar(r);
     }
 
     @Override
     public List<RegistroAuditoria> entre(LocalDate desde, LocalDate hasta) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return bitacora.registros().stream()
+                .filter(r -> desde == null || !r.fecha().isBefore(desde))
+                .filter(r -> hasta == null || !r.fecha().isAfter(hasta))
+                .toList();
     }
 
 }
