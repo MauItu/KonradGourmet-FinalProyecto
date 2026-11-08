@@ -9,6 +9,8 @@ import java.util.List;
 /**
  * «REST · /api/bam/promociones (Jefe de cocina)»
  *
+ * En el proyecto real: @RestController.
+ *
  * Nota del diagrama: Promociones (HU-19): detectarTendencias() guarda cada sugerencia con producto,
  * motivo y vigencia, y publica tendencia.detectada solo si hoy no se notificó (notificadaEl). El jefe
  * de cocina consulta el histórico y acepta o descarta. Si el análisis falla, TendenciasJob deja el
