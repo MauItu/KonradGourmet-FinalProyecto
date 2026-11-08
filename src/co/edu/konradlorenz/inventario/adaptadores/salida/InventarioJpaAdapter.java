@@ -8,6 +8,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * En el proyecto real: @Repository.
+ */
 public class InventarioJpaAdapter implements InventarioRepositoryPort {
 
     @Override
