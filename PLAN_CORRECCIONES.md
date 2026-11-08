@@ -176,6 +176,7 @@ Al terminar: correr la demo y validar con `arquitecto-revisor`.
       - §13: la salida del Singleton (P-11, DEC-31);
       - §15: faltan `catalogo()` y `mesas()` (W-03), `productosPorCategoria()` (W-06), el desplegable de proveedores (W-13) y `detalle()` de la cotización (W-20 y W-21);
       - opcional: una tabla con los métodos de controlador que no atienden una ventana (W-24 a W-35).
+      - p. 26: junto a las anotaciones, una frase que diga que el Proxy de precios lleva `@Primary` y que los 2 jobs llevan `@SchedulerLock` (ShedLock), para que corran en una sola réplica (DEC-35, DEC-36 y DEC-38).
   - **`CORRECCIONES_HU_Y_MOCKUPS.md`:**
     - los mockups V13 y V21 con varias solicitudes (DEC-05);
     - reescribir la tarjeta HU-07 con los filtros de `CriteriosConsulta` (D9);

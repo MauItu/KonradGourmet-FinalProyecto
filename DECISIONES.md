@@ -8,6 +8,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-25 a DEC-32:** las decidió Mauricio el 2026-11-08, al empezar la sesión 3. Siguió la recomendación del arquitecto-revisor, salvo en DEC-25 y DEC-28, donde se escogió la variante que no toca las páginas 4a–4d (en la sesión 3 solo se puede cambiar la 4e). Los ítems C-…, M-…, R-…, T-…, W-…, P-…, J-… y Q-… están en `INVENTARIO_SESION3.md`.
 - **DEC-33 y DEC-34:** las decidió Mauricio el 2026-11-08, al revisar la validación de la sesión 3 (hallazgos K1 y K4 de `VALIDACION_SESION3.md`). En DEC-33 no siguió la recomendación del revisor.
 - **DEC-35 a DEC-37:** las decidió Mauricio el 2026-11-08, al revisar la segunda validación de la sesión 3 (hallazgos K9, K10 y K11 de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor en las tres.
+- **DEC-38:** la decidió Mauricio el 2026-11-08, al revisar la tercera validación de la sesión 3 (la duda de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -49,6 +50,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-35 | Dos clases cumplen `PrecioReferenciaPort` (K9) | El Proxy lleva además `@Primary` | Aplicada |
 | DEC-36 | Los jobs y las réplicas (K10) | Los 2 jobs llevan además `@SchedulerLock` (ShedLock) | Aplicada |
 | DEC-37 | Ventanas de ms-cotizaciones (K11) | El README vuelve a «V13–V20»; revierte K5 | Aplicada |
+| DEC-38 | ShedLock y `@Primary` fuera del código | Nada ahora; una frase en el reporte (p. 26) si aparece el script | Aplicada (plan de la sesión 5) |
 
 ---
 
@@ -634,6 +636,17 @@ El plan de la sesión 4 solo cubría la tercera. Con el reporte sin tocar (DEC-0
 - **B. Dejar «V13–V21» y cambiar el mapa, la 3a y el reporte.** Son páginas ya aprobadas y el reporte no se toca (DEC-03).
 
 **Qué implica:** 1 commit en el README, que revierte el de K5 (`69d8011`). La columna «Ventanas» dice de qué servicio es cada ventana, no a cuáles les da datos.
+
+## DEC-38 · ¿ShedLock y `@Primary` deben aparecer también en el reporte o en algún diagrama? (tercera validación)
+
+**Por qué hubo que decidir.** Después de DEC-35 y DEC-36, `@Primary` y `@SchedulerLock` solo están en el Javadoc del código y en este registro. El reporte (p. 26) nombra `@RestController`, `@Repository` y `@KafkaListener`, pero no estas dos, y ningún diagrama las menciona. El profesor puede preguntar en la sustentación qué pasa con los jobs cuando hay varias réplicas.
+
+**Opciones:**
+- **A. Nada ahora, y una frase en el reporte, junto a las anotaciones de la p. 26, si en la sesión 5 aparece el script (DEC-03).** ✅ **Escogida**, como recomendaba el revisor.
+- **B. Nada**, ni ahora ni en la sesión 5. La respuesta queda solo en DEC-35 y DEC-36.
+- **C. Una nota en la 4b y en la 4e.** Son páginas que en esta sesión no se pueden tocar para esto.
+
+**Qué implica:** el plan de la sesión 5 suma la frase a `CORRECCIONES_REPORTE.md`. El código y el `.drawio` no cambian.
 
 ---
 
