@@ -273,3 +273,149 @@ K12 y K13 se aplicaron como los propone el revisor.
 - Cada uno compila con `javac --release 21 -Xlint:all`, sin errores ni avisos, con 192 archivos.
 - `KonradGourmet` tiene 240 commits sobre `ad71e69`.
 - El `.drawio` no cambió.
+
+## Tercera validación (2026-11-08)
+
+Validó el agente `arquitecto-revisor`, solo con lectura, los commits que aplicaron K9–K13:
+- `KonradGourmet/`: los 5 commits de `4bb25a0..ef29eed`. HEAD es `ef29eed`, con 240 commits sobre `ad71e69`.
+- `documentos/`: los 3 commits de `0e8ba0d..9f39317`.
+
+Los hallazgos nuevos siguen la numeración: K14–K16.
+
+**Veredicto del revisor: lista con correcciones.**
+- K9–K13 están bien aplicados. El código compilado no cambió, y los 7 estados revisados compilan sin avisos.
+- Quedan 3 hallazgos de severidad baja, todos de texto en `documentos/`:
+  - K14: un estado del plan;
+  - K15: una errata de la segunda validación;
+  - K16: una omisión en DEC-36.
+- Ninguno toca el código ni el `.drawio`.
+
+**Cómo se validó:**
+- **Copias:** `git archive` de `67d9edd`, `4bb25a0` y los 5 commits, hacia un temporal. No se hicieron checkouts ni worktrees.
+- **Compilación:** `javac --release 21 -Xlint:all`, con javac 27.0.1.
+- **Bytecode:** `javap -p -c -s -constants` de las 192 clases en los 7 estados.
+- **Fuente sin comentarios:** un comparador propio. Se probó con dos mutaciones: detecta un cambio de código e ignora un cambio de comentario.
+- **Javadoc:** `javadoc -Xdoclint:all,-missing` sobre HEAD.
+- **`.drawio`:** su XML, leído página por página.
+
+**Lo comprobado:**
+
+1. **Commits.**
+   - Cada commit de `KonradGourmet` toca un solo archivo y cambia lo que dice su mensaje:
+     - `96e211a`: el Proxy (4e);
+     - `6756be5`: `ConsumoDiarioJob` (4b);
+     - `ab988e9`: `TendenciasJob` (4e);
+     - `aeceef7`: la fila de `cotizaciones` del README;
+     - `ef29eed`: el párrafo de las anotaciones del README.
+   - Los 3 commits de código cambian una línea de Javadoc por dos, y nada más.
+   - `aeceef7` es el inverso exacto de `69d8011` (K5).
+   - En `documentos/`:
+     - `4b98ace` agrega solo la línea en blanco;
+     - `ca2402d` toca solo `DECISIONES.md`: la cabecera, el índice (con «Por aplicar»), DEC-33 y DEC-35 a DEC-37;
+     - `9f39317` pasa el índice a «Aplicada» y actualiza el plan y el seguimiento.
+   - De las validaciones anteriores solo cambiaron la fila K5 (l. 180) y la frase del generador (l. 185) del primer seguimiento.
+
+2. **K9 (DEC-35).**
+   - El Javadoc del Proxy (l. 11–12) dice exactamente la frase propuesta, partida en dos líneas.
+   - En `4bb25a0..HEAD` solo cambian 3 `.java` y el README. `MinisterioComercioAdapter` sigue con `@Component`.
+   - El razonamiento técnico es correcto:
+     - **El servicio recibe el Proxy.** `ConsultarPrecioService(PrecioReferenciaPort precios, …)` tiene dos candidatos, y el nombre `precios` no coincide con el de ningún bean. Sin `@Primary`, Spring falla con `NoUniqueBeanDefinitionException`; con `@Primary`, recibe el Proxy. Fuera del Proxy, es el único que pide ese puerto.
+     - **El Proxy recibe el adaptador real.** Spring descarta la auto-referencia en la primera pasada de `findAutowireCandidates` cuando hay otro candidato. Para el constructor del Proxy queda solo `MinisterioComercioAdapter`, así que Spring ni consulta `@Primary` y no hay ciclo.
+     - **La auto-referencia** solo se usa como último recurso, cuando no hay ningún otro candidato. En un constructor fallaría por referencia circular.
+     - **La frase de DEC-35.** «Spring no le pasa a una clase su propio objeto» es cierto aquí, porque el adaptador real existe. Si se quiere precisar, se puede agregar «mientras haya otro candidato».
+
+3. **K10 (DEC-36).**
+   - Los dos jobs (l. 8–9) dicen la frase propuesta; `TendenciasJob` dice «(semanal)».
+   - Ninguna línea empieza con `@`, así que `javadoc` no la lee como etiqueta: da 0 avisos.
+   - Lo que DEC-36 dice del `.drawio` es cierto:
+     - `v15` de la p. 5 (pestaña 10) dice «ms-inventario 2 → 6» y «ms-analitica … 2 → 4»;
+     - en la 3a, `c3a_db_inventario` es «BD inventario [PostgreSQL]» y `c3a_db_analitica` es «Almacén analítico [PostgreSQL]»;
+     - las cajas «Scheduler» están en la 4b y en la 4e, y también en el mapa (K16).
+   - También es cierto lo que dice del código:
+     - `descontarConsumoDiario()` no recibe parámetros (l. 13);
+     - `SugerenciaRepositoryPort.notificadaEl(LocalDate)` está en la l. 16.
+
+4. **K11 (DEC-37).**
+   - El README dice «V13–V20» para ms-cotizaciones (l. 63) y «V21–V23» para ms-ordenes (l. 64). «V13–V21» ya solo aparece en los registros.
+   - Las fuentes de DEC-37 lo confirman:
+     - el mapa: `v121` «V13–V20» y `v141` «V21–V23»;
+     - la 3a: `c3a_ms_cotizaciones` y `c3a_ms_ordenes`;
+     - la 3b: `c3b_e5`;
+     - el reporte, p. 7;
+     - `ESTADO_PROYECTO_Y_C4.md`, l. 74–75.
+   - El comentario V21 de `detalle()` se queda (l. 68), como dice DEC-37.
+   - DEC-37 y la l. 180 marcan K5 como revertida.
+
+5. **K12.** La frase del README (l. 44–50) es cierta:
+   - no hay imports fuera del JDK, y fuera de los comentarios solo aparece `@Override`;
+   - 54 adaptadores llevan la nota:
+     - 14 con `@RestController`;
+     - 15 con `@Repository`;
+     - 8 listeners con `@KafkaListener`;
+     - 2 jobs con `@Scheduled` y `@SchedulerLock`;
+     - 15 con `@Component`, uno de ellos el Proxy, que lleva además `@Primary`;
+   - `MinisterioSoapClient` solo dice que lo genera `wsimport`, sin anotación;
+   - el endpoint SOAP dice `@WebService (JAX-WS)`;
+   - los 3 decoradores no llevan nota;
+   - no hay ninguna clase de configuración en `src/`.
+
+   El texto aplicado va un poco más allá de la propuesta: «que este código no incluye» resuelve también la segunda mitad de K12. Con eso, la fila K1 del primer seguimiento (l. 176) queda cierta: las cifras coinciden, y el README explica las cuatro exclusiones. El endpoint queda explicado porque lleva `@WebService`, que es de JAX-WS.
+
+6. **K13.**
+   - El «Qué implica» de DEC-34 está en la l. 605, la l. 606 está en blanco y la l. 607 empieza DEC-35.
+   - El `---` ahora cierra DEC-37 (l. 638), con la l. 637 en blanco.
+   - En los tres documentos no queda ningún texto pegado a un separador ni a un título.
+
+7. **El código compilado no cambió.**
+   - `javap` da lo mismo en los 7 estados.
+   - El fuente sin comentarios es idéntico en los 192 archivos.
+   - Los `.class` solo difieren en la tabla de números de línea, que se corre una línea:
+     - frente a `4bb25a0`, en 3 clases;
+     - frente a `67d9edd`, en 54.
+   - Entre `67d9edd` y `4bb25a0` se agregaron 122 líneas, todas de comentario, y no se quitó ninguna.
+
+8. **Compilación.** Los 7 estados (`67d9edd`, `4bb25a0` y los 5 commits) compilan: 192 archivos, código de salida 0 y el log vacío. La demo de `ef29eed` sigue imprimiendo una sola línea (D12).
+
+9. **`DECISIONES.md`.**
+   - La cabecera (l. 10) y el índice (l. 49–51, «Aplicada») son correctos.
+   - DEC-35 a DEC-37 tienen por qué, las opciones de cada duda (A/B, A/B/C y A/B), la escogida marcada y qué implica.
+   - DEC-33 anota los dos cambios (l. 587–588).
+   - Lo único inexacto es K16.
+
+10. **Plan y seguimiento.**
+    - Las cifras son ciertas: 176 commits en `67d9edd`, 235 en `4bb25a0` y 240 en HEAD.
+    - El seguimiento de la segunda validación es cierto en todo: los commits de cada fila, «una línea de Javadoc por clase, que pasa a ocupar dos», los 192 archivos, los 240 commits y que el `.drawio` no cambió.
+    - La frase nueva de la l. 185 es cierta si «código compilado» se entiende como el bytecode: solo cambian los números de línea.
+    - Lo inexacto está en K14.
+
+11. **`.drawio`.**
+    - No cambió desde `7e92bb9`, tampoco en el árbol de trabajo.
+    - Tiene 1644 celdas y su XML es válido.
+    - El original conserva su SHA-256: `10a49edda6378257ef5bff30f2ffa4e2700d9b427fa32d478dfef1351845dc5f`.
+
+| # | Sev. | Dónde | Qué está mal | Evidencia | Corrección mínima que propone el revisor |
+|---|---|---|---|---|---|
+| K14 | Baja | `PLAN_CORRECCIONES.md` l. 124 y l. 201 (fila 3 de «Avance») | La l. 124 dice que los hallazgos K1–K8 «todos están aplicados», y la fila 3 dice que «K1–K13 están corregidos». Pero K5 ya no está aplicada: se revirtió, porque su recomendación era equivocada | `aeceef7` revierte `69d8011`; DEC-37; seguimiento, l. 180: «Revertida por K11»; el mismo plan, l. 131: «(revierte K5)» | l. 124: «…y todos se aplicaron (K5 se revirtió después, por K11):». Fila 3: «Aplicada y validada por el revisor tres veces (2026-11-08). K1–K13 resueltos (K5, revertida por K11); falta el OK de Mauricio. …». Va en el mismo commit que registra esta validación |
+| K15 | Baja | `VALIDACION_SESION3.md` l. 236 (evidencia de K10, texto del revisor) | Dice «Despliegue, p. 10 `v15`». En los documentos, el despliegue es la p. 5; 10 es su número de pestaña. Hay otros cuatro `v15` (en la p. 1, la 2, la 4a y la 4d), así que el número de página importa | `<diagram name="5 · Despliegue" id="p8">` es la pestaña 10. DEC-20 (l. 390) y DEC-36 (l. 619) dicen «p. 5», y DEC-36 está bien | Ninguna en la l. 236, que es el registro de la segunda validación: esta sección deja la errata. Si se prefiere, cambiar a «p. 5» en la l. 236 |
+| K16 | Baja | `DECISIONES.md` l. 619 y l. 623 (DEC-36) | Dice que las cajas «Scheduler» están «en la 4b y la 4e», y que la opción B cambia esas dos. Pero también están en el mapa, aprobado en la sesión 2: B costaba una página aprobada más. No cambia la decisión, pero hace ver la opción descartada más barata de lo que era | Mapa (p. 1): `ad_inventario_t1` ««Scheduler» · entrada / ConsumoDiarioJob» y `ad_analitica_t2` ««Scheduler» · entrada / TendenciasJob» | l. 619: «…ya estaban en el mapa, la 4b y la 4e…». l. 623: «Cambia lo que dicen las cajas «Scheduler» del mapa, la 4b y la 4e…» (1 commit) |
+
+**Opcional, sin severidad:** el README (l. 47–50) dice que la clase de configuración arma los servicios y los decoradores. Para que el proyecto real arranque, también tendría que crear:
+- el cliente SOAP, `MinisterioSoapClient(String endpoint)`, que no lleva anotación;
+- el mapa de Redis del Proxy, `Map<Long, PrecioEstandar>`. Como su clave no es `String`, Spring no arma un mapa de beans: busca un bean de ese tipo;
+- las dos fábricas de notificaciones que recibe `NotificacionService`.
+
+El README no dice lo contrario, y ninguna fuente lo exige. Si se quiere completar: «…los arma con sus constructores, igual que al cliente SOAP, al mapa de Redis del Proxy y a las fábricas de notificaciones, y ahí se fija el orden de los decoradores.»
+
+**Dudas para decidir:**
+
+| # | Duda | Opciones | Recomendación |
+|---|---|---|---|
+| K10 | ¿ShedLock y `@Primary` deben aparecer también en el reporte o en algún diagrama? | **A.** No: quedan en el Javadoc y en DEC-35 y DEC-36. **B.** Una frase en el reporte, junto a las anotaciones de la p. 26, si en la sesión 5 aparece el script (DEC-03). **C.** Una nota en la 4b y en la 4e | **A** ahora, y **B** si se vuelve a generar el reporte. C toca páginas aprobadas. Lo probable es que el profesor lo pregunte en la sustentación, no que lo busque en un diagrama, y DEC-36 ya da la respuesta |
+
+K14 y K16 son mecánicos. K15 queda resuelto con esta sección.
+
+**No tocar:** los 3 Javadoc nuevos, el párrafo del README (l. 44–50), la fila de `cotizaciones` y DEC-35 a DEC-37. Están bien y coinciden con el código y el `.drawio`.
+
+**Pendientes conocidos:** no cambian frente a las validaciones anteriores.
+- E1–E3, D1–D8 y D10 siguen resueltos (D2, salvo la p. 7 del reporte).
+- D9, D11 y D12 siguen pendientes: la demo de `ef29eed` imprime una sola línea.
