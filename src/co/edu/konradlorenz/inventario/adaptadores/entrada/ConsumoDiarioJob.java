@@ -4,6 +4,8 @@ import co.edu.konradlorenz.inventario.puertos.entrada.GestionarInventarioUseCase
 
 /**
  * «Scheduler · diario 23:59»
+ *
+ * En el proyecto real: @Component, y ejecutar() lleva @Scheduled (diario 23:59).
  */
 public class ConsumoDiarioJob {
 
