@@ -13,26 +13,26 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-02 | Código (hallazgo bloqueante H1 y D12) | Firmas, relaciones y tipos, más una demo real | Por aplicar (sesiones 3 y 4) |
 | DEC-03 | Reporte PDF | No tocarlo hasta que aparezca el script original | Vigente |
 | DEC-04 | Ritmo de trabajo | Por fases con pausa, en 5 sesiones | Vigente |
-| DEC-05 | HU-09: solicitudes por cotización | Varias solicitudes; anotar que hay que corregir el mockup V13 | Por aplicar (sesiones 1 a 4) |
+| DEC-05 | HU-09: solicitudes por cotización | Varias solicitudes; anotar que hay que corregir el mockup V13 | Aplicada en el `.drawio`; faltan el código (sesiones 3 y 4) y los mockups (sesión 5) |
 | DEC-06 | Dueño de los KPI | Director comercial, para revisar con el equipo | Decidida |
-| DEC-07 | Alcance de HU-15 y HU-19 | Las dos dentro de la arquitectura | Por aplicar (sesiones 1 a 3) |
+| DEC-07 | Alcance de HU-15 y HU-19 | Las dos dentro de la arquitectura | Aplicada en el `.drawio`; faltan el código (sesión 3) y los mockups opcionales (sesión 5) |
 | DEC-08 | Recomendaciones del revisor y D1–D8 | Se aceptan las recomendaciones | Asumida, por confirmar |
-| DEC-09 | Datos comunes de los eventos (H11) | `EventoDominio` pasa a clase abstracta con id, usuario, correlación y fecha | Por aplicar (sesiones 1 y 3) |
-| DEC-10 | Regla de contraseña (H15) | Regla en el dominio, `cifrar()` y alta de usuarios por el administrador | Por aplicar (sesiones 1 y 3) |
-| DEC-11 | Platos por sucursal (N1) | Se corrige ya, en la fase 2a | Por aplicar (sesiones 1 y 3) |
-| DEC-12 | Rutas del gateway (N6) | 13 prefijos: `/api/usuarios` y `/api/proveedores` aparte | Por aplicar (sesiones 2 y 5) |
-| DEC-13 | Destinatarios de los correos (N5) | Mixto: el correo del solicitante viaja en el evento, y ms-notificaciones guarda una libreta de jefes por sucursal | Por aplicar (sesiones 1 y 3) |
-| DEC-14 | Resto de la validación de la fase 2a | Se aplican N2–N4 y N7–N15 como los propone el revisor | Por aplicar (sesión 1) |
-| DEC-15 | Adaptadores nuevos en el mapa (p. 1) | Una caja por tecnología y destino, explicada en la leyenda; cajas angostas solo en 2 filas | Por aplicar (sesión 2) |
-| DEC-16 | Infraestructura nueva en el mapa | Almacén de objetos y ELK, este en pequeño y con una sola flecha | Por aplicar (sesión 2) |
-| DEC-17 | Base de datos de ms-integracion | PostgreSQL propia para la tabla outbox | Por aplicar (sesiones 2 y 5) |
-| DEC-18 | ms-inventario en el recorrido (p. 6) | Línea de vida propia, antes del servidor de correo | Por aplicar (sesión 2) |
-| DEC-19 | Ejemplo de varias solicitudes (p. 6) | «Una o varias (aquí SOL-031)», con las listas escritas como listas | Por aplicar (sesión 2) |
-| DEC-20 | Zonas en el despliegue (p. 5) | Tres cajas de zona con el reparto; Eureka y la SPA en las zonas A y B | Asumida en parte, por confirmar (sesión 2) |
-| DEC-21 | Ítems fuera del plan de la sesión 2 | Se aplican 27 de 33; 6 no se aplican | Por aplicar (sesión 2) |
+| DEC-09 | Datos comunes de los eventos (H11) | `EventoDominio` pasa a clase abstracta con id, usuario, correlación y fecha | Aplicada en el `.drawio`; falta el código (sesión 3) |
+| DEC-10 | Regla de contraseña (H15) | Regla en el dominio, `cifrar()` y alta de usuarios por el administrador | Aplicada en el `.drawio`; faltan el código (sesión 3) y el reporte (sesión 5) |
+| DEC-11 | Platos por sucursal (N1) | Se corrige ya, en la fase 2a | Aplicada en el `.drawio`; falta el código (sesión 3) |
+| DEC-12 | Rutas del gateway (N6) | 13 prefijos: `/api/usuarios` y `/api/proveedores` aparte | Aplicada en el `.drawio`; falta el reporte (sesión 5) |
+| DEC-13 | Destinatarios de los correos (N5) | Mixto: el correo del solicitante viaja en el evento, y ms-notificaciones guarda una libreta de jefes por sucursal | Aplicada en el `.drawio`; falta el código (sesión 3) |
+| DEC-14 | Resto de la validación de la fase 2a | Se aplican N2–N4 y N7–N15 como los propone el revisor | Aplicada en el `.drawio`; falta el código (sesión 3) |
+| DEC-15 | Adaptadores nuevos en el mapa (p. 1) | Una caja por tecnología y destino, explicada en la leyenda; cajas angostas solo en 2 filas | Aplicada en el `.drawio`; falta el reporte (sesión 5) |
+| DEC-16 | Infraestructura nueva en el mapa | Almacén de objetos y ELK, este en pequeño y con una sola flecha | Aplicada en el `.drawio`; falta el reporte (sesión 5) |
+| DEC-17 | Base de datos de ms-integracion | PostgreSQL propia para la tabla outbox | Aplicada en el `.drawio`; falta el reporte (sesión 5) |
+| DEC-18 | ms-inventario en el recorrido (p. 6) | Línea de vida propia, antes del servidor de correo | Aplicada en el `.drawio`; faltan las tablas del reporte (sesión 5) |
+| DEC-19 | Ejemplo de varias solicitudes (p. 6) | «Una o varias (aquí SOL-031)», con las listas escritas como listas | Aplicada |
+| DEC-20 | Zonas en el despliegue (p. 5) | Tres cajas de zona con el reparto; Eureka y la SPA en las zonas A y B | Aplicada; lo de Eureka y la SPA es asumido, por confirmar con el equipo (sesión 5) |
+| DEC-21 | Ítems fuera del plan de la sesión 2 | Se aplican 27 de 33; 6 no se aplican | Aplicada |
 | DEC-22 | Caché del Proxy en memoria (4e) | No se toca la 4e; se anota para la sesión 3 | Por aplicar (sesión 3) |
 | DEC-23 | Ruta del gateway a ms-integracion (p. 1, S5) | Se deja como está: entra por arriba al endpoint SOAP | Decidida, sin cambio |
-| DEC-24 | Color del proveedor (p. 2, S9) | Gris claro con borde gris, en el dibujo y en la leyenda | Por aplicar (sesión 2) |
+| DEC-24 | Color del proveedor (p. 2, S9) | Gris claro con borde gris, en el dibujo y en la leyenda | Aplicada |
 
 ---
 
@@ -328,7 +328,9 @@ Además, HU-16 (p. 23) pide que la alerta muestre el producto, la cantidad resta
 - **B. Los dos, con ELK en pequeño.** El almacén, con sus flechas desde ms-cotizaciones, ms-ordenes y ms-notificaciones. ELK, como una caja pequeña con una sola flecha. Prometheus y Grafana no se dibujan, porque ningún adaptador los llama. ✅ **Escogida.**
 
 **Qué implica:**
-- En el mapa, todo adaptador de salida apunta a lo que usa. Solo BCrypt y la generación de PDF no apuntan a nada, porque son librerías.
+- En el mapa, todo adaptador de salida apunta a lo que usa, con dos excepciones:
+  - BCrypt y la generación de PDF, porque son librerías;
+  - los publicadores Kafka de ms-identidad y ms-notificaciones (`ad_identidad_b2` y `ad_notificaciones_b2`), porque solo publican auditoría, y esa salida la dibuja la flecha agrupada `e242`.
 - **Sesión 5:** la lista de lo que muestra el mapa (reporte, p. 13) suma el almacén y ELK.
 
 ## DEC-17 · ¿ms-integracion tiene base PostgreSQL propia?
@@ -365,7 +367,7 @@ Además, HU-16 (p. 23) pide que la alerta muestre el producto, la cantidad resta
 - **A. «Una o varias solicitudes (aquí SOL-031)».** Las listas se escriben como listas, por ejemplo `solicitudes: [SOL-031]`. Una lista de un elemento es un caso válido de «una o varias». ✅ **Escogida.**
 - **B. Inventar una segunda solicitud, SOL-032.** No existe en ninguna fuente, y habría que inventar productos y cantidades que la demo de la sesión 4 tendría que reproducir.
 
-**Qué implica:** los pasos 4, 5, 6 y 12 dicen «por cada solicitud de COT-018 (aquí SOL-031)».
+**Qué implica:** los pasos 4 (4.1), 5 (nota `c6_v64`) y 12 (12.2) dicen «una o varias solicitudes» o «cada solicitud de COT-018», con «(aquí SOL-031)». El paso 6 no lo necesita, porque `solicitud.en-tramite` es un evento por cada solicitud.
 
 ## DEC-20 · ¿Cómo se ven las tres zonas en el despliegue (p. 5, H24)?
 
