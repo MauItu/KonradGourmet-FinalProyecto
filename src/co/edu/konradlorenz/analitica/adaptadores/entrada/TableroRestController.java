@@ -9,6 +9,8 @@ import java.util.List;
 /**
  * «REST · /api/bam (Director comercial)»
  *
+ * En el proyecto real: @RestController.
+ *
  * Nota del diagrama: kpis() filtra por rango de fechas y sucursal (HU-18). Si no hay hechos
  * suficientes, el tablero muestra «No hay información suficiente…».
  */
