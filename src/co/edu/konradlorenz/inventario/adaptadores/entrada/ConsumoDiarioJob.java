@@ -5,7 +5,8 @@ import co.edu.konradlorenz.inventario.puertos.entrada.GestionarInventarioUseCase
 /**
  * «Scheduler · diario 23:59»
  *
- * En el proyecto real: @Component, y ejecutar() lleva @Scheduled (diario 23:59).
+ * En el proyecto real: @Component, y ejecutar() lleva @Scheduled (diario 23:59) y @SchedulerLock
+ * (ShedLock), para que lo ejecute una sola réplica.
  */
 public class ConsumoDiarioJob {
 
