@@ -95,7 +95,8 @@ public class DemoArquitectura {
         sistema.proveedores.registrar(new Proveedor(1L, "Proveedor ABC", "900123456-1", "ventas@proveedorabc.com", "6011234567", "Cra 7 # 10-20", List.of("Carnes", "Granos")));
         sistema.proveedores.registrar(new Proveedor(2L, "Proveedor B", "900234567-2", "ventas@proveedorb.com", "6012345678", "Cll 26 # 30-15", List.of("Carnes", "Granos")));
         sistema.proveedores.registrar(new Proveedor(3L, "Proveedor C", "900345678-3", "ventas@proveedorc.com", "6013456789", "Av 68 # 22-40", List.of("Carnes", "Granos")));
-        System.out.println("Sucursal Centro: 1 mesa, 4 insumos, 2 platos con receta, 3 proveedores y 1 jefe en la libreta de correos.");
+        sistema.proveedores.registrar(new Proveedor(4L, "Proveedor D", "900456789-4", "ventas@proveedord.com", "6014567890", "Cll 80 # 11-30", List.of("Carnes", "Granos")));
+        System.out.println("Sucursal Centro: 1 mesa, 4 insumos, 2 platos con receta, 4 proveedores y 1 jefe en la libreta de correos.");
         mostrarEventos();
     }
 
@@ -186,8 +187,8 @@ public class DemoArquitectura {
         List<Proveedor> desplegable = sistema.proveedores.consultar(true);
         System.out.println("Desplegable de proveedores de V13: " + desplegable.stream().map(Proveedor::razonSocial).toList());
         cotizar("COT-018", desplegable.get(0), solicitud, "21250", "8000");
-        cotizar("COT-019", desplegable.get(1), solicitud, "29000", "8000");
-        cotizar("COT-020", desplegable.get(2), solicitud, "4000", "8000");
+        cotizar("COT-019", desplegable.get(2), solicitud, "29000", "8000");
+        cotizar("COT-020", desplegable.get(3), solicitud, "4000", "8000");
         System.out.println("Solicitud " + solicitud.numero() + " ahora: "
                 + sistema.solicitudes.detalle("SOL-031").estado() + " · valor sugerido " + pesos(sistema.solicitudes.detalle("SOL-031").valorSugeridoTotal()));
         System.out.println("Cotizaciones opcionadas (V20): " + sistema.cotizaciones.opcionadas().stream().map(Cotizacion::numero).toList());
@@ -241,7 +242,7 @@ public class DemoArquitectura {
         }
     }
 
-    // ------------------------------------------------------------------ 7. Singleton
+    // ------------------------------------------------------------------ 6. Singleton
 
     private void singleton() {
         titulo("6. Singleton: los parámetros del tema (ms-administracion)");
@@ -254,7 +255,7 @@ public class DemoArquitectura {
         System.out.println("GET /api/admin/parametros/tema → " + sistema.admin.tema());
     }
 
-    // ------------------------------------------------------------------ 8. Strategy
+    // ------------------------------------------------------------------ 7. Strategy
 
     private void tableroDeKpi() {
         titulo("7. Strategy: el tablero BAM (KPI)");
