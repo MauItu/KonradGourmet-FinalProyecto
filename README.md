@@ -173,7 +173,7 @@ habla con una tecnología externa (la demo pone un adaptador en memoria en su lu
 
 | Módulo | Con lógica | Pendiente |
 |---|---|---|
-| `compartido` | `EventoDominio` y los 10 eventos (constructor, accesores y `tipo()`) | `KafkaEventPublisher` |
+| `compartido` | `EventoDominio` y `AuditoriaEvent`; los otros 9 eventos están en el paquete `eventos` de su servicio y también tienen constructor, accesores y `tipo()` | `KafkaEventPublisher` |
 | `identidad` | Composite (`ElementoMenu`, `GrupoMenu`, `OpcionMenu`), `Usuario` y sus 6 roles (`rol()`), `DirectorCompras.construirMenu()`, `Sucursal` | `construirMenu()` de los otros 5 roles, `PoliticaContrasena`, `IniciarSesionService`, `RegistrarUsuarioService`, los 2 controladores y los 2 adaptadores (BCrypt y usuarios) |
 | `pedidos` | `Pedido`, `DetallePedido`, `Mesa`, `PlatoCatalogo`, `CatalogoPlatos`, `PedidoService`, `PedidoRestController`, `MenuActualizadoListener` | `CatalogoJpaAdapter`, `PedidoJpaAdapter` |
 | `menu` | `MenuActualizadoEvent` | todo lo demás: `Plato`, `PlatoService`, `PlatoRestController`, `PlatoJpaAdapter` |
@@ -200,15 +200,24 @@ Límites que conviene conocer:
   pendiente lo que ya descontó. Aun así, DEC-36 sigue valiendo: con varias réplicas, `@SchedulerLock`
   evita que dos corran a la vez.
 - Todos los datos de la demo están en memoria: al terminar se pierden.
+- La alarma de stock bajo sale solo la noche en que el insumo cruza el umbral, no cada noche mientras siga bajo
+  (DEC-46). Una alerta atendida por una solicitud sigue atendida aunque el stock siga bajando.
+- La diferencia porcentual se redondea a 2 decimales antes de compararla con los límites: +25,004 % se ve y se
+  trata como +25,00 % (OPCIONADA).
+- Los consumidores no descartan los eventos repetidos (la nota de `EventoDominio` habla de guardar los id
+  procesados): un `orden.generada` que llega dos veces manda otro correo al proveedor.
+- «Mesa activa» se valida con la `Mesa` que llega en el pedido, no con la del repositorio.
+- `completar()` acepta una solicitud PENDIENTE: una orden sobre una cotización que cubrió solo parte de los
+  productos de una solicitud completa igual a todas las de la cotización (DEC-46).
 
 ### Pruebas
 
-`pruebas/` tiene 146 verificaciones en 3 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
+`pruebas/` tiene 159 verificaciones en 3 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
 - `PruebasCotizacion`: los valores de V19 y los límites de la cadena de reglas (+25,00 % y −50,00 % siguen
   OPCIONADA; +25,01 % y −50,01 % no);
 - `PruebasPatrones`: los 8 patrones, uno por uno;
-- `PruebasFlujoDeCompra`: pedido, inventario, solicitud, cotización, orden OC-0012, proveedores y el caso
-  PENDIENTE_PRECIO (H18).
+- `PruebasFlujoDeCompra`: pedido, inventario (incluido el cierre del día siguiente), solicitud, cotización,
+  orden OC-0012, una cotización con 2 solicitudes (DEC-05), proveedores y el caso PENDIENTE_PRECIO (H18).
 
 ## Historia en git
 
