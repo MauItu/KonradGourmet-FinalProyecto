@@ -599,6 +599,7 @@ El plan de la sesión 4 solo cubría la tercera. Con el reporte sin tocar (DEC-0
 - **D. Un commit con la nota, en el README de `KonradGourmet` y en el plan.** ✅ **Escogida**, después de explicar por qué C no es posible.
 
 **Qué implica:** la historia no cambia y la validación sigue valiendo. Quien busque de dónde vienen esos dos archivos tiene la nota con el comando.
+
 ---
 
 ## Preguntas abiertas (sin decidir)
