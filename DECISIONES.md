@@ -7,6 +7,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-23 y DEC-24:** las tomó el arquitecto-revisor el 2026-11-08, a pedido de Mauricio («toma la mejor decisión»), al validar la sesión 2. Responden a los hallazgos S5 y S9 de `VALIDACION_SESION2.md`.
 - **DEC-25 a DEC-32:** las decidió Mauricio el 2026-11-08, al empezar la sesión 3. Siguió la recomendación del arquitecto-revisor, salvo en DEC-25 y DEC-28, donde se escogió la variante que no toca las páginas 4a–4d (en la sesión 3 solo se puede cambiar la 4e). Los ítems C-…, M-…, R-…, T-…, W-…, P-…, J-… y Q-… están en `INVENTARIO_SESION3.md`.
 - **DEC-33 y DEC-34:** las decidió Mauricio el 2026-11-08, al revisar la validación de la sesión 3 (hallazgos K1 y K4 de `VALIDACION_SESION3.md`). En DEC-33 no siguió la recomendación del revisor.
+- **DEC-35 a DEC-37:** las decidió Mauricio el 2026-11-08, al revisar la segunda validación de la sesión 3 (hallazgos K9, K10 y K11 de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor en las tres.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -45,6 +46,9 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-32 | `/api/integracion/**` en la 4e (D2) | En la misma línea del estereotipo de `AbastecimientoSoapEndpoint` | Aplicada |
 | DEC-33 | Anotaciones de Spring en el código (K1) | Cada uno de los 54 adaptadores dice en su Javadoc qué anotación lleva en el proyecto real | Aplicada |
 | DEC-34 | Historia de `Correo` y `CorreoDecorator` en git (K4) | No se reescribe; un commit anota que se ve con `git log --follow -M30%` | Aplicada |
+| DEC-35 | Dos clases cumplen `PrecioReferenciaPort` (K9) | El Proxy lleva además `@Primary` | Por aplicar |
+| DEC-36 | Los jobs y las réplicas (K10) | Los 2 jobs llevan además `@SchedulerLock` (ShedLock) | Por aplicar |
+| DEC-37 | Ventanas de ms-cotizaciones (K11) | El README vuelve a «V13–V20»; revierte K5 | Por aplicar |
 
 ---
 
@@ -580,8 +584,8 @@ El plan de la sesión 4 solo cubría la tercera. Con el reporte sin tocar (DEC-0
   - `@RestController` en los 14 controladores;
   - `@Repository` en los 15 adaptadores JPA;
   - `@Component` en los 8 listeners, con `@KafkaListener` en `alRecibir()`;
-  - `@Component` en los 2 jobs, con `@Scheduled` en `ejecutar()`;
-  - `@Component` en los otros 15 adaptadores.
+  - `@Component` en los 2 jobs, con `@Scheduled` en `ejecutar()`, y desde DEC-36 también `@SchedulerLock`;
+  - `@Component` en los otros 15 adaptadores; desde DEC-35, el Proxy de precios lleva además `@Primary`.
 - **Sin anotación:**
   - los servicios de aplicación y los 3 decoradores, porque una clase de configuración los arma con sus constructores (DEC-25), y ahí se fija el orden de los decoradores (reporte, p. 22);
   - el cliente SOAP, que lo genera `wsimport`;
@@ -599,6 +603,37 @@ El plan de la sesión 4 solo cubría la tercera. Con el reporte sin tocar (DEC-0
 - **D. Un commit con la nota, en el README de `KonradGourmet` y en el plan.** ✅ **Escogida**, después de explicar por qué C no es posible.
 
 **Qué implica:** la historia no cambia y la validación sigue valiendo. Quien busque de dónde vienen esos dos archivos tiene la nota con el comando.
+
+## DEC-35 · ¿Cómo recibe `ConsultarPrecioService` el Proxy y no el adaptador real? (K9)
+
+**Por qué hubo que decidir.** Desde DEC-33, `PrecioReferenciaCacheProxy` y `MinisterioComercioAdapter` dicen `@Component`, y los dos implementan `PrecioReferenciaPort`. `ConsultarPrecioService` pide un `PrecioReferenciaPort` en su constructor. Con dos candidatos, Spring no arranca (`NoUniqueBeanDefinitionException`), y nada asegura que el servicio reciba el Proxy, que es el que mira primero la caché.
+
+**Opciones:**
+- **A. `@Primary` en el Proxy:** cuando hay dos candidatos, Spring entrega el Proxy. Spring no le pasa a una clase su propio objeto, así que el Proxy recibe el adaptador real. Es 1 commit y siguen siendo 54 adaptadores con anotación. ✅ **Escogida**, como recomendaba el revisor.
+- **B. El Proxy sin anotación, armado en la clase de configuración** como los decoradores. Se parece más a los decoradores, pero los adaptadores con anotación bajan a 53, y cambian el README, DEC-33 y el seguimiento.
+
+**Qué implica:** el Javadoc del Proxy dice «En el proyecto real: @Component y @Primary: ConsultarPrecioService recibe el Proxy, y el Proxy recibe el adaptador real.», y DEC-33 lo anota. El diagrama y las firmas no cambian.
+
+## DEC-36 · ¿Cómo se asegura que cada job corra en una sola réplica? (K10)
+
+**Por qué hubo que decidir.** `@Scheduled` se ejecuta en cada réplica, y el despliegue (p. 5, `v15`) le da a ms-inventario de 2 a 6 réplicas y a ms-analitica de 2 a 4. Así, el descuento de las 23:59 de `ConsumoDiarioJob` se haría de 2 a 6 veces cada noche; `descontarConsumoDiario()` no recibe la fecha, así que no puede saber si ya se hizo. Las sugerencias semanales de `TendenciasJob` también se repetirían: `notificadaEl` solo evita repetir la notificación. DEC-33 no creó el problema, porque las cajas «Scheduler» ya estaban en la 4b y la 4e, pero lo dejó escrito.
+
+**Opciones:**
+- **A. `@SchedulerLock` (ShedLock):** antes de correr, la réplica toma un candado en una tabla de su base, y las demás se saltan el turno. Es la solución habitual con `@Scheduled`. Agrega una librería y una tabla en la base de cada servicio: ms-inventario y ms-analitica tienen su PostgreSQL en la 3a (`c3a_db_inventario`, `c3a_db_analitica`). ✅ **Escogida**, como recomendaba el revisor.
+- **B. Un CronJob de Kubernetes** en lugar de `@Scheduled`. Cambia lo que dicen las cajas «Scheduler» de la 4b y la 4e, que en esta sesión no se pueden tocar, y necesita otra forma de llamar a `ejecutar()`.
+- **C. Dejar `@Scheduled` y hacer idempotente el descuento en la sesión 4**, para que repetirlo no haga daño. No evita que dos réplicas corran a la vez: si despiertan en el mismo segundo, las dos ven que falta el descuento.
+
+**Qué implica:** el Javadoc de los dos jobs dice que `ejecutar()` lleva además `@SchedulerLock (ShedLock)`, para que lo ejecute una sola réplica (2 commits), y DEC-33 lo anota. El diagrama y las firmas no cambian. La demo de la sesión 4 corre una sola réplica, así que no necesita nada de esto.
+
+## DEC-37 · ¿Qué ventanas atiende ms-cotizaciones? (K11)
+
+**Por qué hubo que decidir.** K5 cambió el README para que ms-cotizaciones atendiera «V13–V21», porque `CotizacionRestController.detalle()` dice «Atiende la ventana V21 de los mockups». Pero el mapa (`v121` «V13–V20» y `v141` «V21–V23»), la 3a (`c3a_ms_cotizaciones`), el reporte (p. 7) y `ESTADO_PROYECTO_Y_C4.md` le dan V13–V20 y dejan V21 en ms-ordenes. V21 es la ventana donde empieza la orden de compra a partir de una cotización OPCIONADA: ms-ordenes le pide a ms-cotizaciones los datos de la cotización (`GET /api/cotizaciones/{id}`, 3b `c3b_e5`), pero la ventana es de ms-ordenes.
+
+**Opciones:**
+- **A. Volver a «V13–V20» en el README**, como los otros cuatro artefactos. El comentario de `detalle()` se queda, porque ese método sí le da datos a V21. ✅ **Escogida**, como recomendaba el revisor, que reconoció que K5 fue una recomendación suya equivocada.
+- **B. Dejar «V13–V21» y cambiar el mapa, la 3a y el reporte.** Son páginas ya aprobadas y el reporte no se toca (DEC-03).
+
+**Qué implica:** 1 commit en el README, que revierte el de K5 (`69d8011`). La columna «Ventanas» dice de qué servicio es cada ventana, no a cuáles les da datos.
 
 ---
 
