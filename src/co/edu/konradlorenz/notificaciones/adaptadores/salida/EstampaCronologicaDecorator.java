@@ -5,6 +5,7 @@ import co.edu.konradlorenz.notificaciones.puertos.salida.Correo;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 /**
@@ -18,7 +19,7 @@ public class EstampaCronologicaDecorator extends CorreoDecorator {
 
     @Override
     public void enviar(Mensaje m) {
-        m.cabeceras().put("X-Sello-Tiempo", ZonedDateTime.now(ZoneId.of("America/Bogota")).truncatedTo(ChronoUnit.SECONDS).toString());
+        m.cabeceras().put("X-Sello-Tiempo", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(ZonedDateTime.now(ZoneId.of("America/Bogota")).truncatedTo(ChronoUnit.SECONDS)));
         super.enviar(m);
     }
 
