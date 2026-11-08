@@ -437,3 +437,104 @@ Mauricio aceptó las dos recomendaciones:
 - `KonradGourmet` tiene 241 commits sobre `ad71e69`.
 - Compila con `javac --release 21 -Xlint:all`, sin errores ni avisos, con 192 archivos.
 - El código Java y el `.drawio` no cambiaron.
+
+## Cuarta validación (2026-11-08)
+
+La validó el agente `arquitecto-revisor`, solo con lectura, sobre estos commits:
+- `KonradGourmet/`: `37d655b` (`ef29eed..HEAD`). HEAD tiene 241 commits sobre `ad71e69`.
+- `documentos/`: `3804808`, `138ebc0`, `e5db1c6` y `f6bb233` (`9f39317..HEAD`).
+
+Los hallazgos nuevos siguen la numeración: K17–K18.
+
+**Veredicto del revisor: lista.**
+- Los 5 commits cambian lo que dicen sus mensajes, y K14, K16 y DEC-38 quedaron como se propusieron.
+- La frase nueva del README es cierta para el código.
+- HEAD compila sin avisos. El código Java y el `.drawio` no cambiaron.
+- Quedan 2 hallazgos de severidad baja, de redacción. Ninguno impide el OK de Mauricio.
+
+**Cómo se validó:**
+- **Copia:** `git archive HEAD` de `KonradGourmet`, hacia un temporal. No se hicieron checkouts ni worktrees, y los dos repos siguen limpios en `correcciones-revision`.
+- **Compilación:** `javac --release 21 -Xlint:all`, con javac 27.0.1.
+- **Texto de la tercera validación:** se comparó con la respuesta original del revisor, sacada del registro de su sesión.
+
+**Lo comprobado:**
+
+1. **Commits.** Cada uno toca solo lo que dice su mensaje.
+   - `37d655b` toca solo el README, l. 49–51 (3 líneas agregadas y 2 quitadas).
+   - `3804808`:
+     - agrega 146 líneas al final de `VALIDACION_SESION3.md` y no borra ninguna;
+     - en el plan, cambia la l. 124 (K14), agrega la viñeta «Tercera validación» y la fila 3 de «Avance».
+   - `138ebc0` cambia solo 2 líneas de DEC-36 (K16).
+   - `e5db1c6` agrega en `DECISIONES.md` la línea de cabecera, la fila del índice y DEC-38, y en el plan una viñeta.
+   - `f6bb233` actualiza 2 líneas del plan y agrega el seguimiento.
+   - En `9f39317..HEAD` no se borró ninguna línea de `VALIDACION_SESION3.md`.
+
+2. **La sección «Tercera validación» es fiel.** Pasado `&lt;`/`&gt;` a `<`/`>`, el `diff` contra la respuesta original solo muestra dos diferencias:
+   - el párrafo introductorio y el `---`, que no eran parte de la sección;
+   - el salto de línea final.
+
+3. **K14 y K16.**
+   - **K14, l. 124:** dice el texto propuesto, palabra por palabra.
+   - **K14, fila 3 (l. 203):** no es literal, pero lo dice todo. Dice «K1–K13 resueltos (K5, revertida por K11)», y que falta la revisión corta y el OK de Mauricio. La fila además está al día con DEC-38.
+   - **K16:** la l. 621 dice «el mapa (`ad_inventario_t1`, `ad_analitica_t2`), la 4b y la 4e», y la l. 625 dice «del mapa, la 4b y la 4e». Las dos celdas están en la p. 1 (`id="p1"`) y dicen «Scheduler».
+
+4. **DEC-38 está bien registrado.**
+   - Tiene la cabecera (l. 11), la fila del índice (l. 53) y la sección (l. 640–649), con por qué, opciones A/B/C, la escogida marcada y qué implica.
+   - Va cerrada por `---`, con una línea en blanco antes.
+   - **Las opciones.** Se reordenaron frente a la tabla de dudas, pero no cambian lo que se decide:
+     - la A de DEC-38 junta la A y la B que proponía el revisor, que era su recomendación;
+     - la B de DEC-38 es la A del revisor;
+     - la C es la misma.
+   - **Lo que afirma es cierto:**
+     - la p. 26 del reporte nombra `@RestController, @Repository, @KafkaListener` (línea 19 de `pdftotext`);
+     - ni el reporte ni el `.drawio` mencionan `Primary`, `SchedulerLock` ni `ShedLock` (0 coincidencias).
+   - **La viñeta del plan (l. 179)** no repite la condición «si aparece el script». No hace falta: la hereda de su encabezado, «`CORRECCIONES_REPORTE.md`: … cuando aparezca el script (DEC-03)».
+
+5. **La frase del README es cierta.**
+   - `MinisterioSoapClient(String endpoint)` no lleva anotación, porque lo genera `wsimport`.
+   - El Proxy recibe `Map<Long, PrecioEstandar> cache`.
+   - `NotificacionService(CreadorNotificacion creadorCorreo, CreadorNotificacion creadorAlarma, …)` recibe las dos fábricas. `CreadorCorreo` y `CreadorAlarmaApp` están en `notificaciones/dominio/` y no llevan nota de anotación.
+   - No hay ninguna clase de configuración en `src/`.
+
+6. **Las cifras son ciertas.**
+   - `git rev-list --count ad71e69..HEAD` da 241 (240 en `ef29eed`).
+   - Son 192 archivos `.java`, y salen 192 `.class`.
+   - La fila 3 de «Avance» y el «Seguimiento de la tercera validación» coinciden con los commits:
+     - K14 en `3804808`;
+     - K15 sin cambio: la l. 236 sigue diciendo «p. 10 `v15`»;
+     - K16 en `138ebc0`;
+     - DEC-38 en `e5db1c6`;
+     - el opcional en `37d655b`, y la cita coincide con el README.
+
+7. **Compilación.** HEAD compila: código de salida 0 y el log vacío (0 bytes). La demo sigue imprimiendo una sola línea (D12).
+
+8. **Sin cambios.**
+   - `git diff ef29eed HEAD -- src` sale vacío.
+   - `git diff 7e92bb9 HEAD -- '*.drawio'` sale vacío, y el árbol de trabajo está limpio.
+   - El original conserva su SHA-256: `10a49edda6378257ef5bff30f2ffa4e2700d9b427fa32d478dfef1351845dc5f`.
+
+**Nota:** DEC-38 corrió 2 líneas `DECISIONES.md` desde la l. 11. Por eso las líneas que la tercera validación cita de ese archivo (619, 623, 638…) ahora están 2 más abajo. Es un registro fechado, y no se corrige.
+
+| # | Sev. | Dónde | Qué está mal | Evidencia | Corrección mínima que propone el revisor |
+|---|---|---|---|---|---|
+| K17 | Baja | `VALIDACION_SESION3.md` l. 413 (tabla de dudas de la tercera validación, texto del revisor) | La duda se numeró «K10», que ya es el hallazgo de los jobs (l. 236). Es un error del revisor, y el registro lo copió fielmente | En la l. 236, K10 es `@Scheduled` en cada réplica. DEC-38 y el seguimiento la llaman «la duda» | Ninguna en la l. 413: esta sección deja la errata, como con K15. Si se prefiere, cambiar «K10» por «Duda» |
+| K18 | Baja | `DECISIONES.md` l. 625 (DEC-36, opción B) | La frase encadena dos «y»: «…el mapa ya está aprobado (sesión 2), y la 4b y la 4e no se pueden tocar…, y necesita otra forma de llamar a `ejecutar()`». Así, «necesita» se lee como si tuviera por sujeto «la 4b y la 4e», cuando es el CronJob | `138ebc0` agregó la subordinada en medio de la frase original | Partir la frase: «…en esta sesión. Además, necesita otra forma de llamar a `ejecutar()`.» (1 commit, opcional) |
+
+**No tocar:**
+- la frase del README (l. 44–51);
+- DEC-36, salvo K18 si se quiere, DEC-38 y su fila del índice;
+- la l. 124 y la fila 3 del plan;
+- la sección «Tercera validación».
+
+**Pendientes conocidos:** no cambian frente a las validaciones anteriores.
+- E1–E3, D1–D8 y D10 siguen resueltos (D2, salvo la p. 7 del reporte).
+- D9, D11 y D12 siguen pendientes: la demo de `37d655b` imprime una sola línea.
+
+### Seguimiento de la cuarta validación (2026-11-08)
+
+| # | Estado | Commit |
+|---|---|---|
+| K17 | Sin cambio: la errata queda anotada aquí, como K15 | — |
+| K18 | Aplicada: «…en esta sesión. Además, el CronJob necesita otra forma de llamar a `ejecutar()`.» | `c648c94` |
+
+La sesión 3 queda a la espera del OK de Mauricio.
