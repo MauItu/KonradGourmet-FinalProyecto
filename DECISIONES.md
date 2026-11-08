@@ -9,7 +9,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-33 y DEC-34:** las decidió Mauricio el 2026-11-08, al revisar la validación de la sesión 3 (hallazgos K1 y K4 de `VALIDACION_SESION3.md`). En DEC-33 no siguió la recomendación del revisor.
 - **DEC-35 a DEC-37:** las decidió Mauricio el 2026-11-08, al revisar la segunda validación de la sesión 3 (hallazgos K9, K10 y K11 de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor en las tres.
 - **DEC-38:** la decidió Mauricio el 2026-11-08, al revisar la tercera validación de la sesión 3 (la duda de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor.
-- **DEC-39 a DEC-46:** las tomó la sesión 4 (el código de la demo) mientras trabajaba sola, sin poder preguntar. Ninguna cambia un nombre ni una firma de 4a–4e; todas están **asumidas, por confirmar** con Mauricio. Cada una dice cuál es la alternativa si no se confirma.
+- **DEC-39 a DEC-46:** las tomó la sesión 4 (el código de la demo) mientras trabajaba sola, sin poder preguntar. Después, Mauricio las revisó una por una el 2026-11-08 y **confirmó** las asumidas sobre el pedido de $82.000, el precio por kilo, la solicitud parcial (se completa igual) y la alarma (una vez, al cruzar el umbral); en DEC-42 **escogió agregar `adjuntoUrl` a la firma**, que sí cambia 2 firmas de la 4d. Las demás siguen **asumidas, por confirmar**. Cada una dice cuál es la alternativa si no se confirma.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -55,7 +55,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-39 | Qué métodos tienen lógica en la sesión 4 | Solo lo que usa el recorrido de compra; los adaptadores de tecnología externa y los módulos que la demo no usa siguen pendientes (94 cuerpos) | Asumida, por confirmar |
 | DEC-40 | Datos del recorrido que los mockups no fijan | Precios por unidad; pedido de $82.000; res en 12,5 kg; histórico del tablero cargado a mano | Asumida, por confirmar |
 | DEC-41 | Cómo cambia una entidad sin métodos para eso | Constructores de copia y accesores de lista modificables; no se agregan métodos | Asumida, por confirmar |
-| DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como enlace en el cuerpo del correo; usuario `sistema`; un `correlacionId` por evento; T-06 sigue abierta | Asumida, por confirmar |
+| DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 sigue abierta | `adjuntoUrl`: **decidida por Mauricio**, código aplicado y 4d por actualizar en la sesión 5; el resto, asumida, por confirmar |
 | DEC-43 | Límites de la cadena de reglas y del umbral | «Más de 25 %» y «más de 50 %» son estrictos; el umbral de stock es «por debajo de» | Asumida, por confirmar |
 | DEC-44 | Dónde van las pruebas y el script | Carpeta `pruebas/` fuera de `src/`, sin JUnit, y `ejecutar.sh` | Asumida, por confirmar |
 | DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura | Asumida, por confirmar |
@@ -707,13 +707,13 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **El usuario y la correlación.** Los casos de uso no reciben al usuario autenticado, y no hay cómo pasar el `correlacionId` de un evento al siguiente.
 - **T-06.** `TendenciaDetectadaEvent.sugerencias` y `CotizacionValidadaEvent.estado` usan tipos del dominio de otro servicio, y DEC-29 no deja importarlos.
 
-**Opciones para el adjunto:** **A.** El enlace del PDF va en el cuerpo del correo, y `adjuntoUrl` queda vacío ✅ **Asumida**. **B.** Agregar `adjuntoUrl` a `Notificacion.enviar()` y a `CreadorNotificacion.notificar()`: cambia una firma de la 4d. **C.** Meter la URL en el contenido con una marca que `NotificacionCorreo` separe: funciona, pero es un truco que nadie lee en el diagrama.
+**Opciones para el adjunto:** **A.** El enlace del PDF va en el cuerpo del correo, y `adjuntoUrl` queda vacío (lo que se hizo al principio de la sesión). **B.** Agregar `adjuntoUrl` a `Notificacion.enviar()` y a `CreadorNotificacion.notificar()`: cambia una firma de la 4d ✅ **Escogida por Mauricio el 2026-11-08**, al revisar esta sesión; el código ya la tiene y la página 4d se actualiza en la sesión 5 (hasta entonces el código y el diagrama difieren en esas 2 firmas). **C.** Meter la URL en el contenido con una marca que `NotificacionCorreo` separe: funciona, pero es un truco que nadie lee en el diagrama.
 
 **Opciones para el usuario y la correlación:** **A.** Los eventos llevan `sistema` (o el correo de la solicitud) y cada evento crea su propio `correlacionId` ✅ **Asumida**. **B.** Pasar el usuario y la correlación por parámetro: cambia las firmas de todos los casos de uso.
 
 **Opciones para T-06:** **A.** La demo no consume `cotizacion.validada` ni `tendencia.detectada`: se publica la primera, nadie la lee, y la rama `tendencia.detectada` de `NotificacionService.notificarEvento()` lanza `Pendiente de implementar: … (T-06)` ✅ **Asumida**. **B.** Cambiar `estado` a `String` en la 4c (era la opción B de DEC-29). **C.** Mover los eventos a `compartido.eventos` (opción C de DEC-29).
 
-**Qué implica:** la sesión 5 anota en `CORRECCIONES_REPORTE.md` que la salida «Factory Method + Decorator» manda el correo con `X-Certificado` y `X-Sello-Tiempo`, sin PDF adjunto.
+**Qué implica:** `Notificacion.enviar(destino, contenido, adjuntoUrl)` y `CreadorNotificacion.notificar(destino, contenido, adjuntoUrl)` tienen un parámetro más que la 4d; `AlarmaApp` lo ignora. Los correos a los proveedores llevan el PDF en `Mensaje.adjuntoUrl`. La sesión 5 actualiza la 4d (`Notificacion`, `AlarmaApp`, `NotificacionCorreo` y `CreadorNotificacion`) y lo anota en `PLAN_CORRECCIONES.md`.
 
 ## DEC-43 · ¿Qué pasa justo en los límites de la cadena de reglas y del umbral?
 
@@ -732,7 +732,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Por qué hubo que decidir.** El plan pide «pruebas simples que no necesiten Maven» y un script. El README y el reporte cuentan 191 clases más la demo, y un paquete de pruebas dentro de `src/` cambiaría la cuenta.
 
 **Opciones:**
-- **A. Carpeta `pruebas/` junto a `src/`**, con un marco mínimo propio (`Prueba`) y `ejecutar.sh` ✅ **Asumida.** No cambia los paquetes de los 12 servicios ni la cuenta de clases. 159 verificaciones en 3 clases de prueba.
+- **A. Carpeta `pruebas/` junto a `src/`**, con un marco mínimo propio (`Prueba`) y `ejecutar.sh` ✅ **Asumida.** No cambia los paquetes de los 12 servicios ni la cuenta de clases. 160 verificaciones en 3 clases de prueba.
 - **B. Dentro de `src/…/pruebas`.** Cuenta como un paquete más y como más clases en el reporte.
 - **C. JUnit con Maven.** Pide Maven, que el plan descarta.
 
