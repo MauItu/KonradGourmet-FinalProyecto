@@ -4,6 +4,8 @@ import co.edu.konradlorenz.notificaciones.puertos.salida.AlarmaPushPort;
 
 /**
  * «WebSocket → V05»
+ *
+ * En el proyecto real: @Component.
  */
 public class AlarmaPushAdapter implements AlarmaPushPort {
 
