@@ -11,7 +11,7 @@ public class AlarmaApp implements Notificacion {
     }
 
     @Override
-    public void enviar(String destino, String contenido) {
+    public void enviar(String destino, String contenido, String adjuntoUrl) {
         canal.empujar(destino, contenido);
     }
 

@@ -83,13 +83,13 @@ final class PruebasPatrones {
     private static void factoryMethod() {
         Prueba.grupo("Factory Method: CreadorNotificacion");
         CorreoEnMemoria correos = new CorreoEnMemoria();
-        new CreadorCorreo(correos).notificar("jefe@kg.co", "Asunto de prueba\nCuerpo de prueba");
+        new CreadorCorreo(correos).notificar("jefe@kg.co", "Asunto de prueba\nCuerpo de prueba", null);
         Prueba.igual("CreadorCorreo crea un correo con el asunto de la primera línea", "Asunto de prueba", correos.enviados().get(0).asunto());
         Prueba.igual("y el resto como cuerpo", "Cuerpo de prueba", correos.enviados().get(0).cuerpo());
-        new CreadorCorreo(correos).notificar("jefe@kg.co", "Sin salto de línea");
+        new CreadorCorreo(correos).notificar("jefe@kg.co", "Sin salto de línea", null);
         Prueba.igual("sin salto de línea el asunto es genérico", "Konrad Gourmet", correos.enviados().get(1).asunto());
         AlarmaEnMemoria alarmas = new AlarmaEnMemoria();
-        new CreadorAlarmaApp(alarmas).notificar("jefe@kg.co", "Res al 23 %");
+        new CreadorAlarmaApp(alarmas).notificar("jefe@kg.co", "Res al 23 %", null);
         Prueba.igual("CreadorAlarmaApp empuja la alarma", List.of("jefe@kg.co: Res al 23 %"), alarmas.alarmas());
     }
 

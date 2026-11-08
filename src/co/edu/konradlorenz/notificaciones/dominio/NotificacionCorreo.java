@@ -11,12 +11,12 @@ public class NotificacionCorreo implements Notificacion {
     }
 
     @Override
-    public void enviar(String destino, String contenido) {
+    public void enviar(String destino, String contenido, String adjuntoUrl) {
         // la primera línea del contenido es el asunto; el resto, el cuerpo
         int salto = contenido.indexOf('\n');
         String asunto = salto < 0 ? "Konrad Gourmet" : contenido.substring(0, salto);
         String cuerpo = salto < 0 ? contenido : contenido.substring(salto + 1);
-        correo.enviar(new Mensaje(destino, asunto, cuerpo, null));
+        correo.enviar(new Mensaje(destino, asunto, cuerpo, adjuntoUrl));
     }
 
 }

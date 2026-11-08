@@ -82,7 +82,7 @@ public class NotificacionService implements NotificarUseCase {
     /** Envía por el canal del creador y deja la traza; si falla, registra el fallo y relanza para que el evento vaya a la DLQ. */
     private void enviar(CreadorNotificacion creador, String destino, EventoDominio evento, String contenido) {
         try {
-            creador.notificar(destino, contenido);
+            creador.notificar(destino, contenido, null);
             envios.registrar(destino, evento.tipo(), LocalDateTime.now());
             eventos.publicar(new AuditoriaEvent("sistema", "Notificación " + evento.tipo() + " enviada a " + destino));
         } catch (RuntimeException e) {
