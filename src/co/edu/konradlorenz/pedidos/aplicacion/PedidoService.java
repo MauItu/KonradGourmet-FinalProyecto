@@ -1,5 +1,6 @@
 package co.edu.konradlorenz.pedidos.aplicacion;
 
+import co.edu.konradlorenz.compartido.eventos.AuditoriaEvent;
 import co.edu.konradlorenz.compartido.puertos.EventPublisherPort;
 import co.edu.konradlorenz.pedidos.dominio.CatalogoPlatos;
 import co.edu.konradlorenz.pedidos.dominio.DetallePedido;
@@ -44,6 +45,7 @@ public class PedidoService implements RegistrarPedidoUseCase {
         }
         Pedido guardado = repositorio.guardar(p);
         eventos.publicar(new PedidoRegistradoEvent("sistema", guardado.numero(), sucursalId, lineas));
+        eventos.publicar(new AuditoriaEvent("sistema", "Pedido " + guardado.numero() + " registrado"));
         return guardado;
     }
 
