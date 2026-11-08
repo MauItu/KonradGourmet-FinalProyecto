@@ -1,5 +1,13 @@
 package co.edu.konradlorenz.identidad.dominio;
 
-public class OpcionMenu {
+/**
+ * «Composite · hoja»
+ */
+public class OpcionMenu extends ElementoMenu {
+
+    @Override
+    public boolean esHoja() {
+        throw new UnsupportedOperationException("Pendiente de implementar");
+    }
 
 }
