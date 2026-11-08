@@ -51,13 +51,13 @@ public class NotificacionService implements NotificarUseCase {
             enviar(creadorCorreo, e.correoSolicitante(), evento, "Solicitud " + e.numero() + " en trámite\nSu solicitud "
                     + e.numero() + " ya tiene cotización y pasó a EN TRÁMITE.");
         } else if (evento instanceof CotizacionEnviadaEvent e) {
-            // el correo certificado al proveedor lleva el enlace del PDF (claim check)
+            // el correo certificado al proveedor lleva el PDF adjunto: el adaptador lo descarga del almacén (claim check)
             enviar(creadorCorreo, e.correoProveedor(), evento, "Solicitud de cotización " + e.numero()
-                    + "\nPor favor cotice los productos del PDF: " + e.pdfUrl());
+                    + "\nPor favor cotice los productos del PDF adjunto.", e.pdfUrl());
         } else if (evento instanceof OrdenGeneradaEvent e) {
             enviar(creadorCorreo, e.correoProveedor(), evento, "Orden de compra " + e.numero() + "\nOrden " + e.numero()
                     + " sobre la cotización " + e.cotizacionNumero() + ", total " + e.total().toPlainString()
-                    + ". PDF: " + e.pdfUrl());
+                    + ". El PDF va adjunto.", e.pdfUrl());
         } else if (evento instanceof TendenciaDetectadaEvent) {
             // el evento trae SugerenciaPromocion, del dominio de ms-analitica, y DEC-29 no deja importarlo (T-06)
             throw new UnsupportedOperationException("Pendiente de implementar: tendencia.detectada (T-06)");
@@ -81,8 +81,12 @@ public class NotificacionService implements NotificarUseCase {
 
     /** Envía por el canal del creador y deja la traza; si falla, registra el fallo y relanza para que el evento vaya a la DLQ. */
     private void enviar(CreadorNotificacion creador, String destino, EventoDominio evento, String contenido) {
+        enviar(creador, destino, evento, contenido, null);
+    }
+
+    private void enviar(CreadorNotificacion creador, String destino, EventoDominio evento, String contenido, String adjuntoUrl) {
         try {
-            creador.notificar(destino, contenido, null);
+            creador.notificar(destino, contenido, adjuntoUrl);
             envios.registrar(destino, evento.tipo(), LocalDateTime.now());
             eventos.publicar(new AuditoriaEvent("sistema", "Notificación " + evento.tipo() + " enviada a " + destino));
         } catch (RuntimeException e) {
