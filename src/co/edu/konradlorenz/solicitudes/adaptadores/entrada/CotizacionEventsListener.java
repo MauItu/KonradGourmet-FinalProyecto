@@ -6,6 +6,8 @@ import co.edu.konradlorenz.solicitudes.puertos.entrada.GestionarSolicitudUseCase
 
 /**
  * «Listener · cotizacion.enviada · orden.generada»
+ *
+ * En el proyecto real: @Component, y alRecibir() lleva @KafkaListener con sus tópicos.
  */
 public class CotizacionEventsListener implements EventListener<EventoDominio> {
 
