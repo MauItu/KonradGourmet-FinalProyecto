@@ -6,6 +6,9 @@ import co.edu.konradlorenz.analitica.puertos.salida.SugerenciaRepositoryPort;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * En el proyecto real: @Repository.
+ */
 public class SugerenciaJpaAdapter implements SugerenciaRepositoryPort {
 
     @Override
