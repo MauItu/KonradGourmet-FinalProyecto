@@ -10,6 +10,7 @@ import co.edu.konradlorenz.inventario.puertos.entrada.GestionarInventarioUseCase
 import co.edu.konradlorenz.inventario.puertos.salida.InventarioRepositoryPort;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,10 +44,20 @@ public class InventarioService implements GestionarInventarioUseCase {
         for (Long sucursalId : repositorio.sucursalesConConsumo()) {
             Map<Long, BigDecimal> pendiente = repositorio.consumoPendiente(sucursalId);
             Inventario inventario = repositorio.inventarioDe(sucursalId);
+            List<InsumoInventario> cruzaron = new ArrayList<>();
             for (InsumoInventario insumo : inventario.insumos()) {
                 BigDecimal cantidad = pendiente.get(insumo.productoId());
-                if (cantidad != null) {
-                    insumo.descontar(cantidad);
+                if (cantidad == null) {
+                    continue;
+                }
+                boolean estabaBajo = umbral.superado(insumo);
+                boolean atendida = insumo.alertaAtendida();
+                insumo.descontar(cantidad); // descontar() reactiva la alerta
+                if (estabaBajo && atendida) {
+                    insumo.atenderAlerta(); // sigue siendo la misma alerta, y ya tiene una solicitud en camino
+                }
+                if (!estabaBajo && umbral.superado(insumo)) {
+                    cruzaron.add(insumo); // solo estos cruzaron el umbral en esta ejecución
                 }
             }
             repositorio.guardar(inventario);
@@ -54,7 +65,7 @@ public class InventarioService implements GestionarInventarioUseCase {
             Map<Long, BigDecimal> descontado = new LinkedHashMap<>();
             pendiente.forEach((productoId, cantidad) -> descontado.put(productoId, cantidad.negate()));
             repositorio.acumular(sucursalId, descontado);
-            for (InsumoInventario insumo : inventario.insumosBajoUmbral(umbral)) {
+            for (InsumoInventario insumo : cruzaron) {
                 eventos.publicar(new StockBajoEvent("sistema", sucursalId, insumo.productoId(), insumo.nombre(),
                         insumo.stockActual(), insumo.unidad(), insumo.porcentajeExistencia()));
             }
