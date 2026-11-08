@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
+ * En el proyecto real: @Repository.
+ *
  * En el esqueleto, «bitacora» simula la tabla en memoria; en el proyecto real este adaptador
  * usa un repositorio JPA sobre la base de datos de ms-administracion.
  */
