@@ -43,10 +43,11 @@ clases, atributos, métodos y relaciones `extends`/`implements`.
   diagrama van en el Javadoc de la clase.
 - El código no usa Spring ni JAX-WS, para que compile solo con `javac`. Cada adaptador
   dice en su Javadoc qué anotación lleva en el proyecto real, por ejemplo
-  «En el proyecto real: @RestController.»; el endpoint SOAP dice `@WebService`. Los
+  «En el proyecto real: @RestController.»; el endpoint SOAP dice `@WebService`, y el
+  cliente SOAP no dice ninguna, porque lo genera `wsimport`. En el proyecto real, los
   servicios de aplicación y los decoradores no llevan anotación: una clase de
-  configuración los arma con sus constructores, y ahí se fija el orden de los
-  decoradores.
+  configuración, que este código no incluye, los arma con sus constructores, y ahí se
+  fija el orden de los decoradores.
 - Los métodos todavía lanzan `UnsupportedOperationException("Pendiente de implementar")`.
 
 ## Módulos
