@@ -46,8 +46,9 @@ clases, atributos, métodos y relaciones `extends`/`implements`.
   «En el proyecto real: @RestController.»; el endpoint SOAP dice `@WebService`, y el
   cliente SOAP no dice ninguna, porque lo genera `wsimport`. En el proyecto real, los
   servicios de aplicación y los decoradores no llevan anotación: una clase de
-  configuración, que este código no incluye, los arma con sus constructores, y ahí se
-  fija el orden de los decoradores.
+  configuración, que este código no incluye, los arma con sus constructores, igual que
+  al cliente SOAP, al mapa de Redis del Proxy y a las fábricas de notificaciones, y ahí
+  se fija el orden de los decoradores.
 - Los métodos todavía lanzan `UnsupportedOperationException("Pendiente de implementar")`.
 
 ## Módulos
