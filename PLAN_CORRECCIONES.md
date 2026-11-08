@@ -113,12 +113,29 @@ Al terminar: validar con `arquitecto-revisor`.
   - los cambios de paquete con `git mv`, en commits propios;
   - se compila con `javac --release 21`.
 
+**Resultado (2026-11-08):**
+- **4e** (`documentos/`, 2 commits): `{Redis}` en `PrecioReferenciaCacheProxy.cache` y la nota `n_cache` con su conector `en_cache` (DEC-27); `/api/integracion/**` en el estereotipo de `AbastecimientoSoapEndpoint` (DEC-32). Las demás páginas no cambiaron.
+- **Código** (`KonradGourmet/`, 176 commits sobre `ad71e69`, y cada uno compila):
+  - 2 movimientos con `git mv`: H25 y N8;
+  - 5 cambios de tipo (H8);
+  - 162 commits de contenido, uno por clase o por familia;
+  - 7 commits del README: la tabla de los 10 patrones (H19 y D10), DEC-25, DEC-26, DEC-28, DEC-29, P-08 y P-09.
+- **Total de clases para el reporte:** 191, más `DemoArquitectura`, en 192 archivos. Antes eran 155 más la demo.
+- **Cifras:**
+  - compila con `javac --release 21 -Xlint:all` sin errores ni avisos;
+  - 82 relaciones `extends`/`implements` y 56 constructores;
+  - 29 comentarios de ventana, que cubren las 23 ventanas;
+  - las 23 notas del diagrama, en el Javadoc de su clase.
+
 ## Sesión 4 · Código: demo real
 
 - **D12:** `DemoArquitectura` recorre el flujo de compra con adaptadores en memoria y sin frameworks. Pasa por solicitudes, cotización COT-018, registro de valores, cadena de reglas y orden OC-0012.
 - Debe reproducir los valores de V19: $520.000, $545.000, +4,81 % → **OPCIONADA**. También muestra los casos +34,62 % → RECHAZADA y −61,54 % → SOSPECHOSA.
 - Implementar con lógica real la fachada, la cadena de reglas (`cadenaPorDefecto()`) y lo que use la demo. Debe respetar DEC-05 (lista de solicitudes) y D3 (CON ORDEN).
 - Agregar pruebas simples que no necesiten Maven, más un script para compilar y ejecutar.
+
+- **DEC-31:** la demo cubre las 7 salidas que promete el reporte (§13, p. 26): el menú del director de compras, el pedido de $82.000, COT-018/019/020, el correo con `X-Certificado`, el segundo precio desde la caché del Proxy, el Singleton y el KPI. El Singleton muestra un parámetro del tema, no el umbral (H13).
+- Los constructores y accesores de entidades y eventos se agregan según lo que use la demo (DEC-25). Si la demo consume `cotizacion.validada` o `tendencia.detectada`, se resuelve T-06 (DEC-29).
 
 Al terminar: correr la demo y validar con `arquitecto-revisor`.
 
@@ -137,7 +154,13 @@ Al terminar: correr la demo y validar con `arquitecto-revisor`.
     - supuesto S5 y §15: el alta de usuarios (DEC-10) y las rutas nuevas;
     - p. 13, §9: el mapa muestra también el almacén de objetos, ELK y la BD PostgreSQL de ms-integracion (DEC-16 y DEC-17), y una caja de adaptador agrupa los de una misma tecnología (DEC-15);
     - tabla de eventos y tabla del recorrido: ms-inventario consume `solicitud.registrada` en el paso 2 y ms-cotizaciones consume `orden.generada` en el paso 12 (DEC-18 y D3);
-    - despliegue: el reparto por zona, con Eureka y la SPA en las zonas A y B, está asumido y hay que confirmarlo con el equipo (DEC-20).
+    - despliegue: el reparto por zona, con Eureka y la SPA en las zonas A y B, está asumido y hay que confirmarlo con el equipo (DEC-20);
+    - de la sesión 3 (`INVENTARIO_SESION3.md`):
+      - p. 26: 191 clases, no 155 (P-12);
+      - p. 22: «Publish-Subscribe», y el Singleton sin el umbral (P-10);
+      - §13: la salida del Singleton (P-11, DEC-31);
+      - §15: faltan `catalogo()` y `mesas()` (W-03), `productosPorCategoria()` (W-06), el desplegable de proveedores (W-13) y `detalle()` de la cotización (W-20 y W-21);
+      - opcional: una tabla con los métodos de controlador que no atienden una ventana (W-24 a W-35).
   - **`CORRECCIONES_HU_Y_MOCKUPS.md`:**
     - los mockups V13 y V21 con varias solicitudes (DEC-05);
     - reescribir la tarjeta HU-07 con los filtros de `CriteriosConsulta` (D9);
@@ -161,6 +184,6 @@ Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiand
 | 1 · Fase 1 (Git) | ✅ Hecha (2026-11-07) |
 | 1 · Fase 2a (clases 4a–4e) | ✅ Aprobada por Mauricio (2026-11-07). Validada por el revisor, con N1–N15 corregidos (DEC-11 a DEC-14) |
 | 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | ✅ Aprobada por Mauricio (2026-11-08). Validada por el revisor, con S1–S14 corregidos. Decisiones DEC-15 a DEC-24 |
-| 3 · Código: firmas | En curso (2026-11-08): inventario del revisor (`INVENTARIO_SESION3.md`) y decisiones DEC-25 a DEC-32 |
+| 3 · Código: firmas | Aplicada (2026-11-08): 191 clases más la demo, que compilan. Decisiones DEC-25 a DEC-32. En validación del revisor |
 | 4 · Código: demo | Pendiente |
 | 5 · Excel y documentos | Pendiente |

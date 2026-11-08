@@ -11,19 +11,19 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | Id | Tema | Decisión | Estado |
 |---|---|---|---|
 | DEC-01 | Carpetas y control de versiones | Dos carpetas hermanas, cada una con su repo, en la rama local `correcciones-revision` | Aplicada |
-| DEC-02 | Código (hallazgo bloqueante H1 y D12) | Firmas, relaciones y tipos, más una demo real | Por aplicar (sesiones 3 y 4) |
+| DEC-02 | Código (hallazgo bloqueante H1 y D12) | Firmas, relaciones y tipos, más una demo real | Firmas, relaciones y tipos aplicados en el código (sesión 3); falta la demo (sesión 4) |
 | DEC-03 | Reporte PDF | No tocarlo hasta que aparezca el script original | Vigente |
 | DEC-04 | Ritmo de trabajo | Por fases con pausa, en 5 sesiones | Vigente |
-| DEC-05 | HU-09: solicitudes por cotización | Varias solicitudes; anotar que hay que corregir el mockup V13 | Aplicada en el `.drawio`; faltan el código (sesiones 3 y 4) y los mockups (sesión 5) |
+| DEC-05 | HU-09: solicitudes por cotización | Varias solicitudes; anotar que hay que corregir el mockup V13 | Aplicada en el `.drawio` y en las firmas del código; faltan la lógica (sesión 4) y los mockups (sesión 5) |
 | DEC-06 | Dueño de los KPI | Director comercial, para revisar con el equipo | Decidida |
-| DEC-07 | Alcance de HU-15 y HU-19 | Las dos dentro de la arquitectura | Aplicada en el `.drawio`; faltan el código (sesión 3) y los mockups opcionales (sesión 5) |
+| DEC-07 | Alcance de HU-15 y HU-19 | Las dos dentro de la arquitectura | Aplicada en el `.drawio` y en el código; faltan los mockups opcionales (sesión 5) |
 | DEC-08 | Recomendaciones del revisor y D1–D8 | Se aceptan las recomendaciones | Asumida, por confirmar |
-| DEC-09 | Datos comunes de los eventos (H11) | `EventoDominio` pasa a clase abstracta con id, usuario, correlación y fecha | Aplicada en el `.drawio`; falta el código (sesión 3) |
-| DEC-10 | Regla de contraseña (H15) | Regla en el dominio, `cifrar()` y alta de usuarios por el administrador | Aplicada en el `.drawio`; faltan el código (sesión 3) y el reporte (sesión 5) |
-| DEC-11 | Platos por sucursal (N1) | Se corrige ya, en la fase 2a | Aplicada en el `.drawio`; falta el código (sesión 3) |
+| DEC-09 | Datos comunes de los eventos (H11) | `EventoDominio` pasa a clase abstracta con id, usuario, correlación y fecha | Aplicada |
+| DEC-10 | Regla de contraseña (H15) | Regla en el dominio, `cifrar()` y alta de usuarios por el administrador | Aplicada en el `.drawio` y en el código; falta el reporte (sesión 5) |
+| DEC-11 | Platos por sucursal (N1) | Se corrige ya, en la fase 2a | Aplicada |
 | DEC-12 | Rutas del gateway (N6) | 13 prefijos: `/api/usuarios` y `/api/proveedores` aparte | Aplicada en el `.drawio`; falta el reporte (sesión 5) |
-| DEC-13 | Destinatarios de los correos (N5) | Mixto: el correo del solicitante viaja en el evento, y ms-notificaciones guarda una libreta de jefes por sucursal | Aplicada en el `.drawio`; falta el código (sesión 3) |
-| DEC-14 | Resto de la validación de la fase 2a | Se aplican N2–N4 y N7–N15 como los propone el revisor | Aplicada en el `.drawio`; falta el código (sesión 3) |
+| DEC-13 | Destinatarios de los correos (N5) | Mixto: el correo del solicitante viaja en el evento, y ms-notificaciones guarda una libreta de jefes por sucursal | Aplicada |
+| DEC-14 | Resto de la validación de la fase 2a | Se aplican N2–N4 y N7–N15 como los propone el revisor | Aplicada |
 | DEC-15 | Adaptadores nuevos en el mapa (p. 1) | Una caja por tecnología y destino, explicada en la leyenda; cajas angostas solo en 2 filas | Aplicada en el `.drawio`; falta el reporte (sesión 5) |
 | DEC-16 | Infraestructura nueva en el mapa | Almacén de objetos y ELK, este en pequeño y con una sola flecha | Aplicada en el `.drawio`; falta el reporte (sesión 5) |
 | DEC-17 | Base de datos de ms-integracion | PostgreSQL propia para la tabla outbox | Aplicada en el `.drawio`; falta el reporte (sesión 5) |
@@ -34,14 +34,14 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-22 | Caché del Proxy en memoria (4e) | No se toca la 4e; se anota para la sesión 3 | Resuelta en la sesión 3 por DEC-27 |
 | DEC-23 | Ruta del gateway a ms-integracion (p. 1, S5) | Se deja como está: entra por arriba al endpoint SOAP | Decidida, sin cambio |
 | DEC-24 | Color del proveedor (p. 2, S9) | Gris claro con borde gris, en el dibujo y en la leyenda | Aplicada |
-| DEC-25 | Constructores y accesores (Q1) | Constructores en el código ya; la convención «se omiten constructores y accesores» va en el README, no en las leyendas | Por aplicar (sesión 3) |
-| DEC-26 | Comentario de ventana (Q2) | «Atiende la ventana Vxx de los mockups», una línea por ventana | Por aplicar (sesión 3) |
-| DEC-27 | Caché del Proxy en Redis (Q3, cierra DEC-22) | `{Redis}` en el atributo y una nota en la 4e | Por aplicar (sesión 3) |
-| DEC-28 | El dominio de notificaciones usa puertos (Q4) | Se deja la 4d; se precisa la regla del README | Por aplicar (sesión 3) |
-| DEC-29 | Eventos entre servicios (Q5) | Un servicio solo importa el paquete `eventos` de otro, nunca su dominio | Por aplicar (README, sesión 3) |
-| DEC-30 | Adaptadores JPA con colecciones en memoria (Q6) | Se copian tal cual, explicados en el Javadoc | Por aplicar (sesión 3) |
+| DEC-25 | Constructores y accesores (Q1) | Constructores en el código ya; la convención «se omiten constructores y accesores» va en el README, no en las leyendas | Aplicada |
+| DEC-26 | Comentario de ventana (Q2) | «Atiende la ventana Vxx de los mockups», una línea por ventana | Aplicada |
+| DEC-27 | Caché del Proxy en Redis (Q3, cierra DEC-22) | `{Redis}` en el atributo y una nota en la 4e | Aplicada |
+| DEC-28 | El dominio de notificaciones usa puertos (Q4) | Se deja la 4d; se precisa la regla del README | Aplicada |
+| DEC-29 | Eventos entre servicios (Q5) | Un servicio solo importa el paquete `eventos` de otro, nunca su dominio | Aplicada (README) |
+| DEC-30 | Adaptadores JPA con colecciones en memoria (Q6) | Se copian tal cual, explicados en el Javadoc | Aplicada |
 | DEC-31 | Alcance de la demo (Q7) | La demo cubre las 7 salidas del reporte; el Singleton muestra un parámetro del tema | Por aplicar (sesión 4) |
-| DEC-32 | `/api/integracion/**` en la 4e (D2) | En la misma línea del estereotipo de `AbastecimientoSoapEndpoint` | Por aplicar (sesión 3) |
+| DEC-32 | `/api/integracion/**` en la 4e (D2) | En la misma línea del estereotipo de `AbastecimientoSoapEndpoint` | Aplicada |
 
 ---
 
@@ -273,6 +273,8 @@ En realidad las 156 clases están vacías y la demo solo imprime una línea. Un 
 - En las páginas 4a–4e no cambia nada.
 - **Sesión 2:** el mapa (p. 1) y la 3a pasan de 11 a 13 rutas, con los mismos 11 servicios.
 - **Sesión 5:** se corrige la tabla del reporte (p. 7).
+
+**Nota (sesión 3, W-36 de `INVENTARIO_SESION3.md`):** la opción B se descartó por claridad, no por un choque técnico. `GET /api/cotizaciones/pendientes` (V16) y `GET /api/cotizaciones/{id}` (H5) tienen la misma forma y funcionan, porque Spring prefiere el segmento literal.
 
 ## DEC-13 · ¿De dónde saca ms-notificaciones el correo del destinatario? (N5)
 
