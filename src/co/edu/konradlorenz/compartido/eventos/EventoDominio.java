@@ -19,20 +19,28 @@ public abstract class EventoDominio {
     protected UUID correlacionId;
     protected LocalDateTime ocurridoEn;
 
+    /** Crea el evento con un id nuevo, una correlación nueva y la hora actual. */
+    protected EventoDominio(String usuario) {
+        this.id = UUID.randomUUID();
+        this.usuario = usuario;
+        this.correlacionId = UUID.randomUUID();
+        this.ocurridoEn = LocalDateTime.now();
+    }
+
     public UUID id() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return id;
     }
 
     public String usuario() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return usuario;
     }
 
     public UUID correlacionId() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return correlacionId;
     }
 
     public LocalDateTime ocurridoEn() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return ocurridoEn;
     }
 
     public abstract String tipo();

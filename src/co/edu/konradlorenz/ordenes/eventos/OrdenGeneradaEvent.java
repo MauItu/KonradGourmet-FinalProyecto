@@ -15,9 +15,48 @@ public class OrdenGeneradaEvent extends EventoDominio {
     private String pdfUrl;
     private BigDecimal total;
 
+    public OrdenGeneradaEvent(String usuario, String numero, String cotizacionNumero, List<String> solicitudNumeros, String proveedor, String correoProveedor, String pdfUrl, BigDecimal total) {
+        super(usuario);
+        this.numero = numero;
+        this.cotizacionNumero = cotizacionNumero;
+        this.solicitudNumeros = solicitudNumeros;
+        this.proveedor = proveedor;
+        this.correoProveedor = correoProveedor;
+        this.pdfUrl = pdfUrl;
+        this.total = total;
+    }
+
+    public String numero() {
+        return numero;
+    }
+
+    public String cotizacionNumero() {
+        return cotizacionNumero;
+    }
+
+    public List<String> solicitudNumeros() {
+        return solicitudNumeros;
+    }
+
+    public String proveedor() {
+        return proveedor;
+    }
+
+    public String correoProveedor() {
+        return correoProveedor;
+    }
+
+    public String pdfUrl() {
+        return pdfUrl;
+    }
+
+    public BigDecimal total() {
+        return total;
+    }
+
     @Override
     public String tipo() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return "orden.generada";
     }
 
 }

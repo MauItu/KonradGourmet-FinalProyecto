@@ -10,9 +10,23 @@ public class TendenciaDetectadaEvent extends EventoDominio {
     private List<SugerenciaPromocion> sugerencias;
     private String fuente;
 
+    public TendenciaDetectadaEvent(String usuario, List<SugerenciaPromocion> sugerencias, String fuente) {
+        super(usuario);
+        this.sugerencias = sugerencias;
+        this.fuente = fuente;
+    }
+
+    public List<SugerenciaPromocion> sugerencias() {
+        return sugerencias;
+    }
+
+    public String fuente() {
+        return fuente;
+    }
+
     @Override
     public String tipo() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return "tendencia.detectada";
     }
 
 }
