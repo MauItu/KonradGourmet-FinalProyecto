@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * «ELK · Elasticsearch · HTTPS»
+ *
+ * En el proyecto real: @Component.
  */
 public class ElasticsearchLogsAdapter implements LogsPort {
 
