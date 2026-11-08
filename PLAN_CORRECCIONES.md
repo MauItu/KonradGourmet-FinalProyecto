@@ -192,6 +192,6 @@ Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiand
 | 1 · Fase 1 (Git) | ✅ Hecha (2026-11-07) |
 | 1 · Fase 2a (clases 4a–4e) | ✅ Aprobada por Mauricio (2026-11-07). Validada por el revisor, con N1–N15 corregidos (DEC-11 a DEC-14) |
 | 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | ✅ Aprobada por Mauricio (2026-11-08). Validada por el revisor, con S1–S14 corregidos. Decisiones DEC-15 a DEC-24 |
-| 3 · Código: firmas | Aplicada y validada por el revisor (2026-11-08), con K1–K8 corregidos. Son 191 clases más la demo, que compilan. Decisiones DEC-25 a DEC-34. Falta la segunda validación y el OK de Mauricio |
+| 3 · Código: firmas | Aplicada y validada por el revisor dos veces (2026-11-08). K1–K8 están corregidos. La segunda validación dejó K9–K13, que esperan la decisión de Mauricio (K9, K10 y K11). Son 191 clases más la demo, que compilan. Decisiones DEC-25 a DEC-34 |
 | 4 · Código: demo | Pendiente |
 | 5 · Excel y documentos | Pendiente |

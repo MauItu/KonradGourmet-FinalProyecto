@@ -185,3 +185,69 @@ Lo demás se aplicó tal como lo propone el revisor.
 Cada commit de código compila con `javac --release 21 -Xlint:all`, sin errores ni avisos. Al terminar, las 191 clases son exactamente la salida del generador a partir de 4a–4e.
 
 **Opcional:** la PNG al día de la 4e está en `FinalProyecto/exportes/sesion3/4e.png` (escala 1, fuera del repo).
+
+## Segunda validación (2026-11-08)
+
+Validó el agente `arquitecto-revisor`, solo con lectura, los commits que aplicaron K1–K8:
+- `KonradGourmet/`: los 59 commits de `6f19885` a `4bb25a0` (HEAD), sobre `67d9edd`;
+- `documentos/`: de `bc415ba` a `5c9a99c`.
+
+Los hallazgos nuevos siguen la numeración: K9–K13.
+
+**Veredicto del revisor: lista con correcciones.**
+- K1–K8 quedaron resueltos, y cada commit cambia solo lo que dice su mensaje:
+  - cada uno de los 55 commits de código toca un solo archivo y solo agrega líneas de comentario (122 líneas, ninguna quitada);
+  - en los 54 de DEC-33, la clase, el paquete, la página (4a–4e) y la anotación que dice el mensaje coinciden con el archivo y con la caja del diagrama;
+  - los 4 commits del README y los 7 de `documentos/` cambian solo el párrafo, la celda o la fila que nombran.
+- **K1 (DEC-33):**
+  - la nota está en exactamente 54 clases, todas de `adaptadores/`:
+    - 14 con `@RestController`;
+    - 15 con `@Repository`;
+    - 8 listeners con `@KafkaListener` en `alRecibir()`;
+    - 2 jobs con `@Scheduled` en `ejecutar()`;
+    - 15 con `@Component`;
+  - las otras 5 clases de `adaptadores/` son las que DEC-33 excluye: los 3 decoradores, `MinisterioSoapClient` y `AbastecimientoSoapEndpoint`;
+  - ninguna clase fuera de `adaptadores/` lleva la nota;
+  - las anotaciones coinciden con el reporte y con la 3b:
+    - el reporte nombra `@RestController`, `@Repository` y `@KafkaListener` (p. 26) y dice que «el orden de los decoradores se fija en la configuración» (p. 22);
+    - la 3b dice «Spring MVC», «Spring Data JPA» y «consumidor Kafka», y no le da tecnología a los casos de uso;
+  - quedan dos detalles de Spring (K9 y K10) y uno de redacción en el README (K12).
+- **El código sigue idéntico a 4a–4e:**
+  - entre `67d9edd` y HEAD, el bytecode de las 192 clases es idéntico (`javap -p -c -s -constants`), y también el código fuente sin comentarios;
+  - no cambió ninguna firma.
+- **Compilación:**
+  - la base y los 59 commits compilan con `javac --release 21 -Xlint:all` (javac 27), con 0 errores, 0 avisos y el log vacío;
+  - cada uno tiene 192 archivos;
+  - `javadoc -Xdoclint:all,-missing` tampoco da avisos.
+- **DEC-33 y DEC-34** están bien registradas: cada una tiene por qué, opciones, la escogida y qué implica. Lo de DEC-34 es cierto:
+  - con el umbral normal, `--follow` da `C064` y `C062`;
+  - con `-M30%`, da `R030` (`7cb9e8f`) y `R041` (`5f50178`) y llega hasta `ad71e69`.
+- **Estados:**
+  - son ciertos los de `DECISIONES.md` (DEC-25, DEC-29, DEC-33 y DEC-34) y los del plan (235 commits sobre `ad71e69`; a la sesión 3 le faltan la segunda validación y el OK);
+  - el seguimiento también es cierto, salvo una frase de K1 (K12) y la del generador (ver la nota del final).
+- **`.drawio`:**
+  - no cambió desde `7e92bb9` y sigue con 1644 celdas;
+  - el original conserva su SHA-256 (`10a49edd…`).
+- **PNG:** `exportes/sesion3/4e.png` es idéntica, byte a byte, a la 4e exportada hoy.
+
+| # | Sev. | Dónde | Qué está mal | Evidencia | Corrección mínima que propone el revisor |
+|---|---|---|---|---|---|
+| K9 | Media | `integracion/adaptadores/salida/PrecioReferenciaCacheProxy.java` l. 11 y `MinisterioComercioAdapter.java` l. 9 | Los dos dicen `@Component`, y los dos implementan `PrecioReferenciaPort`. `ConsultarPrecioService` recibe un `PrecioReferenciaPort` (l. 14). Con dos candidatos, Spring no arranca (`NoUniqueBeanDefinitionException`), y nada asegura que el servicio reciba el Proxy y no el adaptador real | Es el único puerto con dos implementaciones anotadas en el mismo servicio. Los decoradores también envuelven su interfaz, y el README (l. 47–49) los arma en una clase de configuración; al Proxy no | En el Proxy: «En el proyecto real: @Component y @Primary: ConsultarPrecioService recibe el Proxy, y el Proxy recibe el adaptador real.» (1 commit). En DEC-33 (l. 584), anotar que el Proxy lleva además `@Primary` |
+| K10 | Media | `inventario/adaptadores/entrada/ConsumoDiarioJob.java` l. 8 y `analitica/adaptadores/entrada/TendenciasJob.java` l. 8 | `@Scheduled` corre en cada réplica. ms-inventario tiene de 2 a 6, así que el descuento de las 23:59 se haría de 2 a 6 veces cada noche. `descontarConsumoDiario()` no recibe la fecha, y ni el diagrama ni el reporte dicen que el job corra en una sola réplica. En ms-analitica (de 2 a 4 réplicas) se repetirían las sugerencias; `notificadaEl` solo evita repetir la notificación | Despliegue, p. 10 `v15`: «ms-inventario 2 → 6 · … ms-analitica … 2 → 4»; `GestionarInventarioUseCase` l. 13. No lo crea DEC-33: la caja «Scheduler · diario 23:59» ya estaba, pero la nota lo vuelve explícito | En los dos jobs: «En el proyecto real: @Component, y ejecutar() lleva @Scheduled (diario 23:59) y @SchedulerLock (ShedLock), para que lo ejecute una sola réplica.» (2 commits). También en DEC-33 (l. 583) |
+| K11 | Baja | `KonradGourmet/README.md` l. 62 (`69d8011`, K5) | Dice que ms-cotizaciones atiende «V13–V21». Cuatro artefactos le dan V13–V20 y dejan V21 en ms-ordenes: el mapa, la 3a, el reporte y `ESTADO_PROYECTO_Y_C4.md`. K5 igualó el README al código, pero lo dejó en contra de esos cuatro. El error fue de la recomendación del revisor | Mapa `v121` «V13–V20» y `v141` «V21–V23»; 3a `c3a_ms_cotizaciones` «V13–V20»; reporte p. 7; `ESTADO_PROYECTO_Y_C4.md` l. 74. Que V21 llama a ms-cotizaciones ya lo dicen la 3b (`c3b_controller`, `c3b_e5`) y el comentario de `detalle()` | Volver a «V13–V20» (1 commit). En el seguimiento, K5 pasa a «Revertida por K11» |
+| K12 | Baja | `KonradGourmet/README.md` l. 44–49; `VALIDACION_SESION3.md` l. 176 | «Cada adaptador dice en su Javadoc qué anotación lleva» no es cierto para `MinisterioSoapClient`: está en `adaptadores/salida`, su Javadoc no nombra ninguna anotación y el README no lo excluye. El seguimiento dice que el README explica el cliente SOAP, y no lo explica. Además, «una clase de configuración los arma» se lee como si esa clase estuviera en el código | `MinisterioSoapClient.java` l. 3–8; ninguna clase de configuración en `src/` | «…el endpoint SOAP dice `@WebService`, y el cliente SOAP lo genera `wsimport`. En el proyecto real, los servicios de aplicación y los decoradores no llevan anotación: una clase de configuración los arma…» (1 commit). Con eso, la l. 176 queda cierta |
+| K13 | Baja | `DECISIONES.md` l. 601–602 | El «Qué implica» de DEC-34 va pegado al `---`. En Markdown se lee como un título de nivel 2, y la línea separadora no aparece | Es la única decisión sin línea en blanco antes del `---` (`8daca33`) | Una línea en blanco antes de la l. 602 (1 commit) |
+
+**Dudas para decidir:**
+
+| # | Duda | Opciones | Recomendación |
+|---|---|---|---|
+| K9 | ¿Cómo recibe `ConsultarPrecioService` el Proxy y no el adaptador real? | **A.** `@Primary` en el Proxy: 1 commit, y siguen siendo 54. **B.** El Proxy sin anotación, armado en la configuración como los decoradores: cambian el Proxy, el README, DEC-33 y el seguimiento, que pasan a 53 | **A.** Es una línea y conserva DEC-33. B es más parecido a los decoradores, pero cambia una cuenta ya registrada |
+| K10 | ¿Cómo se asegura que el job corra en una sola réplica? | **A.** `@SchedulerLock` (ShedLock), con su tabla en la base de cada servicio. **B.** Un CronJob de Kubernetes en lugar de `@Scheduled`. **C.** Dejar `@Scheduled` y hacer idempotente el descuento en la sesión 4 | **A.** Es la solución habitual con `@Scheduled`, y solo agrega una librería y una tabla. B cambia la caja «Scheduler» y necesita otra forma de llamar a `ejecutar()`. C hará falta igual en la lógica, pero no evita que dos réplicas corran a la vez |
+| K11 | ¿Qué ventanas se le dan a ms-cotizaciones? | **A.** Volver a «V13–V20», como el mapa, la 3a, el reporte y ESTADO. **B.** Dejar «V13–V21» y cambiar `v121`, la 3a y la p. 7 | **A.** Es 1 commit. B toca dos páginas ya aprobadas y el reporte |
+
+K12 y K13 son mecánicos y no traen duda.
+
+**Nota:** el revisor no pudo comprobar la frase del seguimiento «las 191 clases son exactamente la salida del generador a partir de 4a–4e» (l. 185), porque el generador no está en ninguno de los dos repos. Comprobó lo equivalente: el código no cambió frente a `67d9edd`, que la primera validación encontró idéntico a 4a–4e.
+
+**Pendientes conocidos:** no cambian frente a la primera validación. E1–E3, D1–D8 y D10 siguen resueltos (D2, salvo la p. 7 del reporte), y D9, D11 y D12 siguen pendientes.
