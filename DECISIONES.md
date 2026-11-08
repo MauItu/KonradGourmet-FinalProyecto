@@ -4,6 +4,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 
 - **Decidió:** Mauricio Iturriza, el 2026-11-07, salvo que se indique otra cosa.
 - **DEC-15 a DEC-22:** las decidió Mauricio el 2026-11-08 en la sesión 2. Siguió la recomendación del arquitecto-revisor, que revisó cada caso en el `.drawio`, el reporte y las HU. Los ítems P1-…, P2-…, P3a-…, P3b-…, P5-… y P6-… están en `INVENTARIO_SESION2.md`.
+- **DEC-23 y DEC-24:** las tomó el arquitecto-revisor el 2026-11-08, a pedido de Mauricio («toma la mejor decisión»), al validar la sesión 2. Responden a los hallazgos S5 y S9 de `VALIDACION_SESION2.md`.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -30,6 +31,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-20 | Zonas en el despliegue (p. 5) | Tres cajas de zona con el reparto; Eureka y la SPA en las zonas A y B | Asumida en parte, por confirmar (sesión 2) |
 | DEC-21 | Ítems fuera del plan de la sesión 2 | Se aplican 27 de 33; 6 no se aplican | Por aplicar (sesión 2) |
 | DEC-22 | Caché del Proxy en memoria (4e) | No se toca la 4e; se anota para la sesión 3 | Por aplicar (sesión 3) |
+| DEC-23 | Ruta del gateway a ms-integracion (p. 1, S5) | Se deja como está: entra por arriba al endpoint SOAP | Decidida, sin cambio |
+| DEC-24 | Color del proveedor (p. 2, S9) | Gris claro con borde gris, en el dibujo y en la leyenda | Por aplicar (sesión 2) |
 
 ---
 
@@ -403,6 +406,26 @@ Además, HU-16 (p. 23) pide que la alerta muestre el producto, la cantidad resta
 - **B. Hacer una excepción** y agregar ya en la 4e una nota de una línea: «la caché vive en Redis, compartida por las réplicas».
 
 **Qué implica:** en la sesión 3 se corrige la 4e, con una nota o con un puerto hacia Redis.
+
+## DEC-23 · ¿Por dónde entra la ruta del gateway a ms-integracion (p. 1, S5)?
+
+**Por qué hubo que decidir.** Al validar la sesión 2, el revisor vio que la ruta `e225c` (`/api/integracion/**`) entra a `AbastecimientoSoapEndpoint` (`ad_integracion_t1`, la caja del medio) por arriba, y cruza la cabecera azul de ms-integracion. Las otras 10 rutas del gateway entran a su servicio por la izquierda.
+
+**Opciones:**
+- **A. Dejarla como está.** El cruce se lee bien, y el WebSocket `e231` ya cruza así la cabecera de ms-notificaciones. ✅ **Escogida.**
+- **B. Intercambiar `ad_integracion_t0` y `t1`**, para que el endpoint SOAP quede a la izquierda y la ruta entre por ese lado. Pero la llamada interna de ms-cotizaciones (`e227`), que hoy entra por la izquierda a `PrecioRestController`, tendría que entrar por arriba y cruzaría la misma cabecera. El cruce solo cambia de flecha, y además hay que mover dos cajas con sus flechas.
+
+**Qué implica:** el mapa no cambia.
+
+## DEC-24 · ¿Cómo se distingue en el contexto (p. 2, S9) al proveedor, que es una persona externa?
+
+**Por qué hubo que decidir.** La leyenda nueva de la p. 2 distingue a la «persona externa» por su color. Pero el gris del proveedor (`v22`, #6B7079) casi no se diferencia del gris (#5B6474) que ya usan el director comercial (`v10`) y el administrador (`v12`).
+
+**Opciones:**
+- **A. Gris claro con borde gris** para el proveedor y para su muestra en la leyenda (`p2_sw2`). Así se ve que está fuera del sistema, como en el C4, que dibuja en gris claro lo externo. El revisor proponía relleno blanco; se usa gris claro para que la figura no se pierda sobre el fondo blanco. ✅ **Escogida.**
+- **B. Dejarlo así.** La leyenda queda menos clara.
+
+**Qué implica:** en la p. 2 solo cambian `v22` y `p2_sw2`.
 
 ---
 
