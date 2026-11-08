@@ -4,6 +4,9 @@ import co.edu.konradlorenz.notificaciones.puertos.salida.DestinatarioRepositoryP
 
 import java.util.List;
 
+/**
+ * En el proyecto real: @Repository.
+ */
 public class DestinatarioJpaAdapter implements DestinatarioRepositoryPort {
 
     @Override
