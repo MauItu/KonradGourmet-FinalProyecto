@@ -92,11 +92,13 @@ final class PruebasFlujoDeCompra {
         s.solicitudes.registrar(Datos.solicitud());
         Prueba.igual("solicitud.registrada con la res atiende la alerta", 0, s.inventario.alertas(1L).size());
 
-        // al día siguiente se vende un ajiaco más: la alerta ya atendida no se repite ni se reactiva (S4-1)
+        // al día siguiente se vende una Bandeja paisa más: la alerta ya atendida no se repite ni se reactiva (S4-1)
         Pedido otro = new Pedido("PED-0260", new Mesa(5, 1L, 4, true));
-        otro.agregarPlato(2L, 1, null, new BigDecimal("18000"));
+        otro.agregarPlato(1L, 1, null, new BigDecimal("32000"));
         s.pedidos.registrar(otro);
         s.consumoDiario.ejecutar();
+        Prueba.igualValor("la Bandeja paisa del día siguiente descuenta otros 0,5 kg de res", "11",
+                s.inventario.insumos(1L).stream().filter(i -> i.productoId().equals(1L)).findFirst().orElseThrow().stockActual());
         Prueba.igual("el cierre del día siguiente no repite la alerta de la res", 1L, s.bus.cuantos("inventario.stock-bajo"));
         Prueba.igual("ni manda otra alarma", 1, s.alarmas.alarmas().size());
         Prueba.igual("y V05 no la vuelve a mostrar", 0, s.inventario.alertas(1L).size());
