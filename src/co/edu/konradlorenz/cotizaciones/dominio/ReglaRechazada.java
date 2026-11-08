@@ -9,12 +9,12 @@ public class ReglaRechazada extends ReglaValidacion {
 
     @Override
     protected boolean aplica(BigDecimal diferencia) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return diferencia.compareTo(new BigDecimal("25")) > 0;
     }
 
     @Override
     protected EstadoCotizacion estado() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return EstadoCotizacion.RECHAZADA;
     }
 
 }
