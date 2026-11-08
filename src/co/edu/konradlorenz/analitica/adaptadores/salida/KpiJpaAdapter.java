@@ -22,12 +22,16 @@ public class KpiJpaAdapter implements KpiRepositoryPort {
 
     @Override
     public void guardar(HechoNegocio h) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        hechos.add(h);
     }
 
     @Override
     public List<HechoNegocio> hechos(LocalDate desde, LocalDate hasta, Long sucursalId) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return hechos.stream()
+                .filter(h -> desde == null || !h.fecha().isBefore(desde))
+                .filter(h -> hasta == null || !h.fecha().isAfter(hasta))
+                .filter(h -> sucursalId == null || sucursalId.equals(h.sucursalId()))
+                .toList();
     }
 
 }
