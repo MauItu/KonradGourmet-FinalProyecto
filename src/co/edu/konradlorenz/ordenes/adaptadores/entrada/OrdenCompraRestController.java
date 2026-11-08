@@ -9,6 +9,8 @@ import java.util.List;
 /**
  * «REST · /api/ordenes-compra»
  *
+ * En el proyecto real: @RestController.
+ *
  * Nota del diagrama: generar() rechaza una segunda orden sobre la misma cotización
  * (existePorCotizacion), y la base garantiza cotizacionNumero {único}, así un doble clic no crea dos
  * órdenes. CotizacionConsultaPort solo entrega cotizaciones OPCIONADA: si no, responde «Solo se pueden
