@@ -35,11 +35,11 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-22 | Caché del Proxy en memoria (4e) | No se toca la 4e; se anota para la sesión 3 | Resuelta en la sesión 3 por DEC-27 |
 | DEC-23 | Ruta del gateway a ms-integracion (p. 1, S5) | Se deja como está: entra por arriba al endpoint SOAP | Decidida, sin cambio |
 | DEC-24 | Color del proveedor (p. 2, S9) | Gris claro con borde gris, en el dibujo y en la leyenda | Aplicada |
-| DEC-25 | Constructores y accesores (Q1) | Constructores en el código ya; la convención «se omiten constructores y accesores» va en el README, no en las leyendas | Aplicada |
+| DEC-25 | Constructores y accesores (Q1) | Constructores en el código ya; la convención «se omiten constructores y accesores» va en el README, no en las leyendas | Aplicada en aplicación y adaptadores; entidades y eventos en la sesión 4 |
 | DEC-26 | Comentario de ventana (Q2) | «Atiende la ventana Vxx de los mockups», una línea por ventana | Aplicada |
 | DEC-27 | Caché del Proxy en Redis (Q3, cierra DEC-22) | `{Redis}` en el atributo y una nota en la 4e | Aplicada |
 | DEC-28 | El dominio de notificaciones usa puertos (Q4) | Se deja la 4d; se precisa la regla del README | Aplicada |
-| DEC-29 | Eventos entre servicios (Q5) | Un servicio solo importa el paquete `eventos` de otro, nunca su dominio | Aplicada (README) |
+| DEC-29 | Eventos entre servicios (Q5) | Un servicio solo importa el paquete `eventos` de otro, nunca su dominio | Aplicada (README); T-06 en la sesión 4, si la demo lo necesita |
 | DEC-30 | Adaptadores JPA con colecciones en memoria (Q6) | Se copian tal cual, explicados en el Javadoc | Aplicada |
 | DEC-31 | Alcance de la demo (Q7) | La demo cubre las 7 salidas del reporte; el Singleton muestra un parámetro del tema | Por aplicar (sesión 4) |
 | DEC-32 | `/api/integracion/**` en la 4e (D2) | En la misma línea del estereotipo de `AbastecimientoSoapEndpoint` | Aplicada |
