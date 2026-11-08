@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * «REST · /api/proveedores (Auxiliar de compras)»
+ *
+ * En el proyecto real: @RestController.
  */
 public class ProveedorRestController {
 
