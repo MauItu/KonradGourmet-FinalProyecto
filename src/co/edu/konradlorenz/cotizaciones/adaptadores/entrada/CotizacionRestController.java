@@ -24,56 +24,57 @@ public class CotizacionRestController {
     // Atiende la ventana V13 de los mockups
     // POST /api/cotizaciones
     public Cotizacion generar(Cotizacion c) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.generar(c);
     }
 
     // Atiende la ventana V14 de los mockups
     // GET /api/cotizaciones/{id}/pdf
     public byte[] pdf(String numero) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.pdf(numero);
     }
 
     // Atiende la ventana V15 de los mockups
     // Atiende la ventana V17 de los mockups
     // GET /api/cotizaciones
     public List<Cotizacion> consultar(EstadoCotizacion estado) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.consultar(estado);
     }
 
     // Atiende la ventana V16 de los mockups
     // GET /api/cotizaciones/pendientes
     public List<Cotizacion> pendientesDeAtencion() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        // pendientes de validar: las que ya se enviaron y esperan los valores del proveedor
+        return casoDeUso.consultar(EstadoCotizacion.ENVIADA);
     }
 
     // Atiende la ventana V18 de los mockups
     // PUT /api/cotizaciones/{id}/valores
     public Cotizacion registrarValores(String numero, Map<Long, BigDecimal> precios) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.registrarValores(numero, precios);
     }
 
     // Atiende la ventana V19 de los mockups
     // POST /api/cotizaciones/{id}/validacion
     public Cotizacion validar(String numero) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.validar(numero);
     }
 
     // Atiende la ventana V20 de los mockups
     // GET /api/cotizaciones?estado=OPCIONADA
     public List<Cotizacion> opcionadas() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.consultar(EstadoCotizacion.OPCIONADA);
     }
 
     // Atiende la ventana V20 de los mockups
     // Atiende la ventana V21 de los mockups
     // GET /api/cotizaciones/{id}
     public Cotizacion detalle(String numero) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.detalle(numero);
     }
 
     // POST /api/cotizaciones/{id}/reenvio
     public void reenviar(String numero) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        casoDeUso.reenviar(numero);
     }
 
 }
