@@ -4,6 +4,9 @@ import co.edu.konradlorenz.administracion.puertos.salida.ParametrosRepositoryPor
 
 import java.util.Map;
 
+/**
+ * En el proyecto real: @Repository.
+ */
 public class ParametrosJpaAdapter implements ParametrosRepositoryPort {
 
     @Override
