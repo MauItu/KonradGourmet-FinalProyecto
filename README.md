@@ -35,6 +35,13 @@ clases, atributos, métodos y relaciones `extends`/`implements`.
   reciben por el constructor lo que su caja lista como atributos; `ParametrosSistema`
   tiene el constructor privado del Singleton, y cada decorador recibe el correo que
   envuelve.
+- Cada método marcado ‹Vxx› en el diagrama lleva el comentario
+  `// Atiende la ventana Vxx de los mockups`, una línea por ventana. Si alguna fuente
+  fija la ruta REST, la línea siguiente la dice, por ejemplo `// POST /api/cotizaciones`.
+- El texto de color de cada caja (patrón, ruta, tópico o tecnología) y las notas del
+  diagrama van en el Javadoc de la clase. Las anotaciones de Spring y de JAX-WS van
+  solo en ese comentario, para que el código compile solo con `javac`.
+- Los métodos todavía lanzan `UnsupportedOperationException("Pendiente de implementar")`.
 
 ## Módulos
 
