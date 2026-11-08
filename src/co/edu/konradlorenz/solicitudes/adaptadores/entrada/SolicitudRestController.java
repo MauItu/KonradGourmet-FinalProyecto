@@ -8,6 +8,8 @@ import java.util.List;
 
 /**
  * «REST · /api/solicitudes»
+ *
+ * En el proyecto real: @RestController.
  */
 public class SolicitudRestController {
 
