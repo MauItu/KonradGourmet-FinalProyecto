@@ -1,6 +1,8 @@
 package co.edu.konradlorenz.administracion.adaptadores.entrada;
 
+import co.edu.konradlorenz.administracion.dominio.RegistroAuditoria;
 import co.edu.konradlorenz.administracion.puertos.entrada.AdministracionUseCase;
+import co.edu.konradlorenz.compartido.eventos.AuditoriaEvent;
 import co.edu.konradlorenz.compartido.eventos.EventListener;
 import co.edu.konradlorenz.compartido.eventos.EventoDominio;
 
@@ -19,7 +21,10 @@ public class AuditoriaListener implements EventListener<EventoDominio> {
 
     @Override
     public void alRecibir(EventoDominio evento) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        if (evento instanceof AuditoriaEvent a) {
+            casoDeUso.registrarAuditoria(new RegistroAuditoria(a.accion(), a.usuario(),
+                    a.ocurridoEn().toLocalDate(), a.ocurridoEn().toLocalTime()));
+        }
     }
 
 }
