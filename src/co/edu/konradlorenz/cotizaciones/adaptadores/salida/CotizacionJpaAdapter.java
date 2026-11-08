@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * En el proyecto real: @Repository.
+ *
  * En el esqueleto, «datos» simula la tabla en memoria; en el proyecto real este adaptador
  * usa un repositorio JPA sobre la base de datos de ms-cotizaciones.
  */
