@@ -1,5 +1,6 @@
 package co.edu.konradlorenz.inventario.aplicacion;
 
+import co.edu.konradlorenz.compartido.eventos.AuditoriaEvent;
 import co.edu.konradlorenz.compartido.puertos.EventPublisherPort;
 import co.edu.konradlorenz.inventario.dominio.InsumoInventario;
 import co.edu.konradlorenz.inventario.dominio.Inventario;
@@ -65,6 +66,7 @@ public class InventarioService implements GestionarInventarioUseCase {
             Map<Long, BigDecimal> descontado = new LinkedHashMap<>();
             pendiente.forEach((productoId, cantidad) -> descontado.put(productoId, cantidad.negate()));
             repositorio.acumular(sucursalId, descontado);
+            eventos.publicar(new AuditoriaEvent("sistema", "Consumo diario descontado en la sucursal " + sucursalId));
             for (InsumoInventario insumo : cruzaron) {
                 eventos.publicar(new StockBajoEvent("sistema", sucursalId, insumo.productoId(), insumo.nombre(),
                         insumo.stockActual(), insumo.unidad(), insumo.porcentajeExistencia()));
@@ -98,6 +100,7 @@ public class InventarioService implements GestionarInventarioUseCase {
             }
         }
         repositorio.guardar(inventario);
+        eventos.publicar(new AuditoriaEvent("sistema", "Alertas atendidas en la sucursal " + sucursalId));
     }
 
 }
