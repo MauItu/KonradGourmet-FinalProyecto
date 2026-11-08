@@ -5,6 +5,8 @@ import co.edu.konradlorenz.cotizaciones.puertos.salida.GeneradorPdfPort;
 
 /**
  * «OpenPDF»
+ *
+ * En el proyecto real: @Component.
  */
 public class PdfCotizacionAdapter implements GeneradorPdfPort {
 
