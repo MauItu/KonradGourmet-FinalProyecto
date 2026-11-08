@@ -13,3 +13,6 @@ desktop.ini
 # Editores
 .vscode/
 .idea/
+
+# Resultado de compilar (ejecutar.sh)
+out/
