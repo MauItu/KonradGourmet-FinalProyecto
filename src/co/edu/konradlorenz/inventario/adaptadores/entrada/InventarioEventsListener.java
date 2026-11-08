@@ -6,6 +6,8 @@ import co.edu.konradlorenz.inventario.puertos.entrada.GestionarInventarioUseCase
 
 /**
  * «Listener · menu.actualizado · solicitud.registrada»
+ *
+ * En el proyecto real: @Component, y alRecibir() lleva @KafkaListener con sus tópicos.
  */
 public class InventarioEventsListener implements EventListener<EventoDominio> {
 
