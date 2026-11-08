@@ -4,6 +4,7 @@ import co.edu.konradlorenz.cotizaciones.dominio.Cotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.EstadoCotizacion;
 import co.edu.konradlorenz.cotizaciones.puertos.salida.CotizacionRepositoryPort;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,17 +24,21 @@ public class CotizacionJpaAdapter implements CotizacionRepositoryPort {
 
     @Override
     public Cotizacion guardar(Cotizacion c) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        datos.put(c.numero(), c);
+        return c;
     }
 
     @Override
     public Cotizacion porNumero(String numero) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return datos.get(numero);
     }
 
     @Override
     public List<Cotizacion> porEstado(EstadoCotizacion e) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return datos.values().stream()
+                .filter(c -> c.estado() == e)
+                .sorted(Comparator.comparing(Cotizacion::numero))
+                .toList();
     }
 
 }
