@@ -1,4 +1,4 @@
-package co.edu.konradlorenz.notificaciones.dominio;
+package co.edu.konradlorenz.notificaciones.adaptadores.salida;
 
 public class CorreoCertificadoDecorator extends CorreoDecorator {
 
