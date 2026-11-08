@@ -1,5 +1,7 @@
 package co.edu.konradlorenz.administracion.dominio;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -8,10 +10,14 @@ import java.util.List;
  */
 public class Bitacora {
 
-    private List<RegistroAuditoria> registros;
+    private List<RegistroAuditoria> registros = new ArrayList<>();
+
+    public List<RegistroAuditoria> registros() {
+        return Collections.unmodifiableList(registros);
+    }
 
     public void registrar(RegistroAuditoria r) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        registros.add(r);
     }
 
 }
