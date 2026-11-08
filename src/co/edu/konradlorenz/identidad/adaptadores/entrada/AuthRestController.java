@@ -5,6 +5,8 @@ import co.edu.konradlorenz.identidad.puertos.entrada.IniciarSesionUseCase;
 
 /**
  * «REST · POST /api/auth/token»
+ *
+ * En el proyecto real: @RestController.
  */
 public class AuthRestController {
 
