@@ -7,6 +7,8 @@ import co.edu.konradlorenz.notificaciones.puertos.entrada.NotificarUseCase;
 /**
  * «Listener · 6 tópicos»
  *
+ * En el proyecto real: @Component, y alRecibir() lleva @KafkaListener con sus tópicos.
+ *
  * Nota del diagrama:
  * Consume 6 tópicos y elige el canal:
  * • inventario.stock-bajo → alarma en la app (V05) y correo a los jefes de la sucursal, con producto,
