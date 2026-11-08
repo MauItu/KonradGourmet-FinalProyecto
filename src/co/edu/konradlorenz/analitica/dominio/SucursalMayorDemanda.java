@@ -1,5 +1,5 @@
 package co.edu.konradlorenz.analitica.dominio;
 
-public class SucursalMayorDemanda extends CalculadorKpi {
+public class SucursalMayorDemanda implements CalculadorKpi {
 
 }
