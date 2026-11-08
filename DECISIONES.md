@@ -10,7 +10,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-35 a DEC-37:** las decidió Mauricio el 2026-11-08, al revisar la segunda validación de la sesión 3 (hallazgos K9, K10 y K11 de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor en las tres.
 - **DEC-38:** la decidió Mauricio el 2026-11-08, al revisar la tercera validación de la sesión 3 (la duda de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor.
 - **DEC-39 a DEC-46:** se propusieron durante la sesión 4. Mauricio confirmó el 2026-11-08 el pedido de $82.000, los precios por unidad, completar las solicitudes parciales y la alarma solo al cruzar el umbral. Escogió `adjuntoUrl` (DEC-42): dos contratos, reflejados en cuatro declaraciones de la 4d. En la segunda ronda confirmó también el redondeo de cotizaciones y stock (DEC-43), y `sistema` con una correlación por evento como límite de la demo (DEC-42); autorizó completar la auditoría de los fallos (DEC-46, S4-13). Las demás partes siguen asumidas, por confirmar, según indica cada decisión.
-- **DEC-47:** la fecha de inicio del sprint 1 y la forma de mostrar «EN SEMANAS» las decidió Mauricio el 2026-11-08, al empezar la sesión 5 (hallazgo H20), y en las dos escogió la opción recomendada. El orden de las filas del Excel es asumido, por confirmar.
+- **DEC-47:** la fecha de inicio del sprint 1 y la forma de mostrar «EN SEMANAS» las decidió Mauricio el 2026-11-08, al empezar la sesión 5 (hallazgo H20), y en las dos escogió la opción recomendada. Después pidió que todo diga 5 sprints y 10 semanas, y se quitó la fila de sprints mínimos. El orden de las filas del Excel es asumido, por confirmar.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -61,7 +61,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-44 | Dónde van las pruebas y el script | Carpeta `pruebas/` fuera de `src/`, sin JUnit, y `ejecutar.sh` | Asumida, por confirmar |
 | DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura del recorrido, incluidos los fallos | Confirmada por Mauricio; auditoría de los fallos autorizada en la fase 2 (S4-13) |
 | DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | Asumida, por confirmar |
-| DEC-47 | Plan de sprints del Excel (H20) | 1 PHU = 25 h y 9 PHU por sprint; HU-14 = 1 (total 35); HU-17 al sprint 3 (8, 8, 6, 8 y 5 PHU); inicio el lunes 03/08/2026 y 10 semanas, con una fila de sprints mínimos | Aplicada en el Excel (sesión 5); fecha y «EN SEMANAS» decididos por Mauricio; el orden de filas es asumido, por confirmar |
+| DEC-47 | Plan de sprints del Excel (H20) | 1 PHU = 25 h y 9 PHU por sprint; HU-14 = 1 (total 35); HU-17 al sprint 3 (8, 8, 6, 8 y 5 PHU); inicio el lunes 03/08/2026; 5 sprints y 10 semanas en todo el Excel | Aplicada en el Excel (sesión 5); fecha y «EN SEMANAS» decididos por Mauricio; el orden de filas es asumido, por confirmar |
 
 ---
 
@@ -782,8 +782,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **C. Celda vacía.** No inventa nada, pero el Excel no muestra fechas hasta que alguien las escriba.
 
 **2. ¿Cómo se muestra «EN SEMANAS»?** Por capacidad, 35 PHU × 25 h = 875 h, y a 224 h por sprint salen 3,9 sprints (4 sprints, 8 semanas). El cronograma recomendado usa 5 sprints (10 semanas), con 10 PHU de holgura (45 de capacidad contra 35). El Story Mapping p. 31 dice 4 sprints y 8 semanas.
-- **A. 10 semanas más una fila «Sprints mínimos (capacidad)» = 4.** «EN SEMANAS» = 5 sprints × 2 semanas, que coincide con la otra hoja y con «2 meses y medio»; la fila extra muestra de dónde sale la holgura. ✅ **Decidida por Mauricio.**
-- **B. Solo 10 semanas.** Más simple, pero no explica por qué no bastan 4 sprints si la capacidad los alcanza.
+- **A. 10 semanas más una fila «Sprints mínimos (capacidad)» = 4.** «EN SEMANAS» = 5 sprints × 2 semanas, que coincide con la otra hoja y con «2 meses y medio»; la fila extra muestra de dónde sale la holgura. Mauricio la escogió primero y se aplicó (commit `21900dd`).
+- **B. Solo 10 semanas.** Más simple, pero no explica por qué no bastan 4 sprints si la capacidad los alcanza. ✅ **Decidida por Mauricio el 2026-11-08, al revisar la fase 4:** «acomódalos todos para que sean 5 y 10 semanas». Se quitó la fila de sprints mínimos; la holgura sigue a la vista en la columna «Sobran» del resumen (10 PHU).
 - **C. Cambiar el plan a 4 sprints (8 semanas).** Alinea el Excel con la p. 31, pero los 35 PHU caben justos (36 de capacidad), exige repartir distinto a lo que fija el plan y deja el sprint 5 sin contenido.
 
 **3. ¿Dónde queda F17 en la hoja SPRINT?** Las funcionalidades están ordenadas por número y el dibujo en escalera exige que cada sprint ocupe filas seguidas; F17 va en el sprint 3 y F16 en el 4.
@@ -798,7 +798,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - Las etiquetas «Sprint» → «Duración del sprint (semanas)» y «SPRINT» → «PHU POR SPRINT» se aclararon porque ahora alimentan fórmulas.
 - El archivo se guardó con openpyxl: conserva estilos, celdas combinadas y fórmulas, con sus valores calculados, y pierde solo los metadatos propios de Google Sheets. La copia de `../proyecto/contexto/` queda con el contenido anterior.
 
-**Para la fase 5 (`CORRECCIONES_HU_Y_MOCKUPS.md`):** el Story Mapping p. 31 («SPRINT») contradice el Excel: dice 4 sprints, 8 semanas y «2 Meses», con los sprints 2 y 3 «sobrecargados (10 sobre 9)» y los sobrantes de 1 PHU en los sprints 1 y 4. Hay que anotarlo junto a las etiquetas de H26 (el título «Capacidad … (120)» de las pp. 2, 5, 27 y 30). El Story Mapping no se modifica (DEC-03).
+**Para la fase 5 (`CORRECCIONES_HU_Y_MOCKUPS.md`):** el Story Mapping p. 31 («SPRINT») contradice el Excel: dice 4 sprints, 8 semanas y «2 Meses», con los sprints 2 y 3 «sobrecargados (10 sobre 9)» y los sobrantes de 1 PHU en los sprints 1 y 4. Por decisión de Mauricio, la corrección es que diga 5 sprints, 10 semanas y «2 meses y medio», con el reparto y las fechas del Excel. Hay que anotarlo junto a las etiquetas de H26 (el título «Capacidad … (120)» de las pp. 2, 5, 27 y 30). El Story Mapping no se modifica (DEC-03).
 
 ---
 
