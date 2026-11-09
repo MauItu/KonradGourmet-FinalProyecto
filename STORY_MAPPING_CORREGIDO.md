@@ -41,17 +41,19 @@ Original: páginas 4 a 6.
 
 | MVP | Nombre | Actividades |
 |---|---|---|
-| MVP 1 | Módulo de Captura y Registro de datos | Registrar pedido/orden (Mesero), Ingresar cantidad de platos (Mesero), Indicar mesa del pedido (Mesero), Registrar platos/menú (Jefe Cocina), Ingresar ingredientes plato (Jefe Cocina) |
-| MVP 2 | Módulo de Consulta y Registro de información operativa | Consultar solicitudes de compras, Filtrar solicitudes por criterios, Ver detalles de solicitud y Generar solicitud de cotización (Auxiliar Compras); Registrar solicitud de alimentos (Jefe Cocina); Registrar valores de cotización (Director Compras) |
-| MVP 3 | Módulo de Gestión de Compras y Validación | Generar solicitud de cotización a proveedores (Auxiliar Compras), Validar cotizaciones recibidas (Director Compras), Generar orden de compra (Director Compras), Registrar datos de proveedor (Auxiliar Compras) |
-| MVP 4 | Módulo de Inventario Avanzado e Inteligencia de Negocio | Recibir alertas automáticas de inventario bajo (Jefe Cocina), Consultar cotizaciones opcionadas (Director Compras), Ver KPIs y tablero de control (Director comercial, S-05), Revisar promociones sugeridas (Jefe Cocina) |
+| MVP 1 | Módulo de captura y registro básico de datos | Registrar pedido/orden (Mesero), Ingresar cantidad de platos (Mesero), Indicar mesa del pedido (Mesero), Registrar platos/menú (Jefe Cocina), Ingresar ingredientes plato (Jefe Cocina) |
+| MVP 2 | Módulo de consulta y registro estándar | Consultar solicitudes de compras, Filtrar solicitudes por criterios, Ver detalles de solicitud y Generar solicitud de cotización (Auxiliar Compras); Registrar solicitud de alimentos (Jefe Cocina); Registrar valores de cotización (Director Compras) |
+| MVP 3 | Módulo de gestión de compras y validación | Generar solicitud de cotización a proveedores (Auxiliar Compras), Validar cotizaciones recibidas (Director Compras), Generar orden de compra (Director Compras), Registrar datos de proveedor (Auxiliar Compras) |
+| MVP 4 | Módulo de inventario avanzado e inteligencia de negocio | Recibir alertas automáticas de inventario bajo (Jefe Cocina), Consultar cotizaciones opcionadas (Director Compras), Ver KPIs y tablero de control (Director comercial, S-05), Revisar promociones sugeridas (Jefe Cocina) |
+
+*Corregido (SM-01): el original da a cada MVP nombres distintos en la leyenda (p. 4), en los objetivos (pp. 5 y 6), en los separadores de las tarjetas y en el Planning Poker. En los objetivos, además, los nombres del MVP 3 y del MVP 4 no corresponden a su contenido. Se usa en todo el documento el nombre de los separadores de las tarjetas y del Planning Poker.*
 
 **Objetivos de los MVP** (páginas 5 y 6):
 
-- **MVP 1 - Módulo de Captura y Registro Básico.** Implementar funcionalidades básicas de captura e ingreso de datos operativos fundamentales del negocio, permitiendo registros simples y directos sin validaciones complejas ni integraciones externas.
-- **MVP 2 - Módulo de Gestión Operativa y Registro.** Implementar funcionalidades CRUD estándar de consulta y registro de información operativa con validaciones básicas, permitiendo filtrado de datos y visualización de detalles sin disparo de eventos automáticos.
-- **MVP 3 - Módulo de Inventario y Control de Solicitudes.** Implementar funcionalidades complejas de gestión de compras incluyendo generación de documentos (PDFs), validación de cotizaciones con lógica condicional, integración con APIs externas (Ministerio), y cambios de estado automáticos.
-- **MVP 4 - Módulo de Compras, Cotizaciones e Inteligencia de Negocio.** Implementar funcionalidades avanzadas de monitoreo automático de inventario, Business Intelligence con análisis de datos históricos, identificación de tendencias y machine learning para recomendaciones inteligentes y promociones sugeridas.
+- **MVP 1 · Módulo de captura y registro básico de datos.** Implementar funcionalidades básicas de captura e ingreso de datos operativos fundamentales del negocio, permitiendo registros simples y directos sin validaciones complejas ni integraciones externas.
+- **MVP 2 · Módulo de consulta y registro estándar.** Implementar funcionalidades CRUD estándar de consulta y registro de información operativa con validaciones básicas, permitiendo filtrado de datos y visualización de detalles sin disparo de eventos automáticos.
+- **MVP 3 · Módulo de gestión de compras y validación.** Implementar funcionalidades complejas de gestión de compras incluyendo generación de documentos (PDFs), validación de cotizaciones con lógica condicional, integración con APIs externas (Ministerio), y cambios de estado automáticos.
+- **MVP 4 · Módulo de inventario avanzado e inteligencia de negocio.** Implementar funcionalidades avanzadas de monitoreo automático de inventario, Business Intelligence con análisis de datos históricos, identificación de tendencias y machine learning para recomendaciones inteligentes y promociones sugeridas.
 
 ## 4. Tabla de estimación PERT de HU-03
 
