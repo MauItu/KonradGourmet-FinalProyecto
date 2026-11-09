@@ -1,6 +1,6 @@
 # Casos de uso — Konrad Gourmet
 
-Nov 7, 2026 · @Carlos
+Carlos Franco · versión corregida del 8 de noviembre de 2026
 
 Este documento fija 19 casos de uso, cada uno amarrado a una historia de usuario, a un requisito del enunciado y a sus ventanas. Los criterios salen de las historias del Story Mapping; lo que el equipo no definió queda marcado como propuesta.
 
@@ -185,7 +185,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 - Mesa vacía: "Debe seleccionar una mesa para continuar".
 - El mesero puede modificar la cantidad antes de confirmar.
 
-**Postcondición:** pedido registrado con su consecutivo; la mesa queda visible en el detalle del pedido; el movimiento queda en la auditoría (acción, usuario, fecha, hora).
+**Postcondición:** pedido registrado con su consecutivo; la mesa queda visible en el detalle del pedido y en el número consecutivo generado; el movimiento queda en la auditoría (acción, usuario, fecha, hora).
 
 **Reglas y fuente:** el valor total sale del precio de venta de cada plato. Se pueden consultar los pedidos activos filtrando por mesa (HU-03). El pedido guarda qué mesero lo tomó (DEC-51): sin mesero no se registra, y la ventana V02 (`pedidosDelTurno`) muestra solo los suyos. Según el informe, el pedido publica el evento `pedido.registrado`, que alimenta el descuento de inventario y los KPI.
 
@@ -460,7 +460,7 @@ Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciad
 1. El administrador abre la auditoría y elige un rango de fechas.
 2. El sistema lista los movimientos con acción, usuario, fecha y hora.
 
-**Reglas y fuente:** cada acción CRUD del sistema debe registrar esos cuatro datos (requisito de mantenimiento 1). El informe asigna la consulta por rango de fechas a ms-administracion. Si se puede filtrar también por usuario o acción: por definir.
+**Reglas y fuente:** cada acción CRUD del sistema debe registrar esos cuatro datos (requisito de mantenimiento 1). El informe asigna la consulta por rango de fechas a ms-administracion. En el prototipo, los eventos llevan «sistema» como usuario (DEC-42); en el sistema real sale del JWT. Si se puede filtrar también por usuario o acción: por definir.
 
 ### CU-17 Consultar logs de errores
 
