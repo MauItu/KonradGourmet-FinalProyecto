@@ -294,7 +294,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 - Sin resultados: "No se encontraron solicitudes registradas".
 - Solicitud inexistente o eliminada: "La solicitud consultada no está disponible".
 
-**Reglas y fuente:** la consulta responde en menos de 3 segundos y el detalle no permite modificar datos. Los cuatro filtros salen del enunciado: HU-07 repite los criterios de HU-06 y no los enumera.
+**Reglas y fuente:** la consulta responde en menos de 3 segundos y el detalle no permite modificar datos. Los filtros (rango de fechas, producto, marca y estado) están en la tarjeta HU-07 corregida de `STORY_MAPPING_CORREGIDO.md` (S-01); la original repetía los criterios de HU-06. Un rango invertido muestra «La fecha inicial no puede ser posterior a la fecha final.» (PD-10).
 
 ### CU-08 Enviar solicitud de cotización
 
