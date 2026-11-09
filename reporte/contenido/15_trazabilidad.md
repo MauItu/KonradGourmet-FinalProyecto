@@ -3,7 +3,7 @@
 
 # 15. Trazabilidad de las 23 ventanas
 
-Cada ventana del prototipo está asignada a un servicio, a un método de su controlador REST y a un endpoint (tabla 13). La columna de servicio es la misma que aparece bajo cada miniatura en el mapa; el método existe en el esqueleto Java con el comentario de la ventana que atiende. Algunas ventanas usan más de un método: por ejemplo, la 03 carga el catálogo y las mesas antes de registrar el pedido.
+Cada ventana del prototipo está asignada a un servicio, a un método de su controlador REST y a un endpoint (tabla 13). La columna de servicio es la misma que aparece bajo cada miniatura en el mapa, y cada método lleva el comentario de la ventana que atiende. Algunas ventanas usan más de un método: por ejemplo, la 03 carga el catálogo y las mesas antes de registrar el pedido.
 
 !tabla 13 | Trazabilidad de las ventanas a servicios, métodos y endpoints | 1.1,2.6,3.6,2.9,6.6,7.6
 | V | Rol | Ventana | Servicio | Controlador y método | Endpoint |
