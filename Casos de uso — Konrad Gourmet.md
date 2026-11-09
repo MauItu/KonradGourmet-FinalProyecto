@@ -22,7 +22,7 @@ Este cuadro contrasta cada caso de uso con el repositorio github.com/MauItu/Konr
 | CU-10 | V18: `PUT /api/cotizaciones/{id}/valores` | Coincide | Sí |
 | CU-11 | V19: `POST /api/cotizaciones/{id}/validacion`. V17: `GET /api/cotizaciones` | Coincide | Sí |
 | CU-12 | V20: `GET /api/cotizaciones?estado=OPCIONADA` y `GET /api/cotizaciones/{id}` (H5) | Coincide | Sí |
-| CU-13 | V21 y V22: `POST /api/ordenes-compra`. V23: `GET /api/ordenes-compra`. La cotización pasa a `CON_ORDEN` y no admite otra orden (D3). La orden guarda lista de solicitudes, `correoProveedor` y `pdfUrl`, y tiene su propio generador de PDF (H4) | B10 queda resuelta en el diseño. Los estados de la orden siguen siendo EN\_PROCESO y FINALIZADA (B13). `EstadoSolicitud` tiene `COMPLETADA` (H12); el texto del Story Mapping que extraje no lo menciona | Sí |
+| CU-13 | V21 y V22: `POST /api/ordenes-compra`. V23: `GET /api/ordenes-compra`. La cotización pasa a `CON_ORDEN` y no admite otra orden (D3). La orden guarda lista de solicitudes, `correoProveedor` y `pdfUrl`, y tiene su propio generador de PDF (H4) | B10 queda resuelta en el diseño. Los estados de la orden siguen siendo EN\_PROCESO y FINALIZADA (B13). `EstadoSolicitud` tiene `COMPLETADA` (H12); el texto del Story Mapping no lo menciona | Sí |
 | CU-14 | `GET /api/bam/kpis?desde&hasta&sucursalId` (H7). El tablero es del director comercial (DEC-06) | Sigue sin mockup. B17 (periodos fijos del enunciado frente al filtro de la historia) sigue abierta | Sí (los hechos son un histórico cargado a mano) |
 | CU-15 | `parametrizar(clave, valor)` y `GET /api/admin/parametros/tema`. `ParametrosSistema` guarda tema, logos y parámetros generales | El umbral del 25 % no vive ahí: es de ms-inventario (`UmbralStock`) y, por diseño, no tiene ruta para cambiarlo (DEC-43). La libreta de destinatarios por sucursal (`/api/notificaciones/destinatarios`, DEC-13) es el paso 4 de este caso | En parte: parámetros, tema y destinatarios |
 | CU-16 | `auditoria(desde, hasta)` | Coincide | Sí |
@@ -392,8 +392,9 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 **Flujos alternos:**
 
 - Cotización en otro estado: "Solo se pueden generar órdenes de compra sobre cotizaciones opcionadas".
+- La cotización ya tiene orden: "Ya existe una orden de compra para la cotización COT-018".
 
-**Postcondición:** orden creada; la generación queda en la auditoría.
+**Postcondición:** orden EN PROCESO; la cotización queda CON ORDEN y sale de V20; cada solicitud incluida pasa a COMPLETADA, aunque la cotización la haya cubierto solo en parte (DEC-46); la generación queda en la auditoría.
 
 **Reglas y fuente:** el estado del paso 4 es CON\_ORDEN en el diseño y en el código del 8 de noviembre (brecha B10, resuelta en el diseño). Los estados de la orden (EN\_PROCESO y FINALIZADA) salen del diagrama, no del enunciado (B13).
 
