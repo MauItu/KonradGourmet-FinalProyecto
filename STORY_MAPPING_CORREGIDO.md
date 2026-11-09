@@ -448,10 +448,10 @@ Original: página 31.
 
 | Sprint | Duración | MVP | Entregables |
 |---|---|---|---|
-| Sprint 1 | 2 semanas | MVP 1, MVP 2 | Módulo de captura operativo: registro de pedidos con mesa y cantidades, y gestión del menú con sus platos. Se entrega además el listado de solicitudes de compra con acceso al detalle (arranque del MVP 2). Se entrega además el listado de solicitudes de compra con acceso al detalle (arranque del MVP 2). |
+| Sprint 1 | 2 semanas | MVP 1, MVP 2 | Módulo de captura operativo: registro de pedidos con mesa y cantidades, y gestión del menú con sus platos. Se entrega además el listado de solicitudes de compra con acceso al detalle (arranque del MVP 2). |
 | Sprint 2 | 2 semanas | MVP 2, MVP 3 | Ciclo de solicitudes y cotizaciones funcionando: registro de solicitud de alimentos, generación de cotizaciones y captura de valores del proveedor. Se entrega el motor de validación de cotizaciones contra el precio estándar del Ministerio. |
 | Sprint 3 | 2 semanas | MVP 3, MVP 4 | Cierre del proceso de compras: generación de la orden de compra, maestro de proveedores y consulta de cotizaciones opcionadas. Se entrega el descuento automático de inventario con alertas por correo al llegar al umbral del 25%. |
-| Sprint 4 | 2 semanas | MVP 4 | Tablero de control (BAM) con los KPIs de mayor demanda, sucursal líder y mejor proveedor del año. Se entrega el motor de tendencias y promociones sugeridas con notificación automática a los puntos de venta. Un detalle para tu sustentación: los sobrantes de 1 punto en los Sprints 1 y 4 son colchón para imprevistos, no capacidad desperdiciada. Los Sprints 2 y 3 quedan levemente sobrecargados (10 sobre 9), así que puedes justificar que ese sobrante se compensa con lo que quedó libre en los otros dos. |
+| Sprint 4 | 2 semanas | MVP 4 | Tablero de control (BAM) con los KPIs de mayor demanda, sucursal líder y mejor proveedor del año. Se entrega el motor de tendencias y promociones sugeridas con notificación automática a los puntos de venta. |
 | **Total** | **8 semanas** (2 Meses) | Proyecto completo | Sistema completo y desplegado |
 
 Página 32: cierre («Gracias», agosto de 2026).
