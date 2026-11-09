@@ -473,4 +473,30 @@ Cada sprint dura 2 semanas. Quedan libres 1, 1, 3, 1 y 4 PHU por sprint: 10 PHU 
 
 HU-17 (Consultar cotizaciones opcionadas) es del MVP 4, pero entra en el sprint 3, antes que HU-16. Así el ciclo de compras queda completo en ese sprint: HU-13 valida las cotizaciones, HU-17 muestra las opcionadas y HU-14 genera la orden sobre una de ellas. Por eso, en la hoja SPRINT del Excel, F17 va antes que F16.
 
+## 9. Correspondencia de historias, casos de uso y ventanas
+
+Informativa (S-08). Reúne para cada historia lo que el original reparte en varias páginas (MVP de la p. 4, complejidad de la p. 3 y PHU de la p. 27), el sprint del plan corregido, y el caso de uso y las ventanas del prototipo según `Casos de uso — Konrad Gourmet.md`. La ventana V01 (inicio de sesión) no sale de ninguna historia.
+
+| Historia | MVP | Complejidad | PHU | Sprint | Caso de uso | Ventanas |
+|---|---|---|---|---|---|---|
+| HU-01 Registrar pedido/orden | 1 | Fácil | 1 | 1 | CU-02 | V02, V03, V04 |
+| HU-02 Ingresar cantidad de platos | 1 | Fácil | 1 | 1 | CU-02 | V02, V03, V04 |
+| HU-03 Indicar mesa del pedido | 1 | Fácil | 1 | 1 | CU-02 | V02, V03, V04 |
+| HU-04 Registrar platos/menú | 1 | Fácil | 1 | 1 | CU-03 | V06 |
+| HU-05 Ingresar ingredientes del plato | 1 | Fácil | 1 | 1 | CU-03 | V06 |
+| HU-06 Consultar solicitudes de compras | 2 | Medio | 1 | 1 | CU-07 | V11 |
+| HU-07 Filtrar solicitudes por criterios | 2 | Medio | 1 | 1 | CU-07 | V11 |
+| HU-08 Ver detalles de solicitud | 2 | Medio | 1 | 1 | CU-07 | V12 |
+| HU-09 Generar solicitud de cotización | 2 | Medio | 2 | 2 | CU-08 | V13 |
+| HU-10 Registrar solicitud de alimentos | 2 | Medio | 2 | 2 | CU-04 | V08, V09, V10 |
+| HU-11 Registrar valores de cotización | 2 | Medio | 2 | 2 | CU-10 | V18 |
+| HU-12 Generar solicitud de cotización a proveedores | 3 | Medio | 2 | 2 | CU-08 | V14, V15 |
+| HU-13 Validar cotizaciones recibidas | 3 | Medio | 2 | 3 | CU-11 | V16, V17, V19 |
+| HU-14 Generar orden de compra | 3 | Medio | 1 | 3 | CU-13 | V21, V22, V23 |
+| HU-15 Registrar datos de proveedor | 3 | Medio | 1 | 3 | CU-09 | Sin mockup |
+| HU-16 Recibir alertas automáticas de inventario bajo | 4 | Alto | 5 | 4 | CU-05 | V05, V07 |
+| HU-17 Consultar cotizaciones opcionadas | 4 | Alto | 2 | 3 | CU-12 | V20 |
+| HU-18 Ver KPIs y tablero de control | 4 | Alto | 3 | 4 | CU-14 | Sin mockup |
+| HU-19 Revisar promociones sugeridas | 4 | Alto | 5 | 5 | CU-06 | Sin mockup |
+
 Página 32: cierre («Gracias», agosto de 2026).
