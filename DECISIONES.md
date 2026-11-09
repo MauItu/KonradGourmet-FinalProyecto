@@ -64,7 +64,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | **Confirmada** por el arquitecto-revisor (2026-11-08): 211 = 191 + 20 |
 | DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura del recorrido, incluidos los fallos | Confirmada por Mauricio; auditoría de los fallos autorizada en la fase 2 (S4-13) |
 | DEC-47 | Plan de sprints del Excel (H20) | 1 PHU = 25 h y 9 PHU por sprint; HU-14 = 1 (total 35); HU-17 al sprint 3 (8, 8, 6, 8 y 5 PHU); inicio el lunes 03/08/2026; 5 sprints y 10 semanas en todo el Excel | Aplicada en el Excel (sesión 5); fecha y «EN SEMANAS» decididos por Mauricio; el orden de filas lo **confirmó el arquitecto-revisor** (2026-11-08) |
-| DEC-48 | Dónde van las páginas 3a, 3b y 6 en el reporte | La 6 en §10, después de la tabla del recorrido; la 3a y la 3b en §14, después del contexto | Asumida, por confirmar (sesión 5) |
+| DEC-48 | Dónde van las páginas 3a, 3b y 6 en el reporte | La 6 en §10, después de la tabla del recorrido; la 3a y la 3b en §14, después del contexto; tabla de niveles C4 en §2 | **Confirmada con ajuste** por el arquitecto-revisor (2026-11-08): R-62 y título nuevo de §14 |
 | DEC-49 | Qué orden sale de V20 a V22: los mockups y la demo no coinciden | Opción A ampliada: los datos de la demo mandan (COT-018, Proveedor ABC, OC-0012 por $545.000) y se corrigen seis mockups (V17 y V19 a V23) | Decidida por el arquitecto-revisor (2026-11-08), a pedido de Mauricio |
 | DEC-50 | Arroz y Pollo al 25 % en V05 | Se sacan de la lista y la tarjeta queda en «3 Stock bajo»; la regla de DEC-43 no cambia | Decidida por el arquitecto-revisor (2026-11-08), a pedido de Mauricio |
 | DEC-51 | El pedido guarda qué mesero lo tomó (A4) | `meseroId: Long` en `Pedido`, en la 4b y en el código | Aplicada y aprobada por Mauricio en la fase 1 de la sesión 6: código `22717f7`, 4b `4e4559e`, R-60/R-61; 176/176 |
@@ -845,6 +845,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **C. En el anexo**, como figuras A6 a A8. Es lo que menos toca el cuerpo del reporte, pero deja los niveles 2 y 3 del C4 fuera del texto, que es justo lo que señaló la revisión.
 
 **Qué implica:** solo cambia `CORRECCIONES_REPORTE.md` (R-02, R-03 y R-05). El PDF no se toca (DEC-03). Si el equipo prefiere B o C, hay que rehacer R-02 y R-03.
+
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmada la opción A, con un ajuste: en §2 va una tabla «Dónde está cada nivel del C4» (contexto: página 2, figura 11, §14; contenedores: 3a, figura 12, §14; componentes: 3b, figura 13, §14; código: 4a–4e, figuras 8–10 y A1–A5, §12 y anexo; dinámico: 6, figura 7, §10; despliegue: 5, figura 14, §14), y §14 se renombra «Modelo C4: contexto, contenedores, componentes y despliegue». Así el profesor ve los cuatro niveles y los complementarios de un vistazo, sin mover secciones (lo bueno de B). C esconde justo los niveles 2 y 3. Se pierde que el C4 quede todo en una sola sección. Efectos: R-62, nueva, y el título de §14 en R-05.
 
 ## DEC-49 · ¿Qué orden sale de V20 a V22? Los mockups y la demo cuentan historias distintas
 
