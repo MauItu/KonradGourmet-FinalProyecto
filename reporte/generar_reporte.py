@@ -260,6 +260,8 @@ def tabla(doc, filas, anchos, ancho_total):
             _formato_parrafo(p, sangria=False, espaciado=WD_LINE_SPACING.SINGLE)
             p.paragraph_format.space_before = Pt(2)
             p.paragraph_format.space_after = Pt(2)
+            # «Clase.método(» puede partirse en el punto: espacio de ancho cero (U+200B) tras él.
+            valor = re.sub(r"\b([A-Z][A-Za-z0-9]+)\.([a-z][A-Za-z0-9]*\()", "\\1.\u200b\\2", valor)
             texto(p, valor.strip(), negrilla=(r == 0))
     return t
 
