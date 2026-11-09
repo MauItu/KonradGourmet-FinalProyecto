@@ -513,3 +513,26 @@ El Story Mapping no tiene historias para el administrador. Estas tres siguen el 
 | HU-22 Consultar logs de errores | Administrador del sistema | Consultar los errores registrados | Diagnosticar fallas del sistema | (1) La lista muestra servicio, mensaje, fecha y hora (clase LogError del `.drawio`). (2) El servicio es opcional; sin él, salen todos (informe de arquitectura). (3) La consulta es de solo lectura y solo el administrador accede (seguridad 1). (4) Los mensajes son los de PD-10 |
 
 Lo que antes quedaba por definir ya está decidido: los mensajes (PD-10, abajo), los filtros de la auditoría (PD-07) y quién administra roles y permisos (PD-06). Falta solo la estimación del equipo (A7 de `DECISIONES.md`).
+
+## Mensajes de interfaz (PD-10)
+
+Criterio: el mismo estilo que las tarjetas del Story Mapping, en una frase completa, sin códigos técnicos, que diga qué pasó y qué hacer; el mismo texto para el mismo caso en todas las pantallas. Los mensajes literales de las historias siguen siendo el contrato de la interfaz; estos completan los que estaban por definir. Los mensajes de las excepciones del dominio son internos y el adaptador REST los traduce a estos textos (efecto futuro: hoy el código conserva sus textos, que comprueban las pruebas).
+
+| Caso | Situación | Mensaje |
+| --- | --- | --- |
+| CU-01 (V01) | Credenciales inválidas | «Correo o contraseña incorrectos.» (no dice cuál falló) |
+| CU-01 | Rol sin acceso a la opción | «No tiene permiso para acceder a esta opción.» |
+| CU-08 (HU-12) | El Ministerio no responde | «No se pudo consultar el precio del Ministerio de Comercio. La cotización {número} quedó pendiente de precio; puede reenviarla desde Cotizaciones.» |
+| CU-08 (HU-12) | Falla el correo | «No se pudo enviar el correo al proveedor. La cotización {número} está guardada; puede reintentar el envío.» |
+| CU-10 (HU-11) | Cotización ya validada | «La cotización ya fue validada; sus valores no se pueden modificar.» |
+| CU-10 (HU-11) | Valor no válido | «El valor unitario debe ser un número mayor a cero.» |
+| CU-19 | Contraseña que no cumple la regla | «La contraseña debe tener al menos 8 caracteres, con una mayúscula, una minúscula y un número.» |
+| CU-19 | Correo repetido | «Ya existe un usuario registrado con ese correo.» |
+| CU-15, CU-19 (HU-20) | Correo mal formado | «El formato del correo electrónico no es válido.» (el de HU-15) |
+| CU-15 (HU-20) | Clave o valor vacío | «La clave del parámetro es obligatoria.» / «El valor del parámetro {clave} es obligatorio.» |
+| CU-15 (HU-20) | Guardado | «Parámetro actualizado.» |
+| CU-07, CU-14, CU-06, CU-16 (HU-07, HU-18, HU-19, HU-21) | Rango de fechas invertido | «La fecha inicial no puede ser posterior a la fecha final.» |
+| CU-16 (HU-21) | Sin resultados | «No hay movimientos de auditoría en el periodo seleccionado.» |
+| CU-17 (HU-22) | Sin resultados | «No hay errores registrados para el servicio seleccionado.» |
+| CU-06 (HU-19) | Sin sugerencias / ya resuelta | «No hay promociones sugeridas para el periodo seleccionado.» / «Esta sugerencia ya fue aceptada o descartada.» |
+| CU-18 | Producto sin precio (SOAP Fault) | «No hay precio estándar disponible para el producto {id}.»; un token inválido recibe 401 en el gateway |
