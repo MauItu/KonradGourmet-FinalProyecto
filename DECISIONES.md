@@ -75,6 +75,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | PD-03 | BAM: periodos fijos frente al rango libre | Sin rango: demanda de 30 días y proveedor de 365; con rango, manda el rango; la sucursal filtra la demanda; solo cotizaciones OPCIONADAS | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_kpis`), CU-14 y R-31; código fuera de alcance |
 | PD-04 | Promociones: fuente de tendencias y periodo | Job semanal sobre los 7 días anteriores: tendencias de redes y los 3 más pedidos; vigencia de 7 días; supuesto S11 | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_promociones`), CU-06 y §17 del reporte |
 | PD-05 | T-06: eventos con tipos del dominio de otro servicio | Tipos simples en el contrato (`estado: String`, `diferenciaPorcentual`, `sugerencias: List<String>`); aplicación diferida | Decidida por el arquitecto-revisor (2026-11-08); aplicación diferida, pendiente de autorización de Mauricio (4c, 4e y código) |
+| PD-06 | Administración de roles y permisos | Seis roles fijos y una matriz fija de permisos por rol; administrador de alcance global; supuesto S10 para las listas maestras | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-15, R-57 y §17 del reporte |
 
 ---
 
@@ -969,6 +970,25 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **C. Mover los eventos a `compartido.eventos`.** Es un cambio grande en 4a–4e y en el mapa.
 
 **Qué implica:** T-06 queda decidida. Mientras no se aplique, A sigue siendo el límite declarado de la demo. Aplicarla cambia a la vez la 4c, la 4e y el código (los dos eventos, la llamada en `CotizacionService.validar()` y la rama T-06 de `NotificacionService`); son unas 10 líneas y cabe en la demo, pero no hace falta: **solo se aplica si Mauricio lo autoriza**, porque el alcance actual es solo la demo (DEC-39). Se pierde el tipado fuerte del estado en el consumidor.
+
+## PD-06 · ¿Quién administra roles y permisos, y con qué alcance?
+
+**Por qué hubo que decidir.** La 4a tiene seis subclases de `Usuario` (Factory Method) y el menú por rol (Composite); `RegistrarUsuarioUseCase.registrar(nombre, correo, rol, sucursalId, clave)` da de alta usuarios (DEC-10) y el reporte (§16) promete «verificación del rol en cada endpoint». `AdministracionUseCase.parametrizar(clave, valor)` guarda solo pares clave-valor. CU-15 lo dejaba abierto.
+
+**Opciones:**
+- **A. Roles fijos, permisos fijos y un administrador global.** ✅ **Escogida por el arquitecto-revisor.**
+- **B. Gestión de roles y permisos en ms-identidad.** Pide clases y rutas que el diseño no tiene.
+- **C. Administradores por sucursal.**
+
+**Regla escogida:**
+- Los 6 roles son un conjunto cerrado; un rol nuevo es un cambio de código (subclase y menú).
+- Los permisos son una matriz fija de rol a rutas: el gateway valida el JWT, cada servicio verifica el rol en sus endpoints y el menú lateral sale del rol.
+- El Administrador tiene alcance global: registra usuarios con **un** rol y **una** sucursal (CU-19), mantiene parámetros, tema, logos y la libreta de destinatarios (CU-15), y consulta la auditoría y los logs.
+- Fuera de alcance: cambiar el rol o desactivar un usuario. La evolución sería `PATCH /api/usuarios/{id}`.
+
+**Supuesto S10:** las listas maestras (categorías, productos, unidades, marcas y mesas) y el primer administrador se cargan con la migración inicial del servicio dueño de cada una. Si el enunciado exige que el administrador las mantenga, se reconsidera.
+
+**Qué implica:** no cambia ninguna firma. Efectos: CU-15, R-57 y el supuesto S10 en §17 del reporte. Se pierde dar de baja a un usuario sin despliegue.
 
 ---
 
