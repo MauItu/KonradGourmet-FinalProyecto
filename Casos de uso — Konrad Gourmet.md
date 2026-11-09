@@ -24,7 +24,7 @@ Este cuadro contrasta cada caso de uso con el repositorio github.com/MauItu/Konr
 | CU-12 | V20: `GET /api/cotizaciones?estado=OPCIONADA` y `GET /api/cotizaciones/{id}` (H5) | Coincide | Sí |
 | CU-13 | V21 y V22: `POST /api/ordenes-compra`. V23: `GET /api/ordenes-compra`. La cotización pasa a `CON_ORDEN` y no admite otra orden (D3). La orden guarda lista de solicitudes, `correoProveedor` y `pdfUrl`, y tiene su propio generador de PDF (H4) | B10 queda resuelta en el diseño. Los estados de la orden siguen siendo EN\_PROCESO y FINALIZADA (B13). `EstadoSolicitud` tiene `COMPLETADA` (H12); el texto del Story Mapping que extraje no lo menciona | Sí |
 | CU-14 | `GET /api/bam/kpis?desde&hasta&sucursalId` (H7). El tablero es del director comercial (DEC-06) | Sigue sin mockup. B17 (periodos fijos del enunciado frente al filtro de la historia) sigue abierta | Sí (los hechos son un histórico cargado a mano) |
-| CU-15 | `parametrizar(clave, valor)` y `GET /api/admin/parametros/tema`. `ParametrosSistema` guarda tema, logos y parámetros generales | El umbral del 25 % no vive ahí y el código no declara ninguna ruta para cambiarlo: el criterio (3) de HU-20 no tiene dónde apoyarse. La libreta de destinatarios por sucursal (`/api/notificaciones/destinatarios`, DEC-13) es un dato de parametrización que este caso aún no lista | En parte: parámetros, tema y destinatarios |
+| CU-15 | `parametrizar(clave, valor)` y `GET /api/admin/parametros/tema`. `ParametrosSistema` guarda tema, logos y parámetros generales | El umbral del 25 % no vive ahí: es de ms-inventario (`UmbralStock`) y, por diseño, no tiene ruta para cambiarlo (DEC-43). La libreta de destinatarios por sucursal (`/api/notificaciones/destinatarios`, DEC-13) es un dato de parametrización que este caso aún no lista | En parte: parámetros, tema y destinatarios |
 | CU-16 | `auditoria(desde, hasta)` | Coincide | Sí |
 | CU-17 | `logs(servicio)` con un puerto propio para los logs (H14) | Coincide | Sí (la demo guarda los logs en memoria; Elasticsearch sigue pendiente) |
 | CU-18 | `consultarPrecioSugerido(productoId)` en el endpoint SOAP, publicado bajo `/api/integracion/**` | Coincide | Sí (la demo simula el Ministerio) |
@@ -221,7 +221,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 **Flujo principal:**
 
 1. El sistema verifica las órdenes preparadas o vendidas del día y descuenta las cantidades correspondientes del inventario.
-2. Cuando cualquier producto llega al 25 % de su cantidad, genera una alarma visible en la aplicación y envía un correo avisando que debe hacerse una solicitud de alimentos.
+2. Cuando el porcentaje de un producto frente a su stock de referencia, redondeado a dos decimales, queda por debajo del 25 %, el sistema genera una alarma visible en la aplicación y envía un correo avisando que debe hacerse una solicitud de alimentos. La alarma sale una sola vez, la noche en que el producto cruza el umbral (DEC-43, DEC-46).
 3. La alerta indica producto, cantidad restante, unidad y sucursal, y da acceso directo al formulario de solicitud de alimentos (CU-04).
 
 **Flujos alternos:**
@@ -230,7 +230,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 **Postcondición:** la alerta permanece activa hasta que se registre una solicitud para ese producto.
 
-**Reglas y fuente:** el proceso no debe afectar el desempeño en horario de operación. El 25 % es un parámetro (ver CU-15); la brecha B12 de la matriz de trazabilidad recoge que el modelo no tiene una entidad Alerta; en el código del 8 de noviembre la alerta es solo la marca alertaAtendida del insumo.
+**Reglas y fuente:** el proceso no debe afectar el desempeño en horario de operación. El 25 % es un parámetro propio de ms-inventario (`UmbralStock`); no se cambia desde la parametrización (DEC-43); la brecha B12 de la matriz de trazabilidad recoge que el modelo no tiene una entidad Alerta; en el código del 8 de noviembre la alerta es solo la marca alertaAtendida del insumo.
 
 ### CU-06 Revisar promociones sugeridas
 
@@ -423,7 +423,7 @@ Estos cinco casos no tienen mockup. Se escriben solo con lo que dicen el enuncia
 2. Crea, edita o inactiva el dato.
 3. El sistema valida y guarda el cambio, y lo registra en la auditoría.
 
-**Datos paramétricos que las fuentes mencionan:** categorías de producto, productos por categoría, unidades de medida y marcas (listas desplegables de RF-01 y RF-03); mesas por sucursal (HU-03); umbral de inventario, hoy 25 % (HU-16); imagen corporativa, es decir tema y logos (requisito de interfaz 1). El equipo decidió (DEC-10) que el administrador da de alta a los usuarios con POST /api/usuarios, sin ventana; falta confirmar si roles y permisos también se administran aquí, porque el enunciado exige que existan pero no dice quién los mantiene.
+**Datos paramétricos que las fuentes mencionan:** categorías de producto, productos por categoría, unidades de medida y marcas (listas desplegables de RF-01 y RF-03); mesas por sucursal (HU-03); imagen corporativa, es decir tema y logos (requisito de interfaz 1). El equipo decidió (DEC-10) que el administrador da de alta a los usuarios con POST /api/usuarios, sin ventana; falta confirmar si roles y permisos también se administran aquí, porque el enunciado exige que existan pero no dice quién los mantiene.
 
 ### CU-16 Consultar auditoría
 
@@ -464,7 +464,7 @@ El Story Mapping no tiene historias para el administrador, y el enunciado lo exi
 
 | Historia | Como | Quiero | Para | Criterios de aceptación (con su fuente) |
 | --- | --- | --- | --- | --- |
-| HU-20 Alimentar la parametrización | Administrador del sistema | Alimentar la información de parametrización | Mantener listas, umbrales e imagen corporativa sin depender de un experto en diseño ni de un nuevo despliegue | (1) Puedo crear, consultar, editar e inactivar categorías de producto, productos por categoría, unidades de medida, marcas y mesas por sucursal (enunciado y HU-03, HU-05). (2) Puedo cambiar el tema y los logos sin redespliegue (requisito de interfaz 1). (3) Puedo consultar y modificar el umbral de inventario, hoy 25 % (HU-16). (4) Cada acción queda en la auditoría con acción, usuario, fecha y hora (mantenimiento 1). (5) Solo un usuario con rol administrador accede (seguridad 1). (6) Un error al guardar queda en el log (mantenimiento 2) |
+| HU-20 Alimentar la parametrización | Administrador del sistema | Alimentar la información de parametrización | Mantener listas e imagen corporativa sin depender de un experto en diseño ni de un nuevo despliegue | (1) Puedo crear, consultar, editar e inactivar categorías de producto, productos por categoría, unidades de medida, marcas y mesas por sucursal (enunciado y HU-03, HU-05). (2) Puedo cambiar el tema y los logos sin redespliegue (requisito de interfaz 1). (3) Cada acción queda en la auditoría con acción, usuario, fecha y hora (mantenimiento 1). (4) Solo un usuario con rol administrador accede (seguridad 1). (5) Un error al guardar queda en el log (mantenimiento 2) |
 | HU-21 Consultar y monitorear la auditoría | Administrador del sistema | Consultar los movimientos de auditoría | Verificar quién hizo cada acción y cuándo | (1) La lista muestra acción, usuario, fecha y hora (mantenimiento 1). (2) Puedo filtrar por rango de fechas (informe de arquitectura, ms-administracion). (3) La consulta es de solo lectura. (4) Solo el administrador accede (seguridad 1) |
 | HU-22 Consultar logs de errores | Administrador del sistema | Consultar los errores registrados | Diagnosticar fallas del sistema | (1) La lista muestra servicio, mensaje, fecha y hora (clase LogError del `.drawio`). (2) Puedo consultar los errores de un servicio (informe de arquitectura). (3) Cada error producido en el sistema aparece en el log (mantenimiento 2). (4) La consulta es de solo lectura y solo el administrador accede (seguridad 1) |
 
