@@ -553,7 +553,10 @@ def comprobar_numeracion(numeros, tipo):
 
 
 def a_pdf(docx, carpeta):
-    subprocess.run(["soffice", "--headless", "--convert-to", "pdf", "--outdir", str(carpeta), str(docx)],
+    # Sin recompresión: las figuras conservan sus píxeles (RV-5).
+    filtro = ('pdf:writer_pdf_Export:{"ReduceImageResolution":{"type":"boolean","value":"false"},'
+              '"UseLosslessCompression":{"type":"boolean","value":"true"}}')
+    subprocess.run(["soffice", "--headless", "--convert-to", filtro, "--outdir", str(carpeta), str(docx)],
                    check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return carpeta / (docx.stem + ".pdf")
 
