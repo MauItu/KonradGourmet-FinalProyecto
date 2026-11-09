@@ -1,7 +1,7 @@
 # Konrad Gourmet · Contexto, estado y diagramas C4
 
-> Documento de trabajo del equipo. Estado revisado el **8 de noviembre de 2026**, al cierre de la sesión 5 del plan de correcciones.
-> Resume el proyecto, dónde está cada archivo, lo que se hizo en las cinco sesiones, el estado de cada hallazgo y todo lo relacionado con el modelo C4 del archivo `Arquitectura_Konrad_Gourmet.drawio`.
+> Documento de trabajo del equipo. Estado revisado el **8 de noviembre de 2026**, al cierre local de la sesión 6 del plan de correcciones.
+> Resume el proyecto, dónde está cada archivo, lo que se hizo en las seis sesiones, el estado de cada hallazgo y todo lo relacionado con el modelo C4 del archivo `Arquitectura_Konrad_Gourmet.drawio`.
 > La versión anterior de este documento (7 de noviembre) describía un proyecto con el código vacío, el reporte sin revisar y el Excel inconsistente. Nada de eso es ya cierto, salvo lo que dice la sección 2.
 
 ---
@@ -107,14 +107,14 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 | `Reporte_Arquitectura_Konrad_Gourmet.pdf` | Reporte de arquitectura (38 págs.). **No se modifica** hasta que aparezca el script (DEC-03) |
 | `Copia de ARQUITECTURA-Supuestos de Capacidad  del equipo.xlsx` | Capacidad del equipo y sprints, ya corregido (DEC-47) |
 | `DISEÑO UXUI.pdf`, `flujo-web-konrad-gourmet (1).pdf` | Mockups de las 23 ventanas (Canva) y flujo web. No se modifican |
-| `PLAN_CORRECCIONES.md` | El plan de las 5 sesiones y su tabla de avance |
-| `DECISIONES.md` | DEC-01 a DEC-50 con su contexto y todas las opciones, más las preguntas abiertas A1–A3 |
+| `PLAN_CORRECCIONES.md` | El plan de las 5 sesiones originales y la sesión 6, con su tabla de avance |
+| `DECISIONES.md` | DEC-01 a DEC-53 con su contexto y opciones; A1–A3 siguen abiertas y A4 quedó resuelta |
 | `REVISION_2026-11-07.md` | Los hallazgos H1–H26 del arquitecto-revisor |
 | `INVENTARIO_SESION2.md`, `INVENTARIO_SESION3.md` | Lista de ítems que cada sesión debía cambiar |
-| `VALIDACION_FASE2A.md`, `VALIDACION_SESION2.md`, `VALIDACION_SESION3.md`, `VALIDACION_SESION4.md` | Lo que el revisor encontró al validar cada sesión |
-| `CORRECCIONES_REPORTE.md` | Las 59 correcciones (R-01 a R-59) que hay que aplicar al reporte |
+| `VALIDACION_FASE2A.md`, `VALIDACION_SESION2.md` a `VALIDACION_SESION6.md` | Lo que el revisor encontró al validar cada sesión |
+| `CORRECCIONES_REPORTE.md` | Las 61 correcciones (R-01 a R-61) que hay que aplicar al reporte |
 | `CORRECCIONES_HU_Y_MOCKUPS.md` | Lo que hay que cambiar en el Story Mapping y los mockups |
-| `Casos de uso — Konrad Gourmet.md` | Los 18 casos de uso, escritos por un compañero de Mauricio; se incluyó sin modificar |
+| `Casos de uso — Konrad Gourmet.md` | Los 19 casos de uso de Carlos Franco, corregidos con RCU-1 a RCU-13 (DEC-52) y la precisión S6-2; falta el PNG del diagrama UML |
 | `REVISION_CASOS_DE_USO.md` | La revisión del arquitecto sobre ese archivo: bien con correcciones, 13 problemas |
 | `ESTADO_PROYECTO_Y_C4.md` | Este documento |
 
@@ -123,13 +123,13 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 | Carpeta o archivo | Qué es |
 |---|---|
 | `src/` | 191 clases del modelo en 12 paquetes de servicio, más el paquete `demo` (20 archivos) |
-| `pruebas/` | 171 verificaciones, sin JUnit (DEC-44) |
+| `pruebas/` | 176 verificaciones, sin JUnit (DEC-44) |
 | `ejecutar.sh` | Compila, ejecuta la demo y corre las pruebas. Solo necesita un JDK 21 |
 | `README.md` | Capas, módulos, patrones, qué métodos tienen lógica y los límites conocidos |
 
-**`FinalProyecto/exportes/`**: PNG de las páginas del `.drawio` a escala 1 (a escala mayor salen en blanco). Las 11 páginas actuales están en `sesion5/`.
+**`FinalProyecto/exportes/`**: PNG de las páginas del `.drawio` a escala 1 (a escala mayor salen en blanco). La exportación de las 11 páginas de la sesión 5 está en `sesion5/`; la 4b vigente, con `meseroId`, está en `sesion6/4b.png`.
 
-**Repo público:** `github.com/MauItu/KonradGourmet-FinalProyecto`, rama `main`. Junta `documentos/` y `KonradGourmet/` (que allí se llama `codigo/`) con la historia de ambos, para que un compañero lo clone. Se actualiza solo cuando Mauricio lo pide: clon temporal, `git merge -X subtree=…` de cada rama y push por HTTPS. Última actualización: `195b4b2` (8-nov-2026).
+**Repo público:** `github.com/MauItu/KonradGourmet-FinalProyecto`, rama `main`. Junta `documentos/` y `KonradGourmet/` (que allí se llama `codigo/`) con la historia de ambos, para que un compañero lo clone. Se actualiza solo cuando Mauricio lo pide: clon temporal, `git merge -X subtree=…` de cada rama y push por HTTPS. Antes del cierre de la sesión 6, `main` estaba en `2af02d0` (8-nov-2026). Mauricio autorizó publicar este cierre por HTTPS; el historial de `main` identifica los merges de documentos y código. Los PNG de `exportes/` permanecen fuera de ambos repos locales.
 
 **Fuera de `FinalProyecto/`, en `../proyecto/`:**
 
@@ -146,15 +146,17 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 | Área | Estado | Detalle |
 |---|---|---|
 | Diseño de arquitectura | **Sólido** | Microservicios + eventos + hexagonal, justificados contra los requerimientos no funcionales. Trazabilidad de las 23 ventanas |
-| Diagramas C4 y de clases | **Corregidos y validados** | 11 páginas. Las sesiones 1 a 3 aplicaron los hallazgos del revisor, validados cuatro veces; 191 clases en 4a–4e. La 4d y la nota `n_outbox` de la 4a se actualizaron en la sesión 5 |
+| Diagramas C4 y de clases | **Corregidos y validados** | 11 páginas. Las sesiones 1 a 3 aplicaron los hallazgos del revisor, validados cuatro veces; 191 clases en 4a–4e. La 4d y la nota `n_outbox` de la 4a se actualizaron en la sesión 5; la 4b incorpora `Pedido.meseroId` desde la sesión 6 |
 | Código Java | **Con firmas y demo** | 191 clases con sus firmas y relaciones, que compilan con `javac --release 21 -Xlint:all`. Los 23 métodos de ventana existen con su comentario. Quedan 94 cuerpos «Pendiente de implementar»: lo que habla con tecnología externa y lo que la demo no usa |
-| Demo | **Funciona** | `DemoArquitectura` recorre pedido, alarma de stock, SOL-031, COT-018/019/020 y OC-0012, y cubre las 7 salidas que promete el reporte (DEC-31). Reproduce +4,81 % → OPCIONADA. 171 verificaciones pasan |
-| Reporte PDF | **Desactualizado, sin tocar** | Sigue siendo el de octubre: dice «ocho páginas», y «155 clases». Sus 59 correcciones están escritas en `CORRECCIONES_REPORTE.md`; no se aplican sin el script de ReportLab (A1) |
+| Demo | **Funciona** | `DemoArquitectura` recorre pedido, alarma de stock, SOL-031, COT-018/019/020 y OC-0012, y cubre las 7 salidas que promete el reporte (DEC-31). Reproduce +4,81 % → OPCIONADA. 176 verificaciones pasan |
+| Reporte PDF | **Desactualizado, sin tocar** | Sigue siendo el de octubre: dice «ocho páginas», y «155 clases». Sus 61 correcciones están escritas en `CORRECCIONES_REPORTE.md`; no se aplican sin el script de ReportLab (A1) |
 | Historias de usuario y mockups | **Con correcciones anotadas** | V13 y V21 muestran una sola solicitud, V17 y V19–V23 cuentan otra historia de cotizaciones que la demo (DEC-49), V05 trae dos alertas que no alertan (DEC-50), V03 y V04 se contradicen, HU-07 es copia de HU-06, y el Story Mapping tiene etiquetas erróneas. Los archivos no son nuestros: la lista está en `CORRECCIONES_HU_Y_MOCKUPS.md` |
 | Planeación (Excel) | **Corregido** | 1 PHU = 25 h, 9 PHU por sprint, HU-14 = 1 (total 35), HU-17 en el sprint 3. **5 sprints, 10 semanas, 35 PHU y fechas del 03/08 al 11/10/2026**, todo con fórmulas (DEC-47) |
+| Casos de uso | **Texto corregido; diagrama pendiente** | 19 CU, 12 RF definidos y 23 ventanas cubiertas; RCU-1 a RCU-13 y S6-2. El enunciado original no está disponible. `casos_de_uso.png` lo debe exportar el compañero |
 | Prototipo web | **1 de 23 pantallas** | Solo el login (V01), en HTML/CSS estático y sin conexión al backend. No estaba en el alcance de las correcciones |
 
 **Riesgos que siguen abiertos**
+- **Casos de uso:** falta exportar el diagrama UML y comprobarlo contra CU-01 a CU-19; el marcador no sustituye la imagen para la entrega.
 - **Reporte:** es el entregable principal y hoy contradice al código y a los diagramas. Se resuelve con el script (A1) o rehaciéndolo.
 - **Límites de la demo**, que el reporte debe decir (R-13, R-21, R-23 y R-45): los eventos llevan `sistema` como usuario y cada uno crea su propia correlación (DEC-42); los consumidores no descartan eventos repetidos; todos los datos están en memoria.
 - **Supuestos por confirmar:** DEC-08, DEC-20, DEC-39, DEC-41, DEC-44, DEC-45, DEC-47 (el orden de filas) y DEC-48. DEC-49 y DEC-50 las tomó el arquitecto-revisor a pedido de Mauricio.
@@ -181,7 +183,7 @@ El C4 describe una arquitectura con zoom progresivo. Cada nivel abre una caja de
 
 ### 3.2 Inventario de páginas
 
-Cuentas del archivo actual (`9916ff9`), en el orden en que aparecen en draw.io.
+Cuentas del archivo actual (último cambio del `.drawio`: `4e4559e`), en el orden en que aparecen en draw.io.
 
 | # | Página | id | Origen | Cajas / flechas |
 |---|---|---|---|---|
@@ -190,7 +192,7 @@ Cuentas del archivo actual (`9916ff9`), en el orden en que aparecen en draw.io.
 | 3 | **3a · C4 Contenedores** | p9 | Nueva (6-nov), corregida en la sesión 2 | 61 / 50 |
 | 4 | **3b · C4 Componentes · ms-cotizaciones** | p10 | Nueva (6-nov), corregida en la sesión 2 | 45 / 29 |
 | 5 | 4a · Código · compartido e identidad | p3 | Original, corregida en la fase 2a y la sesión 5 | 62 / 37 · 28 clases |
-| 6 | 4b · Código · pedidos, menú e inventario | p4 | Original, corregida en la fase 2a | 88 / 48 · 39 clases |
+| 6 | 4b · Código · pedidos, menú e inventario | p4 | Original, corregida en la fase 2a y la sesión 6 | 88 / 48 · 39 clases |
 | 7 | 4c · Código · solicitudes y cotizaciones | p5 | Original, corregida en la fase 2a | 87 / 50 · 40 clases |
 | 8 | 4d · Código · órdenes y notificaciones | p6 | Original, corregida en la fase 2a y la sesión 5 | 83 / 52 · 40 clases |
 | 9 | 4e · Código · integración, administración y analítica | p7 | Original, corregida en la fase 2a y la sesión 3 | 89 / 53 · 44 clases |
@@ -265,10 +267,11 @@ Diagramas de clases UML por servicio, con paquetes `co.edu.konradlorenz.<servici
 | 4d | ms-ordenes, ms-notificaciones | 40 | Factory Method, Decorator (correo) |
 | 4e | ms-integracion, ms-administracion, ms-analitica | 44 | Proxy + Adapter (SOAP del Ministerio), Singleton, Strategy (`CalculadorKpi`) |
 
-**Cambios que más pesan** (los de las sesiones 1 a 5):
+**Cambios que más pesan** (los de las sesiones 1 a 6):
 - `EventoDominio` es una clase abstracta con `id`, `usuario`, `correlacionId` y `ocurridoEn` (DEC-09); los eventos la extienden. La nota `n_outbox` cuenta el outbox transaccional y separa lo del sistema real (usuario y correlación que une el recorrido) del límite de la demo (DEC-42).
 - Los PDF van al almacén de objetos y el evento lleva solo `pdfUrl` (D1).
 - Una cotización guarda una lista de solicitudes (DEC-05).
+- `Pedido` guarda `meseroId: Long` en la 4b y lo recibe en el constructor. `PedidoService.registrar()` lo menciona en la acción auditada; `PedidoEnMemoria.delTurno()` filtra por él (DEC-51/53). La demo recibe el id explícitamente; extraerlo de un JWT sigue siendo responsabilidad del adaptador real.
 - `Notificacion.enviar()` y `CreadorNotificacion.notificar()` llevan `adjuntoUrl` (DEC-42, sesión 5).
 - `Correo` está en `puertos.salida` (H25).
 
@@ -303,7 +306,8 @@ El plan completo está en `PLAN_CORRECCIONES.md`. Cada corrección es un commit 
 | 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | Inventario de ítems (`INVENTARIO_SESION2.md`) y DEC-15 a DEC-24 | Aprobada el 8-nov. ~100 commits; validada dos veces (S1–S14) |
 | 3 · Código: firmas | Declarar las 191 clases, sus 403 métodos y las relaciones del diagrama, con el comentario de cada ventana. DEC-25 a DEC-38 | Aprobada el 8-nov. 241 commits en el código; validada cuatro veces (K1–K18) |
 | 4 · Código: demo | Lógica para el recorrido de compra, adaptadores en memoria, `pruebas/` y `ejecutar.sh`. DEC-39 a DEC-46 | Lista dentro del alcance de la demo. 134 commits; validada con dos rondas (S4-1 a S4-16) |
-| 5 · Excel y documentos | Excel (DEC-47), 4d y nota `n_outbox` (DEC-42), `CORRECCIONES_REPORTE.md`, este documento, `CORRECCIONES_HU_Y_MOCKUPS.md` y la validación final | En curso: ver la tabla de Avance del plan |
+| 5 · Excel y documentos | Excel (DEC-47), 4d y nota `n_outbox` (DEC-42), `CORRECCIONES_REPORTE.md`, este documento, `CORRECCIONES_HU_Y_MOCKUPS.md` y la validación final | Aprobada por Mauricio el 8-nov; S5-1 a S5-15 atendidos |
+| 6 · Mesero y casos de uso | `Pedido(numero, mesa, meseroId)` (DEC-51/53), 4b, R-60/R-61, RCU-1 a RCU-13 y cierre (DEC-52) | Fases 1 y 2 aprobadas por Mauricio. 176/176; revisión crítica en `VALIDACION_SESION6.md`. Falta el diagrama UML del compañero |
 
 **Lo que no se tocó, a propósito:** `Arquitectura_Konrad_GourmetOriginalSinCorregir.drawio`, el reporte PDF, el PDF de UX/UI, el de flujo y el Story Mapping. Lo que hay que cambiar en ellos está en los archivos `CORRECCIONES_*.md`.
 
@@ -400,15 +404,15 @@ Leyenda: ✅ hecho · 🟡 anotado, falta que alguien lo aplique en un archivo q
 
 ## 6. Qué falta y quién lo hace
 
-**Falta en la sesión 5 (lo hace Claude):**
-- Reescribir el plan y su tabla de Avance.
-- Pasar la validación final del `arquitecto-revisor` y corregir lo que encuentre (`VALIDACION_SESION5.md`).
+**Cierre de la sesión 6:** fases 1 y 2 aprobadas por Mauricio; estado, plan, decisiones y revisión crítica actualizados. El código sigue en `22717f7`: compila sin avisos y pasan 176/176. La revisión está en `VALIDACION_SESION6.md`; los 13 problemas fueron atendidos, con la salvedad explícita del PNG de casos de uso aún pendiente (RCU-2). La publicación autorizada integra ambos repos locales en `MauItu/KonradGourmet-FinalProyecto`, rama `main`.
 
 **Falta aplicar fuera de los repos (las listas están escritas):**
 
 | Qué | Dónde | Quién |
 |---|---|---|
-| Aplicar las 59 correcciones al reporte, o rehacerlo | `CORRECCIONES_REPORTE.md` | Quien tenga el script (A1), o el equipo |
+| Exportar el diagrama UML con los 19 casos, 6 roles y 5 actores externos | `documentos/casos_de_uso.png` | Carlos Franco / equipo |
+| Revisar el nombre del director: Laura Gómez en la demo e Isabella Castro en V16–V23 | Demo y mockups, sin cambios en esta sesión | Mauricio |
+| Aplicar las 61 correcciones al reporte, o rehacerlo | `CORRECCIONES_REPORTE.md` | Quien tenga el script (A1), o el equipo |
 | Corregir los mockups V13, V17, V19–V23, V03, V04, V05 y V18 (y V07, opcional), la tarjeta HU-07 y las etiquetas del Story Mapping | `CORRECCIONES_HU_Y_MOCKUPS.md` | El equipo, en Canva |
 
 **Decisiones del equipo:**
@@ -421,7 +425,7 @@ Leyenda: ✅ hecho · 🟡 anotado, falta que alguien lo aplique en un archivo q
 | **A2** | Cómo llega la alarma de WebSocket a la réplica correcta | El profesor puede preguntarlo |
 | **A3** | De quién es la cuenta `mari00aa120-eng` | Conviene saberlo antes de la sustentación |
 | **DEC-48** | Dónde van las páginas 3a, 3b y 6 en el reporte | Solo importa cuando se regenere |
-| **A4** | Si `Pedido` guarda qué mesero lo tomó (`meseroId`) | HU-01 pide «asociado a… mi usuario»; cambia una firma, así que no se hizo |
+| **A4** | Resuelta por DEC-51 y DEC-53 | `Pedido` guarda `meseroId`, lo exige al validar y filtra las consultas por mesero; no queda una decisión pendiente |
 
 **Supuestos por confirmar** (cada uno se revierte con su commit si no convence): DEC-08, DEC-39, DEC-40 (inventario inicial e histórico del tablero), DEC-41, DEC-44, DEC-45 y el orden de filas del Excel (DEC-47).
 
