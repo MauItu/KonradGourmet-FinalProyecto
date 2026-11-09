@@ -9,8 +9,8 @@ Base: sesión 6 publicada en `MauItu/KonradGourmet-FinalProyecto`, `main` `b90a1
 | 1 · Documentos de entrega | Hacerlo aquí | Asistente y Mauricio, con los insumos del equipo | Por realizar |
 | 2 · Mockups | Dejarlos pendientes; Mauricio los hace | Mauricio | Pendiente externo |
 | 3 · Story Mapping | Crear un documento nuevo con todo corregido | Asistente, aquí | Por realizar; conservar el original |
-| 4 · Preguntas de arquitectura y requisitos | Que decida el agente de Claude de arquitectura de software | `arquitecto-revisor` de Claude | Pendiente de ejecutar la revisión |
-| 5 · Supuestos asumidos | Que decida el mismo agente | `arquitecto-revisor` de Claude | Pendiente de ejecutar la revisión |
+| 4 · Preguntas de arquitectura y requisitos | Que decida el agente de Claude de arquitectura de software | `arquitecto-revisor` de Claude | Hecho el 2026-11-08, falta el OK de Mauricio: PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`); quedan A1, A3, A5, A6 y A7, que son factuales |
+| 5 · Supuestos asumidos | Que decida el mismo agente | `arquitecto-revisor` de Claude | Hecho el 2026-11-08, falta el OK de Mauricio: los siete supuestos confirmados (tres con ajuste) |
 | 6 · Implementación | Por ahora, solo la demo; explicar qué contiene | Asistente | Alcance fijado por Mauricio; descripción abajo |
 
 ## Reglas para continuar
@@ -101,8 +101,13 @@ Los siguientes puntos requieren información factual, no una elección de arquit
 - **A3:** identificar al titular de `mari00aa120-eng`; debe confirmarlo alguien del equipo.
 - **Enunciado original:** localizarlo si existe. Sin él, citar las fuentes locales y marcar los requisitos cuya literalidad no pudo verificarse.
 
-- [ ] Ejecutar la revisión con el agente solicitado y conservar su informe.
-- [ ] Registrar sus resoluciones y las preguntas factuales que continúen abiertas.
+- [x] Ejecutar la revisión con el agente solicitado y conservar su informe: la ejecutó el `arquitecto-revisor` de Claude (Claude Opus 5.5) el 2026-11-08, y su informe está en `REVISION_ARQUITECTO_POST_S6.md`.
+- [x] Registrar sus resoluciones y las preguntas factuales que continúen abiertas:
+  - PD-01 a PD-11 están en `DECISIONES.md`;
+  - sus efectos están en el `.drawio` (páginas 1, 2, 3a, 4d, 4e y 5; PNG en `exportes/post_sesion6/`), en los casos de uso, en `CORRECCIONES_REPORTE.md` (R-31, R-49, R-56 a R-58, R-61 y las nuevas R-62 a R-66), en `ESTADO_PROYECTO_Y_C4.md` y en el README del código (N5);
+  - A2 queda cerrada por PD-01;
+  - siguen abiertas A1, A3, A5 (enunciado), A6 (modelos para R-58) y A7 (estimación de HU-20 a HU-22).
+- [ ] PD-05 (T-06) está decidida, pero su aplicación (4c, 4e y código) espera la autorización de Mauricio.
 
 ## 5. Supuestos: agente de Claude
 
@@ -116,8 +121,11 @@ Los siguientes puntos requieren información factual, no una elección de arquit
 | DEC-45 | Separar las 191 clases del modelo de los 20 archivos de demo |
 | DEC-47 | Orden de filas: F17 antes de F16. Fechas, cinco sprints y diez semanas ya están decididos |
 
-- [ ] Pedir al mismo agente que resuelva estos supuestos junto con el punto 4.
-- [ ] Registrar qué queda confirmado, qué cambia y por qué, con un commit por corrección que se aplique después.
+- [x] Pedir al mismo agente que resuelva estos supuestos junto con el punto 4.
+- [x] Registrar qué queda confirmado, qué cambia y por qué, con un commit por corrección:
+  - confirmados: DEC-39, DEC-40, DEC-45 y DEC-47 (orden de filas);
+  - confirmados con ajuste: DEC-08 (D2 reemplazada por DEC-12), DEC-41 (listas modificables como simplificación declarada) y DEC-44 (176 verificaciones en 6 archivos);
+  - DEC-20 y DEC-48 se resolvieron con el punto 4.
 
 ## 6. Alcance actual: solo la demo
 
