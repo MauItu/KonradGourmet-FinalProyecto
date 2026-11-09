@@ -484,7 +484,7 @@ Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciad
 1. Un sistema externo invoca la operación `consultarPrecioSugerido` con el identificador de un producto, por SOAP.
 2. El sistema responde con el precio estándar del producto.
 
-**Reglas y fuente:** el informe de arquitectura publica este servicio con su WSDL en ms-integracion, y lo sirve desde una caché delante del servicio del Ministerio. Cómo se autentican los consumidores externos no está definido en ninguna fuente: por definir.
+**Reglas y fuente:** el informe de arquitectura publica este servicio con su WSDL en ms-integracion, y lo sirve desde una caché delante del servicio del Ministerio. Los consumidores externos se autentican con OAuth 2.0 client credentials (PD-08): cada sistema se registra como cliente en ms-identidad y obtiene el token en `POST /api/auth/token`; el gateway lo valida como cualquier JWT y solo permite `/api/integracion/**` a ese tipo de cliente; el `client_id` queda como usuario en la auditoría, y todo va por TLS 1.3. El registro de clientes externos es el supuesto S12, porque la 4a no lo dibuja. Si no hay precio, responde un SOAP Fault: «No hay precio estándar disponible para el producto {id}.»; un token inválido recibe 401 en el gateway.
 
 ### CU-19 Registrar usuario
 
