@@ -58,7 +58,7 @@ Este cuadro dice dónde vive cada caso de uso en el código. Sale de los control
 | CU-18 | `AbastecimientoSoapEndpoint.consultarPrecioSugerido` (integracion) | `ConsultarPrecioUseCase.precioSugerido(productoId)` | — |
 | CU-19 | `UsuarioRestController.registrar` (identidad) | `RegistrarUsuarioUseCase.registrar(nombre, correo, rol, sucursalId, clave)` | Auditoría |
 
-**Decisiones del equipo que afectan a estos casos y siguen abiertas.** Pedido sin sucursal ni usuario (CU-02), categorías del proveedor como texto (CU-09), alerta como marca del insumo (CU-05), para qué sirve `cotizacionesAplicadas` en la solicitud (CU-08) y qué ruta cambia el umbral del 25 % (CU-15). También están abiertas K9, K10 y K11 de la validación de la sesión 3 (`VALIDACION_SESION3.md`): K10 es que el descuento diario de CU-05 correría en cada réplica de ms-inventario, de 2 a 6, si no se asegura que lo ejecute una sola.
+**Decisiones del equipo que afectan a estos casos.** Ya están resueltas: el pedido guarda la sucursal (por la mesa) y el mesero que lo tomó (CU-02, DEC-51); el descuento diario de CU-05 corre en una sola réplica de ms-inventario, aunque haya de 2 a 6, porque el job lleva `@SchedulerLock` (ShedLock, DEC-36); el precio del Ministerio siempre pasa por la caché, porque el Proxy lleva `@Primary` (CU-08 y CU-18, DEC-35); `cotizacionesAplicadas` sirve para que la misma cotización no se aplique dos veces a una solicitud (CU-08); y el umbral del 25 % no tiene ruta, por diseño (CU-05, DEC-43). En el diseño, la alerta es una marca del insumo (`alertaAtendida`), no una entidad propia (CU-05). Sigue abierta una: las categorías del proveedor son texto (`List<String>`) y no referencias a las categorías de producto (CU-09).
 
 ## Actores
 
