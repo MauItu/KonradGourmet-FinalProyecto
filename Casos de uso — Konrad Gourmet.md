@@ -231,7 +231,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 - Algún dato inválido: el sistema indica el campo con error y no registra la solicitud.
 - Consultar mis solicitudes (V10, `GET /api/solicitudes?solicitante=yo`): el jefe ve las suyas y su estado.
 
-**Postcondición:** solicitud PENDIENTE con número y correo enviado.
+**Postcondición:** solicitud PENDIENTE con número y correo enviado; la alerta de stock de esos productos queda atendida cuando ms-inventario consume `solicitud.registrada` (DEC-18).
 
 **Reglas y fuente:** el correo debe ser certificado y con estampado cronológico (requisito de seguridad 5).
 
