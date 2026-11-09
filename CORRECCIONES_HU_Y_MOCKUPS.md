@@ -139,10 +139,10 @@ La tarjeta HU-09 (p. 16) ya dice «una o varias solicitudes». **No se cambia la
 **Dónde:** p. 30.
 **Qué dice hoy:** «CAPACIDAD TOTAL POR SPRINT **(120)**» y, debajo, «4 PERSONAS × 40 HORAS × 2 SEMANAS × 0.7 DE PRODUCTIVIDAD = **224 HORAS**».
 **Por qué:** el título dice 120 y la cuenta da 224. El Excel y la p. 29 («224/25 · 4*40*2*0.7») dicen 224.
-**Qué debe decir:** «CAPACIDAD TOTAL POR SPRINT **(224)**». En las páginas 2 y 5 el título se llama distinto; si repiten el 120 hay que cambiarlo igual.
+**Qué debe decir:** «CAPACIDAD TOTAL POR SPRINT **(224)**». Si el 120 aparece en otra página, se cambia igual.
 
 ### S-04 · «25PHU» en las cartas del Planning Poker · Obligatoria (H26)
-**Dónde:** p. 27 (y las referencias en las pp. 2, 5 y 30).
+**Dónde:** p. 27, las cartas del Planning Poker.
 **Qué dice hoy:** las cartas dicen **«25PHU», «50PHU», «75PHU» y «125PHU»**.
 **Por qué:** el equipo definió **1 PHU = 25 horas** (p. 30, «PHU EN HORAS (25)»). Esas cartas son **horas**, no PHU: 25 h = 1 PHU, 50 h = 2 PHU, 75 h = 3 PHU y 125 h = 5 PHU. Con las cartas escritas como PHU, el total de HU-14 (2 en una hoja y 1 en la otra) y los 35 PHU del plan no se entienden.
 **Qué debe decir:** **«25 h»**, **«50 h»**, **«75 h»** y **«125 h»** (o el equivalente «1 PHU», «2 PHU», «3 PHU» y «5 PHU»). Además, **HU-14 vale 1 PHU (25 h)**, no 2: el total del Excel es **35 PHU = 875 h**.
