@@ -169,7 +169,7 @@ Al terminar: correr la demo y validar con `arquitecto-revisor`.
 
 ## Sesión 5 · Excel + documentos de cierre
 
-- **Fase 4, Excel (H20):** 1 PHU = 25 h y 9 PHU por sprint. HU-14 = 1, con un total de 35. Pasar HU-17 al sprint 3. Corregir "EN SEMANAS" y "SOBRAN". Agregar fechas por sprint.
+- ✅ **Fase 4, Excel (H20)** (hecho el 2026-11-08): 1 PHU = 25 h y 9 PHU por sprint. HU-14 = 1, con un total de 35. Pasar HU-17 al sprint 3. Corregir "EN SEMANAS" y "SOBRAN". Agregar fechas por sprint.
 - **Fase 6, documentos:**
   - ✅ Actualizar `ESTADO_PROYECTO_Y_C4.md` (hecho el 2026-11-08): rutas nuevas (`documentos/`), Git, cambios hechos y estado de cada pendiente.
   - ✅ **`CORRECCIONES_REPORTE.md`** (hecho el 2026-11-08, `e46486b`; R-01 a R-59, con DEC-48 asumida): todo lo que hay que cambiar en el reporte cuando aparezca el script (DEC-03). Incluye:

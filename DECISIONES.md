@@ -19,9 +19,9 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-02 | Código (hallazgo bloqueante H1 y D12) | Firmas, relaciones y tipos, más una demo real | Firmas, relaciones y tipos aplicados en el código (sesión 3); la demo real, aplicada en la sesión 4 |
 | DEC-03 | Reporte PDF | No tocarlo hasta que aparezca el script original | Vigente; los cambios están en `CORRECCIONES_REPORTE.md` (R-01 a R-59, sesión 5) |
 | DEC-04 | Ritmo de trabajo | Por fases con pausa, en 5 sesiones | Vigente |
-| DEC-05 | HU-09: solicitudes por cotización | Varias solicitudes; anotar que hay que corregir el mockup V13 | Aplicada en el `.drawio`, en las firmas y en la lógica del código (sesión 4); falta el mockup V13 (sesión 5) |
+| DEC-05 | HU-09: solicitudes por cotización | Varias solicitudes; anotar que hay que corregir el mockup V13 | Aplicada en el `.drawio`, en las firmas y en la lógica del código (sesión 4); el mockup V13 (y V21), anotado en `CORRECCIONES_HU_Y_MOCKUPS.md` (M-01 y M-02) |
 | DEC-06 | Dueño de los KPI | Director comercial, para revisar con el equipo | Decidida |
-| DEC-07 | Alcance de HU-15 y HU-19 | Las dos dentro de la arquitectura | Aplicada en el `.drawio` y en el código; faltan los mockups opcionales (sesión 5) |
+| DEC-07 | Alcance de HU-15 y HU-19 | Las dos dentro de la arquitectura | Aplicada en el `.drawio` y en el código; los mockups opcionales, descritos en `CORRECCIONES_HU_Y_MOCKUPS.md` (M-08) |
 | DEC-08 | Recomendaciones del revisor y D1–D8 | Se aceptan las recomendaciones | Asumida, por confirmar |
 | DEC-09 | Datos comunes de los eventos (H11) | `EventoDominio` pasa a clase abstracta con id, usuario, correlación y fecha | Aplicada |
 | DEC-10 | Regla de contraseña (H15) | Regla en el dominio, `cifrar()` y alta de usuarios por el administrador | Aplicada en el `.drawio` y en el código; el cambio del reporte está anotado en `CORRECCIONES_REPORTE.md` (R-09, R-17, R-53 y R-57) |
@@ -59,8 +59,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 sigue abierta | `adjuntoUrl` y límite de usuario/correlación: **confirmados por Mauricio**; 4d y nota `n_outbox` de la 4a actualizadas en la sesión 5 (`4da992c`, `f57a89e`); aclaraciones del reporte anotadas en `CORRECCIONES_REPORTE.md` (R-13, R-21, R-23 y R-45); T-06 sigue asumida, por confirmar |
 | DEC-43 | Límites de la cadena de reglas y del umbral | Porcentajes redondeados a 2 decimales antes de comparar; límites estrictos y stock por debajo del 25 % | Decidida por Mauricio en la segunda ronda de la sesión 4 (2026-11-08), incluido el redondeo del stock |
 | DEC-44 | Dónde van las pruebas y el script | Carpeta `pruebas/` fuera de `src/`, sin JUnit, y `ejecutar.sh` | Asumida, por confirmar |
-| DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura del recorrido, incluidos los fallos | Confirmada por Mauricio; auditoría de los fallos autorizada en la fase 2 (S4-13) |
 | DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | Asumida, por confirmar |
+| DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura del recorrido, incluidos los fallos | Confirmada por Mauricio; auditoría de los fallos autorizada en la fase 2 (S4-13) |
 | DEC-47 | Plan de sprints del Excel (H20) | 1 PHU = 25 h y 9 PHU por sprint; HU-14 = 1 (total 35); HU-17 al sprint 3 (8, 8, 6, 8 y 5 PHU); inicio el lunes 03/08/2026; 5 sprints y 10 semanas en todo el Excel | Aplicada en el Excel (sesión 5); fecha y «EN SEMANAS» decididos por Mauricio; el orden de filas es asumido, por confirmar |
 | DEC-48 | Dónde van las páginas 3a, 3b y 6 en el reporte | La 6 en §10, después de la tabla del recorrido; la 3a y la 3b en §14, después del contexto | Asumida, por confirmar (sesión 5) |
 | DEC-49 | Qué orden sale de V20 a V22: los mockups y la demo no coinciden | La demo, el reporte y la página 6 siguen con COT-018 (Proveedor A) → OC-0012 por $545.000; los mockups V20–V22 se anotan para corregir | Asumida, por confirmar (sesión 5) |
@@ -800,7 +800,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - Las etiquetas «Sprint» → «Duración del sprint (semanas)» y «SPRINT» → «PHU POR SPRINT» se aclararon porque ahora alimentan fórmulas.
 - El archivo se guardó con openpyxl: conserva estilos, celdas combinadas y fórmulas, con sus valores calculados, y pierde solo los metadatos propios de Google Sheets. La copia de `../proyecto/contexto/` queda con el contenido anterior.
 
-**Para la fase 5 (`CORRECCIONES_HU_Y_MOCKUPS.md`):** el Story Mapping p. 31 («SPRINT») contradice el Excel: dice 4 sprints, 8 semanas y «2 Meses», con los sprints 2 y 3 «sobrecargados (10 sobre 9)» y los sobrantes de 1 PHU en los sprints 1 y 4. Por decisión de Mauricio, la corrección es que diga 5 sprints, 10 semanas y «2 meses y medio», con el reparto y las fechas del Excel. Hay que anotarlo junto a las etiquetas de H26 (el título «Capacidad … (120)» de las pp. 2, 5, 27 y 30). El Story Mapping no se modifica (DEC-03).
+**Para la fase 5 (`CORRECCIONES_HU_Y_MOCKUPS.md`):** el Story Mapping p. 31 («SPRINT») contradice el Excel: dice 4 sprints, 8 semanas y «2 Meses», con los sprints 2 y 3 «sobrecargados (10 sobre 9)» y los sobrantes de 1 PHU en los sprints 1 y 4. Por decisión de Mauricio, la corrección es que diga 5 sprints, 10 semanas y «2 meses y medio», con el reparto y las fechas del Excel. Hay que anotarlo junto a las etiquetas de H26 (el título «Capacidad … (120)» de la p. 30, y las etiquetas de las pp. 2, 5 y 27). El Story Mapping no se modifica (DEC-03).
 
 ## DEC-48 · ¿Dónde van las páginas 3a, 3b y 6 en el reporte?
 
@@ -819,7 +819,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **V19 (p. 26)** valida **COT-018**, de Proveedor A, con $520.000 contra $545.000: +4,81 %, OPCIONADA. Coincide con todo.
 - **V20 (p. 27)** compara tres cotizaciones OPCIONADAS de la solicitud SOL-031: Proveedor A $545.000 (+4,8 %), Proveedor B $510.000 (−1,9 %) y Proveedor C $570.000 (+9,6 %), y resalta la de **Proveedor B**: COT-019, res $395.000 y arroz $115.000, diferencia −1,92 %.
 - **V21 y V22 (págs. 28 y 29)** generan la orden de **COT-019**, Proveedor B, por **$510.000**, y la orden es **OC-0012**.
-- **La demo, la página 6 y el reporte** (p. 8, p. 11 y p. 21) generan **OC-0012** sobre **COT-018** por **$545.000**. En la demo, COT-019 es de Proveedor C y queda RECHAZADA ($700.000, +34,62 %), y el proveedor de COT-018 se llama «Proveedor ABC» (V13 también lo llama así; V19 y V20 dicen «Proveedor A»).
+- **La demo y la página 6** generan **OC-0012** sobre **COT-018** por **$545.000**. El reporte no une OC-0012 con ninguna cotización, pero en la p. 26 dice «COT-019: +34,62 %, RECHAZADA» (en la demo, COT-019 es de Proveedor C por $700.000), mientras que V20 muestra COT-019 como OPCIONADA. El proveedor de COT-018 se llama «Proveedor ABC» en la demo y en V13 y V18; V19 y V20 dicen «Proveedor A».
 
 La historia de los mockups es coherente por sí sola (el director compara varias opcionadas y elige la más barata), pero no es la que reproduce el código.
 
