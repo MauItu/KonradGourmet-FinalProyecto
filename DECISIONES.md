@@ -78,6 +78,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | PD-06 | Administración de roles y permisos | Seis roles fijos y una matriz fija de permisos por rol; administrador de alcance global; supuesto S10 para las listas maestras | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-15, R-57 y §17 del reporte |
 | PD-07 | Filtros de la auditoría | Solo rango de fechas, obligatorio; usuario y acción quedan como evolución | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-16 y HU-21 |
 | PD-08 | Autenticación de los consumidores externos del SOAP | OAuth 2.0 client credentials: JWT de cliente validado por el gateway, solo para `/api/integracion/**`; supuesto S12 | Decidida por el arquitecto-revisor (2026-11-08); efectos en páginas 1, 2 y 3a, CU-18 y §3/§17 del reporte |
+| PD-09 | HU-20 a HU-22 | Propuestas de diseño aprobadas con ajustes, sin estimar y fuera del Story Mapping original | Decidida por el arquitecto-revisor (2026-11-08); efectos en casos de uso, `STORY_MAPPING_CORREGIDO.md` y Excel; estimación pendiente del equipo |
 
 ---
 
@@ -1018,6 +1019,25 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Supuesto S12:** el registro de clientes externos en ms-identidad, que la 4a no dibuja.
 
 **Qué implica:** un solo mecanismo, ya validado en el gateway. Se pierde la compatibilidad directa con clientes que solo saben WS-Security; para ellos se puede añadir mTLS en el borde. Efectos: etiquetas de las páginas 1, 2 y 3a, CU-18, una frase en §3 y el supuesto S12 en §17 del reporte. Fuera de alcance: el registro de clientes.
+
+## PD-09 · ¿Qué se hace con las historias propuestas HU-20 a HU-22?
+
+**Por qué hubo que decidir.** El Story Mapping no tiene historias para el Administrador. Los casos de uso proponen HU-20 «Parametrizar el sistema», HU-21 «Monitorear la auditoría» y HU-22 «Consultar logs de errores». El criterio 1 de HU-20 prometía crear, editar e inactivar categorías, productos, unidades, marcas y mesas, y ningún servicio lo expone (hallazgo N3).
+
+**Opciones:**
+- **A. Aprobarlas tal cual.** Promete lo que la arquitectura no hace.
+- **B. Aprobarlas como propuesta de diseño, con ajustes.** ✅ **Escogida por el arquitecto-revisor.**
+- **C. Descartarlas.** Deja sin historias al rol Administrador.
+
+**Criterios ajustados:**
+- **HU-20 «Parametrizar el sistema»:** (1) consultar y cambiar los parámetros generales y la imagen corporativa (tema y logos), que la SPA toma al iniciar, sin redespliegue; (2) registrar y consultar los correos de los jefes de cocina por sucursal; (3) validaciones y mensajes de PD-10; (4) cada cambio queda en la auditoría (acción, usuario, fecha y hora); (5) solo el rol Administrador; (6) un error al guardar queda en el log; (7) las listas maestras quedan fuera (supuesto S10).
+- **HU-21 «Consultar la auditoría»** (se quita «monitorear»): (1) lista con acción, usuario, fecha y hora; (2) rango de fechas obligatorio, con «desde» no posterior a «hasta»; (3) solo lectura y solo para el administrador; (4) mensajes de PD-10.
+- **HU-22 «Consultar logs de errores»:** (1) lista con servicio, mensaje, fecha y hora; (2) el servicio es opcional, y sin él salen todos; (3) solo lectura y solo para el administrador; (4) mensajes de PD-10.
+
+**Qué implica:** se marcan «Propuesta de diseño aprobada por el arquitecto-revisor, sin estimar; no forma parte del Story Mapping original».
+- **Estimación:** la hace el equipo con planning poker y las mismas cartas (25/50/75/125 h = 1/2/3/5 PHU). No se inventa. Hasta entonces, van al Excel como F20–F22 en un bloque «Propuestas (sin sprint)».
+- **Ubicación:** solo dentro de la holgura (1, 1, 3, 1 y 4 PHU por sprint, 10 en total). Si no caben, decide Mauricio, porque agregar un sprint cambia las 10 semanas que él confirmó (DEC-47).
+- Efectos: los casos de uso, una sección «Historias propuestas» en `STORY_MAPPING_CORREGIDO.md` y, cuando haya estimación, el Excel. Se pierde el mantenimiento de las listas maestras en pantalla.
 
 ---
 
