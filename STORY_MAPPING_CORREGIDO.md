@@ -429,7 +429,7 @@ Original: páginas 28 a 30.
 - **Dedicación semanal (40):** cada miembro del equipo dedica 40 horas semanales al proyecto (jornada laboral completa).
 - **Duración por sprint (2):** la duración de cada sprint es de 2 semanas.
 - **Factor de productividad (0.7):** representa la eficiencia real del equipo, considerando que no todo el tiempo dedicado es 100 % productivo (reuniones, daily meetings, imprevistos, cambios de contexto, revisión de código, etc.). Un factor de 0.7 significa que el equipo es productivo el 70 % del tiempo dedicado. Es un factor conservador, apropiado para equipos que están iniciando o que trabajan con tecnologías nuevas.
-- **Capacidad total por sprint (120):** es el total de horas productivas reales que el equipo puede entregar en un sprint. Se calcula como: 4 personas × 40 horas × 2 semanas × 0.7 de productividad = 224 horas.
+- **Capacidad total por sprint (224):** *(corregido, S-03: el original decía 120, pero la cuenta y la tabla dan 224)* es el total de horas productivas reales que el equipo puede entregar en un sprint. Se calcula como: 4 personas × 40 horas × 2 semanas × 0.7 de productividad = 224 horas.
 - **PHU en horas (25):** es la equivalencia definida por el equipo: 1 punto de historia de usuario corresponde a 25 horas de trabajo. Sirve como unidad de medida estándar para estimar el esfuerzo de cada historia.
 - **PHUs por sprint (8.96 ≈ 9 PHU):** es la velocidad (velocity) del equipo: cuántos puntos de historia de usuario puede completar en un sprint. Se calcula como: 224 horas de capacidad ÷ 25 horas por PHU = 8.96 PHU. Se redondea a 9 PHU por sprint, que es el compromiso máximo que el equipo puede asumir sin sobrecargarse.
 
