@@ -17,7 +17,9 @@ Los `.md` de `documentos/` llaman a la carpeta de código `KonradGourmet/`; aqu�
 
 - **Estado de las correcciones:** `documentos/PLAN_CORRECCIONES.md`, tabla «Avance» al final.
 - **Decisiones tomadas:** `documentos/DECISIONES.md`.
-- **Aviso:** `documentos/ESTADO_PROYECTO_Y_C4.md` es del 7 de noviembre y está desactualizado; se actualiza en la sesión 5. El reporte PDF tampoco tiene todavía las correcciones.
+- **Estado del proyecto:** [ESTADO_PROYECTO_Y_C4.md](documentos/ESTADO_PROYECTO_Y_C4.md), actualizado al cierre de la sesión 6 (8 de noviembre de 2026).
+- **Validación de la sesión 6:** [VALIDACION_SESION6.md](documentos/VALIDACION_SESION6.md): pedido con `meseroId`, 176 verificaciones y 19 casos de uso revisados.
+- **Pendientes de entrega:** falta `documentos/casos_de_uso.png`, que debe exportar el compañero, y aplicar al PDF las correcciones de `CORRECCIONES_REPORTE.md` cuando esté disponible su script.
 
 ## Cómo abrir cada cosa
 
@@ -26,8 +28,7 @@ Los `.md` de `documentos/` llaman a la carpeta de código `KonradGourmet/`; aqu�
 
   ```bash
   cd codigo
-  javac --release 21 -d out $(find src -name "*.java")
-  java -cp out co.edu.konradlorenz.demo.DemoArquitectura
+  ./ejecutar.sh
   ```
 
 ## Historia
