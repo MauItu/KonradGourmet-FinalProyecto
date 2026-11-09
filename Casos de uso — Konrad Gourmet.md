@@ -11,7 +11,7 @@ Este cuadro contrasta cada caso de uso con el repositorio github.com/MauItu/Konr
 | CU | Qué declara el código del 8 de noviembre | Qué cambia o sigue abierto | ¿Tiene lógica? |
 | --- | --- | --- | --- |
 | CU-01 | V01: `POST /api/auth/token` | La única pantalla del prototipo es V01 y no se conecta a ningún servicio | No: `IniciarSesionService` sigue pendiente |
-| CU-02 | V02: `GET /api/pedidos?turno=actual`. V03 y V04: `POST /api/pedidos`. Catálogo y mesas: `GET /api/pedidos/catalogo` y `GET /api/pedidos/mesas` (H6) | `Pedido` tiene número, mesa, fecha, estado y detalles; no guarda sucursal ni usuario, que el paso 7 exige. Decisión del equipo pendiente | Sí |
+| CU-02 | V02: `GET /api/pedidos?turno=actual`. V03 y V04: `POST /api/pedidos`. Catálogo y mesas: `GET /api/pedidos/catalogo` y `GET /api/pedidos/mesas` (H6) | `Pedido` guarda número, mesa (que trae su sucursal), el mesero que lo tomó (`meseroId`, DEC-51), fecha, estado y detalles. Coincide con el paso 7 | Sí |
 | CU-03 | V06: `POST /api/platos`, productos por categoría, y editar (PUT) y desactivar (PATCH). `Plato` guarda `sucursalId` y `creadoPor` (DEC-11) | Coincide con el flujo alterno «consultar, editar y desactivar» | No: ms-menu sigue pendiente |
 | CU-04 | V08 y V09: `POST /api/solicitudes` (201). La solicitud guarda `correoSolicitante` (DEC-13) | Coincide | Sí |
 | CU-05 | V05: `GET /api/inventario/alertas`. V07: `GET /api/inventario/insumos`. ms-inventario consume `solicitud.registrada` y apaga la alerta (DEC-18), como pide HU-16 | La alerta es solo la marca `alertaAtendida` del insumo; no existe una entidad Alerta (B12, parcial). El 25 % es `UmbralStock`, propio de ms-inventario | Sí |
@@ -157,7 +157,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 4. Selecciona la mesa en una lista desplegable parametrizada por sucursal (campo obligatorio).
 5. El sistema recalcula cada subtotal y el total sin recargar la pantalla.
 6. El mesero confirma.
-7. El sistema asocia el pedido a su sucursal y a su usuario, registra fecha y hora, genera un número consecutivo y lo muestra (V04).
+7. El sistema asocia el pedido a la sucursal de la mesa (`Mesa.sucursalId`) y al mesero que lo tomó (`Pedido.meseroId`, que sale del token; DEC-51), registra fecha y hora, genera el consecutivo y lo muestra (V04).
 
 **Flujos alternos:**
 
@@ -168,7 +168,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 **Postcondición:** pedido registrado con su consecutivo; la mesa queda visible en el detalle del pedido; el movimiento queda en la auditoría (acción, usuario, fecha, hora).
 
-**Reglas y fuente:** el valor total sale del precio de venta de cada plato. Se pueden consultar los pedidos activos filtrando por mesa (HU-03). Según el informe, el pedido publica el evento `pedido.registrado`, que alimenta el descuento de inventario y los KPI.
+**Reglas y fuente:** el valor total sale del precio de venta de cada plato. Se pueden consultar los pedidos activos filtrando por mesa (HU-03). El pedido guarda qué mesero lo tomó (DEC-51): sin mesero no se registra, y la ventana V02 (`pedidosDelTurno`) muestra solo los suyos. Según el informe, el pedido publica el evento `pedido.registrado`, que alimenta el descuento de inventario y los KPI.
 
 ### CU-03 Registrar plato con ingredientes
 
