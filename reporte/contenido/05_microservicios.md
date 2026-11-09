@@ -17,7 +17,7 @@ Los cortes siguen el ciclo de vida de los datos y los roles que los tocan: el pe
 
 El gateway enruta 13 prefijos a los once servicios: ms-identidad y ms-cotizaciones tienen dos cada uno. La tabla 5 resume la responsabilidad, las ventanas y las rutas de cada servicio.
 
-!tabla 5 | Los once microservicios | 2.8,5.2,2.6,3.6
+!tabla 5 | Los once microservicios | 3.5,4.2,2.9,3.6
 | Servicio | Responsabilidad | Ventanas | Ruta en el gateway |
 |---|---|---|---|
 | ms-identidad | OAuth 2.0 / OIDC, usuarios, roles, permisos y menú por rol; alta de usuarios por el administrador | V01 | /api/auth/\*\* y /api/usuarios/\*\* |
