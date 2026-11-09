@@ -8,7 +8,7 @@ Base: sesión 6 publicada en `MauItu/KonradGourmet-FinalProyecto`, `main` `b90a1
 |---|---|---|---|
 | 1 · Documentos de entrega | Hacerlo aquí | Asistente y Mauricio, con los insumos del equipo | Por realizar |
 | 2 · Mockups | Dejarlos pendientes; Mauricio los hace | Mauricio | Pendiente externo |
-| 3 · Story Mapping | Crear un documento nuevo con todo corregido | Asistente, aquí | Por realizar; conservar el original |
+| 3 · Story Mapping | Crear un documento nuevo con todo corregido | Asistente, aquí | Hecho el 2026-11-09: `STORY_MAPPING_CORREGIDO.md`; original intacto; falta el OK de Mauricio |
 | 4 · Preguntas de arquitectura y requisitos | Que decida el agente de Claude de arquitectura de software | `arquitecto-revisor` de Claude | Hecho el 2026-11-08, falta el OK de Mauricio: PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`); quedan A1 (DEC-54) y A5 |
 | 5 · Supuestos asumidos | Que decida el mismo agente | `arquitecto-revisor` de Claude | Hecho el 2026-11-08, falta el OK de Mauricio: los siete supuestos confirmados (tres con ajuste) |
 | 6 · Implementación | Por ahora, solo la demo; explicar qué contiene | Asistente | Alcance fijado por Mauricio; descripción abajo |
@@ -62,18 +62,19 @@ No hacer estos cambios desde aquí. La especificación detallada está en [CORRE
 
 **Archivo de trabajo previsto:** `documentos/STORY_MAPPING_CORREGIDO.md`. Debe contener la versión corregida, no solamente una lista de cambios. El PDF original se conserva intacto.
 
-- [ ] Leer y transcribir las 19 HU del original, incluidos sus criterios de aceptación, actores y MVP; las tarjetas son imágenes. Mantener lo que no requiere corrección y dejar trazabilidad a la tarjeta original.
-- [ ] Reescribir HU-07 con filtros desde/hasta, producto, marca y estado (S-01); distinguir el criterio propuesto de validar el orden de las fechas de los criterios ya establecidos.
-- [ ] Mantener HU-09 con «una o varias solicitudes» (S-02: no requiere cambiar su regla).
-- [ ] Alinear HU-16 con la regla aprobada: porcentaje redondeado estrictamente menor que 25 % y alarma al cruzar el umbral.
-- [ ] Mostrar capacidad de 224 horas por sprint, no 120 (S-03).
-- [ ] Corregir cartas del Planning Poker: 25/50/75/125 horas, equivalentes a 1/2/3/5 PHU; HU-14 = 1 PHU, total 35 PHU (S-04).
-- [ ] Ubicar «Ver KPIs» bajo el director comercial en actores, actividades y MVP (S-05).
-- [ ] Incluir la planificación completa del Excel: 5 sprints, 10 semanas, 2 meses y medio, del 03/08 al 11/10/2026; 8, 8, 6, 8 y 5 PHU por sprint, con 10 PHU de holgura (S-06).
-- [ ] Eliminar referencias contradictorias a 4 sprints/8 semanas y la nota «Un detalle para tu sustentación…» (S-07).
-- [ ] Incluir la correspondencia de historias y ventanas; S-08 es informativa.
+- [x] Leer y transcribir las 19 HU del original, incluidos sus criterios de aceptación, actores y MVP; las tarjetas son imágenes. Mantener lo que no requiere corrección y dejar trazabilidad a la tarjeta original.
+- [x] Reescribir HU-07 con filtros desde/hasta, producto, marca y estado (S-01); distinguir el criterio propuesto de validar el orden de las fechas de los criterios ya establecidos.
+- [x] Mantener HU-09 con «una o varias solicitudes» (S-02: no requiere cambiar su regla).
+- [x] Alinear HU-16 con la regla aprobada: porcentaje redondeado estrictamente menor que 25 % y alarma al cruzar el umbral.
+- [x] Mostrar capacidad de 224 horas por sprint, no 120 (S-03).
+- [x] Corregir cartas del Planning Poker: 25/50/75/125 horas, equivalentes a 1/2/3/5 PHU; HU-14 = 1 PHU, total 35 PHU (S-04).
+- [x] Ubicar «Ver KPIs» bajo el director comercial en actores, actividades y MVP (S-05).
+- [x] Incluir la planificación completa del Excel: 5 sprints, 10 semanas, 2 meses y medio, del 03/08 al 11/10/2026; 8, 8, 6, 8 y 5 PHU por sprint, con 10 PHU de holgura (S-06).
+- [x] Eliminar referencias contradictorias a 4 sprints/8 semanas y la nota «Un detalle para tu sustentación…» (S-07).
+- [x] Incluir la correspondencia de historias y ventanas; S-08 es informativa.
 - [x] HU-20 a HU-22: resuelto. Mauricio decidió omitirlas del documento y del plan de sprints (PD-09); quedan solo en los casos de uso, para una versión posterior.
-- [ ] Revisar el documento nuevo contra casos de uso, decisiones y Excel; registrar cualquier dato pendiente de una fuente o decisión.
+- [x] Revisar el documento nuevo contra casos de uso, decisiones y Excel: coincide con el Excel (35 PHU; 8, 8, 6, 8 y 5 por sprint; fechas), con DEC-43/46/47 y PD-03/04/09/10, y con el catálogo de casos de uso. Al transcribir aparecieron cuatro errores más del original, corregidos como SM-01 a SM-04 (nombres de los MVP, «machine learning», total PERT y umbral de HU-16).
+- [ ] OK de Mauricio a `STORY_MAPPING_CORREGIDO.md`.
 
 **Criterio de terminado:** un documento nuevo que se pueda leer de principio a fin como versión corregida de las historias y la planificación, con la procedencia y las propuestas claramente identificadas.
 
