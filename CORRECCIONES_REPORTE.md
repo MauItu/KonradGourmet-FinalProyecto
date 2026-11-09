@@ -76,6 +76,20 @@ Las figuras del anexo (A1–A5) no cambian de número. Hay que revisar cualquier
 ### R-05 · Fecha e índice · Cambiar
 - **p. 1:** «Octubre de 2026» → la fecha de la nueva versión (por ejemplo, *«Noviembre de 2026»*).
 - **p. 2 (contenido):** regenerar el índice. R-02 agrega texto en §10 y §14, así que los números de página cambian desde la p. 21.
+- **§14, título (DEC-48):** «Contexto y despliegue» → *«Modelo C4: contexto, contenedores, componentes y despliegue»*.
+
+### R-62 · Tabla «Dónde está cada nivel del C4» en §2 · Cambiar (DEC-48)
+**Por qué:** el arquitecto confirmó que cada página va junto a lo que explica (R-02), y agregó una tabla para que el profesor vea los cuatro niveles obligatorios y los complementarios de un vistazo, sin mover secciones.
+**Dónde:** §2 (p. 4), después de «…dinámico y de despliegue son complementarios.» Con la numeración de R-03:
+
+| Nivel | Página del .drawio | Figura | Sección |
+|---|---|---|---|
+| 1 Contexto | 2 | 11 | §14 |
+| 2 Contenedores | 3a | 12 | §14 |
+| 3 Componentes | 3b | 13 | §14 |
+| 4 Código | 4a–4e | 8–10 y A1–A5 | §12 y anexo |
+| Dinámico | 6 | 7 | §10 |
+| Despliegue | 5 | 14 | §14 |
 
 ---
 
