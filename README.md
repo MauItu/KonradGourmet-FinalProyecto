@@ -147,7 +147,7 @@ Kafka y sin frameworks). Las secciones numeradas del 1 al 7 son las 7 salidas qu
 |---|---|---|
 | 0. Carga inicial | Publish-Subscribe | Los datos de partida: 2 platos (por `menu.actualizado`), 4 insumos, 4 proveedores y la libreta de correos |
 | 1 | Composite + Factory Method | El menú `DIRECTOR_COMPRAS`: Inicio, Cotizaciones (Todas, Pendientes de validar, Opcionadas), Órdenes de compra, Mi perfil y Cerrar sesión |
-| 2 | Hexagonal + Publish-Subscribe | El pedido PED-0251, mesa 5, 3 platos, **$82.000**, y el evento `pedido.registrado` |
+| 2 | Hexagonal + Publish-Subscribe | El pedido PED-0251, mesa 5, tomado por el mesero 3, 3 platos, **$82.000**, y el evento `pedido.registrado` |
 | 3 | Factory Method + Decorator | El cierre de las 23:59 deja la res al **23 %**: alarma «Res al 23 %: realice una solicitud» y correo al jefe con `X-Certificado` y `X-Sello-Tiempo` |
 | 4 | Proxy + Adapter | El precio de la res: la 1.ª consulta llama al servicio web (1 llamada); la 2.ª la responde la caché (sigue en 1) |
 | Solicitud | Publish-Subscribe | SOL-031 (res 20 kg y arroz 15 kg); `solicitud.registrada` atiende la alerta de la res |
@@ -192,7 +192,8 @@ demo trae su adaptador en memoria en el paquete `demo`.
 
 Límites que conviene conocer:
 - Los casos de uso no reciben al usuario (en el proyecto real sale del token JWT), así que los eventos llevan
-  `sistema` o el correo de la entidad. Cada evento crea su propio `correlacionId`; propagarlo entre
+  `sistema` o el correo de la entidad. La excepción es el pedido: nace con el `meseroId` de quien lo tomó
+  (HU-01, DEC-51), `validar()` lo exige y `pedidosDelTurno()` filtra por él. Cada evento crea su propio `correlacionId`; propagarlo entre
   servicios queda para el proyecto real.
 - `Notificacion.enviar(destino, contenido, adjuntoUrl)` y `CreadorNotificacion.notificar(destino, contenido,
   adjuntoUrl)` llevan el enlace del adjunto (DEC-42, decidido por Mauricio): el correo certificado al proveedor
@@ -213,11 +214,11 @@ Límites que conviene conocer:
 
 ### Pruebas
 
-`pruebas/` tiene 171 verificaciones en 3 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
+`pruebas/` tiene 176 verificaciones en 3 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
 - `PruebasCotizacion`: los valores de V19 y los límites de la cadena de reglas (+25,00 % y −50,00 % siguen
   OPCIONADA; +25,01 % y −50,01 % no);
 - `PruebasPatrones`: los 8 patrones, uno por uno;
-- `PruebasFlujoDeCompra`: pedido, inventario (incluido el cierre del día siguiente), solicitud, cotización,
+- `PruebasFlujoDeCompra`: pedido (con su mesero), inventario (incluido el cierre del día siguiente), solicitud, cotización,
   orden OC-0012, una cotización con 2 solicitudes (DEC-05), proveedores y el caso PENDIENTE_PRECIO (H18).
 
 ## Historia en git
