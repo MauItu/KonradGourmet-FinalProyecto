@@ -66,6 +66,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-48 | Dónde van las páginas 3a, 3b y 6 en el reporte | La 6 en §10, después de la tabla del recorrido; la 3a y la 3b en §14, después del contexto | Asumida, por confirmar (sesión 5) |
 | DEC-49 | Qué orden sale de V20 a V22: los mockups y la demo no coinciden | Opción A ampliada: los datos de la demo mandan (COT-018, Proveedor ABC, OC-0012 por $545.000) y se corrigen seis mockups (V17 y V19 a V23) | Decidida por el arquitecto-revisor (2026-11-08), a pedido de Mauricio |
 | DEC-50 | Arroz y Pollo al 25 % en V05 | Se sacan de la lista y la tarjeta queda en «3 Stock bajo»; la regla de DEC-43 no cambia | Decidida por el arquitecto-revisor (2026-11-08), a pedido de Mauricio |
+| DEC-51 | El pedido guarda qué mesero lo tomó (A4) | `meseroId: Long` en `Pedido`, en la 4b y en el código | Decidida por Mauricio (2026-11-08); se aplica en la sesión 6 |
+| DEC-52 | Quién corrige el archivo de casos de uso | Claude, sobre el mismo archivo, con los 13 problemas de `REVISION_CASOS_DE_USO.md` | Decidida por Mauricio (2026-11-08); se aplica en la sesión 6 |
 
 ---
 
@@ -859,6 +861,26 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Qué implica:** la lista final de V05 es Res 23 %, Papa 18 % y Tomate 24 % (captura y wireframe), con «3 Stock bajo» (M-06). **Riesgo para la sustentación:** la tarjeta HU-16 dice «llegue al 25 %», el reporte «≤ 25 %» (p. 21) y «llega al 25 %» (p. 9). Se corrigen con R-22 y DEC-43. Respuesta lista: «el umbral se cruza al bajar del 25 %; un insumo en 25,00 % todavía no está bajo; es un parámetro de `UmbralStock`».
 
+## DEC-51 · ¿El pedido guarda qué mesero lo tomó? (A4)
+
+**Por qué hubo que decidir.** La tarjeta HU-01 pide que el pedido quede «asociado a… mi usuario», pero `Pedido` (4b y código) solo guarda número, mesa, fecha, estado y detalles. Lo encontró el arquitecto al revisar los casos de uso (`REVISION_CASOS_DE_USO.md`, problema 9).
+
+**Opciones:**
+- **A. Agregar `meseroId: Long` a `Pedido`** en la 4b y en el código. Es pequeño, pero cambia una firma. ✅ **Escogida por Mauricio el 2026-11-08.**
+- **B. Dejarlo anotado como límite del diseño**, sin tocar nada. El criterio de HU-01 queda sin cubrir.
+
+**Qué implica:** se hace en la sesión 6 (`PLAN_CORRECCIONES.md`): la 4b, `Pedido`, `PedidoService.registrar()`, la demo, las pruebas, el README y una corrección más del reporte. A4 queda resuelta.
+
+## DEC-52 · ¿Quién corrige el archivo de casos de uso?
+
+**Por qué hubo que decidir.** `Casos de uso — Konrad Gourmet.md` lo escribió un compañero de Mauricio. El arquitecto lo dio por «bien con correcciones», con 13 problemas, y no se puede entregar sin corregir el estado del prototipo y sin el diagrama.
+
+**Opciones:**
+- **A. Se lo pasa Mauricio a su compañero**, que aplica las correcciones.
+- **B. Lo corrige Claude directamente sobre el archivo.** ✅ **Escogida por Mauricio el 2026-11-08.**
+
+**Qué implica:** se hace en la sesión 6, con un commit por problema, para que el compañero pueda ver cada cambio. El diagrama UML solo lo tiene el compañero: si no aparece, queda el lugar marcado.
+
 ---
 
 ## Preguntas abiertas (sin decidir)
@@ -868,4 +890,4 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 | A1 | ¿Quién tiene el script de ReportLab que generó el reporte? | Sin él no se puede corregir el PDF (DEC-03) | Equipo |
 | A2 | Con 2–4 réplicas de ms-notificaciones, ¿cómo llega la alarma por WebSocket a la réplica que tiene abierta la sesión del jefe? Las salidas posibles son sesión pegajosa en el balanceador, o difundir el mensaje a todas las réplicas, por ejemplo con Redis pub/sub | El profesor puede preguntarlo en la sustentación | Equipo |
 | A3 | Los commits del repo son de la cuenta `mari00aa120-eng`. ¿Es de alguien del equipo? | Conviene saberlo antes de la sustentación | Equipo |
-| A4 | `Pedido` no guarda qué mesero lo tomó (`meseroId`), y HU-01 pide «asociado a… mi usuario». El arquitecto propone agregar `meseroId: Long` a `Pedido` en la 4b y en el código. Cambia una firma, así que no se hizo | Criterio de HU-01 sin cubrir | Mauricio / equipo |
+| A4 | `Pedido` no guarda qué mesero lo tomó | **Resuelta por DEC-51** (se aplica en la sesión 6) | — |

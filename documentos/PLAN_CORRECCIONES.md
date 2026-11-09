@@ -205,6 +205,18 @@ Al terminar: validación final de todo con `arquitecto-revisor`.
 
 ---
 
+## Sesión 6 · `meseroId` y casos de uso (decidida el 2026-11-08, por hacer)
+
+Mauricio aprobó la sesión 5 y pidió hacer esto en una sesión nueva:
+
+- **Fase 1 · `meseroId` en el pedido (DEC-51, A4):** agregar `meseroId: Long` a `Pedido` en la 4b del `.drawio` y en el código (`pedidos/dominio/Pedido.java`), y que `PedidoService.registrar()` lo llene con el mesero del pedido. Es un cambio de firma, autorizado por Mauricio. Revisar a quién afecta: constructores, `PedidoRegistradoEvent` si hace falta, la demo, las pruebas, el README y la fila de §15 y supuestos del reporte (agregar la corrección a `CORRECCIONES_REPORTE.md`). Debe compilar sin avisos y pasar las pruebas (agregar las que verifiquen el mesero). Exportar la 4b a `exportes/sesion6/`.
+- **Fase 2 · Corregir `Casos de uso — Konrad Gourmet.md` (DEC-52):** aplicar sobre el archivo los 13 problemas de `REVISION_CASOS_DE_USO.md`, con el texto propuesto en cada uno, más lo que cambie la fase 1 (el problema 9, pedido sin mesero, queda resuelto). El diagrama de casos de uso (problema 2) solo lo tiene el compañero: dejar en su lugar `![Diagrama de casos de uso](casos_de_uso.png)` y una nota de que falta exportarlo, salvo que Mauricio lo entregue.
+- **Fase 3 · Cierre:** actualizar `ESTADO_PROYECTO_Y_C4.md`, la tabla de Avance y `DECISIONES.md`; validación del `arquitecto-revisor` en `VALIDACION_SESION6.md`; push al repo público.
+
+**No entran en la sesión 6:** los mockups y el Story Mapping. Mauricio los revisa por su cuenta en `CORRECCIONES_HU_Y_MOCKUPS.md` (sección «Para revisar con Mauricio»).
+
+---
+
 ## Texto para arrancar cada sesión
 
 Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiando el número:
@@ -220,4 +232,5 @@ Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiand
 | 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | ✅ Aprobada por Mauricio (2026-11-08). Validada por el revisor, con S1–S14 corregidos. Decisiones DEC-15 a DEC-24 |
 | 3 · Código: firmas | Aplicada y validada por el revisor cuatro veces (2026-11-08); la cuarta la dio por **lista**. K1–K18 resueltos (K5, revertida por K11; K15 y K17 son erratas anotadas en los registros). Falta el OK de Mauricio. Son 191 clases más la demo, que compilan, en 241 commits sobre `ad71e69`. Decisiones DEC-25 a DEC-38 |
 | 4 · Código: demo | Segunda ronda y fase 2 terminadas (2026-11-08): **lista dentro del alcance de la demo**. S4-13 a S4-16 corregidos; S4-1 a S4-12 corregidos o documentados. 134 commits sobre `37d655b`, 171 verificaciones y 94 cuerpos pendientes. Mauricio confirmó DEC-43 (cotizaciones y stock) y el límite de usuario/correlación de DEC-42. La demo cubre las siete salidas según DEC-31. Pendientes para sesión 5: 4d (`adjuntoUrl`), «≤ 25 %» y aclaraciones de usuario/correlación en reporte y 4a |
-| 5 · Excel y documentos | Aplicada y validada (2026-11-08). Fase 4 (Excel, H20) aprobada, con DEC-47. `.drawio` hecho: 4d con `adjuntoUrl` y nota `n_outbox` de la 4a (DEC-42); PNG en `exportes/sesion5/`. `CORRECCIONES_REPORTE.md` hecho (R-01 a R-59; las 11 páginas exportadas en `exportes/sesion5/`). `ESTADO_PROYECTO_Y_C4.md` reescrito. `CORRECCIONES_HU_Y_MOCKUPS.md` hecho (M-01 a M-08 y S-01 a S-08). Validación final del revisor hecha: **lista con correcciones**, con S5-1 a S5-15 atendidos (`VALIDACION_SESION5.md`). DEC-49 y DEC-50 tomadas por el arquitecto; `Casos de uso — Konrad Gourmet.md` incluido y revisado (`REVISION_CASOS_DE_USO.md`). Falta el OK de Mauricio |
+| 5 · Excel y documentos | ✅ Aprobada por Mauricio (2026-11-08). Aplicada y validada. Fase 4 (Excel, H20) aprobada, con DEC-47. `.drawio` hecho: 4d con `adjuntoUrl` y nota `n_outbox` de la 4a (DEC-42); PNG en `exportes/sesion5/`. `CORRECCIONES_REPORTE.md` hecho (R-01 a R-59; las 11 páginas exportadas en `exportes/sesion5/`). `ESTADO_PROYECTO_Y_C4.md` reescrito. `CORRECCIONES_HU_Y_MOCKUPS.md` hecho (M-01 a M-08 y S-01 a S-08). Validación final del revisor hecha: **lista con correcciones**, con S5-1 a S5-15 atendidos (`VALIDACION_SESION5.md`). DEC-49 y DEC-50 tomadas por el arquitecto; `Casos de uso — Konrad Gourmet.md` incluido y revisado (`REVISION_CASOS_DE_USO.md`). Aprobada |
+| 6 · `meseroId` y casos de uso | Pendiente: se hace en una sesión nueva (DEC-51 y DEC-52) |
