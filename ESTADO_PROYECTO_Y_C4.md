@@ -37,7 +37,7 @@ Konrad Gourmet es una cadena de restaurantes. El sistema cubre todo el ciclo de 
 2. El **jefe de cocina** gestiona los platos y el inventario. Cuando un producto baja del 25 %, recibe una alarma y crea una solicitud de alimentos.
 3. El **auxiliar de compras** genera la solicitud de cotización, que puede reunir una o varias solicitudes (DEC-05). El sistema consulta el precio estándar del Ministerio de Comercio, genera un PDF y se lo envía al proveedor por correo certificado.
 4. El **director de compras** registra los valores que respondió el proveedor y valida la cotización con las reglas de precio: **RECHAZADA** si está más de 25 % por encima, **SOSPECHOSA** si está más de 50 % por debajo y **OPCIONADA** en cualquier otro caso. Con las opcionadas genera la orden de compra.
-5. El **director comercial** consulta el tablero BAM, con indicadores, tendencias y promociones sugeridas (DEC-06 y DEC-07).
+5. El **director comercial** consulta el tablero BAM con sus indicadores (DEC-06); el **jefe de cocina** recibe y revisa las promociones sugeridas a partir de las tendencias (HU-19, DEC-07).
 6. El **administrador** gestiona los parámetros, la imagen corporativa, la auditoría y el alta de usuarios (DEC-10).
 
 Requerimientos no funcionales principales:
