@@ -397,7 +397,7 @@ Leyenda: ✅ hecho · 🟡 anotado, falta que alguien lo aplique en un archivo q
 | 1 | HU-09: ¿una o varias solicitudes por cotización? | ✅ DEC-05: varias |
 | 2 | ¿Demo y firmas, o corregir el reporte? | ✅ DEC-02: las dos primeras. El script: abierta (A1) |
 | 3 | ¿Los KPI son del director comercial o del de compras? | ✅ DEC-06: comercial |
-| 4 | ¿Cómo llega la alarma por WebSocket a la réplica que tiene la sesión? | 🔴 Abierta (A2) |
+| 4 | ¿Cómo llega la alarma por WebSocket a la réplica que tiene la sesión? | ✅ PD-01: difusión por Redis pub/sub; V05 relee las alertas |
 | 5 | ¿De quién es la cuenta `mari00aa120-eng`? | 🔴 Abierta (A3) |
 
 ---
@@ -421,7 +421,6 @@ Leyenda: ✅ hecho · 🟡 anotado, falta que alguien lo aplique en un archivo q
 |---|---|---|
 | **A1** | Quién tiene el script de ReportLab | Sin él, el reporte no se puede corregir |
 | **T-06** | Cómo llevan `cotizacion.validada` y `tendencia.detectada` los tipos de otro servicio, sin romper DEC-29 | La demo no los consume: sin esto, el tablero de proveedores y las promociones no tendrían cómo alimentarse |
-| **A2** | Cómo llega la alarma de WebSocket a la réplica correcta | El profesor puede preguntarlo |
 | **A3** | De quién es la cuenta `mari00aa120-eng` | Conviene saberlo antes de la sustentación |
 | **DEC-48** | Dónde van las páginas 3a, 3b y 6 en el reporte | Solo importa cuando se regenere |
 | **A4** | Resuelta por DEC-51 y DEC-53 | `Pedido` guarda `meseroId`, lo exige al validar y filtra las consultas por mesero; no queda una decisión pendiente |
