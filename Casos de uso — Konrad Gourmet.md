@@ -6,7 +6,7 @@ Este documento fija 18 casos de uso, cada uno amarrado a una historia de usuario
 
 ## Estado frente al prototipo (8 de noviembre)
 
-Este cuadro contrasta cada caso de uso con el repositorio github.com/MauItu/KonradGourmet-FinalProyecto (carpeta `codigo/`, commit `22717f7` de `KonradGourmet`, 8 de noviembre). Las sesiones 4 (demo real) y 5 (documentos de cierre) están terminadas, y en la sesión 6 el pedido pasó a guardar el mesero que lo tomó (DEC-51). El código compila sin avisos, la demo (`./ejecutar.sh`) recorre el flujo de compra con adaptadores en memoria y pasan las 176 verificaciones. De los 274 cuerpos que lanzaban «Pendiente de implementar» al cerrar la sesión 3 quedan 94: los adaptadores de tecnología externa y los módulos que la demo no usa. Tienen lógica CU-02, CU-04, CU-05, CU-07 a CU-14, CU-16, CU-17 y CU-18, y parte de CU-15 (parámetros, tema y destinatarios). Siguen sin lógica CU-01, CU-03, CU-06 y el alta de usuarios. Las decisiones del equipo están en `DECISIONES.md`. El detalle completo está en [Contraste con el prototipo](https://claude.ai/artifact/31ZPUX9kZNuSaeeWjRe7ot).
+Este cuadro contrasta cada caso de uso con el repositorio github.com/MauItu/KonradGourmet-FinalProyecto (carpeta `codigo/`, commit `22717f7` de `KonradGourmet`, 8 de noviembre). Las sesiones 4 (demo real) y 5 (documentos de cierre) están terminadas, y en la sesión 6 el pedido pasó a guardar el mesero que lo tomó (DEC-51). El código compila sin avisos, la demo (`./ejecutar.sh`) recorre el flujo de compra con adaptadores en memoria y pasan las 176 verificaciones. De los 274 cuerpos que lanzaban «Pendiente de implementar» al cerrar la sesión 3 quedan 94: los adaptadores de tecnología externa y los módulos que la demo no usa. Tienen lógica CU-02, CU-04, CU-05, CU-07 a CU-14, CU-16, CU-17 y CU-18, y parte de CU-15 (parámetros, tema y destinatarios). Siguen sin lógica CU-01, CU-03, CU-06 y el alta de usuarios. Las decisiones del equipo están en `DECISIONES.md`.
 
 | CU | Qué declara el código del 8 de noviembre | Qué cambia o sigue abierto | ¿Tiene lógica? |
 | --- | --- | --- | --- |
@@ -80,7 +80,9 @@ Los códigos RF-01 a RF-12 son los de la matriz de trazabilidad: numeran los req
 
 ## Diagrama de casos de uso
 
-&#91;embedded content: casos de uso · 18 casos, 6 roles, 5 externos\]
+![Diagrama de casos de uso](casos_de_uso.png)
+
+> **Pendiente:** el diagrama UML lo tiene quien escribió este documento. Falta exportarlo a `casos_de_uso.png`, en la misma carpeta que este archivo, con los casos de este documento (incluido CU-19, Registrar usuario), los 6 roles y los 5 actores externos.
 
 Los roles de cocina y compras están a la izquierda y los roles de dirección, administración y los actores externos a la derecha. Los correos de CU-04 y CU-05 también salen por el servidor de correo certificado; esa línea no se dibuja para no cruzar las otras.
 
