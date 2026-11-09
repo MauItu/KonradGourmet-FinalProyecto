@@ -385,29 +385,32 @@ Original: páginas 8 a 26, una tarjeta por página. Se transcriben completas.
 
 ## 6. Planning Poker
 
-Original: página 27. Cartas de la escala: 1, 2, 3, 5, 8 y 13.
+Original: página 27. Cartas de la escala: 1, 2, 3, 5, 8 y 13. Cada carta es un número de PHU, y 1 PHU equivale a 25 horas.
 
-| Historia | Carta | Etiqueta del original |
+*Corregido (S-04): las etiquetas del original («25PHU», «50PHU», «75PHU» y «125PHU») son horas, no PHU: 25 h = 1 PHU, 50 h = 2 PHU, 75 h = 3 PHU y 125 h = 5 PHU. HU-14 vale 1 PHU (25 h).*
+
+| Historia | PHU | Horas |
 |---|---|---|
-| HU-01 Registrar pedido/orden | 1 | 25PHU |
-| HU-02 Ingresar cantidad de platos | 1 | 25PHU |
-| HU-03 Indicar mesa del pedido | 1 | 25 PHU |
-| HU-04 Registrar platos/menú | 1 | 25PHU |
-| HU-05 Ingresar ingredientes plato | 1 | 25PHU |
-| HU-06 Consultar solicitudes de compras | 1 | 25PHU |
-| HU-07 Filtrar solicitudes por criterios | 1 | 25PHU |
-| HU-08 Ver detalles de solicitud | 1 | 25PHU |
-| HU-09 Generar solicitud de cotización | 2 | 50PHU |
-| HU-10 Registrar solicitud de alimentos | 2 | 50PHU |
-| HU-11 Registrar valores de cotización | 2 | 50PHU |
-| HU-12 Generar solicitud de cotización a proveedores | 2 | 50PHU |
-| HU-13 Validar cotizaciones recibidas | 2 | 50PHU |
-| HU-14 Generar orden de compra | 1 | 25PHU |
-| HU-15 Registrar datos de proveedor | 1 | 25PHU |
-| HU-16 Recibir alertas automáticas de inventario bajo | 5 | 125PHU |
-| HU-17 Consultar cotizaciones opcionadas | 2 | 50PHU |
-| HU-18 Ver KPIs y tablero de control | 3 | 75PHU |
-| HU-19 Revisar promociones sugeridas | 5 | 125PHU |
+| HU-01 Registrar pedido/orden | 1 | 25 h |
+| HU-02 Ingresar cantidad de platos | 1 | 25 h |
+| HU-03 Indicar mesa del pedido | 1 | 25 h |
+| HU-04 Registrar platos/menú | 1 | 25 h |
+| HU-05 Ingresar ingredientes plato | 1 | 25 h |
+| HU-06 Consultar solicitudes de compras | 1 | 25 h |
+| HU-07 Filtrar solicitudes por criterios | 1 | 25 h |
+| HU-08 Ver detalles de solicitud | 1 | 25 h |
+| HU-09 Generar solicitud de cotización | 2 | 50 h |
+| HU-10 Registrar solicitud de alimentos | 2 | 50 h |
+| HU-11 Registrar valores de cotización | 2 | 50 h |
+| HU-12 Generar solicitud de cotización a proveedores | 2 | 50 h |
+| HU-13 Validar cotizaciones recibidas | 2 | 50 h |
+| HU-14 Generar orden de compra | 1 | 25 h |
+| HU-15 Registrar datos de proveedor | 1 | 25 h |
+| HU-16 Recibir alertas automáticas de inventario bajo | 5 | 125 h |
+| HU-17 Consultar cotizaciones opcionadas | 2 | 50 h |
+| HU-18 Ver KPIs y tablero de control | 3 | 75 h |
+| HU-19 Revisar promociones sugeridas | 5 | 125 h |
+| **Total** | **35** | **875 h** |
 
 ## 7. Supuesto de capacidad
 
