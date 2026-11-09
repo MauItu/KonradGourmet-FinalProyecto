@@ -68,7 +68,7 @@ PORTADA = [
     ("Mauricio Jesús Iturriza Medina", False),
     ("Carlos Franco", False),
     ("Adrián David Corredor Camero", False),
-    ("Isabela Castro", False),
+    ("Isabella Castro", False),
     ("", False),
     ("Arquitectura de Software, proyecto 1", False),
     ("Profesor Carlos Andrés López", False),
