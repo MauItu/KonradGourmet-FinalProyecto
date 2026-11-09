@@ -45,7 +45,7 @@ public class PedidoService implements RegistrarPedidoUseCase {
         }
         Pedido guardado = repositorio.guardar(p);
         eventos.publicar(new PedidoRegistradoEvent("sistema", guardado.numero(), sucursalId, lineas));
-        eventos.publicar(new AuditoriaEvent("sistema", "Pedido " + guardado.numero() + " registrado"));
+        eventos.publicar(new AuditoriaEvent("sistema", "Pedido " + guardado.numero() + " registrado por el mesero " + guardado.meseroId()));
         return guardado;
     }
 

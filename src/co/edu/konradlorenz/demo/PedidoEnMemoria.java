@@ -23,10 +23,10 @@ public class PedidoEnMemoria implements PedidoRepositoryPort {
         return p;
     }
 
-    /** El esqueleto no guarda quién atendió el pedido, así que devuelve todos los del día. */
+    /** Los pedidos que tomó el mesero (DEC-51); la demo no separa turnos, así que son todos los suyos del día. */
     @Override
     public List<Pedido> delTurno(Long meseroId) {
-        return List.copyOf(pedidos);
+        return pedidos.stream().filter(p -> p.meseroId().equals(meseroId)).toList();
     }
 
     @Override
