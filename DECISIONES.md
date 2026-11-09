@@ -36,7 +36,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-17 | Base de datos de ms-integracion | PostgreSQL propia para la tabla outbox | Aplicada en el `.drawio`; el reporte, anotado en `CORRECCIONES_REPORTE.md` (R-26) |
 | DEC-18 | ms-inventario en el recorrido (p. 6) | Línea de vida propia, antes del servidor de correo | Aplicada en el `.drawio`; las tablas del reporte, anotadas en `CORRECCIONES_REPORTE.md` (R-32 y R-34) |
 | DEC-19 | Ejemplo de varias solicitudes (p. 6) | «Una o varias (aquí SOL-031)», con las listas escritas como listas | Aplicada |
-| DEC-20 | Zonas en el despliegue (p. 5) | Tres cajas de zona con el reparto; Eureka y la SPA en las zonas A y B | Aplicada; lo de Eureka y la SPA es asumido, por confirmar con el equipo (R-49 de `CORRECCIONES_REPORTE.md` espera esa confirmación) |
+| DEC-20 | Zonas en el despliegue (p. 5) | Tres cajas de zona con el reparto; Eureka y la SPA en las zonas A y B | Aplicada; el reparto de Eureka y la SPA lo **confirmó el arquitecto-revisor** (2026-11-08): dos réplicas en zonas distintas, A y B ilustrativas |
 | DEC-21 | Ítems fuera del plan de la sesión 2 | Se aplican 27 de 33; 6 no se aplican | Aplicada |
 | DEC-22 | Caché del Proxy en memoria (4e) | No se toca la 4e; se anota para la sesión 3 | Resuelta en la sesión 3 por DEC-27 |
 | DEC-23 | Ruta del gateway a ms-integracion (p. 1, S5) | Se deja como está: entra por arriba al endpoint SOAP | Decidida, sin cambio |
@@ -435,6 +435,8 @@ Además, HU-16 (p. 23) pide que la alerta muestre el producto, la cantidad resta
 - **PostgreSQL, Redis y el almacén** están en la capa de datos, fuera del clúster, y no van en las cajas de zona. Su etiqueta dice el reparto: PostgreSQL con réplica síncrona en otra zona (reporte, p. 27), Redis con réplica en otra zona y el almacén multizona.
 
 **Qué es asumido, por confirmar con el equipo:** que Eureka (×2) y la SPA (×2) están en las zonas A y B. La zona C se registra en las dos instancias de Eureka.
+
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmación. Eureka y la SPA tienen 2 réplicas cada uno, en **dos zonas distintas** (antiafinidad); «A» y «B» son etiquetas ilustrativas. Si cae una zona queda una réplica de cada uno; los clientes de Eureka conservan su copia del registro (la renuevan cada 30 s) y la CDN sigue sirviendo la SPA. Se descartó subir a ×3 (habría que cambiar `v13`, `v21`, la 3a y la p. 27 a cambio de poco) y mantenerlo como supuesto. Se pierde redundancia si caen dos zonas a la vez, que ya cubre el centro de datos alterno. Efectos: la nota ² de `v46` en la página 5 y R-49, que deja de estar «Por confirmar».
 
 ## DEC-21 · ¿Qué se hace con los 33 ítems del inventario que no estaban en el plan?
 
