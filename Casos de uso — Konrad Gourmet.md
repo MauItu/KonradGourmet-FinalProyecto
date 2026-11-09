@@ -272,7 +272,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 - Si el análisis de tendencias falla, el error queda en el log sin interrumpir el resto del sistema.
 
-**Reglas y fuente:** no se envía más de una notificación de promociones por día. Ni la historia ni el enunciado dicen de qué red social se leen las tendencias ni cuántos días abarca el análisis; eso queda por definir.
+**Reglas y fuente:** no se envía más de una notificación de promociones por día. El análisis corre cada semana sobre los 7 días anteriores: productos en tendencia del adaptador de redes y los 3 más pedidos de la semana; cada sugerencia vale 7 días (PD-04). La red social concreta y los valores 7 y 3 son supuestos del diseño (S11): ni la historia ni las fuentes locales los fijan.
 
 ## Especificación: auxiliar y director de compras
 
