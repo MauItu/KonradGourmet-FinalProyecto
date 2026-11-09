@@ -6,34 +6,34 @@ Este documento fija 18 casos de uso, cada uno amarrado a una historia de usuario
 
 ## Estado frente al prototipo (8 de noviembre)
 
-Este cuadro contrasta cada caso de uso con el repositorio github.com/MauItu/KonradGourmet-FinalProyecto (último commit 726c4b0, 8 de noviembre, 13:37), que está en la fase 3 de 5 del plan del equipo: la sesión 4 (demo real) y la 5 (Excel y documentos de cierre) siguen pendientes. El prototipo es un esqueleto Java: compila, pero sus 274 métodos lanzan «Pendiente de implementar», así que **ningún caso de uso está implementado todavía**. Lo que sí se puede comprobar son las firmas, las rutas y las decisiones del equipo (`DECISIONES.md`). El detalle completo está en [Contraste con el prototipo](https://claude.ai/artifact/31ZPUX9kZNuSaeeWjRe7ot).
+Este cuadro contrasta cada caso de uso con el repositorio github.com/MauItu/KonradGourmet-FinalProyecto (carpeta `codigo/`, commit `22717f7` de `KonradGourmet`, 8 de noviembre). Las sesiones 4 (demo real) y 5 (documentos de cierre) están terminadas, y en la sesión 6 el pedido pasó a guardar el mesero que lo tomó (DEC-51). El código compila sin avisos, la demo (`./ejecutar.sh`) recorre el flujo de compra con adaptadores en memoria y pasan las 176 verificaciones. De los 274 cuerpos que lanzaban «Pendiente de implementar» al cerrar la sesión 3 quedan 94: los adaptadores de tecnología externa y los módulos que la demo no usa. Tienen lógica CU-02, CU-04, CU-05, CU-07 a CU-14, CU-16, CU-17 y CU-18, y parte de CU-15 (parámetros, tema y destinatarios). Siguen sin lógica CU-01, CU-03, CU-06 y el alta de usuarios. Las decisiones del equipo están en `DECISIONES.md`. El detalle completo está en [Contraste con el prototipo](https://claude.ai/artifact/31ZPUX9kZNuSaeeWjRe7ot).
 
-| CU | Qué declara el código del 8 de noviembre | Qué cambia o sigue abierto |
-| --- | --- | --- |
-| CU-01 | V01: `POST /api/auth/token`. Alta de usuarios por el administrador: `POST /api/usuarios`, sin ventana (DEC-10) | La única pantalla del prototipo es V01 y no se conecta a ningún servicio |
-| CU-02 | V02: `GET /api/pedidos?turno=actual`. V03 y V04: `POST /api/pedidos`. Catálogo y mesas: `GET /api/pedidos/catalogo` y `GET /api/pedidos/mesas` (H6) | `Pedido` tiene número, mesa, fecha, estado y detalles; no guarda sucursal ni usuario, que el paso 7 exige. Decisión del equipo pendiente |
-| CU-03 | V06: `POST /api/platos`, productos por categoría, y editar (PUT) y desactivar (PATCH). `Plato` guarda `sucursalId` y `creadoPor` (DEC-11) | Coincide con el flujo alterno «consultar, editar y desactivar» |
-| CU-04 | V08 y V09: `POST /api/solicitudes` (201). La solicitud guarda `correoSolicitante` (DEC-13) | Coincide |
-| CU-05 | V05: `GET /api/inventario/alertas`. V07: `GET /api/inventario/insumos`. ms-inventario consume `solicitud.registrada` y apaga la alerta (DEC-18), como pide HU-16 | La alerta es solo la marca `alertaAtendida` del insumo; no existe una entidad Alerta (B12, parcial). El 25 % es `UmbralStock`, propio de ms-inventario |
-| CU-06 | `/api/bam/promociones`: sugerencias por fechas, aceptar y descartar. `SugerenciaPromocion` guarda producto, motivo, vigencia y estado | Sigue sin mockup (B8). La nota del código indica que `notificadaEl` limita el aviso a uno por día |
-| CU-07 | V11: `GET /api/solicitudes?estado=…`. V12: `GET /api/solicitudes/{id}`. `CriteriosConsulta` trae fechas, producto, marca y estado | Los cuatro filtros quedan en la firma (B16, parcial) |
-| CU-08 | V13: `POST /api/cotizaciones`. V14: `GET /api/cotizaciones/{id}/pdf`. La cotización guarda una lista de solicitudes (DEC-05), el estado `PENDIENTE_PRECIO` y un reenvío del correo (H18) | Los flujos «Ministerio no responde» y «reintentar el envío» ya tienen estado y operación en el diseño |
-| CU-09 | `/api/proveedores`: registrar, consultar (el desplegable de V13), detalle, editar e inactivar (DEC-07) | Sigue sin ventana propia. `Proveedor.categorias` es una lista de texto: el equipo no ha decidido si será referencia a las categorías |
-| CU-10 | V18: `PUT /api/cotizaciones/{id}/valores` | Coincide |
-| CU-11 | V19: `POST /api/cotizaciones/{id}/validacion`. V17: `GET /api/cotizaciones` | Coincide |
-| CU-12 | V20: `GET /api/cotizaciones?estado=OPCIONADA` y `GET /api/cotizaciones/{id}` (H5) | Coincide |
-| CU-13 | V21 y V22: `POST /api/ordenes-compra`. V23: `GET /api/ordenes-compra`. La cotización pasa a `CON_ORDEN` y no admite otra orden (D3). La orden guarda lista de solicitudes, `correoProveedor` y `pdfUrl`, y tiene su propio generador de PDF (H4) | B10 queda resuelta en el diseño. Los estados de la orden siguen siendo EN\_PROCESO y FINALIZADA (B13). `EstadoSolicitud` tiene `COMPLETADA` (H12); el texto del Story Mapping que extraje no lo menciona |
-| CU-14 | `GET /api/bam/kpis?desde&hasta&sucursalId` (H7). El tablero es del director comercial (DEC-06) | Sigue sin mockup. B17 (periodos fijos del enunciado frente al filtro de la historia) sigue abierta |
-| CU-15 | `parametrizar(clave, valor)` y `GET /api/admin/parametros/tema`. `ParametrosSistema` guarda tema, logos y parámetros generales | El umbral del 25 % no vive ahí y el código no declara ninguna ruta para cambiarlo: el criterio (3) de HU-20 no tiene dónde apoyarse. La libreta de destinatarios por sucursal (`/api/notificaciones/destinatarios`, DEC-13) es un dato de parametrización que este caso aún no lista |
-| CU-16 | `auditoria(desde, hasta)` | Coincide |
-| CU-17 | `logs(servicio)` con un puerto propio para los logs (H14) | Coincide |
-| CU-18 | `consultarPrecioSugerido(productoId)` en el endpoint SOAP, publicado bajo `/api/integracion/**` | Coincide |
+| CU | Qué declara el código del 8 de noviembre | Qué cambia o sigue abierto | ¿Tiene lógica? |
+| --- | --- | --- | --- |
+| CU-01 | V01: `POST /api/auth/token`. Alta de usuarios por el administrador: `POST /api/usuarios`, sin ventana (DEC-10) | La única pantalla del prototipo es V01 y no se conecta a ningún servicio | No: `IniciarSesionService` sigue pendiente |
+| CU-02 | V02: `GET /api/pedidos?turno=actual`. V03 y V04: `POST /api/pedidos`. Catálogo y mesas: `GET /api/pedidos/catalogo` y `GET /api/pedidos/mesas` (H6) | `Pedido` tiene número, mesa, fecha, estado y detalles; no guarda sucursal ni usuario, que el paso 7 exige. Decisión del equipo pendiente | Sí |
+| CU-03 | V06: `POST /api/platos`, productos por categoría, y editar (PUT) y desactivar (PATCH). `Plato` guarda `sucursalId` y `creadoPor` (DEC-11) | Coincide con el flujo alterno «consultar, editar y desactivar» | No: ms-menu sigue pendiente |
+| CU-04 | V08 y V09: `POST /api/solicitudes` (201). La solicitud guarda `correoSolicitante` (DEC-13) | Coincide | Sí |
+| CU-05 | V05: `GET /api/inventario/alertas`. V07: `GET /api/inventario/insumos`. ms-inventario consume `solicitud.registrada` y apaga la alerta (DEC-18), como pide HU-16 | La alerta es solo la marca `alertaAtendida` del insumo; no existe una entidad Alerta (B12, parcial). El 25 % es `UmbralStock`, propio de ms-inventario | Sí |
+| CU-06 | `/api/bam/promociones`: sugerencias por fechas, aceptar y descartar. `SugerenciaPromocion` guarda producto, motivo, vigencia y estado | Sigue sin mockup (B8). La nota del código indica que `notificadaEl` limita el aviso a uno por día | No: las promociones siguen pendientes |
+| CU-07 | V11: `GET /api/solicitudes?estado=…`. V12: `GET /api/solicitudes/{id}`. `CriteriosConsulta` trae fechas, producto, marca y estado | Los cuatro filtros quedan en la firma (B16, parcial) | Sí |
+| CU-08 | V13: `POST /api/cotizaciones`. V14: `GET /api/cotizaciones/{id}/pdf`. La cotización guarda una lista de solicitudes (DEC-05), el estado `PENDIENTE_PRECIO` y un reenvío del correo (H18) | Los flujos «Ministerio no responde» y «reintentar el envío» ya tienen estado y operación en el diseño | Sí |
+| CU-09 | `/api/proveedores`: registrar, consultar (el desplegable de V13), detalle, editar e inactivar (DEC-07) | Sigue sin ventana propia. `Proveedor.categorias` es una lista de texto: el equipo no ha decidido si será referencia a las categorías | Sí (`ProveedorService`; la demo guarda en memoria) |
+| CU-10 | V18: `PUT /api/cotizaciones/{id}/valores` | Coincide | Sí |
+| CU-11 | V19: `POST /api/cotizaciones/{id}/validacion`. V17: `GET /api/cotizaciones` | Coincide | Sí |
+| CU-12 | V20: `GET /api/cotizaciones?estado=OPCIONADA` y `GET /api/cotizaciones/{id}` (H5) | Coincide | Sí |
+| CU-13 | V21 y V22: `POST /api/ordenes-compra`. V23: `GET /api/ordenes-compra`. La cotización pasa a `CON_ORDEN` y no admite otra orden (D3). La orden guarda lista de solicitudes, `correoProveedor` y `pdfUrl`, y tiene su propio generador de PDF (H4) | B10 queda resuelta en el diseño. Los estados de la orden siguen siendo EN\_PROCESO y FINALIZADA (B13). `EstadoSolicitud` tiene `COMPLETADA` (H12); el texto del Story Mapping que extraje no lo menciona | Sí |
+| CU-14 | `GET /api/bam/kpis?desde&hasta&sucursalId` (H7). El tablero es del director comercial (DEC-06) | Sigue sin mockup. B17 (periodos fijos del enunciado frente al filtro de la historia) sigue abierta | Sí (los hechos son un histórico cargado a mano) |
+| CU-15 | `parametrizar(clave, valor)` y `GET /api/admin/parametros/tema`. `ParametrosSistema` guarda tema, logos y parámetros generales | El umbral del 25 % no vive ahí y el código no declara ninguna ruta para cambiarlo: el criterio (3) de HU-20 no tiene dónde apoyarse. La libreta de destinatarios por sucursal (`/api/notificaciones/destinatarios`, DEC-13) es un dato de parametrización que este caso aún no lista | En parte: parámetros, tema y destinatarios |
+| CU-16 | `auditoria(desde, hasta)` | Coincide | Sí |
+| CU-17 | `logs(servicio)` con un puerto propio para los logs (H14) | Coincide | Sí (la demo guarda los logs en memoria; Elasticsearch sigue pendiente) |
+| CU-18 | `consultarPrecioSugerido(productoId)` en el endpoint SOAP, publicado bajo `/api/integracion/**` | Coincide | Sí (la demo simula el Ministerio) |
 
 **Ventanas que ningún caso de uso cita.** El prototipo declara métodos para V10 (`GET /api/solicitudes?solicitante=yo`, mis solicitudes del jefe de cocina), V15 (`GET /api/cotizaciones`, cotizaciones del auxiliar) y V16 (`GET /api/cotizaciones/pendientes`, inicio del director). La matriz de trazabilidad ya las trata como consultas de apoyo que no cierran ninguna historia. Falta decidir si se anexan como flujos alternos de CU-04, CU-08 y CU-11 o se dejan como consultas de apoyo.
 
 ## Dónde implementar cada caso de uso
 
-Este cuadro es para quien programa la sesión 4. Sale de los controladores, listeners y puertos de entrada del repositorio (carpeta `codigo/src/co/edu/konradlorenz/`) y de los nombres de las clases de eventos. Como los métodos no tienen lógica, los eventos que cada caso publica o consume se leen de los encabezados y de `DECISIONES.md`; el código todaváa no lo confirma.
+Este cuadro dice dónde vive cada caso de uso en el código. Sale de los controladores, listeners y puertos de entrada (carpeta `codigo/src/co/edu/konradlorenz/` del repositorio público; `src/co/edu/konradlorenz/` en `KonradGourmet`) y de las clases de eventos. En los casos que tienen lógica, la demo y las pruebas confirman los eventos que cada uno publica o consume; en CU-01, CU-03 y CU-06 se leen de los encabezados y de `DECISIONES.md`.
 
 | CU | Adaptador de entrada (servicio) | Método del puerto de entrada | Eventos |
 | --- | --- | --- | --- |
@@ -55,8 +55,6 @@ Este cuadro es para quien programa la sesión 4. Sale de los controladores, list
 | CU-16 | `AdminRestController.auditoria` y `AuditoriaListener` | `AdministracionUseCase.auditoria`, `registrarAuditoria` | Consume `auditoria.evento` |
 | CU-17 | `AdminRestController.logs` | `AdministracionUseCase.logs` | — |
 | CU-18 | `AbastecimientoSoapEndpoint.consultarPrecioSugerido` (integracion) | `ConsultarPrecioUseCase.precioSugerido(productoId)` | — |
-
-**Qué pide el plan del equipo para la sesión 4** (`PLAN_CORRECCIONES.md`, `DECISIONES.md` DEC-31). La demo debe recorrer, con adaptadores en memoria y sin frameworks, el flujo de compra: solicitudes, cotización COT-018, registro de valores, cadena de reglas y orden OC-0012. Debe reproducir los valores de V19 ($520.000, $545.000, +4,81 %, OPCIONADA) y mostrar también +34,62 % (RECHAZADA) y −61,54 % (SOSPECHOSA). Tiene que respetar la lista de solicitudes por cotización (DEC-05) y el estado `CON_ORDEN` (D3). Eso toca sobre todo CU-02, CU-08, CU-10, CU-11, CU-12 y CU-13. Al terminar, el plan pide actualizar el README con qué métodos tienen lógica, qué imprime la demo y cómo correr las pruebas.
 
 **Decisiones del equipo que afectan a estos casos y siguen abiertas.** Pedido sin sucursal ni usuario (CU-02), categorías del proveedor como texto (CU-09), alerta como marca del insumo (CU-05), para qué sirve `cotizacionesAplicadas` en la solicitud (CU-08) y qué ruta cambia el umbral del 25 % (CU-15). También están abiertas K9, K10 y K11 de la validación de la sesión 3 (`VALIDACION_SESION3.md`): K10 es que el descuento diario de CU-05 correría en cada réplica de ms-inventario, de 2 a 6, si no se asegura que lo ejecute una sola.
 
