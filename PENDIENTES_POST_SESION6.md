@@ -71,7 +71,7 @@ No hacer estos cambios desde aquí. La especificación detallada está en [CORRE
 - [ ] Incluir la planificación completa del Excel: 5 sprints, 10 semanas, 2 meses y medio, del 03/08 al 11/10/2026; 8, 8, 6, 8 y 5 PHU por sprint, con 10 PHU de holgura (S-06).
 - [ ] Eliminar referencias contradictorias a 4 sprints/8 semanas y la nota «Un detalle para tu sustentación…» (S-07).
 - [ ] Incluir la correspondencia de historias y ventanas; S-08 es informativa.
-- [ ] Mantener HU-20 a HU-22 separadas como propuestas hasta que el arquitecto resuelva su tratamiento. No convertirlas en historias aprobadas del Story Mapping original ni asignarles estimaciones inventadas.
+- [x] HU-20 a HU-22: resuelto. Mauricio decidió omitirlas del documento y del plan de sprints (PD-09); quedan solo en los casos de uso, para una versión posterior.
 - [ ] Revisar el documento nuevo contra casos de uso, decisiones y Excel; registrar cualquier dato pendiente de una fuente o decisión.
 
 **Criterio de terminado:** un documento nuevo que se pueda leer de principio a fin como versión corregida de las historias y la planificación, con la procedencia y las propuestas claramente identificadas.
