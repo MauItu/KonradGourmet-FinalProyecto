@@ -420,7 +420,7 @@ Leyenda: ✅ hecho · 🟡 anotado, falta que alguien lo aplique en un archivo q
 | Id | Qué hay que decidir | Por qué importa |
 |---|---|---|
 | **A1** | Quién tiene el script de ReportLab | Sin él, el reporte no se puede corregir |
-| **T-06** | Cómo llevan `cotizacion.validada` y `tendencia.detectada` los tipos de otro servicio, sin romper DEC-29 | La demo no los consume: sin esto, el tablero de proveedores y las promociones no tendrían cómo alimentarse |
+| **T-06** | Decidida por el arquitecto (PD-05): tipos simples en los contratos y `diferenciaPorcentual` en `cotizacion.validada`. Falta que Mauricio autorice aplicarla (4c, 4e y código) | Mientras no se aplique, la demo no consume esos eventos y el tablero de proveedores y las promociones no tienen cómo alimentarse |
 | **A3** | De quién es la cuenta `mari00aa120-eng` | Conviene saberlo antes de la sustentación |
 | **DEC-48** | Dónde van las páginas 3a, 3b y 6 en el reporte | Solo importa cuando se regenere |
 | **A4** | Resuelta por DEC-51 y DEC-53 | `Pedido` guarda `meseroId`, lo exige al validar y filtra las consultas por mesero; no queda una decisión pendiente |
