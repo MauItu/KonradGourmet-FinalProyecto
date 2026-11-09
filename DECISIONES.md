@@ -77,6 +77,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | PD-05 | T-06: eventos con tipos del dominio de otro servicio | Tipos simples en el contrato (`estado: String`, `diferenciaPorcentual`, `sugerencias: List<String>`); aplicación diferida | Decidida por el arquitecto-revisor (2026-11-08); aplicación diferida, pendiente de autorización de Mauricio (4c, 4e y código) |
 | PD-06 | Administración de roles y permisos | Seis roles fijos y una matriz fija de permisos por rol; administrador de alcance global; supuesto S10 para las listas maestras | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-15, R-57 y §17 del reporte |
 | PD-07 | Filtros de la auditoría | Solo rango de fechas, obligatorio; usuario y acción quedan como evolución | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-16 y HU-21 |
+| PD-08 | Autenticación de los consumidores externos del SOAP | OAuth 2.0 client credentials: JWT de cliente validado por el gateway, solo para `/api/integracion/**`; supuesto S12 | Decidida por el arquitecto-revisor (2026-11-08); efectos en páginas 1, 2 y 3a, CU-18 y §3/§17 del reporte |
 
 ---
 
@@ -1001,6 +1002,22 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **C. Filtrar en la SPA.** No escala con el volumen de auditoría.
 
 **Qué implica:** ninguna fuente exige los filtros adicionales, y con `sistema` como usuario el filtro no demostraría nada. Se pierde encontrar rápido lo que hizo un usuario concreto. Efectos: CU-16 y los criterios de HU-21 (PD-09).
+
+## PD-08 · ¿Cómo se autentican los consumidores externos del endpoint SOAP?
+
+**Por qué hubo que decidir.** El SOAP de ms-integracion se publica bajo `/api/integracion/**` y entra por el gateway (página 2 `e21`, 3a `c3a_e15`, página 1 `e233`). El reporte (§3) dice que el gateway valida el JWT en cada petición, pero no dice cómo obtiene un token un sistema externo. CU-18 lo dejaba «por definir».
+
+**Opciones:**
+- **A. OAuth 2.0 client credentials (JWT).** ✅ **Escogida por el arquitecto-revisor.**
+- **B. WS-Security UsernameToken.** Un segundo mecanismo que el gateway no valida.
+- **C. mTLS con un certificado por socio.** Obliga a gestionar certificados y no da identidad en el JWT.
+- **D. API key.** No expira.
+
+**Regla escogida:** cada sistema externo se registra como cliente en ms-identidad y obtiene el token en `POST /api/auth/token`; el gateway lo valida como cualquier JWT y solo permite `/api/integracion/**` a ese tipo de cliente; el `client_id` queda como usuario en la auditoría; todo va por TLS 1.3.
+
+**Supuesto S12:** el registro de clientes externos en ms-identidad, que la 4a no dibuja.
+
+**Qué implica:** un solo mecanismo, ya validado en el gateway. Se pierde la compatibilidad directa con clientes que solo saben WS-Security; para ellos se puede añadir mTLS en el borde. Efectos: etiquetas de las páginas 1, 2 y 3a, CU-18, una frase en §3 y el supuesto S12 en §17 del reporte. Fuera de alcance: el registro de clientes.
 
 ---
 
