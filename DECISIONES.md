@@ -80,7 +80,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | PD-08 | Autenticación de los consumidores externos del SOAP | OAuth 2.0 client credentials: JWT de cliente validado por el gateway, solo para `/api/integracion/**`; supuesto S12 | Decidida por el arquitecto-revisor (2026-11-08); efectos en páginas 1, 2 y 3a, CU-18 y §3/§17 del reporte |
 | PD-09 | HU-20 a HU-22 | Propuestas de diseño aprobadas con ajustes, sin estimar y fuera del Story Mapping original | Decidida por el arquitecto-revisor (2026-11-08); efectos en casos de uso, `STORY_MAPPING_CORREGIDO.md` y Excel; estimación pendiente del equipo |
 | PD-10 | Mensajes de interfaz por definir | Criterio común y 16 textos propuestos; los mensajes literales de las HU son el contrato de la interfaz | Decidida por el arquitecto-revisor (2026-11-08); efectos en casos de uso y Story Mapping corregido; el código no cambia |
-| PD-11 | Declaración de IA del reporte (R-58) | Ampliar la declaración con las correcciones posteriores | **Descartada por Mauricio (2026-11-08):** no se amplía; la §18 del reporte queda como está |
+| PD-11 | Declaración de IA del reporte (R-58) | Ampliar la §18 con las correcciones posteriores: Claude (Opus 5.5 y Sonnet 5.5) y ChatGPT (Astra 6), sin afirmar que el equipo tomó todas las decisiones | Herramientas y modelos **confirmados por Mauricio** (2026-11-08); R-58 vuelve a «Cambiar» |
 | DEC-54 | Cómo se corrige el reporte si no aparece el script (A1) | Mauricio pregunta al equipo; si nadie lo tiene, se rehace el reporte con un script nuevo, conservando el PDF original | Decidida por Mauricio (2026-11-08); la reconstrucción va en el punto 1 |
 
 ---
@@ -1104,7 +1104,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Qué implica:** se reescribía R-58 en `CORRECCIONES_REPORTE.md`.
 
-**Decisión de Mauricio (2026-11-08):** no se amplía la declaración. R-58 queda «Sin cambio»: la §18 del reporte se conserva tal como la escribió el equipo, sin agregar nada sobre las correcciones posteriores.
+**Decisión de Mauricio (2026-11-08):** primero pidió no ampliarla; después la confirmó con las herramientas y los modelos que usó el equipo: Claude (Opus 5.5 y Sonnet 5.5) y ChatGPT (Astra 6). La redacción final no dice quién tomó cada decisión, sino que remite a `DECISIONES.md`, donde está; así no repite la afirmación falsa del texto anterior (N4). La pregunta A6 queda resuelta.
 
 ## DEC-54 · ¿Qué se hace con el reporte si no aparece el script? (A1)
 

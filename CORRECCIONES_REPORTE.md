@@ -317,7 +317,7 @@ Donde dice «sin fijar» o no da verbo, ninguna fuente fija la ruta exacta (`INV
 
 ### p. 32 · §18 Declaración de uso de inteligencia artificial
 
-**R-58 · Sin cambio (decisión de Mauricio, 2026-11-08).** La §18 se deja como está; no se amplía la declaración (PD-11 descartada).
+**R-58 · Cambiar (PD-11, confirmada por Mauricio el 2026-11-08).** Agregar al final de «Herramienta» de la §18: *«Las correcciones posteriores a la revisión del 7 de noviembre de 2026 —el .drawio, el código, la demostración, las pruebas, el Excel y los documentos— también se hicieron con inteligencia artificial: Claude, de Anthropic (modelos Claude Opus 5.5 y Claude Sonnet 5.5), y ChatGPT, de OpenAI (modelo Astra 6). Cada decisión, con sus alternativas, está registrada en DECISIONES.md, y cada corrección es un commit propio en el historial del repositorio.»* El texto anterior de esta corrección decía que las decisiones las tomó el equipo, lo que no es cierto para las delegadas al agente revisor (N4); la redacción nueva remite al registro.
 
 ### p. 33 a 38 · Referencias y anexo
 - Referencias: sin cambios.
