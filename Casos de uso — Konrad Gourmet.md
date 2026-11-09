@@ -2,7 +2,7 @@
 
 Nov 7, 2026 · @Carlos
 
-Este documento fija 18 casos de uso, cada uno amarrado a una historia de usuario, a un requisito del enunciado y a sus ventanas. Los criterios salen de las historias del Story Mapping; lo que el equipo no definió queda marcado como propuesta.
+Este documento fija 19 casos de uso, cada uno amarrado a una historia de usuario, a un requisito del enunciado y a sus ventanas. Los criterios salen de las historias del Story Mapping; lo que el equipo no definió queda marcado como propuesta.
 
 ## Estado frente al prototipo (8 de noviembre)
 
@@ -10,7 +10,7 @@ Este cuadro contrasta cada caso de uso con el repositorio github.com/MauItu/Konr
 
 | CU | Qué declara el código del 8 de noviembre | Qué cambia o sigue abierto | ¿Tiene lógica? |
 | --- | --- | --- | --- |
-| CU-01 | V01: `POST /api/auth/token`. Alta de usuarios por el administrador: `POST /api/usuarios`, sin ventana (DEC-10) | La única pantalla del prototipo es V01 y no se conecta a ningún servicio | No: `IniciarSesionService` sigue pendiente |
+| CU-01 | V01: `POST /api/auth/token` | La única pantalla del prototipo es V01 y no se conecta a ningún servicio | No: `IniciarSesionService` sigue pendiente |
 | CU-02 | V02: `GET /api/pedidos?turno=actual`. V03 y V04: `POST /api/pedidos`. Catálogo y mesas: `GET /api/pedidos/catalogo` y `GET /api/pedidos/mesas` (H6) | `Pedido` tiene número, mesa, fecha, estado y detalles; no guarda sucursal ni usuario, que el paso 7 exige. Decisión del equipo pendiente | Sí |
 | CU-03 | V06: `POST /api/platos`, productos por categoría, y editar (PUT) y desactivar (PATCH). `Plato` guarda `sucursalId` y `creadoPor` (DEC-11) | Coincide con el flujo alterno «consultar, editar y desactivar» | No: ms-menu sigue pendiente |
 | CU-04 | V08 y V09: `POST /api/solicitudes` (201). La solicitud guarda `correoSolicitante` (DEC-13) | Coincide | Sí |
@@ -24,10 +24,11 @@ Este cuadro contrasta cada caso de uso con el repositorio github.com/MauItu/Konr
 | CU-12 | V20: `GET /api/cotizaciones?estado=OPCIONADA` y `GET /api/cotizaciones/{id}` (H5) | Coincide | Sí |
 | CU-13 | V21 y V22: `POST /api/ordenes-compra`. V23: `GET /api/ordenes-compra`. La cotización pasa a `CON_ORDEN` y no admite otra orden (D3). La orden guarda lista de solicitudes, `correoProveedor` y `pdfUrl`, y tiene su propio generador de PDF (H4) | B10 queda resuelta en el diseño. Los estados de la orden siguen siendo EN\_PROCESO y FINALIZADA (B13). `EstadoSolicitud` tiene `COMPLETADA` (H12); el texto del Story Mapping que extraje no lo menciona | Sí |
 | CU-14 | `GET /api/bam/kpis?desde&hasta&sucursalId` (H7). El tablero es del director comercial (DEC-06) | Sigue sin mockup. B17 (periodos fijos del enunciado frente al filtro de la historia) sigue abierta | Sí (los hechos son un histórico cargado a mano) |
-| CU-15 | `parametrizar(clave, valor)` y `GET /api/admin/parametros/tema`. `ParametrosSistema` guarda tema, logos y parámetros generales | El umbral del 25 % no vive ahí: es de ms-inventario (`UmbralStock`) y, por diseño, no tiene ruta para cambiarlo (DEC-43). La libreta de destinatarios por sucursal (`/api/notificaciones/destinatarios`, DEC-13) es un dato de parametrización que este caso aún no lista | En parte: parámetros, tema y destinatarios |
+| CU-15 | `parametrizar(clave, valor)` y `GET /api/admin/parametros/tema`. `ParametrosSistema` guarda tema, logos y parámetros generales | El umbral del 25 % no vive ahí: es de ms-inventario (`UmbralStock`) y, por diseño, no tiene ruta para cambiarlo (DEC-43). La libreta de destinatarios por sucursal (`/api/notificaciones/destinatarios`, DEC-13) es el paso 4 de este caso | En parte: parámetros, tema y destinatarios |
 | CU-16 | `auditoria(desde, hasta)` | Coincide | Sí |
 | CU-17 | `logs(servicio)` con un puerto propio para los logs (H14) | Coincide | Sí (la demo guarda los logs en memoria; Elasticsearch sigue pendiente) |
 | CU-18 | `consultarPrecioSugerido(productoId)` en el endpoint SOAP, publicado bajo `/api/integracion/**` | Coincide | Sí (la demo simula el Ministerio) |
+| CU-19 | `POST /api/usuarios`, sin ventana (DEC-10). `PoliticaContrasena` valida la regla y `CifradorPort` la cifra (BCrypt) | Sin mockup | No: `RegistrarUsuarioService` sigue pendiente |
 
 **Ventanas que ningún caso de uso cita.** El prototipo declara métodos para V10 (`GET /api/solicitudes?solicitante=yo`, mis solicitudes del jefe de cocina), V15 (`GET /api/cotizaciones`, cotizaciones del auxiliar) y V16 (`GET /api/cotizaciones/pendientes`, inicio del director). La matriz de trazabilidad ya las trata como consultas de apoyo que no cierran ninguna historia. Falta decidir si se anexan como flujos alternos de CU-04, CU-08 y CU-11 o se dejan como consultas de apoyo.
 
@@ -51,10 +52,11 @@ Este cuadro dice dónde vive cada caso de uso en el código. Sale de los control
 | CU-12 | `CotizacionRestController.opcionadas` y `detalle` | `GestionarCotizacionUseCase.consultar`, `detalle` | — |
 | CU-13 | `OrdenCompraRestController`: `generar`, `consultar` (ordenes) | `GenerarOrdenUseCase`: `generar`, `consultar` | Publica `OrdenGeneradaEvent`. `OrdenGeneradaListener` (cotizaciones) llama a `marcarConOrden`; ms-solicitudes llama a `completar` |
 | CU-14 | `TableroRestController.kpis` y `NegocioEventsListener` (analitica) | `TableroUseCase.kpis`, `registrarHecho` | Consume 5 tópicos |
-| CU-15 | `AdminRestController.parametrizar` y `tema` (administracion); `DestinatarioRestController` (notificaciones); `UsuarioRestController.registrar` (identidad) | `AdministracionUseCase.parametrizar`, `tema`; `NotificarUseCase.registrarDestinatario`, `destinatarios`; `RegistrarUsuarioUseCase.registrar` | Auditoría |
+| CU-15 | `AdminRestController.parametrizar` y `tema` (administracion); `DestinatarioRestController` (notificaciones) | `AdministracionUseCase.parametrizar`, `tema`; `NotificarUseCase.registrarDestinatario`, `destinatarios` | Auditoría |
 | CU-16 | `AdminRestController.auditoria` y `AuditoriaListener` | `AdministracionUseCase.auditoria`, `registrarAuditoria` | Consume `auditoria.evento` |
 | CU-17 | `AdminRestController.logs` | `AdministracionUseCase.logs` | — |
 | CU-18 | `AbastecimientoSoapEndpoint.consultarPrecioSugerido` (integracion) | `ConsultarPrecioUseCase.precioSugerido(productoId)` | — |
+| CU-19 | `UsuarioRestController.registrar` (identidad) | `RegistrarUsuarioUseCase.registrar(nombre, correo, rol, sucursalId, clave)` | Auditoría |
 
 **Decisiones del equipo que afectan a estos casos y siguen abiertas.** Pedido sin sucursal ni usuario (CU-02), categorías del proveedor como texto (CU-09), alerta como marca del insumo (CU-05), para qué sirve `cotizacionesAplicadas` en la solicitud (CU-08) y qué ruta cambia el umbral del 25 % (CU-15). También están abiertas K9, K10 y K11 de la validación de la sesión 3 (`VALIDACION_SESION3.md`): K10 es que el descuento diario de CU-05 correría en cada réplica de ms-inventario, de 2 a 6, si no se asegura que lo ejecute una sola.
 
@@ -69,7 +71,7 @@ Hay seis roles que usan el sistema y cinco actores externos. Los seis roles sale
 | Auxiliar de compras | Rol principal | Consulta solicitudes, envía solicitudes de cotización y mantiene proveedores | RF-05, RF-06, RF-12; HU-06 a HU-09, HU-12, HU-15 |
 | Director de compras | Rol principal | Registra valores, valida cotizaciones y genera órdenes de compra | RF-07, RF-08; HU-11, HU-13, HU-14, HU-17 |
 | Director comercial | Rol principal | Consulta el tablero BAM | RF-09; HU-18 |
-| Administrador | Rol principal | Parametriza, consulta la auditoría y los logs de error | RF-11 |
+| Administrador | Rol principal | Parametriza, registra usuarios y destinatarios, consulta la auditoría y los logs de error | RF-11 |
 | Proveedor | Externo (persona) | Recibe el PDF de la solicitud de cotización y de la orden; responde por correo, fuera del sistema | Informe de arquitectura, supuesto S2; HU-12, HU-14 |
 | Ministerio de Comercio | Externo (sistema) | Publica un servicio web con el precio estándar por producto | RF-06; HU-12 |
 | Servidor de correo certificado | Externo (sistema) | Entrega los correos con certificación y estampado cronológico | Requisito de seguridad 5; HU-12, HU-14 |
@@ -88,7 +90,7 @@ Los roles de cocina y compras están a la izquierda y los roles de dirección, a
 
 ## Catálogo de casos de uso
 
-Trece casos agrupan las 19 historias de usuario; los cinco restantes son el inicio de sesión, los tres del administrador y el servicio SOAP. El MVP es el del Story Mapping.
+Trece casos agrupan las 19 historias de usuario; los seis restantes son el inicio de sesión, el alta de usuarios, los otros tres del administrador y el servicio SOAP. El MVP es el del Story Mapping.
 
 | CU | Nombre | Actor principal | Actores secundarios | Historias | Requisito | Ventanas | MVP |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -110,6 +112,7 @@ Trece casos agrupan las 19 historias de usuario; los cinco restantes son el inic
 | CU-16 | Consultar auditoría | Administrador | — | HU-21 (propuesta) | RF-11 | Sin mockup | — |
 | CU-17 | Consultar logs de errores | Administrador | — | HU-22 (propuesta) | RF-11 | Sin mockup | — |
 | CU-18 | Consultar precio sugerido (SOAP) | Sistemas externos | — | Ninguna (requisito de integración) | — | Sin ventana | — |
+| CU-19 | Registrar usuario | Administrador | — | Ninguna (DEC-10) | RF-11 | Sin ventana | — |
 
 CU-18 viene del informe de arquitectura, que expone `consultarPrecioSugerido` por SOAP. El enunciado exige que todo servicio expuesto a sistemas externos use SOAP, pero no dice cuál exponer; es una decisión de diseño y como tal hay que defenderla.
 
@@ -393,7 +396,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 ## Especificación: dirección comercial, administrador y sistemas externos
 
-Estos cinco casos no tienen mockup. Se escriben solo con lo que dicen el enunciado, las historias y el informe de arquitectura; lo que ninguna fuente define queda marcado como "por definir".
+Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciado, las historias y el informe de arquitectura; lo que ninguna fuente define queda marcado como "por definir".
 
 ### CU-14 Consultar tablero BAM
 
@@ -421,8 +424,9 @@ Estos cinco casos no tienen mockup. Se escriben solo con lo que dicen el enuncia
 1. El administrador abre la parametrización y elige el tipo de dato que va a alimentar.
 2. Crea, edita o inactiva el dato.
 3. El sistema valida y guarda el cambio, y lo registra en la auditoría.
+4. Registra los correos de los jefes de cocina por sucursal (`/api/notificaciones/destinatarios`, DEC-13).
 
-**Datos paramétricos que las fuentes mencionan:** categorías de producto, productos por categoría, unidades de medida y marcas (listas desplegables de RF-01 y RF-03); mesas por sucursal (HU-03); imagen corporativa, es decir tema y logos (requisito de interfaz 1). El equipo decidió (DEC-10) que el administrador da de alta a los usuarios con POST /api/usuarios, sin ventana; falta confirmar si roles y permisos también se administran aquí, porque el enunciado exige que existan pero no dice quién los mantiene.
+**Datos paramétricos que las fuentes mencionan:** categorías de producto, productos por categoría, unidades de medida y marcas (listas desplegables de RF-01 y RF-03); mesas por sucursal (HU-03); imagen corporativa, es decir tema y logos (requisito de interfaz 1). El alta de usuarios es CU-19 (DEC-10). Falta confirmar si roles y permisos también se administran aquí, porque el enunciado exige que existan pero no dice quién los mantiene.
 
 ### CU-16 Consultar auditoría
 
@@ -457,6 +461,22 @@ Estos cinco casos no tienen mockup. Se escriben solo con lo que dicen el enuncia
 
 **Reglas y fuente:** el informe de arquitectura publica este servicio con su WSDL en ms-integracion, y lo sirve desde una caché delante del servicio del Ministerio. Cómo se autentican los consumidores externos no está definido en ninguna fuente: por definir.
 
+### CU-19 Registrar usuario
+
+**Actor:** administrador. **Decisión:** DEC-10. **Requisito:** RF-11. **Ventana:** ninguna (`POST /api/usuarios`, ms-identidad).
+
+**Flujo principal:**
+
+1. El administrador envía nombre, correo, rol, sucursal y contraseña.
+2. El sistema valida que la contraseña tenga 8 o más caracteres, con mayúscula, minúscula y número (`PoliticaContrasena`).
+3. La cifra (`CifradorPort.cifrar`), registra al usuario y deja la auditoría.
+
+**Flujos alternos:**
+
+- Si la contraseña no cumple la regla, el usuario no se registra.
+
+**Reglas y fuente:** los requisitos de seguridad 3 y 4 del enunciado (contraseña y cifrado); la relación «Parametriza, registra usuarios y destinatarios» de la página 2 del `.drawio`.
+
 ## Historias propuestas para el administrador
 
 El Story Mapping no tiene historias para el administrador, y el enunciado lo exige. Estas tres siguen el mismo formato (HU-20 a HU-22) y **son una propuesta del documento, no del equipo**: cada criterio cita la fuente de donde sale, y lo que ninguna fuente define queda fuera o marcado. El equipo debe aprobarlas, ajustarlas o descartarlas, y estimarlas con planning poker.
@@ -467,4 +487,4 @@ El Story Mapping no tiene historias para el administrador, y el enunciado lo exi
 | HU-21 Consultar y monitorear la auditoría | Administrador del sistema | Consultar los movimientos de auditoría | Verificar quién hizo cada acción y cuándo | (1) La lista muestra acción, usuario, fecha y hora (mantenimiento 1). (2) Puedo filtrar por rango de fechas (informe de arquitectura, ms-administracion). (3) La consulta es de solo lectura. (4) Solo el administrador accede (seguridad 1) |
 | HU-22 Consultar logs de errores | Administrador del sistema | Consultar los errores registrados | Diagnosticar fallas del sistema | (1) La lista muestra servicio, mensaje, fecha y hora (clase LogError del `.drawio`). (2) Puedo consultar los errores de un servicio (informe de arquitectura). (3) Cada error producido en el sistema aparece en el log (mantenimiento 2). (4) La consulta es de solo lectura y solo el administrador accede (seguridad 1) |
 
-Quedan por definir, y no se inventaron: los mensajes de error de cada pantalla, si se puede filtrar la auditoría por usuario o acción, y si usuarios, roles y permisos se administran desde HU-20.
+Quedan por definir, y no se inventaron: los mensajes de error de cada pantalla, si se puede filtrar la auditoría por usuario o acción, y si roles y permisos se administran desde HU-20 (el alta de usuarios es CU-19).
