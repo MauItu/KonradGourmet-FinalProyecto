@@ -23,7 +23,7 @@ El usuario recibe respuesta inmediata porque los efectos secundarios ocurren en 
 
 ## 6.5 Desventajas y cómo se mitigan
 
-La consistencia es eventual: el jefe puede ver PENDIENTE durante unos segundos después de que el auxiliar envió la cotización; por eso la ventana 10 muestra la fecha de la última actualización. Puede haber mensajes duplicados, que se neutralizan con idempotencia. La depuración es más difícil, así que cada evento lleva un identificador de correlación y se traza con OpenTelemetry. En el sistema real, ese identificador pasa de un evento al siguiente, de modo que una traza reúne todo el recorrido de una compra. La demostración del esqueleto no lo propaga: cada evento crea su propia correlación. Kafka es una pieza más que debe estar disponible, y por eso corre con tres brokers y factor de réplica 3.
+La consistencia es eventual: el jefe puede ver PENDIENTE durante unos segundos después de que el auxiliar envió la cotización; por eso la ventana 10 muestra la fecha de la última actualización. Puede haber mensajes duplicados, que se neutralizan con idempotencia. La depuración es más difícil, así que cada evento lleva un identificador de correlación y se traza con OpenTelemetry. Ese identificador pasa de un evento al siguiente, de modo que una traza reúne todo el recorrido de una compra. Kafka es una pieza más que debe estar disponible, y por eso corre con tres brokers y factor de réplica 3.
 
 ## 6.6 Ejemplo en las ventanas
 
