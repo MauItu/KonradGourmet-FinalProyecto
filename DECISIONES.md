@@ -10,6 +10,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-35 a DEC-37:** las decidió Mauricio el 2026-11-08, al revisar la segunda validación de la sesión 3 (hallazgos K9, K10 y K11 de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor en las tres.
 - **DEC-38:** la decidió Mauricio el 2026-11-08, al revisar la tercera validación de la sesión 3 (la duda de `VALIDACION_SESION3.md`). Siguió la recomendación del revisor.
 - **DEC-39 a DEC-46:** se propusieron durante la sesión 4. Mauricio confirmó el 2026-11-08 el pedido de $82.000, los precios por unidad, completar las solicitudes parciales y la alarma solo al cruzar el umbral. Escogió `adjuntoUrl` (DEC-42): dos contratos, reflejados en cuatro declaraciones de la 4d. En la segunda ronda confirmó también el redondeo de cotizaciones y stock (DEC-43), y `sistema` con una correlación por evento como límite de la demo (DEC-42); autorizó completar la auditoría de los fallos (DEC-46, S4-13). Las demás partes siguen asumidas, por confirmar, según indica cada decisión.
+- **DEC-49 y DEC-50:** las tomó el arquitecto-revisor el 2026-11-08, a pedido de Mauricio («actúa como el agente de arquitectura que tengo configurado y toma esas decisiones»). Mauricio puede revertirlas.
 - **DEC-47:** la fecha de inicio del sprint 1 y la forma de mostrar «EN SEMANAS» las decidió Mauricio el 2026-11-08, al empezar la sesión 5 (hallazgo H20), y en las dos escogió la opción recomendada. Después pidió que todo diga 5 sprints y 10 semanas, y se quitó la fila de sprints mínimos. El orden de las filas del Excel es asumido, por confirmar.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
@@ -63,7 +64,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura del recorrido, incluidos los fallos | Confirmada por Mauricio; auditoría de los fallos autorizada en la fase 2 (S4-13) |
 | DEC-47 | Plan de sprints del Excel (H20) | 1 PHU = 25 h y 9 PHU por sprint; HU-14 = 1 (total 35); HU-17 al sprint 3 (8, 8, 6, 8 y 5 PHU); inicio el lunes 03/08/2026; 5 sprints y 10 semanas en todo el Excel | Aplicada en el Excel (sesión 5); fecha y «EN SEMANAS» decididos por Mauricio; el orden de filas es asumido, por confirmar |
 | DEC-48 | Dónde van las páginas 3a, 3b y 6 en el reporte | La 6 en §10, después de la tabla del recorrido; la 3a y la 3b en §14, después del contexto | Asumida, por confirmar (sesión 5) |
-| DEC-49 | Qué orden sale de V20 a V22: los mockups y la demo no coinciden | La demo, el reporte y la página 6 siguen con COT-018 (Proveedor A) → OC-0012 por $545.000; los mockups V20–V22 se anotan para corregir | Asumida, por confirmar (sesión 5) |
+| DEC-49 | Qué orden sale de V20 a V22: los mockups y la demo no coinciden | Opción A ampliada: los datos de la demo mandan (COT-018, Proveedor ABC, OC-0012 por $545.000) y se corrigen seis mockups (V17 y V19 a V23) | Decidida por el arquitecto-revisor (2026-11-08), a pedido de Mauricio |
+| DEC-50 | Arroz y Pollo al 25 % en V05 | Se sacan de la lista y la tarjeta queda en «3 Stock bajo»; la regla de DEC-43 no cambia | Decidida por el arquitecto-revisor (2026-11-08), a pedido de Mauricio |
 
 ---
 
@@ -817,18 +819,45 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Por qué hubo que decidir.** Al preparar `CORRECCIONES_HU_Y_MOCKUPS.md` (sesión 5) se compararon los mockups V19 a V22 (DISEÑO UXUI, págs. 26 a 29) con la demo, la página 6 y el reporte:
 - **V19 (p. 26)** valida **COT-018**, de Proveedor A, con $520.000 contra $545.000: +4,81 %, OPCIONADA. Coincide con todo.
-- **V20 (p. 27)** compara tres cotizaciones OPCIONADAS de la solicitud SOL-031: Proveedor A $545.000 (+4,8 %), Proveedor B $510.000 (−1,9 %) y Proveedor C $570.000 (+9,6 %), y resalta la de **Proveedor B**: COT-019, res $395.000 y arroz $115.000, diferencia −1,92 %.
+- **V20 (p. 27)** compara tres cotizaciones OPCIONADAS de SOL-031 (Proveedor A $545.000, Proveedor B $510.000, Proveedor C $570.000) y resalta **COT-019**, de Proveedor B (res $395.000 y arroz $115.000, −1,92 %).
 - **V21 y V22 (págs. 28 y 29)** generan la orden de **COT-019**, Proveedor B, por **$510.000**, y la orden es **OC-0012**.
-- **La demo y la página 6** generan **OC-0012** sobre **COT-018** por **$545.000**. El reporte no une OC-0012 con ninguna cotización, pero en la p. 26 dice «COT-019: +34,62 %, RECHAZADA» (en la demo, COT-019 es de Proveedor C por $700.000), mientras que V20 muestra COT-019 como OPCIONADA. El proveedor de COT-018 se llama «Proveedor ABC» en la demo y en V13 y V18; V19 y V20 dicen «Proveedor A».
-
-La historia de los mockups es coherente por sí sola (el director compara varias opcionadas y elige la más barata), pero no es la que reproduce el código.
+- **La demo y la página 6** generan **OC-0012** sobre **COT-018** por **$545.000**. El reporte no une OC-0012 con ninguna cotización, pero en la p. 26 dice «COT-019: +34,62 %, RECHAZADA» (en la demo, COT-019 es de Proveedor C por $700.000), mientras que V20 la muestra OPCIONADA. El proveedor de COT-018 se llama «Proveedor ABC» en la demo y en V13 y V18; V19 y V20 dicen «Proveedor A».
 
 **Opciones:**
-- **A. Dejar la demo, la página 6 y el reporte como están, y anotar los mockups V20 a V22 para que se alineen** (`CORRECCIONES_HU_Y_MOCKUPS.md`). Es lo que menos cambia, y respeta los valores de V19 y la salida de la demo que ya validó el revisor. ✅ **Asumida, por confirmar.**
-- **B. Cambiar la demo, la página 6 y el reporte a la historia de los mockups.** La demo tendría que producir tres opcionadas (A $545.000, B $510.000 y C $570.000) y generar la orden sobre la de B. Cambian las cifras de DEC-40, las pruebas, la tabla de la p. 26 del reporte y el paso 11 del recorrido. Toca el código, que en la sesión 5 no se modifica.
-- **C. No decidir y dejar ambas versiones.** Un profesor que ponga los mockups al lado de la demo ve dos números distintos para OC-0012.
+- **A. Dejar la demo, la página 6 y el reporte como están, y anotar los mockups V20 a V22 para que se alineen.**
+- **B. Cambiar la demo, la página 6 y el reporte a la historia de los mockups.** Toca el código.
+- **C. No decidir y dejar ambas versiones.**
+- **D. Dejar los mockups y que la demo agregue una segunda opcionada.** (Propuesta del arquitecto.)
 
-**Qué implica:** con A, solo cambia `CORRECCIONES_HU_Y_MOCKUPS.md`, que pide a quien mantiene los mockups que V20 a V22 muestren COT-018 y OC-0012 por $545.000 (o que el equipo escoja B). Si se escoge B, hay que reabrir DEC-40 y la sesión 4.
+**Decisión: A ampliada («A+»).** La tomó el **arquitecto-revisor**, a pedido de Mauricio («actúa como el agente de arquitectura… y toma esas decisiones»), el 2026-11-08. Va como DEC-23 y DEC-24: Mauricio puede revertirla.
+
+**Por qué A+ y no B ni D** (lo midió el arquitecto con datos):
+- No hay una «historia de los mockups» coherente que adoptar. La misma historia aparece también en V17 (p. 24), en los fondos de V19, V21 y V22 y en V23 (p. 30, que dice «OC-012» en la lista y «OC-0012» en el detalle), y los mockups se contradicen entre sí: Proveedor C está RECHAZADA en V17 y OPCIONADA con $570.000 en V20; COT-021 es de Proveedor D en V17 y de Proveedor A en el fondo de V22; las fechas de V23 son de 2026 y las demás de 2025; y ninguno trae una cotización SOSPECHOSA, que DEC-31 exige (−61,54 %).
+- **B no se puede reproducir con el modelo de precio por unidad** de DEC-40: el arroz de V20 y V21 cuesta $115.000 por 15 kg ($7.666,67/kg), que no es un precio por kilo exacto. Además toca 73 líneas en 6 archivos de código y pruebas, unas 10 etiquetas de la página 6 y la fila de la p. 26 del reporte, y la sesión 5 no modifica el código.
+- **D no resuelve el choque:** V21 a V23 seguirían diciendo que OC-0012 es COT-019, de Proveedor B, por $510.000.
+
+**Regla de A+:** un mismo número significa lo mismo en todos los artefactos. Los datos canónicos son los de la demo:
+
+| Número | Proveedor | Total | Diferencia | Estado | Dónde existe |
+|---|---|---|---|---|---|
+| COT-018 | Proveedor ABC | $545.000 | +4,81 % | OPCIONADA, luego CON ORDEN | demo y mockups |
+| COT-019 | Proveedor C | $700.000 | +34,62 % | RECHAZADA | demo y mockups |
+| COT-020 | Proveedor D | $200.000 | −61,54 % | SOSPECHOSA | demo y mockups |
+| COT-021 | Proveedor B (res $22.000/kg, arroz $8.000/kg) | $560.000 | +7,69 % | OPCIONADA | solo en los mockups, para que V20 compare dos opcionadas (HU-17 pide «dos o más») |
+| OC-0012 | COT-018, Proveedor ABC (res $425.000, arroz $120.000) | $545.000 | — | EN PROCESO | demo y mockups |
+
+**Qué implica:** hay que corregir **seis** mockups (V17, V19, V20, V21, V22 y V23; ver M-03 en `CORRECCIONES_HU_Y_MOCKUPS.md`) y unificar «Proveedor A» a «Proveedor ABC». No cambian el código, la demo, la página 6 ni el reporte. **Riesgo para la sustentación:** si Canva no se corrige a tiempo, el choque sigue a la vista; la línea de respaldo es «los datos canónicos son los de la demo; V17–V23 conservan datos ilustrativos anteriores». La demo imprime «Cotizaciones opcionadas (V20): [COT-018]» y V20 mostraría dos: la demo genera un subconjunto de los datos, no contradice ningún número.
+
+## DEC-50 · ¿Qué se hace con Arroz y Pollo al 25 % en V05?
+
+**Por qué hubo que decidir.** V05 (DISEÑO UXUI, p. 10) lista «Alertas de inventario» con Res 23 %, Arroz 25 %, Papa 18 %, Tomate 24 % y Pollo 25 %, y la tarjeta dice «4 Stock bajo». Con DEC-43 (alerta solo si el porcentaje redondeado es estrictamente menor que 25 %), Arroz y Pollo al 25 % no alertan, y la lista tiene 5 filas.
+
+**Opciones:**
+- **A. Bajarlos a 24 %.** Crea un choque nuevo: V07 (p. 12) marca Arroz y Pollo como «Normal».
+- **B. Sacarlos de la lista de alertas y dejar la tarjeta en «3 Stock bajo».** ✅ **Escogida por el arquitecto-revisor** (a pedido de Mauricio, 2026-11-08).
+- **C. Cambiar la regla a «≤ 25 %».** El arquitecto lo probó en una copia: la res arranca en 12,5 kg de 50 (25,00 %), así que ya contaría como baja y nunca cruzaría el umbral; la demo deja de publicar `inventario.stock-bajo`, desaparece la alarma «Res al 23 %» y fallan 2 de las 171 verificaciones. Además revierte DEC-43 (decidida por Mauricio) y toca el código.
+
+**Qué implica:** la lista final de V05 es Res 23 %, Papa 18 % y Tomate 24 % (captura y wireframe), con «3 Stock bajo» (M-06). **Riesgo para la sustentación:** la tarjeta HU-16 dice «llegue al 25 %», el reporte «≤ 25 %» (p. 21) y «llega al 25 %» (p. 9). Se corrigen con R-22 y DEC-43. Respuesta lista: «el umbral se cruza al bajar del 25 %; un insumo en 25,00 % todavía no está bajo; es un parámetro de `UmbralStock`».
 
 ---
 
@@ -839,3 +868,4 @@ La historia de los mockups es coherente por sí sola (el director compara varias
 | A1 | ¿Quién tiene el script de ReportLab que generó el reporte? | Sin él no se puede corregir el PDF (DEC-03) | Equipo |
 | A2 | Con 2–4 réplicas de ms-notificaciones, ¿cómo llega la alarma por WebSocket a la réplica que tiene abierta la sesión del jefe? Las salidas posibles son sesión pegajosa en el balanceador, o difundir el mensaje a todas las réplicas, por ejemplo con Redis pub/sub | El profesor puede preguntarlo en la sustentación | Equipo |
 | A3 | Los commits del repo son de la cuenta `mari00aa120-eng`. ¿Es de alguien del equipo? | Conviene saberlo antes de la sustentación | Equipo |
+| A4 | `Pedido` no guarda qué mesero lo tomó (`meseroId`), y HU-01 pide «asociado a… mi usuario». El arquitecto propone agregar `meseroId: Long` a `Pedido` en la 4b y en el código. Cambia una firma, así que no se hizo | Criterio de HU-01 sin cubrir | Mauricio / equipo |

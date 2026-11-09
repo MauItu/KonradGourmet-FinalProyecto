@@ -67,13 +67,22 @@ Los dos están fuera del alcance de las correcciones (`PLAN_CORRECCIONES.md`) y 
 **Por qué:** una cotización puede incluir varias solicitudes (M-01), así que un solo campo «Solicitud» no alcanza.
 **Qué debe decir:** cambiar «Solicitud» por **«Solicitudes»**, con la lista de números separados por coma (SOL-031 o, por ejemplo, SOL-031, SOL-034). El wireframe y su leyenda se ajustan igual.
 
-### M-03 · V20 a V22: la orden que muestran los mockups no coincide con la demo · Por confirmar (DEC-49)
-**Dónde:** V20 (p. 27), V21 (p. 28) y V22 (p. 29).
-**Qué dicen hoy:** V20 compara tres cotizaciones OPCIONADAS de SOL-031 (Proveedor A $545.000, **Proveedor B $510.000**, Proveedor C $570.000) y resalta la de Proveedor B. V21 y V22 generan **OC-0012 sobre COT-019, Proveedor B, por $510.000** (res $395.000 y arroz $115.000).
-**Por qué:** V19 (p. 26) valida **COT-018**, de Proveedor A, por $545.000. La demo, la página 6 y el reporte hacen **OC-0012 sobre COT-018 por $545.000**, y en la demo COT-019 es de Proveedor C y queda RECHAZADA. Dos pantallas del mismo recorrido dan dos números distintos para OC-0012.
-**Qué debe decir (opción A de DEC-49, la asumida):** V20, V21 y V22 muestran **COT-018, Proveedor A, SOL-031, $545.000**. En V20 la tabla puede seguir con tres proveedores, pero la fila resaltada debe ser la de COT-018. Productos de COT-018: Res 20 kg y Arroz 15 kg.
-**Alternativa (opción B):** dejar los mockups y cambiar la demo, la página 6 y el reporte a COT-019 por $510.000. Toca el código; no se hace sin que el equipo lo decida.
-**Nombre del proveedor:** V13 y V18 dicen «Proveedor ABC»; V19, V20 y el fondo de V22 dicen «Proveedor A» (el modal de V22 dice «Proveedor B»). La demo usa **Proveedor ABC**. Conviene unificar a «Proveedor ABC».
+### M-03 · V17 y V19 a V23: una sola historia de cotizaciones y órdenes · Obligatoria (DEC-49, decidida por el arquitecto)
+**Dónde:** V17 (p. 24), el fondo de V19 (p. 26), V20 (p. 27), V21 (p. 28), V22 (p. 29) y V23 (p. 30).
+**Qué dicen hoy:** V19 valida COT-018 (Proveedor A, $545.000, +4,81 %). V20 compara tres opcionadas (A $545.000, **B $510.000**, C $570.000) y resalta la de Proveedor B; V21 y V22 generan **OC-0012 sobre COT-019, Proveedor B, por $510.000** (res $395.000 y arroz $115.000); V23 lista «OC-012» y detalla OC-0012 con COT-019. V17 y los fondos de V19, V21 y V22 repiten otra lista: COT-019 Proveedor B OPCIONADA, COT-020 Proveedor C RECHAZADA, COT-021 Proveedor D ENVIADA (en el fondo de V22, COT-021 es de Proveedor A).
+**Por qué:** la demo, la página 6 y el reporte hacen OC-0012 sobre COT-018 por $545.000, y los mockups se contradicen entre sí (Proveedor C está RECHAZADA en V17 y OPCIONADA con $570.000 en V20; las fechas de V23 son de 2026 y las demás de 2025). No hay una historia de los mockups que adoptar.
+**Qué debe decir:** los datos de la demo en todas las pantallas:
+
+| Número | Proveedor | Total | Diferencia | Estado |
+|---|---|---|---|---|
+| COT-018 | Proveedor ABC | $545.000 | +4,81 % | OPCIONADA, luego CON ORDEN |
+| COT-019 | Proveedor C | $700.000 | +34,62 % | RECHAZADA |
+| COT-020 | Proveedor D | $200.000 | −61,54 % | SOSPECHOSA |
+| COT-021 | Proveedor B (res $22.000/kg, arroz $8.000/kg) | $560.000 | +7,69 % | OPCIONADA (solo en los mockups, para que V20 compare dos opcionadas, como pide HU-17) |
+| OC-0012 | COT-018, Proveedor ABC (res $425.000, arroz $120.000) | $545.000 | — | EN PROCESO |
+
+Cambios por página: **V17** la lista de cotizaciones; **V19** solo la lista del fondo; **V20** las filas y el panel de detalle (COT-018 resaltada, COT-021 como segunda opcionada); **V21** el modal, el fondo y la leyenda (COT-018, Proveedor ABC, $545.000); **V22** el modal, el fondo y la leyenda (OC-0012, Proveedor ABC, $545.000); **V23** la fila y el detalle, con «OC-012» → «OC-0012». En todos, «Proveedor A» pasa a **«Proveedor ABC»**.
+**Riesgo para la sustentación:** si Canva no se corrige a tiempo, la línea de respaldo es «los datos canónicos son los de la demo; V17 a V23 conservan datos ilustrativos anteriores». La demo imprime «Cotizaciones opcionadas (V20): [COT-018]» y V20 mostraría dos: la demo genera un subconjunto, no contradice ningún número.
 
 ### M-04 · V03 y V04: el total del pedido · Obligatoria (DEC-40)
 **Dónde:** V03 y V04, pp. 7 y 8.
@@ -89,12 +98,12 @@ Los dos están fuera del alcance de las correcciones (`PLAN_CORRECCIONES.md`) y 
 **Por qué:** el modelo (`ItemCotizacion`) guarda el **precio por unidad** de cada producto y el valor de la línea sale de multiplicar por la cantidad. Los totales de V19 ($520.000 y $545.000) cuadran igual, así que no hay un error de cifras, solo de lo que significa la columna.
 **Qué debe decir:** poner la columna «Precio unitario» antes de «Valor»: Res $20.000/kg, Arroz $8.000/kg (valores estándar) y los del proveedor ($21.250/kg y $8.000/kg para COT-018). El valor de la línea se mantiene como resultado.
 
-### M-06 · V05 y V07: cifras de stock · Opcional (DEC-40)
-**Dónde:** V05 (p. 10) y V07 (p. 12). V05 tiene además una incoherencia propia, que va primero.
-**Qué dicen hoy:** V05 muestra la tarjeta «Alertas de inventario» con **Res 23 %**, igual que la alarma «Res al 23 %: realice una solicitud» que promete el reporte y que imprime la demo. V07 muestra una tabla con «Stock actual», «Stock mínimo» y «Estado»: su primera fila tiene **4 kg** de stock actual contra **10 kg** de mínimo y estado «Stock bajo».
-**Por qué:** el modelo no usa un «stock mínimo» en kilos: compara el stock contra el **25 % del stock de referencia**. 4 kg de 10 kg sería el 40 %, que no cuadra con el 23 % de V05, y la demo parte de 12,5 kg de 50 kg y baja a 11,5 kg (23 %).
-**Alertas del 25 %:** la lista de V05 trae **Res 23 %, Arroz 25 %, Papa 18 %, Tomate 24 % y Pollo 25 %**, y la tarjeta dice «4 Stock bajo». Con la regla decidida (DEC-43, estrictamente **por debajo** del 25 %), Arroz y Pollo al 25 % no alertan, así que la tarjeta sumaría 3 y no 4 (y la lista tiene 5 filas). Hay que bajarlos a 24 % o sacarlos de la lista, y cuadrar el número de la tarjeta.
-**Qué debe decir:** si el equipo quiere que V05 y V07 cuenten lo mismo, que la fila de la res en V07 diga 11,5 kg de 50 kg (23 %). Si no, no pasa nada: V05, que es la ventana que dispara la alarma, ya coincide con el reporte.
+### M-06 · V05 y V07: cifras de stock · Obligatoria para V05 (DEC-50), opcional para V07
+**Dónde:** V05 (p. 10) y V07 (p. 12).
+**Qué dicen hoy:** V05 lista «Alertas de inventario» con **Res 23 %, Arroz 25 %, Papa 18 %, Tomate 24 % y Pollo 25 %**, y la tarjeta dice «4 Stock bajo». V07 trae «5 Stock bajo» pero solo marca 4 filas, y su primera fila tiene 4 kg de stock actual contra 10 kg de mínimo.
+**Por qué:** la regla decidida (DEC-43) alerta solo si el porcentaje redondeado queda **por debajo** del 25 %, así que Arroz y Pollo al 25 % no alertan. V07 los marca como «Normal».
+**Qué debe decir (DEC-50, decidida por el arquitecto):** en V05, **sacar Arroz y Pollo de la lista** (captura y wireframe), de modo que queden Res 23 %, Papa 18 % y Tomate 24 %, y la tarjeta diga **«3 Stock bajo»**. No se bajan a 24 %, porque V07 los marca «Normal». En V07 (opcional): que el contador coincida con las filas marcadas y que la fila de la res diga 11,5 kg de 50 kg (23 %).
+**Riesgo para la sustentación:** la tarjeta HU-16 dice «llegue al 25 %», el reporte «≤ 25 %» (p. 21) y «llega al 25 %» (p. 9): se corrigen con R-22 y DEC-43. Respuesta lista: «el umbral se cruza al bajar del 25 %; un insumo en 25,00 % todavía no está bajo».
 
 ### M-07 · V12 y V21: cotización con varias solicitudes en el detalle · Opcional
 V12 (detalle de la solicitud) puede mostrar, si la solicitud ya está en una cotización, el número de cotización y las otras solicitudes que comparten esa cotización. No está en las tarjetas; solo mejora la lectura de M-01.
@@ -196,10 +205,10 @@ No hay nada que corregir. Sirve para ubicar la tarjeta que corresponde a cada pa
 |---|---|---|---|
 | M-01 | V13, p. 19 | Varias solicitudes en el modal | Obligatoria |
 | M-02 | V21, p. 28 | «Solicitudes» en el modal | Obligatoria |
-| M-03 | V20 a V22, pp. 27 a 29 | COT-018 y $545.000 en lugar de COT-019 y $510.000 | Por confirmar |
+| M-03 | V17 y V19 a V23, pp. 24 y 26 a 30 | Datos de la demo (COT-018, Proveedor ABC, OC-0012 por $545.000) en las seis pantallas | Obligatoria |
 | M-04 | V03 y V04, pp. 7 y 8 | $82.000 y 3 platos | Obligatoria |
 | M-05 | V18 y V19, pp. 25 y 26 | Precio unitario | Opcional |
-| M-06 | V05 y V07, pp. 10 y 12 | Arroz y Pollo al 25 % que no alertan; cifras de la res | Opcional |
+| M-06 | V05 y V07, pp. 10 y 12 | Sacar Arroz y Pollo de V05; tarjeta en 3 | Obligatoria (V05) |
 | M-07 | V12 | Solicitudes de la misma cotización | Opcional |
 | M-08 | Nuevos | Pantallas de HU-15 y HU-19 | Opcional |
 | M-09 | V03, p. 7 | Saludo del mesero | Opcional |
@@ -219,4 +228,4 @@ El equipo, en Canva (mockups y Story Mapping). Orden recomendado, de lo que más
 4. **S-03, S-04 y S-05** (etiquetas).
 5. **M-05 a M-08** (opcionales).
 
-**Pendiente de confirmar:** M-03 depende de DEC-49; M-04 de elegir la opción 1 o 2.
+**Pendiente de confirmar:** M-04 depende de elegir la opción 1 o 2. M-03 y M-06 están decididas (DEC-49 y DEC-50, por el arquitecto).
