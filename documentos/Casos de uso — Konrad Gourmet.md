@@ -75,7 +75,7 @@ Las referencias DEC remiten a [DECISIONES.md](DECISIONES.md); las HU son las his
 
 ![Diagrama de casos de uso](casos_de_uso.png)
 
-> **Pendiente:** el diagrama UML lo tiene quien escribió este documento. Falta exportarlo a `casos_de_uso.png`, en la misma carpeta que este archivo, con los casos de este documento (incluido CU-19, Registrar usuario), los 6 roles y los 5 actores externos.
+> **Pendiente:** falta el diagrama UML de casos de uso, `casos_de_uso.png`, en la misma carpeta que este archivo, con los casos de este documento (incluido CU-19, Registrar usuario), los 6 roles y los 5 actores externos.
 
 Los roles de cocina y compras están a la izquierda y los roles de dirección, administración y los actores externos a la derecha. Los correos de CU-04 y CU-05 también salen por el servidor de correo certificado; esa línea no se dibuja para no cruzar las otras.
 
