@@ -145,14 +145,14 @@ Kafka y sin frameworks). Las secciones numeradas del 1 al 7 son las 7 salidas qu
 
 | Sección | Patrón | Qué se ve |
 |---|---|---|
-| 0. Carga inicial | Observer | Los datos de partida: 2 platos (por `menu.actualizado`), 4 insumos, 4 proveedores y la libreta de correos |
+| 0. Carga inicial | Publish-Subscribe | Los datos de partida: 2 platos (por `menu.actualizado`), 4 insumos, 4 proveedores y la libreta de correos |
 | 1 | Composite + Factory Method | El menú `DIRECTOR_COMPRAS`: Inicio, Cotizaciones (Todas, Pendientes de validar, Opcionadas), Órdenes de compra, Mi perfil y Cerrar sesión |
-| 2 | Hexagonal + Observer | El pedido PED-0251, mesa 5, 3 platos, **$82.000**, y el evento `pedido.registrado` |
+| 2 | Hexagonal + Publish-Subscribe | El pedido PED-0251, mesa 5, 3 platos, **$82.000**, y el evento `pedido.registrado` |
 | 3 | Factory Method + Decorator | El cierre de las 23:59 deja la res al **23 %**: alarma «Res al 23 %: realice una solicitud» y correo al jefe con `X-Certificado` y `X-Sello-Tiempo` |
 | 4 | Proxy + Adapter | El precio de la res: la 1.ª consulta llama al servicio web (1 llamada); la 2.ª la responde la caché (sigue en 1) |
-| Solicitud | Observer | SOL-031 (res 20 kg y arroz 15 kg); `solicitud.registrada` atiende la alerta de la res |
+| Solicitud | Publish-Subscribe | SOL-031 (res 20 kg y arroz 15 kg); `solicitud.registrada` atiende la alerta de la res |
 | 5 | Facade + Chain of Responsibility | **COT-018:** estándar $520.000, proveedor $545.000, **+4,81 % → OPCIONADA**. **COT-019:** +34,62 % → RECHAZADA. **COT-020:** −61,54 % → SOSPECHOSA |
-| Orden | Observer | **OC-0012** por $545.000; COT-018 pasa a CON_ORDEN y SOL-031 a COMPLETADA; una segunda orden sobre COT-018 se rechaza (D3) |
+| Orden | Publish-Subscribe | **OC-0012** por $545.000; COT-018 pasa a CON_ORDEN y SOL-031 a COMPLETADA; una segunda orden sobre COT-018 se rechaza (D3) |
 | 6 | Singleton | `tema.color-primario` (no el umbral, que es de ms-inventario, H13), y que dos llamadas dan la misma instancia |
 | 7 | Strategy | Producto con mayor demanda: **Bandeja paisa (40)**; proveedor con mejores precios: **Proveedor B** |
 | Resumen | — | Eventos por tópico, correos, alarmas y registros de auditoría |
@@ -194,9 +194,9 @@ Límites que conviene conocer:
 - Los casos de uso no reciben al usuario (en el proyecto real sale del token JWT), así que los eventos llevan
   `sistema` o el correo de la entidad. Cada evento crea su propio `correlacionId`; propagarlo entre
   servicios queda para el proyecto real.
-- `Notificacion.enviar(destino, contenido, adjuntoUrl)` y `CreadorNotificacion.notificar(...)` llevan un
-  parámetro más que la página 4d (DEC-42, decidido por Mauricio): el correo certificado al proveedor lleva
-  el PDF en `Mensaje.adjuntoUrl`. El diagrama se actualiza en la sesión 5.
+- `Notificacion.enviar(destino, contenido, adjuntoUrl)` y `CreadorNotificacion.notificar(destino, contenido,
+  adjuntoUrl)` llevan el enlace del adjunto (DEC-42, decidido por Mauricio): el correo certificado al proveedor
+  lleva el PDF en `Mensaje.adjuntoUrl`, y `AlarmaApp` lo ignora. La página 4d tiene las mismas firmas.
 - `descontarConsumoDiario()` no repite el descuento si se ejecuta dos veces, porque resta del consumo
   pendiente lo que ya descontó. Aun así, DEC-36 sigue valiendo: con varias réplicas, `@SchedulerLock`
   evita que dos corran a la vez.
