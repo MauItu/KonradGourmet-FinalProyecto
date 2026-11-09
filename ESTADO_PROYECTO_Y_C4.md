@@ -279,7 +279,7 @@ Diagramas de clases UML por servicio, con paquetes `co.edu.konradlorenz.<servici
 
 - Dispositivos → CDN + WAF → DNS global con conmutación.
 - **Centro de datos principal** (región A): balanceador L7 activo-activo; Kubernetes en **3 zonas** con autoescalado; Gateway ×3, Eureka ×2, la SPA ×2 y los 11 microservicios con sus réplicas mínimas y máximas; Kafka ×3; observabilidad con Prometheus, Grafana, OpenTelemetry y ELK.
-- **Reparto por zona** (H24, DEC-20): tres cajas «Zona A», «Zona B» y «Zona C» con un gateway y un broker de Kafka en cada una. **Que Eureka y la SPA estén en las zonas A y B es un supuesto por confirmar.**
+- **Reparto por zona** (H24, DEC-20): tres cajas «Zona A», «Zona B» y «Zona C» con un gateway y un broker de Kafka en cada una. Eureka y la SPA tienen dos réplicas en zonas distintas (antiafinidad), con A y B como etiquetas ilustrativas; lo confirmó el arquitecto-revisor (DEC-20).
 - **Capa de datos:** PostgreSQL ×11 con réplica síncrona en otra zona; Redis; almacén de objetos multizona; respaldo diario con retención de 30 días.
 - **Centro de datos alterno** (región B, en espera tibia): Kubernetes en espera; Kafka replicado con MirrorMaker 2; réplicas asíncronas de PostgreSQL (RPO ≤ 5 min) y **réplica del almacén de objetos entre regiones** (H16).
 - **Salida controlada** hacia el Ministerio, el correo y las redes sociales.
@@ -384,7 +384,7 @@ Los textos del reporte se corrigen con `CORRECCIONES_REPORTE.md` (R-xx), cuando 
 | H21 | Baja | Réplicas de ms-menu y «solo escalan 3» | 🟡 Solo texto del reporte: R-08 y R-16 |
 | H22 | Baja | Sin leyendas ni protocolos | ✅ Leyendas en todas las páginas; `[Kafka/TLS]` y `[SMTP/TLS]` |
 | H23 | Baja | Mensajes sin numerar en la página 6 | ✅ 4.1, 4.2… |
-| H24 | Baja | Las 3 zonas eran solo un texto | ✅ Tres cajas de zona. 🟡 Falta confirmar Eureka y SPA (DEC-20) |
+| H24 | Baja | Las 3 zonas eran solo un texto | ✅ Tres cajas de zona; Eureka y SPA en dos zonas distintas, confirmado (DEC-20) |
 | H25 | Baja | `Correo` en `dominio` | ✅ En `puertos.salida` |
 | H26 | Baja | Etiquetas del Story Mapping | 🟡 Anotado en `CORRECCIONES_HU_Y_MOCKUPS.md` |
 
@@ -420,7 +420,6 @@ Leyenda: ✅ hecho · 🟡 anotado, falta que alguien lo aplique en un archivo q
 | Id | Qué hay que decidir | Por qué importa |
 |---|---|---|
 | **A1** | Quién tiene el script de ReportLab | Sin él, el reporte no se puede corregir |
-| **DEC-20** | Dónde corren Eureka y la SPA en las zonas A y B | Es un supuesto del dibujo; el reporte lo repetiría |
 | **T-06** | Cómo llevan `cotizacion.validada` y `tendencia.detectada` los tipos de otro servicio, sin romper DEC-29 | La demo no los consume: sin esto, el tablero de proveedores y las promociones no tendrían cómo alimentarse |
 | **A2** | Cómo llega la alarma de WebSocket a la réplica correcta | El profesor puede preguntarlo |
 | **A3** | De quién es la cuenta `mari00aa120-eng` | Conviene saberlo antes de la sustentación |
