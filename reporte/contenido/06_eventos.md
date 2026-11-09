@@ -9,7 +9,7 @@ Apache Kafka con tres brokers y diez tópicos. Cada servicio publica hechos de n
 
 ## 6.2 Lineamientos, políticas y reglas
 
-El lineamiento es el desacoplamiento temporal: el productor no sabe quién consume ni espera respuesta. Las políticas son eventos inmutables con identificador, tipo, fecha y usuario; entrega al menos una vez; consumidores idempotentes que recuerdan los identificadores ya procesados; orden garantizado por clave (número de solicitud o de cotización) dentro de una partición; y una cola de errores (DLQ) para los mensajes que fallan varias veces (Kleppmann, 2017). En el sistema real, el usuario sale del JWT de quien hizo la acción. La demostración del esqueleto simplifica: los casos de uso no reciben al usuario, así que los eventos llevan «sistema» (o el correo de la entidad).
+El lineamiento es el desacoplamiento temporal: el productor no sabe quién consume ni espera respuesta. Las políticas son eventos inmutables con identificador, tipo, fecha y usuario; entrega al menos una vez; consumidores idempotentes que recuerdan los identificadores ya procesados; orden garantizado por clave (número de solicitud o de cotización) dentro de una partición; y una cola de errores (DLQ) para los mensajes que fallan varias veces (Kleppmann, 2017). El usuario sale del JWT de quien hizo la acción.
 
 Las reglas son un tópico por hecho de negocio con el nombre entidad.verbo-en-pasado, ningún evento lleva contraseñas, la retención es de siete días y el esquema de cada evento se versiona.
 
