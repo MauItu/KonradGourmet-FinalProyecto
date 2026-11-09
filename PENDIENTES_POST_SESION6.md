@@ -9,7 +9,7 @@ Base: sesión 6 publicada en `MauItu/KonradGourmet-FinalProyecto`, `main` `b90a1
 | 1 · Documentos de entrega | Hacerlo aquí | Asistente y Mauricio, con los insumos del equipo | Por realizar |
 | 2 · Mockups | Dejarlos pendientes; Mauricio los hace | Mauricio | Pendiente externo |
 | 3 · Story Mapping | Crear un documento nuevo con todo corregido | Asistente, aquí | Por realizar; conservar el original |
-| 4 · Preguntas de arquitectura y requisitos | Que decida el agente de Claude de arquitectura de software | `arquitecto-revisor` de Claude | Hecho el 2026-11-08, falta el OK de Mauricio: PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`); quedan A1, A3, A5, A6 y A7, que son factuales |
+| 4 · Preguntas de arquitectura y requisitos | Que decida el agente de Claude de arquitectura de software | `arquitecto-revisor` de Claude | Hecho el 2026-11-08, falta el OK de Mauricio: PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`); quedan A1 (DEC-54), A5 y A7 |
 | 5 · Supuestos asumidos | Que decida el mismo agente | `arquitecto-revisor` de Claude | Hecho el 2026-11-08, falta el OK de Mauricio: los siete supuestos confirmados (tres con ajuste) |
 | 6 · Implementación | Por ahora, solo la demo; explicar qué contiene | Asistente | Alcance fijado por Mauricio; descripción abajo |
 
