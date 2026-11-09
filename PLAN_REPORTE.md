@@ -9,7 +9,7 @@
 - DEC-55: formato sobrio, de documento académico.
 - Las correcciones de contenido R-01 a R-66 de `CORRECCIONES_REPORTE.md`.
 
-**Estado:** plan, sin ejecutar. Es parte del punto 1 de `PENDIENTES_POST_SESION6.md` y se hace después del Story Mapping corregido (punto 3).
+**Estado:** en ejecución desde el 2026-11-09; Mauricio aprobó la página de prueba (REP-02) con el ajuste de DEC-56. Es parte del punto 1 de `PENDIENTES_POST_SESION6.md` y se hace después del Story Mapping corregido (punto 3).
 
 ## 1. Por qué rehacerlo y no solo corregirlo
 
@@ -35,7 +35,7 @@ Con el cambio de formato, el script original ya no es imprescindible: aunque apa
 **Letra y página:**
 - Una sola familia, **Times New Roman de 12 pt**, en todo el documento: portada, títulos, texto, tablas, pies de figura, encabezado y pie de página.
 - El código y los nombres técnicos van en la misma letra. No se usa monoespaciada.
-- **Color:** todo el texto en negro. Sin fondos de color, sin cajas, sin cabeceras de tabla coloreadas y sin íconos.
+- **Color:** todo el texto en negro. Sin cajas, sin cabeceras de tabla coloreadas y sin íconos. Única excepción (DEC-56): las filas de las tablas alternan blanco y `#FDEFE1`, un tono claro del naranja de la web.
 - **Página:** A4, márgenes de 2,54 cm, interlineado 1,5 en el texto y sencillo en las tablas, texto alineado a la izquierda y sangría de primera línea de 1,27 cm.
 
 **Títulos:**

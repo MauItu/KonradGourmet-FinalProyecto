@@ -2,14 +2,15 @@
 """Genera el reporte de arquitectura de Konrad Gourmet en .docx y PDF (DEC-54, DEC-55).
 
 Formato (PLAN_REPORTE.md, sección 2): Times New Roman de 12 pt en todo el documento,
-texto en negro, títulos en negrilla del mismo tamaño, tablas con líneas finas negras,
+texto en negro, títulos en negrilla del mismo tamaño, tablas con líneas finas negras y filas alternas en un tono claro (DEC-56),
 figuras numeradas con nota y número de página abajo a la derecha.
 
 Uso:
-    python generar_reporte.py contenido.md Reporte_Arquitectura_Konrad_Gourmet_v2
+    python generar_reporte.py contenido Reporte_Arquitectura_Konrad_Gourmet_v2
     python generar_reporte.py prueba.md    reporte/pagina_prueba
 
-El primer argumento es el texto fuente; el segundo, el nombre de salida (sin extensión),
+El primer argumento es el texto fuente: un archivo .md o una carpeta, cuyos .md se leen
+en orden alfabético (contenido/ tiene un archivo por sección); el segundo, el nombre de salida (sin extensión),
 relativo a la carpeta documentos/. Necesita python-docx y LibreOffice.
 Si Times New Roman no está instalada, LibreOffice usa Liberation Serif, que tiene las
 mismas métricas; para que el PDF la incruste, se puede apuntar FONTCONFIG_FILE a una
@@ -55,6 +56,8 @@ MARGEN = Cm(2.54)
 A4 = (Cm(21.0), Cm(29.7))
 SANGRIA = Cm(1.27)
 AQUI = Path(__file__).resolve().parent
+# DEC-56: filas alternas blanco / tono claro del naranja de la web (#F28705 al 10 %).
+FONDO_ALTERNO = "FDEFE1"
 
 PORTADA = [
     ("Sistema de Abastecimiento Konrad Gourmet", True),
@@ -242,6 +245,13 @@ def tabla(doc, filas, anchos, ancho_total):
                 tcb = OxmlElement("w:tcBorders")
                 _borde(tcb, "bottom")
                 tcpr.append(tcb)
+            if r > 0 and r % 2 == 0:
+                tcpr = celda._tc.get_or_add_tcPr()
+                sombra = OxmlElement("w:shd")
+                sombra.set(qn("w:val"), "clear")
+                sombra.set(qn("w:color"), "auto")
+                sombra.set(qn("w:fill"), FONDO_ALTERNO)
+                tcpr.append(sombra)
             p = celda.paragraphs[0]
             _formato_parrafo(p, sangria=False, espaciado=WD_LINE_SPACING.SINGLE)
             p.paragraph_format.space_before = Pt(2)
@@ -529,7 +539,13 @@ def main():
     fuente = AQUI / sys.argv[1]
     salida = AQUI.parent / sys.argv[2]
     destino, nombre = salida.parent, salida.name
-    lineas = fuente.read_text(encoding="utf-8").splitlines()
+    if fuente.is_dir():
+        partes = sorted(fuente.glob("*.md"))
+        lineas = []
+        for parte in partes:
+            lineas += parte.read_text(encoding="utf-8").splitlines() + [""]
+    else:
+        lineas = fuente.read_text(encoding="utf-8").splitlines()
     titulos = [l.strip()[2:].strip() for l in lineas if l.startswith("# ")]
     paginas = {}
     for pasada in (1, 2, 3):
