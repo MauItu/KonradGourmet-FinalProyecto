@@ -108,7 +108,7 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 | `Copia de ARQUITECTURA-Supuestos de Capacidad  del equipo.xlsx` | Capacidad del equipo y sprints, ya corregido (DEC-47) |
 | `DISEÑO UXUI.pdf`, `flujo-web-konrad-gourmet (1).pdf` | Mockups de las 23 ventanas (Canva) y flujo web. No se modifican |
 | `PLAN_CORRECCIONES.md` | El plan de las 5 sesiones y su tabla de avance |
-| `DECISIONES.md` | DEC-01 a DEC-48 con su contexto y todas las opciones, más las preguntas abiertas A1–A3 |
+| `DECISIONES.md` | DEC-01 a DEC-49 con su contexto y todas las opciones, más las preguntas abiertas A1–A3 |
 | `REVISION_2026-11-07.md` | Los hallazgos H1–H26 del arquitecto-revisor |
 | `INVENTARIO_SESION2.md`, `INVENTARIO_SESION3.md` | Lista de ítems que cada sesión debía cambiar |
 | `VALIDACION_FASE2A.md`, `VALIDACION_SESION2.md`, `VALIDACION_SESION3.md`, `VALIDACION_SESION4.md` | Lo que el revisor encontró al validar cada sesión |
@@ -147,15 +147,15 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 | Diagramas C4 y de clases | **Corregidos y validados** | 11 páginas. Las sesiones 1 a 3 aplicaron los hallazgos del revisor, validados cuatro veces; 191 clases en 4a–4e. La 4d y la nota `n_outbox` de la 4a se actualizaron en la sesión 5 |
 | Código Java | **Con firmas y demo** | 191 clases con sus firmas y relaciones, que compilan con `javac --release 21 -Xlint:all`. Los 23 métodos de ventana existen con su comentario. Quedan 94 cuerpos «Pendiente de implementar»: lo que habla con tecnología externa y lo que la demo no usa |
 | Demo | **Funciona** | `DemoArquitectura` recorre pedido, alarma de stock, SOL-031, COT-018/019/020 y OC-0012, y cubre las 7 salidas que promete el reporte (DEC-31). Reproduce +4,81 % → OPCIONADA. 171 verificaciones pasan |
-| Reporte PDF | **Desactualizado, sin tocar** | Sigue siendo el de octubre: dice «ocho páginas», «155 clases» y una salida de la demo mal copiada. Sus 59 correcciones están escritas en `CORRECCIONES_REPORTE.md`; no se aplican sin el script de ReportLab (A1) |
-| Historias de usuario y mockups | **Con correcciones anotadas** | V13 y V21 muestran una sola solicitud, HU-07 es copia de HU-06, y el Story Mapping tiene etiquetas erróneas. Los archivos no son nuestros: la lista está en `CORRECCIONES_HU_Y_MOCKUPS.md` |
+| Reporte PDF | **Desactualizado, sin tocar** | Sigue siendo el de octubre: dice «ocho páginas», y «155 clases». Sus 59 correcciones están escritas en `CORRECCIONES_REPORTE.md`; no se aplican sin el script de ReportLab (A1) |
+| Historias de usuario y mockups | **Con correcciones anotadas** | V13 y V21 muestran una sola solicitud, V20–V22 cuentan otra orden que la demo (DEC-49), V03 y V04 se contradicen, HU-07 es copia de HU-06, y el Story Mapping tiene etiquetas erróneas. Los archivos no son nuestros: la lista está en `CORRECCIONES_HU_Y_MOCKUPS.md` |
 | Planeación (Excel) | **Corregido** | 1 PHU = 25 h, 9 PHU por sprint, HU-14 = 1 (total 35), HU-17 en el sprint 3. **5 sprints, 10 semanas, 35 PHU y fechas del 03/08 al 11/10/2026**, todo con fórmulas (DEC-47) |
 | Prototipo web | **1 de 23 pantallas** | Solo el login (V01), en HTML/CSS estático y sin conexión al backend. No estaba en el alcance de las correcciones |
 
 **Riesgos que siguen abiertos**
 - **Reporte:** es el entregable principal y hoy contradice al código y a los diagramas. Se resuelve con el script (A1) o rehaciéndolo.
 - **Límites de la demo**, que el reporte debe decir (R-13, R-21, R-23 y R-45): los eventos llevan `sistema` como usuario y cada uno crea su propia correlación (DEC-42); los consumidores no descartan eventos repetidos; todos los datos están en memoria.
-- **Supuestos por confirmar:** DEC-08, DEC-20, DEC-39, DEC-41, DEC-44, DEC-45, DEC-47 (el orden de filas) y DEC-48.
+- **Supuestos por confirmar:** DEC-08, DEC-20, DEC-39, DEC-41, DEC-44, DEC-45, DEC-47 (el orden de filas), DEC-48 y DEC-49 (V20–V22 frente a la demo).
 
 ---
 
@@ -347,7 +347,7 @@ Los hallazgos H1–H26 están en `REVISION_2026-11-07.md`; los E1–E3 y D1–D1
 | **D9** | HU-07 es copia de HU-06 | 🟡 El código ya filtra por fecha, producto, marca y estado (`CriteriosConsulta`). Falta reescribir la tarjeta: va en `CORRECCIONES_HU_Y_MOCKUPS.md` |
 | **D10** | El README llamaba Strategy a la cadena de reglas | ✅ README corregido: Chain of Responsibility, con los 10 patrones (H19) |
 | **D11** | El script del reporte | 🔴 Sigue abierto (A1). Los cambios están en `CORRECCIONES_REPORTE.md` |
-| **D12** | La demo prometida | ✅ Existe y reproduce COT-018 y las otras seis salidas (DEC-31). Falta que el reporte lo diga con las cifras correctas (R-45 y R-46) |
+| **D12** | La demo prometida | ✅ Existe y reproduce COT-018 y las otras seis salidas (DEC-31). Falta que el reporte describa el recorrido completo y sus límites (R-45; R-46 solo precisa el signo y los totales de la tabla) |
 
 ### 5.3 Hallazgos de la revisión (H1–H26)
 
@@ -407,7 +407,7 @@ Leyenda: ✅ hecho · 🟡 anotado, falta que alguien lo aplique en un archivo q
 | Qué | Dónde | Quién |
 |---|---|---|
 | Aplicar las 59 correcciones al reporte, o rehacerlo | `CORRECCIONES_REPORTE.md` | Quien tenga el script (A1), o el equipo |
-| Corregir mockups V13, V21, V03, V18 y V19, la tarjeta HU-07 y las etiquetas del Story Mapping | `CORRECCIONES_HU_Y_MOCKUPS.md` | El equipo, en Canva |
+| Corregir los mockups V13, V21, V20–V22, V03, V04, V18 y V19 (y V05 y V07, opcional), la tarjeta HU-07 y las etiquetas del Story Mapping | `CORRECCIONES_HU_Y_MOCKUPS.md` | El equipo, en Canva |
 
 **Decisiones del equipo:**
 
@@ -419,6 +419,7 @@ Leyenda: ✅ hecho · 🟡 anotado, falta que alguien lo aplique en un archivo q
 | **A2** | Cómo llega la alarma de WebSocket a la réplica correcta | El profesor puede preguntarlo |
 | **A3** | De quién es la cuenta `mari00aa120-eng` | Conviene saberlo antes de la sustentación |
 | **DEC-48** | Dónde van las páginas 3a, 3b y 6 en el reporte | Solo importa cuando se regenere |
+| **DEC-49** | Si V20–V22 (COT-019, Proveedor B, $510.000) se alinean con la demo (COT-018, $545.000), o al revés | Dos pantallas del mismo recorrido dan dos números para OC-0012 |
 
 **Supuestos por confirmar** (cada uno se revierte con su commit si no convence): DEC-08, DEC-39, DEC-40 (inventario inicial e histórico del tablero), DEC-41, DEC-44, DEC-45 y el orden de filas del Excel (DEC-47).
 
