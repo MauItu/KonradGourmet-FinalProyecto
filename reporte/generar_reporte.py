@@ -2,7 +2,7 @@
 """Genera el reporte de arquitectura de Konrad Gourmet en .docx y PDF (DEC-54, DEC-55).
 
 Formato (PLAN_REPORTE.md, sección 2): Times New Roman de 12 pt en todo el documento,
-texto en negro, títulos en negrilla del mismo tamaño, tablas con líneas finas negras y filas alternas en un tono claro (DEC-56),
+texto en negro, títulos en negrilla del mismo tamaño, tablas con líneas finas negras y filas alternas en gris claro (DEC-56),
 figuras numeradas con nota y número de página abajo a la derecha.
 
 Uso:
@@ -58,8 +58,8 @@ MARGEN = Cm(2.54)
 A4 = (Cm(21.0), Cm(29.7))
 SANGRIA = Cm(1.27)
 AQUI = Path(__file__).resolve().parent
-# DEC-56: filas alternas blanco / tono claro del naranja de la web (#F28705 al 10 %).
-FONDO_ALTERNO = "FDEFE1"
+# DEC-56: filas alternas blanco / gris claro (Mauricio cambió el naranja claro por gris el 2026-11-09).
+FONDO_ALTERNO = "F2F2F2"
 
 PORTADA = [
     ("Sistema de Abastecimiento Konrad Gourmet", True),

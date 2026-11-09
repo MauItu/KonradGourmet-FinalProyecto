@@ -35,7 +35,7 @@ Con el cambio de formato, el script original ya no es imprescindible: aunque apa
 **Letra y página:**
 - Una sola familia, **Times New Roman de 12 pt**, en todo el documento: portada, títulos, texto, tablas, pies de figura, encabezado y pie de página.
 - El código y los nombres técnicos van en la misma letra. No se usa monoespaciada.
-- **Color:** todo el texto en negro. Sin cajas, sin cabeceras de tabla coloreadas y sin íconos. Única excepción (DEC-56): las filas de las tablas alternan blanco y `#FDEFE1`, un tono claro del naranja de la web.
+- **Color:** todo el texto en negro. Sin cajas, sin cabeceras de tabla coloreadas y sin íconos. Única excepción (DEC-56): las filas de las tablas alternan blanco y gris claro (`#F2F2F2`).
 - **Página:** A4, márgenes de 2,54 cm, interlineado 1,5 en el texto y sencillo en las tablas, texto alineado a la izquierda y sangría de primera línea de 1,27 cm.
 
 **Títulos:**

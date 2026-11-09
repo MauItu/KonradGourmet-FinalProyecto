@@ -1140,6 +1140,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **B. Filas alternas blanco y azul claro**, como el original. El azul no es el color de la web.
 - **C. Filas alternas blanco y un tono claro del naranja de la web** (`--naranja: #F28705` de `KonradGourmet/styles.css`, al 10 %: `#FDEFE1`). La cabecera queda en blanco con negrilla. ✅ **Escogida por Mauricio el 2026-11-09** (el tono concreto lo propuso el asistente).
 
+**Cambio de Mauricio (2026-11-09, al ver el reporte v2):** el naranja claro no le gustó; las filas alternan blanco y **gris claro** (`#F2F2F2`).
+
 **Qué implica:** cambia una regla de DEC-55 solo en las tablas; el texto sigue todo en negro. Además, Mauricio aprobó el aspecto de la página de prueba con los rótulos al estilo APA 7 (número en negrilla y título en cursiva debajo) y las figuras grandes en páginas horizontales, pidió el índice después de la portada y dijo que la portada la ajusta él después.
 
 ---
