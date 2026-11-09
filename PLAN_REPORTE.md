@@ -111,7 +111,7 @@ Además de las 66 entradas:
   - las páginas 3a, 3b y 6 entran como figuras 12, 13 y 7 (R-02 y R-03);
   - si el `.drawio` cambia antes de generar, se exporta de nuevo.
 - **Declaración de IA (§18):** se conserva la del equipo y se agrega el párrafo de R-58: Claude (Opus 5.5 y Sonnet 5.5) y ChatGPT (Astra 6).
-- **Portada:** la del original no nombra al equipo, y la nueva sí. Los nombres y el orden los confirma Mauricio.
+- **Portada:** la del original no nombra al equipo, y la nueva sí, en este orden (Mauricio, 2026-11-08, provisional): Mauricio Jesús Iturriza Medina, Carlos Franco, Adrián David Corredor Camero e Isabela Castro.
 
 ## 5. Pasos
 
@@ -147,11 +147,11 @@ Al terminar, el original sigue intacto en su lugar.
 ## 7. Lo que Mauricio decide antes de empezar
 
 1. **Las 4 opcionales:**
-   - R-14: los logs se consultan por `LogsPort`;
-   - R-19: la cotización PENDIENTE_PRECIO;
-   - R-39: el PDF de la orden;
-   - R-53: una tabla de métodos sin ventana.
+   - R-14 (§3): decir que ms-administracion consulta los logs en Elasticsearch por el puerto `LogsPort`;
+   - R-19 (§6): completar la lista de estados con COMPLETADA, PENDIENTE_PRECIO y CON ORDEN;
+   - R-39 (§12): agregar «almacén de objetos» a lo que coordina la fachada;
+   - R-53 (§15): una tabla extra con los métodos de controlador que no tienen ventana.
 
    Recomendación: aplicar R-14, R-19 y R-39, que son una frase cada una y dejan el reporte más exacto, y omitir R-53, que suma una tabla larga que nadie pidió.
-2. **La portada:** los nombres de los integrantes y su orden.
+2. **La portada:** resuelta, con los nombres dados por Mauricio (provisional).
 3. **El aspecto:** si la página de prueba de REP-02 está bien, antes de pasar todo el texto.
