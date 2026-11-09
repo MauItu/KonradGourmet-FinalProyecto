@@ -19,7 +19,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 |---|---|---|---|
 | DEC-01 | Carpetas y control de versiones | Dos carpetas hermanas, cada una con su repo, en la rama local `correcciones-revision` | Aplicada |
 | DEC-02 | Código (hallazgo bloqueante H1 y D12) | Firmas, relaciones y tipos, más una demo real | Firmas, relaciones y tipos aplicados en el código (sesión 3); la demo real, aplicada en la sesión 4 |
-| DEC-03 | Reporte PDF | No tocarlo hasta que aparezca el script original | Vigente; los cambios están en `CORRECCIONES_REPORTE.md` (R-01 a R-66, sesiones 5 y 6 y decisiones posteriores) |
+| DEC-03 | Reporte PDF | No tocarlo hasta que aparezca el script original | Reemplazada por DEC-54: si el script no aparece, el reporte se rehace con uno nuevo; los cambios están en `CORRECCIONES_REPORTE.md` (R-01 a R-66) |
 | DEC-04 | Ritmo de trabajo | Por fases con pausa, en 5 sesiones | Vigente; Mauricio añadió la sesión 6 (DEC-51/52) y aprobó sus fases 1 y 2 antes del cierre |
 | DEC-05 | HU-09: solicitudes por cotización | Varias solicitudes; anotar que hay que corregir el mockup V13 | Aplicada en el `.drawio`, en las firmas y en la lógica del código (sesión 4); el mockup V13 (y V21), anotado en `CORRECCIONES_HU_Y_MOCKUPS.md` (M-01 y M-02) |
 | DEC-06 | Dueño de los KPI | Director comercial, para revisar con el equipo | Decidida |
@@ -81,6 +81,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | PD-09 | HU-20 a HU-22 | Propuestas de diseño aprobadas con ajustes, sin estimar y fuera del Story Mapping original | Decidida por el arquitecto-revisor (2026-11-08); efectos en casos de uso, `STORY_MAPPING_CORREGIDO.md` y Excel; estimación pendiente del equipo |
 | PD-10 | Mensajes de interfaz por definir | Criterio común y 16 textos propuestos; los mensajes literales de las HU son el contrato de la interfaz | Decidida por el arquitecto-revisor (2026-11-08); efectos en casos de uso y Story Mapping corregido; el código no cambia |
 | PD-11 | Declaración de IA del reporte (R-58) | Declaración fiel: Claude Code con el agente revisor, continuación con Codex en la sesión 6 y decisiones delegadas al agente; modelos por confirmar | Ajuste decidido por el arquitecto-revisor (2026-11-08); el equipo confirma modelos y autoría antes de publicarla |
+| DEC-54 | Cómo se corrige el reporte si no aparece el script (A1) | Mauricio pregunta al equipo; si nadie lo tiene, se rehace el reporte con un script nuevo, conservando el PDF original | Decidida por Mauricio (2026-11-08); la reconstrucción va en el punto 1 |
 
 ---
 
@@ -1103,13 +1104,24 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Qué implica:** se reescribe R-58 en `CORRECCIONES_REPORTE.md`. Los modelos y versiones usados, y la autoría, los confirma el equipo; no se inventan. El trabajo posterior a la sesión 6 (esta revisión y su registro) también se hizo con Claude Code, y debe sumarse a la declaración.
 
+## DEC-54 · ¿Qué se hace con el reporte si no aparece el script? (A1)
+
+**Por qué hubo que decidir.** El reporte PDF lo generó un programa en Python (ReportLab) el 29-oct, y ese programa no está en ninguna carpeta. DEC-03 decía no tocar el PDF hasta que apareciera. Sin el script, las 66 correcciones de `CORRECCIONES_REPORTE.md` no se pueden aplicar.
+
+**Opciones:**
+- **A. Esperar el script indefinidamente.** El reporte se entregaría desactualizado: contradice al código y a los diagramas.
+- **B. Preguntar al equipo y, si nadie lo tiene, rehacer el reporte con un script nuevo** que reproduzca el texto y el formato del original, aplique R-01 a R-66 y use las figuras de `exportes/post_sesion6/`. El PDF original se conserva y el nuevo sale con otro nombre. ✅ **Escogida por Mauricio el 2026-11-08** («déjalo como que toca hacerlo»).
+- **C. Corregir el PDF a mano con un editor de PDF.** Es frágil con tablas, figuras e índice.
+
+**Qué implica:** Mauricio pregunta al equipo el 2026-11-09. Si aparece el script, se usa; si no, la reconstrucción es parte del punto 1 de `PENDIENTES_POST_SESION6.md`. DEC-03 queda reemplazada.
+
 ---
 
 ## Preguntas abiertas (sin decidir)
 
 | # | Pregunta | Por qué importa | Quién |
 |---|---|---|---|
-| A1 | ¿Quién tiene el script de ReportLab que generó el reporte? | Sin él no se puede corregir el PDF (DEC-03). Evidencia reunida por el arquitecto (2026-11-08): `pdfinfo` dice ReportLab, 2026-10-29 12:13:59 (-05), fuentes Onest, Bricolage Grotesque, JetBrains Mono y DejaVu Sans; §18 dice que la aplicación de Claude generó el `.drawio`, el esqueleto y el reporte en una misma sesión, y el esqueleto se subió 8 minutos después (`ad71e69`). Probablemente está en el historial de claude.ai de quien escribió esos prompts; no se atribuye a nadie. Si no aparece, el arquitecto recomienda que Mauricio cambie DEC-03 y se escriba un script nuevo que genere un `…_v2.pdf`, conservando el original | Equipo |
+| A1 | ¿Quién tiene el script de ReportLab que generó el reporte? | Mauricio pregunta al equipo el 2026-11-09. Si no aparece, se rehace con un script nuevo (DEC-54) | Mauricio |
 | A2 | Con 2–4 réplicas de ms-notificaciones, ¿cómo llega la alarma por WebSocket a la réplica que tiene abierta la sesión del jefe? | **Resuelta por PD-01** (Redis pub/sub; V05 relee las alertas) | — |
 | A3 | Los commits del repo son de la cuenta `mari00aa120-eng`. ¿Es de alguien del equipo? | Conviene saberlo antes de la sustentación. Son 3 commits del 29-oct entre las 12:00 y las 12:22 (`379fb64`, `b56abab` y `ad71e69`); el correo del autor no coincide con ningún integrante, lo que no prueba nada. Probablemente es la misma persona de A1 | Equipo |
 | A4 | `Pedido` no guarda qué mesero lo tomó | **Resuelta por DEC-51 y DEC-53** (aplicada en la sesión 6) | — |
