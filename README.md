@@ -194,9 +194,9 @@ Límites que conviene conocer:
 - Los casos de uso no reciben al usuario (en el proyecto real sale del token JWT), así que los eventos llevan
   `sistema` o el correo de la entidad. Cada evento crea su propio `correlacionId`; propagarlo entre
   servicios queda para el proyecto real.
-- `Notificacion.enviar(destino, contenido, adjuntoUrl)` y `CreadorNotificacion.notificar(...)` llevan un
-  parámetro más que la página 4d (DEC-42, decidido por Mauricio): el correo certificado al proveedor lleva
-  el PDF en `Mensaje.adjuntoUrl`. El diagrama se actualiza en la sesión 5.
+- `Notificacion.enviar(destino, contenido, adjuntoUrl)` y `CreadorNotificacion.notificar(destino, contenido,
+  adjuntoUrl)` llevan el enlace del adjunto (DEC-42, decidido por Mauricio): el correo certificado al proveedor
+  lleva el PDF en `Mensaje.adjuntoUrl`, y `AlarmaApp` lo ignora. La página 4d tiene las mismas firmas.
 - `descontarConsumoDiario()` no repite el descuento si se ejecuta dos veces, porque resta del consumo
   pendiente lo que ya descontó. Aun así, DEC-36 sigue valiendo: con varias réplicas, `@SchedulerLock`
   evita que dos corran a la vez.
