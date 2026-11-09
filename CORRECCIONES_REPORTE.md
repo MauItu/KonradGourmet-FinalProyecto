@@ -240,7 +240,7 @@ Las filas Facade + Chain, Composite + Factory Method, Factory Method + Decorator
 
 **R-48 · Sin cambio.** «seis tipos de persona y cuatro sistemas externos… El proveedor aparece como persona externa» coincide con la p. 2 del `.drawio`.
 
-**R-49 · Cambiar (H24, DEC-20) · Por confirmar.** Despliegue: después de «en un clúster Kubernetes repartido en tres zonas,» agregar: *«con un gateway y un broker de Kafka en cada zona y las réplicas de cada servicio repartidas en al menos dos zonas, de modo que si cae una siguen funcionando dos de tres gateways y brokers;»*. El reparto de Eureka y la SPA en las zonas A y B es **asumido, por confirmar con el equipo** (DEC-20); si el equipo lo confirma, se puede agregar *«el Service Registry y la SPA corren en dos de las tres zonas»*.
+**R-49 · Cambiar (H24, DEC-20).** Despliegue: después de «en un clúster Kubernetes repartido en tres zonas,» agregar: *«con un gateway y un broker de Kafka en cada zona y las réplicas de cada servicio repartidas en al menos dos zonas, de modo que si cae una siguen funcionando dos de tres gateways y brokers; el Service Registry y la SPA tienen dos réplicas en zonas distintas;»*. El reparto de Eureka y la SPA lo confirmó el arquitecto-revisor (DEC-20, 2026-11-08): dos réplicas en zonas distintas, con A y B como etiquetas ilustrativas.
 
 **R-50 · Cambiar (H16).** «El centro de datos alterno, en otra región, mantiene las mismas imágenes con réplicas mínimas encendidas, recibe los tópicos con MirrorMaker 2 y las bases por réplica asíncrona;» → *«…, recibe los tópicos con MirrorMaker 2, las bases por réplica asíncrona y el almacén de objetos por replicación entre regiones;»*. Y «El respaldo diario combina copia nocturna y registros continuos con retención de 30 días.» → *«El respaldo diario combina copia nocturna y registros continuos de las bases, más una copia diaria del almacén de objetos, con retención de 30 días.»*
 
@@ -347,7 +347,6 @@ Los hallazgos H3, H12, H17, H19, H20, H22, H23 y H26 no tocan el texto del repor
 ## 4. Lo que queda para el equipo
 
 - **A1:** quién tiene el script de ReportLab. Sin él, nada de esto se aplica (DEC-03).
-- **DEC-20:** confirmar el reparto de Eureka y la SPA en las zonas A y B antes de escribir R-49.
 - **A2:** la alarma por WebSocket con varias réplicas (R-56).
 - **T-06:** la demo no consume `cotizacion.validada` ni `tendencia.detectada` (DEC-42). El reporte describe la arquitectura, que sí los consume, así que no hace falta cambiar el texto; si alguien pregunta en la sustentación, la respuesta está en DEC-29 y DEC-42.
 - **R-58:** la redacción de la declaración de IA.
