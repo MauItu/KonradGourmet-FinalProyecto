@@ -76,6 +76,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | PD-04 | Promociones: fuente de tendencias y periodo | Job semanal sobre los 7 días anteriores: tendencias de redes y los 3 más pedidos; vigencia de 7 días; supuesto S11 | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_promociones`), CU-06 y §17 del reporte |
 | PD-05 | T-06: eventos con tipos del dominio de otro servicio | Tipos simples en el contrato (`estado: String`, `diferenciaPorcentual`, `sugerencias: List<String>`); aplicación diferida | Decidida por el arquitecto-revisor (2026-11-08); aplicación diferida, pendiente de autorización de Mauricio (4c, 4e y código) |
 | PD-06 | Administración de roles y permisos | Seis roles fijos y una matriz fija de permisos por rol; administrador de alcance global; supuesto S10 para las listas maestras | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-15, R-57 y §17 del reporte |
+| PD-07 | Filtros de la auditoría | Solo rango de fechas, obligatorio; usuario y acción quedan como evolución | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-16 y HU-21 |
 
 ---
 
@@ -989,6 +990,17 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Supuesto S10:** las listas maestras (categorías, productos, unidades, marcas y mesas) y el primer administrador se cargan con la migración inicial del servicio dueño de cada una. Si el enunciado exige que el administrador las mantenga, se reconsidera.
 
 **Qué implica:** no cambia ninguna firma. Efectos: CU-15, R-57 y el supuesto S10 en §17 del reporte. Se pierde dar de baja a un usuario sin despliegue.
+
+## PD-07 · ¿La auditoría se filtra también por usuario y acción?
+
+**Por qué hubo que decidir.** `AuditoriaRepositoryPort.entre(desde, hasta)` y `AdministracionUseCase.auditoria(desde, hasta)` (este ya con lógica) solo filtran por fechas. CU-16 lo dejaba «por definir». En la demo el usuario es `sistema` (DEC-42).
+
+**Opciones:**
+- **A. Solo fechas.** El rango es obligatorio y «desde» no puede ser posterior a «hasta». ✅ **Escogida por el arquitecto-revisor, para esta versión.**
+- **B. Fechas, más usuario y acción opcionales.** Cambia cinco firmas de la 4e y un método que ya tiene lógica; queda como la primera evolución.
+- **C. Filtrar en la SPA.** No escala con el volumen de auditoría.
+
+**Qué implica:** ninguna fuente exige los filtros adicionales, y con `sistema` como usuario el filtro no demostraría nada. Se pierde encontrar rápido lo que hizo un usuario concreto. Efectos: CU-16 y los criterios de HU-21 (PD-09).
 
 ---
 
