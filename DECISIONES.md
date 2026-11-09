@@ -79,6 +79,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | PD-07 | Filtros de la auditoría | Solo rango de fechas, obligatorio; usuario y acción quedan como evolución | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-16 y HU-21 |
 | PD-08 | Autenticación de los consumidores externos del SOAP | OAuth 2.0 client credentials: JWT de cliente validado por el gateway, solo para `/api/integracion/**`; supuesto S12 | Decidida por el arquitecto-revisor (2026-11-08); efectos en páginas 1, 2 y 3a, CU-18 y §3/§17 del reporte |
 | PD-09 | HU-20 a HU-22 | Propuestas de diseño aprobadas con ajustes, sin estimar y fuera del Story Mapping original | Decidida por el arquitecto-revisor (2026-11-08); efectos en casos de uso, `STORY_MAPPING_CORREGIDO.md` y Excel; estimación pendiente del equipo |
+| PD-10 | Mensajes de interfaz por definir | Criterio común y 16 textos propuestos; los mensajes literales de las HU son el contrato de la interfaz | Decidida por el arquitecto-revisor (2026-11-08); efectos en casos de uso y Story Mapping corregido; el código no cambia |
 
 ---
 
@@ -1038,6 +1039,38 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **Estimación:** la hace el equipo con planning poker y las mismas cartas (25/50/75/125 h = 1/2/3/5 PHU). No se inventa. Hasta entonces, van al Excel como F20–F22 en un bloque «Propuestas (sin sprint)».
 - **Ubicación:** solo dentro de la holgura (1, 1, 3, 1 y 4 PHU por sprint, 10 en total). Si no caben, decide Mauricio, porque agregar un sprint cambia las 10 semanas que él confirmó (DEC-47).
 - Efectos: los casos de uso, una sección «Historias propuestas» en `STORY_MAPPING_CORREGIDO.md` y, cuando haya estimación, el Excel. Se pierde el mantenimiento de las listas maestras en pantalla.
+
+## PD-10 · ¿Qué dicen los mensajes de interfaz que estaban «por definir»?
+
+**Por qué hubo que decidir.** Los casos de uso y las propuestas HU-20 a HU-22 dejaban mensajes sin texto, y el código usa cinco textos que no coinciden con las HU (hallazgo N6).
+
+**Opciones:**
+- **A. Un criterio común y un texto por caso, en la documentación**, sin tocar el código. ✅ **Escogida por el arquitecto-revisor.**
+- **B. Unificar ya los textos del código.** Rompe pruebas que comprueban los textos actuales y sale del alcance de la demo.
+- **C. Dejarlos por definir.**
+
+**Criterio:** el mismo estilo que las tarjetas: frase completa, sin códigos técnicos, que diga qué pasó y qué hacer; el mismo texto para el mismo caso en todas las pantallas. Los mensajes literales de las HU son el contrato de la interfaz; los de las excepciones del dominio son internos y el adaptador REST los traduce (efecto futuro).
+
+| Dónde | Caso | Texto |
+|---|---|---|
+| CU-01 / V01 | Credenciales inválidas | «Correo o contraseña incorrectos.» (no dice cuál falló) |
+| CU-01 | Rol sin acceso | «No tiene permiso para acceder a esta opción.» |
+| CU-08 / HU-12 | El Ministerio no responde | «No se pudo consultar el precio del Ministerio de Comercio. La cotización {número} quedó pendiente de precio; puede reenviarla desde Cotizaciones.» |
+| CU-08 / HU-12 | Falla el correo | «No se pudo enviar el correo al proveedor. La cotización {número} está guardada; puede reintentar el envío.» |
+| CU-10 / HU-11 | Cotización ya validada | «La cotización ya fue validada; sus valores no se pueden modificar.» |
+| CU-10 / HU-11 | Valor no válido | «El valor unitario debe ser un número mayor a cero.» |
+| CU-19 | Contraseña | «La contraseña debe tener al menos 8 caracteres, con una mayúscula, una minúscula y un número.» |
+| CU-19 | Correo repetido | «Ya existe un usuario registrado con ese correo.» |
+| CU-19, HU-20 | Correo mal formado | «El formato del correo electrónico no es válido.» (el de HU-15) |
+| HU-20 | Clave o valor vacío | «La clave del parámetro es obligatoria.» / «El valor del parámetro {clave} es obligatorio.» |
+| HU-20 | Guardado | «Parámetro actualizado.» |
+| HU-07, HU-18, HU-19, HU-21 | Rango invertido | «La fecha inicial no puede ser posterior a la fecha final.» |
+| HU-21 | Sin resultados | «No hay movimientos de auditoría en el periodo seleccionado.» |
+| HU-22 | Sin resultados | «No hay errores registrados para el servicio seleccionado.» |
+| HU-19 | Sin sugerencias / ya resuelta | «No hay promociones sugeridas para el periodo seleccionado.» / «Esta sugerencia ya fue aceptada o descartada.» |
+| CU-18 | Producto sin precio (SOAP Fault) | «No hay precio estándar disponible para el producto {id}.»; un fallo de autenticación responde 401 en el gateway |
+
+**Qué implica:** se aplican en los casos de uso, en HU-20 a HU-22 y en la tarjeta HU-07 del Story Mapping corregido. El código no cambia ahora.
 
 ---
 
