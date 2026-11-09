@@ -327,7 +327,7 @@ Original: páginas 8 a 26, una tarjeta por página. Se transcriben completas.
 
 **Criterios de aceptación:**
 1. El sistema debe verificar diariamente las órdenes preparadas o vendidas y descontar las cantidades correspondientes del inventario.
-2. Cuando cualquier producto llegue al 25% de su cantidad, el sistema debe generar una alarma visible dentro de la aplicación.
+2. Cuando la existencia de un producto quede por debajo del 25 % de su cantidad de referencia (porcentaje redondeado a dos decimales), el sistema debe generar una alarma visible dentro de la aplicación. La alarma se genera una sola vez, el día en que el producto cruza ese umbral; un producto en 25,00 % todavía no está bajo. *(Corregido, SM-04: el original decía «llegue al 25 %»; la regla aprobada está en DEC-43 y DEC-46.)*
 3. El sistema debe enviar un correo electrónico avisando que se debe realizar una solicitud de alimentos.
 4. La alerta debe indicar el producto, la cantidad restante, la unidad y la sucursal afectada.
 5. Debo poder acceder directamente al formulario de solicitud de alimentos desde la alerta.
