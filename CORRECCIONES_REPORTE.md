@@ -291,7 +291,7 @@ Donde dice «sin fijar» o no da verbo, ninguna fuente fija la ruta exacta (`INV
 
 **R-57 · Cambiar (DEC-10, DEC-07).** Supuesto S5: «El director comercial y el administrador no tienen mockup; sus servicios y rutas quedan listos» → *«El director comercial y el administrador no tienen mockup; sus servicios y rutas quedan listos, incluida el alta de usuarios por el administrador (POST /api/usuarios). Tampoco tienen mockup el registro de proveedores (HU-15, /api/proveedores) ni el histórico de promociones sugeridas (HU-19, /api/bam/promociones).»* Agregar al final: *«Los seis roles son fijos y el administrador asigna uno al registrar cada usuario.»* (PD-06). Columna «Por qué»: queda igual.
 
-**R-61 · Opcional (DEC-51, sesión 6).** Agregar el supuesto S9: *«El mesero que registra un pedido es el usuario del token JWT; la SPA no lo envía»*, con «Por qué»: *«Así nadie registra un pedido a nombre de otro mesero, y el pedido queda asociado al usuario que lo tomó, como pide HU-01»*.
+**R-61 · Cambiar (DEC-51, sesión 6; confirmada por el arquitecto-revisor el 2026-11-08).** Agregar el supuesto S9: *«El mesero que registra un pedido es el usuario del token JWT; la SPA no lo envía»*, con «Por qué»: *«Así nadie registra un pedido a nombre de otro mesero, y el pedido queda asociado al usuario que lo tomó, como pide HU-01»*.
 
 ### p. 32 · §18 Declaración de uso de inteligencia artificial
 
