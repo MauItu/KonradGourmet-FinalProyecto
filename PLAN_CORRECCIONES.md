@@ -1,6 +1,6 @@
 # Plan de correcciones · Konrad Gourmet
 
-Este plan aplica las correcciones de la revisión del 2026-11-07 (`REVISION_2026-11-07.md`) siguiendo las decisiones de `DECISIONES.md`. Está dividido en 5 sesiones (DEC-04); cada sesión empieza leyendo estos tres archivos.
+Este plan aplica las correcciones de la revisión del 2026-11-07 (`REVISION_2026-11-07.md`) siguiendo las decisiones de `DECISIONES.md`. El plan original tiene 5 sesiones (DEC-04); Mauricio añadió la sesión 6 (DEC-51/52). Cada sesión empieza leyendo el plan, las decisiones y la revisión correspondiente.
 
 ## Reglas de trabajo
 
@@ -8,7 +8,7 @@ Este plan aplica las correcciones de la revisión del 2026-11-07 (`REVISION_2026
   - `FinalProyecto/documentos/`: `.drawio`, Excel, PDF y archivos `.md`.
   - `FinalProyecto/KonradGourmet/`: código; el push está desactivado.
 - **`main` no se toca** en ninguno de los dos: es el punto de retorno.
-- **Todo es local:** nada de push ni de fetch.
+- **Trabajo local salvo autorización expresa:** Mauricio autorizó publicar el cierre de la sesión 6 en `MauItu/KonradGourmet-FinalProyecto`, rama `main`, mediante un clon temporal y merges de los dos repos locales. No se hace push al remoto de `iCastro117`.
 - **Un commit por corrección**, con el id al inicio del mensaje. Ejemplos: `H17: Eureka con HTTPS y mTLS en la 3a`, `DEC-05: cotización con varias solicitudes en la 4c`.
 - **No se modifican:**
   - el reporte PDF (DEC-03);
@@ -205,15 +205,16 @@ Al terminar: validación final de todo con `arquitecto-revisor`.
 
 ---
 
-## Sesión 6 · `meseroId` y casos de uso (decidida el 2026-11-08, por hacer)
+## Sesión 6 · `meseroId` y casos de uso (cierre local validado, 2026-11-08)
 
-Mauricio aprobó la sesión 5 y pidió hacer esto en una sesión nueva:
+Mauricio aprobó la fase 1 y, después de RCU-13, la fase 2; autorizó continuar con el cierre y publicar en el repositorio de MauItu.
 
-- **Fase 1 · `meseroId` en el pedido (DEC-51, A4):** agregar `meseroId: Long` a `Pedido` en la 4b del `.drawio` y en el código (`pedidos/dominio/Pedido.java`), y que `PedidoService.registrar()` lo llene con el mesero del pedido. Es un cambio de firma, autorizado por Mauricio. Revisar a quién afecta: constructores, `PedidoRegistradoEvent` si hace falta, la demo, las pruebas, el README y la fila de §15 y supuestos del reporte (agregar la corrección a `CORRECCIONES_REPORTE.md`). Debe compilar sin avisos y pasar las pruebas (agregar las que verifiquen el mesero). Exportar la 4b a `exportes/sesion6/`.
-- **Fase 2 · Corregir `Casos de uso — Konrad Gourmet.md` (DEC-52):** aplicar sobre el archivo los 13 problemas de `REVISION_CASOS_DE_USO.md`, con el texto propuesto en cada uno, más lo que cambie la fase 1 (el problema 9, pedido sin mesero, queda resuelto). El diagrama de casos de uso (problema 2) solo lo tiene el compañero: dejar en su lugar `![Diagrama de casos de uso](casos_de_uso.png)` y una nota de que falta exportarlo, salvo que Mauricio lo entregue.
-- **Fase 3 · Cierre:** actualizar `ESTADO_PROYECTO_Y_C4.md`, la tabla de Avance y `DECISIONES.md`; validación del `arquitecto-revisor` en `VALIDACION_SESION6.md`; push al repo público.
+- **Fase 1 · Hecha y aprobada (DEC-51/53):** `Pedido(numero, mesa, meseroId)` exige el mesero al validar. El servicio lo menciona en la acción auditada y `PedidoEnMemoria.delTurno()` filtra por él. Código `22717f7`: demo y 176 verificaciones, compilación sin avisos. En la 4b, `Pedido` tiene `meseroId: Long` (`4e4559e`); PNG en `exportes/sesion6/4b.png`. R-60/R-61 anotan el cambio del reporte. El JWT pertenece al adaptador real; la demo recibe el id explícitamente.
+- **Fase 2 · Hecha y aprobada (DEC-52):** RCU-1 a RCU-13 aplicadas a `documentos/Casos de uso — Konrad Gourmet.md`, una por commit (`689ed75` a `de33625`). Quedan 19 casos, 23 ventanas cubiertas y RF-01 a RF-12 definidos con fuentes. Carlos Franco, autor confirmado por Mauricio. La copia fuera del repo no se tocó. **Salvedad RCU-2:** el diagrama UML lo tiene el compañero; el enlace y la nota están puestos, pero aún falta `casos_de_uso.png`.
+- **Fase 3 · Cierre local hecho:** `ESTADO_PROYECTO_Y_C4.md` y `DECISIONES.md` actualizados; revisión crítica en `VALIDACION_SESION6.md` con los 13 problemas y sus límites. S6-1 actualiza R-42 a 176 verificaciones; S6-2 precisa la postcondición de CU-08 cuando falla el precio o el PDF. Código y firmas sin cambios durante el cierre.
+- **Publicación autorizada:** clonar por HTTPS `MauItu/KonradGourmet-FinalProyecto`; agregar los repos locales como remotos `documentos` y `codigo`, hacer fetch y ejecutar `git merge -X subtree=documentos/ documentos/correcciones-revision` y `git merge -X subtree=codigo/ codigo/correcciones-revision`. Comprobar que ambos árboles coincidan con los locales antes de `git -c credential.helper='!gh auth git-credential' push origin main`. No usar el remoto de `iCastro117` ni cambiar los `main` locales. La comprobación final del push se informa al cerrar la sesión.
 
-**No entran en la sesión 6:** los mockups y el Story Mapping. Mauricio los revisa por su cuenta en `CORRECCIONES_HU_Y_MOCKUPS.md` (sección «Para revisar con Mauricio»).
+**Fuera del alcance:** mockups y Story Mapping. Mauricio los revisa en `CORRECCIONES_HU_Y_MOCKUPS.md`. Queda para él la diferencia de nombre del director (Laura Gómez en la demo / Isabella Castro en V16–V23), sin cambiar ninguno. El reporte PDF espera su script (A1); R-60/R-61 son instrucciones pendientes de aplicar al PDF. Los exportes PNG permanecen fuera de los repos locales.
 
 ---
 
@@ -233,4 +234,4 @@ Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiand
 | 3 · Código: firmas | Aplicada y validada por el revisor cuatro veces (2026-11-08); la cuarta la dio por **lista**. K1–K18 resueltos (K5, revertida por K11; K15 y K17 son erratas anotadas en los registros). Falta el OK de Mauricio. Son 191 clases más la demo, que compilan, en 241 commits sobre `ad71e69`. Decisiones DEC-25 a DEC-38 |
 | 4 · Código: demo | Segunda ronda y fase 2 terminadas (2026-11-08): **lista dentro del alcance de la demo**. S4-13 a S4-16 corregidos; S4-1 a S4-12 corregidos o documentados. 134 commits sobre `37d655b`, 171 verificaciones y 94 cuerpos pendientes. Mauricio confirmó DEC-43 (cotizaciones y stock) y el límite de usuario/correlación de DEC-42. La demo cubre las siete salidas según DEC-31. Pendientes para sesión 5: 4d (`adjuntoUrl`), «≤ 25 %» y aclaraciones de usuario/correlación en reporte y 4a |
 | 5 · Excel y documentos | ✅ Aprobada por Mauricio (2026-11-08). Aplicada y validada. Fase 4 (Excel, H20) aprobada, con DEC-47. `.drawio` hecho: 4d con `adjuntoUrl` y nota `n_outbox` de la 4a (DEC-42); PNG en `exportes/sesion5/`. `CORRECCIONES_REPORTE.md` hecho (R-01 a R-59; las 11 páginas exportadas en `exportes/sesion5/`). `ESTADO_PROYECTO_Y_C4.md` reescrito. `CORRECCIONES_HU_Y_MOCKUPS.md` hecho (M-01 a M-08 y S-01 a S-08). Validación final del revisor hecha: **lista con correcciones**, con S5-1 a S5-15 atendidos (`VALIDACION_SESION5.md`). DEC-49 y DEC-50 tomadas por el arquitecto; `Casos de uso — Konrad Gourmet.md` incluido y revisado (`REVISION_CASOS_DE_USO.md`). Aprobada |
-| 6 · `meseroId` y casos de uso | Pendiente: se hace en una sesión nueva (DEC-51 y DEC-52) |
+| 6 · `meseroId` y casos de uso | ✅ Fases 1 y 2 aprobadas por Mauricio; cierre local validado (2026-11-08). DEC-51/52/53 aplicadas, 176/176 sin avisos al compilar, 4b y R-60/R-61; RCU-1 a RCU-13 y S6-1/S6-2. Revisión en `VALIDACION_SESION6.md`. Publicación autorizada en `MauItu/KonradGourmet-FinalProyecto`, `main`. Sigue pendiente el PNG de casos de uso del compañero |
