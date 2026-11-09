@@ -6,7 +6,7 @@ Este documento fija 19 casos de uso, cada uno amarrado a una historia de usuario
 
 ## Dónde implementar cada caso de uso
 
-Este cuadro dice dónde vive cada caso de uso en el código. Sale de los controladores, listeners y puertos de entrada (carpeta `codigo/src/co/edu/konradlorenz/` del repositorio público; `src/co/edu/konradlorenz/` en `KonradGourmet`) y de las clases de eventos. En los casos que tienen lógica, la demo y las pruebas confirman los eventos que cada uno publica o consume; en CU-01, CU-03 y CU-06 se leen de los encabezados y de `DECISIONES.md`.
+Este cuadro asigna cada caso de uso a su adaptador de entrada (controlador REST, listener o tarea programada), al método del puerto de entrada que lo atiende y a los eventos que publica o consume. Los nombres son los del diagrama de clases (páginas 4a a 4e del `.drawio`) y del paquete `co.edu.konradlorenz.<servicio>`.
 
 | CU | Adaptador de entrada (servicio) | Método del puerto de entrada | Eventos |
 | --- | --- | --- | --- |
@@ -30,7 +30,7 @@ Este cuadro dice dónde vive cada caso de uso en el código. Sale de los control
 | CU-18 | `AbastecimientoSoapEndpoint.consultarPrecioSugerido` (integracion) | `ConsultarPrecioUseCase.precioSugerido(productoId)` | — |
 | CU-19 | `UsuarioRestController.registrar` (identidad) | `RegistrarUsuarioUseCase.registrar(nombre, correo, rol, sucursalId, clave)` | Auditoría |
 
-**Decisiones del equipo que afectan a estos casos.** Ya están resueltas: el pedido guarda la sucursal (por la mesa) y el mesero que lo tomó (CU-02, DEC-51); el descuento diario de CU-05 corre en una sola réplica de ms-inventario, aunque haya de 2 a 6, porque el job lleva `@SchedulerLock` (ShedLock, DEC-36); el precio del Ministerio siempre pasa por la caché, porque el Proxy lleva `@Primary` (CU-08 y CU-18, DEC-35); `cotizacionesAplicadas` sirve para que la misma cotización no se aplique dos veces a una solicitud (CU-08); y el umbral del 25 % no tiene ruta, por diseño (CU-05, DEC-43). En el diseño, la alerta es una marca del insumo (`alertaAtendida`), no una entidad propia (CU-05). Las categorías del proveedor siguen como texto (`List<String>`): son los nombres de las categorías de ms-menu, copiados por valor al registrar el proveedor, sin validarlos contra ms-menu (CU-09, PD-02).
+**Decisiones del equipo que afectan a estos casos.** Ya están resueltas: el pedido guarda la sucursal (por la mesa) y el mesero que lo tomó (CU-02, DEC-51); el descuento diario de CU-05 corre en una sola réplica de ms-inventario, aunque haya de 2 a 6, porque el job lleva `@SchedulerLock` (ShedLock, DEC-36); el precio del Ministerio siempre pasa por la caché, porque el Proxy lleva `@Primary` (CU-08 y CU-18, DEC-35); `cotizacionesAplicadas` sirve para que la misma cotización no se aplique dos veces a una solicitud (CU-08); y el umbral del 25 % no tiene ruta, por diseño (CU-05, DEC-43). En el diseño, la alerta es una marca del insumo (`alertaAtendida`), no una entidad propia (CU-05). Las categorías del proveedor se guardan como texto (`List<String>`): son los nombres de las categorías de ms-menu, copiados por valor al registrar el proveedor, sin validarlos contra ms-menu (CU-09, PD-02).
 
 ## Actores
 
