@@ -75,7 +75,9 @@ Original: página 7. Estimación de «Indicar mesa del pedido» (MVP 1). Calcula
 | Pruebas | Pruebas funcionales del flujo de asignación de mesa al pedido | 1 | 2 | 3 | 2.00 |
 | Entrega | Despliegue del componente en producción | 1 | 1 | 2 | 1.17 |
 | Entrega | Documentación de la funcionalidad | 1 | 1 | 2 | 1.17 |
-| **Total** | **Total HU-03** | **15** | **23** | **38** | **24.57** |
+| **Total** | **Total HU-03** | **15** | **23** | **38** | **24.17** |
+
+*Corregido (SM-03): el original da 24.57 h de total calculado. La suma de la columna es 24.19 h (por el redondeo de cada fila) y la fórmula aplicada a los totales da (15 + 4 × 23 + 38) / 6 = 24.17 h. Las otras tres columnas están bien sumadas. La conclusión no cambia: HU-03 vale 1 PHU.*
 
 Equivalencia en puntos de historia de usuario: 25 h ≈ 1 PHU.
 
