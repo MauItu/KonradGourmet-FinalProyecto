@@ -51,7 +51,7 @@ final class Datos {
 
     /** PED-0251: 2 bandejas paisas y 1 ajiaco, $82.000. */
     static Pedido pedido() {
-        Pedido p = new Pedido("PED-0251", new Mesa(5, 1L, 4, true));
+        Pedido p = new Pedido("PED-0251", new Mesa(5, 1L, 4, true), 3L);
         p.agregarPlato(1L, 2, null, new BigDecimal("32000"));
         p.agregarPlato(2L, 1, null, new BigDecimal("18000"));
         return p;

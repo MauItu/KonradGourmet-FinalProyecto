@@ -52,19 +52,19 @@ final class PruebasFlujoDeCompra {
         Prueba.igual("el catálogo vigente de la sucursal trae los 2 platos", 2, s.pedidos.catalogo(1L).size());
         Prueba.igual("las mesas activas de la sucursal", 1, s.pedidos.mesas(1L).size());
 
-        Pedido sinPlatos = new Pedido("PED-0252", new Mesa(5, 1L, 4, true));
+        Pedido sinPlatos = new Pedido("PED-0252", new Mesa(5, 1L, 4, true), 3L);
         Prueba.lanza("un pedido sin platos se rechaza", IllegalStateException.class, "al menos un plato", () -> s.pedidos.registrar(sinPlatos));
-        Pedido mesaInactiva = new Pedido("PED-0253", new Mesa(6, 1L, 4, false));
+        Pedido mesaInactiva = new Pedido("PED-0253", new Mesa(6, 1L, 4, false), 3L);
         mesaInactiva.agregarPlato(1L, 1, null, new BigDecimal("32000"));
         Prueba.lanza("una mesa inactiva se rechaza", IllegalStateException.class, "mesa activa", () -> s.pedidos.registrar(mesaInactiva));
-        Pedido platoDesconocido = new Pedido("PED-0254", new Mesa(5, 1L, 4, true));
+        Pedido platoDesconocido = new Pedido("PED-0254", new Mesa(5, 1L, 4, true), 3L);
         platoDesconocido.agregarPlato(99L, 1, null, BigDecimal.TEN);
         Prueba.lanza("un plato que no está en el catálogo se rechaza", IllegalArgumentException.class, "no está disponible", () -> s.pedidos.registrar(platoDesconocido));
-        Pedido otroPrecio = new Pedido("PED-0255", new Mesa(5, 1L, 4, true));
+        Pedido otroPrecio = new Pedido("PED-0255", new Mesa(5, 1L, 4, true), 3L);
         otroPrecio.agregarPlato(1L, 1, null, new BigDecimal("30000"));
         Prueba.lanza("un precio distinto al del catálogo se rechaza", IllegalArgumentException.class, "no coincide", () -> s.pedidos.registrar(otroPrecio));
         Prueba.lanza("la cantidad debe ser mayor que cero", IllegalArgumentException.class, "mayor que cero",
-                () -> new Pedido("PED-0256", new Mesa(5, 1L, 4, true)).agregarPlato(1L, 0, null, BigDecimal.TEN));
+                () -> new Pedido("PED-0256", new Mesa(5, 1L, 4, true), 3L).agregarPlato(1L, 0, null, BigDecimal.TEN));
     }
 
     private static void inventario() {
@@ -93,7 +93,7 @@ final class PruebasFlujoDeCompra {
         Prueba.igual("solicitud.registrada con la res atiende la alerta", 0, s.inventario.alertas(1L).size());
 
         // al día siguiente se vende una Bandeja paisa más: la alerta ya atendida no se repite ni se reactiva (S4-1)
-        Pedido otro = new Pedido("PED-0260", new Mesa(5, 1L, 4, true));
+        Pedido otro = new Pedido("PED-0260", new Mesa(5, 1L, 4, true), 3L);
         otro.agregarPlato(1L, 1, null, new BigDecimal("32000"));
         s.pedidos.registrar(otro);
         s.consumoDiario.ejecutar();

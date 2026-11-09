@@ -9,14 +9,19 @@ public class Pedido {
 
     private String numero;
     private Mesa mesa;
+    private Long meseroId;
     private LocalDateTime fecha;
     private EstadoPedido estado;
     private List<DetallePedido> detalles = new ArrayList<>();
 
-    /** Un pedido nuevo nace EN_PREPARACION, con la fecha de ahora. */
-    public Pedido(String numero, Mesa mesa) {
+    /**
+     * Un pedido nuevo nace EN_PREPARACION, con la fecha de ahora y el mesero que lo tomó
+     * (HU-01, DEC-51). En el proyecto real, el controlador saca el meseroId del token JWT.
+     */
+    public Pedido(String numero, Mesa mesa, Long meseroId) {
         this.numero = numero;
         this.mesa = mesa;
+        this.meseroId = meseroId;
         this.fecha = LocalDateTime.now();
         this.estado = EstadoPedido.EN_PREPARACION;
     }
@@ -27,6 +32,10 @@ public class Pedido {
 
     public Mesa mesa() {
         return mesa;
+    }
+
+    public Long meseroId() {
+        return meseroId;
     }
 
     public LocalDateTime fecha() {
@@ -54,8 +63,11 @@ public class Pedido {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    /** Exige una mesa activa y al menos un plato. */
+    /** Exige el mesero que lo tomó, una mesa activa y al menos un plato. */
     public void validar() {
+        if (meseroId == null) {
+            throw new IllegalStateException("El pedido debe quedar asociado al mesero que lo tomó");
+        }
         if (mesa == null || !mesa.activa()) {
             throw new IllegalStateException("Debe escoger una mesa activa");
         }

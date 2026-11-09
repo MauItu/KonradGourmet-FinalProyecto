@@ -125,7 +125,7 @@ public class DemoArquitectura {
 
     private void pedidoDelMesero(Sucursal centro) {
         titulo("2. Hexagonal + Publish-Subscribe: el mesero registra un pedido (V03 y V04)");
-        Pedido pedido = new Pedido("PED-0251", new Mesa(5, 1L, 4, true));
+        Pedido pedido = new Pedido("PED-0251", new Mesa(5, 1L, 4, true), 3L);
         pedido.agregarPlato(1L, 2, "Sin arepa", new BigDecimal("32000")); // Bandeja paisa
         pedido.agregarPlato(2L, 1, null, new BigDecimal("18000"));        // Ajiaco
         Pedido registrado = sistema.pedidos.registrar(pedido);
