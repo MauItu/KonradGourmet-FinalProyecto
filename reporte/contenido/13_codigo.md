@@ -15,7 +15,7 @@ En el proyecto real, cada paquete de servicio se convierte en un proyecto Spring
 
 ## 13.3 Comprobación con la demostración
 
-DemoArquitectura recorre el flujo de compra de punta a punta (pedido, alarma de stock, solicitud SOL-031, cotizaciones COT-018 a COT-020 y orden OC-0012) y ejecuta los patrones sin base de datos ni broker, usando adaptadores en memoria. Su salida coincide con los datos de los mockups, como muestra la tabla 12. Para mantenerla simple, los eventos llevan «sistema» (o el correo de la entidad) como usuario y cada uno crea su propia correlación, y los consumidores no descartan los eventos repetidos; en el sistema real, el usuario sale del JWT, la correlación une todo el recorrido y cada consumidor recuerda los identificadores ya procesados.
+DemoArquitectura recorre el flujo de compra de punta a punta (pedido, alarma de stock, solicitud SOL-031, cotizaciones COT-018 a COT-020 y orden OC-0012) y ejecuta los patrones sin base de datos ni broker, usando adaptadores en memoria. Su salida coincide con los datos de los mockups, como muestra la tabla 12.
 
 !tabla 12 | Salida de la demostración por patrón | 3.2,7.6,2.8
 | Patrón | Salida de la demostración | Ventana |
