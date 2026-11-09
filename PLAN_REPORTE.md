@@ -9,7 +9,7 @@
 - DEC-55: formato sobrio, de documento académico.
 - Las correcciones de contenido R-01 a R-66 de `CORRECCIONES_REPORTE.md`.
 
-**Estado:** reporte v2 generado el 2026-11-09 (61 páginas: `Reporte_Arquitectura_Konrad_Gourmet_v2.docx` y `.pdf`, fuente en `reporte/contenido/`); falta la validación del arquitecto-revisor. En ejecución desde el 2026-11-09; Mauricio aprobó la página de prueba (REP-02) con el ajuste de DEC-56. Es parte del punto 1 de `PENDIENTES_POST_SESION6.md` y se hace después del Story Mapping corregido (punto 3).
+**Estado:** reporte v2 regenerado el 2026-11-09 con DEC-57 (la documentación describe el proyecto completo, sin límites de la demo) y los hallazgos de formato RV-1 a RV-7 de la validación (cambios PC-01 a PC-21; la portada dice «Isabella Castro», confirmado por Mauricio). Antes: reporte v2 generado el 2026-11-09 (61 páginas: `Reporte_Arquitectura_Konrad_Gourmet_v2.docx` y `.pdf`, fuente en `reporte/contenido/`); falta la validación del arquitecto-revisor. En ejecución desde el 2026-11-09; Mauricio aprobó la página de prueba (REP-02) con el ajuste de DEC-56. Es parte del punto 1 de `PENDIENTES_POST_SESION6.md` y se hace después del Story Mapping corregido (punto 3).
 
 ## 1. Por qué rehacerlo y no solo corregirlo
 
@@ -143,6 +143,7 @@ Al terminar, el original sigue intacto en su lugar.
 - [x] Las 23 ventanas siguen trazadas en §15 (tabla 13).
 - [x] Las referencias están en APA 7 y las catorce se citan en el texto.
 - [x] El original sigue sin cambios: SHA-256 `7d546256fe930e41fc06c20add65ab35e7c6e85983a01637f654672ba36f4f21`.
+- [x] **Regeneración del 2026-11-09 (DEC-57, PC-17):** 61 páginas, 7,3 MB. `pdffonts` muestra solo Times New Roman (normal, negrilla y cursiva) y `pdftotext -bbox` una sola altura de caja (13,3). No quedan palabras partidas en las tablas (el único corte es el previsto en el U+200B de «EstampaCronologica·Decorator»). El índice coincide con las páginas reales; figuras 1–14 y A1–A5 y tablas 1–16, todas citadas. Las figuras conservan sus píxeles (sin JPEG ni reducción a 300 ppi). En el texto ya no aparecen «demostración del esqueleto», «sistema real», «límite de la demo», «simplifica», «no propaga», «mantenerla simple» ni «quedan listos»; «demostración» y «esqueleto» quedan solo en §1, §7.4, §12, §13 y §18. RV-8 (la BAM y PD-05) y RV-10 (§18) quedan sin cambios, como se decidió.
 
 ## 7. Lo que Mauricio decide antes de empezar
 
