@@ -55,7 +55,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-36 | Los jobs y las réplicas (K10) | Los 2 jobs llevan además `@SchedulerLock` (ShedLock) | Aplicada |
 | DEC-37 | Ventanas de ms-cotizaciones (K11) | El README vuelve a «V13–V20»; revierte K5 | Aplicada |
 | DEC-38 | ShedLock y `@Primary` fuera del código | Nada ahora; una frase en el reporte (p. 26) si aparece el script | Aplicada: la frase está en `CORRECCIONES_REPORTE.md` (R-43) |
-| DEC-39 | Qué métodos tienen lógica en la sesión 4 | Solo lo que usa el recorrido de compra; los adaptadores de tecnología externa y los módulos que la demo no usa siguen pendientes (94 cuerpos) | Asumida, por confirmar |
+| DEC-39 | Qué métodos tienen lógica en la sesión 4 | Solo lo que usa el recorrido de compra; los adaptadores de tecnología externa y los módulos que la demo no usa siguen pendientes (94 cuerpos) | **Confirmada** por el arquitecto-revisor (2026-11-08); Mauricio fija el alcance en **solo la demo** |
 | DEC-40 | Datos del recorrido que los mockups no fijan | Precios por unidad; pedido de $82.000; res en 12,5 kg; histórico del tablero cargado a mano | Mauricio confirmó precios por unidad y pedido; inventario inicial e histórico del tablero siguen asumidos |
 | DEC-41 | Cómo cambia una entidad sin métodos para eso | Constructores de copia y accesores de lista modificables; no se agregan métodos | Asumida, por confirmar |
 | DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 decidida en PD-05 | `adjuntoUrl` y límite de usuario/correlación: **confirmados por Mauricio**; 4d y nota `n_outbox` de la 4a actualizadas en la sesión 5 (`4da992c`, `f57a89e`); aclaraciones del reporte anotadas en `CORRECCIONES_REPORTE.md` (R-13, R-21, R-23 y R-45); T-06: **decidida por el arquitecto en PD-05, aplicación diferida** |
@@ -692,6 +692,8 @@ El plan de la sesión 4 solo cubría la tercera. Con el reporte sin tocar (DEC-0
 - **C. Solo el flujo de COT-018.** Es lo que pedía el plan original, pero DEC-31 ya decidió que la demo cubre las 7 salidas.
 
 **Qué implica:** el README tiene la tabla de qué métodos tienen lógica y cuáles no. Para los puertos de salida que la demo necesita, hay adaptadores en memoria en el paquete `demo` (DEC-30), y `Ensamble` los conecta como lo haría la clase de configuración del proyecto real. Si Mauricio prefiere B, el trabajo grande son los 12 `*JpaAdapter` sin atributos, que tendrían que ganar una colección que el diagrama no dibuja.
+
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmada. Hay 94 cuerpos pendientes en 45 archivos. **Prioridad registrada:** Mauricio fijó el 2026-11-08 que, por ahora, el alcance es **solo la demo** (`PENDIENTES_POST_SESION6.md` §6). Ninguna de las decisiones PD-01 a PD-11 abre los cuerpos pendientes; sus efectos en código quedan como evolución futura.
 
 ## DEC-40 · ¿Qué cifras usa la demo cuando los mockups no las fijan?
 
