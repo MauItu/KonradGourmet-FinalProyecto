@@ -63,7 +63,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-44 | Dónde van las pruebas y el script | Carpeta `pruebas/` fuera de `src/`, sin JUnit, y `ejecutar.sh` | **Confirmada** por el arquitecto-revisor (2026-11-08); cifra actualizada a 176 verificaciones en 6 archivos |
 | DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | **Confirmada** por el arquitecto-revisor (2026-11-08): 211 = 191 + 20 |
 | DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura del recorrido, incluidos los fallos | Confirmada por Mauricio; auditoría de los fallos autorizada en la fase 2 (S4-13) |
-| DEC-47 | Plan de sprints del Excel (H20) | 1 PHU = 25 h y 9 PHU por sprint; HU-14 = 1 (total 35); HU-17 al sprint 3 (8, 8, 6, 8 y 5 PHU); inicio el lunes 03/08/2026; 5 sprints y 10 semanas en todo el Excel | Aplicada en el Excel (sesión 5); fecha y «EN SEMANAS» decididos por Mauricio; el orden de filas es asumido, por confirmar |
+| DEC-47 | Plan de sprints del Excel (H20) | 1 PHU = 25 h y 9 PHU por sprint; HU-14 = 1 (total 35); HU-17 al sprint 3 (8, 8, 6, 8 y 5 PHU); inicio el lunes 03/08/2026; 5 sprints y 10 semanas en todo el Excel | Aplicada en el Excel (sesión 5); fecha y «EN SEMANAS» decididos por Mauricio; el orden de filas lo **confirmó el arquitecto-revisor** (2026-11-08) |
 | DEC-48 | Dónde van las páginas 3a, 3b y 6 en el reporte | La 6 en §10, después de la tabla del recorrido; la 3a y la 3b en §14, después del contexto | Asumida, por confirmar (sesión 5) |
 | DEC-49 | Qué orden sale de V20 a V22: los mockups y la demo no coinciden | Opción A ampliada: los datos de la demo mandan (COT-018, Proveedor ABC, OC-0012 por $545.000) y se corrigen seis mockups (V17 y V19 a V23) | Decidida por el arquitecto-revisor (2026-11-08), a pedido de Mauricio |
 | DEC-50 | Arroz y Pollo al 25 % en V05 | Se sacan de la lista y la tarjeta queda en «3 Stock bajo»; la regla de DEC-43 no cambia | Decidida por el arquitecto-revisor (2026-11-08), a pedido de Mauricio |
@@ -832,6 +832,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - El archivo se guardó con openpyxl: conserva estilos, celdas combinadas y fórmulas, con sus valores calculados, y pierde solo los metadatos propios de Google Sheets. La copia de `../proyecto/contexto/` queda con el contenido anterior.
 
 **Para la fase 5 (`CORRECCIONES_HU_Y_MOCKUPS.md`):** el Story Mapping p. 31 («SPRINT») contradice el Excel: dice 4 sprints, 8 semanas y «2 Meses», con los sprints 2 y 3 «sobrecargados (10 sobre 9)» y los sobrantes de 1 PHU en los sprints 1 y 4. Por decisión de Mauricio, la corrección es que diga 5 sprints, 10 semanas y «2 meses y medio», con el reparto y las fechas del Excel. Hay que anotarlo junto a las etiquetas de H26 (el título «Capacidad … (120)» de la p. 30, y las etiquetas de las pp. 2, 5 y 27). El Story Mapping no se modifica (DEC-03).
+
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmado el orden de filas (opción A del punto 3). En la hoja SPRINT, F15 → F17 → F16, con la etiqueta MVP4 en F17; las dependencias F13 → F17 → F14 quedan dentro del sprint 3. Las fechas, los 5 sprints y las 10 semanas ya estaban decididos por Mauricio y no se tocan.
 
 ## DEC-48 · ¿Dónde van las páginas 3a, 3b y 6 en el reporte?
 
