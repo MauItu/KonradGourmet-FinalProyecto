@@ -117,6 +117,8 @@ Las figuras del anexo (A1–A5) no cambian de número. Hay que revisar cualquier
 
 **R-14 · Opcional (H14).** Fila «Registro de cada error en un log»: «Logs centralizados (ELK) con trazas OpenTelemetry; consulta desde ms-administracion» → *«…; ms-administracion los consulta en Elasticsearch por el puerto LogsPort»*.
 
+**R-63 · Cambiar (PD-08).** Fila «Exponer servicios… externos por SOAP», columna Decisión: «ms-integracion concentra la frontera SOA: publica un endpoint SOAP y consume el servicio web del Ministerio de Comercio» → agregar al final *«; los sistemas externos se autentican con OAuth 2.0 client credentials y el gateway valida su JWT, que solo da acceso a /api/integracion/**»*.
+
 ### p. 6 · §4 Estilos evaluados
 Sin cambios.
 
