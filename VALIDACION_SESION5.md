@@ -40,10 +40,15 @@ Validó el agente `arquitecto-revisor` sobre la rama `correcciones-revision` de 
 - Las tarjetas HU-01–05, 08, 10, 11, 13, 14, 16 y 17, ni el PDF del flujo web.
 - Los modelos que nombra R-58 de `CORRECCIONES_REPORTE.md` (la declaración de uso de IA): el equipo debe confirmar esa redacción.
 
-## Para Mauricio
+## Decisiones posteriores (2026-11-08, a pedido de Mauricio)
 
-1. **`Casos de uso — Konrad Gourmet.md`** está en `FinalProyecto/`, fuera de los repos. Su cabecera dice «274 métodos… ningún caso de uso está implementado», que ya no es cierto (quedan 94 cuerpos pendientes y el recorrido de compra se ejecuta). Si ese archivo se entrega o se comparte con el compañero que haga los casos de uso, hay que actualizarlo; si es solo un borrador, no hace falta.
-2. **V05:** ¿bajan Arroz y Pollo al 24 % o salen de la lista de alertas? (M-06).
-3. **DEC-49** sigue asumida: ¿V20–V22 se alinean con la demo (COT-018, $545.000), o al revés?
+Mauricio pidió que el arquitecto-revisor tomara las preguntas que quedaban abiertas, y que se incluyera el archivo de casos de uso de su compañero:
+- **DEC-49** (V20–V22 frente a la demo): opción A ampliada. Los datos de la demo mandan; se corrigen seis mockups (V17 y V19 a V23). M-03.
+- **DEC-50** (V05, Arroz y Pollo al 25 %): se sacan de la lista y la tarjeta queda en «3 Stock bajo». M-06.
+- **`Casos de uso — Konrad Gourmet.md`** (S5-14): se incluyó sin modificar. El arquitecto lo revisó: **bien con correcciones** (no se puede entregar sin actualizar el estado del prototipo y sin el diagrama). Los 13 problemas y el texto de cada corrección están en `REVISION_CASOS_DE_USO.md`.
+- **A4** (nueva): `Pedido` no guarda qué mesero lo tomó. Cambia una firma, así que queda pendiente de Mauricio.
 
-**Cierre.** Con los 15 hallazgos atendidos, la sesión 5 queda lista a la espera del OK de Mauricio. El repo público (`195b4b2`) tiene la sesión 5 hasta el título de la demo; **todo lo posterior (los `CORRECCIONES_HU_Y_MOCKUPS.md`, `ESTADO_PROYECTO_Y_C4.md`, este archivo, el Excel corregido y las correcciones S5) está solo en local** hasta que se pida un push.
+## Pendientes que siguen abiertos
+M-04 (V03/V04: opción 1 o 2); A1 (script de ReportLab); DEC-20; T-06; A2; A3; A4.
+
+**Cierre.** Los 15 hallazgos S5 están atendidos y las dos decisiones, tomadas. La sesión 5 queda lista a la espera del OK de Mauricio.
