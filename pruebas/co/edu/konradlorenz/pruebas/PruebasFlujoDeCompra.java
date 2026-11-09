@@ -51,7 +51,15 @@ final class PruebasFlujoDeCompra {
         Prueba.igual("se publicó pedido.registrado", 1L, s.bus.cuantos("pedido.registrado"));
         Prueba.igual("el catálogo vigente de la sucursal trae los 2 platos", 2, s.pedidos.catalogo(1L).size());
         Prueba.igual("las mesas activas de la sucursal", 1, s.pedidos.mesas(1L).size());
+        Prueba.igual("el pedido queda asociado al mesero que lo tomó (HU-01, DEC-51)", 3L, registrado.meseroId());
+        Prueba.igual("pedidosDelTurno() del mesero 3 trae su pedido", 1, s.pedidos.pedidosDelTurno(3L).size());
+        Prueba.igual("y el de otro mesero no lo trae", 0, s.pedidos.pedidosDelTurno(4L).size());
+        Prueba.verificar("la auditoría dice qué mesero registró PED-0251", s.bus.publicados().stream()
+                .anyMatch(e -> e instanceof AuditoriaEvent a && a.accion().equals("Pedido PED-0251 registrado por el mesero 3")));
 
+        Pedido sinMesero = new Pedido("PED-0257", new Mesa(5, 1L, 4, true), null);
+        sinMesero.agregarPlato(1L, 1, null, new BigDecimal("32000"));
+        Prueba.lanza("un pedido sin mesero se rechaza", IllegalStateException.class, "mesero", () -> s.pedidos.registrar(sinMesero));
         Pedido sinPlatos = new Pedido("PED-0252", new Mesa(5, 1L, 4, true), 3L);
         Prueba.lanza("un pedido sin platos se rechaza", IllegalStateException.class, "al menos un plato", () -> s.pedidos.registrar(sinPlatos));
         Pedido mesaInactiva = new Pedido("PED-0253", new Mesa(6, 1L, 4, false), 3L);
