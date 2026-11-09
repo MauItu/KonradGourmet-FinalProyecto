@@ -8,9 +8,9 @@ Base: sesión 6 publicada en `MauItu/KonradGourmet-FinalProyecto`, `main` `b90a1
 |---|---|---|---|
 | 1 · Documentos de entrega | Hacerlo aquí | Asistente y Mauricio, con los insumos del equipo | Por realizar |
 | 2 · Mockups | Dejarlos pendientes; Mauricio los hace | Mauricio | Pendiente externo |
-| 3 · Story Mapping | Crear un documento nuevo con todo corregido | Asistente, aquí | Hecho el 2026-11-09: `STORY_MAPPING_CORREGIDO.md`; original intacto; falta el OK de Mauricio |
-| 4 · Preguntas de arquitectura y requisitos | Que decida el agente de Claude de arquitectura de software | `arquitecto-revisor` de Claude | Hecho el 2026-11-08, falta el OK de Mauricio: PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`); quedan A1 (DEC-54) y A5 |
-| 5 · Supuestos asumidos | Que decida el mismo agente | `arquitecto-revisor` de Claude | Hecho el 2026-11-08, falta el OK de Mauricio: los siete supuestos confirmados (tres con ajuste) |
+| 3 · Story Mapping | Crear un documento nuevo con todo corregido | Asistente, aquí | Hecho y aprobado por Mauricio el 2026-11-09: `STORY_MAPPING_CORREGIDO.md`; original intacto |
+| 4 · Preguntas de arquitectura y requisitos | Que decida el agente de Claude de arquitectura de software | `arquitecto-revisor` de Claude | Hecho y aprobado por Mauricio: PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`); quedan A1 (DEC-54) y A5 |
+| 5 · Supuestos asumidos | Que decida el mismo agente | `arquitecto-revisor` de Claude | Hecho y aprobado por Mauricio: los siete supuestos confirmados (tres con ajuste) |
 | 6 · Implementación | Por ahora, solo la demo; explicar qué contiene | Asistente | Alcance fijado por Mauricio; descripción abajo |
 
 ## Reglas para continuar
@@ -74,7 +74,7 @@ No hacer estos cambios desde aquí. La especificación detallada está en [CORRE
 - [x] Incluir la correspondencia de historias y ventanas; S-08 es informativa.
 - [x] HU-20 a HU-22: resuelto. Mauricio decidió omitirlas del documento y del plan de sprints (PD-09); quedan solo en los casos de uso, para una versión posterior.
 - [x] Revisar el documento nuevo contra casos de uso, decisiones y Excel: coincide con el Excel (35 PHU; 8, 8, 6, 8 y 5 por sprint; fechas), con DEC-43/46/47 y PD-03/04/09/10, y con el catálogo de casos de uso. Al transcribir aparecieron cuatro errores más del original, corregidos como SM-01 a SM-04 (nombres de los MVP, «machine learning», total PERT y umbral de HU-16).
-- [ ] OK de Mauricio a `STORY_MAPPING_CORREGIDO.md`.
+- [x] OK de Mauricio a `STORY_MAPPING_CORREGIDO.md` (2026-11-09).
 
 **Criterio de terminado:** un documento nuevo que se pueda leer de principio a fin como versión corregida de las historias y la planificación, con la procedencia y las propuestas claramente identificadas.
 
