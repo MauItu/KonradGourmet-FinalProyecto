@@ -73,6 +73,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | PD-01 | Alarma WebSocket con varias réplicas de ms-notificaciones (A2) | Difusión por Redis pub/sub; V05 relee las alertas guardadas al abrirse | Decidida por el arquitecto-revisor (2026-11-08); efectos en 1, 3a, 4d y 5, y R-56 |
 | PD-02 | Categorías del proveedor | Se mantiene `List<String>`: nombres de las categorías de ms-menu, copiados por valor | Decidida por el arquitecto-revisor (2026-11-08); efecto en CU-09 |
 | PD-03 | BAM: periodos fijos frente al rango libre | Sin rango: demanda de 30 días y proveedor de 365; con rango, manda el rango; la sucursal filtra la demanda; solo cotizaciones OPCIONADAS | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_kpis`), CU-14 y R-31; código fuera de alcance |
+| PD-04 | Promociones: fuente de tendencias y periodo | Job semanal sobre los 7 días anteriores: tendencias de redes y los 3 más pedidos; vigencia de 7 días; supuesto S11 | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_promociones`), CU-06 y §17 del reporte |
 
 ---
 
@@ -940,6 +941,22 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - Sin hechos en el periodo: «No hay información suficiente para el periodo seleccionado».
 
 **Qué implica:** cumple los dos criterios de HU-18 sin cambiar firmas, y la salida de la demo no cambia (sus hechos tienen la fecha de hoy). Se pierde filtrar el indicador de proveedor por sucursal. Efectos: nota `n_kpis` de la 4e, CU-14 y R-31. Fuera de alcance: que `TableroService.kpis()` resuelva los periodos por defecto y que `NegocioEventsListener` filtre las OPCIONADAS (requiere PD-05).
+
+## PD-04 · ¿De dónde salen las tendencias de las promociones y sobre qué periodo? (HU-19)
+
+**Por qué hubo que decidir.** HU-19 nombra «redes sociales» y «productos más solicitados», pero no fija la red, la ventana ni la cantidad. La 4e ya tiene `TendenciasPort.productosEnTendencia()`, `RedesSocialesAdapter`, `TendenciasJob` («semanal») y `notificadaEl`. CU-06 lo dejaba «por definir».
+
+**Opciones:**
+- **A. Las dos fuentes, con una ventana semanal.** ✅ **Escogida por el arquitecto-revisor.**
+- **B. Solo redes sociales.**
+- **C. Solo la demanda interna.**
+- **D. Una ventana diaria.** Reacciona el mismo día, pero no coincide con el job semanal.
+
+**Regla escogida:** el job semanal analiza los **7 días anteriores** y sugiere los productos en tendencia que entrega `TendenciasPort` y los **3 más pedidos** según los hechos DEMANDA_PRODUCTO de ms-analitica. El motivo dice «Tendencia en redes» o «Entre los 3 más pedidos de la semana»; cada sugerencia vale 7 días y se avisa a los jefes de la libreta (DEC-13).
+
+**Supuesto S11 (sin respaldo en las fuentes):** la red social concreta y los valores 7 y 3; son constantes de ms-analitica, como `UmbralStock`. Si el enunciado nombra una red, sustituye el supuesto.
+
+**Qué implica:** usa solo piezas ya dibujadas. Efectos: nota `n_promociones` de la 4e, CU-06 y el supuesto S11 en §17 del reporte. Fuera de alcance: `detectarTendencias()`, que sigue pendiente.
 
 ---
 
