@@ -83,6 +83,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | PD-11 | Declaración de IA del reporte (R-58) | Ampliar la §18 con las correcciones posteriores: Claude (Opus 5.5 y Sonnet 5.5) y ChatGPT (Astra 6), sin afirmar que el equipo tomó todas las decisiones | Herramientas y modelos **confirmados por Mauricio** (2026-11-08); R-58 vuelve a «Cambiar» |
 | DEC-54 | Cómo se corrige el reporte si no aparece el script (A1) | Mauricio pregunta al equipo; si nadie lo tiene, se rehace el reporte con un script nuevo, conservando el PDF original | Decidida por Mauricio (2026-11-08); la reconstrucción va en el punto 1 |
 | DEC-55 | Formato del reporte nuevo | Sobrio, de documento académico: una sola letra (Times New Roman 12 pt), todo en negro, títulos en negrilla del mismo tamaño, tablas con líneas finas, APA 7; `.docx` editable más PDF | Decidida por Mauricio (2026-11-08); detalle en `PLAN_REPORTE.md` |
+| DEC-57 | Qué describe la documentación entregable | El proyecto completo, como diseño previo a la construcción: sin notas sobre límites del prototipo ni de la demo. Se aplica al reporte v2, el `.drawio`, los casos de uso, el Story Mapping corregido y el Excel; quedan fuera los textos que dependen del código (§13, README y pruebas) y los registros internos | Decidida por Mauricio (2026-11-09); cambios PC-01 a PC-21 |
 
 ---
 
@@ -1143,6 +1144,20 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Cambio de Mauricio (2026-11-09, al ver el reporte v2):** el naranja claro no le gustó; las filas alternan blanco y **gris claro** (`#F2F2F2`).
 
 **Qué implica:** cambia una regla de DEC-55 solo en las tablas; el texto sigue todo en negro. Además, Mauricio aprobó el aspecto de la página de prueba con los rótulos al estilo APA 7 (número en negrilla y título en cursiva debajo) y las figuras grandes en páginas horizontales, pidió el índice después de la portada y dijo que la portada la ajusta él después.
+
+## DEC-57 · ¿Los entregables hablan de los límites del prototipo?
+
+**Por qué hubo que decidir.** El reporte v2, la página 4a del `.drawio` y los casos de uso tenían notas sobre lo que la demostración del código simplifica (el usuario «sistema» en la auditoría, el `correlacionId` que no se propaga) o sobre lo que falta implementar. Para la sustentación (2026-11-09), Mauricio pidió que la documentación se lea como el diseño del proyecto completo, escrito antes de construirlo.
+
+**Criterio:** la documentación entregable describe el proyecto completo, como diseño previo a la construcción; no menciona límites del prototipo ni de la demo, ni afirma que el código funcione por completo.
+
+**Opciones:**
+- **A. Mantener las notas de límites de la demo** en los entregables.
+- **B. Quitarlas de los entregables y conservarlas en el README del código y en los registros internos.** ✅ **Escogida por Mauricio el 2026-11-09.**
+
+**Alcance:** el reporte v2, el `.drawio`, los casos de uso, el Story Mapping corregido y el Excel. Quedan fuera los textos que dependen del código (la §13 del reporte, el README y las pruebas), que siguen describiendo el código tal como está, y los registros internos (este archivo, `CORRECCIONES_*`, `VALIDACION_*`, `REVISION_*`, `INVENTARIO_*`, `PLAN_*`, `PENDIENTES_POST_SESION6.md` y `ESTADO_PROYECTO_Y_C4.md`), que quedan como historial.
+
+**Qué implica:** DEC-42 sigue valiendo para el código; solo deja de citarse en los entregables. Los cambios van en los commits PC-01 a PC-21.
 
 ---
 
