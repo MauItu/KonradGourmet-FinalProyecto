@@ -436,7 +436,7 @@ Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciad
 
 - Datos insuficientes: "No hay información suficiente para el periodo seleccionado".
 
-**Reglas y fuente:** los datos se actualizan automáticamente al menos una vez al día; el tablero es responsive, funciona en móviles y carga en menos de 5 segundos. El enunciado fija los periodos de los indicadores (último mes, último año) y la historia agrega un filtro por rango de fechas: hay que decidir cómo conviven.
+**Reglas y fuente:** los datos se actualizan automáticamente al menos una vez al día; el tablero es responsive, funciona en móviles y carga en menos de 5 segundos. El enunciado fija los periodos de los indicadores (último mes, último año) y la historia agrega un filtro por rango de fechas. Conviven así (PD-03): sin rango, la demanda (producto y sucursal) usa los últimos 30 días y el proveedor con mejores precios los últimos 365; con rango, los tres usan ese rango y la pantalla muestra el periodo aplicado. La sucursal filtra solo la demanda. «Mejores precios» es la menor diferencia promedio contra el precio estándar, solo con cotizaciones OPCIONADAS. Sin hechos: «No hay información suficiente para el periodo seleccionado». Un rango invertido muestra «La fecha inicial no puede ser posterior a la fecha final.»
 
 ### CU-15 Parametrizar el sistema
 
