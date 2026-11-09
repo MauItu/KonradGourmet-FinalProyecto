@@ -58,7 +58,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-39 | Qué métodos tienen lógica en la sesión 4 | Solo lo que usa el recorrido de compra; los adaptadores de tecnología externa y los módulos que la demo no usa siguen pendientes (94 cuerpos) | Asumida, por confirmar |
 | DEC-40 | Datos del recorrido que los mockups no fijan | Precios por unidad; pedido de $82.000; res en 12,5 kg; histórico del tablero cargado a mano | Mauricio confirmó precios por unidad y pedido; inventario inicial e histórico del tablero siguen asumidos |
 | DEC-41 | Cómo cambia una entidad sin métodos para eso | Constructores de copia y accesores de lista modificables; no se agregan métodos | Asumida, por confirmar |
-| DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 sigue abierta | `adjuntoUrl` y límite de usuario/correlación: **confirmados por Mauricio**; 4d y nota `n_outbox` de la 4a actualizadas en la sesión 5 (`4da992c`, `f57a89e`); aclaraciones del reporte anotadas en `CORRECCIONES_REPORTE.md` (R-13, R-21, R-23 y R-45); T-06 sigue asumida, por confirmar |
+| DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 decidida en PD-05 | `adjuntoUrl` y límite de usuario/correlación: **confirmados por Mauricio**; 4d y nota `n_outbox` de la 4a actualizadas en la sesión 5 (`4da992c`, `f57a89e`); aclaraciones del reporte anotadas en `CORRECCIONES_REPORTE.md` (R-13, R-21, R-23 y R-45); T-06: **decidida por el arquitecto en PD-05, aplicación diferida** |
 | DEC-43 | Límites de la cadena de reglas y del umbral | Porcentajes redondeados a 2 decimales antes de comparar; límites estrictos y stock por debajo del 25 % | Decidida por Mauricio en la segunda ronda de la sesión 4 (2026-11-08), incluido el redondeo del stock |
 | DEC-44 | Dónde van las pruebas y el script | Carpeta `pruebas/` fuera de `src/`, sin JUnit, y `ejecutar.sh` | Asumida, por confirmar |
 | DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | Asumida, por confirmar |
@@ -74,6 +74,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | PD-02 | Categorías del proveedor | Se mantiene `List<String>`: nombres de las categorías de ms-menu, copiados por valor | Decidida por el arquitecto-revisor (2026-11-08); efecto en CU-09 |
 | PD-03 | BAM: periodos fijos frente al rango libre | Sin rango: demanda de 30 días y proveedor de 365; con rango, manda el rango; la sucursal filtra la demanda; solo cotizaciones OPCIONADAS | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_kpis`), CU-14 y R-31; código fuera de alcance |
 | PD-04 | Promociones: fuente de tendencias y periodo | Job semanal sobre los 7 días anteriores: tendencias de redes y los 3 más pedidos; vigencia de 7 días; supuesto S11 | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_promociones`), CU-06 y §17 del reporte |
+| PD-05 | T-06: eventos con tipos del dominio de otro servicio | Tipos simples en el contrato (`estado: String`, `diferenciaPorcentual`, `sugerencias: List<String>`); aplicación diferida | Decidida por el arquitecto-revisor (2026-11-08); aplicación diferida, pendiente de autorización de Mauricio (4c, 4e y código) |
 
 ---
 
@@ -957,6 +958,17 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Supuesto S11 (sin respaldo en las fuentes):** la red social concreta y los valores 7 y 3; son constantes de ms-analitica, como `UmbralStock`. Si el enunciado nombra una red, sustituye el supuesto.
 
 **Qué implica:** usa solo piezas ya dibujadas. Efectos: nota `n_promociones` de la 4e, CU-06 y el supuesto S11 en §17 del reporte. Fuera de alcance: `detectarTendencias()`, que sigue pendiente.
+
+## PD-05 · ¿Cómo se resuelve T-06? (eventos con tipos del dominio de otro servicio)
+
+**Por qué hubo que decidir.** DEC-42 dejaba T-06 asumida: `CotizacionValidadaEvent.estado` es `EstadoCotizacion` y `TendenciaDetectadaEvent.sugerencias` es `List<SugerenciaPromocion>`, tipos del dominio de su servicio, y DEC-29 prohíbe que otro servicio los importe. Además, el evento validado no trae la diferencia ni el precio estándar (hallazgo N1), así que ms-analitica no puede calcular el indicador de PD-03.
+
+**Opciones:**
+- **A. Seguir sin consumidores** (lo asumido en DEC-42).
+- **B. Tipos simples en el contrato**, ampliada: `CotizacionValidadaEvent` con `estado: String` y `+ diferenciaPorcentual: BigDecimal`; `TendenciaDetectadaEvent` con `sugerencias: List<String>`, líneas «producto · motivo · vigencia» listas para el correo. ✅ **Escogida por el arquitecto-revisor, con aplicación diferida.**
+- **C. Mover los eventos a `compartido.eventos`.** Es un cambio grande en 4a–4e y en el mapa.
+
+**Qué implica:** T-06 queda decidida. Mientras no se aplique, A sigue siendo el límite declarado de la demo. Aplicarla cambia a la vez la 4c, la 4e y el código (los dos eventos, la llamada en `CotizacionService.validar()` y la rama T-06 de `NotificacionService`); son unas 10 líneas y cabe en la demo, pero no hace falta: **solo se aplica si Mauricio lo autoriza**, porque el alcance actual es solo la demo (DEC-39). Se pierde el tipado fuerte del estado en el consumidor.
 
 ---
 
