@@ -9,7 +9,7 @@
 - DEC-55: formato sobrio, de documento académico.
 - Las correcciones de contenido R-01 a R-66 de `CORRECCIONES_REPORTE.md`.
 
-**Estado:** en ejecución desde el 2026-11-09; Mauricio aprobó la página de prueba (REP-02) con el ajuste de DEC-56. Es parte del punto 1 de `PENDIENTES_POST_SESION6.md` y se hace después del Story Mapping corregido (punto 3).
+**Estado:** reporte v2 generado el 2026-11-09 (61 páginas: `Reporte_Arquitectura_Konrad_Gourmet_v2.docx` y `.pdf`, fuente en `reporte/contenido/`); falta la validación del arquitecto-revisor. En ejecución desde el 2026-11-09; Mauricio aprobó la página de prueba (REP-02) con el ajuste de DEC-56. Es parte del punto 1 de `PENDIENTES_POST_SESION6.md` y se hace después del Story Mapping corregido (punto 3).
 
 ## 1. Por qué rehacerlo y no solo corregirlo
 
@@ -136,13 +136,13 @@ Al terminar, el original sigue intacto en su lugar.
 
 ## 6. Comprobación final
 
-- [ ] Una sola familia y un solo tamaño en todo el documento (se comprueba con `pdffonts`: solo Times New Roman y su negrilla o cursiva).
-- [ ] Ningún texto en color: solo las figuras del `.drawio` tienen color.
-- [ ] Ninguna cifra contradice al código ni al `.drawio`.
-- [ ] Las 52 correcciones «Cambiar» están aplicadas, y las opcionales según la decisión de Mauricio.
-- [ ] Las 23 ventanas siguen trazadas en §15.
-- [ ] Las referencias están en APA 7 y cada cita del texto tiene su referencia.
-- [ ] El original sigue sin cambios: el mismo SHA-256 que hoy.
+- [x] Una sola familia y un solo tamaño en todo el documento (se comprueba con `pdffonts`: solo Times New Roman y su negrilla o cursiva). Comprobado el 2026-11-09.
+- [x] Ningún texto en color: solo las figuras del `.drawio` y el fondo alterno de las filas de las tablas (DEC-56).
+- [ ] Ninguna cifra contradice al código ni al `.drawio` (cifras del código comprobadas el 2026-11-09: 211 archivos .java, 20 de demo, 176 verificaciones, 29 comentarios de ventana para las 23; falta la revisión del arquitecto-revisor).
+- [x] Las 52 correcciones «Cambiar» están aplicadas (comprobado frase por frase en el texto del .docx); las opcionales R-14, R-19, R-39 y R-53 quedan sin aplicar, como pidió Mauricio.
+- [x] Las 23 ventanas siguen trazadas en §15 (tabla 13).
+- [x] Las referencias están en APA 7 y las catorce se citan en el texto.
+- [x] El original sigue sin cambios: SHA-256 `7d546256fe930e41fc06c20add65ab35e7c6e85983a01637f654672ba36f4f21`.
 
 ## 7. Lo que Mauricio decide antes de empezar
 

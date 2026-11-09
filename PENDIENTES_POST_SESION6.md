@@ -30,10 +30,10 @@ Fuentes: [CORRECCIONES_REPORTE.md](CORRECCIONES_REPORTE.md), [VALIDACION_SESION6
 - [ ] Obtener el diagrama UML de Carlos, o preparar aquí una versión nueva a partir de los casos corregidos si no está disponible, dejando explícito su origen. Revisarlo contra CU-01 a CU-19, los 6 roles y los 5 actores externos.
 - [ ] Exportar el resultado a `documentos/casos_de_uso.png`, comprobar que se vea al abrir el Markdown y retirar la nota de ausencia solo cuando el archivo exista y esté validado.
 - [x] Plan del reporte nuevo: `PLAN_REPORTE.md` (DEC-54 y DEC-55). El script original ya no bloquea, porque el formato se rehace.
-- [ ] Localizar el script de ReportLab del reporte (A1), solo como referencia del contenido. Si no aparece, definir la reconstrucción en un archivo nuevo conservando el PDF original, conforme al límite vigente de DEC-03.
-- [ ] Aplicar al reporte las instrucciones pertinentes R-01 a R-61: distinguir «Cambiar», «Ya es cierto», «Opcional» y «Por confirmar». No tratar las 61 entradas como 61 cambios obligatorios.
-- [ ] Sustituir las figuras antiguas e incorporar las páginas 3a, 3b y 6 según la resolución de DEC-48. Usar la 4b actual de `exportes/sesion6/4b.png`, junto con las otras páginas vigentes del `.drawio`.
-- [ ] Reflejar 191 clases del modelo, 20 archivos de demo, 176 verificaciones, `meseroId` y los límites reales del prototipo.
+- [x] Script de ReportLab (A1): no apareció; el reporte se rehízo con `reporte/generar_reporte.py` (DEC-54 y DEC-55), conservando el PDF original. Texto original de la tarea: localizar el script de ReportLab del reporte (A1), solo como referencia del contenido. Si no aparece, definir la reconstrucción en un archivo nuevo conservando el PDF original, conforme al límite vigente de DEC-03.
+- [x] Aplicar al reporte las instrucciones pertinentes R-01 a R-66 (2026-11-09, `Reporte_Arquitectura_Konrad_Gourmet_v2`, REP-01 a REP-25; las opcionales R-14, R-19, R-39 y R-53 quedan sin aplicar). Texto original de la tarea: aplicar R-01 a R-61: distinguir «Cambiar», «Ya es cierto», «Opcional» y «Por confirmar». No tratar las 61 entradas como 61 cambios obligatorios.
+- [x] Sustituir las figuras antiguas e incorporar las páginas 3a, 3b y 6 (figuras 7, 12 y 13; todas desde `exportes/post_sesion6/`) según la resolución de DEC-48. Usar la 4b actual de `exportes/sesion6/4b.png`, junto con las otras páginas vigentes del `.drawio`.
+- [x] Reflejar 191 clases del modelo, 20 archivos de demo, 176 verificaciones, `meseroId` y los límites reales del prototipo (§13, §15 y S9).
 - [ ] Revisar texto, figuras, referencias y coherencia con código, casos de uso y el nuevo documento del punto 3. Cuando Mauricio termine los mockups, contrastar también sus archivos finales.
 
 **Criterio de terminado:** entregables nuevos o regenerados legibles, sin marcadores de imágenes ausentes, con fuentes y decisiones trazables; originales preservados y validación registrada.
