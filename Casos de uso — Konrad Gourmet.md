@@ -419,7 +419,7 @@ Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciad
 1. El administrador abre la parametrización y elige qué va a cambiar: un parámetro general o la imagen corporativa (tema y logos).
 2. Cambia el valor.
 3. El sistema valida y guarda el cambio, y lo registra en la auditoría. Mensajes: «La clave del parámetro es obligatoria.», «El valor del parámetro {clave} es obligatorio.» y «Parámetro actualizado.» (PD-10).
-4. Registra los correos de los jefes de cocina por sucursal (`/api/notificaciones/destinatarios`, DEC-13). Un correo mal formado muestra «El formato del correo electrónico no es válido.» **Límite del prototipo (N5):** `NotificacionService.registrarDestinatario()` no publica todavía `auditoria.evento`; en el sistema real este registro también se audita.
+4. Registra los correos de los jefes de cocina por sucursal (`/api/notificaciones/destinatarios`, DEC-13). Un correo mal formado muestra «El formato del correo electrónico no es válido.» Este registro también se audita (`auditoria.evento`).
 
 **Datos paramétricos que las fuentes mencionan:** categorías de producto, productos por categoría, unidades de medida y marcas (listas desplegables de RF-01 y RF-03); mesas por sucursal (HU-03); imagen corporativa, es decir tema y logos (requisito de interfaz 1). El alta de usuarios es CU-19 (DEC-10).
 
@@ -434,7 +434,7 @@ Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciad
 1. El administrador abre la auditoría y elige un rango de fechas.
 2. El sistema lista los movimientos con acción, usuario, fecha y hora.
 
-**Reglas y fuente:** cada acción CRUD del sistema debe registrar esos cuatro datos (requisito de mantenimiento 1). El informe asigna la consulta por rango de fechas a ms-administracion. En el prototipo, los eventos llevan «sistema» como usuario (DEC-42); en el sistema real sale del JWT. Filtros: solo por rango de fechas, obligatorio, y «desde» no puede ser posterior a «hasta» (PD-07); filtrar por usuario o acción es una evolución que cambia cinco firmas de la 4e. Mensajes: «La fecha inicial no puede ser posterior a la fecha final.» y «No hay movimientos de auditoría en el periodo seleccionado.» (PD-10).
+**Reglas y fuente:** cada acción CRUD del sistema debe registrar esos cuatro datos (requisito de mantenimiento 1). El informe asigna la consulta por rango de fechas a ms-administracion. El usuario de cada registro sale del JWT de quien hizo la acción. Filtros: solo por rango de fechas, obligatorio, y «desde» no puede ser posterior a «hasta» (PD-07); filtrar por usuario o acción es una evolución que cambia cinco firmas de la 4e. Mensajes: «La fecha inicial no puede ser posterior a la fecha final.» y «No hay movimientos de auditoría en el periodo seleccionado.» (PD-10).
 
 ### CU-17 Consultar logs de errores
 
