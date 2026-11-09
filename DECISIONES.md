@@ -12,6 +12,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-39 a DEC-46:** se propusieron durante la sesión 4. Mauricio confirmó el 2026-11-08 el pedido de $82.000, los precios por unidad, completar las solicitudes parciales y la alarma solo al cruzar el umbral. Escogió `adjuntoUrl` (DEC-42): dos contratos, reflejados en cuatro declaraciones de la 4d. En la segunda ronda confirmó también el redondeo de cotizaciones y stock (DEC-43), y `sistema` con una correlación por evento como límite de la demo (DEC-42); autorizó completar la auditoría de los fallos (DEC-46, S4-13). Las demás partes siguen asumidas, por confirmar, según indica cada decisión.
 - **DEC-49 y DEC-50:** las tomó el arquitecto-revisor el 2026-11-08, a pedido de Mauricio («actúa como el agente de arquitectura que tengo configurado y toma esas decisiones»). Mauricio puede revertirlas.
 - **DEC-47:** la fecha de inicio del sprint 1 y la forma de mostrar «EN SEMANAS» las decidió Mauricio el 2026-11-08, al empezar la sesión 5 (hallazgo H20), y en las dos escogió la opción recomendada. Después pidió que todo diga 5 sprints y 10 semanas, y se quitó la fila de sprints mínimos. El orden de las filas del Excel es asumido, por confirmar.
+- **PD-01 a PD-11 y las confirmaciones de los supuestos (DEC-08, DEC-20, DEC-39 a DEC-41, DEC-44, DEC-45, DEC-47 y DEC-48):** las tomó el agente `arquitecto-revisor` de Claude el 2026-11-08, por delegación expresa de Mauricio (puntos 4 y 5 de `PENDIENTES_POST_SESION6.md`), respetando sus decisiones ya confirmadas. El informe completo, con la evidencia, está en `REVISION_ARQUITECTO_POST_S6.md`. «PD» significa decisión posterior a la sesión 6. Mauricio puede revertir cualquiera.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -69,6 +70,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-51 | El pedido guarda qué mesero lo tomó (A4) | `meseroId: Long` en `Pedido`, en la 4b y en el código | Aplicada y aprobada por Mauricio en la fase 1 de la sesión 6: código `22717f7`, 4b `4e4559e`, R-60/R-61; 176/176 |
 | DEC-52 | Quién corrige el archivo de casos de uso | Corrección directa del archivo, autorizada por Mauricio, con los 13 problemas de `REVISION_CASOS_DE_USO.md` | Aplicada: RCU-1 a RCU-13; fase 2 aprobada por Mauricio. Precisión de cierre S6-2. Falta el PNG del compañero, señalado según lo acordado |
 | DEC-53 | Cómo llega el `meseroId` al pedido (DEC-51) | En el constructor: `Pedido(numero, mesa, meseroId)`; ninguna otra firma cambia | Aplicada y aprobada en la fase 1 de la sesión 6; validada en `VALIDACION_SESION6.md` |
+| PD-01 | Alarma WebSocket con varias réplicas de ms-notificaciones (A2) | Difusión por Redis pub/sub; V05 relee las alertas guardadas al abrirse | Decidida por el arquitecto-revisor (2026-11-08); efectos en 1, 3a, 4d y 5, y R-56 |
 
 ---
 
@@ -892,6 +894,22 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Qué implica:** código `c88c750` a `22717f7` (Pedido, servicio, `PedidoEnMemoria`, demo, 5 pruebas nuevas: 176 verificaciones, compila sin avisos, README); `.drawio` `4e4559e` (4b, PNG en `exportes/sesion6/4b.png`); `CORRECCIONES_REPORTE.md` R-60 y R-61. `RegistrarPedidoUseCase`, `PedidoService`, `PedidoRestController` y `PedidoRegistradoEvent` no cambian: inventario no necesita saber quién tomó el pedido.
 
+## PD-01 · ¿Cómo llega la alarma por WebSocket con varias réplicas de ms-notificaciones? (A2)
+
+**Por qué hubo que decidir.** ms-notificaciones tiene de 2 a 4 réplicas (página 5, `v15`) y consume `inventario.stock-bajo` en un solo grupo de Kafka: el evento lo procesa una réplica, pero la conexión WebSocket del jefe de cocina puede estar abierta en otra. HU-16 solo pide una «alarma visible dentro de la aplicación», y V05 ya consulta `GET /api/inventario/alertas`.
+
+**Opciones:**
+- **A. Sesión pegajosa en el balanceador.** No resuelve el problema: fija el navegador a una réplica, pero la réplica que procesa el evento la decide Kafka por partición.
+- **B. Difusión con Redis pub/sub.** La réplica que consume el evento envía el correo una vez y llama a `empujar()`; el adaptador publica la alarma en un canal Redis y cada réplica la entrega a las conexiones del destinatario que tenga abiertas. ✅ **Escogida por el arquitecto-revisor.**
+- **C. Un grupo de Kafka por réplica para la alarma.** Duplica los correos, salvo que se parta el flujo de la 4d.
+- **D. Un tópico nuevo de alarmas.** Rompe los 10 tópicos.
+- **E. Quitar el WebSocket y consultar periódicamente desde V05.** Deshace el producto `AlarmaApp` del Factory Method.
+
+**Qué implica:** la alerta guardada en ms-inventario sigue siendo la fuente de verdad; V05 la lee al abrirse, así que no se pierde si el jefe no estaba conectado (el cierre corre a las 23:59). El gateway valida el JWT al abrir la conexión. Ninguna firma cambia: todo queda dentro de `AlarmaPushAdapter`. Se pierde independencia: ms-notificaciones depende de Redis (si cae, se pierde el aviso en tiempo real, no la alerta), y Redis queda compartido con la caché de precios, en canal y usuario separados.
+- `.drawio`: 3a (Redis con el canal y una flecha desde ms-notificaciones), página 1 (`e231`), página 5 (`v25`) y una nota junto a `AlarmaPushAdapter` en la 4d.
+- Reporte: R-56 pasa a «Cambiar», con una fila de riesgo nueva.
+- Fuera de alcance: la implementación del adaptador, que sigue pendiente (DEC-39).
+
 ---
 
 ## Preguntas abiertas (sin decidir)
@@ -899,6 +917,6 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 | # | Pregunta | Por qué importa | Quién |
 |---|---|---|---|
 | A1 | ¿Quién tiene el script de ReportLab que generó el reporte? | Sin él no se puede corregir el PDF (DEC-03) | Equipo |
-| A2 | Con 2–4 réplicas de ms-notificaciones, ¿cómo llega la alarma por WebSocket a la réplica que tiene abierta la sesión del jefe? Las salidas posibles son sesión pegajosa en el balanceador, o difundir el mensaje a todas las réplicas, por ejemplo con Redis pub/sub | El profesor puede preguntarlo en la sustentación | Equipo |
+| A2 | Con 2–4 réplicas de ms-notificaciones, ¿cómo llega la alarma por WebSocket a la réplica que tiene abierta la sesión del jefe? | **Resuelta por PD-01** (Redis pub/sub; V05 relee las alertas) | — |
 | A3 | Los commits del repo son de la cuenta `mari00aa120-eng`. ¿Es de alguien del equipo? | Conviene saberlo antes de la sustentación | Equipo |
 | A4 | `Pedido` no guarda qué mesero lo tomó | **Resuelta por DEC-51 y DEC-53** (aplicada en la sesión 6) | — |
