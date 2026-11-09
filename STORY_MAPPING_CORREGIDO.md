@@ -499,4 +499,10 @@ Informativa (S-08). Reúne para cada historia lo que el original reparte en vari
 | HU-18 Ver KPIs y tablero de control | 4 | Alto | 3 | 4 | CU-14 | Sin mockup |
 | HU-19 Revisar promociones sugeridas | 4 | Alto | 5 | 5 | CU-06 | Sin mockup |
 
+## 10. Lo que este documento no incluye
+
+- **HU-20 a HU-22**, las historias propuestas para el administrador (parametrizar el sistema, consultar la auditoría y consultar los logs). Por decisión de Mauricio quedan fuera del Story Mapping y del plan de sprints (PD-09); solo están en el documento de casos de uso, como historias para una versión posterior.
+- **Los mockups.** Las correcciones de las ventanas (M-01 a M-09 en `CORRECCIONES_HU_Y_MOCKUPS.md`) las hace Mauricio en Canva. Cuando estén, hay que contrastarlas con este documento, en especial V11 (los filtros de HU-07) y V05 (la regla del umbral de HU-16).
+- **El diseño gráfico del original.** Este documento conserva el contenido; la presentación visual sigue siendo la del PDF.
+
 Página 32: cierre («Gracias», agosto de 2026).
