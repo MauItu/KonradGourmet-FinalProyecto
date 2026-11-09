@@ -45,7 +45,7 @@ Las correcciones salen de la revisión del 2026-11-07 (H1–H26 y D1–D12, en `
 
 2. **Página 3a, en §14**, como subtítulo nuevo después de «Nivel 1 del C4» (p. 27):
 
-   > *«Nivel 2 del C4. El diagrama de contenedores abre la caja del sistema: la SPA, el balanceador, el API Gateway, el Service Registry, los once microservicios con su base de datos, el broker de eventos, la caché de precios en Redis, el almacén de objetos y los logs en ELK. Cada flecha lleva su propósito y su protocolo. El gateway enruta 13 prefijos a los once servicios.»*
+   > *«Nivel 2 del C4. El diagrama de contenedores abre la caja del sistema: la SPA, el servidor web (Nginx), el API Gateway, el Service Registry, los once microservicios con su base de datos, el broker de eventos, la caché de precios en Redis, el almacén de objetos y los logs en ELK. Cada flecha lleva su propósito y su protocolo. El gateway enruta 13 prefijos a los once servicios.»*
    >
    > *«Figura 12 · Nivel 2 del C4, diagrama de contenedores. Página 3a del .drawio.»*
 
@@ -137,7 +137,7 @@ Sin cambios.
 
 **R-23 · Cambiar (DEC-42).** Desventajas: «La depuración es más difícil, así que cada evento lleva un identificador de correlación y se traza con OpenTelemetry.» → *«La depuración es más difícil, así que cada evento lleva un identificador de correlación y se traza con OpenTelemetry. En el sistema real, ese identificador pasa de un evento al siguiente, de modo que una traza reúne todo el recorrido de una compra. La demostración del esqueleto no lo propaga: cada evento crea su propia correlación.»*
 
-**R-24 · Cambiar (D1, DEC-05).** Ejemplo: «ms-cotizaciones guarda la cotización en estado ENVIADA, genera el PDF, publica cotizacion.enviada y responde 201» → *«ms-cotizaciones guarda la cotización en estado ENVIADA, genera el PDF, lo deja en el almacén de objetos, publica cotizacion.enviada con la referencia del PDF y responde 201»*. Y «ms-solicitudes lo consume y, si todos los productos de la solicitud ya tienen cotización, la pasa a EN TRÁMITE» → *«ms-solicitudes lo consume y pasa a EN TRÁMITE cada una de las solicitudes que la cotización incluye (una o varias, HU-09)»*.
+**R-24 · Cambiar (D1, DEC-05).** Ejemplo: «ms-cotizaciones guarda la cotización en estado ENVIADA, genera el PDF, publica cotizacion.enviada y responde 201» → *«ms-cotizaciones guarda la cotización en estado ENVIADA, genera el PDF, lo deja en el almacén de objetos, publica cotizacion.enviada con la referencia del PDF y responde 201»*. Y «ms-solicitudes lo consume y, si todos los productos de la solicitud ya tienen cotización, la pasa a EN TRÁMITE» → *«ms-solicitudes lo consume y pasa a EN TRÁMITE cada solicitud incluida (una o varias, HU-09) cuyos productos ya tengan todos cotización»*. La condición se conserva: así lo hace el código (`SolicitudService`, `todoCotizado()`) y lo pide HU-12.
 
 ### p. 10 y 11 · §7 Arquitectura hexagonal
 
@@ -222,17 +222,17 @@ Las filas solicitud.en-tramite, cotizacion.enviada, cotizacion.validada y tenden
 
 **R-44 · Ya es cierto (H1).** «Los métodos marcados en el diagrama con ‹Vxx› llevan en el código el comentario «Atiende la ventana Vxx de los mockups».» Hay 29 líneas de ese comentario, que cubren las 23 ventanas.
 
-**R-45 · Cambiar (D12, DEC-42).** «Comprobación con la demostración»: «DemoArquitectura ejecuta los patrones sin base de datos ni broker, usando adaptadores en memoria. Su salida coincide con los datos de los mockups:» → *«DemoArquitectura recorre el flujo de compra de punta a punta (pedido, alarma de stock, solicitud SOL-031, cotizaciones COT-018 a COT-020 y orden OC-0012) y ejecuta los patrones sin base de datos ni broker, usando adaptadores en memoria. Su salida coincide con los datos de los mockups. Para mantenerla simple, los eventos llevan «sistema» (o el correo de la entidad) como usuario y cada uno crea su propia correlación; en el sistema real, el usuario sale del JWT y la correlación une todo el recorrido.»*
+**R-45 · Cambiar (D12, DEC-42).** «Comprobación con la demostración»: «DemoArquitectura ejecuta los patrones sin base de datos ni broker, usando adaptadores en memoria. Su salida coincide con los datos de los mockups:» → *«DemoArquitectura recorre el flujo de compra de punta a punta (pedido, alarma de stock, solicitud SOL-031, cotizaciones COT-018 a COT-020 y orden OC-0012) y ejecuta los patrones sin base de datos ni broker, usando adaptadores en memoria. Su salida coincide con los datos de los mockups. Para mantenerla simple, los eventos llevan «sistema» (o el correo de la entidad) como usuario y cada uno crea su propia correlación, y los consumidores no descartan los eventos repetidos; en el sistema real, el usuario sale del JWT, la correlación une todo el recorrido y cada consumidor recuerda los identificadores ya procesados.»*
 
 **R-46 · Cambiar (P-11, DEC-31, H9).** Tabla de la demostración. Filas que cambian:
 
 | Patrón | Salida de la demostración (actual → nueva) | Ventana |
 |---|---|---|
 | Hexagonal + Observer → *Hexagonal + Publish-Subscribe* | Sin cambio: «Pedido registrado, evento pedido.registrado publicado, total $82.000» | V03 y V04 |
-| Facade + Chain of Responsibility | «COT-018: estándar $520.000, proveedor $545.000, diferencia −61,54 %, SOSPECHOSA» → *«COT-018: estándar $520.000, proveedor $545.000, +4,81 %, OPCIONADA; COT-019: $700.000, +34,62 %, RECHAZADA; COT-020: $200.000, −61,54 %, SOSPECHOSA»* | V13, V18 y V19 |
+| Facade + Chain of Responsibility | **Opcional.** El PDF ya dice «COT-018: estándar $520.000, proveedor $545.000, diferencia 4,81 %, OPCIONADA. COT-019: +34,62 %, RECHAZADA. COT-020: −61,54 %, SOSPECHOSA», que es lo que imprime la demo. Solo se puede agregar el signo («+4,81 %») y los totales de proveedor ($700.000 y $200.000) | V13, V18 y V19 |
 | Singleton | «umbral.stock = 25 %, misma instancia en dos llamadas» → *«tema.color-primario = #F26B21, misma instancia en dos llamadas»* | Parametrización |
 
-La fila actual de Facade + Chain mezcla los valores de COT-018 con el resultado de COT-020: con $520.000 y $545.000 la diferencia es +4,81 % (OPCIONADA), como dicen la p. 3 y la p. 11. Las filas Composite + Factory Method, Factory Method + Decorator, Proxy + Adapter y Strategy coinciden con la salida actual y no cambian. **Nota:** la demo ya imprime «Hexagonal + Publish-Subscribe» (cambio hecho por pedido de Mauricio, solo en el título; ver el commit H9 del código).
+Las filas Facade + Chain, Composite + Factory Method, Factory Method + Decorator, Proxy + Adapter y Strategy coinciden con la salida actual y no cambian. **Nota:** la demo ya imprime «Hexagonal + Publish-Subscribe» (cambio hecho por pedido de Mauricio, solo en el título; ver el commit H9 del código).
 
 **R-47 · Cambiar.** «Para compilar y ejecutar: javac -d bin $(find src -name "*.java") y luego java -cp bin co.edu.konradlorenz.demo.DemoArquitectura.» → *«Para compilar, ejecutar la demostración y correr las pruebas: ./ejecutar.sh (necesita un JDK 21). En Windows, las órdenes sueltas están en el README.»*
 
