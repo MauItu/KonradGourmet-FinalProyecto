@@ -53,7 +53,7 @@ Original: páginas 4 a 6.
 - **MVP 1 · Módulo de captura y registro básico de datos.** Implementar funcionalidades básicas de captura e ingreso de datos operativos fundamentales del negocio, permitiendo registros simples y directos sin validaciones complejas ni integraciones externas.
 - **MVP 2 · Módulo de consulta y registro estándar.** Implementar funcionalidades CRUD estándar de consulta y registro de información operativa con validaciones básicas, permitiendo filtrado de datos y visualización de detalles sin disparo de eventos automáticos.
 - **MVP 3 · Módulo de gestión de compras y validación.** Implementar funcionalidades complejas de gestión de compras incluyendo generación de documentos (PDFs), validación de cotizaciones con lógica condicional, integración con APIs externas (Ministerio), y cambios de estado automáticos.
-- **MVP 4 · Módulo de inventario avanzado e inteligencia de negocio.** Implementar funcionalidades avanzadas de monitoreo automático de inventario, Business Intelligence con análisis de datos históricos, identificación de tendencias y machine learning para recomendaciones inteligentes y promociones sugeridas.
+- **MVP 4 · Módulo de inventario avanzado e inteligencia de negocio.** Implementar funcionalidades avanzadas de monitoreo automático de inventario, Business Intelligence con análisis de datos históricos, e identificación de tendencias en redes sociales y de los productos más solicitados para sugerir promociones. *(Corregido, SM-02: el original decía «machine learning para recomendaciones inteligentes»; ni HU-19 ni la arquitectura usan aprendizaje automático. Las tendencias se detectan con reglas sobre los datos, PD-04.)*
 
 ## 4. Tabla de estimación PERT de HU-03
 
