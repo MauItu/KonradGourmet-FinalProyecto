@@ -3,7 +3,7 @@
 
 La tabla 3 recorre los requerimientos no funcionales del enunciado (algunos agrupados) y muestra qué decisión produce cada uno, qué arquitectura la asume y dónde se ve en el diagrama.
 
-!tabla 3 | Requerimientos no funcionales y decisiones de diseño | 3.2,5.1,3,2.6
+!tabla 3 | Requerimientos no funcionales y decisiones de diseño | 3.2,4.5,3,3.2
 | Requerimiento | Decisión | Arquitectura | Dónde se ve |
 |---|---|---|---|
 | 200.000 usuarios concurrentes y 1.000 TPS de compras | Servicios sin estado detrás de un balanceador; todos escalan en horizontal entre un mínimo y un máximo de réplicas, y los que reciben más carga (pedidos, identidad, cotizaciones, solicitudes e inventario) tienen los máximos más altos | Microservicios | Despliegue: ms-pedidos de 4 a 20 réplicas |

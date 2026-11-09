@@ -7,7 +7,7 @@ La tercera arquitectura define cómo se construye cada microservicio por dentro.
 
 Cada servicio pone el dominio y los casos de uso en el centro (el hexágono verde del mapa), los puertos como interfaces en el borde y los adaptadores afuera. Arriba están los adaptadores de entrada, que conducen el núcleo (controlador REST, tarea programada, listener de Kafka); abajo, los de salida, que implementan puertos (JPA, publicador de Kafka, SMTP, SOAP, PDF). En el código, cada capa es un paquete, como muestra la tabla 6.
 
-!tabla 6 | Paquetes de cada servicio, con ejemplos de ms-cotizaciones | 2.8,5.6,5.2
+!tabla 6 | Paquetes de cada servicio, con ejemplos de ms-cotizaciones | 3.6,5.6,5.2
 | Paquete | Contiene | Ejemplo en ms-cotizaciones |
 |---|---|---|
 | dominio | Entidades, objetos de valor y reglas de negocio, sin frameworks | Cotizacion, ItemCotizacion, ReglaValidacion y sus tres reglas |
