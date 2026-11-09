@@ -1,7 +1,7 @@
 <!-- §4. Sin correcciones de contenido; solo cambia la redacción de los veredictos. -->
 # 4. Estilos evaluados
 
-En las exposiciones de clase se presentaron quince estilos, mecanismos y componentes. Todos se evaluaron contra las restricciones del enunciado (Richards y Ford, 2020): tres se eligieron como arquitectura principal, seis quedaron como apoyo y seis se descartaron o se absorbieron en otro.
+En las exposiciones de clase se presentaron quince estilos, mecanismos y componentes. Todos se evaluaron contra las restricciones del enunciado (Richards y Ford, 2020): tres se eligieron como arquitectura principal, seis quedaron como apoyo y seis se descartaron o se absorbieron en otro (tabla 4).
 
 !tabla 4 | Estilos y mecanismos evaluados | 3,2.8,7.5
 | Estilo o mecanismo | Veredicto | Razón para Konrad Gourmet |

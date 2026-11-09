@@ -1,7 +1,7 @@
 <!-- §1. Correcciones: R-04 (once páginas) y R-07. R-06 queda como estaba: ya es cierto. -->
 # 1. Resumen de la decisión
 
-Konrad Gourmet necesita que cuatro roles operativos (mesero, jefe de cocina, auxiliar de compras y director de compras) trabajen sobre los mismos datos desde todas las sucursales, con 200.000 usuarios concurrentes, 1.000 transacciones por segundo y una disponibilidad del 99,7 %. Ningún estilo arquitectónico cumple solo esas restricciones, así que la propuesta combina tres, cada uno en el nivel donde resuelve un problema distinto.
+Konrad Gourmet necesita que cuatro roles operativos (mesero, jefe de cocina, auxiliar de compras y director de compras) trabajen sobre los mismos datos desde todas las sucursales, con 200.000 usuarios concurrentes, 1.000 transacciones por segundo y una disponibilidad del 99,7 %. Ningún estilo arquitectónico cumple solo esas restricciones, así que la propuesta combina tres, cada uno en el nivel donde resuelve un problema distinto (tabla 1).
 
 !tabla 1 | Las tres arquitecturas de la propuesta | 3,2.9,3.2,3.3,2.5
 | Arquitectura | Dónde vive | Qué decide | Requerimientos que la exigen | Dónde se ve |
