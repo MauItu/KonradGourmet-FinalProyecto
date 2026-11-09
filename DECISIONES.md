@@ -82,6 +82,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | PD-10 | Mensajes de interfaz por definir | Criterio común y 16 textos propuestos; los mensajes literales de las HU son el contrato de la interfaz | Decidida por el arquitecto-revisor (2026-11-08); efectos en casos de uso y Story Mapping corregido; el código no cambia |
 | PD-11 | Declaración de IA del reporte (R-58) | Ampliar la §18 con las correcciones posteriores: Claude (Opus 5.5 y Sonnet 5.5) y ChatGPT (Astra 6), sin afirmar que el equipo tomó todas las decisiones | Herramientas y modelos **confirmados por Mauricio** (2026-11-08); R-58 vuelve a «Cambiar» |
 | DEC-54 | Cómo se corrige el reporte si no aparece el script (A1) | Mauricio pregunta al equipo; si nadie lo tiene, se rehace el reporte con un script nuevo, conservando el PDF original | Decidida por Mauricio (2026-11-08); la reconstrucción va en el punto 1 |
+| DEC-55 | Formato del reporte nuevo | Sobrio, de documento académico: una sola letra (Times New Roman 12 pt), todo en negro, títulos en negrilla del mismo tamaño, tablas con líneas finas, APA 7; `.docx` editable más PDF | Decidida por Mauricio (2026-11-08); detalle en `PLAN_REPORTE.md` |
 
 ---
 
@@ -1118,6 +1119,17 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **C. Corregir el PDF a mano con un editor de PDF.** Es frágil con tablas, figuras e índice.
 
 **Qué implica:** Mauricio pregunta al equipo el 2026-11-09. Si aparece el script, se usa; si no, la reconstrucción es parte del punto 1 de `PENDIENTES_POST_SESION6.md`. DEC-03 queda reemplazada.
+
+## DEC-55 · ¿Con qué formato se rehace el reporte?
+
+**Por qué hubo que decidir.** El reporte original lo generó una IA y se nota en el formato: tres familias de letra, tamaños distintos, títulos y cajas de color, una portada con un dibujo y separadores «·». Mauricio pidió un documento de aspecto profesional: el mismo tamaño de letra, negrilla permitida y todo en negro.
+
+**Opciones:**
+- **A. Conservar el diseño del original** y solo corregir el contenido.
+- **B. Formato académico sobrio:** una sola familia (Times New Roman 12 pt) en todo el documento, texto en negro, títulos en negrilla del mismo tamaño, tablas con líneas finas negras, figuras numeradas con nota, número de página como único pie, referencias en APA 7 y una redacción sin adornos. ✅ **Escogida por Mauricio el 2026-11-08.**
+- **C. Usar una plantilla institucional de la Konrad Lorenz.** No hay ninguna en las carpetas del proyecto; si el profesor exige una, se reemplaza B.
+
+**Qué implica:** el diseño se rehace completo, así que el script original deja de ser imprescindible (A1 ya no bloquea). La herramienta recomendada es un script en Python que genera un `.docx` editable y lo exporta a PDF con LibreOffice. Las capturas del `.drawio` conservan sus colores, porque son el diagrama entregado. El plan completo está en `PLAN_REPORTE.md`.
 
 ---
 
