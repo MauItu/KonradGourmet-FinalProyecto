@@ -12,13 +12,15 @@ Presentado por:
 
 Original: página 2. Actividades de cada usuario del sistema.
 
-| Jefe de cocina | Mesero | Auxiliar área compras | Director área compras |
-|---|---|---|---|
-| Registrar platos/menú | Registrar pedido/orden | Consultar solicitudes compras | Registrar valores cotización |
-| Ingresar ingredientes plato | Ingresar cantidad platos | Filtrar solicitudes por criterios | Validar cotizaciones recibidas |
-| Registrar solicitud alimentos | Indicar mesa del pedido | Ver detalles solicitud | Consultar cotizaciones opcionadas |
-| Recibir alertas inventario | | Generar solicitud cotización | Generar orden compra |
-| Revisar promociones sugeridas | | Registrar datos de proveedor | Ver KPIs tablero control |
+*Corregido (S-05): «Ver KPIs tablero control» pasa de la columna del director de compras a una columna nueva, «Director comercial», porque la tarjeta HU-18 la asigna a ese rol (DEC-06).*
+
+| Jefe de cocina | Mesero | Auxiliar área compras | Director área compras | Director comercial |
+|---|---|---|---|---|
+| Registrar platos/menú | Registrar pedido/orden | Consultar solicitudes compras | Registrar valores cotización | Ver KPIs tablero control |
+| Ingresar ingredientes plato | Ingresar cantidad platos | Filtrar solicitudes por criterios | Validar cotizaciones recibidas | |
+| Registrar solicitud alimentos | Indicar mesa del pedido | Ver detalles solicitud | Consultar cotizaciones opcionadas | |
+| Recibir alertas inventario | | Generar solicitud cotización | Generar orden compra | |
+| Revisar promociones sugeridas | | Registrar datos de proveedor | | |
 
 ## 2. Complejidad
 
@@ -42,7 +44,7 @@ Original: páginas 4 a 6.
 | MVP 1 | Módulo de Captura y Registro de datos | Registrar pedido/orden (Mesero), Ingresar cantidad de platos (Mesero), Indicar mesa del pedido (Mesero), Registrar platos/menú (Jefe Cocina), Ingresar ingredientes plato (Jefe Cocina) |
 | MVP 2 | Módulo de Consulta y Registro de información operativa | Consultar solicitudes de compras, Filtrar solicitudes por criterios, Ver detalles de solicitud y Generar solicitud de cotización (Auxiliar Compras); Registrar solicitud de alimentos (Jefe Cocina); Registrar valores de cotización (Director Compras) |
 | MVP 3 | Módulo de Gestión de Compras y Validación | Generar solicitud de cotización a proveedores (Auxiliar Compras), Validar cotizaciones recibidas (Director Compras), Generar orden de compra (Director Compras), Registrar datos de proveedor (Auxiliar Compras) |
-| MVP 4 | Módulo de Inventario Avanzado e Inteligencia de Negocio | Recibir alertas automáticas de inventario bajo (Jefe Cocina), Consultar cotizaciones opcionadas (Director Compras), Ver KPIs y tablero de control (Director Compras), Revisar promociones sugeridas (Jefe Cocina) |
+| MVP 4 | Módulo de Inventario Avanzado e Inteligencia de Negocio | Recibir alertas automáticas de inventario bajo (Jefe Cocina), Consultar cotizaciones opcionadas (Director Compras), Ver KPIs y tablero de control (Director comercial, S-05), Revisar promociones sugeridas (Jefe Cocina) |
 
 **Objetivos de los MVP** (páginas 5 y 6):
 
