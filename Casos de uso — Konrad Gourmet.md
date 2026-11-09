@@ -4,34 +4,6 @@ Carlos Franco · versión corregida del 8 de noviembre de 2026
 
 Este documento fija 19 casos de uso, cada uno amarrado a una historia de usuario, a un requisito del enunciado y a sus ventanas. Los criterios salen de las historias del Story Mapping; lo que el equipo no definió queda marcado como propuesta.
 
-## Estado frente al prototipo (8 de noviembre)
-
-Este cuadro contrasta cada caso de uso con el repositorio github.com/MauItu/KonradGourmet-FinalProyecto (carpeta `codigo/`, commit `22717f7` de `KonradGourmet`, 8 de noviembre). Las sesiones 4 (demo real) y 5 (documentos de cierre) están terminadas, y en la sesión 6 el pedido pasó a guardar el mesero que lo tomó (DEC-51). El código compila sin avisos, la demo (`./ejecutar.sh`) recorre el flujo de compra con adaptadores en memoria y pasan las 176 verificaciones. De los 274 cuerpos que lanzaban «Pendiente de implementar» al cerrar la sesión 3 quedan 94: los adaptadores de tecnología externa y los módulos que la demo no usa. Tienen lógica CU-02, CU-04, CU-05, CU-07 a CU-14, CU-16, CU-17 y CU-18, y parte de CU-15 (parámetros, tema y destinatarios). Siguen sin lógica CU-01, CU-03, CU-06 y el alta de usuarios. Las decisiones del equipo están en `DECISIONES.md`.
-
-| CU | Qué declara el código del 8 de noviembre | Qué cambia o sigue abierto | ¿Tiene lógica? |
-| --- | --- | --- | --- |
-| CU-01 | V01: `POST /api/auth/token` | La única pantalla del prototipo es V01 y no se conecta a ningún servicio | No: `IniciarSesionService` sigue pendiente |
-| CU-02 | V02: `GET /api/pedidos?turno=actual`. V03 y V04: `POST /api/pedidos`. Catálogo y mesas: `GET /api/pedidos/catalogo` y `GET /api/pedidos/mesas` | `Pedido` guarda número, mesa (que trae su sucursal), el mesero que lo tomó (`meseroId`, DEC-51), fecha, estado y detalles. Coincide con el paso 7 | Sí |
-| CU-03 | V06: `POST /api/platos`, productos por categoría, y editar (PUT) y desactivar (PATCH). `Plato` guarda `sucursalId` y `creadoPor` (DEC-11) | Coincide con el flujo alterno «consultar, editar y desactivar» | No: ms-menu sigue pendiente |
-| CU-04 | V08 y V09: `POST /api/solicitudes` (201). La solicitud guarda `correoSolicitante` (DEC-13) | Coincide | Sí |
-| CU-05 | V05: `GET /api/inventario/alertas`. V07: `GET /api/inventario/insumos`. ms-inventario consume `solicitud.registrada` y apaga la alerta (DEC-18), como pide HU-16 | La alerta es solo la marca `alertaAtendida` del insumo; no existe una entidad Alerta. El 25 % es `UmbralStock`, propio de ms-inventario | Sí |
-| CU-06 | `/api/bam/promociones`: sugerencias por fechas, aceptar y descartar. `SugerenciaPromocion` guarda producto, motivo, vigencia y estado | Sigue sin mockup. La nota del código indica que `notificadaEl` limita el aviso a uno por día | No: las promociones siguen pendientes |
-| CU-07 | V11: `GET /api/solicitudes?estado=…`. V12: `GET /api/solicitudes/{id}`. `CriteriosConsulta` trae fechas, producto, marca y estado | Los cuatro filtros quedan en la firma | Sí |
-| CU-08 | V13: `POST /api/cotizaciones`. V14: `GET /api/cotizaciones/{id}/pdf`. La cotización guarda una lista de solicitudes (DEC-05), el estado `PENDIENTE_PRECIO` y un reenvío del correo | Los flujos «Ministerio no responde» y «reintentar el envío» ya tienen estado y operación en el diseño | Sí |
-| CU-09 | `/api/proveedores`: registrar, consultar (el desplegable de V13), detalle, editar e inactivar (DEC-07) | Sigue sin ventana propia. `Proveedor.categorias` guarda los nombres de las categorías del catálogo de ms-menu, copiados por valor (PD-02) | Sí (`ProveedorService`; la demo guarda en memoria) |
-| CU-10 | V18: `PUT /api/cotizaciones/{id}/valores` | Coincide | Sí |
-| CU-11 | V19: `POST /api/cotizaciones/{id}/validacion`. V17: `GET /api/cotizaciones` | Coincide | Sí |
-| CU-12 | V20: `GET /api/cotizaciones?estado=OPCIONADA` y `GET /api/cotizaciones/{id}` | Coincide | Sí |
-| CU-13 | V21 y V22: `POST /api/ordenes-compra`. V23: `GET /api/ordenes-compra`. La cotización pasa a `CON_ORDEN` y no admite otra orden. La orden guarda lista de solicitudes, `correoProveedor` y `pdfUrl`, y tiene su propio generador de PDF | Los estados de la orden siguen siendo EN\_PROCESO y FINALIZADA. `EstadoSolicitud` tiene `COMPLETADA`; el texto del Story Mapping no lo menciona | Sí |
-| CU-14 | `GET /api/bam/kpis?desde&hasta&sucursalId`. El tablero es del director comercial (DEC-06) | Sigue sin mockup. Los periodos fijos del enunciado son el valor por defecto y el rango elegido los reemplaza (PD-03) | Sí (los hechos son un histórico cargado a mano) |
-| CU-15 | `parametrizar(clave, valor)` y `GET /api/admin/parametros/tema`. `ParametrosSistema` guarda tema, logos y parámetros generales | El umbral del 25 % no vive ahí: es de ms-inventario (`UmbralStock`) y, por diseño, no tiene ruta para cambiarlo (DEC-43). La libreta de destinatarios por sucursal (`/api/notificaciones/destinatarios`, DEC-13) es el paso 4 de este caso | En parte: parámetros, tema y destinatarios |
-| CU-16 | `auditoria(desde, hasta)` | Coincide | Sí |
-| CU-17 | `logs(servicio)` con un puerto propio para los logs | Coincide | Sí (la demo guarda los logs en memoria; Elasticsearch sigue pendiente) |
-| CU-18 | `consultarPrecioSugerido(productoId)` en el endpoint SOAP, publicado bajo `/api/integracion/**` | Coincide | Sí (la demo simula el Ministerio) |
-| CU-19 | `POST /api/usuarios`, sin ventana (DEC-10). `PoliticaContrasena` valida la regla y `CifradorPort` la cifra (BCrypt) | Sin mockup | No: `RegistrarUsuarioService` sigue pendiente |
-
-**Las 23 ventanas quedan cubiertas.** V10 (`GET /api/solicitudes?solicitante=yo`, mis solicitudes del jefe de cocina), V15 (`GET /api/cotizaciones`, cotizaciones del auxiliar) y V16 (`GET /api/cotizaciones/pendientes`, inicio del director) son consultas de apoyo que no cierran ninguna historia; aquí van como flujos alternos de CU-04, CU-08 y CU-11.
-
 ## Dónde implementar cada caso de uso
 
 Este cuadro dice dónde vive cada caso de uso en el código. Sale de los controladores, listeners y puertos de entrada (carpeta `codigo/src/co/edu/konradlorenz/` del repositorio público; `src/co/edu/konradlorenz/` en `KonradGourmet`) y de las clases de eventos. En los casos que tienen lógica, la demo y las pruebas confirman los eventos que cada uno publica o consume; en CU-01, CU-03 y CU-06 se leen de los encabezados y de `DECISIONES.md`.
