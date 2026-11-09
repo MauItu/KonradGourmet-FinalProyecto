@@ -444,12 +444,14 @@ Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciad
 
 **Flujo principal:**
 
-1. El administrador abre la parametrización y elige el tipo de dato que va a alimentar.
-2. Crea, edita o inactiva el dato.
-3. El sistema valida y guarda el cambio, y lo registra en la auditoría.
-4. Registra los correos de los jefes de cocina por sucursal (`/api/notificaciones/destinatarios`, DEC-13).
+1. El administrador abre la parametrización y elige qué va a cambiar: un parámetro general o la imagen corporativa (tema y logos).
+2. Cambia el valor.
+3. El sistema valida y guarda el cambio, y lo registra en la auditoría. Mensajes: «La clave del parámetro es obligatoria.», «El valor del parámetro {clave} es obligatorio.» y «Parámetro actualizado.» (PD-10).
+4. Registra los correos de los jefes de cocina por sucursal (`/api/notificaciones/destinatarios`, DEC-13). Un correo mal formado muestra «El formato del correo electrónico no es válido.» **Límite del prototipo (N5):** `NotificacionService.registrarDestinatario()` no publica todavía `auditoria.evento`; en el sistema real este registro también se audita.
 
-**Datos paramétricos que las fuentes mencionan:** categorías de producto, productos por categoría, unidades de medida y marcas (listas desplegables de RF-01 y RF-03); mesas por sucursal (HU-03); imagen corporativa, es decir tema y logos (requisito de interfaz 1). El alta de usuarios es CU-19 (DEC-10). Falta confirmar si roles y permisos también se administran aquí, porque el enunciado exige que existan pero no dice quién los mantiene.
+**Datos paramétricos que las fuentes mencionan:** categorías de producto, productos por categoría, unidades de medida y marcas (listas desplegables de RF-01 y RF-03); mesas por sucursal (HU-03); imagen corporativa, es decir tema y logos (requisito de interfaz 1). El alta de usuarios es CU-19 (DEC-10).
+
+**Roles y permisos (PD-06):** los seis roles son fijos (un rol nuevo es un cambio de código) y los permisos son una matriz fija de rol a rutas: el gateway valida el JWT, cada servicio verifica el rol en sus endpoints y el menú lateral sale del rol. El administrador tiene alcance global: registra usuarios con un rol y una sucursal (CU-19), mantiene parámetros, tema, logos y destinatarios, y consulta auditoría y logs. Cambiar el rol o desactivar un usuario queda fuera de esta versión. **Supuesto S10:** las listas maestras (categorías, productos, unidades, marcas y mesas) y el primer administrador se cargan con la migración inicial del servicio dueño de cada una; no se mantienen desde esta pantalla.
 
 ### CU-16 Consultar auditoría
 
