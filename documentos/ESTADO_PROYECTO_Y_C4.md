@@ -37,7 +37,7 @@ Konrad Gourmet es una cadena de restaurantes. El sistema cubre todo el ciclo de 
 2. El **jefe de cocina** gestiona los platos y el inventario. Cuando un producto baja del 25 %, recibe una alarma y crea una solicitud de alimentos.
 3. El **auxiliar de compras** genera la solicitud de cotización, que puede reunir una o varias solicitudes (DEC-05). El sistema consulta el precio estándar del Ministerio de Comercio, genera un PDF y se lo envía al proveedor por correo certificado.
 4. El **director de compras** registra los valores que respondió el proveedor y valida la cotización con las reglas de precio: **RECHAZADA** si está más de 25 % por encima, **SOSPECHOSA** si está más de 50 % por debajo y **OPCIONADA** en cualquier otro caso. Con las opcionadas genera la orden de compra.
-5. El **director comercial** consulta el tablero BAM, con indicadores, tendencias y promociones sugeridas (DEC-06 y DEC-07).
+5. El **director comercial** consulta el tablero BAM con sus indicadores (DEC-06); el **jefe de cocina** recibe y revisa las promociones sugeridas a partir de las tendencias (HU-19, DEC-07).
 6. El **administrador** gestiona los parámetros, la imagen corporativa, la auditoría y el alta de usuarios (DEC-10).
 
 Requerimientos no funcionales principales:
@@ -112,7 +112,8 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 | `REVISION_2026-11-07.md` | Los hallazgos H1–H26 del arquitecto-revisor |
 | `INVENTARIO_SESION2.md`, `INVENTARIO_SESION3.md` | Lista de ítems que cada sesión debía cambiar |
 | `VALIDACION_FASE2A.md`, `VALIDACION_SESION2.md` a `VALIDACION_SESION6.md` | Lo que el revisor encontró al validar cada sesión |
-| `CORRECCIONES_REPORTE.md` | Las 61 correcciones (R-01 a R-61) que hay que aplicar al reporte |
+| `CORRECCIONES_REPORTE.md` | Las 66 correcciones (R-01 a R-66) que hay que aplicar al reporte |
+| `REVISION_ARQUITECTO_POST_S6.md` | Informe del arquitecto-revisor de Claude con PD-01 a PD-11 y la resolución de los supuestos |
 | `CORRECCIONES_HU_Y_MOCKUPS.md` | Lo que hay que cambiar en el Story Mapping y los mockups |
 | `Casos de uso — Konrad Gourmet.md` | Los 19 casos de uso de Carlos Franco, corregidos con RCU-1 a RCU-13 (DEC-52) y la precisión S6-2; falta el PNG del diagrama UML |
 | `REVISION_CASOS_DE_USO.md` | La revisión del arquitecto sobre ese archivo: bien con correcciones, 13 problemas |
@@ -149,7 +150,7 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 | Diagramas C4 y de clases | **Corregidos y validados** | 11 páginas. Las sesiones 1 a 3 aplicaron los hallazgos del revisor, validados cuatro veces; 191 clases en 4a–4e. La 4d y la nota `n_outbox` de la 4a se actualizaron en la sesión 5; la 4b incorpora `Pedido.meseroId` desde la sesión 6 |
 | Código Java | **Con firmas y demo** | 191 clases con sus firmas y relaciones, que compilan con `javac --release 21 -Xlint:all`. Los 23 métodos de ventana existen con su comentario. Quedan 94 cuerpos «Pendiente de implementar»: lo que habla con tecnología externa y lo que la demo no usa |
 | Demo | **Funciona** | `DemoArquitectura` recorre pedido, alarma de stock, SOL-031, COT-018/019/020 y OC-0012, y cubre las 7 salidas que promete el reporte (DEC-31). Reproduce +4,81 % → OPCIONADA. 176 verificaciones pasan |
-| Reporte PDF | **Desactualizado, sin tocar** | Sigue siendo el de octubre: dice «ocho páginas», y «155 clases». Sus 61 correcciones están escritas en `CORRECCIONES_REPORTE.md`; no se aplican sin el script de ReportLab (A1) |
+| Reporte PDF | **Desactualizado, sin tocar** | Sigue siendo el de octubre: dice «ocho páginas», y «155 clases». Sus 66 correcciones están escritas en `CORRECCIONES_REPORTE.md`; no se aplican sin el script de ReportLab (A1) |
 | Historias de usuario y mockups | **Con correcciones anotadas** | V13 y V21 muestran una sola solicitud, V17 y V19–V23 cuentan otra historia de cotizaciones que la demo (DEC-49), V05 trae dos alertas que no alertan (DEC-50), V03 y V04 se contradicen, HU-07 es copia de HU-06, y el Story Mapping tiene etiquetas erróneas. Los archivos no son nuestros: la lista está en `CORRECCIONES_HU_Y_MOCKUPS.md` |
 | Planeación (Excel) | **Corregido** | 1 PHU = 25 h, 9 PHU por sprint, HU-14 = 1 (total 35), HU-17 en el sprint 3. **5 sprints, 10 semanas, 35 PHU y fechas del 03/08 al 11/10/2026**, todo con fórmulas (DEC-47) |
 | Casos de uso | **Texto corregido; diagrama pendiente** | 19 CU, 12 RF definidos y 23 ventanas cubiertas; RCU-1 a RCU-13 y S6-2. El enunciado original no está disponible. `casos_de_uso.png` lo debe exportar el compañero |
@@ -159,7 +160,7 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 - **Casos de uso:** falta exportar el diagrama UML y comprobarlo contra CU-01 a CU-19; el marcador no sustituye la imagen para la entrega.
 - **Reporte:** es el entregable principal y hoy contradice al código y a los diagramas. Se resuelve con el script (A1) o rehaciéndolo.
 - **Límites de la demo**, que el reporte debe decir (R-13, R-21, R-23 y R-45): los eventos llevan `sistema` como usuario y cada uno crea su propia correlación (DEC-42); los consumidores no descartan eventos repetidos; todos los datos están en memoria.
-- **Supuestos por confirmar:** DEC-08, DEC-20, DEC-39, DEC-41, DEC-44, DEC-45, DEC-47 (el orden de filas) y DEC-48. DEC-49 y DEC-50 las tomó el arquitecto-revisor a pedido de Mauricio.
+- **Supuestos:** DEC-08, DEC-20, DEC-39, DEC-40, DEC-41, DEC-44, DEC-45, DEC-47 (el orden de filas) y DEC-48 quedaron resueltos por el arquitecto-revisor el 2026-11-08, por delegación de Mauricio; también DEC-49, DEC-50 y PD-01 a PD-11.
 
 ---
 
@@ -279,7 +280,7 @@ Diagramas de clases UML por servicio, con paquetes `co.edu.konradlorenz.<servici
 
 - Dispositivos → CDN + WAF → DNS global con conmutación.
 - **Centro de datos principal** (región A): balanceador L7 activo-activo; Kubernetes en **3 zonas** con autoescalado; Gateway ×3, Eureka ×2, la SPA ×2 y los 11 microservicios con sus réplicas mínimas y máximas; Kafka ×3; observabilidad con Prometheus, Grafana, OpenTelemetry y ELK.
-- **Reparto por zona** (H24, DEC-20): tres cajas «Zona A», «Zona B» y «Zona C» con un gateway y un broker de Kafka en cada una. **Que Eureka y la SPA estén en las zonas A y B es un supuesto por confirmar.**
+- **Reparto por zona** (H24, DEC-20): tres cajas «Zona A», «Zona B» y «Zona C» con un gateway y un broker de Kafka en cada una. Eureka y la SPA tienen dos réplicas en zonas distintas (antiafinidad), con A y B como etiquetas ilustrativas; lo confirmó el arquitecto-revisor (DEC-20).
 - **Capa de datos:** PostgreSQL ×11 con réplica síncrona en otra zona; Redis; almacén de objetos multizona; respaldo diario con retención de 30 días.
 - **Centro de datos alterno** (región B, en espera tibia): Kubernetes en espera; Kafka replicado con MirrorMaker 2; réplicas asíncronas de PostgreSQL (RPO ≤ 5 min) y **réplica del almacén de objetos entre regiones** (H16).
 - **Salida controlada** hacia el Ministerio, el correo y las redes sociales.
@@ -384,7 +385,7 @@ Los textos del reporte se corrigen con `CORRECCIONES_REPORTE.md` (R-xx), cuando 
 | H21 | Baja | Réplicas de ms-menu y «solo escalan 3» | 🟡 Solo texto del reporte: R-08 y R-16 |
 | H22 | Baja | Sin leyendas ni protocolos | ✅ Leyendas en todas las páginas; `[Kafka/TLS]` y `[SMTP/TLS]` |
 | H23 | Baja | Mensajes sin numerar en la página 6 | ✅ 4.1, 4.2… |
-| H24 | Baja | Las 3 zonas eran solo un texto | ✅ Tres cajas de zona. 🟡 Falta confirmar Eureka y SPA (DEC-20) |
+| H24 | Baja | Las 3 zonas eran solo un texto | ✅ Tres cajas de zona; Eureka y SPA en dos zonas distintas, confirmado (DEC-20) |
 | H25 | Baja | `Correo` en `dominio` | ✅ En `puertos.salida` |
 | H26 | Baja | Etiquetas del Story Mapping | 🟡 Anotado en `CORRECCIONES_HU_Y_MOCKUPS.md` |
 
@@ -397,7 +398,7 @@ Leyenda: ✅ hecho · 🟡 anotado, falta que alguien lo aplique en un archivo q
 | 1 | HU-09: ¿una o varias solicitudes por cotización? | ✅ DEC-05: varias |
 | 2 | ¿Demo y firmas, o corregir el reporte? | ✅ DEC-02: las dos primeras. El script: abierta (A1) |
 | 3 | ¿Los KPI son del director comercial o del de compras? | ✅ DEC-06: comercial |
-| 4 | ¿Cómo llega la alarma por WebSocket a la réplica que tiene la sesión? | 🔴 Abierta (A2) |
+| 4 | ¿Cómo llega la alarma por WebSocket a la réplica que tiene la sesión? | ✅ PD-01: difusión por Redis pub/sub; V05 relee las alertas |
 | 5 | ¿De quién es la cuenta `mari00aa120-eng`? | 🔴 Abierta (A3) |
 
 ---
@@ -412,7 +413,7 @@ Leyenda: ✅ hecho · 🟡 anotado, falta que alguien lo aplique en un archivo q
 |---|---|---|
 | Exportar el diagrama UML con los 19 casos, 6 roles y 5 actores externos | `documentos/casos_de_uso.png` | Carlos Franco / equipo |
 | Revisar el nombre del director: Laura Gómez en la demo e Isabella Castro en V16–V23 | Demo y mockups, sin cambios en esta sesión | Mauricio |
-| Aplicar las 61 correcciones al reporte, o rehacerlo | `CORRECCIONES_REPORTE.md` | Quien tenga el script (A1), o el equipo |
+| Aplicar las 66 correcciones al reporte, o rehacerlo | `CORRECCIONES_REPORTE.md` | Quien tenga el script (A1), o el equipo |
 | Corregir los mockups V13, V17, V19–V23, V03, V04, V05 y V18 (y V07, opcional), la tarjeta HU-07 y las etiquetas del Story Mapping | `CORRECCIONES_HU_Y_MOCKUPS.md` | El equipo, en Canva |
 
 **Decisiones del equipo:**
@@ -420,14 +421,11 @@ Leyenda: ✅ hecho · 🟡 anotado, falta que alguien lo aplique en un archivo q
 | Id | Qué hay que decidir | Por qué importa |
 |---|---|---|
 | **A1** | Quién tiene el script de ReportLab | Sin él, el reporte no se puede corregir |
-| **DEC-20** | Dónde corren Eureka y la SPA en las zonas A y B | Es un supuesto del dibujo; el reporte lo repetiría |
-| **T-06** | Cómo llevan `cotizacion.validada` y `tendencia.detectada` los tipos de otro servicio, sin romper DEC-29 | La demo no los consume: sin esto, el tablero de proveedores y las promociones no tendrían cómo alimentarse |
-| **A2** | Cómo llega la alarma de WebSocket a la réplica correcta | El profesor puede preguntarlo |
+| **T-06** | Decidida por el arquitecto (PD-05): tipos simples en los contratos y `diferenciaPorcentual` en `cotizacion.validada`. Falta que Mauricio autorice aplicarla (4c, 4e y código) | Mientras no se aplique, la demo no consume esos eventos y el tablero de proveedores y las promociones no tienen cómo alimentarse |
 | **A3** | De quién es la cuenta `mari00aa120-eng` | Conviene saberlo antes de la sustentación |
-| **DEC-48** | Dónde van las páginas 3a, 3b y 6 en el reporte | Solo importa cuando se regenere |
 | **A4** | Resuelta por DEC-51 y DEC-53 | `Pedido` guarda `meseroId`, lo exige al validar y filtra las consultas por mesero; no queda una decisión pendiente |
 
-**Supuestos por confirmar** (cada uno se revierte con su commit si no convence): DEC-08, DEC-39, DEC-40 (inventario inicial e histórico del tablero), DEC-41, DEC-44, DEC-45 y el orden de filas del Excel (DEC-47).
+**Supuestos:** DEC-08, DEC-20, DEC-39, DEC-40, DEC-41, DEC-44, DEC-45, DEC-47 (orden de filas) y DEC-48 los resolvió el arquitecto-revisor el 2026-11-08 por delegación de Mauricio (confirmados; DEC-08, DEC-41, DEC-44 y DEC-48 con ajuste). También tomó PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`). Quedan abiertas: A1 (script; si no aparece, se rehace, DEC-54) y A5 (enunciado, prioridad baja). HU-20 a HU-22 se omiten del plan de sprints (PD-09).
 
 ---
 

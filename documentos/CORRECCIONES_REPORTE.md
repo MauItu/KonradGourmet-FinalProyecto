@@ -33,7 +33,7 @@ Las correcciones salen de la revisión del 2026-11-07 (H1–H26 y D1–D12, en `
 ### R-01 · Volver a capturar todas las figuras · Cambiar
 **Dónde:** figuras 1 a 11 (p. 14–19, 23–25, 28 y 29) y figuras A1 a A5 del anexo (p. 34–38).
 **Por qué:** las figuras son capturas del `.drawio` del 29-oct. Desde entonces cambiaron todas las páginas que muestran: el mapa (p. 1), el contexto (p. 2), las cinco de código (4a–4e) y el despliegue (p. 5).
-**Qué hacer:** recortar las mismas zonas de las PNG actuales. Las 11 páginas del `.drawio` de hoy (`ae8dc83`) están exportadas en `FinalProyecto/exportes/sesion5/` (`1.png` … `6.png`). Si el `.drawio` vuelve a cambiar, hay que exportarlas otra vez a **escala 1**: en este equipo, a escala mayor la PNG sale en blanco.
+**Qué hacer:** recortar las mismas zonas de las PNG actuales. Las 11 páginas del `.drawio` vigente (después de las decisiones PD-01, PD-03, PD-04, PD-08 y DEC-20 del 2026-11-08) están exportadas en `FinalProyecto/exportes/post_sesion6/` (`1.png` … `6.png`); reemplazan a las de `exportes/sesion5/` y a la 4b de `exportes/sesion6/`. Si el `.drawio` vuelve a cambiar, hay que exportarlas otra vez a **escala 1**: en este equipo, a escala mayor la PNG sale en blanco.
 
 ### R-02 · Agregar las páginas 3a, 3b y 6 · Cambiar
 **Por qué:** el reporte (p. 4) dice que el modelo C4 es obligatorio en sus cuatro niveles y que «los diagramas dinámico y de despliegue son complementarios», pero no muestra el nivel 2, el nivel 3 ni el dinámico (REVISION, estado de los entregables).
@@ -76,6 +76,20 @@ Las figuras del anexo (A1–A5) no cambian de número. Hay que revisar cualquier
 ### R-05 · Fecha e índice · Cambiar
 - **p. 1:** «Octubre de 2026» → la fecha de la nueva versión (por ejemplo, *«Noviembre de 2026»*).
 - **p. 2 (contenido):** regenerar el índice. R-02 agrega texto en §10 y §14, así que los números de página cambian desde la p. 21.
+- **§14, título (DEC-48):** «Contexto y despliegue» → *«Modelo C4: contexto, contenedores, componentes y despliegue»*.
+
+### R-62 · Tabla «Dónde está cada nivel del C4» en §2 · Cambiar (DEC-48)
+**Por qué:** el arquitecto confirmó que cada página va junto a lo que explica (R-02), y agregó una tabla para que el profesor vea los cuatro niveles obligatorios y los complementarios de un vistazo, sin mover secciones.
+**Dónde:** §2 (p. 4), después de «…dinámico y de despliegue son complementarios.» Con la numeración de R-03:
+
+| Nivel | Página del .drawio | Figura | Sección |
+|---|---|---|---|
+| 1 Contexto | 2 | 11 | §14 |
+| 2 Contenedores | 3a | 12 | §14 |
+| 3 Componentes | 3b | 13 | §14 |
+| 4 Código | 4a–4e | 8–10 y A1–A5 | §12 y anexo |
+| Dinámico | 6 | 7 | §10 |
+| Despliegue | 5 | 14 | §14 |
 
 ---
 
@@ -102,6 +116,8 @@ Las figuras del anexo (A1–A5) no cambian de número. Hay que revisar cualquier
 **R-13 · Cambiar (H10, DEC-42).** Fila «Auditoría de cada CRUD con acción, usuario, fecha y hora»: «Cada servicio publica auditoria.evento; ms-administracion lo consume y lo guarda en su bitácora» → *«Cada uno de los otros diez servicios publica auditoria.evento después de cada escritura; ms-administracion lo consume y lo guarda en su bitácora, y sus propias escrituras las registra directo. En el sistema real, el usuario sale del JWT; la demostración del esqueleto registra «sistema» (o el correo de la entidad), como se explica en la sección 13»*.
 
 **R-14 · Opcional (H14).** Fila «Registro de cada error en un log»: «Logs centralizados (ELK) con trazas OpenTelemetry; consulta desde ms-administracion» → *«…; ms-administracion los consulta en Elasticsearch por el puerto LogsPort»*.
+
+**R-63 · Cambiar (PD-08).** Fila «Exponer servicios… externos por SOAP», columna Decisión: «ms-integracion concentra la frontera SOA: publica un endpoint SOAP y consume el servicio web del Ministerio de Comercio» → agregar al final *«; los sistemas externos se autentican con OAuth 2.0 client credentials y el gateway valida su JWT, que solo da acceso a /api/integracion/**»*.
 
 ### p. 6 · §4 Estilos evaluados
 Sin cambios.
@@ -162,7 +178,7 @@ Sin cambios. Las dos llamadas síncronas entre servicios siguen siendo las únic
 
 **R-30 · Cambiar (DEC-43).** Fila «Director · validación»: «más de 25 % por encima, RECHAZADA; más de 50 % por debajo, SOSPECHOSA; el resto, OPCIONADA (Chain of Responsibility).» → *«más de 25 % por encima, RECHAZADA; más de 50 % por debajo, SOSPECHOSA; el resto, OPCIONADA, incluidos +25,00 % y −50,00 % (Chain of Responsibility). La diferencia se redondea a 2 decimales antes de comparar.»*
 
-**R-31 · Opcional (H7).** Fila «Director comercial · BAM»: agregar *«Los KPI se filtran por rango de fechas y por sucursal (HU-18).»*
+**R-31 · Cambiar (H7, PD-03).** Fila «Director comercial · BAM»: agregar *«Sin filtro, la demanda se mide sobre el último mes y el proveedor con mejores precios sobre el último año; si el director elige un rango de fechas, los tres indicadores usan ese rango, y la sucursal filtra la demanda (HU-18). El proveedor se mide con la diferencia promedio de sus cotizaciones OPCIONADAS frente al precio estándar.»*
 
 **R-32 · Cambiar (DEC-18, D4, DEC-19, H5, D3, H10).** Tabla «Recorrido completo de una compra». Las filas que cambian, columna Mensaje:
 
@@ -240,7 +256,7 @@ Las filas Facade + Chain, Composite + Factory Method, Factory Method + Decorator
 
 **R-48 · Sin cambio.** «seis tipos de persona y cuatro sistemas externos… El proveedor aparece como persona externa» coincide con la p. 2 del `.drawio`.
 
-**R-49 · Cambiar (H24, DEC-20) · Por confirmar.** Despliegue: después de «en un clúster Kubernetes repartido en tres zonas,» agregar: *«con un gateway y un broker de Kafka en cada zona y las réplicas de cada servicio repartidas en al menos dos zonas, de modo que si cae una siguen funcionando dos de tres gateways y brokers;»*. El reparto de Eureka y la SPA en las zonas A y B es **asumido, por confirmar con el equipo** (DEC-20); si el equipo lo confirma, se puede agregar *«el Service Registry y la SPA corren en dos de las tres zonas»*.
+**R-49 · Cambiar (H24, DEC-20).** Despliegue: después de «en un clúster Kubernetes repartido en tres zonas,» agregar: *«con un gateway y un broker de Kafka en cada zona y las réplicas de cada servicio repartidas en al menos dos zonas, de modo que si cae una siguen funcionando dos de tres gateways y brokers; el Service Registry y la SPA tienen dos réplicas en zonas distintas;»*. El reparto de Eureka y la SPA lo confirmó el arquitecto-revisor (DEC-20, 2026-11-08): dos réplicas en zonas distintas, con A y B como etiquetas ilustrativas.
 
 **R-50 · Cambiar (H16).** «El centro de datos alterno, en otra región, mantiene las mismas imágenes con réplicas mínimas encendidas, recibe los tópicos con MirrorMaker 2 y las bases por réplica asíncrona;» → *«…, recibe los tópicos con MirrorMaker 2, las bases por réplica asíncrona y el almacén de objetos por replicación entre regiones;»*. Y «El respaldo diario combina copia nocturna y registros continuos con retención de 30 días.» → *«El respaldo diario combina copia nocturna y registros continuos de las bases, más una copia diaria del almacén de objetos, con retención de 30 días.»*
 
@@ -287,15 +303,21 @@ Donde dice «sin fijar» o no da verbo, ninguna fuente fija la ruta exacta (`INV
 
 **R-55 · Ya es cierto (H11).** Riesgo del outbox: la 4a ahora lo dibuja (nota `n_outbox`).
 
-**R-56 · Opcional (pregunta abierta A2).** Si el equipo resuelve cómo llega la alarma por WebSocket a la réplica de ms-notificaciones que tiene la sesión del jefe, agregar un riesgo con esa mitigación (sesión pegajosa en el balanceador o difusión con Redis pub/sub).
+**R-56 · Cambiar (A2, PD-01).** Agregar a la tabla de riesgos: *«La alarma la procesa una réplica de ms-notificaciones distinta de la que tiene abierta la conexión del jefe · El jefe no la ve en tiempo real · La réplica que consume el evento la difunde por Redis pub/sub a todas las réplicas, y cada una la entrega a sus conexiones; además, V05 consulta las alertas activas al abrirse, así que la alarma no se pierde.»* La sesión pegajosa en el balanceador no basta: la réplica que procesa el evento la asigna Kafka por partición (PD-01). Si se describe la caché en Redis (p. 13 o §14), agregar que el mismo Redis lleva el canal de alarmas, separado de la caché.
 
-**R-57 · Cambiar (DEC-10, DEC-07).** Supuesto S5: «El director comercial y el administrador no tienen mockup; sus servicios y rutas quedan listos» → *«El director comercial y el administrador no tienen mockup; sus servicios y rutas quedan listos, incluida el alta de usuarios por el administrador (POST /api/usuarios). Tampoco tienen mockup el registro de proveedores (HU-15, /api/proveedores) ni el histórico de promociones sugeridas (HU-19, /api/bam/promociones).»* Columna «Por qué»: queda igual.
+**R-57 · Cambiar (DEC-10, DEC-07).** Supuesto S5: «El director comercial y el administrador no tienen mockup; sus servicios y rutas quedan listos» → *«El director comercial y el administrador no tienen mockup; sus servicios y rutas quedan listos, incluida el alta de usuarios por el administrador (POST /api/usuarios). Tampoco tienen mockup el registro de proveedores (HU-15, /api/proveedores) ni el histórico de promociones sugeridas (HU-19, /api/bam/promociones).»* Agregar al final: *«Los seis roles son fijos y el administrador asigna uno al registrar cada usuario.»* (PD-06). Columna «Por qué»: queda igual.
 
-**R-61 · Opcional (DEC-51, sesión 6).** Agregar el supuesto S9: *«El mesero que registra un pedido es el usuario del token JWT; la SPA no lo envía»*, con «Por qué»: *«Así nadie registra un pedido a nombre de otro mesero, y el pedido queda asociado al usuario que lo tomó, como pide HU-01»*.
+**R-61 · Cambiar (DEC-51, sesión 6; confirmada por el arquitecto-revisor el 2026-11-08).** Agregar el supuesto S9: *«El mesero que registra un pedido es el usuario del token JWT; la SPA no lo envía»*, con «Por qué»: *«Así nadie registra un pedido a nombre de otro mesero, y el pedido queda asociado al usuario que lo tomó, como pide HU-01»*.
+
+**R-64 · Cambiar (PD-06).** Agregar el supuesto S10: *«Las listas maestras (categorías, productos, unidades, marcas y mesas) y el primer administrador se cargan con la migración inicial del servicio dueño de cada una»*, con «Por qué»: *«Ninguna fuente dice quién las mantiene; la parametrización del administrador cubre parámetros, tema, logos y destinatarios»*.
+
+**R-65 · Cambiar (PD-04).** Agregar el supuesto S11: *«El análisis de promociones corre cada semana sobre los 7 días anteriores, con las tendencias de una red social y los 3 productos más pedidos; cada sugerencia vale 7 días»*, con «Por qué»: *«HU-19 no fija la red, la ventana ni la cantidad; el adaptador de redes aísla la elección, y los valores son constantes de ms-analitica»*.
+
+**R-66 · Cambiar (PD-08).** Agregar el supuesto S12: *«Los sistemas externos que consumen el SOAP se registran como clientes en ms-identidad y obtienen su token con OAuth 2.0 client credentials»*, con «Por qué»: *«Ninguna fuente dice cómo se autentican; así el gateway usa un solo mecanismo (JWT) y la auditoría tiene un usuario (client_id)»*.
 
 ### p. 32 · §18 Declaración de uso de inteligencia artificial
 
-**R-58 · Cambiar (recomendado).** El reporte declara solo la generación inicial. Las correcciones de noviembre de 2026 (sesiones 1 a 5 de `PLAN_CORRECCIONES.md`) también se hicieron con IA. Agregar al final de «Herramienta»: *«Las correcciones posteriores a la revisión del 7 de noviembre de 2026 —el .drawio, el código, la demostración, las pruebas y el Excel— se hicieron con Claude Code, de Anthropic (modelos Claude Opus y Claude Sonnet), en cinco sesiones con un agente revisor que validaba cada una; las decisiones de diseño las tomó el equipo y están registradas en DECISIONES.md.»* El equipo debe confirmar la redacción.
+**R-58 · Cambiar (PD-11, confirmada por Mauricio el 2026-11-08).** Agregar al final de «Herramienta» de la §18: *«Las correcciones posteriores a la revisión del 7 de noviembre de 2026 —el .drawio, el código, la demostración, las pruebas, el Excel y los documentos— también se hicieron con inteligencia artificial: Claude, de Anthropic (modelos Claude Opus 5.5 y Claude Sonnet 5.5), y ChatGPT, de OpenAI (modelo Astra 6). Cada decisión, con sus alternativas, está registrada en DECISIONES.md, y cada corrección es un commit propio en el historial del repositorio.»* El texto anterior de esta corrección decía que las decisiones las tomó el equipo, lo que no es cierto para las delegadas al agente revisor (N4); la redacción nueva remite al registro.
 
 ### p. 33 a 38 · Referencias y anexo
 - Referencias: sin cambios.
@@ -340,6 +362,13 @@ Donde dice «sin fijar» o no da verbo, ninguna fuente fija la ruta exacta (`INV
 | W-03, W-06, W-13, W-20, W-21 | R-52 |
 | W-24 a W-35 | R-53 |
 | DEC-51 (A4) | R-60, R-61 |
+| DEC-48 | R-02, R-05, R-62 |
+| PD-01 (A2) | R-56 |
+| PD-03 | R-31 |
+| PD-04 | R-65 |
+| PD-06 | R-57, R-64 |
+| PD-08 | R-63, R-66 |
+| PD-11 (N4) | R-58 |
 | «Ocho páginas», páginas 3a, 3b y 6 | R-01 a R-05, R-28, R-40, R-59 |
 
 Los hallazgos H3, H12, H17, H19, H20, H22, H23 y H26 no tocan el texto del reporte: se corrigieron en el `.drawio`, el código, el README o el Excel, o van en `CORRECCIONES_HU_Y_MOCKUPS.md` (H26).
@@ -347,7 +376,4 @@ Los hallazgos H3, H12, H17, H19, H20, H22, H23 y H26 no tocan el texto del repor
 ## 4. Lo que queda para el equipo
 
 - **A1:** quién tiene el script de ReportLab. Sin él, nada de esto se aplica (DEC-03).
-- **DEC-20:** confirmar el reparto de Eureka y la SPA en las zonas A y B antes de escribir R-49.
-- **A2:** la alarma por WebSocket con varias réplicas (R-56).
-- **T-06:** la demo no consume `cotizacion.validada` ni `tendencia.detectada` (DEC-42). El reporte describe la arquitectura, que sí los consume, así que no hace falta cambiar el texto; si alguien pregunta en la sustentación, la respuesta está en DEC-29 y DEC-42.
-- **R-58:** la redacción de la declaración de IA.
+- **T-06:** decidida por el arquitecto en PD-05 (tipos simples en los contratos), con aplicación diferida hasta que Mauricio la autorice. La demo no consume `cotizacion.validada` ni `tendencia.detectada` (DEC-42). El reporte describe la arquitectura, que sí los consume, así que no hace falta cambiar el texto; si alguien pregunta en la sustentación, la respuesta está en DEC-29 y DEC-42.

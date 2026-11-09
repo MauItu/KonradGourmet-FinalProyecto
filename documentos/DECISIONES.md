@@ -12,18 +12,19 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-39 a DEC-46:** se propusieron durante la sesión 4. Mauricio confirmó el 2026-11-08 el pedido de $82.000, los precios por unidad, completar las solicitudes parciales y la alarma solo al cruzar el umbral. Escogió `adjuntoUrl` (DEC-42): dos contratos, reflejados en cuatro declaraciones de la 4d. En la segunda ronda confirmó también el redondeo de cotizaciones y stock (DEC-43), y `sistema` con una correlación por evento como límite de la demo (DEC-42); autorizó completar la auditoría de los fallos (DEC-46, S4-13). Las demás partes siguen asumidas, por confirmar, según indica cada decisión.
 - **DEC-49 y DEC-50:** las tomó el arquitecto-revisor el 2026-11-08, a pedido de Mauricio («actúa como el agente de arquitectura que tengo configurado y toma esas decisiones»). Mauricio puede revertirlas.
 - **DEC-47:** la fecha de inicio del sprint 1 y la forma de mostrar «EN SEMANAS» las decidió Mauricio el 2026-11-08, al empezar la sesión 5 (hallazgo H20), y en las dos escogió la opción recomendada. Después pidió que todo diga 5 sprints y 10 semanas, y se quitó la fila de sprints mínimos. El orden de las filas del Excel es asumido, por confirmar.
+- **PD-01 a PD-11 y las confirmaciones de los supuestos (DEC-08, DEC-20, DEC-39 a DEC-41, DEC-44, DEC-45, DEC-47 y DEC-48):** las tomó el agente `arquitecto-revisor` de Claude el 2026-11-08, por delegación expresa de Mauricio (puntos 4 y 5 de `PENDIENTES_POST_SESION6.md`), respetando sus decisiones ya confirmadas. El informe completo, con la evidencia, está en `REVISION_ARQUITECTO_POST_S6.md`. «PD» significa decisión posterior a la sesión 6. Mauricio puede revertir cualquiera.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
 |---|---|---|---|
 | DEC-01 | Carpetas y control de versiones | Dos carpetas hermanas, cada una con su repo, en la rama local `correcciones-revision` | Aplicada |
 | DEC-02 | Código (hallazgo bloqueante H1 y D12) | Firmas, relaciones y tipos, más una demo real | Firmas, relaciones y tipos aplicados en el código (sesión 3); la demo real, aplicada en la sesión 4 |
-| DEC-03 | Reporte PDF | No tocarlo hasta que aparezca el script original | Vigente; los cambios están en `CORRECCIONES_REPORTE.md` (R-01 a R-61, sesiones 5 y 6) |
+| DEC-03 | Reporte PDF | No tocarlo hasta que aparezca el script original | Reemplazada por DEC-54: si el script no aparece, el reporte se rehace con uno nuevo; los cambios están en `CORRECCIONES_REPORTE.md` (R-01 a R-66) |
 | DEC-04 | Ritmo de trabajo | Por fases con pausa, en 5 sesiones | Vigente; Mauricio añadió la sesión 6 (DEC-51/52) y aprobó sus fases 1 y 2 antes del cierre |
 | DEC-05 | HU-09: solicitudes por cotización | Varias solicitudes; anotar que hay que corregir el mockup V13 | Aplicada en el `.drawio`, en las firmas y en la lógica del código (sesión 4); el mockup V13 (y V21), anotado en `CORRECCIONES_HU_Y_MOCKUPS.md` (M-01 y M-02) |
 | DEC-06 | Dueño de los KPI | Director comercial, para revisar con el equipo | Decidida |
 | DEC-07 | Alcance de HU-15 y HU-19 | Las dos dentro de la arquitectura | Aplicada en el `.drawio` y en el código; los mockups opcionales, descritos en `CORRECCIONES_HU_Y_MOCKUPS.md` (M-08) |
-| DEC-08 | Recomendaciones del revisor y D1–D8 | Se aceptan las recomendaciones | Asumida, por confirmar |
+| DEC-08 | Recomendaciones del revisor y D1–D8 | Se aceptan las recomendaciones | **Confirmada con ajuste** por el arquitecto-revisor (2026-11-08): D2 queda reemplazada por DEC-12 |
 | DEC-09 | Datos comunes de los eventos (H11) | `EventoDominio` pasa a clase abstracta con id, usuario, correlación y fecha | Aplicada |
 | DEC-10 | Regla de contraseña (H15) | Regla en el dominio, `cifrar()` y alta de usuarios por el administrador | Aplicada en el `.drawio` y en el código; el cambio del reporte está anotado en `CORRECCIONES_REPORTE.md` (R-09, R-17, R-53 y R-57) |
 | DEC-11 | Platos por sucursal (N1) | Se corrige ya, en la fase 2a | Aplicada |
@@ -35,7 +36,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-17 | Base de datos de ms-integracion | PostgreSQL propia para la tabla outbox | Aplicada en el `.drawio`; el reporte, anotado en `CORRECCIONES_REPORTE.md` (R-26) |
 | DEC-18 | ms-inventario en el recorrido (p. 6) | Línea de vida propia, antes del servidor de correo | Aplicada en el `.drawio`; las tablas del reporte, anotadas en `CORRECCIONES_REPORTE.md` (R-32 y R-34) |
 | DEC-19 | Ejemplo de varias solicitudes (p. 6) | «Una o varias (aquí SOL-031)», con las listas escritas como listas | Aplicada |
-| DEC-20 | Zonas en el despliegue (p. 5) | Tres cajas de zona con el reparto; Eureka y la SPA en las zonas A y B | Aplicada; lo de Eureka y la SPA es asumido, por confirmar con el equipo (R-49 de `CORRECCIONES_REPORTE.md` espera esa confirmación) |
+| DEC-20 | Zonas en el despliegue (p. 5) | Tres cajas de zona con el reparto; Eureka y la SPA en las zonas A y B | Aplicada; el reparto de Eureka y la SPA lo **confirmó el arquitecto-revisor** (2026-11-08): dos réplicas en zonas distintas, A y B ilustrativas |
 | DEC-21 | Ítems fuera del plan de la sesión 2 | Se aplican 27 de 33; 6 no se aplican | Aplicada |
 | DEC-22 | Caché del Proxy en memoria (4e) | No se toca la 4e; se anota para la sesión 3 | Resuelta en la sesión 3 por DEC-27 |
 | DEC-23 | Ruta del gateway a ms-integracion (p. 1, S5) | Se deja como está: entra por arriba al endpoint SOAP | Decidida, sin cambio |
@@ -54,21 +55,35 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-36 | Los jobs y las réplicas (K10) | Los 2 jobs llevan además `@SchedulerLock` (ShedLock) | Aplicada |
 | DEC-37 | Ventanas de ms-cotizaciones (K11) | El README vuelve a «V13–V20»; revierte K5 | Aplicada |
 | DEC-38 | ShedLock y `@Primary` fuera del código | Nada ahora; una frase en el reporte (p. 26) si aparece el script | Aplicada: la frase está en `CORRECCIONES_REPORTE.md` (R-43) |
-| DEC-39 | Qué métodos tienen lógica en la sesión 4 | Solo lo que usa el recorrido de compra; los adaptadores de tecnología externa y los módulos que la demo no usa siguen pendientes (94 cuerpos) | Asumida, por confirmar |
-| DEC-40 | Datos del recorrido que los mockups no fijan | Precios por unidad; pedido de $82.000; res en 12,5 kg; histórico del tablero cargado a mano | Mauricio confirmó precios por unidad y pedido; inventario inicial e histórico del tablero siguen asumidos |
-| DEC-41 | Cómo cambia una entidad sin métodos para eso | Constructores de copia y accesores de lista modificables; no se agregan métodos | Asumida, por confirmar |
-| DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 sigue abierta | `adjuntoUrl` y límite de usuario/correlación: **confirmados por Mauricio**; 4d y nota `n_outbox` de la 4a actualizadas en la sesión 5 (`4da992c`, `f57a89e`); aclaraciones del reporte anotadas en `CORRECCIONES_REPORTE.md` (R-13, R-21, R-23 y R-45); T-06 sigue asumida, por confirmar |
+| DEC-39 | Qué métodos tienen lógica en la sesión 4 | Solo lo que usa el recorrido de compra; los adaptadores de tecnología externa y los módulos que la demo no usa siguen pendientes (94 cuerpos) | **Confirmada** por el arquitecto-revisor (2026-11-08); Mauricio fija el alcance en **solo la demo** |
+| DEC-40 | Datos del recorrido que los mockups no fijan | Precios por unidad; pedido de $82.000; res en 12,5 kg; histórico del tablero cargado a mano | Mauricio confirmó precios por unidad y pedido; inventario inicial e histórico del tablero **confirmados por el arquitecto-revisor** (2026-11-08) como datos y límite de la demo |
+| DEC-41 | Cómo cambia una entidad sin métodos para eso | Constructores de copia y accesores de lista modificables; no se agregan métodos | **Confirmada con ajuste** por el arquitecto-revisor (2026-11-08): las listas modificables son una simplificación declarada de la demo |
+| DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 decidida en PD-05 | `adjuntoUrl` y límite de usuario/correlación: **confirmados por Mauricio**; 4d y nota `n_outbox` de la 4a actualizadas en la sesión 5 (`4da992c`, `f57a89e`); aclaraciones del reporte anotadas en `CORRECCIONES_REPORTE.md` (R-13, R-21, R-23 y R-45); T-06: **decidida por el arquitecto en PD-05, aplicación diferida** |
 | DEC-43 | Límites de la cadena de reglas y del umbral | Porcentajes redondeados a 2 decimales antes de comparar; límites estrictos y stock por debajo del 25 % | Decidida por Mauricio en la segunda ronda de la sesión 4 (2026-11-08), incluido el redondeo del stock |
-| DEC-44 | Dónde van las pruebas y el script | Carpeta `pruebas/` fuera de `src/`, sin JUnit, y `ejecutar.sh` | Asumida, por confirmar |
-| DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | Asumida, por confirmar |
+| DEC-44 | Dónde van las pruebas y el script | Carpeta `pruebas/` fuera de `src/`, sin JUnit, y `ejecutar.sh` | **Confirmada** por el arquitecto-revisor (2026-11-08); cifra actualizada a 176 verificaciones en 6 archivos |
+| DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | **Confirmada** por el arquitecto-revisor (2026-11-08): 211 = 191 + 20 |
 | DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura del recorrido, incluidos los fallos | Confirmada por Mauricio; auditoría de los fallos autorizada en la fase 2 (S4-13) |
-| DEC-47 | Plan de sprints del Excel (H20) | 1 PHU = 25 h y 9 PHU por sprint; HU-14 = 1 (total 35); HU-17 al sprint 3 (8, 8, 6, 8 y 5 PHU); inicio el lunes 03/08/2026; 5 sprints y 10 semanas en todo el Excel | Aplicada en el Excel (sesión 5); fecha y «EN SEMANAS» decididos por Mauricio; el orden de filas es asumido, por confirmar |
-| DEC-48 | Dónde van las páginas 3a, 3b y 6 en el reporte | La 6 en §10, después de la tabla del recorrido; la 3a y la 3b en §14, después del contexto | Asumida, por confirmar (sesión 5) |
+| DEC-47 | Plan de sprints del Excel (H20) | 1 PHU = 25 h y 9 PHU por sprint; HU-14 = 1 (total 35); HU-17 al sprint 3 (8, 8, 6, 8 y 5 PHU); inicio el lunes 03/08/2026; 5 sprints y 10 semanas en todo el Excel | Aplicada en el Excel (sesión 5); fecha y «EN SEMANAS» decididos por Mauricio; el orden de filas lo **confirmó el arquitecto-revisor** (2026-11-08) |
+| DEC-48 | Dónde van las páginas 3a, 3b y 6 en el reporte | La 6 en §10, después de la tabla del recorrido; la 3a y la 3b en §14, después del contexto; tabla de niveles C4 en §2 | **Confirmada con ajuste** por el arquitecto-revisor (2026-11-08): R-62 y título nuevo de §14 |
 | DEC-49 | Qué orden sale de V20 a V22: los mockups y la demo no coinciden | Opción A ampliada: los datos de la demo mandan (COT-018, Proveedor ABC, OC-0012 por $545.000) y se corrigen seis mockups (V17 y V19 a V23) | Decidida por el arquitecto-revisor (2026-11-08), a pedido de Mauricio |
 | DEC-50 | Arroz y Pollo al 25 % en V05 | Se sacan de la lista y la tarjeta queda en «3 Stock bajo»; la regla de DEC-43 no cambia | Decidida por el arquitecto-revisor (2026-11-08), a pedido de Mauricio |
 | DEC-51 | El pedido guarda qué mesero lo tomó (A4) | `meseroId: Long` en `Pedido`, en la 4b y en el código | Aplicada y aprobada por Mauricio en la fase 1 de la sesión 6: código `22717f7`, 4b `4e4559e`, R-60/R-61; 176/176 |
 | DEC-52 | Quién corrige el archivo de casos de uso | Corrección directa del archivo, autorizada por Mauricio, con los 13 problemas de `REVISION_CASOS_DE_USO.md` | Aplicada: RCU-1 a RCU-13; fase 2 aprobada por Mauricio. Precisión de cierre S6-2. Falta el PNG del compañero, señalado según lo acordado |
 | DEC-53 | Cómo llega el `meseroId` al pedido (DEC-51) | En el constructor: `Pedido(numero, mesa, meseroId)`; ninguna otra firma cambia | Aplicada y aprobada en la fase 1 de la sesión 6; validada en `VALIDACION_SESION6.md` |
+| PD-01 | Alarma WebSocket con varias réplicas de ms-notificaciones (A2) | Difusión por Redis pub/sub; V05 relee las alertas guardadas al abrirse | Decidida por el arquitecto-revisor (2026-11-08); efectos en 1, 3a, 4d y 5, y R-56 |
+| PD-02 | Categorías del proveedor | Se mantiene `List<String>`: nombres de las categorías de ms-menu, copiados por valor | Decidida por el arquitecto-revisor (2026-11-08); efecto en CU-09 |
+| PD-03 | BAM: periodos fijos frente al rango libre | Sin rango: demanda de 30 días y proveedor de 365; con rango, manda el rango; la sucursal filtra la demanda; solo cotizaciones OPCIONADAS | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_kpis`), CU-14 y R-31; código fuera de alcance |
+| PD-04 | Promociones: fuente de tendencias y periodo | Job semanal sobre los 7 días anteriores: tendencias de redes y los 3 más pedidos; vigencia de 7 días; supuesto S11 | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_promociones`), CU-06 y §17 del reporte |
+| PD-05 | T-06: eventos con tipos del dominio de otro servicio | Tipos simples en el contrato (`estado: String`, `diferenciaPorcentual`, `sugerencias: List<String>`); aplicación diferida | Decidida por el arquitecto-revisor (2026-11-08); aplicación diferida, pendiente de autorización de Mauricio (4c, 4e y código) |
+| PD-06 | Administración de roles y permisos | Seis roles fijos y una matriz fija de permisos por rol; administrador de alcance global; supuesto S10 para las listas maestras | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-15, R-57 y §17 del reporte |
+| PD-07 | Filtros de la auditoría | Solo rango de fechas, obligatorio; usuario y acción quedan como evolución | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-16 y HU-21 |
+| PD-08 | Autenticación de los consumidores externos del SOAP | OAuth 2.0 client credentials: JWT de cliente validado por el gateway, solo para `/api/integracion/**`; supuesto S12 | Decidida por el arquitecto-revisor (2026-11-08); efectos en páginas 1, 2 y 3a, CU-18 y §3/§17 del reporte |
+| PD-09 | HU-20 a HU-22 | Propuestas de diseño con ajustes; **Mauricio decide omitirlas del plan**: no se estiman ni entran a los sprints ni al Story Mapping corregido | Ajustada por Mauricio (2026-11-08); quedan solo en los casos de uso como historias para una versión posterior |
+| PD-10 | Mensajes de interfaz por definir | Criterio común y 16 textos propuestos; los mensajes literales de las HU son el contrato de la interfaz | Decidida por el arquitecto-revisor (2026-11-08); efectos en casos de uso y Story Mapping corregido; el código no cambia |
+| PD-11 | Declaración de IA del reporte (R-58) | Ampliar la §18 con las correcciones posteriores: Claude (Opus 5.5 y Sonnet 5.5) y ChatGPT (Astra 6), sin afirmar que el equipo tomó todas las decisiones | Herramientas y modelos **confirmados por Mauricio** (2026-11-08); R-58 vuelve a «Cambiar» |
+| DEC-54 | Cómo se corrige el reporte si no aparece el script (A1) | Mauricio pregunta al equipo; si nadie lo tiene, se rehace el reporte con un script nuevo, conservando el PDF original | Decidida por Mauricio (2026-11-08); la reconstrucción va en el punto 1 |
+| DEC-55 | Formato del reporte nuevo | Sobrio, de documento académico: una sola letra (Times New Roman 12 pt), todo en negro, títulos en negrilla del mismo tamaño, tablas con líneas finas, APA 7; `.docx` editable más PDF | Decidida por Mauricio (2026-11-08); detalle en `PLAN_REPORTE.md` |
+| DEC-57 | Qué describe la documentación entregable | El proyecto completo, como diseño previo a la construcción: sin notas sobre límites del prototipo ni de la demo. Se aplica al reporte v2, el `.drawio`, los casos de uso, el Story Mapping corregido y el Excel; quedan fuera los textos que dependen del código (§13, README y pruebas) y los registros internos | Decidida por Mauricio (2026-11-09); cambios PC-01 a PC-21 |
 
 ---
 
@@ -241,6 +256,8 @@ En realidad las 156 clases están vacías y la demo solo imprime una línea. Un 
 
 **Estado:** asumida, porque se deduce de "haz todas las correcciones" y no se preguntó una por una. Si alguna no le parece a Mauricio o al equipo, se revierte su commit.
 
+
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmada con ajuste. D2 (11 rutas) queda **reemplazada** por DEC-12 (13 prefijos) y no se restaura. Se confirman D1 (`pdfUrl`, completada por `adjuntoUrl` de DEC-42), D3 (CON ORDEN, con el rechazo de la segunda orden en `OrdenCompraService.generar()` mediante `existePorCotizacion`), D4, D5 (pendiente, fuera del alcance de la demo), D6 (aviso por correo) y D7/D8 por DEC-07. Estado de los pendientes del estado del proyecto: E1–E3, D1–D8, D10 y D12 resueltos; D9 (tarjeta HU-07) se atiende en el Story Mapping corregido y D11 depende de A1.
 
 ## DEC-09 · ¿Cómo llevan los eventos su id, usuario y correlación? (H11)
 
@@ -421,6 +438,8 @@ Además, HU-16 (p. 23) pide que la alerta muestre el producto, la cantidad resta
 - **PostgreSQL, Redis y el almacén** están en la capa de datos, fuera del clúster, y no van en las cajas de zona. Su etiqueta dice el reparto: PostgreSQL con réplica síncrona en otra zona (reporte, p. 27), Redis con réplica en otra zona y el almacén multizona.
 
 **Qué es asumido, por confirmar con el equipo:** que Eureka (×2) y la SPA (×2) están en las zonas A y B. La zona C se registra en las dos instancias de Eureka.
+
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmación. Eureka y la SPA tienen 2 réplicas cada uno, en **dos zonas distintas** (antiafinidad); «A» y «B» son etiquetas ilustrativas. Si cae una zona queda una réplica de cada uno; los clientes de Eureka conservan su copia del registro (la renuevan cada 30 s) y la CDN sigue sirviendo la SPA. Se descartó subir a ×3 (habría que cambiar `v13`, `v21`, la 3a y la p. 27 a cambio de poco) y mantenerlo como supuesto. Se pierde redundancia si caen dos zonas a la vez, que ya cubre el centro de datos alterno. Efectos: la nota ² de `v46` en la página 5 y R-49, que deja de estar «Por confirmar».
 
 ## DEC-21 · ¿Qué se hace con los 33 ítems del inventario que no estaban en el plan?
 
@@ -677,6 +696,8 @@ El plan de la sesión 4 solo cubría la tercera. Con el reporte sin tocar (DEC-0
 
 **Qué implica:** el README tiene la tabla de qué métodos tienen lógica y cuáles no. Para los puertos de salida que la demo necesita, hay adaptadores en memoria en el paquete `demo` (DEC-30), y `Ensamble` los conecta como lo haría la clase de configuración del proyecto real. Si Mauricio prefiere B, el trabajo grande son los 12 `*JpaAdapter` sin atributos, que tendrían que ganar una colección que el diagrama no dibuja.
 
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmada. Hay 94 cuerpos pendientes en 45 archivos. **Prioridad registrada:** Mauricio fijó el 2026-11-08 que, por ahora, el alcance es **solo la demo** (`PENDIENTES_POST_SESION6.md` §6). Ninguna de las decisiones PD-01 a PD-11 abre los cuerpos pendientes; sus efectos en código quedan como evolución futura.
+
 ## DEC-40 · ¿Qué cifras usa la demo cuando los mockups no las fijan?
 
 **Por qué hubo que decidir.** V19 da los totales ($520.000 y $545.000) pero no el reparto por producto, y los mockups se contradicen en el pedido.
@@ -695,6 +716,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Qué implica:** los mockups V03 y V18/V19 se comentan en `CORRECCIONES_HU_Y_MOCKUPS.md` (sesión 5): V03 suma $88.000 con 4 platos y V04 dice 3; V18 y V19 muestran el valor de la línea y el modelo guarda el precio por unidad.
 
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmada. La res arranca en 12,5 kg de 50 (25,00 %, sin alerta según DEC-43) y queda en 11,5 kg (23 %) tras el pedido, lo que activa la alarma al cruzar el umbral. El histórico del tablero cargado a mano es un **límite declarado de la demo**; PD-03 elimina el riesgo de que gane COT-020 (solo cuentan las OPCIONADAS). No se reabren los precios por unidad ni el pedido de $82.000, confirmados por Mauricio.
+
 ## DEC-41 · ¿Cómo cambia una entidad cuando no tiene un método para eso?
 
 **Por qué hubo que decidir.** Tres casos que el diagrama no resuelve con ningún método:
@@ -708,6 +731,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **C. Cambiar las firmas de los puertos** (por ejemplo, que `guardar()` reciba el número). Rompe las páginas aprobadas.
 
 **Qué implica:** el README lo dice. Además, `GenerarCotizacionFacade` tiene un `Logger` privado (para «dejar el error en el log», H18) y algunas clases tienen métodos privados auxiliares (`huella()`, `enviar()`); no se ven desde fuera. `ParametrosSistema.valores()`, `Bitacora.registros()` y `Mensaje.cabeceras()` son accesores.
+
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmada con ajuste. Los constructores de copia se confirman. Los accesores de lista modificables quedan como **simplificación declarada de la demo**: `GenerarCotizacionFacade` hace `items().clear()` y `addAll()`, y `SolicitudService` hace `cotizacionesAplicadas().add()`. En el sistema real irían otro constructor de copia, `List.copyOf` en los accesores y que la entidad registre la cotización aplicada. Ese cambio queda fuera del alcance (DEC-39).
 
 ## DEC-42 · ¿Qué hacer con lo que los contratos entre servicios no alcanzan a llevar?
 
@@ -749,6 +774,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Qué implica:** `ejecutar.sh` compila el código y las pruebas en `out/` (que `.gitignore` ahora ignora), ejecuta la demo y corre las pruebas. En Windows, el README da las órdenes sueltas.
 
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmada, con ajuste del texto: la opción A decía «171 verificaciones en 3 clases de prueba»; hoy son **176 verificaciones en 6 archivos** de `pruebas/` (3 clases de prueba más `Prueba`, `Datos` y `EjecutarPruebas`), tras las cinco pruebas del mesero de la sesión 6.
+
 ## DEC-45 · ¿La demo cambia la cuenta de clases del reporte?
 
 **Por qué hubo que decidir.** El plan de la sesión 3 dejó «191 clases más la demo». La demo necesita 19 clases de apoyo (los adaptadores en memoria, el bus y el ensamblador) que no están en 4a–4e.
@@ -758,6 +785,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **B. Dibujarlas en una página nueva del `.drawio`.** Es mucho trabajo para clases que no son arquitectura.
 
 **Qué implica:** el total de archivos `.java` en `src/` pasa de 192 a 211, y `pruebas/` suma 6 más (fuera de `src/`).
+
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmada. Recuento comprobado: 211 archivos `.java` en `src/` = 191 del modelo + 20 de la demo (`DemoArquitectura` y 19 de apoyo).
 
 ## DEC-46 · Tres reglas que la validación de la sesión 4 encontró mal
 
@@ -807,6 +836,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Para la fase 5 (`CORRECCIONES_HU_Y_MOCKUPS.md`):** el Story Mapping p. 31 («SPRINT») contradice el Excel: dice 4 sprints, 8 semanas y «2 Meses», con los sprints 2 y 3 «sobrecargados (10 sobre 9)» y los sobrantes de 1 PHU en los sprints 1 y 4. Por decisión de Mauricio, la corrección es que diga 5 sprints, 10 semanas y «2 meses y medio», con el reparto y las fechas del Excel. Hay que anotarlo junto a las etiquetas de H26 (el título «Capacidad … (120)» de la p. 30, y las etiquetas de las pp. 2, 5 y 27). El Story Mapping no se modifica (DEC-03).
 
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmado el orden de filas (opción A del punto 3). En la hoja SPRINT, F15 → F17 → F16, con la etiqueta MVP4 en F17; las dependencias F13 → F17 → F14 quedan dentro del sprint 3. Las fechas, los 5 sprints y las 10 semanas ya estaban decididos por Mauricio y no se tocan.
+
 ## DEC-48 · ¿Dónde van las páginas 3a, 3b y 6 en el reporte?
 
 **Por qué hubo que decidir.** Al escribir `CORRECCIONES_REPORTE.md` (sesión 5) hubo que proponer dónde entran las tres páginas nuevas del `.drawio`. El reporte (p. 4) dice que el C4 es obligatorio en sus cuatro niveles y que «los diagramas dinámico y de despliegue son complementarios», pero solo muestra el contexto (§14), el código (§12 y anexo) y el despliegue (§14). Ninguna fuente dice dónde deben ir.
@@ -817,6 +848,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **C. En el anexo**, como figuras A6 a A8. Es lo que menos toca el cuerpo del reporte, pero deja los niveles 2 y 3 del C4 fuera del texto, que es justo lo que señaló la revisión.
 
 **Qué implica:** solo cambia `CORRECCIONES_REPORTE.md` (R-02, R-03 y R-05). El PDF no se toca (DEC-03). Si el equipo prefiere B o C, hay que rehacer R-02 y R-03.
+
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmada la opción A, con un ajuste: en §2 va una tabla «Dónde está cada nivel del C4» (contexto: página 2, figura 11, §14; contenedores: 3a, figura 12, §14; componentes: 3b, figura 13, §14; código: 4a–4e, figuras 8–10 y A1–A5, §12 y anexo; dinámico: 6, figura 7, §10; despliegue: 5, figura 14, §14), y §14 se renombra «Modelo C4: contexto, contenedores, componentes y despliegue». Así el profesor ve los cuatro niveles y los complementarios de un vistazo, sin mover secciones (lo bueno de B). C esconde justo los niveles 2 y 3. Se pierde que el C4 quede todo en una sola sección. Efectos: R-62, nueva, y el título de §14 en R-05.
 
 ## DEC-49 · ¿Qué orden sale de V20 a V22? Los mockups y la demo cuentan historias distintas
 
@@ -892,13 +925,249 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Qué implica:** código `c88c750` a `22717f7` (Pedido, servicio, `PedidoEnMemoria`, demo, 5 pruebas nuevas: 176 verificaciones, compila sin avisos, README); `.drawio` `4e4559e` (4b, PNG en `exportes/sesion6/4b.png`); `CORRECCIONES_REPORTE.md` R-60 y R-61. `RegistrarPedidoUseCase`, `PedidoService`, `PedidoRestController` y `PedidoRegistradoEvent` no cambian: inventario no necesita saber quién tomó el pedido.
 
+## PD-01 · ¿Cómo llega la alarma por WebSocket con varias réplicas de ms-notificaciones? (A2)
+
+**Por qué hubo que decidir.** ms-notificaciones tiene de 2 a 4 réplicas (página 5, `v15`) y consume `inventario.stock-bajo` en un solo grupo de Kafka: el evento lo procesa una réplica, pero la conexión WebSocket del jefe de cocina puede estar abierta en otra. HU-16 solo pide una «alarma visible dentro de la aplicación», y V05 ya consulta `GET /api/inventario/alertas`.
+
+**Opciones:**
+- **A. Sesión pegajosa en el balanceador.** No resuelve el problema: fija el navegador a una réplica, pero la réplica que procesa el evento la decide Kafka por partición.
+- **B. Difusión con Redis pub/sub.** La réplica que consume el evento envía el correo una vez y llama a `empujar()`; el adaptador publica la alarma en un canal Redis y cada réplica la entrega a las conexiones del destinatario que tenga abiertas. ✅ **Escogida por el arquitecto-revisor.**
+- **C. Un grupo de Kafka por réplica para la alarma.** Duplica los correos, salvo que se parta el flujo de la 4d.
+- **D. Un tópico nuevo de alarmas.** Rompe los 10 tópicos.
+- **E. Quitar el WebSocket y consultar periódicamente desde V05.** Deshace el producto `AlarmaApp` del Factory Method.
+
+**Qué implica:** la alerta guardada en ms-inventario sigue siendo la fuente de verdad; V05 la lee al abrirse, así que no se pierde si el jefe no estaba conectado (el cierre corre a las 23:59). El gateway valida el JWT al abrir la conexión. Ninguna firma cambia: todo queda dentro de `AlarmaPushAdapter`. Se pierde independencia: ms-notificaciones depende de Redis (si cae, se pierde el aviso en tiempo real, no la alerta), y Redis queda compartido con la caché de precios, en canal y usuario separados.
+- `.drawio`: 3a (Redis con el canal y una flecha desde ms-notificaciones), página 1 (`e231`), página 5 (`v25`) y una nota junto a `AlarmaPushAdapter` en la 4d.
+- Reporte: R-56 pasa a «Cambiar», con una fila de riesgo nueva.
+- Fuera de alcance: la implementación del adaptador, que sigue pendiente (DEC-39).
+
+## PD-02 · ¿`Proveedor.categorias` sigue siendo `List<String>`?
+
+**Por qué hubo que decidir.** HU-15 pide «asociar una o varias categorías de producto que maneja» el proveedor, sin criterios de filtrado. `Proveedor.categorias: List<String>` (4c y `Proveedor.java`) no apunta a `Categoria`, que vive en ms-menu. Los casos de uso lo dejaban abierto (RCU-10).
+
+**Opciones:**
+- **A. Mantener `List<String>`**, con los nombres de las categorías del catálogo de ms-menu, copiados por valor al registrar el proveedor y sin validarlos contra ms-menu. ✅ **Escogida por el arquitecto-revisor.**
+- **B. `List<Long> categoriaIds`** que apunten a ms-menu. Obliga a buscar los nombres para mostrarlos y cambia la 4c, el código y las pruebas; entre microservicios tampoco hay clave foránea.
+- **C. Una copia local del catálogo alimentada por eventos.** Exige un tópico nuevo o ampliar `menu.actualizado`.
+
+**Qué implica:** no cambia el diagrama ni el código. Se pierde que un cambio de nombre en ms-menu se propague; el dato es informativo. El listado de categorías para los desplegables es el hallazgo N2 (efecto futuro). Se actualiza CU-09 en los casos de uso.
+
+## PD-03 · ¿Cómo conviven los periodos fijos de los indicadores con el filtro libre por fechas? (BAM)
+
+**Por qué hubo que decidir.** HU-18 pide «último mes» y «último año» para los indicadores y, además, «filtrar por rango de fechas y por sucursal». La 4e tiene `kpis(desde, hasta, sucursalId)`; la demo llama a `kpis(null, null, null)`. DEC-40 advertía que, si el tablero se alimentara con `cotizacion.validada`, el «mejor precio» lo ganaría COT-020, que es SOSPECHOSA.
+
+**Opciones:**
+- **A. Periodos por defecto que un rango elegido reemplaza.** ✅ **Escogida por el arquitecto-revisor.**
+- **B. Periodos fijos siempre, con el rango solo para la demanda.**
+- **C. Rango libre siempre, con «último mes» como valor inicial.**
+
+**Regla escogida:**
+- Sin rango, el producto y la sucursal con mayor demanda se calculan sobre los últimos 30 días, y el proveedor con mejores precios sobre los últimos 365.
+- Con rango, los tres usan ese rango, y la pantalla muestra el periodo aplicado.
+- La sucursal filtra solo la demanda: las compras son centrales y `cotizacion.validada` no trae sucursal.
+- «Mejores precios» es la menor diferencia promedio contra el precio estándar, contando solo las cotizaciones **OPCIONADAS**.
+- Sin hechos en el periodo: «No hay información suficiente para el periodo seleccionado».
+
+**Qué implica:** cumple los dos criterios de HU-18 sin cambiar firmas, y la salida de la demo no cambia (sus hechos tienen la fecha de hoy). Se pierde filtrar el indicador de proveedor por sucursal. Efectos: nota `n_kpis` de la 4e, CU-14 y R-31. Fuera de alcance: que `TableroService.kpis()` resuelva los periodos por defecto y que `NegocioEventsListener` filtre las OPCIONADAS (requiere PD-05).
+
+## PD-04 · ¿De dónde salen las tendencias de las promociones y sobre qué periodo? (HU-19)
+
+**Por qué hubo que decidir.** HU-19 nombra «redes sociales» y «productos más solicitados», pero no fija la red, la ventana ni la cantidad. La 4e ya tiene `TendenciasPort.productosEnTendencia()`, `RedesSocialesAdapter`, `TendenciasJob` («semanal») y `notificadaEl`. CU-06 lo dejaba «por definir».
+
+**Opciones:**
+- **A. Las dos fuentes, con una ventana semanal.** ✅ **Escogida por el arquitecto-revisor.**
+- **B. Solo redes sociales.**
+- **C. Solo la demanda interna.**
+- **D. Una ventana diaria.** Reacciona el mismo día, pero no coincide con el job semanal.
+
+**Regla escogida:** el job semanal analiza los **7 días anteriores** y sugiere los productos en tendencia que entrega `TendenciasPort` y los **3 más pedidos** según los hechos DEMANDA_PRODUCTO de ms-analitica. El motivo dice «Tendencia en redes» o «Entre los 3 más pedidos de la semana»; cada sugerencia vale 7 días y se avisa a los jefes de la libreta (DEC-13).
+
+**Supuesto S11 (sin respaldo en las fuentes):** la red social concreta y los valores 7 y 3; son constantes de ms-analitica, como `UmbralStock`. Si el enunciado nombra una red, sustituye el supuesto.
+
+**Qué implica:** usa solo piezas ya dibujadas. Efectos: nota `n_promociones` de la 4e, CU-06 y el supuesto S11 en §17 del reporte. Fuera de alcance: `detectarTendencias()`, que sigue pendiente.
+
+## PD-05 · ¿Cómo se resuelve T-06? (eventos con tipos del dominio de otro servicio)
+
+**Por qué hubo que decidir.** DEC-42 dejaba T-06 asumida: `CotizacionValidadaEvent.estado` es `EstadoCotizacion` y `TendenciaDetectadaEvent.sugerencias` es `List<SugerenciaPromocion>`, tipos del dominio de su servicio, y DEC-29 prohíbe que otro servicio los importe. Además, el evento validado no trae la diferencia ni el precio estándar (hallazgo N1), así que ms-analitica no puede calcular el indicador de PD-03.
+
+**Opciones:**
+- **A. Seguir sin consumidores** (lo asumido en DEC-42).
+- **B. Tipos simples en el contrato**, ampliada: `CotizacionValidadaEvent` con `estado: String` y `+ diferenciaPorcentual: BigDecimal`; `TendenciaDetectadaEvent` con `sugerencias: List<String>`, líneas «producto · motivo · vigencia» listas para el correo. ✅ **Escogida por el arquitecto-revisor, con aplicación diferida.**
+- **C. Mover los eventos a `compartido.eventos`.** Es un cambio grande en 4a–4e y en el mapa.
+
+**Qué implica:** T-06 queda decidida. Mientras no se aplique, A sigue siendo el límite declarado de la demo. Aplicarla cambia a la vez la 4c, la 4e y el código (los dos eventos, la llamada en `CotizacionService.validar()` y la rama T-06 de `NotificacionService`); son unas 10 líneas y cabe en la demo, pero no hace falta: **solo se aplica si Mauricio lo autoriza**, porque el alcance actual es solo la demo (DEC-39). Se pierde el tipado fuerte del estado en el consumidor.
+
+## PD-06 · ¿Quién administra roles y permisos, y con qué alcance?
+
+**Por qué hubo que decidir.** La 4a tiene seis subclases de `Usuario` (Factory Method) y el menú por rol (Composite); `RegistrarUsuarioUseCase.registrar(nombre, correo, rol, sucursalId, clave)` da de alta usuarios (DEC-10) y el reporte (§16) promete «verificación del rol en cada endpoint». `AdministracionUseCase.parametrizar(clave, valor)` guarda solo pares clave-valor. CU-15 lo dejaba abierto.
+
+**Opciones:**
+- **A. Roles fijos, permisos fijos y un administrador global.** ✅ **Escogida por el arquitecto-revisor.**
+- **B. Gestión de roles y permisos en ms-identidad.** Pide clases y rutas que el diseño no tiene.
+- **C. Administradores por sucursal.**
+
+**Regla escogida:**
+- Los 6 roles son un conjunto cerrado; un rol nuevo es un cambio de código (subclase y menú).
+- Los permisos son una matriz fija de rol a rutas: el gateway valida el JWT, cada servicio verifica el rol en sus endpoints y el menú lateral sale del rol.
+- El Administrador tiene alcance global: registra usuarios con **un** rol y **una** sucursal (CU-19), mantiene parámetros, tema, logos y la libreta de destinatarios (CU-15), y consulta la auditoría y los logs.
+- Fuera de alcance: cambiar el rol o desactivar un usuario. La evolución sería `PATCH /api/usuarios/{id}`.
+
+**Supuesto S10:** las listas maestras (categorías, productos, unidades, marcas y mesas) y el primer administrador se cargan con la migración inicial del servicio dueño de cada una. Si el enunciado exige que el administrador las mantenga, se reconsidera.
+
+**Qué implica:** no cambia ninguna firma. Efectos: CU-15, R-57 y el supuesto S10 en §17 del reporte. Se pierde dar de baja a un usuario sin despliegue.
+
+## PD-07 · ¿La auditoría se filtra también por usuario y acción?
+
+**Por qué hubo que decidir.** `AuditoriaRepositoryPort.entre(desde, hasta)` y `AdministracionUseCase.auditoria(desde, hasta)` (este ya con lógica) solo filtran por fechas. CU-16 lo dejaba «por definir». En la demo el usuario es `sistema` (DEC-42).
+
+**Opciones:**
+- **A. Solo fechas.** El rango es obligatorio y «desde» no puede ser posterior a «hasta». ✅ **Escogida por el arquitecto-revisor, para esta versión.**
+- **B. Fechas, más usuario y acción opcionales.** Cambia cinco firmas de la 4e y un método que ya tiene lógica; queda como la primera evolución.
+- **C. Filtrar en la SPA.** No escala con el volumen de auditoría.
+
+**Qué implica:** ninguna fuente exige los filtros adicionales, y con `sistema` como usuario el filtro no demostraría nada. Se pierde encontrar rápido lo que hizo un usuario concreto. Efectos: CU-16 y los criterios de HU-21 (PD-09).
+
+## PD-08 · ¿Cómo se autentican los consumidores externos del endpoint SOAP?
+
+**Por qué hubo que decidir.** El SOAP de ms-integracion se publica bajo `/api/integracion/**` y entra por el gateway (página 2 `e21`, 3a `c3a_e15`, página 1 `e233`). El reporte (§3) dice que el gateway valida el JWT en cada petición, pero no dice cómo obtiene un token un sistema externo. CU-18 lo dejaba «por definir».
+
+**Opciones:**
+- **A. OAuth 2.0 client credentials (JWT).** ✅ **Escogida por el arquitecto-revisor.**
+- **B. WS-Security UsernameToken.** Un segundo mecanismo que el gateway no valida.
+- **C. mTLS con un certificado por socio.** Obliga a gestionar certificados y no da identidad en el JWT.
+- **D. API key.** No expira.
+
+**Regla escogida:** cada sistema externo se registra como cliente en ms-identidad y obtiene el token en `POST /api/auth/token`; el gateway lo valida como cualquier JWT y solo permite `/api/integracion/**` a ese tipo de cliente; el `client_id` queda como usuario en la auditoría; todo va por TLS 1.3.
+
+**Supuesto S12:** el registro de clientes externos en ms-identidad, que la 4a no dibuja.
+
+**Qué implica:** un solo mecanismo, ya validado en el gateway. Se pierde la compatibilidad directa con clientes que solo saben WS-Security; para ellos se puede añadir mTLS en el borde. Efectos: etiquetas de las páginas 1, 2 y 3a, CU-18, una frase en §3 y el supuesto S12 en §17 del reporte. Fuera de alcance: el registro de clientes.
+
+## PD-09 · ¿Qué se hace con las historias propuestas HU-20 a HU-22?
+
+**Por qué hubo que decidir.** El Story Mapping no tiene historias para el Administrador. Los casos de uso proponen HU-20 «Parametrizar el sistema», HU-21 «Monitorear la auditoría» y HU-22 «Consultar logs de errores». El criterio 1 de HU-20 prometía crear, editar e inactivar categorías, productos, unidades, marcas y mesas, y ningún servicio lo expone (hallazgo N3).
+
+**Opciones:**
+- **A. Aprobarlas tal cual.** Promete lo que la arquitectura no hace.
+- **B. Aprobarlas como propuesta de diseño, con ajustes.** ✅ **Escogida por el arquitecto-revisor.**
+- **C. Descartarlas.** Deja sin historias al rol Administrador.
+
+**Criterios ajustados:**
+- **HU-20 «Parametrizar el sistema»:** (1) consultar y cambiar los parámetros generales y la imagen corporativa (tema y logos), que la SPA toma al iniciar, sin redespliegue; (2) registrar y consultar los correos de los jefes de cocina por sucursal; (3) validaciones y mensajes de PD-10; (4) cada cambio queda en la auditoría (acción, usuario, fecha y hora); (5) solo el rol Administrador; (6) un error al guardar queda en el log; (7) las listas maestras quedan fuera (supuesto S10).
+- **HU-21 «Consultar la auditoría»** (se quita «monitorear»): (1) lista con acción, usuario, fecha y hora; (2) rango de fechas obligatorio, con «desde» no posterior a «hasta»; (3) solo lectura y solo para el administrador; (4) mensajes de PD-10.
+- **HU-22 «Consultar logs de errores»:** (1) lista con servicio, mensaje, fecha y hora; (2) el servicio es opcional, y sin él salen todos; (3) solo lectura y solo para el administrador; (4) mensajes de PD-10.
+
+**Qué implica:** se marcan «Propuesta de diseño aprobada por el arquitecto-revisor, sin estimar; no forma parte del Story Mapping original».
+- **Estimación:** la hace el equipo con planning poker y las mismas cartas (25/50/75/125 h = 1/2/3/5 PHU). No se inventa. Hasta entonces, van al Excel como F20–F22 en un bloque «Propuestas (sin sprint)».
+- **Ubicación:** solo dentro de la holgura (1, 1, 3, 1 y 4 PHU por sprint, 10 en total). Si no caben, decide Mauricio, porque agregar un sprint cambia las 10 semanas que él confirmó (DEC-47).
+- Efectos: los casos de uso, una sección «Historias propuestas» en `STORY_MAPPING_CORREGIDO.md` y, cuando haya estimación, el Excel. Se pierde el mantenimiento de las listas maestras en pantalla.
+
+**Ajuste de Mauricio (2026-11-08):** para no tocar más el plan de sprints antes de la sustentación, las tres historias **se omiten del plan**: no se estiman, no entran a ningún sprint, no van al Excel ni a `STORY_MAPPING_CORREGIDO.md`. Quedan solo en los casos de uso, con sus criterios ajustados, como historias identificadas para una versión posterior. Respuesta para la sustentación: «se identificaron las historias del administrador; quedan para una entrega posterior, y la arquitectura ya las soporta». La pregunta A7 queda cerrada.
+
+## PD-10 · ¿Qué dicen los mensajes de interfaz que estaban «por definir»?
+
+**Por qué hubo que decidir.** Los casos de uso y las propuestas HU-20 a HU-22 dejaban mensajes sin texto, y el código usa cinco textos que no coinciden con las HU (hallazgo N6).
+
+**Opciones:**
+- **A. Un criterio común y un texto por caso, en la documentación**, sin tocar el código. ✅ **Escogida por el arquitecto-revisor.**
+- **B. Unificar ya los textos del código.** Rompe pruebas que comprueban los textos actuales y sale del alcance de la demo.
+- **C. Dejarlos por definir.**
+
+**Criterio:** el mismo estilo que las tarjetas: frase completa, sin códigos técnicos, que diga qué pasó y qué hacer; el mismo texto para el mismo caso en todas las pantallas. Los mensajes literales de las HU son el contrato de la interfaz; los de las excepciones del dominio son internos y el adaptador REST los traduce (efecto futuro).
+
+| Dónde | Caso | Texto |
+|---|---|---|
+| CU-01 / V01 | Credenciales inválidas | «Correo o contraseña incorrectos.» (no dice cuál falló) |
+| CU-01 | Rol sin acceso | «No tiene permiso para acceder a esta opción.» |
+| CU-08 / HU-12 | El Ministerio no responde | «No se pudo consultar el precio del Ministerio de Comercio. La cotización {número} quedó pendiente de precio; puede reenviarla desde Cotizaciones.» |
+| CU-08 / HU-12 | Falla el correo | «No se pudo enviar el correo al proveedor. La cotización {número} está guardada; puede reintentar el envío.» |
+| CU-10 / HU-11 | Cotización ya validada | «La cotización ya fue validada; sus valores no se pueden modificar.» |
+| CU-10 / HU-11 | Valor no válido | «El valor unitario debe ser un número mayor a cero.» |
+| CU-19 | Contraseña | «La contraseña debe tener al menos 8 caracteres, con una mayúscula, una minúscula y un número.» |
+| CU-19 | Correo repetido | «Ya existe un usuario registrado con ese correo.» |
+| CU-19, HU-20 | Correo mal formado | «El formato del correo electrónico no es válido.» (el de HU-15) |
+| HU-20 | Clave o valor vacío | «La clave del parámetro es obligatoria.» / «El valor del parámetro {clave} es obligatorio.» |
+| HU-20 | Guardado | «Parámetro actualizado.» |
+| HU-07, HU-18, HU-19, HU-21 | Rango invertido | «La fecha inicial no puede ser posterior a la fecha final.» |
+| HU-21 | Sin resultados | «No hay movimientos de auditoría en el periodo seleccionado.» |
+| HU-22 | Sin resultados | «No hay errores registrados para el servicio seleccionado.» |
+| HU-19 | Sin sugerencias / ya resuelta | «No hay promociones sugeridas para el periodo seleccionado.» / «Esta sugerencia ya fue aceptada o descartada.» |
+| CU-18 | Producto sin precio (SOAP Fault) | «No hay precio estándar disponible para el producto {id}.»; un fallo de autenticación responde 401 en el gateway |
+
+**Qué implica:** se aplican en los casos de uso, en HU-20 a HU-22 y en la tarjeta HU-07 del Story Mapping corregido. El código no cambia ahora.
+
+## PD-11 · ¿Qué dice la declaración de uso de IA del reporte? (R-58)
+
+**Por qué hubo que decidir.** R-58 proponía decir que «las decisiones de diseño las tomó el equipo», lo que es falso para las decisiones delegadas al agente (DEC-23, DEC-24, DEC-49, DEC-50 y PD-01 a PD-11). Es el hallazgo N4, de severidad alta.
+
+**Opciones:**
+- **A. Mantener el texto de R-58.** Sería una afirmación falsa en la entrega.
+- **B. Una declaración fiel, con los datos que falten marcados para que el equipo los confirme.** ✅ **Escogida por el arquitecto-revisor.**
+
+**Texto propuesto:** «Las correcciones posteriores al 7-nov-2026 se hicieron con IA en seis sesiones: Claude Code (Anthropic, [modelos]) para el .drawio, el código, la demo, las pruebas, el Excel y los documentos, con un agente revisor de Claude que validó cada sesión; Codex (OpenAI, [modelo]) continuó la sesión 6 (RCU-11 a RCU-13 y su validación). Las instrucciones y cada decisión con sus alternativas están en DECISIONES.md y en el historial (un commit por corrección). Mauricio Iturriza tomó la mayoría de las decisiones; DEC-23, DEC-24, DEC-49, DEC-50 y PD-01 a PD-11 las tomó el agente revisor por delegación expresa suya.»
+
+**Qué implica:** se reescribía R-58 en `CORRECCIONES_REPORTE.md`.
+
+**Decisión de Mauricio (2026-11-08):** primero pidió no ampliarla; después la confirmó con las herramientas y los modelos que usó el equipo: Claude (Opus 5.5 y Sonnet 5.5) y ChatGPT (Astra 6). La redacción final no dice quién tomó cada decisión, sino que remite a `DECISIONES.md`, donde está; así no repite la afirmación falsa del texto anterior (N4). La pregunta A6 queda resuelta.
+
+## DEC-54 · ¿Qué se hace con el reporte si no aparece el script? (A1)
+
+**Por qué hubo que decidir.** El reporte PDF lo generó un programa en Python (ReportLab) el 29-oct, y ese programa no está en ninguna carpeta. DEC-03 decía no tocar el PDF hasta que apareciera. Sin el script, las 66 correcciones de `CORRECCIONES_REPORTE.md` no se pueden aplicar.
+
+**Opciones:**
+- **A. Esperar el script indefinidamente.** El reporte se entregaría desactualizado: contradice al código y a los diagramas.
+- **B. Preguntar al equipo y, si nadie lo tiene, rehacer el reporte con un script nuevo** que reproduzca el texto y el formato del original, aplique R-01 a R-66 y use las figuras de `exportes/post_sesion6/`. El PDF original se conserva y el nuevo sale con otro nombre. ✅ **Escogida por Mauricio el 2026-11-08** («déjalo como que toca hacerlo»).
+- **C. Corregir el PDF a mano con un editor de PDF.** Es frágil con tablas, figuras e índice.
+
+**Qué implica:** Mauricio pregunta al equipo el 2026-11-09. Si aparece el script, se usa; si no, la reconstrucción es parte del punto 1 de `PENDIENTES_POST_SESION6.md`. DEC-03 queda reemplazada.
+
+## DEC-55 · ¿Con qué formato se rehace el reporte?
+
+**Por qué hubo que decidir.** El reporte original lo generó una IA y se nota en el formato: tres familias de letra, tamaños distintos, títulos y cajas de color, una portada con un dibujo y separadores «·». Mauricio pidió un documento de aspecto profesional: el mismo tamaño de letra, negrilla permitida y todo en negro.
+
+**Opciones:**
+- **A. Conservar el diseño del original** y solo corregir el contenido.
+- **B. Formato académico sobrio:** una sola familia (Times New Roman 12 pt) en todo el documento, texto en negro, títulos en negrilla del mismo tamaño, tablas con líneas finas negras, figuras numeradas con nota, número de página como único pie, referencias en APA 7 y una redacción sin adornos. ✅ **Escogida por Mauricio el 2026-11-08.**
+- **C. Usar una plantilla institucional de la Konrad Lorenz.** No hay ninguna en las carpetas del proyecto; si el profesor exige una, se reemplaza B.
+
+**Qué implica:** el diseño se rehace completo, así que el script original deja de ser imprescindible (A1 ya no bloquea). La herramienta recomendada es un script en Python que genera un `.docx` editable y lo exporta a PDF con LibreOffice. Las capturas del `.drawio` conservan sus colores, porque son el diagrama entregado. El plan completo está en `PLAN_REPORTE.md`.
+
+## DEC-56 · ¿Las tablas del reporte nuevo llevan color?
+
+**Por qué hubo que decidir.** DEC-55 dejó el reporte sin fondos de color. Al ver la página de prueba (2026-11-09), Mauricio pidió que las tablas alternen el fondo de las filas, como en el original (blanco y azul claro), para que se distingan, pero con un tono acorde a la web y a los documentos del proyecto.
+
+**Opciones:**
+- **A. Sin color**, como decía DEC-55.
+- **B. Filas alternas blanco y azul claro**, como el original. El azul no es el color de la web.
+- **C. Filas alternas blanco y un tono claro del naranja de la web** (`--naranja: #F28705` de `KonradGourmet/styles.css`, al 10 %: `#FDEFE1`). La cabecera queda en blanco con negrilla. ✅ **Escogida por Mauricio el 2026-11-09** (el tono concreto lo propuso el asistente).
+
+**Cambio de Mauricio (2026-11-09, al ver el reporte v2):** el naranja claro no le gustó; las filas alternan blanco y **gris claro** (`#F2F2F2`).
+
+**Qué implica:** cambia una regla de DEC-55 solo en las tablas; el texto sigue todo en negro. Además, Mauricio aprobó el aspecto de la página de prueba con los rótulos al estilo APA 7 (número en negrilla y título en cursiva debajo) y las figuras grandes en páginas horizontales, pidió el índice después de la portada y dijo que la portada la ajusta él después.
+
+## DEC-57 · ¿Los entregables hablan de los límites del prototipo?
+
+**Por qué hubo que decidir.** El reporte v2, la página 4a del `.drawio` y los casos de uso tenían notas sobre lo que la demostración del código simplifica (el usuario «sistema» en la auditoría, el `correlacionId` que no se propaga) o sobre lo que falta implementar. Para la sustentación (2026-11-09), Mauricio pidió que la documentación se lea como el diseño del proyecto completo, escrito antes de construirlo.
+
+**Criterio:** la documentación entregable describe el proyecto completo, como diseño previo a la construcción; no menciona límites del prototipo ni de la demo, ni afirma que el código funcione por completo.
+
+**Opciones:**
+- **A. Mantener las notas de límites de la demo** en los entregables.
+- **B. Quitarlas de los entregables y conservarlas en el README del código y en los registros internos.** ✅ **Escogida por Mauricio el 2026-11-09.**
+
+**Alcance:** el reporte v2, el `.drawio`, los casos de uso, el Story Mapping corregido y el Excel. Quedan fuera los textos que dependen del código (la §13 del reporte, el README y las pruebas), que siguen describiendo el código tal como está, y los registros internos (este archivo, `CORRECCIONES_*`, `VALIDACION_*`, `REVISION_*`, `INVENTARIO_*`, `PLAN_*`, `PENDIENTES_POST_SESION6.md` y `ESTADO_PROYECTO_Y_C4.md`), que quedan como historial.
+
+**Qué implica:** DEC-42 sigue valiendo para el código; solo deja de citarse en los entregables. Los cambios van en los commits PC-01 a PC-21.
+
 ---
 
 ## Preguntas abiertas (sin decidir)
 
 | # | Pregunta | Por qué importa | Quién |
 |---|---|---|---|
-| A1 | ¿Quién tiene el script de ReportLab que generó el reporte? | Sin él no se puede corregir el PDF (DEC-03) | Equipo |
-| A2 | Con 2–4 réplicas de ms-notificaciones, ¿cómo llega la alarma por WebSocket a la réplica que tiene abierta la sesión del jefe? Las salidas posibles son sesión pegajosa en el balanceador, o difundir el mensaje a todas las réplicas, por ejemplo con Redis pub/sub | El profesor puede preguntarlo en la sustentación | Equipo |
-| A3 | Los commits del repo son de la cuenta `mari00aa120-eng`. ¿Es de alguien del equipo? | Conviene saberlo antes de la sustentación | Equipo |
+| A1 | ¿Quién tiene el script de ReportLab que generó el reporte? | Mauricio pregunta al equipo el 2026-11-09. Si no aparece, se rehace con un script nuevo (DEC-54) | Mauricio |
+| A2 | Con 2–4 réplicas de ms-notificaciones, ¿cómo llega la alarma por WebSocket a la réplica que tiene abierta la sesión del jefe? | **Resuelta por PD-01** (Redis pub/sub; V05 relee las alertas) | — |
+| A3 | Los commits del repo son de la cuenta `mari00aa120-eng`. ¿Es de alguien del equipo? | **Cerrada:** Mauricio la descartó el 2026-11-08 por no ser relevante ahora | — |
 | A4 | `Pedido` no guarda qué mesero lo tomó | **Resuelta por DEC-51 y DEC-53** (aplicada en la sesión 6) | — |
+| A5 | ¿Alguien tiene el enunciado original («Proyecto #1», López 2026)? | No está en ninguna carpeta. Las tarjetas HU respaldan la auditoría, el correo certificado, el umbral del 25 %, las reglas +25/−50, los indicadores y el log de errores; 200.000 usuarios, 1.000 TPS, 99,7 %, centro alterno, crecimiento del 200 %, backup diario, regla de contraseña, HTTPS, roles, imagen parametrizable, cambio de motor, tecnología libre, SOAP, computación distribuida y los «diecinueve requerimientos» solo están en el reporte y no se pudo verificar su literalidad | Para revisar, prioridad baja (Mauricio, 2026-11-08) |
+| A7 | ¿Cuánto valen HU-20 a HU-22 en PHU? | **Cerrada:** Mauricio decidió omitirlas del plan (PD-09); no se estiman | — |
