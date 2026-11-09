@@ -504,7 +504,7 @@ Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciad
 
 ## Historias propuestas para el administrador
 
-El Story Mapping no tiene historias para el administrador. Estas tres siguen el mismo formato (HU-20 a HU-22). **Estado: propuesta de diseño aprobada por el arquitecto-revisor de Claude, con ajustes y sin estimar (PD-09); no forma parte del Story Mapping original.** El equipo las estima con planning poker, con las mismas cartas (25/50/75/125 h = 1/2/3/5 PHU); hasta entonces no tienen sprint, y solo se ubican dentro de la holgura del plan (1, 1, 3, 1 y 4 PHU por sprint, 10 en total). Si no caben, decide Mauricio, porque agregar un sprint cambia las 10 semanas confirmadas (DEC-47).
+El Story Mapping no tiene historias para el administrador. Estas tres siguen el mismo formato (HU-20 a HU-22). **Estado: propuesta de diseño aprobada por el arquitecto-revisor de Claude, con ajustes y sin estimar (PD-09); no forma parte del Story Mapping original.** Por decisión de Mauricio quedan **fuera del plan de sprints**: no se estiman ni se asignan a un sprint, y el plan de 5 sprints y 10 semanas no cambia (DEC-47). Son historias identificadas para una versión posterior; la arquitectura ya las soporta.
 
 | Historia | Como | Quiero | Para | Criterios de aceptación (con su fuente) |
 | --- | --- | --- | --- | --- |
@@ -512,7 +512,7 @@ El Story Mapping no tiene historias para el administrador. Estas tres siguen el 
 | HU-21 Consultar la auditoría | Administrador del sistema | Consultar los movimientos de auditoría | Verificar quién hizo cada acción y cuándo | (1) La lista muestra acción, usuario, fecha y hora (mantenimiento 1). (2) El rango de fechas es obligatorio y «desde» no puede ser posterior a «hasta» (informe de arquitectura, ms-administracion; PD-07). (3) La consulta es de solo lectura y solo el administrador accede (seguridad 1). (4) Los mensajes son los de PD-10 |
 | HU-22 Consultar logs de errores | Administrador del sistema | Consultar los errores registrados | Diagnosticar fallas del sistema | (1) La lista muestra servicio, mensaje, fecha y hora (clase LogError del `.drawio`). (2) El servicio es opcional; sin él, salen todos (informe de arquitectura). (3) La consulta es de solo lectura y solo el administrador accede (seguridad 1). (4) Los mensajes son los de PD-10 |
 
-Lo que antes quedaba por definir ya está decidido: los mensajes (PD-10, abajo), los filtros de la auditoría (PD-07) y quién administra roles y permisos (PD-06). Falta solo la estimación del equipo (A7 de `DECISIONES.md`).
+Lo que antes quedaba por definir ya está decidido: los mensajes (PD-10, abajo), los filtros de la auditoría (PD-07) y quién administra roles y permisos (PD-06). No se estiman: quedan fuera del plan de sprints (PD-09).
 
 ## Mensajes de interfaz (PD-10)
 

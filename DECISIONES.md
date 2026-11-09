@@ -78,7 +78,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | PD-06 | Administración de roles y permisos | Seis roles fijos y una matriz fija de permisos por rol; administrador de alcance global; supuesto S10 para las listas maestras | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-15, R-57 y §17 del reporte |
 | PD-07 | Filtros de la auditoría | Solo rango de fechas, obligatorio; usuario y acción quedan como evolución | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-16 y HU-21 |
 | PD-08 | Autenticación de los consumidores externos del SOAP | OAuth 2.0 client credentials: JWT de cliente validado por el gateway, solo para `/api/integracion/**`; supuesto S12 | Decidida por el arquitecto-revisor (2026-11-08); efectos en páginas 1, 2 y 3a, CU-18 y §3/§17 del reporte |
-| PD-09 | HU-20 a HU-22 | Propuestas de diseño aprobadas con ajustes, sin estimar y fuera del Story Mapping original | Decidida por el arquitecto-revisor (2026-11-08); efectos en casos de uso, `STORY_MAPPING_CORREGIDO.md` y Excel; estimación pendiente del equipo |
+| PD-09 | HU-20 a HU-22 | Propuestas de diseño con ajustes; **Mauricio decide omitirlas del plan**: no se estiman ni entran a los sprints ni al Story Mapping corregido | Ajustada por Mauricio (2026-11-08); quedan solo en los casos de uso como historias para una versión posterior |
 | PD-10 | Mensajes de interfaz por definir | Criterio común y 16 textos propuestos; los mensajes literales de las HU son el contrato de la interfaz | Decidida por el arquitecto-revisor (2026-11-08); efectos en casos de uso y Story Mapping corregido; el código no cambia |
 | PD-11 | Declaración de IA del reporte (R-58) | Ampliar la §18 con las correcciones posteriores: Claude (Opus 5.5 y Sonnet 5.5) y ChatGPT (Astra 6), sin afirmar que el equipo tomó todas las decisiones | Herramientas y modelos **confirmados por Mauricio** (2026-11-08); R-58 vuelve a «Cambiar» |
 | DEC-54 | Cómo se corrige el reporte si no aparece el script (A1) | Mauricio pregunta al equipo; si nadie lo tiene, se rehace el reporte con un script nuevo, conservando el PDF original | Decidida por Mauricio (2026-11-08); la reconstrucción va en el punto 1 |
@@ -1060,6 +1060,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **Ubicación:** solo dentro de la holgura (1, 1, 3, 1 y 4 PHU por sprint, 10 en total). Si no caben, decide Mauricio, porque agregar un sprint cambia las 10 semanas que él confirmó (DEC-47).
 - Efectos: los casos de uso, una sección «Historias propuestas» en `STORY_MAPPING_CORREGIDO.md` y, cuando haya estimación, el Excel. Se pierde el mantenimiento de las listas maestras en pantalla.
 
+**Ajuste de Mauricio (2026-11-08):** para no tocar más el plan de sprints antes de la sustentación, las tres historias **se omiten del plan**: no se estiman, no entran a ningún sprint, no van al Excel ni a `STORY_MAPPING_CORREGIDO.md`. Quedan solo en los casos de uso, con sus criterios ajustados, como historias identificadas para una versión posterior. Respuesta para la sustentación: «se identificaron las historias del administrador; quedan para una entrega posterior, y la arquitectura ya las soporta». La pregunta A7 queda cerrada.
+
 ## PD-10 · ¿Qué dicen los mensajes de interfaz que estaban «por definir»?
 
 **Por qué hubo que decidir.** Los casos de uso y las propuestas HU-20 a HU-22 dejaban mensajes sin texto, y el código usa cinco textos que no coinciden con las HU (hallazgo N6).
@@ -1128,4 +1130,4 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 | A3 | Los commits del repo son de la cuenta `mari00aa120-eng`. ¿Es de alguien del equipo? | **Cerrada:** Mauricio la descartó el 2026-11-08 por no ser relevante ahora | — |
 | A4 | `Pedido` no guarda qué mesero lo tomó | **Resuelta por DEC-51 y DEC-53** (aplicada en la sesión 6) | — |
 | A5 | ¿Alguien tiene el enunciado original («Proyecto #1», López 2026)? | No está en ninguna carpeta. Las tarjetas HU respaldan la auditoría, el correo certificado, el umbral del 25 %, las reglas +25/−50, los indicadores y el log de errores; 200.000 usuarios, 1.000 TPS, 99,7 %, centro alterno, crecimiento del 200 %, backup diario, regla de contraseña, HTTPS, roles, imagen parametrizable, cambio de motor, tecnología libre, SOAP, computación distribuida y los «diecinueve requerimientos» solo están en el reporte y no se pudo verificar su literalidad | Para revisar, prioridad baja (Mauricio, 2026-11-08) |
-| A7 | ¿Cuánto valen HU-20 a HU-22 en PHU? | Sin estimación no se ubican en el plan (PD-09); se estiman con planning poker | Equipo |
+| A7 | ¿Cuánto valen HU-20 a HU-22 en PHU? | **Cerrada:** Mauricio decidió omitirlas del plan (PD-09); no se estiman | — |

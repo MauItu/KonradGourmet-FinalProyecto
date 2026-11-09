@@ -9,7 +9,7 @@ Base: sesión 6 publicada en `MauItu/KonradGourmet-FinalProyecto`, `main` `b90a1
 | 1 · Documentos de entrega | Hacerlo aquí | Asistente y Mauricio, con los insumos del equipo | Por realizar |
 | 2 · Mockups | Dejarlos pendientes; Mauricio los hace | Mauricio | Pendiente externo |
 | 3 · Story Mapping | Crear un documento nuevo con todo corregido | Asistente, aquí | Por realizar; conservar el original |
-| 4 · Preguntas de arquitectura y requisitos | Que decida el agente de Claude de arquitectura de software | `arquitecto-revisor` de Claude | Hecho el 2026-11-08, falta el OK de Mauricio: PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`); quedan A1 (DEC-54), A5 y A7 |
+| 4 · Preguntas de arquitectura y requisitos | Que decida el agente de Claude de arquitectura de software | `arquitecto-revisor` de Claude | Hecho el 2026-11-08, falta el OK de Mauricio: PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`); quedan A1 (DEC-54) y A5 |
 | 5 · Supuestos asumidos | Que decida el mismo agente | `arquitecto-revisor` de Claude | Hecho el 2026-11-08, falta el OK de Mauricio: los siete supuestos confirmados (tres con ajuste) |
 | 6 · Implementación | Por ahora, solo la demo; explicar qué contiene | Asistente | Alcance fijado por Mauricio; descripción abajo |
 
@@ -105,7 +105,7 @@ Los siguientes puntos requieren información factual, no una elección de arquit
   - PD-01 a PD-11 están en `DECISIONES.md`;
   - sus efectos están en el `.drawio` (páginas 1, 2, 3a, 4d, 4e y 5; PNG en `exportes/post_sesion6/`), en los casos de uso, en `CORRECCIONES_REPORTE.md` (R-31, R-49, R-56 a R-58, R-61 y las nuevas R-62 a R-66), en `ESTADO_PROYECTO_Y_C4.md` y en el README del código (N5);
   - A2 queda cerrada por PD-01;
-  - A1 queda en manos de Mauricio, y si el script no aparece se rehace el reporte (DEC-54); A3 está descartada; A5 (enunciado) queda para revisar, con prioridad baja; A7 (estimación de HU-20 a HU-22) sigue abierta;
+  - A1 queda en manos de Mauricio, y si el script no aparece se rehace el reporte (DEC-54); A3 está descartada; A5 (enunciado) queda para revisar, con prioridad baja; A7 cerrada: HU-20 a HU-22 se omiten del plan (PD-09);
   - PD-11 (ampliar la declaración de IA) la descartó Mauricio, y R-58 queda sin cambio.
 - [ ] PD-05 (T-06) está decidida, pero su aplicación (4c, 4e y código) espera la autorización de Mauricio.
 
