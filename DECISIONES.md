@@ -24,7 +24,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-05 | HU-09: solicitudes por cotización | Varias solicitudes; anotar que hay que corregir el mockup V13 | Aplicada en el `.drawio`, en las firmas y en la lógica del código (sesión 4); el mockup V13 (y V21), anotado en `CORRECCIONES_HU_Y_MOCKUPS.md` (M-01 y M-02) |
 | DEC-06 | Dueño de los KPI | Director comercial, para revisar con el equipo | Decidida |
 | DEC-07 | Alcance de HU-15 y HU-19 | Las dos dentro de la arquitectura | Aplicada en el `.drawio` y en el código; los mockups opcionales, descritos en `CORRECCIONES_HU_Y_MOCKUPS.md` (M-08) |
-| DEC-08 | Recomendaciones del revisor y D1–D8 | Se aceptan las recomendaciones | Asumida, por confirmar |
+| DEC-08 | Recomendaciones del revisor y D1–D8 | Se aceptan las recomendaciones | **Confirmada con ajuste** por el arquitecto-revisor (2026-11-08): D2 queda reemplazada por DEC-12 |
 | DEC-09 | Datos comunes de los eventos (H11) | `EventoDominio` pasa a clase abstracta con id, usuario, correlación y fecha | Aplicada |
 | DEC-10 | Regla de contraseña (H15) | Regla en el dominio, `cifrar()` y alta de usuarios por el administrador | Aplicada en el `.drawio` y en el código; el cambio del reporte está anotado en `CORRECCIONES_REPORTE.md` (R-09, R-17, R-53 y R-57) |
 | DEC-11 | Platos por sucursal (N1) | Se corrige ya, en la fase 2a | Aplicada |
@@ -253,6 +253,8 @@ En realidad las 156 clases están vacías y la demo solo imprime una línea. Un 
 
 **Estado:** asumida, porque se deduce de "haz todas las correcciones" y no se preguntó una por una. Si alguna no le parece a Mauricio o al equipo, se revierte su commit.
 
+
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmada con ajuste. D2 (11 rutas) queda **reemplazada** por DEC-12 (13 prefijos) y no se restaura. Se confirman D1 (`pdfUrl`, completada por `adjuntoUrl` de DEC-42), D3 (CON ORDEN, con el rechazo de la segunda orden en `OrdenCompraService.generar()` mediante `existePorCotizacion`), D4, D5 (pendiente, fuera del alcance de la demo), D6 (aviso por correo) y D7/D8 por DEC-07. Estado de los pendientes del estado del proyecto: E1–E3, D1–D8, D10 y D12 resueltos; D9 (tarjeta HU-07) se atiende en el Story Mapping corregido y D11 depende de A1.
 
 ## DEC-09 · ¿Cómo llevan los eventos su id, usuario y correlación? (H11)
 
