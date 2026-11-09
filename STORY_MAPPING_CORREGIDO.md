@@ -102,6 +102,8 @@ Original: páginas 8 a 26, una tarjeta por página. Se transcriben completas.
 6. Al guardar, el sistema debe generar un número consecutivo de pedido y mostrarlo en pantalla.
 7. El sistema debe registrar el movimiento de auditoría (acción, usuario, fecha, hora).
 
+**Nota de diseño:** el pedido guarda el mesero que lo tomó (`meseroId`), que cubre el «asociado a mi usuario» del criterio 1 (DEC-51 y DEC-53). La tarjeta no cambia.
+
 #### HU-02: Ingresar cantidad de platos
 
 - **Como:** Mesero del restaurante Konrad Gourmet.
@@ -224,6 +226,8 @@ Original: páginas 8 a 26, una tarjeta por página. Se transcriben completas.
 6. Si no selecciono ninguna solicitud, el sistema debe mostrar: «Debe seleccionar al menos una solicitud».
 7. Al guardar, el sistema debe generar un número consecutivo de cotización.
 
+**Nota (S-02):** la tarjeta ya pide «una o varias solicitudes» y no cambia. Lo que se corrige es el mockup V13, que muestra una sola (M-01, a cargo de Mauricio).
+
 #### HU-10: Registrar solicitud de alimentos
 
 - **Como:** Jefe de cocina de un punto del restaurante.
@@ -306,6 +310,8 @@ Original: páginas 8 a 26, una tarjeta por página. Se transcriben completas.
 6. Si intento generar una orden sobre una cotización en otro estado, el sistema debe mostrar: «Solo se pueden generar órdenes de compra sobre cotizaciones opcionadas».
 7. La generación debe quedar registrada en la auditoría (acción, usuario, fecha, hora).
 
+**Nota de diseño:** la tarjeta no cambia. El estado que impide la segunda orden (criterio 5) se llama CON ORDEN (D3).
+
 #### HU-15: Registrar datos de proveedor
 
 - **Como:** Auxiliar del área de compras.
@@ -322,6 +328,8 @@ Original: páginas 8 a 26, una tarjeta por página. Se transcriben completas.
 7. Si el correo no tiene formato válido, el sistema debe mostrar: «El formato del correo electrónico no es válido».
 8. Debo poder consultar, editar e inactivar proveedores; un proveedor inactivo no debe aparecer en las listas desplegables de cotización.
 9. Cada acción debe quedar registrada en la auditoría (acción, usuario, fecha, hora).
+
+**Nota de diseño:** la tarjeta no cambia. Las categorías se guardan con el nombre que tienen en el catálogo del menú (PD-02).
 
 ### MVP 4 — Módulo de inventario avanzado e inteligencia de negocio
 
@@ -373,6 +381,8 @@ Original: páginas 8 a 26, una tarjeta por página. Se transcriben completas.
 8. El tablero debe cargar en un tiempo menor a 5 segundos.
 9. Si no hay datos suficientes para calcular un indicador, el sistema debe mostrar: «No hay información suficiente para el periodo seleccionado».
 
+**Nota de diseño:** la tarjeta no cambia. Sin un rango elegido, la demanda se mide sobre el último mes y el proveedor sobre el último año; con un rango, los tres indicadores usan ese rango. La sucursal filtra la demanda, y el proveedor con mejores precios se calcula solo con las cotizaciones OPCIONADAS (PD-03).
+
 #### HU-19: Revisar promociones sugeridas
 
 - **Como:** Jefe de cocina de un punto del restaurante.
@@ -388,6 +398,8 @@ Original: páginas 8 a 26, una tarjeta por página. Se transcriben completas.
 6. Debo poder marcar una sugerencia como aceptada o descartada.
 7. El sistema no debe enviar más de una notificación de promociones por día.
 8. Si el análisis de tendencias falla, el error debe quedar registrado en el log sin interrumpir el resto del sistema.
+
+**Nota de diseño:** la tarjeta no cambia. El análisis corre cada semana sobre los 7 días anteriores, con las tendencias de una red social y los 3 productos más pedidos; cada sugerencia vale 7 días. La red concreta y esos valores son supuestos del diseño (S11, PD-04).
 
 ## 6. Planning Poker
 
