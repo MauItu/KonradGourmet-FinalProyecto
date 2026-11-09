@@ -56,7 +56,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-37 | Ventanas de ms-cotizaciones (K11) | El README vuelve a «V13–V20»; revierte K5 | Aplicada |
 | DEC-38 | ShedLock y `@Primary` fuera del código | Nada ahora; una frase en el reporte (p. 26) si aparece el script | Aplicada: la frase está en `CORRECCIONES_REPORTE.md` (R-43) |
 | DEC-39 | Qué métodos tienen lógica en la sesión 4 | Solo lo que usa el recorrido de compra; los adaptadores de tecnología externa y los módulos que la demo no usa siguen pendientes (94 cuerpos) | **Confirmada** por el arquitecto-revisor (2026-11-08); Mauricio fija el alcance en **solo la demo** |
-| DEC-40 | Datos del recorrido que los mockups no fijan | Precios por unidad; pedido de $82.000; res en 12,5 kg; histórico del tablero cargado a mano | Mauricio confirmó precios por unidad y pedido; inventario inicial e histórico del tablero siguen asumidos |
+| DEC-40 | Datos del recorrido que los mockups no fijan | Precios por unidad; pedido de $82.000; res en 12,5 kg; histórico del tablero cargado a mano | Mauricio confirmó precios por unidad y pedido; inventario inicial e histórico del tablero **confirmados por el arquitecto-revisor** (2026-11-08) como datos y límite de la demo |
 | DEC-41 | Cómo cambia una entidad sin métodos para eso | Constructores de copia y accesores de lista modificables; no se agregan métodos | Asumida, por confirmar |
 | DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 decidida en PD-05 | `adjuntoUrl` y límite de usuario/correlación: **confirmados por Mauricio**; 4d y nota `n_outbox` de la 4a actualizadas en la sesión 5 (`4da992c`, `f57a89e`); aclaraciones del reporte anotadas en `CORRECCIONES_REPORTE.md` (R-13, R-21, R-23 y R-45); T-06: **decidida por el arquitecto en PD-05, aplicación diferida** |
 | DEC-43 | Límites de la cadena de reglas y del umbral | Porcentajes redondeados a 2 decimales antes de comparar; límites estrictos y stock por debajo del 25 % | Decidida por Mauricio en la segunda ronda de la sesión 4 (2026-11-08), incluido el redondeo del stock |
@@ -712,6 +712,8 @@ Para el pedido: **A. $82.000, con 2 bandejas paisas y 1 ajiaco (3 platos)** ✅ 
 Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40, y Proveedor B con el promedio más bajo): el listener que lo armaría con los eventos (`NegocioEventsListener`) sigue pendiente. La alternativa, alimentarlo con `cotizacion.validada`, activaría T-06 y haría ganar a COT-020, que es SOSPECHOSA.
 
 **Qué implica:** los mockups V03 y V18/V19 se comentan en `CORRECCIONES_HU_Y_MOCKUPS.md` (sesión 5): V03 suma $88.000 con 4 platos y V04 dice 3; V18 y V19 muestran el valor de la línea y el modelo guarda el precio por unidad.
+
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmada. La res arranca en 12,5 kg de 50 (25,00 %, sin alerta según DEC-43) y queda en 11,5 kg (23 %) tras el pedido, lo que activa la alarma al cruzar el umbral. El histórico del tablero cargado a mano es un **límite declarado de la demo**; PD-03 elimina el riesgo de que gane COT-020 (solo cuentan las OPCIONADAS). No se reabren los precios por unidad ni el pedido de $82.000, confirmados por Mauricio.
 
 ## DEC-41 · ¿Cómo cambia una entidad cuando no tiene un método para eso?
 
