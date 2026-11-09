@@ -339,7 +339,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 **Actor:** director de compras. **Historia:** HU-13. **Ventanas:** V17, V19.
 
-**Precondición:** la cotización tiene valores registrados (CU-10).
+**Precondición:** la cotización está en estado ENVIADA.
 
 **Flujo principal:**
 
@@ -353,7 +353,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 **Postcondición:** el cambio de estado queda en la auditoría (acción, usuario, fecha, hora).
 
-**Reglas y fuente:** el enunciado dice "en más de" 25 % y 50 %; leído literalmente, un valor exactamente en ese límite queda OPCIONADA. Conviene confirmarlo con el profesor.
+**Reglas y fuente:** el enunciado dice "en más de" 25 % y 50 %. Los porcentajes se redondean a dos decimales antes de comparar: +25,00 % y −50,00 % quedan OPCIONADA, +25,01 % queda RECHAZADA y −50,01 % queda SOSPECHOSA (DEC-43).
 
 ### CU-12 Consultar cotizaciones opcionadas
 
