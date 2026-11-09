@@ -22,6 +22,8 @@ Marcas del texto fuente (una por línea):
     !portada                 portada (datos en PORTADA)
     !indice                  índice, con las páginas calculadas en dos pasadas
     !salto                   salto de página
+    !horizontal / !vertical  orientación de las páginas de texto que siguen
+    \\*                       asterisco literal (por ejemplo, /api/pedidos/\\*\\*)
     !tabla N | Título | anchos relativos   seguida de una tabla con barras |
     !nota Texto              nota bajo una tabla o figura («Nota.» en cursiva)
     !figura N | archivo | Título | Nota | horizontal   figura (horizontal: página apaisada)
@@ -173,7 +175,7 @@ INLINE = re.compile(r"(\*\*[^*]+\*\*|\*[^*]+\*)")
 
 def texto(p, contenido, negrilla=False, cursiva=False):
     """Agrega el texto con **negrilla** y *cursiva*. El espacio antes de % no se parte."""
-    contenido = contenido.replace(" %", "\u00a0%")
+    contenido = contenido.replace(" %", "\u00a0%").replace("\\*", "\x00")
     for trozo in INLINE.split(contenido):
         if not trozo:
             continue
@@ -182,7 +184,9 @@ def texto(p, contenido, negrilla=False, cursiva=False):
             b, t = True, trozo[2:-2]
         elif trozo.startswith("*") and trozo.endswith("*") and len(trozo) > 1:
             i, t = True, trozo[1:-1]
-        run = p.add_run(t)
+        t = t.replace("\x00", "*")
+        # «ms-pedidos» y similares no se parten al final de la línea: unión de palabras (U+2060) tras el guion.
+        run = p.add_run(re.sub(r"\bms-", "ms-\u2060", t))
         run.bold = b or None
         run.italic = i or None
     return p
@@ -330,10 +334,32 @@ class Reporte:
         self.figuras = []
         self.tablas = []
         self.tras_tabla = False          # el párrafo siguiente a una tabla lleva aire arriba
+        self.orientacion = "v"           # orientación de la sección actual
+        self.orientacion_texto = "v"     # orientación pedida para el texto (!horizontal / !vertical)
+        self.seccion_nueva = False       # la sección actual todavía no tiene contenido
+        self.tras_figura_h = False       # la página actual la ocupa una figura apaisada
 
     @property
     def seccion(self):
         return self.doc.sections[-1]
+
+    def asegurar(self, orientacion):
+        """Abre una sección nueva solo si cambia la orientación (evita páginas en blanco)."""
+        if orientacion != self.orientacion:
+            nueva = self.doc.add_section(WD_SECTION.NEW_PAGE)
+            _pagina(nueva, horizontal=(orientacion == "h"))
+            nueva.different_first_page_header_footer = False
+            self.orientacion = orientacion
+            self.seccion_nueva = True
+            return True
+        return False
+
+    def contenido(self):
+        abrio = self.asegurar(self.orientacion_texto)
+        if self.tras_figura_h and not abrio:
+            self.salto()                 # el texto no sigue en la página de una figura apaisada
+        self.tras_figura_h = False
+        self.seccion_nueva = False
 
     def portada(self):
         doc = self.doc
@@ -352,6 +378,7 @@ class Reporte:
         p.add_run().add_break(WD_BREAK.PAGE)
 
     def titulo(self, nivel, contenido):
+        self.contenido()
         h = self.doc.add_heading(level=nivel)
         texto(h, contenido)
         if nivel == 1:
@@ -360,6 +387,7 @@ class Reporte:
                 h.paragraph_format.page_break_before = True
 
     def parrafo(self, contenido, sangria=True):
+        self.contenido()
         p = self.doc.add_paragraph()
         _formato_parrafo(p, sangria=sangria and not self.referencias)
         if self.tras_tabla:
@@ -371,15 +399,17 @@ class Reporte:
         texto(p, contenido)
 
     def cita(self, contenido):
+        self.contenido()
         p = self.doc.add_paragraph()
         pf = _formato_parrafo(p, sangria=False)
         pf.left_indent = SANGRIA
         texto(p, contenido)
 
-    def rotulo(self, tipo, numero, titulo):
+    def rotulo(self, tipo, numero, titulo, pagina_nueva=False):
         p = self.doc.add_paragraph()
         pf = _formato_parrafo(p, sangria=False, espaciado=WD_LINE_SPACING.ONE_POINT_FIVE)
         pf.space_before = Pt(12)
+        pf.page_break_before = pagina_nueva
         pf.keep_with_next = True
         texto(p, f"{tipo} {numero}", negrilla=True)
         p = self.doc.add_paragraph()
@@ -398,17 +428,22 @@ class Reporte:
 
     def tabla(self, numero, titulo, anchos, lineas):
         self.tablas.append(numero)
+        self.contenido()
         self.rotulo("Tabla", numero, titulo)
         tabla(self.doc, leer_tabla(lineas), anchos, ancho_util(self.seccion))
         self.tras_tabla = True
 
     def figura(self, numero, archivo, titulo, nota, horizontal):
         self.figuras.append(numero)
+        pagina_nueva = False
         if horizontal:
-            nueva = self.doc.add_section(WD_SECTION.NEW_PAGE)
-            _pagina(nueva, horizontal=True)
-            nueva.different_first_page_header_footer = False
-        self.rotulo("Figura", numero, titulo)
+            abrio = self.asegurar("h")
+            # Una figura apaisada ocupa su propia página.
+            pagina_nueva = not abrio and not self.seccion_nueva
+            self.seccion_nueva = False
+        else:
+            self.contenido()
+        self.rotulo("Figura", numero, titulo, pagina_nueva)
         ruta = (AQUI / archivo).resolve()
         imagen = ImagenDocx.from_file(str(ruta))
         ancho_px, alto_px = imagen.px_width, imagen.px_height
@@ -423,9 +458,7 @@ class Reporte:
         p.add_run().add_picture(str(ruta), width=ancho)
         if nota:
             self.nota(nota)
-        if horizontal:
-            vuelta = self.doc.add_section(WD_SECTION.NEW_PAGE)
-            _pagina(vuelta)
+        self.tras_figura_h = horizontal
 
     def indice_contenido(self, titulos):
         p = self.doc.add_paragraph()
@@ -466,6 +499,10 @@ class Reporte:
                 cerrar(); self.portada()
             elif s == "!indice":
                 cerrar(); self.indice_contenido(titulos_indice)
+            elif s == "!horizontal":
+                cerrar(); self.orientacion_texto = "h"
+            elif s == "!vertical":
+                cerrar(); self.orientacion_texto = "v"
             elif s == "!salto":
                 cerrar(); self.salto()
             elif s == "!referencias":
