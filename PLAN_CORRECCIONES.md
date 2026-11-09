@@ -218,6 +218,10 @@ Mauricio aprobó la fase 1 y, después de RCU-13, la fase 2; autorizó continuar
 
 ---
 
+## Continuación después de la sesión 6
+
+La distribución posterior indicada por Mauricio está en [PENDIENTES_POST_SESION6.md](PENDIENTES_POST_SESION6.md): documentos aquí, mockups a cargo de Mauricio, un documento nuevo de Story Mapping, decisiones y supuestos a cargo del `arquitecto-revisor` de Claude y alcance limitado a la demo. Es trabajo por realizar; no reabre la sesión 6 ni marca esos pendientes como terminados.
+
 ## Texto para arrancar cada sesión
 
 Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiando el número:
