@@ -17,24 +17,24 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 |---|---|---|---|
 | DEC-01 | Carpetas y control de versiones | Dos carpetas hermanas, cada una con su repo, en la rama local `correcciones-revision` | Aplicada |
 | DEC-02 | Código (hallazgo bloqueante H1 y D12) | Firmas, relaciones y tipos, más una demo real | Firmas, relaciones y tipos aplicados en el código (sesión 3); la demo real, aplicada en la sesión 4 |
-| DEC-03 | Reporte PDF | No tocarlo hasta que aparezca el script original | Vigente |
+| DEC-03 | Reporte PDF | No tocarlo hasta que aparezca el script original | Vigente; los cambios están en `CORRECCIONES_REPORTE.md` (R-01 a R-59, sesión 5) |
 | DEC-04 | Ritmo de trabajo | Por fases con pausa, en 5 sesiones | Vigente |
 | DEC-05 | HU-09: solicitudes por cotización | Varias solicitudes; anotar que hay que corregir el mockup V13 | Aplicada en el `.drawio`, en las firmas y en la lógica del código (sesión 4); falta el mockup V13 (sesión 5) |
 | DEC-06 | Dueño de los KPI | Director comercial, para revisar con el equipo | Decidida |
 | DEC-07 | Alcance de HU-15 y HU-19 | Las dos dentro de la arquitectura | Aplicada en el `.drawio` y en el código; faltan los mockups opcionales (sesión 5) |
 | DEC-08 | Recomendaciones del revisor y D1–D8 | Se aceptan las recomendaciones | Asumida, por confirmar |
 | DEC-09 | Datos comunes de los eventos (H11) | `EventoDominio` pasa a clase abstracta con id, usuario, correlación y fecha | Aplicada |
-| DEC-10 | Regla de contraseña (H15) | Regla en el dominio, `cifrar()` y alta de usuarios por el administrador | Aplicada en el `.drawio` y en el código; falta el reporte (sesión 5) |
+| DEC-10 | Regla de contraseña (H15) | Regla en el dominio, `cifrar()` y alta de usuarios por el administrador | Aplicada en el `.drawio` y en el código; el cambio del reporte está anotado en `CORRECCIONES_REPORTE.md` (R-09, R-17, R-53 y R-57) |
 | DEC-11 | Platos por sucursal (N1) | Se corrige ya, en la fase 2a | Aplicada |
-| DEC-12 | Rutas del gateway (N6) | 13 prefijos: `/api/usuarios` y `/api/proveedores` aparte | Aplicada en el `.drawio`; falta el reporte (sesión 5) |
+| DEC-12 | Rutas del gateway (N6) | 13 prefijos: `/api/usuarios` y `/api/proveedores` aparte | Aplicada en el `.drawio`; el reporte, anotado en `CORRECCIONES_REPORTE.md` (R-17) |
 | DEC-13 | Destinatarios de los correos (N5) | Mixto: el correo del solicitante viaja en el evento, y ms-notificaciones guarda una libreta de jefes por sucursal | Aplicada |
 | DEC-14 | Resto de la validación de la fase 2a | Se aplican N2–N4 y N7–N15 como los propone el revisor | Aplicada |
-| DEC-15 | Adaptadores nuevos en el mapa (p. 1) | Una caja por tecnología y destino, explicada en la leyenda; cajas angostas solo en 2 filas | Aplicada en el `.drawio`; falta el reporte (sesión 5) |
-| DEC-16 | Infraestructura nueva en el mapa | Almacén de objetos y ELK, este en pequeño y con una sola flecha | Aplicada en el `.drawio`; falta el reporte (sesión 5) |
-| DEC-17 | Base de datos de ms-integracion | PostgreSQL propia para la tabla outbox | Aplicada en el `.drawio`; falta el reporte (sesión 5) |
-| DEC-18 | ms-inventario en el recorrido (p. 6) | Línea de vida propia, antes del servidor de correo | Aplicada en el `.drawio`; faltan las tablas del reporte (sesión 5) |
+| DEC-15 | Adaptadores nuevos en el mapa (p. 1) | Una caja por tecnología y destino, explicada en la leyenda; cajas angostas solo en 2 filas | Aplicada en el `.drawio`; el reporte, anotado en `CORRECCIONES_REPORTE.md` (R-26) |
+| DEC-16 | Infraestructura nueva en el mapa | Almacén de objetos y ELK, este en pequeño y con una sola flecha | Aplicada en el `.drawio`; el reporte, anotado en `CORRECCIONES_REPORTE.md` (R-26 y R-27) |
+| DEC-17 | Base de datos de ms-integracion | PostgreSQL propia para la tabla outbox | Aplicada en el `.drawio`; el reporte, anotado en `CORRECCIONES_REPORTE.md` (R-26) |
+| DEC-18 | ms-inventario en el recorrido (p. 6) | Línea de vida propia, antes del servidor de correo | Aplicada en el `.drawio`; las tablas del reporte, anotadas en `CORRECCIONES_REPORTE.md` (R-32 y R-34) |
 | DEC-19 | Ejemplo de varias solicitudes (p. 6) | «Una o varias (aquí SOL-031)», con las listas escritas como listas | Aplicada |
-| DEC-20 | Zonas en el despliegue (p. 5) | Tres cajas de zona con el reparto; Eureka y la SPA en las zonas A y B | Aplicada; lo de Eureka y la SPA es asumido, por confirmar con el equipo (sesión 5) |
+| DEC-20 | Zonas en el despliegue (p. 5) | Tres cajas de zona con el reparto; Eureka y la SPA en las zonas A y B | Aplicada; lo de Eureka y la SPA es asumido, por confirmar con el equipo (R-49 de `CORRECCIONES_REPORTE.md` espera esa confirmación) |
 | DEC-21 | Ítems fuera del plan de la sesión 2 | Se aplican 27 de 33; 6 no se aplican | Aplicada |
 | DEC-22 | Caché del Proxy en memoria (4e) | No se toca la 4e; se anota para la sesión 3 | Resuelta en la sesión 3 por DEC-27 |
 | DEC-23 | Ruta del gateway a ms-integracion (p. 1, S5) | Se deja como está: entra por arriba al endpoint SOAP | Decidida, sin cambio |
@@ -52,16 +52,17 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-35 | Dos clases cumplen `PrecioReferenciaPort` (K9) | El Proxy lleva además `@Primary` | Aplicada |
 | DEC-36 | Los jobs y las réplicas (K10) | Los 2 jobs llevan además `@SchedulerLock` (ShedLock) | Aplicada |
 | DEC-37 | Ventanas de ms-cotizaciones (K11) | El README vuelve a «V13–V20»; revierte K5 | Aplicada |
-| DEC-38 | ShedLock y `@Primary` fuera del código | Nada ahora; una frase en el reporte (p. 26) si aparece el script | Aplicada (plan de la sesión 5) |
+| DEC-38 | ShedLock y `@Primary` fuera del código | Nada ahora; una frase en el reporte (p. 26) si aparece el script | Aplicada: la frase está en `CORRECCIONES_REPORTE.md` (R-43) |
 | DEC-39 | Qué métodos tienen lógica en la sesión 4 | Solo lo que usa el recorrido de compra; los adaptadores de tecnología externa y los módulos que la demo no usa siguen pendientes (94 cuerpos) | Asumida, por confirmar |
 | DEC-40 | Datos del recorrido que los mockups no fijan | Precios por unidad; pedido de $82.000; res en 12,5 kg; histórico del tablero cargado a mano | Mauricio confirmó precios por unidad y pedido; inventario inicial e histórico del tablero siguen asumidos |
 | DEC-41 | Cómo cambia una entidad sin métodos para eso | Constructores de copia y accesores de lista modificables; no se agregan métodos | Asumida, por confirmar |
-| DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 sigue abierta | `adjuntoUrl` y límite de usuario/correlación: **confirmados por Mauricio**; 4d y aclaraciones del reporte/4a pendientes para sesión 5; T-06 sigue asumida, por confirmar |
+| DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 sigue abierta | `adjuntoUrl` y límite de usuario/correlación: **confirmados por Mauricio**; 4d y nota `n_outbox` de la 4a actualizadas en la sesión 5 (`4da992c`, `f57a89e`); aclaraciones del reporte anotadas en `CORRECCIONES_REPORTE.md` (R-13, R-21, R-23 y R-45); T-06 sigue asumida, por confirmar |
 | DEC-43 | Límites de la cadena de reglas y del umbral | Porcentajes redondeados a 2 decimales antes de comparar; límites estrictos y stock por debajo del 25 % | Decidida por Mauricio en la segunda ronda de la sesión 4 (2026-11-08), incluido el redondeo del stock |
 | DEC-44 | Dónde van las pruebas y el script | Carpeta `pruebas/` fuera de `src/`, sin JUnit, y `ejecutar.sh` | Asumida, por confirmar |
 | DEC-46 | Tres reglas que el revisor encontró mal en la sesión 4 (S4-1, S4-2, S4-3) | Alarma solo al cruzar el umbral; `completar()` acepta PENDIENTE; auditoría en cada escritura del recorrido, incluidos los fallos | Confirmada por Mauricio; auditoría de los fallos autorizada en la fase 2 (S4-13) |
 | DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | Asumida, por confirmar |
 | DEC-47 | Plan de sprints del Excel (H20) | 1 PHU = 25 h y 9 PHU por sprint; HU-14 = 1 (total 35); HU-17 al sprint 3 (8, 8, 6, 8 y 5 PHU); inicio el lunes 03/08/2026; 5 sprints y 10 semanas en todo el Excel | Aplicada en el Excel (sesión 5); fecha y «EN SEMANAS» decididos por Mauricio; el orden de filas es asumido, por confirmar |
+| DEC-48 | Dónde van las páginas 3a, 3b y 6 en el reporte | La 6 en §10, después de la tabla del recorrido; la 3a y la 3b en §14, después del contexto | Asumida, por confirmar (sesión 5) |
 
 ---
 
@@ -715,7 +716,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Opciones para T-06:** **A.** La demo no consume `cotizacion.validada` ni `tendencia.detectada`: se publica la primera, nadie la lee, y la rama `tendencia.detectada` de `NotificacionService.notificarEvento()` lanza `Pendiente de implementar: … (T-06)` ✅ **Asumida**. **B.** Cambiar `estado` a `String` en la 4c (era la opción B de DEC-29). **C.** Mover los eventos a `compartido.eventos` (opción C de DEC-29).
 
-**Qué implica:** `Notificacion.enviar(destino, contenido, adjuntoUrl)` y `CreadorNotificacion.notificar(destino, contenido, adjuntoUrl)` tienen un parámetro más que la 4d; `AlarmaApp` lo ignora. Los correos a los proveedores llevan el PDF en `Mensaje.adjuntoUrl`. La sesión 5 actualiza la 4d (`Notificacion`, `AlarmaApp`, `NotificacionCorreo` y `CreadorNotificacion`) y lo anota en `PLAN_CORRECCIONES.md`.
+**Qué implica:** `Notificacion.enviar(destino, contenido, adjuntoUrl)` y `CreadorNotificacion.notificar(destino, contenido, adjuntoUrl)` tienen un parámetro más que la 4d; `AlarmaApp` lo ignora. Los correos a los proveedores llevan el PDF en `Mensaje.adjuntoUrl`. La sesión 5 actualiza la 4d (`Notificacion`, `AlarmaApp`, `NotificacionCorreo` y `CreadorNotificacion`) y lo anota en `PLAN_CORRECCIONES.md`. **Aplicado en la sesión 5 (2026-11-08):** la 4d ya tiene las cuatro firmas con `adjuntoUrl` (`4da992c`) y la nota `n_outbox` de la 4a separa el sistema real del límite de la demo (`f57a89e`); el diagrama y el código vuelven a coincidir.
 
 **Límite confirmado de auditoría y trazabilidad:** el reporte promete usuario en la auditoría (p. 5) y correlación para las trazas (p. 9); la nota `n_outbox` de la 4a dice que `correlacionId` une todos los eventos de un mismo recorrido. La demo usa `sistema` (o el correo de la entidad) y genera una correlación nueva por evento: no identifica siempre al usuario autenticado ni enlaza el recorrido completo. En la sesión 5 se debe distinguir expresamente esa simplificación de lo prometido para el sistema real, tanto en el reporte como en la nota de la 4a. Esta aceptación no elimina la auditoría de escrituras, incluidos los estados pendientes por fallos (S4-13). No se cambian firmas, diagramas ni PDF en esta fase.
 
@@ -799,6 +800,17 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - El archivo se guardó con openpyxl: conserva estilos, celdas combinadas y fórmulas, con sus valores calculados, y pierde solo los metadatos propios de Google Sheets. La copia de `../proyecto/contexto/` queda con el contenido anterior.
 
 **Para la fase 5 (`CORRECCIONES_HU_Y_MOCKUPS.md`):** el Story Mapping p. 31 («SPRINT») contradice el Excel: dice 4 sprints, 8 semanas y «2 Meses», con los sprints 2 y 3 «sobrecargados (10 sobre 9)» y los sobrantes de 1 PHU en los sprints 1 y 4. Por decisión de Mauricio, la corrección es que diga 5 sprints, 10 semanas y «2 meses y medio», con el reparto y las fechas del Excel. Hay que anotarlo junto a las etiquetas de H26 (el título «Capacidad … (120)» de las pp. 2, 5, 27 y 30). El Story Mapping no se modifica (DEC-03).
+
+## DEC-48 · ¿Dónde van las páginas 3a, 3b y 6 en el reporte?
+
+**Por qué hubo que decidir.** Al escribir `CORRECCIONES_REPORTE.md` (sesión 5) hubo que proponer dónde entran las tres páginas nuevas del `.drawio`. El reporte (p. 4) dice que el C4 es obligatorio en sus cuatro niveles y que «los diagramas dinámico y de despliegue son complementarios», pero solo muestra el contexto (§14), el código (§12 y anexo) y el despliegue (§14). Ninguna fuente dice dónde deben ir.
+
+**Opciones:**
+- **A. Cada una junto a lo que explica.** La página 6 en §10, justo después de la tabla «Recorrido completo de una compra», que recorre los mismos 14 pasos; la 3a y la 3b en §14, después del nivel 1, para que el C4 se lea en orden (contexto, contenedores, componentes) antes del despliegue. Las figuras se renumeran del 7 al 14. ✅ **Asumida, por confirmar** (R-02 y R-03).
+- **B. Una sección nueva, «El modelo C4»,** con las páginas 2, 3a, 3b y 6 juntas. Ordena mejor el C4, pero mueve el contexto fuera de §14 y cambia la numeración de todas las secciones siguientes.
+- **C. En el anexo**, como figuras A6 a A8. Es lo que menos toca el cuerpo del reporte, pero deja los niveles 2 y 3 del C4 fuera del texto, que es justo lo que señaló la revisión.
+
+**Qué implica:** solo cambia `CORRECCIONES_REPORTE.md` (R-02, R-03 y R-05). El PDF no se toca (DEC-03). Si el equipo prefiere B o C, hay que rehacer R-02 y R-03.
 
 ---
 

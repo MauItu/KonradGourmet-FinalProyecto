@@ -172,7 +172,7 @@ Al terminar: correr la demo y validar con `arquitecto-revisor`.
 - **Fase 4, Excel (H20):** 1 PHU = 25 h y 9 PHU por sprint. HU-14 = 1, con un total de 35. Pasar HU-17 al sprint 3. Corregir "EN SEMANAS" y "SOBRAN". Agregar fechas por sprint.
 - **Fase 6, documentos:**
   - Actualizar `ESTADO_PROYECTO_Y_C4.md`: rutas nuevas (`documentos/`), Git, cambios hechos y estado de cada pendiente.
-  - **`CORRECCIONES_REPORTE.md`:** todo lo que hay que cambiar en el reporte cuando aparezca el script (DEC-03). Incluye:
+  - ✅ **`CORRECCIONES_REPORTE.md`** (hecho el 2026-11-08, `e46486b`; R-01 a R-59, con DEC-48 asumida): todo lo que hay que cambiar en el reporte cuando aparezca el script (DEC-03). Incluye:
     - H1: ya es cierto en la p. 26 y la p. 30 (métodos, comentarios y relaciones); la p. 3 depende de la demo (D12);
     - "ocho" → 11 páginas, y agregar las páginas 3a, 3b y 6;
     - §11 (consumidores nuevos), §15 (métodos y rutas nuevas) y p. 22 (H8, H9, H13);
@@ -193,8 +193,8 @@ Al terminar: correr la demo y validar con `arquitecto-revisor`.
       - §15: faltan `catalogo()` y `mesas()` (W-03), `productosPorCategoria()` (W-06), el desplegable de proveedores (W-13) y `detalle()` de la cotización (W-20 y W-21);
       - opcional: una tabla con los métodos de controlador que no atienden una ventana (W-24 a W-35).
       - p. 26: junto a las anotaciones, una frase que diga que el Proxy de precios lleva `@Primary` y que los 2 jobs llevan `@SchedulerLock` (ShedLock), para que corran en una sola réplica (DEC-35, DEC-36 y DEC-38).
-  - **Nota de la 4a, `n_outbox` (DEC-42):** aclarar que la promesa de usuario y de una correlación que une el recorrido corresponde al sistema real. La demo conserva el límite confirmado: `sistema` o correo de la entidad y una correlación por evento. No modificar la nota hasta la sesión 5.
-  - **4d del `.drawio` (DEC-42):** agregar `adjuntoUrl: String` a `Notificacion.enviar()`, `AlarmaApp.enviar()`, `NotificacionCorreo.enviar()` y `CreadorNotificacion.notificar()`, para que el diagrama quede igual al código.
+  - ✅ **Nota de la 4a, `n_outbox` (DEC-42)** (hecho el 2026-11-08, `f57a89e`): aclarar que la promesa de usuario y de una correlación que une el recorrido corresponde al sistema real. La demo conserva el límite confirmado: `sistema` o correo de la entidad y una correlación por evento. No modificar la nota hasta la sesión 5.
+  - ✅ **4d del `.drawio` (DEC-42)** (hecho el 2026-11-08, `4da992c`): agregar `adjuntoUrl: String` a `Notificacion.enviar()`, `AlarmaApp.enviar()`, `NotificacionCorreo.enviar()` y `CreadorNotificacion.notificar()`, para que el diagrama quede igual al código.
   - **`CORRECCIONES_HU_Y_MOCKUPS.md`:**
     - los mockups V13 y V21 con varias solicitudes (DEC-05);
     - reescribir la tarjeta HU-07 con los filtros de `CriteriosConsulta` (D9);
@@ -220,4 +220,4 @@ Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiand
 | 2 · Páginas 1, 2, 3a, 3b, 5 y 6 | ✅ Aprobada por Mauricio (2026-11-08). Validada por el revisor, con S1–S14 corregidos. Decisiones DEC-15 a DEC-24 |
 | 3 · Código: firmas | Aplicada y validada por el revisor cuatro veces (2026-11-08); la cuarta la dio por **lista**. K1–K18 resueltos (K5, revertida por K11; K15 y K17 son erratas anotadas en los registros). Falta el OK de Mauricio. Son 191 clases más la demo, que compilan, en 241 commits sobre `ad71e69`. Decisiones DEC-25 a DEC-38 |
 | 4 · Código: demo | Segunda ronda y fase 2 terminadas (2026-11-08): **lista dentro del alcance de la demo**. S4-13 a S4-16 corregidos; S4-1 a S4-12 corregidos o documentados. 134 commits sobre `37d655b`, 171 verificaciones y 94 cuerpos pendientes. Mauricio confirmó DEC-43 (cotizaciones y stock) y el límite de usuario/correlación de DEC-42. La demo cubre las siete salidas según DEC-31. Pendientes para sesión 5: 4d (`adjuntoUrl`), «≤ 25 %» y aclaraciones de usuario/correlación en reporte y 4a |
-| 5 · Excel y documentos | Pendiente |
+| 5 · Excel y documentos | En curso (2026-11-08), una fase por mensaje. Fase 4 (Excel, H20) aprobada, con DEC-47. `.drawio` hecho: 4d con `adjuntoUrl` y nota `n_outbox` de la 4a (DEC-42); PNG en `exportes/sesion5/`. `CORRECCIONES_REPORTE.md` hecho (R-01 a R-59; las 11 páginas exportadas en `exportes/sesion5/`). Faltan `ESTADO_PROYECTO_Y_C4.md`, `CORRECCIONES_HU_Y_MOCKUPS.md` y la validación final del revisor |
