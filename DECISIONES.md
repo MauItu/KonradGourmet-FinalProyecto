@@ -80,6 +80,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | PD-08 | Autenticación de los consumidores externos del SOAP | OAuth 2.0 client credentials: JWT de cliente validado por el gateway, solo para `/api/integracion/**`; supuesto S12 | Decidida por el arquitecto-revisor (2026-11-08); efectos en páginas 1, 2 y 3a, CU-18 y §3/§17 del reporte |
 | PD-09 | HU-20 a HU-22 | Propuestas de diseño aprobadas con ajustes, sin estimar y fuera del Story Mapping original | Decidida por el arquitecto-revisor (2026-11-08); efectos en casos de uso, `STORY_MAPPING_CORREGIDO.md` y Excel; estimación pendiente del equipo |
 | PD-10 | Mensajes de interfaz por definir | Criterio común y 16 textos propuestos; los mensajes literales de las HU son el contrato de la interfaz | Decidida por el arquitecto-revisor (2026-11-08); efectos en casos de uso y Story Mapping corregido; el código no cambia |
+| PD-11 | Declaración de IA del reporte (R-58) | Declaración fiel: Claude Code con el agente revisor, continuación con Codex en la sesión 6 y decisiones delegadas al agente; modelos por confirmar | Ajuste decidido por el arquitecto-revisor (2026-11-08); el equipo confirma modelos y autoría antes de publicarla |
 
 ---
 
@@ -1071,6 +1072,18 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 | CU-18 | Producto sin precio (SOAP Fault) | «No hay precio estándar disponible para el producto {id}.»; un fallo de autenticación responde 401 en el gateway |
 
 **Qué implica:** se aplican en los casos de uso, en HU-20 a HU-22 y en la tarjeta HU-07 del Story Mapping corregido. El código no cambia ahora.
+
+## PD-11 · ¿Qué dice la declaración de uso de IA del reporte? (R-58)
+
+**Por qué hubo que decidir.** R-58 proponía decir que «las decisiones de diseño las tomó el equipo», lo que es falso para las decisiones delegadas al agente (DEC-23, DEC-24, DEC-49, DEC-50 y PD-01 a PD-11). Es el hallazgo N4, de severidad alta.
+
+**Opciones:**
+- **A. Mantener el texto de R-58.** Sería una afirmación falsa en la entrega.
+- **B. Una declaración fiel, con los datos que falten marcados para que el equipo los confirme.** ✅ **Escogida por el arquitecto-revisor.**
+
+**Texto propuesto:** «Las correcciones posteriores al 7-nov-2026 se hicieron con IA en seis sesiones: Claude Code (Anthropic, [modelos]) para el .drawio, el código, la demo, las pruebas, el Excel y los documentos, con un agente revisor de Claude que validó cada sesión; Codex (OpenAI, [modelo]) continuó la sesión 6 (RCU-11 a RCU-13 y su validación). Las instrucciones y cada decisión con sus alternativas están en DECISIONES.md y en el historial (un commit por corrección). Mauricio Iturriza tomó la mayoría de las decisiones; DEC-23, DEC-24, DEC-49, DEC-50 y PD-01 a PD-11 las tomó el agente revisor por delegación expresa suya.»
+
+**Qué implica:** se reescribe R-58 en `CORRECCIONES_REPORTE.md`. Los modelos y versiones usados, y la autoría, los confirma el equipo; no se inventan. El trabajo posterior a la sesión 6 (esta revisión y su registro) también se hizo con Claude Code, y debe sumarse a la declaración.
 
 ---
 
