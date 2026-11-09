@@ -462,7 +462,7 @@ Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciad
 1. El administrador abre la auditoría y elige un rango de fechas.
 2. El sistema lista los movimientos con acción, usuario, fecha y hora.
 
-**Reglas y fuente:** cada acción CRUD del sistema debe registrar esos cuatro datos (requisito de mantenimiento 1). El informe asigna la consulta por rango de fechas a ms-administracion. En el prototipo, los eventos llevan «sistema» como usuario (DEC-42); en el sistema real sale del JWT. Si se puede filtrar también por usuario o acción: por definir.
+**Reglas y fuente:** cada acción CRUD del sistema debe registrar esos cuatro datos (requisito de mantenimiento 1). El informe asigna la consulta por rango de fechas a ms-administracion. En el prototipo, los eventos llevan «sistema» como usuario (DEC-42); en el sistema real sale del JWT. Filtros: solo por rango de fechas, obligatorio, y «desde» no puede ser posterior a «hasta» (PD-07); filtrar por usuario o acción es una evolución que cambia cinco firmas de la 4e. Mensajes: «La fecha inicial no puede ser posterior a la fecha final.» y «No hay movimientos de auditoría en el periodo seleccionado.» (PD-10).
 
 ### CU-17 Consultar logs de errores
 
