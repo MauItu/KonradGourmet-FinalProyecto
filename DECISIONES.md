@@ -57,7 +57,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-38 | ShedLock y `@Primary` fuera del código | Nada ahora; una frase en el reporte (p. 26) si aparece el script | Aplicada: la frase está en `CORRECCIONES_REPORTE.md` (R-43) |
 | DEC-39 | Qué métodos tienen lógica en la sesión 4 | Solo lo que usa el recorrido de compra; los adaptadores de tecnología externa y los módulos que la demo no usa siguen pendientes (94 cuerpos) | **Confirmada** por el arquitecto-revisor (2026-11-08); Mauricio fija el alcance en **solo la demo** |
 | DEC-40 | Datos del recorrido que los mockups no fijan | Precios por unidad; pedido de $82.000; res en 12,5 kg; histórico del tablero cargado a mano | Mauricio confirmó precios por unidad y pedido; inventario inicial e histórico del tablero **confirmados por el arquitecto-revisor** (2026-11-08) como datos y límite de la demo |
-| DEC-41 | Cómo cambia una entidad sin métodos para eso | Constructores de copia y accesores de lista modificables; no se agregan métodos | Asumida, por confirmar |
+| DEC-41 | Cómo cambia una entidad sin métodos para eso | Constructores de copia y accesores de lista modificables; no se agregan métodos | **Confirmada con ajuste** por el arquitecto-revisor (2026-11-08): las listas modificables son una simplificación declarada de la demo |
 | DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 decidida en PD-05 | `adjuntoUrl` y límite de usuario/correlación: **confirmados por Mauricio**; 4d y nota `n_outbox` de la 4a actualizadas en la sesión 5 (`4da992c`, `f57a89e`); aclaraciones del reporte anotadas en `CORRECCIONES_REPORTE.md` (R-13, R-21, R-23 y R-45); T-06: **decidida por el arquitecto en PD-05, aplicación diferida** |
 | DEC-43 | Límites de la cadena de reglas y del umbral | Porcentajes redondeados a 2 decimales antes de comparar; límites estrictos y stock por debajo del 25 % | Decidida por Mauricio en la segunda ronda de la sesión 4 (2026-11-08), incluido el redondeo del stock |
 | DEC-44 | Dónde van las pruebas y el script | Carpeta `pruebas/` fuera de `src/`, sin JUnit, y `ejecutar.sh` | Asumida, por confirmar |
@@ -728,6 +728,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **C. Cambiar las firmas de los puertos** (por ejemplo, que `guardar()` reciba el número). Rompe las páginas aprobadas.
 
 **Qué implica:** el README lo dice. Además, `GenerarCotizacionFacade` tiene un `Logger` privado (para «dejar el error en el log», H18) y algunas clases tienen métodos privados auxiliares (`huella()`, `enviar()`); no se ven desde fuera. `ParametrosSistema.valores()`, `Bitacora.registros()` y `Mensaje.cabeceras()` son accesores.
+
+**Resolución del arquitecto-revisor (2026-11-08, por delegación de Mauricio; `REVISION_ARQUITECTO_POST_S6.md`):** confirmada con ajuste. Los constructores de copia se confirman. Los accesores de lista modificables quedan como **simplificación declarada de la demo**: `GenerarCotizacionFacade` hace `items().clear()` y `addAll()`, y `SolicitudService` hace `cotizacionesAplicadas().add()`. En el sistema real irían otro constructor de copia, `List.copyOf` en los accesores y que la entidad registre la cotización aplicada. Ese cambio queda fuera del alcance (DEC-39).
 
 ## DEC-42 · ¿Qué hacer con lo que los contratos entre servicios no alcanzan a llevar?
 
