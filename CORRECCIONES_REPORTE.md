@@ -33,7 +33,7 @@ Las correcciones salen de la revisión del 2026-11-07 (H1–H26 y D1–D12, en `
 ### R-01 · Volver a capturar todas las figuras · Cambiar
 **Dónde:** figuras 1 a 11 (p. 14–19, 23–25, 28 y 29) y figuras A1 a A5 del anexo (p. 34–38).
 **Por qué:** las figuras son capturas del `.drawio` del 29-oct. Desde entonces cambiaron todas las páginas que muestran: el mapa (p. 1), el contexto (p. 2), las cinco de código (4a–4e) y el despliegue (p. 5).
-**Qué hacer:** recortar las mismas zonas de las PNG actuales. Las 11 páginas del `.drawio` de hoy (`ae8dc83`) están exportadas en `FinalProyecto/exportes/sesion5/` (`1.png` … `6.png`). Si el `.drawio` vuelve a cambiar, hay que exportarlas otra vez a **escala 1**: en este equipo, a escala mayor la PNG sale en blanco.
+**Qué hacer:** recortar las mismas zonas de las PNG actuales. Las 11 páginas del `.drawio` vigente (después de las decisiones PD-01, PD-03, PD-04, PD-08 y DEC-20 del 2026-11-08) están exportadas en `FinalProyecto/exportes/post_sesion6/` (`1.png` … `6.png`); reemplazan a las de `exportes/sesion5/` y a la 4b de `exportes/sesion6/`. Si el `.drawio` vuelve a cambiar, hay que exportarlas otra vez a **escala 1**: en este equipo, a escala mayor la PNG sale en blanco.
 
 ### R-02 · Agregar las páginas 3a, 3b y 6 · Cambiar
 **Por qué:** el reporte (p. 4) dice que el modelo C4 es obligatorio en sus cuatro niveles y que «los diagramas dinámico y de despliegue son complementarios», pero no muestra el nivel 2, el nivel 3 ni el dinámico (REVISION, estado de los entregables).
@@ -362,6 +362,13 @@ Donde dice «sin fijar» o no da verbo, ninguna fuente fija la ruta exacta (`INV
 | W-03, W-06, W-13, W-20, W-21 | R-52 |
 | W-24 a W-35 | R-53 |
 | DEC-51 (A4) | R-60, R-61 |
+| DEC-48 | R-02, R-05, R-62 |
+| PD-01 (A2) | R-56 |
+| PD-03 | R-31 |
+| PD-04 | R-65 |
+| PD-06 | R-57, R-64 |
+| PD-08 | R-63, R-66 |
+| PD-11 (N4) | R-58 |
 | «Ocho páginas», páginas 3a, 3b y 6 | R-01 a R-05, R-28, R-40, R-59 |
 
 Los hallazgos H3, H12, H17, H19, H20, H22, H23 y H26 no tocan el texto del reporte: se corrigieron en el `.drawio`, el código, el README o el Excel, o van en `CORRECCIONES_HU_Y_MOCKUPS.md` (H26).
@@ -369,5 +376,5 @@ Los hallazgos H3, H12, H17, H19, H20, H22, H23 y H26 no tocan el texto del repor
 ## 4. Lo que queda para el equipo
 
 - **A1:** quién tiene el script de ReportLab. Sin él, nada de esto se aplica (DEC-03).
-- **T-06:** la demo no consume `cotizacion.validada` ni `tendencia.detectada` (DEC-42). El reporte describe la arquitectura, que sí los consume, así que no hace falta cambiar el texto; si alguien pregunta en la sustentación, la respuesta está en DEC-29 y DEC-42.
+- **T-06:** decidida por el arquitecto en PD-05 (tipos simples en los contratos), con aplicación diferida hasta que Mauricio la autorice. La demo no consume `cotizacion.validada` ni `tendencia.detectada` (DEC-42). El reporte describe la arquitectura, que sí los consume, así que no hace falta cambiar el texto; si alguien pregunta en la sustentación, la respuesta está en DEC-29 y DEC-42.
 - **R-58:** los modelos y versiones de Claude Code y Codex (A6), y la confirmación de la autoría, antes de publicar la declaración (PD-11).

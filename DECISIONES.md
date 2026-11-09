@@ -19,7 +19,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 |---|---|---|---|
 | DEC-01 | Carpetas y control de versiones | Dos carpetas hermanas, cada una con su repo, en la rama local `correcciones-revision` | Aplicada |
 | DEC-02 | Código (hallazgo bloqueante H1 y D12) | Firmas, relaciones y tipos, más una demo real | Firmas, relaciones y tipos aplicados en el código (sesión 3); la demo real, aplicada en la sesión 4 |
-| DEC-03 | Reporte PDF | No tocarlo hasta que aparezca el script original | Vigente; los cambios están en `CORRECCIONES_REPORTE.md` (R-01 a R-61, sesiones 5 y 6) |
+| DEC-03 | Reporte PDF | No tocarlo hasta que aparezca el script original | Vigente; los cambios están en `CORRECCIONES_REPORTE.md` (R-01 a R-66, sesiones 5 y 6 y decisiones posteriores) |
 | DEC-04 | Ritmo de trabajo | Por fases con pausa, en 5 sesiones | Vigente; Mauricio añadió la sesión 6 (DEC-51/52) y aprobó sus fases 1 y 2 antes del cierre |
 | DEC-05 | HU-09: solicitudes por cotización | Varias solicitudes; anotar que hay que corregir el mockup V13 | Aplicada en el `.drawio`, en las firmas y en la lógica del código (sesión 4); el mockup V13 (y V21), anotado en `CORRECCIONES_HU_Y_MOCKUPS.md` (M-01 y M-02) |
 | DEC-06 | Dueño de los KPI | Director comercial, para revisar con el equipo | Decidida |
