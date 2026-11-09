@@ -287,7 +287,7 @@ Donde dice «sin fijar» o no da verbo, ninguna fuente fija la ruta exacta (`INV
 
 **R-55 · Ya es cierto (H11).** Riesgo del outbox: la 4a ahora lo dibuja (nota `n_outbox`).
 
-**R-56 · Opcional (pregunta abierta A2).** Si el equipo resuelve cómo llega la alarma por WebSocket a la réplica de ms-notificaciones que tiene la sesión del jefe, agregar un riesgo con esa mitigación (sesión pegajosa en el balanceador o difusión con Redis pub/sub).
+**R-56 · Cambiar (A2, PD-01).** Agregar a la tabla de riesgos: *«La alarma la procesa una réplica de ms-notificaciones distinta de la que tiene abierta la conexión del jefe · El jefe no la ve en tiempo real · La réplica que consume el evento la difunde por Redis pub/sub a todas las réplicas, y cada una la entrega a sus conexiones; además, V05 consulta las alertas activas al abrirse, así que la alarma no se pierde.»* La sesión pegajosa en el balanceador no basta: la réplica que procesa el evento la asigna Kafka por partición (PD-01). Si se describe la caché en Redis (p. 13 o §14), agregar que el mismo Redis lleva el canal de alarmas, separado de la caché.
 
 **R-57 · Cambiar (DEC-10, DEC-07).** Supuesto S5: «El director comercial y el administrador no tienen mockup; sus servicios y rutas quedan listos» → *«El director comercial y el administrador no tienen mockup; sus servicios y rutas quedan listos, incluida el alta de usuarios por el administrador (POST /api/usuarios). Tampoco tienen mockup el registro de proveedores (HU-15, /api/proveedores) ni el histórico de promociones sugeridas (HU-19, /api/bam/promociones).»* Columna «Por qué»: queda igual.
 
@@ -347,6 +347,5 @@ Los hallazgos H3, H12, H17, H19, H20, H22, H23 y H26 no tocan el texto del repor
 ## 4. Lo que queda para el equipo
 
 - **A1:** quién tiene el script de ReportLab. Sin él, nada de esto se aplica (DEC-03).
-- **A2:** la alarma por WebSocket con varias réplicas (R-56).
 - **T-06:** la demo no consume `cotizacion.validada` ni `tendencia.detectada` (DEC-42). El reporte describe la arquitectura, que sí los consume, así que no hace falta cambiar el texto; si alguien pregunta en la sustentación, la respuesta está en DEC-29 y DEC-42.
 - **R-58:** la redacción de la declaración de IA.
