@@ -59,7 +59,7 @@ Los dos están fuera del alcance de las correcciones (`PLAN_CORRECCIONES.md`) y 
 5. **«Resumen»** muestra los productos y las cantidades **sumados** (por ejemplo, Res 20 kg y Arroz 15 kg para SOL-031; si se marca otra solicitud con res, la fila de Res suma las dos).
 6. Actualizar la **leyenda numerada** del wireframe con el bloque nuevo y renumerar los elementos.
 
-**Lo que la arquitectura ya hace:** `POST /api/cotizaciones` recibe una o varias solicitudes; `cotizacion.enviada` lleva la lista; ms-solicitudes pasa todas a EN TRÁMITE, y cuando llega `orden.generada` todas pasan a COMPLETADA.
+**Lo que la arquitectura ya hace:** `POST /api/cotizaciones` recibe una o varias solicitudes; `cotizacion.enviada` lleva la lista; ms-solicitudes pasa a EN TRÁMITE cada solicitud cuyos productos ya están todos cotizados, y cuando llega `orden.generada` todas pasan a COMPLETADA.
 
 ### M-02 · V21 «Generar orden de compra» con varias solicitudes · Obligatoria (DEC-05)
 **Dónde:** p. 28, captura y wireframe.
@@ -73,7 +73,7 @@ Los dos están fuera del alcance de las correcciones (`PLAN_CORRECCIONES.md`) y 
 **Por qué:** V19 (p. 26) valida **COT-018**, de Proveedor A, por $545.000. La demo, la página 6 y el reporte hacen **OC-0012 sobre COT-018 por $545.000**, y en la demo COT-019 es de Proveedor C y queda RECHAZADA. Dos pantallas del mismo recorrido dan dos números distintos para OC-0012.
 **Qué debe decir (opción A de DEC-49, la asumida):** V20, V21 y V22 muestran **COT-018, Proveedor A, SOL-031, $545.000**. En V20 la tabla puede seguir con tres proveedores, pero la fila resaltada debe ser la de COT-018. Productos de COT-018: Res 20 kg y Arroz 15 kg.
 **Alternativa (opción B):** dejar los mockups y cambiar la demo, la página 6 y el reporte a COT-019 por $510.000. Toca el código; no se hace sin que el equipo lo decida.
-**Nombre del proveedor:** V13 dice «Proveedor ABC»; V19, V20 y V22 dicen «Proveedor A». La demo y el reporte usan **Proveedor ABC**. Conviene unificar a «Proveedor ABC».
+**Nombre del proveedor:** V13 y V18 dicen «Proveedor ABC»; V19, V20 y el fondo de V22 dicen «Proveedor A» (el modal de V22 dice «Proveedor B»). La demo usa **Proveedor ABC**. Conviene unificar a «Proveedor ABC».
 
 ### M-04 · V03 y V04: el total del pedido · Obligatoria (DEC-40)
 **Dónde:** V03 y V04, pp. 7 y 8.
@@ -90,9 +90,10 @@ Los dos están fuera del alcance de las correcciones (`PLAN_CORRECCIONES.md`) y 
 **Qué debe decir:** poner la columna «Precio unitario» antes de «Valor»: Res $20.000/kg, Arroz $8.000/kg (valores estándar) y los del proveedor ($21.250/kg y $8.000/kg para COT-018). El valor de la línea se mantiene como resultado.
 
 ### M-06 · V05 y V07: cifras de stock · Opcional (DEC-40)
-**Dónde:** V05 (p. 10) y V07 (p. 12).
+**Dónde:** V05 (p. 10) y V07 (p. 12). V05 tiene además una incoherencia propia, que va primero.
 **Qué dicen hoy:** V05 muestra la tarjeta «Alertas de inventario» con **Res 23 %**, igual que la alarma «Res al 23 %: realice una solicitud» que promete el reporte y que imprime la demo. V07 muestra una tabla con «Stock actual», «Stock mínimo» y «Estado»: su primera fila tiene **4 kg** de stock actual contra **10 kg** de mínimo y estado «Stock bajo».
 **Por qué:** el modelo no usa un «stock mínimo» en kilos: compara el stock contra el **25 % del stock de referencia**. 4 kg de 10 kg sería el 40 %, que no cuadra con el 23 % de V05, y la demo parte de 12,5 kg de 50 kg y baja a 11,5 kg (23 %).
+**Alertas del 25 %:** la lista de V05 trae **Res 23 %, Arroz 25 %, Papa 18 %, Tomate 24 % y Pollo 25 %**, y la tarjeta dice «4 Stock bajo». Con la regla decidida (DEC-43, estrictamente **por debajo** del 25 %), Arroz y Pollo al 25 % no alertan, así que la tarjeta sumaría 3 y no 4 (y la lista tiene 5 filas). Hay que bajarlos a 24 % o sacarlos de la lista, y cuadrar el número de la tarjeta.
 **Qué debe decir:** si el equipo quiere que V05 y V07 cuenten lo mismo, que la fila de la res en V07 diga 11,5 kg de 50 kg (23 %). Si no, no pasa nada: V05, que es la ventana que dispara la alarma, ya coincide con el reporte.
 
 ### M-07 · V12 y V21: cotización con varias solicitudes en el detalle · Opcional
@@ -118,11 +119,18 @@ Las dos historias están **dentro del alcance de la arquitectura** y ninguna tie
 
 ---
 
+### M-09 · V03: el saludo no corresponde al usuario · Opcional
+**Dónde:** V03 (p. 7).
+**Qué dice hoy:** la pantalla es la del mesero (perfil «Isabella Torres · Mesero», sucursal Centro), pero el saludo dice «Buenos días, **Carlos Mendoza** · Jefe de Cocina · Sucursal Centro», que es el del jefe de cocina de V05.
+**Qué debe decir:** «Buenos días, Isabella Torres · Mesero · Sucursal Centro».
+
+---
+
 ## 3. Story Mapping
 
 ### S-01 · HU-07 es una copia de HU-06 · Obligatoria (D9)
 **Dónde:** p. 14 (HU-07) y p. 13 (HU-06) del Story Mapping.
-**Qué dicen hoy:** las dos tarjetas dicen exactamente lo mismo: «Consultar periódicamente las solicitudes de alimentos de todos los puntos del restaurante», con los mismos ocho criterios. HU-07 se llama «Filtrar solicitudes por criterios» pero no habla de filtros.
+**Qué dicen hoy:** las dos tarjetas dicen exactamente lo mismo: «Consultar periódicamente las solicitudes de alimentos de todos los puntos del restaurante», con los mismos siete criterios. HU-07 se llama «Filtrar solicitudes por criterios» pero no habla de filtros.
 **Por qué:** la arquitectura ya filtra. `CriteriosConsulta` (4c y código) define **cinco filtros**: fecha desde, fecha hasta, producto, marca y estado. El Excel y el mapa de historias tienen F7 «Filtrar solicitudes por criterios» como una funcionalidad aparte (1 PHU, sprint 1).
 **Qué debe decir (tarjeta reescrita; la HU-06 queda igual):**
 
@@ -138,7 +146,7 @@ La tarjeta HU-09 (p. 16) ya dice «una o varias solicitudes». **No se cambia la
 ### S-03 · El título «Capacidad total por sprint (120)» · Obligatoria (H26)
 **Dónde:** p. 30.
 **Qué dice hoy:** «CAPACIDAD TOTAL POR SPRINT **(120)**» y, debajo, «4 PERSONAS × 40 HORAS × 2 SEMANAS × 0.7 DE PRODUCTIVIDAD = **224 HORAS**».
-**Por qué:** el título dice 120 y la cuenta da 224. El Excel y la p. 29 («224/25 · 4*40*2*0.7») dicen 224.
+**Por qué:** el título dice 120 y la cuenta da 224. El Excel y la p. 28 («224/25 · 4*40*2*0.7») dicen 224.
 **Qué debe decir:** «CAPACIDAD TOTAL POR SPRINT **(224)**». Si el 120 aparece en otra página, se cambia igual.
 
 ### S-04 · «25PHU» en las cartas del Planning Poker · Obligatoria (H26)
@@ -164,7 +172,7 @@ La tarjeta HU-09 (p. 16) ya dice «una o varias solicitudes». **No se cambia la
 | Sprint 1 | 2 semanas | 03/08 al 16/08/2026 | MVP 1, MVP 2 | 8 de 9 | Módulo de captura operativo: registro de pedidos con mesa y cantidades, y gestión completa del menú con sus platos e ingredientes. Listado de solicitudes de compra con filtros por criterios y acceso al detalle |
 | Sprint 2 | 2 semanas | 17/08 al 30/08/2026 | MVP 2, MVP 3 | 8 de 9 | Ciclo de solicitudes y cotizaciones funcionando: registro de solicitud de alimentos, generación de cotizaciones y captura de valores del proveedor. Envío formal de cotizaciones a proveedores con PDF y correo certificado |
 | Sprint 3 | 2 semanas | 31/08 al 13/09/2026 | MVP 3, MVP 4 | 6 de 9 | Cierre del proceso de compras: validación de cotizaciones contra el precio del Ministerio, generación de la orden de compra, maestro de proveedores y consulta de cotizaciones opcionadas |
-| Sprint 4 | 2 semanas | 14/09 al 27/09/2026 | MVP 4 | 8 de 9 | Descuento automático diario de inventario con alertas por correo al llegar al umbral del 25 %. Tablero de control (BAM) con los KPI de mayor demanda, sucursal líder y mejor proveedor |
+| Sprint 4 | 2 semanas | 14/09 al 27/09/2026 | MVP 4 | 8 de 9 | Descuento automático diario de inventario con alertas por correo al bajar del 25 %. Tablero de control (BAM) con los KPI de mayor demanda, sucursal líder y mejor proveedor |
 | Sprint 5 | 2 semanas | 28/09 al 11/10/2026 | MVP 4 | 5 de 9 | Motor de tendencias en redes sociales y de productos más solicitados. Promociones sugeridas con notificación automática a los puntos de venta y despliegue final del sistema |
 | **TOTAL** | **10 semanas** | **03/08 al 11/10/2026** | Proyecto completo | **35 de 45** | Sistema completo y desplegado |
 | | **2 meses y medio** | | | | |
@@ -177,8 +185,8 @@ La tarjeta HU-09 (p. 16) ya dice «una o varias solicitudes». **No se cambia la
 ### S-07 · Otras referencias a «4 sprints» y «8 semanas» · Obligatoria (H20)
 Buscar en las pp. 29 a 32 y en cualquier presentación basada en ellas: «4 sprints», «8 semanas» y «2 meses». Todo debe decir **5 sprints, 10 semanas y 2 meses y medio**.
 
-### S-08 · Historias que el reporte cita con otro número · Informativa
-No hay nada que corregir en el Story Mapping, pero conviene saber que **V21 sale de HU-14** (generar orden de compra), **V13 de HU-09**, **V11 de HU-07** y V05 de HU-16. Es la relación que usa la arquitectura.
+### S-08 · De qué historia sale cada ventana · Informativa
+No hay nada que corregir. Sirve para ubicar la tarjeta que corresponde a cada pantalla: **V13 sale de HU-09**, **V21 de HU-14**, **V05 de HU-16**, y **V11** es el listado de solicitudes de **HU-06** (HU-07 agrega los filtros sobre ese mismo listado). El reporte no cita las HU por número; la relación está en la trazabilidad de la sección 15 (ventana → método) y en los comentarios `Atiende la ventana Vxx` del código.
 
 ---
 
@@ -191,9 +199,10 @@ No hay nada que corregir en el Story Mapping, pero conviene saber que **V21 sale
 | M-03 | V20 a V22, pp. 27 a 29 | COT-018 y $545.000 en lugar de COT-019 y $510.000 | Por confirmar |
 | M-04 | V03 y V04, pp. 7 y 8 | $82.000 y 3 platos | Obligatoria |
 | M-05 | V18 y V19, pp. 25 y 26 | Precio unitario | Opcional |
-| M-06 | V05 y V07, pp. 10 y 12 | Cifras de stock de la res | Opcional |
+| M-06 | V05 y V07, pp. 10 y 12 | Arroz y Pollo al 25 % que no alertan; cifras de la res | Opcional |
 | M-07 | V12 | Solicitudes de la misma cotización | Opcional |
 | M-08 | Nuevos | Pantallas de HU-15 y HU-19 | Opcional |
+| M-09 | V03, p. 7 | Saludo del mesero | Opcional |
 | S-01 | HU-07, p. 14 | Reescribir la tarjeta con los 5 filtros | Obligatoria |
 | S-03 | p. 30 | Capacidad (224), no (120) | Obligatoria |
 | S-04 | p. 27 | «25 h», no «25PHU»; HU-14 = 1 | Obligatoria |
