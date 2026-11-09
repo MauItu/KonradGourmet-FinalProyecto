@@ -277,25 +277,24 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 **Actor:** auxiliar de compras. **Actores secundarios:** proveedor, Ministerio de Comercio, servidor de correo certificado. **Historias:** HU-09, HU-12. **Ventanas:** V13, V14.
 
-**Precondición:** existen solicitudes de alimentos y proveedores registrados.
+**Precondición:** existen solicitudes PENDIENTES y al menos un proveedor activo.
 
 **Flujo principal:**
 
 1. El auxiliar selecciona una o varias solicitudes del listado.
 2. Elige el proveedor en una lista desplegable (obligatorio) y registra la fecha máxima de plazo (obligatoria, no anterior a la fecha actual).
 3. El sistema muestra un resumen de productos y cantidades antes de confirmar.
-4. El auxiliar acepta. El sistema genera un número consecutivo de cotización, la deja en estado ENVIADA y genera un PDF con productos, cantidades, unidades y fecha máxima de plazo.
-5. El sistema envía el PDF por correo certificado y con estampado cronológico a la cuenta registrada del proveedor (V14).
-6. El sistema verifica si todos los alimentos de cada solicitud ya tienen cotización; si es así, la solicitud pasa de PENDIENTE a EN TRÁMITE.
-7. Por cada producto, el sistema consulta el precio sugerido del servicio web del Ministerio de Comercio y actualiza la solicitud con el valor total sugerido.
+4. El auxiliar acepta. El sistema genera el número consecutivo y consulta el precio estándar de cada producto (a través de la caché del Proxy).
+5. Genera el PDF con productos, cantidades, unidades y fecha máxima de plazo, lo guarda en el almacén de objetos y deja la cotización ENVIADA (V14).
+6. Envía el PDF por correo certificado y con estampado cronológico al proveedor.
+7. Por cada solicitud incluida, registra el valor total sugerido y, si todos sus productos ya tienen cotización, la pasa a EN TRÁMITE y avisa por correo a quien la creó.
 
 **Flujos alternos:**
 
 - Ninguna solicitud seleccionada: "Debe seleccionar al menos una solicitud".
-- El servicio del Ministerio no responde: el sistema registra el error en el log y notifica al usuario sin perder la cotización.
-- Falla el envío del correo: el sistema permite reintentar.
+- El Ministerio no responde, o falla el PDF: la cotización queda en PENDIENTE_PRECIO, el error queda en el log y en la auditoría, y el auxiliar puede reenviarla (`POST /api/cotizaciones/{id}/reenvio`).
 
-**Postcondición:** cotización ENVIADA con su PDF; solicitudes posiblemente EN TRÁMITE; valor sugerido registrado.
+**Postcondición:** cotización ENVIADA con su PDF (o PENDIENTE_PRECIO si faltó el precio o el PDF); solicitudes posiblemente EN TRÁMITE; valor sugerido registrado.
 
 **Reglas y fuente:** HU-09 cubre la captura (pasos 1 a 3) y HU-12 el envío (pasos 4 a 7); ambas usan las mismas ventanas (brecha B6). El informe de arquitectura guarda en caché el precio del Ministerio (supuesto S3: cambia como máximo una vez al día).
 
