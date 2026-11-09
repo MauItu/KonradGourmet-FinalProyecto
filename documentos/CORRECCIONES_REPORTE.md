@@ -12,7 +12,7 @@ Las correcciones salen de la revisión del 2026-11-07 (H1–H26 y D1–D12, en `
 - **Por confirmar:** el texto depende de algo que el equipo no ha decidido.
 - Los textos nuevos van en *cursiva* dentro de comillas «…». Lo que va entre [corchetes] es una instrucción, no texto del reporte.
 
-**Cifras que el reporte debe usar** (verificadas el 2026-11-08 en `documentos/` `ae8dc83` y `KonradGourmet/` `4b4a308`):
+**Cifras que el reporte debe usar** (reverificadas al cierre de la sesión 6 el 2026-11-08: código `22717f7`, `.drawio` `4e4559e`; ver `VALIDACION_SESION6.md`):
 
 | Dato | Valor | Fuente |
 |---|---|---|
@@ -20,7 +20,7 @@ Las correcciones salen de la revisión del 2026-11-07 (H1–H26 y D1–D12, en `
 | Clases del modelo (4a–4e) | 191 | DEC-45, P-12 |
 | Paquete `demo` | `DemoArquitectura` más 19 clases de apoyo (adaptadores en memoria y `Ensamble`): 20 archivos | DEC-45 |
 | Archivos `.java` en `src/` | 211 (191 + 20) | `find src -name "*.java"` |
-| Pruebas | 171 verificaciones en `pruebas/` (6 archivos, fuera de `src/`), sin JUnit | DEC-44 |
+| Pruebas | 176 verificaciones en `pruebas/` (6 archivos, fuera de `src/`), sin JUnit; eran 171 hasta que la sesión 6 agregó las del mesero (DEC-51) | DEC-44, DEC-51 |
 | Microservicios, tópicos y ventanas | 11, 10 y 23 (sin cambio) | Reglas del plan |
 | Prefijos del gateway | 13 | DEC-12 |
 | Servicios que publican `auditoria.evento` | 10 (todos menos ms-administracion, que escribe directo en su bitácora) | H10 |
@@ -216,7 +216,7 @@ Las filas solicitud.en-tramite, cotizacion.enviada, cotizacion.validada y tenden
 
 **R-41 · Cambiar (H1).** «Un solo modelo, tres salidas»: «El mapa, el diagrama de clases, el esqueleto Java y las tablas de este documento se generan desde el mismo modelo, de modo que los nombres coinciden uno a uno.» → *«El esqueleto Java se generó a partir de las páginas 4a a 4e del .drawio, de modo que los nombres coinciden uno a uno con el diagrama de clases y con el mapa.»* La frase que sigue, «Antes de entregar se comprobó automáticamente que cada clase que aparece en el mapa (…) existe en el código y que el método asignado a cada una de las 23 ventanas está declarado en su controlador», **ya es cierta** (sesión 3: 191 clases, 403 métodos y las 23 ventanas). Antes de regenerar el reporte hay que volver a correr esa comprobación.
 
-**R-42 · Cambiar (P-12, DEC-45).** Estructura del esqueleto: «con doce paquetes de servicio (los once microservicios más compartido) y 155 clases, además de la clase DemoArquitectura.» → *«con doce paquetes de servicio (los once microservicios más compartido) y 191 clases, las mismas de las páginas 4a a 4e. Aparte está el paquete demo, con DemoArquitectura y 19 clases de apoyo (adaptadores en memoria y el ensamblador que los conecta), que no son parte del modelo; y fuera de src, la carpeta pruebas, con 171 verificaciones.»*
+**R-42 · Cambiar (P-12, DEC-45).** Estructura del esqueleto: «con doce paquetes de servicio (los once microservicios más compartido) y 155 clases, además de la clase DemoArquitectura.» → *«con doce paquetes de servicio (los once microservicios más compartido) y 191 clases, las mismas de las páginas 4a a 4e. Aparte está el paquete demo, con DemoArquitectura y 19 clases de apoyo (adaptadores en memoria y el ensamblador que los conecta), que no son parte del modelo; y fuera de src, la carpeta pruebas, con 176 verificaciones.»*
 
 **R-43 · Cambiar (DEC-38, DEC-35, DEC-36).** Después de «los adaptadores reciben sus anotaciones (@RestController, @Repository, @KafkaListener) sin tocar el dominio, que es precisamente lo que promete la arquitectura hexagonal.», agregar: *«Dos anotaciones resuelven lo que trae tener varias réplicas: el Proxy de precios lleva además @Primary, para que ConsultarPrecioService reciba el Proxy y no el adaptador real, y los dos jobs programados llevan @SchedulerLock (ShedLock), para que cada uno corra en una sola réplica. El Javadoc de cada adaptador dice qué anotación lleva en el proyecto real.»*
 
@@ -279,6 +279,8 @@ En V21, la fila de `OrdenCompraRestController.generar()` se queda; la nueva lín
 
 Donde dice «sin fijar» o no da verbo, ninguna fuente fija la ruta exacta (`INVENTARIO_SESION3.md`, W-24 a W-35); no se inventa.
 
+**R-60 · Cambiar (DEC-51, sesión 6).** Fila de la ventana 03, columna Endpoint: «POST /api/pedidos» → *«POST /api/pedidos (el pedido guarda el meseroId del token JWT, HU-01)»*. Desde la sesión 6, `Pedido` tiene `meseroId: Long` (4b y código): el pedido nace con el mesero que lo tomó, `validar()` lo exige y `pedidosDelTurno()` (V02) filtra por él. Si se recapturan las figuras de la 4b (R-59), la clase `Pedido` ya muestra el atributo.
+
 ### p. 31 · §16 Riesgos y §17 Supuestos
 
 **R-54 · Ya es cierto (H18).** Riesgo «El servicio web del Ministerio no responde»: «si no hay precio, la cotización queda pendiente de precio y se reintenta sin bloquear al auxiliar». Existe el estado `PENDIENTE_PRECIO` y `POST /api/cotizaciones/{id}/reenvio`. **Opcional:** nombrarlos.
@@ -288,6 +290,8 @@ Donde dice «sin fijar» o no da verbo, ninguna fuente fija la ruta exacta (`INV
 **R-56 · Opcional (pregunta abierta A2).** Si el equipo resuelve cómo llega la alarma por WebSocket a la réplica de ms-notificaciones que tiene la sesión del jefe, agregar un riesgo con esa mitigación (sesión pegajosa en el balanceador o difusión con Redis pub/sub).
 
 **R-57 · Cambiar (DEC-10, DEC-07).** Supuesto S5: «El director comercial y el administrador no tienen mockup; sus servicios y rutas quedan listos» → *«El director comercial y el administrador no tienen mockup; sus servicios y rutas quedan listos, incluida el alta de usuarios por el administrador (POST /api/usuarios). Tampoco tienen mockup el registro de proveedores (HU-15, /api/proveedores) ni el histórico de promociones sugeridas (HU-19, /api/bam/promociones).»* Columna «Por qué»: queda igual.
+
+**R-61 · Opcional (DEC-51, sesión 6).** Agregar el supuesto S9: *«El mesero que registra un pedido es el usuario del token JWT; la SPA no lo envía»*, con «Por qué»: *«Así nadie registra un pedido a nombre de otro mesero, y el pedido queda asociado al usuario que lo tomó, como pide HU-01»*.
 
 ### p. 32 · §18 Declaración de uso de inteligencia artificial
 
@@ -335,6 +339,7 @@ Donde dice «sin fijar» o no da verbo, ninguna fuente fija la ruta exacta (`INV
 | P-10, K2 | R-07, R-35, R-37, R-38 |
 | W-03, W-06, W-13, W-20, W-21 | R-52 |
 | W-24 a W-35 | R-53 |
+| DEC-51 (A4) | R-60, R-61 |
 | «Ocho páginas», páginas 3a, 3b y 6 | R-01 a R-05, R-28, R-40, R-59 |
 
 Los hallazgos H3, H12, H17, H19, H20, H22, H23 y H26 no tocan el texto del reporte: se corrigieron en el `.drawio`, el código, el README o el Excel, o van en `CORRECCIONES_HU_Y_MOCKUPS.md` (H26).
