@@ -68,6 +68,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-50 | Arroz y Pollo al 25 % en V05 | Se sacan de la lista y la tarjeta queda en «3 Stock bajo»; la regla de DEC-43 no cambia | Decidida por el arquitecto-revisor (2026-11-08), a pedido de Mauricio |
 | DEC-51 | El pedido guarda qué mesero lo tomó (A4) | `meseroId: Long` en `Pedido`, en la 4b y en el código | Decidida por Mauricio (2026-11-08); se aplica en la sesión 6 |
 | DEC-52 | Quién corrige el archivo de casos de uso | Claude, sobre el mismo archivo, con los 13 problemas de `REVISION_CASOS_DE_USO.md` | Decidida por Mauricio (2026-11-08); se aplica en la sesión 6 |
+| DEC-53 | Cómo llega el `meseroId` al pedido (DEC-51) | En el constructor: `Pedido(numero, mesa, meseroId)`; ninguna otra firma cambia | Decidida por Mauricio (2026-11-08), en la sesión 6 |
 
 ---
 
@@ -881,6 +882,16 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Qué implica:** se hace en la sesión 6, con un commit por problema, para que el compañero pueda ver cada cambio. El diagrama UML solo lo tiene el compañero: si no aparece, queda el lugar marcado.
 
+## DEC-53 · ¿Cómo llega el `meseroId` al pedido?
+
+**Por qué hubo que decidir.** DEC-51 agrega `meseroId: Long` a `Pedido`, y el plan dice que `PedidoService.registrar()` lo llene con el mesero. Había dos formas de hacerlo, y cada una cambia firmas distintas de la 4b. `pedidosDelTurno(meseroId)` ya existía, pero la demo devolvía todos los pedidos porque el pedido no guardaba al mesero.
+
+**Opciones:**
+- **A. En el constructor:** `Pedido(numero, mesa, meseroId)`. El controlador saca el mesero del token JWT al armar el pedido; `validar()` lo exige; `registrar()` lo deja en la auditoría; `delTurno()` filtra por él. En la 4b solo cambia `Pedido` (un atributo). ✅ **Escogida por Mauricio el 2026-11-08.**
+- **B. Como parámetro de `registrar()`:** `registrar(p: Pedido, meseroId: Long)` en `RegistrarPedidoUseCase`, `PedidoService` y `PedidoRestController`, y `Pedido.asignarMesero(meseroId)`. Cambian cuatro clases de la 4b y la fila de §15 del reporte.
+
+**Qué implica:** código `c88c750` a `22717f7` (Pedido, servicio, `PedidoEnMemoria`, demo, 5 pruebas nuevas: 176 verificaciones, compila sin avisos, README); `.drawio` `4e4559e` (4b, PNG en `exportes/sesion6/4b.png`); `CORRECCIONES_REPORTE.md` R-60 y R-61. `RegistrarPedidoUseCase`, `PedidoService`, `PedidoRestController` y `PedidoRegistradoEvent` no cambian: inventario no necesita saber quién tomó el pedido.
+
 ---
 
 ## Preguntas abiertas (sin decidir)
@@ -890,4 +901,4 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 | A1 | ¿Quién tiene el script de ReportLab que generó el reporte? | Sin él no se puede corregir el PDF (DEC-03) | Equipo |
 | A2 | Con 2–4 réplicas de ms-notificaciones, ¿cómo llega la alarma por WebSocket a la réplica que tiene abierta la sesión del jefe? Las salidas posibles son sesión pegajosa en el balanceador, o difundir el mensaje a todas las réplicas, por ejemplo con Redis pub/sub | El profesor puede preguntarlo en la sustentación | Equipo |
 | A3 | Los commits del repo son de la cuenta `mari00aa120-eng`. ¿Es de alguien del equipo? | Conviene saberlo antes de la sustentación | Equipo |
-| A4 | `Pedido` no guarda qué mesero lo tomó | **Resuelta por DEC-51** (se aplica en la sesión 6) | — |
+| A4 | `Pedido` no guarda qué mesero lo tomó | **Resuelta por DEC-51 y DEC-53** (aplicada en la sesión 6) | — |
