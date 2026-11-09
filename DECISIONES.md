@@ -63,6 +63,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | Asumida, por confirmar |
 | DEC-47 | Plan de sprints del Excel (H20) | 1 PHU = 25 h y 9 PHU por sprint; HU-14 = 1 (total 35); HU-17 al sprint 3 (8, 8, 6, 8 y 5 PHU); inicio el lunes 03/08/2026; 5 sprints y 10 semanas en todo el Excel | Aplicada en el Excel (sesión 5); fecha y «EN SEMANAS» decididos por Mauricio; el orden de filas es asumido, por confirmar |
 | DEC-48 | Dónde van las páginas 3a, 3b y 6 en el reporte | La 6 en §10, después de la tabla del recorrido; la 3a y la 3b en §14, después del contexto | Asumida, por confirmar (sesión 5) |
+| DEC-49 | Qué orden sale de V20 a V22: los mockups y la demo no coinciden | La demo, el reporte y la página 6 siguen con COT-018 (Proveedor A) → OC-0012 por $545.000; los mockups V20–V22 se anotan para corregir | Asumida, por confirmar (sesión 5) |
 
 ---
 
@@ -811,6 +812,23 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **C. En el anexo**, como figuras A6 a A8. Es lo que menos toca el cuerpo del reporte, pero deja los niveles 2 y 3 del C4 fuera del texto, que es justo lo que señaló la revisión.
 
 **Qué implica:** solo cambia `CORRECCIONES_REPORTE.md` (R-02, R-03 y R-05). El PDF no se toca (DEC-03). Si el equipo prefiere B o C, hay que rehacer R-02 y R-03.
+
+## DEC-49 · ¿Qué orden sale de V20 a V22? Los mockups y la demo cuentan historias distintas
+
+**Por qué hubo que decidir.** Al preparar `CORRECCIONES_HU_Y_MOCKUPS.md` (sesión 5) se compararon los mockups V19 a V22 (DISEÑO UXUI, págs. 26 a 29) con la demo, la página 6 y el reporte:
+- **V19 (p. 26)** valida **COT-018**, de Proveedor A, con $520.000 contra $545.000: +4,81 %, OPCIONADA. Coincide con todo.
+- **V20 (p. 27)** compara tres cotizaciones OPCIONADAS de la solicitud SOL-031: Proveedor A $545.000 (+4,8 %), Proveedor B $510.000 (−1,9 %) y Proveedor C $570.000 (+9,6 %), y resalta la de **Proveedor B**: COT-019, res $395.000 y arroz $115.000, diferencia −1,92 %.
+- **V21 y V22 (págs. 28 y 29)** generan la orden de **COT-019**, Proveedor B, por **$510.000**, y la orden es **OC-0012**.
+- **La demo, la página 6 y el reporte** (p. 8, p. 11 y p. 21) generan **OC-0012** sobre **COT-018** por **$545.000**. En la demo, COT-019 es de Proveedor C y queda RECHAZADA ($700.000, +34,62 %), y el proveedor de COT-018 se llama «Proveedor ABC» (V13 también lo llama así; V19 y V20 dicen «Proveedor A»).
+
+La historia de los mockups es coherente por sí sola (el director compara varias opcionadas y elige la más barata), pero no es la que reproduce el código.
+
+**Opciones:**
+- **A. Dejar la demo, la página 6 y el reporte como están, y anotar los mockups V20 a V22 para que se alineen** (`CORRECCIONES_HU_Y_MOCKUPS.md`). Es lo que menos cambia, y respeta los valores de V19 y la salida de la demo que ya validó el revisor. ✅ **Asumida, por confirmar.**
+- **B. Cambiar la demo, la página 6 y el reporte a la historia de los mockups.** La demo tendría que producir tres opcionadas (A $545.000, B $510.000 y C $570.000) y generar la orden sobre la de B. Cambian las cifras de DEC-40, las pruebas, la tabla de la p. 26 del reporte y el paso 11 del recorrido. Toca el código, que en la sesión 5 no se modifica.
+- **C. No decidir y dejar ambas versiones.** Un profesor que ponga los mockups al lado de la demo ve dos números distintos para OC-0012.
+
+**Qué implica:** con A, solo cambia `CORRECCIONES_HU_Y_MOCKUPS.md`, que pide a quien mantiene los mockups que V20 a V22 muestren COT-018 y OC-0012 por $545.000 (o que el equipo escoja B). Si se escoge B, hay que reabrir DEC-40 y la sesión 4.
 
 ---
 
