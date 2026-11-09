@@ -44,7 +44,7 @@ Hay seis roles que usan el sistema y cinco actores externos. Los seis roles sale
 | Director de compras | Rol principal | Registra valores, valida cotizaciones y genera órdenes de compra | RF-07, RF-08; HU-11, HU-13, HU-14, HU-17 |
 | Director comercial | Rol principal | Consulta el tablero BAM | RF-09; HU-18 |
 | Administrador | Rol principal | Parametriza, registra usuarios y destinatarios, consulta la auditoría y los logs de error | RF-11 |
-| Proveedor | Externo (persona) | Recibe el PDF de la solicitud de cotización y de la orden; responde por correo, fuera del sistema | [Reporte, §17, p. 31](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=31), supuesto S2: el proveedor responde por correo y el director digita los valores; HU-12, HU-14 |
+| Proveedor | Externo (persona) | Recibe el PDF de la solicitud de cotización y de la orden; responde por correo, fuera del sistema | [Reporte, §17, p. 52](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=52), supuesto S2: el proveedor responde por correo y el director digita los valores; HU-12, HU-14 |
 | Ministerio de Comercio | Externo (sistema) | Publica un servicio web con el precio estándar por producto | RF-06; HU-12 |
 | Servidor de correo certificado | Externo (sistema) | Entrega los correos con certificación y estampado cronológico | Requisito de seguridad 5; HU-12, HU-14 |
 | Redes sociales | Externo (sistema) | Aportan señales de tendencia de productos | RF-10; HU-19 |
@@ -52,22 +52,22 @@ Hay seis roles que usan el sistema y cinco actores externos. Los seis roles sale
 
 ### Referencias de requisitos
 
-RF-01 a RF-12 son los identificadores usados en este documento; la tabla siguiente define su significado sin depender de una matriz de trazabilidad externa. No son identificadores impresos en el reporte. El enunciado original no está en las carpetas disponibles, por lo que las descripciones conservan el uso que este archivo da a cada código y se contrastan con las fuentes locales citadas. El [§3 del reporte, p. 5](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=5), trata los requisitos **no funcionales** (seguridad, parametrización de imagen corporativa, auditoría, logs e integración); las funciones se describen principalmente en §5 y §10. Las decisiones enlazadas precisan o corrigen el diseño del PDF.
+RF-01 a RF-12 son los identificadores usados en este documento; la tabla siguiente define su significado sin depender de una matriz de trazabilidad externa. No son identificadores impresos en el reporte. El enunciado original no está en las carpetas disponibles, por lo que las descripciones conservan el uso que este archivo da a cada código y se contrastan con las fuentes locales citadas. El [§3 del reporte, p. 6](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=6), trata los requisitos **no funcionales** (seguridad, parametrización de imagen corporativa, auditoría, logs e integración); las funciones se describen principalmente en §5 y §10. Las decisiones enlazadas precisan el diseño del reporte.
 
 | Código | Función que identifica | Casos de uso | Fuente verificable |
 | --- | --- | --- | --- |
-| RF-01 | Registrar platos con sus ingredientes y recetas | CU-03 | [Reporte, §10, p. 20: jefe · platos](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=20) |
-| RF-02 | Registrar y consultar pedidos por mesa | CU-02 | [Reporte, §10, p. 20: mesero · pedidos](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=20) |
-| RF-03 | Registrar solicitudes de alimentos y confirmar por correo | CU-04 | [Reporte, §10, p. 20: pasos 1 y 2](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=20) |
-| RF-04 | Descontar el consumo diario y alertar por inventario bajo | CU-05 | [Reporte, §10, p. 20: inventario y alarmas](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=20); [DEC-43 y DEC-46](DECISIONES.md) precisan el umbral y su cruce |
-| RF-05 | Consultar y filtrar solicitudes de compras y ver su detalle | CU-07 | [Reporte, §10, p. 20: paso 3](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=20) |
-| RF-06 | Generar y enviar cotizaciones con precios estándar del Ministerio | CU-08 | [Reporte, §10, p. 21: pasos 4 a 6](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=21) |
-| RF-07 | Registrar valores del proveedor y validar cotizaciones | CU-10, CU-11 | [Reporte, §10, p. 21: pasos 7 a 9](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=21); [DEC-43](DECISIONES.md) precisa los límites |
-| RF-08 | Consultar cotizaciones opcionadas y generar órdenes de compra | CU-12, CU-13 | [Reporte, §10, p. 21: pasos 11 a 13](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=21) |
-| RF-09 | Consultar indicadores en el tablero BAM | CU-14 | [Reporte, §10, p. 20: director comercial · BAM](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=20) |
-| RF-10 | Detectar tendencias y sugerir promociones | CU-06 | [Reporte, §5, p. 7: ms-analitica](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=7); [DEC-07](DECISIONES.md), HU-19 |
-| RF-11 | Administrar parámetros, usuarios y destinatarios; consultar auditoría y logs | CU-15, CU-16, CU-17, CU-19 | [Reporte, §3, p. 5](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=5) y [§5, p. 7](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=7); [DEC-10 y DEC-13](DECISIONES.md) fijan usuarios y destinatarios |
-| RF-12 | Mantener los datos de proveedores | CU-09 | [DEC-07](DECISIONES.md), HU-15; [corrección R-17 del reporte, §5, p. 8](CORRECCIONES_REPORTE.md) |
+| RF-01 | Registrar platos con sus ingredientes y recetas | CU-03 | [Reporte, §10, tabla 8, p. 26: jefe · platos](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=26) |
+| RF-02 | Registrar y consultar pedidos por mesa | CU-02 | [Reporte, §10, tabla 8, p. 26: mesero · pedidos](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=26) |
+| RF-03 | Registrar solicitudes de alimentos y confirmar por correo | CU-04 | [Reporte, §10.1, tabla 9, p. 28: pasos 1 y 2](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=28) |
+| RF-04 | Descontar el consumo diario y alertar por inventario bajo | CU-05 | [Reporte, §10, tabla 8, p. 26: inventario y alarmas](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=26); [DEC-43 y DEC-46](DECISIONES.md) precisan el umbral y su cruce |
+| RF-05 | Consultar y filtrar solicitudes de compras y ver su detalle | CU-07 | [Reporte, §10.1, tabla 9, p. 28: paso 3](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=28) |
+| RF-06 | Generar y enviar cotizaciones con precios estándar del Ministerio | CU-08 | [Reporte, §10.1, tabla 9, p. 28: pasos 4 a 6](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=28) |
+| RF-07 | Registrar valores del proveedor y validar cotizaciones | CU-10, CU-11 | [Reporte, §10.1, tabla 9, pp. 28 y 29: pasos 7 a 9](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=28); [DEC-43](DECISIONES.md) precisa los límites |
+| RF-08 | Consultar cotizaciones opcionadas y generar órdenes de compra | CU-12, CU-13 | [Reporte, §10.1, tabla 9, p. 29: pasos 11 a 13](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=29) |
+| RF-09 | Consultar indicadores en el tablero BAM | CU-14 | [Reporte, §10, tabla 8, p. 27: director comercial · BAM](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=27) |
+| RF-10 | Detectar tendencias y sugerir promociones | CU-06 | [Reporte, §5, tabla 5, p. 12: ms-analitica](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=12); [DEC-07](DECISIONES.md), HU-19 |
+| RF-11 | Administrar parámetros, usuarios y destinatarios; consultar auditoría y logs | CU-15, CU-16, CU-17, CU-19 | [Reporte, §3, p. 6](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=6) y [§5, tabla 5, p. 12](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=12); [DEC-10 y DEC-13](DECISIONES.md) fijan usuarios y destinatarios |
+| RF-12 | Mantener los datos de proveedores | CU-09 | [DEC-07](DECISIONES.md), HU-15; [Reporte, §5, tabla 5, p. 12: ms-cotizaciones · proveedores](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=12) |
 
 Las referencias DEC remiten a [DECISIONES.md](DECISIONES.md); las HU son las historias del Story Mapping y V01–V23 son las ventanas de [DISEÑO UXUI.pdf](DISE%C3%91O%20UXUI.pdf). Los supuestos S2 y S3 se definen junto a su uso y remiten al §17 del reporte.
 
@@ -292,7 +292,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 **Postcondición:** si el envío se completa, cotización ENVIADA con su PDF; al consumir `cotizacion.enviada`, cada solicitud registra el valor sugerido y pasa a EN TRÁMITE si todos sus productos ya tienen cotización. Si falla el precio o el PDF, la cotización queda PENDIENTE_PRECIO, sin publicar `cotizacion.enviada`; ese intento no actualiza los valores ni el estado de las solicitudes.
 
-**Reglas y fuente:** HU-09 cubre la captura (pasos 1 a 3) y HU-12 el envío (pasos 4 a 7); ambas usan las mismas ventanas. El informe de arquitectura guarda en caché el precio del Ministerio ([§17, p. 31](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=31), supuesto S3: cambia como máximo una vez al día).
+**Reglas y fuente:** HU-09 cubre la captura (pasos 1 a 3) y HU-12 el envío (pasos 4 a 7); ambas usan las mismas ventanas. El informe de arquitectura guarda en caché el precio del Ministerio ([§17, p. 52](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=52), supuesto S3: cambia como máximo una vez al día).
 
 ### CU-09 Registrar datos de proveedor
 
@@ -315,7 +315,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 **Actor:** director de compras. **Historia:** HU-11. **Ventana:** V18.
 
-**Precondición:** existe una cotización ENVIADA y el proveedor respondió por correo, fuera del sistema ([§17, p. 31](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=31), supuesto S2: el proveedor responde por correo y el director digita los valores).
+**Precondición:** existe una cotización ENVIADA y el proveedor respondió por correo, fuera del sistema ([§17, p. 52](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=52), supuesto S2: el proveedor responde por correo y el director digita los valores).
 
 **Flujo principal:**
 
