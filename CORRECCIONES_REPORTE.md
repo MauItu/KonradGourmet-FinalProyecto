@@ -20,7 +20,7 @@ Las correcciones salen de la revisión del 2026-11-07 (H1–H26 y D1–D12, en `
 | Clases del modelo (4a–4e) | 191 | DEC-45, P-12 |
 | Paquete `demo` | `DemoArquitectura` más 19 clases de apoyo (adaptadores en memoria y `Ensamble`): 20 archivos | DEC-45 |
 | Archivos `.java` en `src/` | 211 (191 + 20) | `find src -name "*.java"` |
-| Pruebas | 171 verificaciones en `pruebas/` (6 archivos, fuera de `src/`), sin JUnit | DEC-44 |
+| Pruebas | 176 verificaciones en `pruebas/` (6 archivos, fuera de `src/`), sin JUnit; eran 171 hasta que la sesión 6 agregó las del mesero (DEC-51) | DEC-44, DEC-51 |
 | Microservicios, tópicos y ventanas | 11, 10 y 23 (sin cambio) | Reglas del plan |
 | Prefijos del gateway | 13 | DEC-12 |
 | Servicios que publican `auditoria.evento` | 10 (todos menos ms-administracion, que escribe directo en su bitácora) | H10 |
@@ -279,6 +279,8 @@ En V21, la fila de `OrdenCompraRestController.generar()` se queda; la nueva lín
 
 Donde dice «sin fijar» o no da verbo, ninguna fuente fija la ruta exacta (`INVENTARIO_SESION3.md`, W-24 a W-35); no se inventa.
 
+**R-60 · Cambiar (DEC-51, sesión 6).** Fila de la ventana 03, columna Endpoint: «POST /api/pedidos» → *«POST /api/pedidos (el pedido guarda el meseroId del token JWT, HU-01)»*. Desde la sesión 6, `Pedido` tiene `meseroId: Long` (4b y código): el pedido nace con el mesero que lo tomó, `validar()` lo exige y `pedidosDelTurno()` (V02) filtra por él. Si se recapturan las figuras de la 4b (R-59), la clase `Pedido` ya muestra el atributo.
+
 ### p. 31 · §16 Riesgos y §17 Supuestos
 
 **R-54 · Ya es cierto (H18).** Riesgo «El servicio web del Ministerio no responde»: «si no hay precio, la cotización queda pendiente de precio y se reintenta sin bloquear al auxiliar». Existe el estado `PENDIENTE_PRECIO` y `POST /api/cotizaciones/{id}/reenvio`. **Opcional:** nombrarlos.
@@ -288,6 +290,8 @@ Donde dice «sin fijar» o no da verbo, ninguna fuente fija la ruta exacta (`INV
 **R-56 · Opcional (pregunta abierta A2).** Si el equipo resuelve cómo llega la alarma por WebSocket a la réplica de ms-notificaciones que tiene la sesión del jefe, agregar un riesgo con esa mitigación (sesión pegajosa en el balanceador o difusión con Redis pub/sub).
 
 **R-57 · Cambiar (DEC-10, DEC-07).** Supuesto S5: «El director comercial y el administrador no tienen mockup; sus servicios y rutas quedan listos» → *«El director comercial y el administrador no tienen mockup; sus servicios y rutas quedan listos, incluida el alta de usuarios por el administrador (POST /api/usuarios). Tampoco tienen mockup el registro de proveedores (HU-15, /api/proveedores) ni el histórico de promociones sugeridas (HU-19, /api/bam/promociones).»* Columna «Por qué»: queda igual.
+
+**R-61 · Opcional (DEC-51, sesión 6).** Agregar el supuesto S9: *«El mesero que registra un pedido es el usuario del token JWT; la SPA no lo envía»*, con «Por qué»: *«Así nadie registra un pedido a nombre de otro mesero, y el pedido queda asociado al usuario que lo tomó, como pide HU-01»*.
 
 ### p. 32 · §18 Declaración de uso de inteligencia artificial
 
@@ -335,6 +339,7 @@ Donde dice «sin fijar» o no da verbo, ninguna fuente fija la ruta exacta (`INV
 | P-10, K2 | R-07, R-35, R-37, R-38 |
 | W-03, W-06, W-13, W-20, W-21 | R-52 |
 | W-24 a W-35 | R-53 |
+| DEC-51 (A4) | R-60, R-61 |
 | «Ocho páginas», páginas 3a, 3b y 6 | R-01 a R-05, R-28, R-40, R-59 |
 
 Los hallazgos H3, H12, H17, H19, H20, H22, H23 y H26 no tocan el texto del reporte: se corrigieron en el `.drawio`, el código, el README o el Excel, o van en `CORRECCIONES_HU_Y_MOCKUPS.md` (H26).
