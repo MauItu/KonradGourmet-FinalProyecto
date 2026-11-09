@@ -173,18 +173,21 @@ Original: páginas 8 a 26, una tarjeta por página. Se transcriben completas.
 
 #### HU-07: Filtrar solicitudes por criterios
 
+*Corregida (S-01): la tarjeta original repetía palabra por palabra la de HU-06 y no hablaba de filtros. Los criterios salen de HU-06 y de los filtros que ya define la arquitectura (`CriteriosConsulta`: fecha desde, fecha hasta, producto, marca y estado).*
+
 - **Como:** Auxiliar del área de compras.
-- **Quiero:** Consultar periódicamente las solicitudes de alimentos de todos los puntos del restaurante.
-- **Para:** Para dar trámite oportuno a los requerimientos y conocer el estado de cada solicitud.
+- **Quiero:** Filtrar el listado de solicitudes de alimentos por rango de fechas, producto, marca y estado.
+- **Para:** Para encontrar con rapidez las solicitudes que debo tramitar y dar trámite oportuno a los requerimientos.
 
 **Criterios de aceptación:**
-1. Debo poder acceder a un listado consolidado con las solicitudes de todas las sucursales.
-2. El listado debe mostrar las columnas: fecha de solicitud, producto, cantidad, marca y estado.
-3. El listado debe estar ordenado por fecha de solicitud de forma descendente por defecto.
-4. El listado debe estar paginado cuando existan más de 25 registros.
-5. Si no existen solicitudes, el sistema debe mostrar el mensaje: «No se encontraron solicitudes registradas».
-6. Solo debo poder acceder a esta consulta si mi perfil tiene el permiso correspondiente.
-7. La consulta debe responder en un tiempo menor a 3 segundos.
+1. Debo poder filtrar por rango de fechas de solicitud (desde y hasta), producto, marca y estado (PENDIENTE, EN TRÁMITE o COMPLETADA).
+2. Cada filtro es opcional y se pueden combinar; sin ningún filtro veo el listado completo de HU-06.
+3. El resultado conserva las columnas de HU-06 (fecha de solicitud, producto, cantidad, marca y estado), ordenado por fecha de solicitud de forma descendente.
+4. Si ningún registro cumple los criterios, el sistema debe mostrar: «No se encontraron solicitudes con los criterios indicados».
+5. Debo poder limpiar los filtros con un solo clic.
+6. *Criterio propuesto (PD-10):* si la fecha «desde» es posterior a la fecha «hasta», el sistema debe mostrar «La fecha inicial no puede ser posterior a la fecha final.» y no consultar.
+7. Solo debo poder acceder a esta consulta si mi perfil tiene el permiso correspondiente.
+8. La consulta debe responder en un tiempo menor a 3 segundos.
 
 #### HU-08: Ver detalles de solicitud
 
