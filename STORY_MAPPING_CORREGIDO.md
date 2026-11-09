@@ -505,4 +505,23 @@ Informativa (S-08). Reúne para cada historia lo que el original reparte en vari
 - **Los mockups.** Las correcciones de las ventanas (M-01 a M-09 en `CORRECCIONES_HU_Y_MOCKUPS.md`) las hace Mauricio en Canva. Cuando estén, hay que contrastarlas con este documento, en especial V11 (los filtros de HU-07) y V05 (la regla del umbral de HU-16).
 - **El diseño gráfico del original.** Este documento conserva el contenido; la presentación visual sigue siendo la del PDF.
 
+## 11. Registro de correcciones
+
+| Id | Página del original | Qué se corrigió | Fuente |
+|---|---|---|---|
+| S-01 | 14 | HU-07 era una copia de HU-06; se reescribe con los filtros por fechas, producto, marca y estado, más un criterio propuesto para el rango de fechas | D9, `CriteriosConsulta`, PD-10 |
+| S-02 | 16 | HU-09 no cambia: ya pide una o varias solicitudes | DEC-05 |
+| S-03 | 30 | «Capacidad total por sprint (120)» pasa a 224 | La cuenta de la misma página y la p. 28 |
+| S-04 | 27 | Las etiquetas «25PHU»… eran horas; se separan PHU y horas, con HU-14 en 1 PHU y 35 PHU en total | H26, Excel |
+| S-05 | 2 y 5 | «Ver KPIs y tablero de control» pasa al director comercial | HU-18, DEC-06 |
+| S-06 | 31 | 5 sprints, 10 semanas y 2 meses y medio, con fechas y reparto del Excel | DEC-47, Excel |
+| S-07 | 31 | Se quitan la nota «Un detalle para tu sustentación…» y la frase repetida del sprint 1 | H20 |
+| S-08 | — | Correspondencia de historias, casos de uso y ventanas (informativa) | Casos de uso |
+| SM-01 | 4 a 6 | Un solo nombre por MVP; los objetivos del MVP 3 y del MVP 4 tenían el nombre cambiado | Separadores de las tarjetas y Planning Poker |
+| SM-02 | 6 | El objetivo del MVP 4 ya no promete machine learning | HU-19, PD-04 |
+| SM-03 | 7 | El total calculado de la tabla PERT de HU-03 es 24.17 h, no 24.57 | La fórmula PERT sobre los totales |
+| SM-04 | 23 | HU-16: alarma por debajo del 25 % (porcentaje redondeado) y una sola vez, al cruzar el umbral | DEC-43, DEC-46 |
+
+Los identificadores S-01 a S-08 son los de `CORRECCIONES_HU_Y_MOCKUPS.md`. SM-01 a SM-04 se encontraron al transcribir el original para este documento. Las notas de diseño de HU-01, HU-09, HU-14, HU-15, HU-18 y HU-19 no cambian las tarjetas: explican cómo las cubre la arquitectura.
+
 Página 32: cierre («Gracias», agosto de 2026).
