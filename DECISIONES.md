@@ -71,6 +71,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-52 | Quién corrige el archivo de casos de uso | Corrección directa del archivo, autorizada por Mauricio, con los 13 problemas de `REVISION_CASOS_DE_USO.md` | Aplicada: RCU-1 a RCU-13; fase 2 aprobada por Mauricio. Precisión de cierre S6-2. Falta el PNG del compañero, señalado según lo acordado |
 | DEC-53 | Cómo llega el `meseroId` al pedido (DEC-51) | En el constructor: `Pedido(numero, mesa, meseroId)`; ninguna otra firma cambia | Aplicada y aprobada en la fase 1 de la sesión 6; validada en `VALIDACION_SESION6.md` |
 | PD-01 | Alarma WebSocket con varias réplicas de ms-notificaciones (A2) | Difusión por Redis pub/sub; V05 relee las alertas guardadas al abrirse | Decidida por el arquitecto-revisor (2026-11-08); efectos en 1, 3a, 4d y 5, y R-56 |
+| PD-02 | Categorías del proveedor | Se mantiene `List<String>`: nombres de las categorías de ms-menu, copiados por valor | Decidida por el arquitecto-revisor (2026-11-08); efecto en CU-09 |
 
 ---
 
@@ -909,6 +910,17 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - `.drawio`: 3a (Redis con el canal y una flecha desde ms-notificaciones), página 1 (`e231`), página 5 (`v25`) y una nota junto a `AlarmaPushAdapter` en la 4d.
 - Reporte: R-56 pasa a «Cambiar», con una fila de riesgo nueva.
 - Fuera de alcance: la implementación del adaptador, que sigue pendiente (DEC-39).
+
+## PD-02 · ¿`Proveedor.categorias` sigue siendo `List<String>`?
+
+**Por qué hubo que decidir.** HU-15 pide «asociar una o varias categorías de producto que maneja» el proveedor, sin criterios de filtrado. `Proveedor.categorias: List<String>` (4c y `Proveedor.java`) no apunta a `Categoria`, que vive en ms-menu. Los casos de uso lo dejaban abierto (RCU-10).
+
+**Opciones:**
+- **A. Mantener `List<String>`**, con los nombres de las categorías del catálogo de ms-menu, copiados por valor al registrar el proveedor y sin validarlos contra ms-menu. ✅ **Escogida por el arquitecto-revisor.**
+- **B. `List<Long> categoriaIds`** que apunten a ms-menu. Obliga a buscar los nombres para mostrarlos y cambia la 4c, el código y las pruebas; entre microservicios tampoco hay clave foránea.
+- **C. Una copia local del catálogo alimentada por eventos.** Exige un tópico nuevo o ampliar `menu.actualizado`.
+
+**Qué implica:** no cambia el diagrama ni el código. Se pierde que un cambio de nombre en ms-menu se propague; el dato es informativo. El listado de categorías para los desplegables es el hallazgo N2 (efecto futuro). Se actualiza CU-09 en los casos de uso.
 
 ---
 
