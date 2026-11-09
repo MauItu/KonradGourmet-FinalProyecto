@@ -186,7 +186,7 @@ final class PruebasPatrones {
     }
 
     private static void observer() {
-        Prueba.grupo("Observer (Publish-Subscribe): el bus en memoria");
+        Prueba.grupo("Publish-Subscribe: el bus en memoria");
         BusEnMemoria bus = new BusEnMemoria();
         List<String> recibidos = new ArrayList<>();
         bus.suscribir("pedido.registrado", e -> recibidos.add("A:" + e.tipo()));
