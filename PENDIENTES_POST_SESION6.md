@@ -33,7 +33,6 @@ Fuentes: [CORRECCIONES_REPORTE.md](CORRECCIONES_REPORTE.md), [VALIDACION_SESION6
 - [ ] Aplicar al reporte las instrucciones pertinentes R-01 a R-61: distinguir «Cambiar», «Ya es cierto», «Opcional» y «Por confirmar». No tratar las 61 entradas como 61 cambios obligatorios.
 - [ ] Sustituir las figuras antiguas e incorporar las páginas 3a, 3b y 6 según la resolución de DEC-48. Usar la 4b actual de `exportes/sesion6/4b.png`, junto con las otras páginas vigentes del `.drawio`.
 - [ ] Reflejar 191 clases del modelo, 20 archivos de demo, 176 verificaciones, `meseroId` y los límites reales del prototipo.
-- [ ] Completar R-58 con una declaración de IA fiel al trabajo realizado, incluida la continuación con Codex; el equipo confirma los datos de autoría y herramientas.
 - [ ] Revisar texto, figuras, referencias y coherencia con código, casos de uso y el nuevo documento del punto 3. Cuando Mauricio termine los mockups, contrastar también sus archivos finales.
 
 **Criterio de terminado:** entregables nuevos o regenerados legibles, sin marcadores de imágenes ausentes, con fuentes y decisiones trazables; originales preservados y validación registrada.
@@ -106,7 +105,8 @@ Los siguientes puntos requieren información factual, no una elección de arquit
   - PD-01 a PD-11 están en `DECISIONES.md`;
   - sus efectos están en el `.drawio` (páginas 1, 2, 3a, 4d, 4e y 5; PNG en `exportes/post_sesion6/`), en los casos de uso, en `CORRECCIONES_REPORTE.md` (R-31, R-49, R-56 a R-58, R-61 y las nuevas R-62 a R-66), en `ESTADO_PROYECTO_Y_C4.md` y en el README del código (N5);
   - A2 queda cerrada por PD-01;
-  - siguen abiertas A1, A3, A5 (enunciado), A6 (modelos para R-58) y A7 (estimación de HU-20 a HU-22).
+  - A1 queda en manos de Mauricio, y si el script no aparece se rehace el reporte (DEC-54); A3 está descartada; A5 (enunciado) queda para revisar, con prioridad baja; A7 (estimación de HU-20 a HU-22) sigue abierta;
+  - PD-11 (ampliar la declaración de IA) la descartó Mauricio, y R-58 queda sin cambio.
 - [ ] PD-05 (T-06) está decidida, pero su aplicación (4c, 4e y código) espera la autorización de Mauricio.
 
 ## 5. Supuestos: agente de Claude

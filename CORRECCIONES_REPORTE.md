@@ -317,7 +317,7 @@ Donde dice «sin fijar» o no da verbo, ninguna fuente fija la ruta exacta (`INV
 
 ### p. 32 · §18 Declaración de uso de inteligencia artificial
 
-**R-58 · Cambiar (PD-11, hallazgo N4).** El reporte declara solo la generación inicial. El texto que se proponía antes decía que «las decisiones de diseño las tomó el equipo», lo que es falso para las decisiones delegadas al agente revisor. Agregar al final de «Herramienta»: *«Las correcciones posteriores al 7 de noviembre de 2026 se hicieron con IA: Claude Code (Anthropic, [modelos]) para el .drawio, el código, la demostración, las pruebas, el Excel y los documentos, con un agente revisor de Claude que validó cada sesión; Codex (OpenAI, [modelo]) continuó la sesión 6 (RCU-11 a RCU-13 y su validación), y el trabajo posterior a la sesión 6 se hizo de nuevo con Claude Code. Las instrucciones y cada decisión con sus alternativas están en DECISIONES.md y en el historial de git (un commit por corrección). Mauricio Iturriza tomó la mayoría de las decisiones; DEC-23, DEC-24, DEC-49, DEC-50 y PD-01 a PD-11 las tomó el agente revisor por delegación expresa suya.»* Los modelos y versiones (A6) y la autoría los confirma el equipo antes de publicarlo; no se inventan.
+**R-58 · Sin cambio (decisión de Mauricio, 2026-11-08).** La §18 se deja como está; no se amplía la declaración (PD-11 descartada).
 
 ### p. 33 a 38 · Referencias y anexo
 - Referencias: sin cambios.
@@ -377,4 +377,3 @@ Los hallazgos H3, H12, H17, H19, H20, H22, H23 y H26 no tocan el texto del repor
 
 - **A1:** quién tiene el script de ReportLab. Sin él, nada de esto se aplica (DEC-03).
 - **T-06:** decidida por el arquitecto en PD-05 (tipos simples en los contratos), con aplicación diferida hasta que Mauricio la autorice. La demo no consume `cotizacion.validada` ni `tendencia.detectada` (DEC-42). El reporte describe la arquitectura, que sí los consume, así que no hace falta cambiar el texto; si alguien pregunta en la sustentación, la respuesta está en DEC-29 y DEC-42.
-- **R-58:** los modelos y versiones de Claude Code y Codex (A6), y la confirmación de la autoría, antes de publicar la declaración (PD-11).

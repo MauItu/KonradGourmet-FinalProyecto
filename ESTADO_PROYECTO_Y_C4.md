@@ -425,7 +425,7 @@ Leyenda: ✅ hecho · 🟡 anotado, falta que alguien lo aplique en un archivo q
 | **A3** | De quién es la cuenta `mari00aa120-eng` | Conviene saberlo antes de la sustentación |
 | **A4** | Resuelta por DEC-51 y DEC-53 | `Pedido` guarda `meseroId`, lo exige al validar y filtra las consultas por mesero; no queda una decisión pendiente |
 
-**Supuestos:** DEC-08, DEC-20, DEC-39, DEC-40, DEC-41, DEC-44, DEC-45, DEC-47 (orden de filas) y DEC-48 los resolvió el arquitecto-revisor el 2026-11-08 por delegación de Mauricio (confirmados; DEC-08, DEC-41, DEC-44 y DEC-48 con ajuste). También tomó PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`). Quedan preguntas factuales del equipo: A1, A3, A5 (enunciado), A6 (modelos para R-58) y A7 (estimación de HU-20 a HU-22).
+**Supuestos:** DEC-08, DEC-20, DEC-39, DEC-40, DEC-41, DEC-44, DEC-45, DEC-47 (orden de filas) y DEC-48 los resolvió el arquitecto-revisor el 2026-11-08 por delegación de Mauricio (confirmados; DEC-08, DEC-41, DEC-44 y DEC-48 con ajuste). También tomó PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`). Quedan abiertas: A1 (script; si no aparece, se rehace, DEC-54), A5 (enunciado, prioridad baja) y A7 (estimación de HU-20 a HU-22).
 
 ---
 
