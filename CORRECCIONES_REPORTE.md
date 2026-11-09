@@ -162,7 +162,7 @@ Sin cambios. Las dos llamadas síncronas entre servicios siguen siendo las únic
 
 **R-30 · Cambiar (DEC-43).** Fila «Director · validación»: «más de 25 % por encima, RECHAZADA; más de 50 % por debajo, SOSPECHOSA; el resto, OPCIONADA (Chain of Responsibility).» → *«más de 25 % por encima, RECHAZADA; más de 50 % por debajo, SOSPECHOSA; el resto, OPCIONADA, incluidos +25,00 % y −50,00 % (Chain of Responsibility). La diferencia se redondea a 2 decimales antes de comparar.»*
 
-**R-31 · Opcional (H7).** Fila «Director comercial · BAM»: agregar *«Los KPI se filtran por rango de fechas y por sucursal (HU-18).»*
+**R-31 · Cambiar (H7, PD-03).** Fila «Director comercial · BAM»: agregar *«Sin filtro, la demanda se mide sobre el último mes y el proveedor con mejores precios sobre el último año; si el director elige un rango de fechas, los tres indicadores usan ese rango, y la sucursal filtra la demanda (HU-18). El proveedor se mide con la diferencia promedio de sus cotizaciones OPCIONADAS frente al precio estándar.»*
 
 **R-32 · Cambiar (DEC-18, D4, DEC-19, H5, D3, H10).** Tabla «Recorrido completo de una compra». Las filas que cambian, columna Mensaje:
 
