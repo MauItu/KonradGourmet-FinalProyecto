@@ -209,6 +209,8 @@ Límites que conviene conocer:
 - Los consumidores no descartan los eventos repetidos (la nota de `EventoDominio` habla de guardar los id
   procesados): un `orden.generada` que llega dos veces manda otro correo al proveedor.
 - «Mesa activa» se valida con la `Mesa` que llega en el pedido, no con la del repositorio.
+- `NotificacionService.registrarDestinatario()` guarda el correo del jefe de cocina, pero todavía no publica
+  `auditoria.evento`; en el sistema real ese registro también se audita (CU-15, hallazgo N5).
 - `completar()` acepta una solicitud PENDIENTE: una orden sobre una cotización que cubrió solo parte de los
   productos de una solicitud completa igual a todas las de la cotización (DEC-46).
 
