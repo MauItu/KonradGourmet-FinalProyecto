@@ -318,7 +318,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 - Consultar cotizaciones enviadas (V15, `GET /api/cotizaciones`).
 - El Ministerio no responde, o falla el PDF: la cotización queda en PENDIENTE_PRECIO, el error queda en el log y en la auditoría, y el auxiliar puede reenviarla (`POST /api/cotizaciones/{id}/reenvio`).
 
-**Postcondición:** cotización ENVIADA con su PDF (o PENDIENTE_PRECIO si faltó el precio o el PDF); solicitudes posiblemente EN TRÁMITE; valor sugerido registrado.
+**Postcondición:** si el envío se completa, cotización ENVIADA con su PDF; al consumir `cotizacion.enviada`, cada solicitud registra el valor sugerido y pasa a EN TRÁMITE si todos sus productos ya tienen cotización. Si falla el precio o el PDF, la cotización queda PENDIENTE_PRECIO, sin publicar `cotizacion.enviada`; ese intento no actualiza los valores ni el estado de las solicitudes.
 
 **Reglas y fuente:** HU-09 cubre la captura (pasos 1 a 3) y HU-12 el envío (pasos 4 a 7); ambas usan las mismas ventanas. El informe de arquitectura guarda en caché el precio del Ministerio ([§17, p. 31](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=31), supuesto S3: cambia como máximo una vez al día).
 
