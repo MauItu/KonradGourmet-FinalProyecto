@@ -28,7 +28,7 @@ Tres requerimientos piden aislar tecnología. El cambio fácil de motor de base 
 
 ## 7.4 Ventajas
 
-El dominio se prueba sin infraestructura: la demostración del esqueleto Java corre sin base de datos ni Kafka. Cambiar PostgreSQL por otro motor afecta un solo adaptador por servicio. Las reglas del negocio (el 25 % del inventario, el +25 % y el −50 % de las cotizaciones) quedan en un único lugar. Y el mismo caso de uso puede invocarlo un controlador REST, un listener o la tarea diaria.
+El dominio se prueba sin infraestructura: la demostración ejecuta el esqueleto Java sin base de datos ni Kafka. Cambiar PostgreSQL por otro motor afecta un solo adaptador por servicio. Las reglas del negocio (el 25 % del inventario, el +25 % y el −50 % de las cotizaciones) quedan en un único lugar. Y el mismo caso de uso puede invocarlo un controlador REST, un listener o la tarea diaria.
 
 ## 7.5 Desventajas y cómo se mitigan
 
