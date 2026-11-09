@@ -30,7 +30,7 @@ Este cuadro contrasta cada caso de uso con el repositorio github.com/MauItu/Konr
 | CU-18 | `consultarPrecioSugerido(productoId)` en el endpoint SOAP, publicado bajo `/api/integracion/**` | Coincide | Sí (la demo simula el Ministerio) |
 | CU-19 | `POST /api/usuarios`, sin ventana (DEC-10). `PoliticaContrasena` valida la regla y `CifradorPort` la cifra (BCrypt) | Sin mockup | No: `RegistrarUsuarioService` sigue pendiente |
 
-**Ventanas que ningún caso de uso cita.** El prototipo declara métodos para V10 (`GET /api/solicitudes?solicitante=yo`, mis solicitudes del jefe de cocina), V15 (`GET /api/cotizaciones`, cotizaciones del auxiliar) y V16 (`GET /api/cotizaciones/pendientes`, inicio del director). La matriz de trazabilidad ya las trata como consultas de apoyo que no cierran ninguna historia. Falta decidir si se anexan como flujos alternos de CU-04, CU-08 y CU-11 o se dejan como consultas de apoyo.
+**Las 23 ventanas quedan cubiertas.** V10 (`GET /api/solicitudes?solicitante=yo`, mis solicitudes del jefe de cocina), V15 (`GET /api/cotizaciones`, cotizaciones del auxiliar) y V16 (`GET /api/cotizaciones/pendientes`, inicio del director) son consultas de apoyo que no cierran ninguna historia; aquí van como flujos alternos de CU-04, CU-08 y CU-11.
 
 ## Dónde implementar cada caso de uso
 
@@ -97,14 +97,14 @@ Trece casos agrupan las 19 historias de usuario; los seis restantes son el inici
 | CU-01 | Iniciar sesión | Los seis roles | — | Ninguna (requisitos de seguridad) | — | V01 | — |
 | CU-02 | Registrar pedido | Mesero | — | HU-01, HU-02, HU-03 | RF-02 | V02, V03, V04 | 1 |
 | CU-03 | Registrar plato con ingredientes | Jefe de cocina | — | HU-04, HU-05 | RF-01 | V06 | 1 |
-| CU-04 | Registrar solicitud de alimentos | Jefe de cocina | Servidor de correo certificado | HU-10 | RF-03 | V08, V09 | 2 |
+| CU-04 | Registrar solicitud de alimentos | Jefe de cocina | Servidor de correo certificado | HU-10 | RF-03 | V08, V09, V10 | 2 |
 | CU-05 | Recibir alerta de inventario bajo | Jefe de cocina | Servidor de correo certificado | HU-16 | RF-04 | V05, V07 | 4 |
 | CU-06 | Revisar promociones sugeridas | Jefe de cocina | Redes sociales, servidor de correo certificado | HU-19 | RF-10 | Sin mockup | 4 |
 | CU-07 | Consultar solicitudes de compras | Auxiliar de compras | — | HU-06, HU-07, HU-08 | RF-05 | V11, V12 | 2 |
-| CU-08 | Enviar solicitud de cotización | Auxiliar de compras | Proveedor, Ministerio de Comercio, servidor de correo certificado | HU-09, HU-12 | RF-06 | V13, V14 | 2 y 3 |
+| CU-08 | Enviar solicitud de cotización | Auxiliar de compras | Proveedor, Ministerio de Comercio, servidor de correo certificado | HU-09, HU-12 | RF-06 | V13, V14, V15 | 2 y 3 |
 | CU-09 | Registrar datos de proveedor | Auxiliar de compras | — | HU-15 | RF-12 | Sin ventana | 3 |
 | CU-10 | Registrar valores de cotización | Director de compras | — | HU-11 | RF-07 | V18 | 2 |
-| CU-11 | Validar cotización | Director de compras | — | HU-13 | RF-07 | V17, V19 | 3 |
+| CU-11 | Validar cotización | Director de compras | — | HU-13 | RF-07 | V16, V17, V19 | 3 |
 | CU-12 | Consultar cotizaciones opcionadas | Director de compras | — | HU-17 | RF-08 | V20 | 4 |
 | CU-13 | Generar orden de compra | Director de compras | Proveedor, servidor de correo certificado | HU-14 | RF-08 | V21, V22, V23 | 3 |
 | CU-14 | Consultar tablero BAM | Director comercial | — | HU-18 | RF-09 | Sin mockup | 4 |
@@ -196,7 +196,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 ### CU-04 Registrar solicitud de alimentos
 
-**Actor:** jefe de cocina. **Actor secundario:** servidor de correo certificado. **Historia:** HU-10. **Ventanas:** V08, V09.
+**Actor:** jefe de cocina. **Actor secundario:** servidor de correo certificado. **Historia:** HU-10. **Ventanas:** V08, V09, V10.
 
 **Precondición:** sesión iniciada; el jefe no tiene stock disponible de uno o más productos.
 
@@ -210,6 +210,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 **Flujos alternos:**
 
 - Algún dato inválido: el sistema indica el campo con error y no registra la solicitud.
+- Consultar mis solicitudes (V10, `GET /api/solicitudes?solicitante=yo`): el jefe ve las suyas y su estado.
 
 **Postcondición:** solicitud PENDIENTE con número y correo enviado.
 
@@ -278,7 +279,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 ### CU-08 Enviar solicitud de cotización
 
-**Actor:** auxiliar de compras. **Actores secundarios:** proveedor, Ministerio de Comercio, servidor de correo certificado. **Historias:** HU-09, HU-12. **Ventanas:** V13, V14.
+**Actor:** auxiliar de compras. **Actores secundarios:** proveedor, Ministerio de Comercio, servidor de correo certificado. **Historias:** HU-09, HU-12. **Ventanas:** V13, V14, V15.
 
 **Precondición:** existen solicitudes PENDIENTES y al menos un proveedor activo.
 
@@ -295,6 +296,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 **Flujos alternos:**
 
 - Ninguna solicitud seleccionada: "Debe seleccionar al menos una solicitud".
+- Consultar cotizaciones enviadas (V15, `GET /api/cotizaciones`).
 - El Ministerio no responde, o falla el PDF: la cotización queda en PENDIENTE_PRECIO, el error queda en el log y en la auditoría, y el auxiliar puede reenviarla (`POST /api/cotizaciones/{id}/reenvio`).
 
 **Postcondición:** cotización ENVIADA con su PDF (o PENDIENTE_PRECIO si faltó el precio o el PDF); solicitudes posiblemente EN TRÁMITE; valor sugerido registrado.
@@ -339,7 +341,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 ### CU-11 Validar cotización
 
-**Actor:** director de compras. **Historia:** HU-13. **Ventanas:** V17, V19.
+**Actor:** director de compras. **Historia:** HU-13. **Ventanas:** V16, V17, V19.
 
 **Precondición:** la cotización está en estado ENVIADA.
 
@@ -352,6 +354,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 **Flujos alternos:**
 
 - Sin valores registrados: "La cotización no tiene valores registrados para validar".
+- Ver pendientes de validar (V16, `GET /api/cotizaciones/pendientes`): la pantalla de inicio del director.
 
 **Postcondición:** el cambio de estado queda en la auditoría (acción, usuario, fecha, hora).
 
