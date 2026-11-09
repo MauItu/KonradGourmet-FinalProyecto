@@ -11,22 +11,22 @@ Este cuadro contrasta cada caso de uso con el repositorio github.com/MauItu/Konr
 | CU | Qué declara el código del 8 de noviembre | Qué cambia o sigue abierto | ¿Tiene lógica? |
 | --- | --- | --- | --- |
 | CU-01 | V01: `POST /api/auth/token` | La única pantalla del prototipo es V01 y no se conecta a ningún servicio | No: `IniciarSesionService` sigue pendiente |
-| CU-02 | V02: `GET /api/pedidos?turno=actual`. V03 y V04: `POST /api/pedidos`. Catálogo y mesas: `GET /api/pedidos/catalogo` y `GET /api/pedidos/mesas` (H6) | `Pedido` guarda número, mesa (que trae su sucursal), el mesero que lo tomó (`meseroId`, DEC-51), fecha, estado y detalles. Coincide con el paso 7 | Sí |
+| CU-02 | V02: `GET /api/pedidos?turno=actual`. V03 y V04: `POST /api/pedidos`. Catálogo y mesas: `GET /api/pedidos/catalogo` y `GET /api/pedidos/mesas` | `Pedido` guarda número, mesa (que trae su sucursal), el mesero que lo tomó (`meseroId`, DEC-51), fecha, estado y detalles. Coincide con el paso 7 | Sí |
 | CU-03 | V06: `POST /api/platos`, productos por categoría, y editar (PUT) y desactivar (PATCH). `Plato` guarda `sucursalId` y `creadoPor` (DEC-11) | Coincide con el flujo alterno «consultar, editar y desactivar» | No: ms-menu sigue pendiente |
 | CU-04 | V08 y V09: `POST /api/solicitudes` (201). La solicitud guarda `correoSolicitante` (DEC-13) | Coincide | Sí |
-| CU-05 | V05: `GET /api/inventario/alertas`. V07: `GET /api/inventario/insumos`. ms-inventario consume `solicitud.registrada` y apaga la alerta (DEC-18), como pide HU-16 | La alerta es solo la marca `alertaAtendida` del insumo; no existe una entidad Alerta (B12, parcial). El 25 % es `UmbralStock`, propio de ms-inventario | Sí |
-| CU-06 | `/api/bam/promociones`: sugerencias por fechas, aceptar y descartar. `SugerenciaPromocion` guarda producto, motivo, vigencia y estado | Sigue sin mockup (B8). La nota del código indica que `notificadaEl` limita el aviso a uno por día | No: las promociones siguen pendientes |
-| CU-07 | V11: `GET /api/solicitudes?estado=…`. V12: `GET /api/solicitudes/{id}`. `CriteriosConsulta` trae fechas, producto, marca y estado | Los cuatro filtros quedan en la firma (B16, parcial) | Sí |
-| CU-08 | V13: `POST /api/cotizaciones`. V14: `GET /api/cotizaciones/{id}/pdf`. La cotización guarda una lista de solicitudes (DEC-05), el estado `PENDIENTE_PRECIO` y un reenvío del correo (H18) | Los flujos «Ministerio no responde» y «reintentar el envío» ya tienen estado y operación en el diseño | Sí |
+| CU-05 | V05: `GET /api/inventario/alertas`. V07: `GET /api/inventario/insumos`. ms-inventario consume `solicitud.registrada` y apaga la alerta (DEC-18), como pide HU-16 | La alerta es solo la marca `alertaAtendida` del insumo; no existe una entidad Alerta. El 25 % es `UmbralStock`, propio de ms-inventario | Sí |
+| CU-06 | `/api/bam/promociones`: sugerencias por fechas, aceptar y descartar. `SugerenciaPromocion` guarda producto, motivo, vigencia y estado | Sigue sin mockup. La nota del código indica que `notificadaEl` limita el aviso a uno por día | No: las promociones siguen pendientes |
+| CU-07 | V11: `GET /api/solicitudes?estado=…`. V12: `GET /api/solicitudes/{id}`. `CriteriosConsulta` trae fechas, producto, marca y estado | Los cuatro filtros quedan en la firma | Sí |
+| CU-08 | V13: `POST /api/cotizaciones`. V14: `GET /api/cotizaciones/{id}/pdf`. La cotización guarda una lista de solicitudes (DEC-05), el estado `PENDIENTE_PRECIO` y un reenvío del correo | Los flujos «Ministerio no responde» y «reintentar el envío» ya tienen estado y operación en el diseño | Sí |
 | CU-09 | `/api/proveedores`: registrar, consultar (el desplegable de V13), detalle, editar e inactivar (DEC-07) | Sigue sin ventana propia. `Proveedor.categorias` es una lista de texto: el equipo no ha decidido si será referencia a las categorías | Sí (`ProveedorService`; la demo guarda en memoria) |
 | CU-10 | V18: `PUT /api/cotizaciones/{id}/valores` | Coincide | Sí |
 | CU-11 | V19: `POST /api/cotizaciones/{id}/validacion`. V17: `GET /api/cotizaciones` | Coincide | Sí |
-| CU-12 | V20: `GET /api/cotizaciones?estado=OPCIONADA` y `GET /api/cotizaciones/{id}` (H5) | Coincide | Sí |
-| CU-13 | V21 y V22: `POST /api/ordenes-compra`. V23: `GET /api/ordenes-compra`. La cotización pasa a `CON_ORDEN` y no admite otra orden (D3). La orden guarda lista de solicitudes, `correoProveedor` y `pdfUrl`, y tiene su propio generador de PDF (H4) | B10 queda resuelta en el diseño. Los estados de la orden siguen siendo EN\_PROCESO y FINALIZADA (B13). `EstadoSolicitud` tiene `COMPLETADA` (H12); el texto del Story Mapping no lo menciona | Sí |
-| CU-14 | `GET /api/bam/kpis?desde&hasta&sucursalId` (H7). El tablero es del director comercial (DEC-06) | Sigue sin mockup. B17 (periodos fijos del enunciado frente al filtro de la historia) sigue abierta | Sí (los hechos son un histórico cargado a mano) |
+| CU-12 | V20: `GET /api/cotizaciones?estado=OPCIONADA` y `GET /api/cotizaciones/{id}` | Coincide | Sí |
+| CU-13 | V21 y V22: `POST /api/ordenes-compra`. V23: `GET /api/ordenes-compra`. La cotización pasa a `CON_ORDEN` y no admite otra orden. La orden guarda lista de solicitudes, `correoProveedor` y `pdfUrl`, y tiene su propio generador de PDF | Los estados de la orden siguen siendo EN\_PROCESO y FINALIZADA. `EstadoSolicitud` tiene `COMPLETADA`; el texto del Story Mapping no lo menciona | Sí |
+| CU-14 | `GET /api/bam/kpis?desde&hasta&sucursalId`. El tablero es del director comercial (DEC-06) | Sigue sin mockup. Sigue abierta la conciliación entre los periodos fijos del enunciado y el filtro por fechas de la historia | Sí (los hechos son un histórico cargado a mano) |
 | CU-15 | `parametrizar(clave, valor)` y `GET /api/admin/parametros/tema`. `ParametrosSistema` guarda tema, logos y parámetros generales | El umbral del 25 % no vive ahí: es de ms-inventario (`UmbralStock`) y, por diseño, no tiene ruta para cambiarlo (DEC-43). La libreta de destinatarios por sucursal (`/api/notificaciones/destinatarios`, DEC-13) es el paso 4 de este caso | En parte: parámetros, tema y destinatarios |
 | CU-16 | `auditoria(desde, hasta)` | Coincide | Sí |
-| CU-17 | `logs(servicio)` con un puerto propio para los logs (H14) | Coincide | Sí (la demo guarda los logs en memoria; Elasticsearch sigue pendiente) |
+| CU-17 | `logs(servicio)` con un puerto propio para los logs | Coincide | Sí (la demo guarda los logs en memoria; Elasticsearch sigue pendiente) |
 | CU-18 | `consultarPrecioSugerido(productoId)` en el endpoint SOAP, publicado bajo `/api/integracion/**` | Coincide | Sí (la demo simula el Ministerio) |
 | CU-19 | `POST /api/usuarios`, sin ventana (DEC-10). `PoliticaContrasena` valida la regla y `CifradorPort` la cifra (BCrypt) | Sin mockup | No: `RegistrarUsuarioService` sigue pendiente |
 
@@ -72,13 +72,32 @@ Hay seis roles que usan el sistema y cinco actores externos. Los seis roles sale
 | Director de compras | Rol principal | Registra valores, valida cotizaciones y genera órdenes de compra | RF-07, RF-08; HU-11, HU-13, HU-14, HU-17 |
 | Director comercial | Rol principal | Consulta el tablero BAM | RF-09; HU-18 |
 | Administrador | Rol principal | Parametriza, registra usuarios y destinatarios, consulta la auditoría y los logs de error | RF-11 |
-| Proveedor | Externo (persona) | Recibe el PDF de la solicitud de cotización y de la orden; responde por correo, fuera del sistema | Informe de arquitectura, supuesto S2; HU-12, HU-14 |
+| Proveedor | Externo (persona) | Recibe el PDF de la solicitud de cotización y de la orden; responde por correo, fuera del sistema | [Reporte, §17, p. 31](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=31), supuesto S2: el proveedor responde por correo y el director digita los valores; HU-12, HU-14 |
 | Ministerio de Comercio | Externo (sistema) | Publica un servicio web con el precio estándar por producto | RF-06; HU-12 |
 | Servidor de correo certificado | Externo (sistema) | Entrega los correos con certificación y estampado cronológico | Requisito de seguridad 5; HU-12, HU-14 |
 | Redes sociales | Externo (sistema) | Aportan señales de tendencia de productos | RF-10; HU-19 |
 | Sistemas externos | Externo (sistema) | Consumen los servicios que el restaurante expone por SOAP | Requisito de integración |
 
-Los códigos RF-01 a RF-12 son los de la matriz de trazabilidad: numeran los requisitos funcionales del enunciado en el orden en que aparecen, porque el enunciado reinicia su lista (1, 2, 3 y luego 2, 3, 4...).
+### Referencias de requisitos
+
+RF-01 a RF-12 son los identificadores usados en este documento; la tabla siguiente define su significado sin depender de una matriz de trazabilidad externa. No son identificadores impresos en el reporte. El enunciado original no está en las carpetas disponibles, por lo que las descripciones conservan el uso que este archivo da a cada código y se contrastan con las fuentes locales citadas. El [§3 del reporte, p. 5](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=5), trata los requisitos **no funcionales** (seguridad, parametrización de imagen corporativa, auditoría, logs e integración); las funciones se describen principalmente en §5 y §10. Las decisiones enlazadas precisan o corrigen el diseño del PDF.
+
+| Código | Función que identifica | Casos de uso | Fuente verificable |
+| --- | --- | --- | --- |
+| RF-01 | Registrar platos con sus ingredientes y recetas | CU-03 | [Reporte, §10, p. 20: jefe · platos](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=20) |
+| RF-02 | Registrar y consultar pedidos por mesa | CU-02 | [Reporte, §10, p. 20: mesero · pedidos](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=20) |
+| RF-03 | Registrar solicitudes de alimentos y confirmar por correo | CU-04 | [Reporte, §10, p. 20: pasos 1 y 2](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=20) |
+| RF-04 | Descontar el consumo diario y alertar por inventario bajo | CU-05 | [Reporte, §10, p. 20: inventario y alarmas](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=20); [DEC-43 y DEC-46](DECISIONES.md) precisan el umbral y su cruce |
+| RF-05 | Consultar y filtrar solicitudes de compras y ver su detalle | CU-07 | [Reporte, §10, p. 20: paso 3](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=20) |
+| RF-06 | Generar y enviar cotizaciones con precios estándar del Ministerio | CU-08 | [Reporte, §10, p. 21: pasos 4 a 6](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=21) |
+| RF-07 | Registrar valores del proveedor y validar cotizaciones | CU-10, CU-11 | [Reporte, §10, p. 21: pasos 7 a 9](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=21); [DEC-43](DECISIONES.md) precisa los límites |
+| RF-08 | Consultar cotizaciones opcionadas y generar órdenes de compra | CU-12, CU-13 | [Reporte, §10, p. 21: pasos 11 a 13](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=21) |
+| RF-09 | Consultar indicadores en el tablero BAM | CU-14 | [Reporte, §10, p. 20: director comercial · BAM](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=20) |
+| RF-10 | Detectar tendencias y sugerir promociones | CU-06 | [Reporte, §5, p. 7: ms-analitica](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=7); [DEC-07](DECISIONES.md), HU-19 |
+| RF-11 | Administrar parámetros, usuarios y destinatarios; consultar auditoría y logs | CU-15, CU-16, CU-17, CU-19 | [Reporte, §3, p. 5](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=5) y [§5, p. 7](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=7); [DEC-10 y DEC-13](DECISIONES.md) fijan usuarios y destinatarios |
+| RF-12 | Mantener los datos de proveedores | CU-09 | [DEC-07](DECISIONES.md), HU-15; [corrección R-17 del reporte, §5, p. 8](CORRECCIONES_REPORTE.md) |
+
+Las referencias DEC remiten a [DECISIONES.md](DECISIONES.md); las HU son las historias del Story Mapping y V01–V23 son las ventanas de [DISEÑO UXUI.pdf](DISE%C3%91O%20UXUI.pdf). Los supuestos S2 y S3 se definen junto a su uso y remiten al §17 del reporte.
 
 ## Diagrama de casos de uso
 
@@ -234,11 +253,11 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 **Postcondición:** la alerta permanece activa hasta que se registre una solicitud para ese producto.
 
-**Reglas y fuente:** el proceso no debe afectar el desempeño en horario de operación. El 25 % es un parámetro propio de ms-inventario (`UmbralStock`); no se cambia desde la parametrización (DEC-43); la brecha B12 de la matriz de trazabilidad recoge que el modelo no tiene una entidad Alerta; en el código del 8 de noviembre la alerta es solo la marca alertaAtendida del insumo.
+**Reglas y fuente:** el proceso no debe afectar el desempeño en horario de operación. El 25 % es un parámetro propio de ms-inventario (`UmbralStock`); no se cambia desde la parametrización (DEC-43). El modelo no tiene una entidad Alerta; en el código del 8 de noviembre la alerta es la marca `alertaAtendida` del insumo.
 
 ### CU-06 Revisar promociones sugeridas
 
-**Actor:** jefe de cocina. **Actores secundarios:** redes sociales, servidor de correo certificado. **Historia:** HU-19. **Ventana:** sin mockup (B8).
+**Actor:** jefe de cocina. **Actores secundarios:** redes sociales, servidor de correo certificado. **Historia:** HU-19. **Ventana:** sin mockup.
 
 **Disparador:** análisis automático de tendencias.
 
@@ -275,7 +294,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 - Sin resultados: "No se encontraron solicitudes registradas".
 - Solicitud inexistente o eliminada: "La solicitud consultada no está disponible".
 
-**Reglas y fuente:** la consulta responde en menos de 3 segundos y el detalle no permite modificar datos. Los cuatro filtros salen del enunciado: HU-07 repite los criterios de HU-06 y no los enumera (brecha B16).
+**Reglas y fuente:** la consulta responde en menos de 3 segundos y el detalle no permite modificar datos. Los cuatro filtros salen del enunciado: HU-07 repite los criterios de HU-06 y no los enumera.
 
 ### CU-08 Enviar solicitud de cotización
 
@@ -301,11 +320,11 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 **Postcondición:** cotización ENVIADA con su PDF (o PENDIENTE_PRECIO si faltó el precio o el PDF); solicitudes posiblemente EN TRÁMITE; valor sugerido registrado.
 
-**Reglas y fuente:** HU-09 cubre la captura (pasos 1 a 3) y HU-12 el envío (pasos 4 a 7); ambas usan las mismas ventanas (brecha B6). El informe de arquitectura guarda en caché el precio del Ministerio (supuesto S3: cambia como máximo una vez al día).
+**Reglas y fuente:** HU-09 cubre la captura (pasos 1 a 3) y HU-12 el envío (pasos 4 a 7); ambas usan las mismas ventanas. El informe de arquitectura guarda en caché el precio del Ministerio ([§17, p. 31](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=31), supuesto S3: cambia como máximo una vez al día).
 
 ### CU-09 Registrar datos de proveedor
 
-**Actor:** auxiliar de compras. **Historia:** HU-15. **Ventana:** ninguna (B7).
+**Actor:** auxiliar de compras. **Historia:** HU-15. **Ventana:** ninguna.
 
 **Flujo principal:**
 
@@ -324,7 +343,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 **Actor:** director de compras. **Historia:** HU-11. **Ventana:** V18.
 
-**Precondición:** existe una cotización ENVIADA y el proveedor respondió por correo, fuera del sistema (supuesto S2 del informe).
+**Precondición:** existe una cotización ENVIADA y el proveedor respondió por correo, fuera del sistema ([§17, p. 31](Reporte_Arquitectura_Konrad_Gourmet.pdf#page=31), supuesto S2: el proveedor responde por correo y el director digita los valores).
 
 **Flujo principal:**
 
@@ -396,7 +415,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 **Postcondición:** orden EN PROCESO; la cotización queda CON ORDEN y sale de V20; cada solicitud incluida pasa a COMPLETADA, aunque la cotización la haya cubierto solo en parte (DEC-46); la generación queda en la auditoría.
 
-**Reglas y fuente:** el estado del paso 4 es CON\_ORDEN en el diseño y en el código del 8 de noviembre (brecha B10, resuelta en el diseño). Los estados de la orden (EN\_PROCESO y FINALIZADA) salen del diagrama, no del enunciado (B13).
+**Reglas y fuente:** el estado del paso 4 es CON\_ORDEN en el diseño y en el código del 8 de noviembre. Los estados de la orden (EN\_PROCESO y FINALIZADA) salen del diagrama, no del enunciado.
 
 ## Especificación: dirección comercial, administrador y sistemas externos
 
@@ -404,7 +423,7 @@ Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciad
 
 ### CU-14 Consultar tablero BAM
 
-**Actor:** director comercial. **Historia:** HU-18. **Ventana:** sin mockup (B8).
+**Actor:** director comercial. **Historia:** HU-18. **Ventana:** sin mockup.
 
 **Flujo principal:**
 
@@ -417,7 +436,7 @@ Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciad
 
 - Datos insuficientes: "No hay información suficiente para el periodo seleccionado".
 
-**Reglas y fuente:** los datos se actualizan automáticamente al menos una vez al día; el tablero es responsive, funciona en móviles y carga en menos de 5 segundos. El enunciado fija los periodos de los indicadores (último mes, último año) y la historia agrega un filtro por rango de fechas: hay que decidir cómo conviven (brecha B17).
+**Reglas y fuente:** los datos se actualizan automáticamente al menos una vez al día; el tablero es responsive, funciona en móviles y carga en menos de 5 segundos. El enunciado fija los periodos de los indicadores (último mes, último año) y la historia agrega un filtro por rango de fechas: hay que decidir cómo conviven.
 
 ### CU-15 Parametrizar el sistema
 
