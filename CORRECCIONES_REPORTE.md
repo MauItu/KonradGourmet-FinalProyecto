@@ -12,7 +12,7 @@ Las correcciones salen de la revisión del 2026-11-07 (H1–H26 y D1–D12, en `
 - **Por confirmar:** el texto depende de algo que el equipo no ha decidido.
 - Los textos nuevos van en *cursiva* dentro de comillas «…». Lo que va entre [corchetes] es una instrucción, no texto del reporte.
 
-**Cifras que el reporte debe usar** (verificadas el 2026-11-08 en `documentos/` `ae8dc83` y `KonradGourmet/` `4b4a308`):
+**Cifras que el reporte debe usar** (reverificadas al cierre de la sesión 6 el 2026-11-08: código `22717f7`, `.drawio` `4e4559e`; ver `VALIDACION_SESION6.md`):
 
 | Dato | Valor | Fuente |
 |---|---|---|
@@ -216,7 +216,7 @@ Las filas solicitud.en-tramite, cotizacion.enviada, cotizacion.validada y tenden
 
 **R-41 · Cambiar (H1).** «Un solo modelo, tres salidas»: «El mapa, el diagrama de clases, el esqueleto Java y las tablas de este documento se generan desde el mismo modelo, de modo que los nombres coinciden uno a uno.» → *«El esqueleto Java se generó a partir de las páginas 4a a 4e del .drawio, de modo que los nombres coinciden uno a uno con el diagrama de clases y con el mapa.»* La frase que sigue, «Antes de entregar se comprobó automáticamente que cada clase que aparece en el mapa (…) existe en el código y que el método asignado a cada una de las 23 ventanas está declarado en su controlador», **ya es cierta** (sesión 3: 191 clases, 403 métodos y las 23 ventanas). Antes de regenerar el reporte hay que volver a correr esa comprobación.
 
-**R-42 · Cambiar (P-12, DEC-45).** Estructura del esqueleto: «con doce paquetes de servicio (los once microservicios más compartido) y 155 clases, además de la clase DemoArquitectura.» → *«con doce paquetes de servicio (los once microservicios más compartido) y 191 clases, las mismas de las páginas 4a a 4e. Aparte está el paquete demo, con DemoArquitectura y 19 clases de apoyo (adaptadores en memoria y el ensamblador que los conecta), que no son parte del modelo; y fuera de src, la carpeta pruebas, con 171 verificaciones.»*
+**R-42 · Cambiar (P-12, DEC-45).** Estructura del esqueleto: «con doce paquetes de servicio (los once microservicios más compartido) y 155 clases, además de la clase DemoArquitectura.» → *«con doce paquetes de servicio (los once microservicios más compartido) y 191 clases, las mismas de las páginas 4a a 4e. Aparte está el paquete demo, con DemoArquitectura y 19 clases de apoyo (adaptadores en memoria y el ensamblador que los conecta), que no son parte del modelo; y fuera de src, la carpeta pruebas, con 176 verificaciones.»*
 
 **R-43 · Cambiar (DEC-38, DEC-35, DEC-36).** Después de «los adaptadores reciben sus anotaciones (@RestController, @Repository, @KafkaListener) sin tocar el dominio, que es precisamente lo que promete la arquitectura hexagonal.», agregar: *«Dos anotaciones resuelven lo que trae tener varias réplicas: el Proxy de precios lleva además @Primary, para que ConsultarPrecioService reciba el Proxy y no el adaptador real, y los dos jobs programados llevan @SchedulerLock (ShedLock), para que cada uno corra en una sola réplica. El Javadoc de cada adaptador dice qué anotación lleva en el proyecto real.»*
 
