@@ -446,12 +446,19 @@ Original: páginas 28 a 30.
 
 Original: página 31.
 
-| Sprint | Duración | MVP | Entregables |
-|---|---|---|---|
-| Sprint 1 | 2 semanas | MVP 1, MVP 2 | Módulo de captura operativo: registro de pedidos con mesa y cantidades, y gestión del menú con sus platos. Se entrega además el listado de solicitudes de compra con acceso al detalle (arranque del MVP 2). |
-| Sprint 2 | 2 semanas | MVP 2, MVP 3 | Ciclo de solicitudes y cotizaciones funcionando: registro de solicitud de alimentos, generación de cotizaciones y captura de valores del proveedor. Se entrega el motor de validación de cotizaciones contra el precio estándar del Ministerio. |
-| Sprint 3 | 2 semanas | MVP 3, MVP 4 | Cierre del proceso de compras: generación de la orden de compra, maestro de proveedores y consulta de cotizaciones opcionadas. Se entrega el descuento automático de inventario con alertas por correo al llegar al umbral del 25%. |
-| Sprint 4 | 2 semanas | MVP 4 | Tablero de control (BAM) con los KPIs de mayor demanda, sucursal líder y mejor proveedor del año. Se entrega el motor de tendencias y promociones sugeridas con notificación automática a los puntos de venta. |
-| **Total** | **8 semanas** (2 Meses) | Proyecto completo | Sistema completo y desplegado |
+*Corregido (S-06): el original planeaba 4 sprints, 8 semanas y «2 Meses», con los sprints 2 y 3 sobrecargados (10 PHU sobre una capacidad de 9). El plan del equipo, calculado en el Excel de capacidad, es de 5 sprints de 2 semanas: 10 semanas (2 meses y medio), del 3 de agosto al 11 de octubre de 2026, sin superar los 9 PHU de ningún sprint (DEC-47). Los entregables son los del Excel.*
+
+| Sprint | Fechas | MVP | Historias | PHU | Entregables |
+|---|---|---|---|---|---|
+| Sprint 1 | 03/08 al 16/08/2026 | MVP 1, MVP 2 | HU-01 a HU-08 | 8 de 9 | Módulo de captura operativo: registro de pedidos con mesa y cantidades, y gestión completa del menú con sus platos e ingredientes. Se entrega el listado de solicitudes de compra con filtros por criterios y acceso al detalle. |
+| Sprint 2 | 17/08 al 30/08/2026 | MVP 2, MVP 3 | HU-09 a HU-12 | 8 de 9 | Ciclo de solicitudes y cotizaciones funcionando: registro de solicitud de alimentos, generación de cotizaciones y captura de valores del proveedor. Se entrega el envío formal de cotizaciones a proveedores con PDF y correo certificado. |
+| Sprint 3 | 31/08 al 13/09/2026 | MVP 3, MVP 4 | HU-13, HU-14, HU-15 y HU-17 | 6 de 9 | Cierre del proceso de compras: validación de cotizaciones contra el precio del Ministerio, generación de la orden de compra, maestro de proveedores y consulta de cotizaciones opcionadas. |
+| Sprint 4 | 14/09 al 27/09/2026 | MVP 4 | HU-16 y HU-18 | 8 de 9 | Descuento automático diario de inventario con alertas por correo al bajar del 25 %. Se entrega el tablero de control (BAM) con los KPIs de mayor demanda, sucursal líder y mejor proveedor del año. |
+| Sprint 5 | 28/09 al 11/10/2026 | MVP 4 | HU-19 | 5 de 9 | Motor de identificación de tendencias en redes sociales y de productos más solicitados. Se entregan las promociones sugeridas con notificación automática a los puntos de venta y el despliegue final del sistema. |
+| **Total** | **10 semanas (2 meses y medio), del 03/08 al 11/10/2026** | Proyecto completo | 19 historias | **35 de 45** | Sistema completo y desplegado |
+
+Cada sprint dura 2 semanas. Quedan libres 1, 1, 3, 1 y 4 PHU por sprint: 10 PHU de holgura (45 de capacidad contra 35 de trabajo), que absorben imprevistos sin mover las fechas.
+
+HU-17 (Consultar cotizaciones opcionadas) es del MVP 4, pero entra en el sprint 3, antes que HU-16. Así el ciclo de compras queda completo en ese sprint: HU-13 valida las cotizaciones, HU-17 muestra las opcionadas y HU-14 genera la orden sobre una de ellas. Por eso, en la hoja SPRINT del Excel, F17 va antes que F16.
 
 Página 32: cierre («Gracias», agosto de 2026).
