@@ -72,6 +72,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-53 | Cómo llega el `meseroId` al pedido (DEC-51) | En el constructor: `Pedido(numero, mesa, meseroId)`; ninguna otra firma cambia | Aplicada y aprobada en la fase 1 de la sesión 6; validada en `VALIDACION_SESION6.md` |
 | PD-01 | Alarma WebSocket con varias réplicas de ms-notificaciones (A2) | Difusión por Redis pub/sub; V05 relee las alertas guardadas al abrirse | Decidida por el arquitecto-revisor (2026-11-08); efectos en 1, 3a, 4d y 5, y R-56 |
 | PD-02 | Categorías del proveedor | Se mantiene `List<String>`: nombres de las categorías de ms-menu, copiados por valor | Decidida por el arquitecto-revisor (2026-11-08); efecto en CU-09 |
+| PD-03 | BAM: periodos fijos frente al rango libre | Sin rango: demanda de 30 días y proveedor de 365; con rango, manda el rango; la sucursal filtra la demanda; solo cotizaciones OPCIONADAS | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_kpis`), CU-14 y R-31; código fuera de alcance |
 
 ---
 
@@ -921,6 +922,24 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **C. Una copia local del catálogo alimentada por eventos.** Exige un tópico nuevo o ampliar `menu.actualizado`.
 
 **Qué implica:** no cambia el diagrama ni el código. Se pierde que un cambio de nombre en ms-menu se propague; el dato es informativo. El listado de categorías para los desplegables es el hallazgo N2 (efecto futuro). Se actualiza CU-09 en los casos de uso.
+
+## PD-03 · ¿Cómo conviven los periodos fijos de los indicadores con el filtro libre por fechas? (BAM)
+
+**Por qué hubo que decidir.** HU-18 pide «último mes» y «último año» para los indicadores y, además, «filtrar por rango de fechas y por sucursal». La 4e tiene `kpis(desde, hasta, sucursalId)`; la demo llama a `kpis(null, null, null)`. DEC-40 advertía que, si el tablero se alimentara con `cotizacion.validada`, el «mejor precio» lo ganaría COT-020, que es SOSPECHOSA.
+
+**Opciones:**
+- **A. Periodos por defecto que un rango elegido reemplaza.** ✅ **Escogida por el arquitecto-revisor.**
+- **B. Periodos fijos siempre, con el rango solo para la demanda.**
+- **C. Rango libre siempre, con «último mes» como valor inicial.**
+
+**Regla escogida:**
+- Sin rango, el producto y la sucursal con mayor demanda se calculan sobre los últimos 30 días, y el proveedor con mejores precios sobre los últimos 365.
+- Con rango, los tres usan ese rango, y la pantalla muestra el periodo aplicado.
+- La sucursal filtra solo la demanda: las compras son centrales y `cotizacion.validada` no trae sucursal.
+- «Mejores precios» es la menor diferencia promedio contra el precio estándar, contando solo las cotizaciones **OPCIONADAS**.
+- Sin hechos en el periodo: «No hay información suficiente para el periodo seleccionado».
+
+**Qué implica:** cumple los dos criterios de HU-18 sin cambiar firmas, y la salida de la demo no cambia (sus hechos tienen la fecha de hoy). Se pierde filtrar el indicador de proveedor por sucursal. Efectos: nota `n_kpis` de la 4e, CU-14 y R-31. Fuera de alcance: que `TableroService.kpis()` resuelva los periodos por defecto y que `NegocioEventsListener` filtre las OPCIONADAS (requiere PD-05).
 
 ---
 
