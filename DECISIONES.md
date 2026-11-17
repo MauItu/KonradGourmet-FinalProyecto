@@ -88,7 +88,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-59 | Almacén de objetos en local | SeaweedFS (S3 compatible) en lugar de MinIO, cuya imagen ya no se puede descargar | Aceptada por Mauricio (2026-11-16, con su OK al plan); no cambia el `.drawio` ni el reporte |
 | DEC-60 | Tecnología de la SPA | React + TypeScript, como dice la §8 del reporte; la web de Codex (HTML y JS) queda en la versión en memoria | Decidida por Mauricio (2026-11-16); va en el corte 2 |
 | DEC-61 | Cómo usan los servicios Spring el código de `src/` | Cada servicio copia al compilar el núcleo de su paquete en `src/` (dominio, eventos, puertos y aplicación), sin los adaptadores; sus adaptadores reales con Spring van en `servicios/` con los mismos nombres del diagrama. Una sola copia del dominio; `./ejecutar.sh` sigue compilando solo con `javac` | Decidida por Mauricio (2026-11-16) |
-| DEC-62 | Quién firma el JWT (no estaba en el diagrama) | Puerto nuevo `EmisorTokenPort` (puertos.salida) y `JwtEmisorAdapter` (adaptadores.salida); `IniciarSesionService` lo recibe en el constructor. Página 4b: 2 clases nuevas (191 → 193) | Decidida por Mauricio (2026-11-17) |
+| DEC-62 | Quién firma el JWT (no estaba en el diagrama) | Puerto nuevo `EmisorTokenPort` (puertos.salida) y `JwtEmisorAdapter` (adaptadores.salida); `IniciarSesionService` lo recibe en el constructor. Página 4a: 2 clases nuevas (191 → 193) | Decidida por Mauricio (2026-11-17); aplicada en el código y en las páginas 4a y 1 |
 | DEC-63 | Nombres del director comercial y del administrador | Andrés Rojas (`andres.rojas@konradgourmet.com`) y Paula Herrera (`paula.herrera@konradgourmet.com`), Sucursal Centro | Asumida (2026-11-17), por confirmar |
 
 ---
@@ -1223,7 +1223,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **A. Puerto nuevo `EmisorTokenPort`** (puertos.salida, `emitir(u: Usuario): String`) con su adaptador `JwtEmisorAdapter` (adaptadores.salida); `IniciarSesionService` lo recibe en el constructor. El núcleo no conoce la librería de JWT. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
 - **B. Que lo firme `AuthRestController`.** El diagrama no cambia, pero la seguridad queda en un adaptador de entrada.
 
-**Qué implica:** la página 4b gana 2 clases (191 → 193), un atributo en `IniciarSesionService` y dos relaciones. El token se firma con RS256; el gateway valida la firma con la llave pública que publica ms-identidad (JWKS), así que nadie más tiene la llave privada. La llave se guarda en la base de ms-identidad para que reiniciar el servicio no cierre las sesiones.
+**Qué implica:** la página 4a gana 2 clases (191 → 193), un atributo en `IniciarSesionService` y dos relaciones, y la caja «Cifrado · JWT» de la página 1 suma `JwtEmisorAdapter` (aplicado el 2026-11-17; en la pregunta a Mauricio se dijo «4b» por error: `identidad` está en la 4a). La §13 del reporte dice «191 clases»: pasa a 193 cuando se regenere el reporte (corte 7). El token se firma con RS256; el gateway valida la firma con la llave pública que publica ms-identidad (JWKS), así que nadie más tiene la llave privada. La llave se guarda en la base de ms-identidad para que reiniciar el servicio no cierre las sesiones.
 
 ## DEC-63 · Nombres del director comercial y del administrador
 
