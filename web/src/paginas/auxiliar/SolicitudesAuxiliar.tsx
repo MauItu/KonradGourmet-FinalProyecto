@@ -72,7 +72,7 @@ export function SolicitudesAuxiliar() {
           </div>
           {errorFiltro && <p className="form-error" role="alert">{errorFiltro}</p>}
         </section>
-        <div className="grid main-side">
+        <div className="grid halves">
           <Tarjeta titulo="Solicitudes de alimentos" icono="file" sub="Revisa y gestiona las últimas solicitudes de alimentos"
             extra={<button type="button" className="btn soft sm" onClick={() => cotizar()}><Icono nombre="plusCircle" /> Generar cotización</button>}>
             <Tabla cabeceras={['Nº solicitud', 'Sucursal', 'Fecha', 'Productos', 'Estado', 'Acción']}

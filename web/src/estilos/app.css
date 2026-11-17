@@ -443,6 +443,8 @@ td .cell-thumb { min-height: 28px; }
 .facts .ic { grid-row: span 2; color: var(--naranja); width: 20px; height: 20px; }
 .facts small { font-size: 11px; color: var(--suave); }
 .facts b { font-size: 13px; }
+.facts > div { min-width: 0; }
+.facts b { overflow-wrap: anywhere; } /* un correo largo (solicitante en V12) no se sale de la tarjeta */
 .facts .badge { justify-self: start; }
 .facts.boxed { background: var(--fondo); border-radius: 14px; padding: 16px; text-align: left; }
 .facts.four { grid-template-columns: repeat(2, 1fr); }

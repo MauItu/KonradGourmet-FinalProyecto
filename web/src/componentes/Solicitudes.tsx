@@ -56,7 +56,8 @@ export function VentanaSolicitud({ usuario, productos, unidades, productoInicial
   usuario: Usuario; productos: Producto[]; unidades: Map<number, string>; productoInicial: number | null; precargar: boolean;
   alCerrar: () => void; alRegistrar: (s: Solicitud) => void;
 }) {
-  const base = productos.find((p) => p.id === productoInicial) ?? productos[0];
+  // sin producto escogido, el primero del catálogo (la res), como el mockup de V08
+  const base = productos.find((p) => p.id === productoInicial) ?? [...productos].sort((a, b) => a.id - b.id)[0];
   const [cat, setCat] = useState(base?.categoria ?? '');
   const [prod, setProd] = useState<number | null>(base?.id ?? null);
   const [cant, setCant] = useState('');
