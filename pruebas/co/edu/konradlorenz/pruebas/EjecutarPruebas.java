@@ -18,6 +18,7 @@ public final class EjecutarPruebas {
         PruebasPatrones.ejecutar();
         PruebasFlujoDeCompra.ejecutar();
         PruebasPlatos.ejecutar();
+        PruebasIdentidad.ejecutar();
         System.exit(Prueba.resumen());
     }
 
