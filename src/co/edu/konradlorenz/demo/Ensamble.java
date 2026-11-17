@@ -35,6 +35,8 @@ import co.edu.konradlorenz.inventario.adaptadores.entrada.InventarioRestControll
 import co.edu.konradlorenz.inventario.adaptadores.entrada.PedidoRegistradoListener;
 import co.edu.konradlorenz.inventario.aplicacion.InventarioService;
 import co.edu.konradlorenz.inventario.dominio.UmbralStock;
+import co.edu.konradlorenz.menu.adaptadores.entrada.PlatoRestController;
+import co.edu.konradlorenz.menu.aplicacion.PlatoService;
 import co.edu.konradlorenz.notificaciones.adaptadores.entrada.DestinatarioRestController;
 import co.edu.konradlorenz.notificaciones.adaptadores.entrada.NotificacionListeners;
 import co.edu.konradlorenz.notificaciones.adaptadores.salida.CorreoCertificadoDecorator;
@@ -81,6 +83,7 @@ public class Ensamble {
 
     // ---- puntos de entrada (controladores y job) ----
     public final PrecioRestController precios;
+    public final PlatoRestController platos;
     public final PedidoRestController pedidos;
     public final InventarioRestController inventario;
     public final ConsumoDiarioJob consumoDiario;
@@ -106,6 +109,9 @@ public class Ensamble {
                 new CreadorCorreo(correo), new CreadorAlarmaApp(alarmas), envios, destinatarios, bus);
         destinatariosRest = new DestinatarioRestController(notificaciones);
         NotificacionListeners alNotificar = new NotificacionListeners(notificaciones);
+
+        // ms-menu: cada cambio de un plato publica menu.actualizado
+        platos = new PlatoRestController(new PlatoService(new PlatoEnMemoria(), bus));
 
         // ms-pedidos
         PedidoService pedidoService = new PedidoService(repositorioPedidos, new CatalogoEnMemoria(), bus);

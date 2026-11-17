@@ -1,7 +1,10 @@
 package co.edu.konradlorenz.menu.dominio;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Plato {
 
@@ -12,22 +15,114 @@ public class Plato {
     private String descripcion;
     private BigDecimal precioVenta;
     private boolean activo;
-    private List<Ingrediente> ingredientes;
+    private List<Ingrediente> ingredientes = new ArrayList<>();
 
+    /** Un plato nuevo nace activo y sin id: el repositorio se lo asigna al guardarlo. */
+    public Plato(Long sucursalId, Long creadoPor, String nombre, String descripcion, BigDecimal precioVenta) {
+        this.sucursalId = sucursalId;
+        this.creadoPor = creadoPor;
+        this.nombre = nombre == null ? null : nombre.trim();
+        this.descripcion = descripcion == null ? "" : descripcion.trim();
+        this.precioVenta = precioVenta;
+        this.activo = true;
+    }
+
+    public Long id() {
+        return id;
+    }
+
+    /** Lo usa el repositorio al guardar un plato nuevo. */
+    public void asignarId(Long id) {
+        this.id = id;
+    }
+
+    public Long sucursalId() {
+        return sucursalId;
+    }
+
+    public Long creadoPor() {
+        return creadoPor;
+    }
+
+    public String nombre() {
+        return nombre;
+    }
+
+    public String descripcion() {
+        return descripcion;
+    }
+
+    public BigDecimal precioVenta() {
+        return precioVenta;
+    }
+
+    public boolean activo() {
+        return activo;
+    }
+
+    public List<Ingrediente> ingredientes() {
+        return List.copyOf(ingredientes);
+    }
+
+    /** Agrega el ingrediente; si el producto ya estaba en la receta, suma las cantidades. */
     public void agregarIngrediente(Ingrediente i) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        if (i == null || i.producto() == null || i.producto().id() == null) {
+            throw new IllegalStateException("El ingrediente necesita un producto");
+        }
+        if (i.cantidad() == null || i.cantidad().signum() <= 0) {
+            throw new IllegalStateException("La cantidad de cada ingrediente debe ser mayor que cero");
+        }
+        for (int k = 0; k < ingredientes.size(); k++) {
+            Ingrediente existente = ingredientes.get(k);
+            if (existente.producto().id().equals(i.producto().id())) {
+                ingredientes.set(k, new Ingrediente(existente.producto(), existente.enKg().add(i.enKg()), UnidadMedida.KG));
+                return;
+            }
+        }
+        ingredientes.add(i);
     }
 
+    /** Exige sucursal, quién lo crea, nombre y un precio de venta mayor que cero. */
     public void validar() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        if (sucursalId == null) {
+            throw new IllegalStateException("El plato necesita una sucursal");
+        }
+        if (creadoPor == null) {
+            throw new IllegalStateException("El plato necesita el usuario que lo crea");
+        }
+        if (nombre == null || nombre.isBlank()) {
+            throw new IllegalStateException("El nombre del plato es obligatorio");
+        }
+        if (precioVenta == null || precioVenta.signum() <= 0) {
+            throw new IllegalStateException("El precio de venta debe ser mayor que cero");
+        }
     }
 
+    /** Copia los datos editables; el id, la sucursal, quién lo creó y el estado no cambian. Si algo no es válido no cambia nada. */
     public void editar(Plato datos) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        datos.validar();
+        this.nombre = datos.nombre;
+        this.descripcion = datos.descripcion;
+        this.precioVenta = datos.precioVenta;
+        this.ingredientes = new ArrayList<>(datos.ingredientes);
     }
 
+    /** El plato sale del catálogo del mesero, pero no se borra: los pedidos que ya lo tienen siguen intactos. */
     public void desactivar() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        this.activo = false;
+    }
+
+    public void reactivar() {
+        this.activo = true;
+    }
+
+    /** La receta como la entiende ms-inventario: producto → kilogramos por plato. */
+    public Map<Long, BigDecimal> receta() {
+        Map<Long, BigDecimal> receta = new LinkedHashMap<>();
+        for (Ingrediente i : ingredientes) {
+            receta.merge(i.producto().id(), i.enKg(), BigDecimal::add);
+        }
+        return receta;
     }
 
 }
