@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konrad Gourmet — Sistema de Abastecimiento</title>
+<link rel="icon" href="assets/logo/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <!-- Panel izquierdo de cada rol (V02, V05, V11, V16): marca, perfil y menú -->
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <!-- Encabezado y contenido de la ventana activa -->
+  <main class="shell" id="content" tabindex="-1"></main>
+
+  <!-- Ventanas emergentes (V04, V06, V08, V09, V13, V14, V18, V19, V21, V22) -->
+  <div id="modal-root"></div>
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

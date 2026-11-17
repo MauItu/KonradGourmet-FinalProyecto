@@ -167,7 +167,7 @@ Cifras de la demo que no salen de los diagramas (supuestos, anotados en `DECISIO
 
 ### Qué métodos tienen lógica
 
-De los 274 cuerpos que lanzaban `Pendiente de implementar` al terminar la sesión 3, quedan **94**. Tienen
+De los 274 cuerpos que lanzaban `Pendiente de implementar` al terminar la sesión 3, quedan **80**. Tienen
 lógica real todo lo que usa el recorrido de compra, de punta a punta; lo que queda pendiente es lo que
 habla con una tecnología externa (la demo pone un adaptador en memoria en su lugar) o lo que la demo no usa.
 
@@ -176,7 +176,7 @@ habla con una tecnología externa (la demo pone un adaptador en memoria en su lu
 | `compartido` | `EventoDominio` y `AuditoriaEvent`; los otros 9 eventos están en el paquete `eventos` de su servicio y también tienen constructor, accesores y `tipo()` | `KafkaEventPublisher` |
 | `identidad` | Composite (`ElementoMenu`, `GrupoMenu`, `OpcionMenu`), `Usuario` y sus 6 roles (`rol()`), `DirectorCompras.construirMenu()`, `Sucursal` | `construirMenu()` de los otros 5 roles, `PoliticaContrasena`, `IniciarSesionService`, `RegistrarUsuarioService`, los 2 controladores y los 2 adaptadores (BCrypt y usuarios) |
 | `pedidos` | `Pedido`, `DetallePedido`, `Mesa`, `PlatoCatalogo`, `CatalogoPlatos`, `PedidoService`, `PedidoRestController`, `MenuActualizadoListener` | `CatalogoJpaAdapter`, `PedidoJpaAdapter` |
-| `menu` | `MenuActualizadoEvent` | todo lo demás: `Plato`, `PlatoService`, `PlatoRestController`, `PlatoJpaAdapter` |
+| `menu` | `Plato` (validar, editar, desactivar y reactivar), `Ingrediente`, `Producto`, `PlatoService`, `PlatoRestController`, `MenuActualizadoEvent` | `PlatoJpaAdapter` (la demo usa `PlatoEnMemoria`) |
 | `inventario` | `InsumoInventario`, `Inventario`, `RecetaPlato`, `UmbralStock`, `InventarioService`, `ConsumoDiarioJob`, los 2 listeners y `InventarioRestController` | `InventarioJpaAdapter` |
 | `solicitudes` | `SolicitudAlimentos`, `ItemSolicitud`, `CriteriosConsulta`, `SolicitudService`, `CotizacionEventsListener`, `SolicitudRestController` | `SolicitudJpaAdapter` |
 | `cotizaciones` | `Cotizacion`, `ItemCotizacion`, `Proveedor`, `ReglaValidacion` y sus 3 reglas, `GenerarCotizacionFacade`, `CotizacionService`, `ProveedorService`, `OrdenGeneradaListener`, los 2 controladores, `CotizacionJpaAdapter` | `ProveedorJpaAdapter`, `PdfCotizacionAdapter`, `AlmacenObjetosAdapter`, `PrecioSugeridoRestAdapter` |
@@ -216,10 +216,12 @@ Límites que conviene conocer:
 
 ### Pruebas
 
-`pruebas/` tiene 176 verificaciones en 3 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
+`pruebas/` tiene 206 verificaciones en 4 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
 - `PruebasCotizacion`: los valores de V19 y los límites de la cadena de reglas (+25,00 % y −50,00 % siguen
   OPCIONADA; +25,01 % y −50,01 % no);
 - `PruebasPatrones`: los 8 patrones, uno por uno;
+- `PruebasPlatos`: ms-menu (HU-04): crear, nombre repetido, editar, desactivar y reactivar; cada cambio publica
+  `menu.actualizado` y el catálogo del mesero y la receta del inventario se actualizan por el bus;
 - `PruebasFlujoDeCompra`: pedido (con su mesero), inventario (incluido el cierre del día siguiente), solicitud, cotización,
   orden OC-0012, una cotización con 2 solicitudes (DEC-05), proveedores y el caso PENDIENTE_PRECIO (H18).
 
@@ -237,18 +239,61 @@ git log --follow -M30% -- src/co/edu/konradlorenz/notificaciones/adaptadores/sal
 
 ## Interfaz web
 
-La pantalla de inicio de sesión está en la raíz del proyecto:
+La interfaz local usa los servicios Java del `Ensamble` y sus adaptadores en memoria.
+Desde `KonradGourmet/`, con JDK 21 o superior:
+
+```bash
+./web.sh             # abre http://localhost:8000
+./web.sh 8765        # puerto alternativo
+```
+
+Abre la dirección que imprime el script. El inicio de sesión (V01) tiene cuatro accesos de
+demostración, uno por rol, y cada rol ve su panel, su menú y sus ventanas como en los mockups
+(`DISEÑO UXUI.pdf`). ms-identidad todavía no autentica (`IniciarSesionService` está pendiente):
+el correo decide el rol y la contraseña no se valida.
+
+| Acceso | Rol | Ventanas |
+|---|---|---|
+| `isabella.torres@konradgourmet.com` | Mesero | V02 inicio · V03 nuevo pedido · V04 pedido registrado · pedidos del turno |
+| `carlos.mendoza@konradgourmet.com` | Jefe de cocina | V05 inicio · V06 platos y nuevo plato · V07 inventario · V08 y V09 solicitud · V10 mis solicitudes · alertas |
+| `isabella.castro@konradgourmet.com` | Auxiliar de compras | V11 inicio · V12 solicitudes con los filtros de HU-07 · V13 y V14 cotización · V15 cotizaciones |
+| `laura.gomez@konradgourmet.com` | Director de compras | V16 inicio · V17 todas y pendientes de validar · V18 y V19 valores y validación · V20 opcionadas · V21 y V22 orden · V23 órdenes |
+
+El recorrido de la demo de terminal se repite con clics y da las mismas cifras: el mesero
+registra PED-0251 (2 bandejas paisas «Sin arepa» y 1 ajiaco, $82.000; el pedido viene
+precargado); el jefe ejecuta «Cierre del día (23:59)» en Inventario (Res al 23 %) y envía
+SOL-031 (Res 20 kg y Arroz 15 kg, precargada); el auxiliar genera COT-018, COT-019 y COT-020
+para Proveedor ABC, C y D; el director registra los precios por kilo (21.250/8.000, 29.000/8.000
+y 4.000/8.000), valida (OPCIONADA, RECHAZADA y SOSPECHOSA) y genera OC-0012 por $545.000.
+
+Lo que la interfaz web agrega sobre la demo de terminal, solo para que las pantallas tengan
+contenido: las mesas 2, 3, 6 y 8, los otros seis platos de la carta de V03, el Proveedor D en
+el desplegable y los precios del Ministerio de la papa y el pollo. V13 ya permite varias
+solicitudes por cotización (M-01, DEC-05). El menú del director sale de
+`DirectorCompras.construirMenu()` (Composite). No se muestran los datos que el dominio no tiene:
+vencimientos de V07, «Nuevo insumo», «Editar solicitud» y las tendencias semanales de V16.
+Al detener el servidor se pierden los datos.
+
+**Platos (V06).** Crear, editar, desactivar y activar un plato pasa por `PlatoRestController` →
+`PlatoService` (ms-menu), que publica `menu.actualizado`: ms-pedidos actualiza el catálogo del mesero y
+ms-inventario la receta, sin que la web toque esos servicios. «Desactivar» no borra: el plato sale del
+catálogo de V03, pero sigue en la lista del jefe de cocina como *Inactivo* y los pedidos que ya lo tenían
+no cambian. «Editar plato» reutiliza la ventana de «Nuevo plato». El nombre es único en la sucursal.
+Endpoints: `POST /api/platos`, `/api/platos/editar` (`id` y los campos del plato) y `/api/platos/estado`
+(`id`, `activo=0|1`).
+
+Los archivos web están en la raíz del proyecto:
 
 ```
 index.html      maquetado
 styles.css      estilos
+app.html        panel de cada rol (V02 a V23)
+app.css         estilos del panel
+app.js          ventanas y conexión con la API local
+src/.../demo/ServidorWeb.java   API local sobre el Ensamble
+web.sh          compila y arranca el servidor Java
 assets/logo/    logo.png
 assets/video/   3DVideo.mp4
 ```
 
-Se abre directamente en el navegador. Si el video no arranca por las
-restricciones de `file://`, levanta un servidor local:
-
-```bash
-python -m http.server 8000
-```
+La interfaz conectada requiere `./web.sh`; abrir `index.html` directamente no inicia la API.
