@@ -15,6 +15,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **PD-01 a PD-11 y las confirmaciones de los supuestos (DEC-08, DEC-20, DEC-39 a DEC-41, DEC-44, DEC-45, DEC-47 y DEC-48):** las tomó el agente `arquitecto-revisor` de Claude el 2026-11-08, por delegación expresa de Mauricio (puntos 4 y 5 de `PENDIENTES_POST_SESION6.md`), respetando sus decisiones ya confirmadas. El informe completo, con la evidencia, está en `REVISION_ARQUITECTO_POST_S6.md`. «PD» significa decisión posterior a la sesión 6. Mauricio puede revertir cualquiera.
 - **DEC-63, DEC-68 y DEC-69:** las asumió Claude y las confirmó Mauricio el 2026-11-17, al aprobar el corte 3.
 - **DEC-71 y DEC-72:** las asumió Claude el 2026-11-17 en el corte 4a y las confirmó Mauricio el mismo día, al aprobar el corte 4a.
+- **DEC-73 y DEC-74:** las asumió Claude el 2026-11-17 en el corte 4b; esperan la confirmación de Mauricio.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -101,6 +102,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-70 | Tamaño del corte 4 | Partirlo en 4a (ms-solicitudes V08–V12 y ms-integracion) y 4b (ms-cotizaciones V13–V19, proveedores y PDF), cada uno con su reporte y su OK | Decidida por Mauricio (2026-11-17) |
 | DEC-71 | Cómo se simula en local el Ministerio de Comercio | Un contenedor `ministerio` con WireMock que publica el WSDL y responde por SOAP el precio de cada producto (300 ms) o un SOAP Fault; `MinisterioSoapClient` habla SOAP 1.1 de verdad con el JDK. El diagrama no cambia | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
 | DEC-72 | Detalles del corte 4a | SOL-031 en adelante por secuencia, sin solicitudes iniciales y V08 precargada la primera vez; «Mis solicitudes» filtra por el jefe del token en el controlador; rol por ruta; el auxiliar lee los productos de ms-menu y ve el correo del solicitante; REST interno en `/interno/precios/{id}`; el SOAP con cualquier token válido; caché en Redis con vencimiento de un día; «—» en «Cotizaciones enviadas» hasta el 4b | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-73 | Librería del PDF de la cotización | OpenPDF, la que ya nombra el diagrama en `PdfCotizacionAdapter` («OpenPDF»); el diagrama no cambia | Asumida por Claude (2026-11-17), por confirmar |
+| DEC-74 | Detalles del corte 4b | COT-018 en adelante por secuencia, pedido antes de generar; los 4 proveedores de la demo; copia local del nombre de cada producto en ms-cotizaciones (lo manda la SPA); la SPA suma los productos de las solicitudes; roles por ruta; el PDF sin precio de referencia; V16 con «Órdenes de compra» en «—» hasta el corte 5; listeners de `orden.generada` ya suscritos | Asumida por Claude (2026-11-17), por confirmar |
 
 ---
 
@@ -1343,6 +1346,32 @@ Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los c
 - **SOAP con token.** El gateway valida el JWT en todo salvo `/api/auth/**`, así que el endpoint SOAP (y su WSDL) piden un token válido de cualquier rol; el WSDL anuncia la dirección del gateway. Un usuario propio para sistemas externos sería un rol nuevo (cambia la 4a).
 - **Caché.** Cada precio es una llave de Redis `precio-referencia:{producto}` con su JSON y un vencimiento de un día, el mismo plazo del Proxy (supuesto S3), así Redis no acumula precios viejos. La lógica del Proxy no cambia.
 - **Pendiente del 4b.** «Cotizaciones enviadas» en V11 muestra «—» y «Generar cotización» lleva a la ventana del 4b. V09 dice «La confirmación se enviará al correo registrado»: el correo lo manda ms-notificaciones (corte 5).
+
+## DEC-73 · ¿Con qué librería se genera el PDF de la cotización?
+
+**Por qué hubo que decidir.** `PdfCotizacionAdapter` estaba pendiente (la demo usa `PdfSimulado`, que escribe texto) y en la plataforma el proveedor tiene que recibir un PDF de verdad, que abra y que no esté dañado.
+
+**Opciones:**
+- **A. OpenPDF** (`com.github.librepdf:openpdf` 2.0.3, licencia LGPL/MPL), la que ya dice el diagrama: la 4c rotula `PdfCotizacionAdapter` con «OpenPDF». ✅ **Asumida por Claude el 2026-11-17, por confirmar.**
+- **B. Apache PDFBox.** También libre y madura, pero de más bajo nivel para armar tablas, y el rótulo del diagrama cambiaría a «PDFBox».
+- **C. Plantilla HTML convertida a PDF** (por ejemplo, OpenHTMLtoPDF). Más fácil de diseñar, pero suma un motor de plantillas y otra librería que el diagrama no tiene.
+
+**Qué implica:** el diagrama no cambia. El PDF tiene una página carta con la marca, el número, el proveedor (razón social, NIT, correo, teléfono y dirección), las solicitudes de origen, la fecha límite y la tabla de productos con una columna vacía para el precio por unidad. No lleva el precio de referencia del Ministerio: ese lo compara la directora al validar. `PdfOrdenAdapter` (corte 5) puede usar la misma librería.
+
+## DEC-74 · Detalles del corte 4b asumidos por Claude
+
+Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17, **por confirmar**:
+
+- **Numeración.** Una secuencia de PostgreSQL empieza en COT-018, la primera cotización de la demo (como SOL-031 en DEC-72). A diferencia de pedidos y solicitudes, el número se pide antes de generar (`NumeracionCotizaciones`, fuera del diagrama), porque la fachada crea el PDF, que ya lo lleva, antes de guardar la cotización. Si faltan las solicitudes o los productos, no se gasta número. Otra opción era un método nuevo `siguienteNumero()` en `CotizacionRepositoryPort` (cambia la 4c).
+- **Datos iniciales.** Los 4 proveedores de la demo (Proveedor ABC, B, C y D, con su NIT, correo, teléfono, dirección y categorías), cargados con Flyway. No hay cotizaciones iniciales.
+- **Nombres de los productos.** ms-cotizaciones guarda el id de cada producto. Para que el PDF diga «Res» y no «Producto 1», y para que la directora (que no lee ms-menu, DEC-72) vea los nombres, la SPA manda el nombre de cada producto al generar y ms-cotizaciones guarda una copia local (`producto_nombre`, `NombresProductos`, fuera del diagrama), como una orden guarda el nombre que tenía el producto al comprarlo. Otras opciones: que ms-cotizaciones le pregunte a ms-menu al generar el PDF (una dependencia nueva en la página 3a) o agregar el nombre a `ItemCotizacion` (cambia la 4c).
+- **Productos de V13.** La SPA suma las cantidades de cada producto de las solicitudes marcadas (las mismas que lee de ms-solicitudes) y el auxiliar puede quitar alguno; ms-cotizaciones no consulta ms-solicitudes (su base es otra). Un producto que no queda en la cotización deja su solicitud sin cotizar completa, y la solicitud no pasa a EN TRÁMITE.
+- **Proveedor y fecha.** Solo los proveedores activos salen en V13 y reciben cotizaciones (409 si está inactivo). La fecha máxima es obligatoria y no puede ser anterior a hoy; por omisión, dentro de 7 días, como la interfaz de Codex.
+- **Roles.** Generar y reenviar: auxiliar de compras. Pendientes, registrar valores y validar: directora de compras. Lista, detalle y PDF: las dos. Proveedores: el auxiliar registra, edita e inactiva; la directora los lee (filtro de V17).
+- **Precio de referencia.** `PrecioSugeridoRestAdapter` llama al REST interno de ms-integracion por Eureka (balanceador) con el JWT del usuario y su `X-Correlation-Id`, con 5 s de espera; si falla, la fachada guarda la cotización PENDIENTE_PRECIO, como dice el diagrama, y se reenvía desde V15.
+- **V14 y V16.** El tiquete de V14 marca «PDF generado»; «Correo enviado» queda sin marca hasta el corte 5, cuando ms-notificaciones envíe el correo al recibir `cotizacion.enviada` (el evento ya lleva el `pdfUrl` y el correo del proveedor). En V16, «Órdenes de compra» muestra «—» hasta el corte 5.
+- **Proveedores sin mockup (HU-15).** Una ventana con las piezas de V12: la lista con buscador y estado, y al lado el formulario de alta o edición, con «Inactivar» (que pide confirmación y no borra).
+- **Listeners de órdenes.** `OrdenGeneradaListener` (ms-cotizaciones) y la rama `orden.generada` de `CotizacionEventsListener` (ms-solicitudes) ya están suscritos y probados con JUnit; la prueba de punta a punta llega con ms-ordenes (corte 5).
 
 ---
 
