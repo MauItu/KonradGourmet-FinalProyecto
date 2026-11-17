@@ -90,6 +90,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-61 | Cómo usan los servicios Spring el código de `src/` | Cada servicio copia al compilar el núcleo de su paquete en `src/` (dominio, eventos, puertos y aplicación), sin los adaptadores; sus adaptadores reales con Spring van en `servicios/` con los mismos nombres del diagrama. Una sola copia del dominio; `./ejecutar.sh` sigue compilando solo con `javac` | Decidida por Mauricio (2026-11-16) |
 | DEC-62 | Quién firma el JWT (no estaba en el diagrama) | Puerto nuevo `EmisorTokenPort` (puertos.salida) y `JwtEmisorAdapter` (adaptadores.salida); `IniciarSesionService` lo recibe en el constructor. Página 4a: 2 clases nuevas (191 → 193) | Decidida por Mauricio (2026-11-17); aplicada en el código y en las páginas 4a y 1 |
 | DEC-63 | Nombres del director comercial y del administrador | Andrés Rojas (`andres.rojas@konradgourmet.com`) y Paula Herrera (`paula.herrera@konradgourmet.com`), Sucursal Centro | Asumida (2026-11-17), por confirmar |
+| DEC-64 | Quién aparece en la auditoría y cómo se une un recorrido en la plataforma | Como lo dicen el reporte y el diagrama: el usuario autenticado (del JWT) y un `correlacionId` que viaja por todo el recorrido. Lo pone el adaptador `KafkaEventPublisher` de `compartido` sin cambiar firmas del núcleo; DEC-42 sigue como límite solo de la versión en memoria | Decidida por Mauricio (2026-11-17); por aplicar al empezar el corte 3 |
+| DEC-65 | Cargo que muestra la SPA bajo el nombre | El nombre del rol del proyecto: Mesero, Jefe de cocina, Auxiliar de compras, Director de compras, Director comercial y Administrador, sin variantes por persona | Decidida por Mauricio (2026-11-17); por aplicar al empezar el corte 3 |
 
 ---
 
@@ -1230,6 +1232,28 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Por qué hubo que decidir.** Los mockups no tienen pantallas de estos dos roles, y el login necesita un usuario de cada uno.
 
 **Supuesto:** Andrés Rojas, director comercial (`andres.rojas@konradgourmet.com`), y Paula Herrera, administradora (`paula.herrera@konradgourmet.com`), los dos de la Sucursal Centro. Asumido por Claude el 2026-11-17, por confirmar; cambiarlos solo toca los datos iniciales de ms-identidad.
+
+## DEC-64 · ¿Quién aparece en la auditoría de la plataforma, y cómo se une un recorrido?
+
+**Por qué hubo que decidir.** En la plataforma, cuando la administradora registra un usuario, `auditoria.evento` dice «sistema»: los casos de uso no reciben al usuario autenticado y cada evento crea su propio `correlacionId`. Eso era DEC-42 (opción A), aceptada como límite de la demo en memoria. Pero el reporte promete acción, usuario, fecha y hora en cada auditoría (§3 y tabla 11), la nota `n_outbox` de la 4a dice que el `correlacionId` une todos los eventos de un mismo recorrido, y la §5 dice que la sesión viaja en el JWT.
+
+**Opciones:**
+- **A. Dejar «sistema»** en la plataforma, como en la demo.
+- **B. Pasar el usuario y la correlación por parámetro** en todos los casos de uso: cambia firmas y el diagrama 4a–4e.
+- **C. Lo que dicen la documentación y el diagrama, resuelto en la infraestructura:** el adaptador `KafkaEventPublisher` de `compartido` completa el evento antes de publicarlo: si dice «sistema» y hay un usuario autenticado, pone su correo; y pone el `correlacionId` del recorrido (el de la cabecera `X-Correlation-Id` de la petición, o el del evento que la originó cuando la escritura viene de un listener de Kafka; si no hay, uno nuevo). Un filtro de `compartido` guarda ese contexto por petición, y el gateway crea la cabecera si no viene. El núcleo y sus firmas no cambian. ✅ **Escogida por Mauricio el 2026-11-17** («como lo definimos en la documentación y diagramas, aplicado a local»); la forma concreta la propuso Claude.
+
+**Qué implica:** DEC-42 queda como límite solo de la versión en memoria (`./ejecutar.sh`). Los procesos sin usuario (jobs programados, como `ConsumoDiarioJob`) siguen publicando «sistema», que es correcto. Se aplica al empezar el corte 3, con pruebas: el alta de un usuario queda a nombre de quien la hizo y los eventos de un mismo recorrido comparten `correlacionId`.
+
+## DEC-65 · ¿Qué cargo muestra la SPA bajo el nombre del usuario?
+
+**Por qué hubo que decidir.** La SPA mostraba «Directora Área de Compras» y «Administradora», como los mockups de Laura y Paula, pero el texto sale del rol, así que un usuario nuevo de ese rol quedaba con un cargo que no necesariamente le corresponde.
+
+**Opciones:**
+- **A. Dejar los textos de los mockups.**
+- **B. Cargos neutros inventados** («Dirección de Compras»).
+- **C. Los nombres de los roles del proyecto:** Mesero, Jefe de cocina, Auxiliar de compras, Director de compras, Director comercial y Administrador (los 6 roles del reporte y de los casos de uso). ✅ **Escogida por Mauricio el 2026-11-17** («manejemos los roles que maneja el proyecto»).
+
+**Qué implica:** cambia solo `NOMBRE_ROL` de la SPA (`web/src/sesion/token.ts`); se aplica al empezar el corte 3.
 
 ---
 
