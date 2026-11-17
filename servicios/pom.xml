@@ -30,6 +30,7 @@
         <module>ms-menu</module>
         <module>ms-pedidos</module>
         <module>ms-inventario</module>
+        <module>ms-solicitudes</module>
     </modules>
 
     <properties>
