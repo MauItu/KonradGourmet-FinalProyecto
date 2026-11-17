@@ -13,6 +13,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-49 y DEC-50:** las tomó el arquitecto-revisor el 2026-11-08, a pedido de Mauricio («actúa como el agente de arquitectura que tengo configurado y toma esas decisiones»). Mauricio puede revertirlas.
 - **DEC-47:** la fecha de inicio del sprint 1 y la forma de mostrar «EN SEMANAS» las decidió Mauricio el 2026-11-08, al empezar la sesión 5 (hallazgo H20), y en las dos escogió la opción recomendada. Después pidió que todo diga 5 sprints y 10 semanas, y se quitó la fila de sprints mínimos. El orden de las filas del Excel es asumido, por confirmar.
 - **PD-01 a PD-11 y las confirmaciones de los supuestos (DEC-08, DEC-20, DEC-39 a DEC-41, DEC-44, DEC-45, DEC-47 y DEC-48):** las tomó el agente `arquitecto-revisor` de Claude el 2026-11-08, por delegación expresa de Mauricio (puntos 4 y 5 de `PENDIENTES_POST_SESION6.md`), respetando sus decisiones ya confirmadas. El informe completo, con la evidencia, está en `REVISION_ARQUITECTO_POST_S6.md`. «PD» significa decisión posterior a la sesión 6. Mauricio puede revertir cualquiera.
+- **DEC-63, DEC-68 y DEC-69:** las asumió Claude y las confirmó Mauricio el 2026-11-17, al aprobar el corte 3.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -89,9 +90,14 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-60 | Tecnología de la SPA | React + TypeScript, como dice la §8 del reporte; la web de Codex (HTML y JS) queda en la versión en memoria | Decidida por Mauricio (2026-11-16); va en el corte 2 |
 | DEC-61 | Cómo usan los servicios Spring el código de `src/` | Cada servicio copia al compilar el núcleo de su paquete en `src/` (dominio, eventos, puertos y aplicación), sin los adaptadores; sus adaptadores reales con Spring van en `servicios/` con los mismos nombres del diagrama. Una sola copia del dominio; `./ejecutar.sh` sigue compilando solo con `javac` | Decidida por Mauricio (2026-11-16) |
 | DEC-62 | Quién firma el JWT (no estaba en el diagrama) | Puerto nuevo `EmisorTokenPort` (puertos.salida) y `JwtEmisorAdapter` (adaptadores.salida); `IniciarSesionService` lo recibe en el constructor. Página 4a: 2 clases nuevas (191 → 193) | Decidida por Mauricio (2026-11-17); aplicada en el código y en las páginas 4a y 1 |
-| DEC-63 | Nombres del director comercial y del administrador | Andrés Rojas (`andres.rojas@konradgourmet.com`) y Paula Herrera (`paula.herrera@konradgourmet.com`), Sucursal Centro | Asumida (2026-11-17), por confirmar |
-| DEC-64 | Quién aparece en la auditoría y cómo se une un recorrido en la plataforma | Como lo dicen el reporte y el diagrama: el usuario autenticado (del JWT) y un `correlacionId` que viaja por todo el recorrido. Lo pone el adaptador `KafkaEventPublisher` de `compartido` sin cambiar firmas del núcleo; DEC-42 sigue como límite solo de la versión en memoria | Decidida por Mauricio (2026-11-17); por aplicar al empezar el corte 3 |
-| DEC-65 | Cargo que muestra la SPA bajo el nombre | El nombre del rol del proyecto: Mesero, Jefe de cocina, Auxiliar de compras, Director de compras, Director comercial y Administrador, sin variantes por persona | Decidida por Mauricio (2026-11-17); por aplicar al empezar el corte 3 |
+| DEC-63 | Nombres del director comercial y del administrador | Andrés Rojas (`andres.rojas@konradgourmet.com`) y Paula Herrera (`paula.herrera@konradgourmet.com`), Sucursal Centro | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-64 | Quién aparece en la auditoría y cómo se une un recorrido en la plataforma | Como lo dicen el reporte y el diagrama: el usuario autenticado (del JWT) y un `correlacionId` que viaja por todo el recorrido. Lo pone el adaptador `KafkaEventPublisher` de `compartido` sin cambiar firmas del núcleo; DEC-42 sigue como límite solo de la versión en memoria | Decidida por Mauricio (2026-11-17); aplicada en el corte 3 |
+| DEC-65 | Cargo que muestra la SPA bajo el nombre | El nombre del rol del proyecto: Mesero, Jefe de cocina, Auxiliar de compras, Director de compras, Director comercial y Administrador, sin variantes por persona | Decidida por Mauricio (2026-11-17); aplicada en el corte 3 |
+| DEC-66 | Categoría de la carta en los platos | `categoria` obligatoria en `Plato`, `MenuActualizadoEvent` y `PlatoCatalogo` (filtro de V03, campo de V06) | Decidida por Mauricio (2026-11-17); aplicada en el código y en la página 4b |
+| DEC-67 | Dónde se guarda la imagen del plato | En el almacén de objetos (S3): `AlmacenArchivosPort` y `AlmacenObjetosAdapter` de ms-menu; 2 clases nuevas (193 → 195) | Decidida por Mauricio (2026-11-17); aplicada en el código y en las páginas 4b, 3a y 1 |
+| DEC-68 | Cierre diario en la demostración | Botón «Cierre del día» en V07 que llama al mismo `ConsumoDiarioJob` (`CierreDiaController`, fuera del diagrama) | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-69 | Detalles del corte 3 | Turno = hoy en Bogotá, número de pedido por secuencia, carta inicial por eventos, productos sin categoría = todos, «Plato N», V03 precargado, «—» en V05 | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-70 | Tamaño del corte 4 | Partirlo en 4a (ms-solicitudes V08–V12 y ms-integracion) y 4b (ms-cotizaciones V13–V19, proveedores y PDF), cada uno con su reporte y su OK | Decidida por Mauricio (2026-11-17) |
 
 ---
 
@@ -1231,7 +1237,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Por qué hubo que decidir.** Los mockups no tienen pantallas de estos dos roles, y el login necesita un usuario de cada uno.
 
-**Supuesto:** Andrés Rojas, director comercial (`andres.rojas@konradgourmet.com`), y Paula Herrera, administradora (`paula.herrera@konradgourmet.com`), los dos de la Sucursal Centro. Asumido por Claude el 2026-11-17, por confirmar; cambiarlos solo toca los datos iniciales de ms-identidad.
+**Supuesto:** Andrés Rojas, director comercial (`andres.rojas@konradgourmet.com`), y Paula Herrera, administradora (`paula.herrera@konradgourmet.com`), los dos de la Sucursal Centro. Asumido por Claude el 2026-11-17 y **confirmado por Mauricio el mismo día**, al aprobar el corte 3; cambiarlos solo toca los datos iniciales de ms-identidad.
 
 ## DEC-64 · ¿Quién aparece en la auditoría de la plataforma, y cómo se une un recorrido?
 
@@ -1282,15 +1288,15 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Por qué hubo que decidir.** El inventario solo se descuenta en el cierre de las 23:59 (`ConsumoDiarioJob`), así que en una demostración la alerta de stock bajo de V05 no aparecería. La interfaz de Codex tenía un botón «Cierre del día (23:59)».
 
 **Opciones:**
-- **A. Un botón en V07 que llama al mismo job** (`POST /api/inventario/cierre`, solo el jefe de cocina, en una clase `CierreDiaController` fuera del diagrama, como `JwksController`). El job conserva su `@Scheduled` y su ShedLock. ✅ **Asumida por Claude el 2026-11-17, por confirmar.**
+- **A. Un botón en V07 que llama al mismo job** (`POST /api/inventario/cierre`, solo el jefe de cocina, en una clase `CierreDiaController` fuera del diagrama, como `JwksController`). El job conserva su `@Scheduled` y su ShedLock. ✅ **Asumida por Claude el 2026-11-17 y confirmada por Mauricio el mismo día**, al aprobar el corte 3.
 - **B. Cambiar la hora del job por configuración** (por ejemplo, cada minuto) solo para la demostración.
 - **C. Sin atajo:** la alerta aparece solo después de las 23:59.
 
 **Qué implica:** el diagrama no cambia; el LEEME lista `CierreDiaController` entre las clases que no están en el diagrama.
 
-## DEC-69 · Detalles del corte 3 asumidos por Claude (por confirmar)
+## DEC-69 · Detalles del corte 3 asumidos por Claude
 
-Ninguno cambia firmas ni el diagrama:
+Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los confirmó Mauricio el mismo día**, al aprobar el corte 3:
 
 - **Turno del mesero.** `GET /api/pedidos?turno=actual` devuelve los pedidos del mesero desde las 00:00 de hoy, hora de Bogotá (los servicios corren con esa zona horaria). Otra opción era guardar turnos con hora de inicio y fin, que el diseño no tiene.
 - **Número del pedido.** El controlador arma el `Pedido` sin número y `PedidoJpaAdapter.guardar()` le asigna el siguiente de una secuencia de PostgreSQL (PED-0251 en adelante, como la demo). Otras opciones: que lo eligiera la SPA (choques entre meseros) o un puerto nuevo para numerar (cambia el diagrama).
@@ -1299,6 +1305,16 @@ Ninguno cambia firmas ni el diagrama:
 - **Platos que salieron del menú en pedidos viejos.** El detalle de un pedido muestra el nombre que da el catálogo vigente; si el plato ya se desactivó, se muestra «Plato N». Guardar el nombre en el detalle del pedido cambiaría `DetallePedido`.
 - **Pedido precargado.** Como en la interfaz de Codex, la primera vez del turno V03 trae 2 bandejas paisas («Sin arepa») y 1 ajiaco en la mesa 5.
 - **Inicio del jefe (V05).** Los indicadores de solicitudes muestran «—» y la tabla de solicitudes dice que llegan en el corte 4 (ms-solicitudes).
+
+## DEC-70 · ¿El corte 4 va en un solo mensaje o en dos?
+
+**Por qué hubo que decidir.** El corte 4 trae tres servicios (ms-solicitudes, ms-cotizaciones y ms-integracion) y doce ventanas (V08–V19), más proveedores (HU-15, sin mockup), el PDF de la cotización y el cliente SOAP del Ministerio: el doble que el corte 3, que llenó una sesión entera. La regla de trabajo es un corte por mensaje, con reporte y OK.
+
+**Opciones:**
+- **A. Un solo corte,** como estaba en el plan.
+- **B. Partirlo en dos, cada uno con su reporte y su OK:** 4a, ms-solicitudes (V08–V12) y ms-integracion (precio de referencia del Ministerio, con su caché y el endpoint SOAP); 4b, ms-cotizaciones (V13–V19, proveedores y PDF en el almacén de objetos), que une el recorrido solicitud → cotización. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+
+**Qué implica:** el plan pasa a 8 entregas (1, 2, 3, 4a, 4b, 5, 6 y 7); la fecha de entrega (23 o 28 de noviembre) no cambia. En 4a, las solicitudes no reciben todavía los eventos de cotizaciones (`CotizacionEventsListener` se prueba en 4b).
 
 ---
 
