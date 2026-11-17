@@ -17,6 +17,8 @@ eureka:
     # «modo de autopreservación» y deja instancias muertas en la lista.
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 10000
+    # Sin la caché de solo lectura (30 s por omisión), el gateway ve una instancia nueva enseguida.
+    use-read-only-response-cache: false
 
 management:
   endpoints:

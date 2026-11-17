@@ -24,6 +24,7 @@ eureka:
       defaultZone: ${EUREKA_URL:http://service-registry:8761/eureka/}
   instance:
     prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
 
 konrad:
   seguridad:

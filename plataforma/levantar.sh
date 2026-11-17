@@ -17,6 +17,17 @@ if [ "$estado" != "healthy" ]; then
   echo "La plataforma no quedó sana. Revisa: docker compose -f plataforma/docker-compose.yml ps -a" >&2
   exit 1
 fi
+# Y a que el gateway ya encuentre a ms-identidad en Eureka: el login responde 401 y no 503.
+for i in $(seq 1 60); do
+  codigo=$(curl -s -o /dev/null -w '%{http_code}' -H 'Content-Type: application/json' \
+           -d '{"correo":"","clave":""}' http://localhost:8080/api/auth/token || true)
+  [ "$codigo" = "401" ] && break
+  sleep 2
+done
+if [ "$codigo" != "401" ]; then
+  echo "El gateway todavía no enruta a ms-identidad (respuesta $codigo)." >&2
+  exit 1
+fi
 echo
 echo "Konrad Gourmet está arriba:"
 echo "  Aplicación  http://localhost:8080"

@@ -11,6 +11,11 @@ spring:
           # Llave pública de ms-identidad (DEC-62). Se lee la primera vez que llega un token.
           jwk-set-uri: ${JWKS_URL:http://ms-identidad:8080/api/auth/jwks}
   cloud:
+    loadbalancer:
+      cache:
+        # Por omisión la lista de instancias se guarda 35 s: en local se acorta para que un
+        # servicio recién levantado reciba tráfico enseguida.
+        ttl: 5s
     gateway:
       server:
         webflux:
