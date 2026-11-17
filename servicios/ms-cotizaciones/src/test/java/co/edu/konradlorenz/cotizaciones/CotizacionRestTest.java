@@ -325,6 +325,23 @@ class CotizacionRestTest {
     }
 
     @Test
+    void v20ListaSoloLasOpcionadas() throws Exception {
+        enviada("COT-018");
+        tabla.get("COT-018").cambiarEstado(EstadoCotizacion.OPCIONADA);
+        when(repositorio.porEstado(EstadoCotizacion.OPCIONADA)).thenAnswer(i -> tabla.values().stream()
+                .filter(c -> c.estado() == EstadoCotizacion.OPCIONADA).toList());
+        mvc.perform(get("/api/cotizaciones?estado=OPCIONADA").with(como("DIRECTOR_COMPRAS", 4, DIRECTORA)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].numero").value("COT-018"))
+                .andExpect(jsonPath("$[0].estado").value("OPCIONADA"));
+        tabla.get("COT-018").cambiarEstado(EstadoCotizacion.CON_ORDEN);
+        mvc.perform(get("/api/cotizaciones?estado=OPCIONADA").with(como("DIRECTOR_COMPRAS", 4, DIRECTORA)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(0));
+    }
+
+    @Test
     void cadaRutaDejaEntrarSoloASuRol() throws Exception {
         mvc.perform(post("/api/cotizaciones").with(como("DIRECTOR_COMPRAS", 4, DIRECTORA)).contentType(MediaType.APPLICATION_JSON).content(NUEVA))
                 .andExpect(status().isForbidden());

@@ -183,6 +183,15 @@ public class CotizacionRestController {
     }
 
     // Atiende la ventana V20 de los mockups
+    // GET /api/cotizaciones?estado=OPCIONADA
+    @GetMapping(params = "estado=OPCIONADA")
+    @PreAuthorize("hasAnyRole('AUXILIAR_COMPRAS', 'DIRECTOR_COMPRAS')")
+    public List<CotizacionJson> opcionadas() {
+        // las CON_ORDEN ya salieron de V20: no admiten otra orden (HU-14)
+        return json(casoDeUso.consultar(EstadoCotizacion.OPCIONADA));
+    }
+
+    // Atiende la ventana V20 de los mockups
     // Atiende la ventana V21 de los mockups
     // GET /api/cotizaciones/{id}
     @GetMapping("/{numero}")
