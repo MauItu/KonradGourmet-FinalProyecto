@@ -55,7 +55,7 @@ services:
       interval: 10s
       retries: 20
 
-  # Crea los 10 tópicos y termina.
+  # Crea los 10 tópicos y la cola de errores de ms-notificaciones, y termina.
   kafka-topicos:
     image: apache/kafka:3.9.1
     depends_on:
@@ -262,6 +262,46 @@ services:
         condition: service_healthy
     healthcheck: *salud-servicio
 
+  # Órdenes de compra (V21–V23): lee la cotización de ms-cotizaciones y guarda el PDF de la orden en el almacén.
+  ms-ordenes:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-ordenes }
+    image: konrad-gourmet/ms-ordenes
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      s3-bucket:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+    healthcheck: *salud-servicio
+
+  # Correos certificados (Mailpit) con el PDF del almacén y la alarma de stock bajo por WebSocket con Redis (PD-01).
+  ms-notificaciones:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-notificaciones }
+    image: konrad-gourmet/ms-notificaciones
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      s3-bucket:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      correo:
+        condition: service_started
+    healthcheck: *salud-servicio
+
   # Servidor web de la SPA en React (imagen construida desde web/). Única entrada desde el navegador: http://localhost:8080
   web:
     build:
@@ -284,6 +324,10 @@ services:
       ms-integracion:
         condition: service_healthy
       ms-cotizaciones:
+        condition: service_healthy
+      ms-ordenes:
+        condition: service_healthy
+      ms-notificaciones:
         condition: service_healthy
       kafka-topicos:
         condition: service_completed_successfully

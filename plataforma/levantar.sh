@@ -35,12 +35,14 @@ if [ "$codigo" != "401" ]; then
 fi
 # Después los demás, con el token de la administradora: cada servicio responde 403 (su rol no entra),
 # y eso ya prueba que la petición llegó al servicio. El WSDL de ms-integracion lo puede leer cualquier
-# usuario con sesión (DEC-72): responde 200.
+# usuario con sesión (DEC-72) y la libreta de destinatarios de ms-notificaciones es de la administradora:
+# las dos responden 200.
 token=$(curl -s -H 'Content-Type: application/json' \
         -d '{"correo":"paula.herrera@konradgourmet.com","clave":"Konrad2026"}' http://localhost:8080/api/auth/token \
         | sed -n 's/.*"jwt":"\([^"]*\)".*/\1/p')
 for par in /api/pedidos/mesas=403 /api/platos=403 /api/inventario/insumos=403 /api/solicitudes=403 \
-           '/api/integracion/abastecimiento?wsdl=200' /api/cotizaciones=403 /api/proveedores=403; do
+           '/api/integracion/abastecimiento?wsdl=200' /api/cotizaciones=403 /api/proveedores=403 /api/ordenes-compra=403 \
+           '/api/notificaciones/destinatarios?sucursalId=1=200'; do
   ruta=${par%=*}; esperado=${par##*=}
   for i in $(seq 1 60); do
     codigo=$(curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $token" "http://localhost:8080$ruta" || true)
