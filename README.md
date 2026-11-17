@@ -167,7 +167,7 @@ Cifras de la demo que no salen de los diagramas (supuestos, anotados en `DECISIO
 
 ### Qué métodos tienen lógica
 
-De los 274 cuerpos que lanzaban `Pendiente de implementar` al terminar la sesión 3, quedan **71** (incluido `JwtEmisorAdapter.emitir()`, que se agregó con DEC-62). Tienen
+De los 274 cuerpos que lanzaban `Pendiente de implementar` al terminar la sesión 3, quedan **73** (incluidos `JwtEmisorAdapter.emitir()`, que se agregó con DEC-62, y los dos métodos del `AlmacenObjetosAdapter` de ms-menu, DEC-67). Tienen
 lógica real todo lo que usa el recorrido de compra, de punta a punta; lo que queda pendiente es lo que
 habla con una tecnología externa (la demo pone un adaptador en memoria en su lugar) o lo que la demo no usa.
 
@@ -175,9 +175,9 @@ habla con una tecnología externa (la demo pone un adaptador en memoria en su lu
 |---|---|---|
 | `compartido` | `EventoDominio` y `AuditoriaEvent`; los otros 9 eventos están en el paquete `eventos` de su servicio y también tienen constructor, accesores y `tipo()` | `KafkaEventPublisher` |
 | `identidad` | Composite (`ElementoMenu`, `GrupoMenu`, `OpcionMenu`), `Usuario` y sus 6 roles con su `construirMenu()`, `Sucursal`, `PoliticaContrasena`, `TokenAcceso`, `IniciarSesionService`, `RegistrarUsuarioService` y los 2 controladores | `BCryptCifradorAdapter`, `UsuarioJpaAdapter` y `JwtEmisorAdapter` (la demo usa `CifradorEnMemoria`, `UsuarioEnMemoria` y `EmisorTokenEnMemoria`; los reales están en `servicios/ms-identidad`) |
-| `pedidos` | `Pedido`, `DetallePedido`, `Mesa`, `PlatoCatalogo`, `CatalogoPlatos`, `PedidoService`, `PedidoRestController`, `MenuActualizadoListener` | `CatalogoJpaAdapter`, `PedidoJpaAdapter` |
-| `menu` | `Plato` (validar, editar, desactivar y reactivar), `Ingrediente`, `Producto`, `PlatoService`, `PlatoRestController`, `MenuActualizadoEvent` | `PlatoJpaAdapter` (la demo usa `PlatoEnMemoria`) |
-| `inventario` | `InsumoInventario`, `Inventario`, `RecetaPlato`, `UmbralStock`, `InventarioService`, `ConsumoDiarioJob`, los 2 listeners y `InventarioRestController` | `InventarioJpaAdapter` |
+| `pedidos` | `Pedido`, `DetallePedido`, `Mesa`, `PlatoCatalogo`, `CatalogoPlatos`, `PedidoService`, `PedidoRestController`, `MenuActualizadoListener` | `CatalogoJpaAdapter`, `PedidoJpaAdapter` (los reales están en `servicios/ms-pedidos`) |
+| `menu` | `Plato` (validar, editar, desactivar, reactivar, categoría e imagen), `Ingrediente`, `Producto`, `Categoria`, `PlatoService`, `PlatoRestController`, `MenuActualizadoEvent` | `PlatoJpaAdapter` y `AlmacenObjetosAdapter` (la demo usa `PlatoEnMemoria` y `AlmacenEnMemoria`; los reales están en `servicios/ms-menu`) |
+| `inventario` | `InsumoInventario`, `Inventario`, `RecetaPlato`, `UmbralStock`, `InventarioService`, `ConsumoDiarioJob`, los 2 listeners y `InventarioRestController` | `InventarioJpaAdapter` (el real está en `servicios/ms-inventario`) |
 | `solicitudes` | `SolicitudAlimentos`, `ItemSolicitud`, `CriteriosConsulta`, `SolicitudService`, `CotizacionEventsListener`, `SolicitudRestController` | `SolicitudJpaAdapter` |
 | `cotizaciones` | `Cotizacion`, `ItemCotizacion`, `Proveedor`, `ReglaValidacion` y sus 3 reglas, `GenerarCotizacionFacade`, `CotizacionService`, `ProveedorService`, `OrdenGeneradaListener`, los 2 controladores, `CotizacionJpaAdapter` | `ProveedorJpaAdapter`, `PdfCotizacionAdapter`, `AlmacenObjetosAdapter`, `PrecioSugeridoRestAdapter` |
 | `ordenes` | `OrdenCompra`, `ItemOrden`, `CotizacionOpcionada`, `OrdenCompraService`, `OrdenCompraRestController` | `OrdenJpaAdapter`, `PdfOrdenAdapter`, `AlmacenObjetosAdapter`, `CotizacionRestClient` |
@@ -191,10 +191,11 @@ Las 3 clases `*JpaAdapter` que tienen un atributo en el diagrama (`CotizacionJpa
 demo trae su adaptador en memoria en el paquete `demo`.
 
 Límites que conviene conocer:
-- Los casos de uso no reciben al usuario (en el proyecto real sale del token JWT), así que los eventos llevan
-  `sistema` o el correo de la entidad. La excepción es el pedido: nace con el `meseroId` de quien lo tomó
-  (HU-01, DEC-51), `validar()` lo exige y `pedidosDelTurno()` filtra por él. Cada evento crea su propio `correlacionId`; propagarlo entre
-  servicios queda para el proyecto real.
+- Los casos de uso no reciben al usuario (en el proyecto real sale del token JWT), así que en esta versión los
+  eventos llevan `sistema` o el correo de la entidad. La excepción es el pedido: nace con el `meseroId` de quien
+  lo tomó (HU-01, DEC-51), `validar()` lo exige y `pedidosDelTurno()` filtra por él. Cada evento crea su propio
+  `correlacionId`. En la plataforma con microservicios, `KafkaEventPublisher` pone el correo del JWT y la
+  correlación del recorrido (DEC-64).
 - `Notificacion.enviar(destino, contenido, adjuntoUrl)` y `CreadorNotificacion.notificar(destino, contenido,
   adjuntoUrl)` llevan el enlace del adjunto (DEC-42, decidido por Mauricio): el correo certificado al proveedor
   lleva el PDF en `Mensaje.adjuntoUrl`, y `AlarmaApp` lo ignora. La página 4d tiene las mismas firmas.
@@ -216,12 +217,13 @@ Límites que conviene conocer:
 
 ### Pruebas
 
-`pruebas/` tiene 239 verificaciones en 5 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
+`pruebas/` tiene 251 verificaciones en 5 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
 - `PruebasCotizacion`: los valores de V19 y los límites de la cadena de reglas (+25,00 % y −50,00 % siguen
   OPCIONADA; +25,01 % y −50,01 % no);
 - `PruebasPatrones`: los 8 patrones, uno por uno;
 - `PruebasPlatos`: ms-menu (HU-04): crear, nombre repetido, editar, desactivar y reactivar; cada cambio publica
-  `menu.actualizado` y el catálogo del mesero y la receta del inventario se actualizan por el bus;
+  `menu.actualizado` y el catálogo del mesero (con la categoría de la carta, DEC-66) y la receta del inventario se
+  actualizan por el bus; la imagen del plato en el almacén (DEC-67) y el pedido rearmado con su fecha y estado;
 - `PruebasFlujoDeCompra`: pedido (con su mesero), inventario (incluido el cierre del día siguiente), solicitud, cotización,
   orden OC-0012, una cotización con 2 solicitudes (DEC-05), proveedores y el caso PENDIENTE_PRECIO (H18);
 - `PruebasIdentidad`: la política de contraseña (DEC-10), el alta de los 6 roles (Factory Method), el correo único
@@ -243,8 +245,8 @@ git log --follow -M30% -- src/co/edu/konradlorenz/notificaciones/adaptadores/sal
 
 Además de la versión en memoria, el sistema se está pasando al stack del diagrama de contenedores
 (DEC-58) por cortes: API Gateway, Eureka, Kafka, PostgreSQL, Redis, almacén S3 y la SPA en React, con
-Docker Compose, y los microservicios Spring Boot uno a uno (hoy corre ms-identidad; el avance está en
-`plataforma/LEEME.md`). Solo necesita Docker:
+Docker Compose, y los microservicios Spring Boot uno a uno (hoy corren ms-identidad, ms-menu, ms-pedidos y
+ms-inventario, con las ventanas V01 a V07; el avance está en `plataforma/LEEME.md`). Solo necesita Docker:
 
 ```bash
 ./plataforma/levantar.sh     # compila y levanta todo; la aplicación queda en http://localhost:8080
@@ -253,7 +255,9 @@ Docker Compose, y los microservicios Spring Boot uno a uno (hoy corre ms-identid
 
 Cada servicio de `servicios/` copia al compilar el núcleo de su paquete en `src/` (dominio, eventos,
 puertos y aplicación) y agrega sus adaptadores Spring con los mismos nombres del diagrama (DEC-61). La
-SPA está en `web/`. El avance por cortes y lo que corre en cada contenedor están en `plataforma/LEEME.md`.
+SPA está en `web/`. Las pruebas de los servicios corren al compilar (JUnit, en `servicios/*/src/test`) y las de
+punta a punta están en `plataforma/pruebas/`. El avance por cortes y lo que corre en cada contenedor están en
+`plataforma/LEEME.md`.
 
 ## Interfaz web
 
