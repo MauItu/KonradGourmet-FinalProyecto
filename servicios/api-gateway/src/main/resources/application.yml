@@ -1,0 +1,81 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          # Los 13 prefijos de la tabla 5 del reporte. lb:// resuelve la instancia en Eureka.
+          routes:
+            - id: identidad-auth
+              uri: lb://ms-identidad
+              predicates:
+                - Path=/api/auth,/api/auth/**
+            - id: identidad-usuarios
+              uri: lb://ms-identidad
+              predicates:
+                - Path=/api/usuarios,/api/usuarios/**
+            - id: pedidos-pedidos
+              uri: lb://ms-pedidos
+              predicates:
+                - Path=/api/pedidos,/api/pedidos/**
+            - id: menu-platos
+              uri: lb://ms-menu
+              predicates:
+                - Path=/api/platos,/api/platos/**
+            - id: inventario-inventario
+              uri: lb://ms-inventario
+              predicates:
+                - Path=/api/inventario,/api/inventario/**
+            - id: solicitudes-solicitudes
+              uri: lb://ms-solicitudes
+              predicates:
+                - Path=/api/solicitudes,/api/solicitudes/**
+            - id: cotizaciones-cotizaciones
+              uri: lb://ms-cotizaciones
+              predicates:
+                - Path=/api/cotizaciones,/api/cotizaciones/**
+            - id: cotizaciones-proveedores
+              uri: lb://ms-cotizaciones
+              predicates:
+                - Path=/api/proveedores,/api/proveedores/**
+            - id: ordenes-ordenes-compra
+              uri: lb://ms-ordenes
+              predicates:
+                - Path=/api/ordenes-compra,/api/ordenes-compra/**
+            - id: administracion-admin
+              uri: lb://ms-administracion
+              predicates:
+                - Path=/api/admin,/api/admin/**
+            - id: analitica-bam
+              uri: lb://ms-analitica
+              predicates:
+                - Path=/api/bam,/api/bam/**
+            - id: notificaciones-notificaciones
+              uri: lb://ms-notificaciones
+              predicates:
+                - Path=/api/notificaciones,/api/notificaciones/**
+            - id: integracion-integracion
+              uri: lb://ms-integracion
+              predicates:
+                - Path=/api/integracion,/api/integracion/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://service-registry:8761/eureka/}
+    registry-fetch-interval-seconds: 5
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    gateway:
+      access: read-only
