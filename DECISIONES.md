@@ -84,6 +84,9 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-54 | Cómo se corrige el reporte si no aparece el script (A1) | Mauricio pregunta al equipo; si nadie lo tiene, se rehace el reporte con un script nuevo, conservando el PDF original | Decidida por Mauricio (2026-11-08); la reconstrucción va en el punto 1 |
 | DEC-55 | Formato del reporte nuevo | Sobrio, de documento académico: una sola letra (Times New Roman 12 pt), todo en negro, títulos en negrilla del mismo tamaño, tablas con líneas finas, APA 7; `.docx` editable más PDF | Decidida por Mauricio (2026-11-08); detalle en `PLAN_REPORTE.md` |
 | DEC-57 | Qué describe la documentación entregable | El proyecto completo, como diseño previo a la construcción: sin notas sobre límites del prototipo ni de la demo. Se aplica al reporte v2, el `.drawio`, los casos de uso, el Story Mapping corregido y el Excel; quedan fuera los textos que dependen del código (§13, README y pruebas) y los registros internos | Decidida por Mauricio (2026-11-09); cambios PC-01 a PC-21 |
+| DEC-58 | Cómo se construye la aplicación que funciona completa | El stack especificado (11 microservicios Spring Boot, gateway, Eureka, Kafka, PostgreSQL, Redis, almacén S3, SPA en React) con Docker Compose en un solo equipo, por cortes verticales; la versión en memoria queda de respaldo | Decidida por Mauricio (2026-11-16); corte 1 hecho en la rama `stack-real` de KonradGourmet |
+| DEC-59 | Almacén de objetos en local | SeaweedFS (S3 compatible) en lugar de MinIO, cuya imagen ya no se puede descargar | Asumida (2026-11-16), por confirmar; no cambia el `.drawio` ni el reporte |
+| DEC-60 | Tecnología de la SPA | React + TypeScript, como dice la §8 del reporte; la web de Codex (HTML y JS) queda en la versión en memoria | Decidida por Mauricio (2026-11-16); va en el corte 2 |
 
 ---
 
@@ -1158,6 +1161,43 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Alcance:** el reporte v2, el `.drawio`, los casos de uso, el Story Mapping corregido y el Excel. Quedan fuera los textos que dependen del código (la §13 del reporte, el README y las pruebas), que siguen describiendo el código tal como está, y los registros internos (este archivo, `CORRECCIONES_*`, `VALIDACION_*`, `REVISION_*`, `INVENTARIO_*`, `PLAN_*`, `PENDIENTES_POST_SESION6.md` y `ESTADO_PROYECTO_Y_C4.md`), que quedan como historial.
 
 **Qué implica:** DEC-42 sigue valiendo para el código; solo deja de citarse en los entregables. Los cambios van en los commits PC-01 a PC-21.
+
+## DEC-58 · ¿La aplicación completa corre con todos los microservicios, o con una versión distinta para local?
+
+**Por qué hubo que decidir.** Para la entrega final (23 o 28 de noviembre de 2026), Mauricio pidió que la web de Konrad Gourmet funcione completa, «tal como lo tenemos especificado». Hasta ahí el código era un solo programa Java en memoria, sin Spring, Kafka ni bases de datos (DEC-25), y la web de Codex usaba rutas propias, no las del reporte.
+
+**Prueba hecha el 2026-11-16 en el equipo de Mauricio** (31 GB de RAM, 12 núcleos, Docker 29): PostgreSQL con las 11 bases, Kafka con los 10 tópicos, Redis, almacén S3 y Mailpit respondieron; un microservicio Spring Boot de prueba arrancó en 2,9 s con unos 200 MB, guardó un pedido en su base y publicó y recibió el evento por Kafka. Estimado de todo el sistema: 5–6 GB.
+
+**Opciones:**
+- **A. Solo funcionalidad, en memoria:** completar la web y la lógica sobre el programa actual. Rápido, pero no es la arquitectura del reporte.
+- **B. Por etapas:** primero toda la funcionalidad en memoria y después el stack real. La SPA se haría dos veces contra rutas distintas.
+- **C. El stack real directo, por cortes verticales** (cada corte con su pantalla, su servicio, su base y sus eventos, funcionando de punta a punta); la versión en memoria queda de respaldo. ✅ **Recomendada por Claude y aceptada por Mauricio el 2026-11-16.**
+
+**Qué cambia frente a la página 5 (despliegue):** una réplica por servicio, un broker de Kafka, un PostgreSQL con once bases y once usuarios separados (cada usuario solo puede conectarse a su base), sistemas externos simulados (Ministerio, correo certificado con Mailpit, redes sociales) y sin CDN, WAF, zonas, centro alterno, MirrorMaker, mTLS ni ELK. La funcionalidad y la arquitectura de software no cambian.
+
+**Qué implica:** el código nuevo va en la rama `stack-real` de KonradGourmet (carpetas `servicios/` y `plataforma/`), en 7 cortes: 1) infraestructura, Eureka, gateway y Nginx; 2) ms-identidad y la SPA; 3) pedidos, menú e inventario; 4) solicitudes, cotizaciones e integración; 5) órdenes y notificaciones; 6) administración y analítica; 7) pruebas y cierre. Si el tiempo se acorta, se protegen los cortes 1 a 5. Por DEC-57, los entregables no cambian.
+
+## DEC-59 · ¿Qué almacén de objetos se usa en local?
+
+**Por qué hubo que decidir.** El reporte y el diagrama nombran MinIO como ejemplo del almacén de objetos S3 compatible, pero el 2026-11-16 su imagen ya no se podía descargar (Docker Hub: «pull access denied»; Quay: 401).
+
+**Opciones:**
+- **A. SeaweedFS** (`chrislusf/seaweedfs:3.97`), S3 compatible; probado con el cliente oficial de AWS: crea el bucket, sube y baja archivos y rechaza credenciales falsas. ✅ **Asumida por Claude el 2026-11-16, por confirmar.**
+- **B. Compilar MinIO desde el código fuente.** Más lento de armar y de mantener.
+- **C. Guardar los PDF en disco.** Deja de ser un almacén de objetos.
+
+**Qué implica:** el adaptador habla la API S3, así que no cambia. El `.drawio` ya dice «almacén de objetos (S3 compatible)»; el reporte no se toca (DEC-57).
+
+## DEC-60 · ¿En qué tecnología va la SPA?
+
+**Por qué hubo que decidir.** La §8 del reporte dice que la SPA está hecha con React y TypeScript y la sirve Nginx, pero la web que dejó Codex es HTML y JavaScript sin framework.
+
+**Opciones:**
+- **A. Migrar a React + TypeScript,** aprovechando los estilos y las pantallas de Codex. ✅ **Escogida por Mauricio el 2026-11-16.**
+- **B. Mantener HTML y JS** y anotar la diferencia con el reporte.
+
+**Qué implica:** la SPA nueva consume las rutas de la tabla 5 a través del gateway. La web de Codex queda en la versión en memoria (`./web.sh`).
+
 
 ---
 
