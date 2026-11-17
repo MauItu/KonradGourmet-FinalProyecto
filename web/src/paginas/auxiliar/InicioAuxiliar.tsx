@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { solicitudes, type Solicitud } from '../../api/servicios';
+import { cotizaciones, solicitudes, type Cotizacion, type Solicitud } from '../../api/servicios';
 import { Encabezado } from '../../componentes/Encabezado';
 import { desc, fecha, plural } from '../../componentes/formato';
 import { Icono } from '../../componentes/Icono';
@@ -41,13 +41,13 @@ function Calendario() {
   );
 }
 
-/** Actividades del día del auxiliar (actividadesDelDia() de app.js). Las cotizaciones llegan en el corte 4b. */
-function Actividades({ lista }: { lista: Solicitud[] }) {
+/** Actividades del día del auxiliar (actividadesDelDia() de app.js). */
+function Actividades({ lista, cots }: { lista: Solicitud[]; cots: Cotizacion[] | null }) {
   const pendientes = lista.filter((s) => s.estado === 'PENDIENTE').length;
   const tareas: [string, string, string][] = [
     ['09:00', 'Revisar solicitudes nuevas', pendientes ? plural(pendientes, 'pendiente', 'pendientes') : 'Al día'],
     ['10:30', 'Solicitar cotizaciones', pendientes ? 'Hay solicitudes por cotizar' : 'Sin solicitudes por cotizar'],
-    ['14:00', 'Hacer seguimiento', 'Cotizaciones enviadas (corte 4b)'],
+    ['14:00', 'Hacer seguimiento', cots ? plural(cots.filter((c) => c.estado === 'ENVIADA').length, 'cotización enviada', 'cotizaciones enviadas') : '—'],
     ['16:00', 'Enviar solicitudes pendientes', `${lista.filter((s) => s.estado === 'EN_TRAMITE').length} en trámite`],
   ];
   return (
@@ -61,23 +61,24 @@ function Actividades({ lista }: { lista: Solicitud[] }) {
 
 /**
  * V11 · Inicio del auxiliar de compras: las solicitudes de todas las sucursales (GET /api/solicitudes,
- * ms-solicitudes), los indicadores y las más recientes. «Cotizaciones enviadas» llega con ms-cotizaciones
- * (corte 4b).
+ * ms-solicitudes), los indicadores y las más recientes; «Cotizaciones enviadas» cuenta las de ms-cotizaciones
+ * (GET /api/cotizaciones). Una solicitud pasa a «en trámite» cuando una cotización cubre todos sus productos.
  */
 export function InicioAuxiliar({ usuario }: { usuario: Usuario }) {
   const navegar = useNavigate();
   const { datos, error } = useDatos(() => solicitudes.consultar());
+  const cots = useDatos(() => cotizaciones.consultar());
   const lista = desc(datos ?? []);
   const cuenta = (estado: string) => (datos ? lista.filter((s) => s.estado === estado).length : '—');
   return (
     <>
       <Encabezado saludoA={usuario.nombre.split(' ')[0]} sub={`${NOMBRE_ROL[usuario.rol]} · ${usuario.sucursal}`} />
       <div className="page">
-        <ErrorCarga mensaje={error} />
+        <ErrorCarga mensaje={error || cots.error} />
         <section className="card kpi-strip">
           <div><strong>{cuenta('PENDIENTE')}</strong><span>Solicitudes<br />pendientes</span></div>
           <div><strong>{cuenta('EN_TRAMITE')}</strong><span>Solicitudes<br />en trámite</span></div>
-          <div><strong title="Llegan con ms-cotizaciones (corte 4b)">—</strong><span>Cotizaciones<br />enviadas</span></div>
+          <div><strong>{cots.datos ? cots.datos.length : '—'}</strong><span>Cotizaciones<br />enviadas</span></div>
         </section>
         <div className="grid main-side">
           <Tarjeta titulo="Solicitudes pendientes recientes" icono="file" sub="Revisa y gestiona las últimas solicitudes de alimentos"
@@ -93,7 +94,7 @@ export function InicioAuxiliar({ usuario }: { usuario: Usuario }) {
           </Tarjeta>
           <div className="stack">
             <Tarjeta><Calendario /></Tarjeta>
-            <Actividades lista={lista} />
+            <Actividades lista={lista} cots={cots.datos} />
           </div>
         </div>
       </div>

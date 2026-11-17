@@ -14,7 +14,7 @@ const VACIOS: Criterios = { desde: '', hasta: '', producto: '', marca: '', estad
 /**
  * V12 · Todas las solicitudes del auxiliar de compras: los cinco filtros de HU-07 (GET /api/solicitudes
  * con desde, hasta, producto, marca y estado, que aplica ms-solicitudes en su base), la lista y el
- * detalle (GET /api/solicitudes/{id}). «Generar cotización» lleva a V13, que llega en el corte 4b.
+ * detalle (GET /api/solicitudes/{id}). «Generar cotización» abre V13 (con ?solicitud= si viene del detalle).
  */
 export function SolicitudesAuxiliar() {
   const { usuario } = useSesion();
