@@ -1244,6 +1244,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Qué implica:** DEC-42 queda como límite solo de la versión en memoria (`./ejecutar.sh`). Los procesos sin usuario (jobs programados, como `ConsumoDiarioJob`) siguen publicando «sistema», que es correcto. Se aplica al empezar el corte 3, con pruebas: el alta de un usuario queda a nombre de quien la hizo y los eventos de un mismo recorrido comparten `correlacionId`.
 
+**Aplicada el 2026-11-17** (corte 3): `FiltroContexto`, `InterceptorCorrelacion`, `ContextoRecorrido` y `KafkaEventPublisher` en `compartido`, y `CorrelacionGateway` en el gateway. Lo prueban `RecorridoTest` (compartido), `AltaUsuarioAuditadaTest` (ms-identidad) y, en la plataforma, `verificar_corte3.py`: el pedido y su auditoría salen con el correo del mesero y la misma correlación, y el cierre diario publica «sistema». Para reconstruir el evento en el consumidor, el publicador agrega una cabecera con la clase del evento (`kg-evento`), que solo acepta subclases de `EventoDominio` del proyecto.
+
 ## DEC-65 · ¿Qué cargo muestra la SPA bajo el nombre del usuario?
 
 **Por qué hubo que decidir.** La SPA mostraba «Directora Área de Compras» y «Administradora», como los mockups de Laura y Paula, pero el texto sale del rol, así que un usuario nuevo de ese rol quedaba con un cargo que no necesariamente le corresponde.
@@ -1253,7 +1255,50 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **B. Cargos neutros inventados** («Dirección de Compras»).
 - **C. Los nombres de los roles del proyecto:** Mesero, Jefe de cocina, Auxiliar de compras, Director de compras, Director comercial y Administrador (los 6 roles del reporte y de los casos de uso). ✅ **Escogida por Mauricio el 2026-11-17** («manejemos los roles que maneja el proyecto»).
 
-**Qué implica:** cambia solo `NOMBRE_ROL` de la SPA (`web/src/sesion/token.ts`); se aplica al empezar el corte 3.
+**Qué implica:** cambia solo `NOMBRE_ROL` de la SPA (`web/src/sesion/token.ts`); se aplica al empezar el corte 3. **Aplicada el 2026-11-17.**
+
+## DEC-66 · ¿Los platos tienen categoría de la carta?
+
+**Por qué hubo que decidir.** V03 filtra la carta por categoría (Fuertes, Entradas, Sopas, Bebidas, Postres) y V06 pide la categoría del plato, pero `Plato`, `PlatoCatalogo` y `MenuActualizadoEvent` no la tienen en el diagrama; la interfaz en memoria de Codex la guardaba aparte, solo en `ServidorWeb`.
+
+**Opciones:**
+- **A. Agregarla al diseño:** `categoria: String` en `Plato` (obligatoria en `validar()`), `MenuActualizadoEvent` y `PlatoCatalogo`. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. No usarla:** el diagrama no cambia; V03 queda sin filtro y V06 sin el campo.
+
+**Qué implica:** cambian los constructores de las tres clases y la página 4b (aplicado el 2026-11-17). La categoría de la carta no es la `Categoria` de productos (Proteína, Cereal…), que sigue igual.
+
+## DEC-67 · ¿Dónde se guarda la imagen del plato?
+
+**Por qué hubo que decidir.** V06 tiene «Subir imagen del plato», y el diseño no tenía dónde guardarla (el almacén de objetos solo guardaba PDF).
+
+**Opciones:**
+- **A. Sin imagen por ahora:** el plato se muestra con un ícono; el diagrama no cambia.
+- **B. En el almacén de objetos (S3):** ms-menu sube la imagen a un bucket propio y el plato guarda su `imagenUrl`. ✅ **Escogida por Mauricio el 2026-11-17** (Claude había recomendado A).
+
+**Qué implica:** en la 4b, `Plato` gana `imagenUrl` y `asignarImagen(url)`; `RegistrarPlatoUseCase` y `PlatoService` ganan `guardarImagen(id, contenido, tipo)` e `imagen(id)`; `PlatoService` recibe un `AlmacenArchivosPort` propio de ms-menu, y aparece `AlmacenObjetosAdapter` en ms-menu (2 clases nuevas: 193 → 195, la §13 del reporte cambia al regenerarlo en el corte 7). La página 3a suma la flecha de ms-menu al almacén de objetos y la página 1 el adaptador «S3» de ms-menu. Rutas: `PUT` y `GET /api/platos/{id}/imagen` (PNG, JPEG o WebP, hasta 1 MB). `menu.actualizado` no lleva la imagen. El mesero también puede verla (V03); como un `<img>` no manda el JWT, la SPA la pide con `fetch` y la muestra desde la memoria del navegador.
+
+## DEC-68 · ¿Cómo se ve el cierre diario en la demostración?
+
+**Por qué hubo que decidir.** El inventario solo se descuenta en el cierre de las 23:59 (`ConsumoDiarioJob`), así que en una demostración la alerta de stock bajo de V05 no aparecería. La interfaz de Codex tenía un botón «Cierre del día (23:59)».
+
+**Opciones:**
+- **A. Un botón en V07 que llama al mismo job** (`POST /api/inventario/cierre`, solo el jefe de cocina, en una clase `CierreDiaController` fuera del diagrama, como `JwksController`). El job conserva su `@Scheduled` y su ShedLock. ✅ **Asumida por Claude el 2026-11-17, por confirmar.**
+- **B. Cambiar la hora del job por configuración** (por ejemplo, cada minuto) solo para la demostración.
+- **C. Sin atajo:** la alerta aparece solo después de las 23:59.
+
+**Qué implica:** el diagrama no cambia; el LEEME lista `CierreDiaController` entre las clases que no están en el diagrama.
+
+## DEC-69 · Detalles del corte 3 asumidos por Claude (por confirmar)
+
+Ninguno cambia firmas ni el diagrama:
+
+- **Turno del mesero.** `GET /api/pedidos?turno=actual` devuelve los pedidos del mesero desde las 00:00 de hoy, hora de Bogotá (los servicios corren con esa zona horaria). Otra opción era guardar turnos con hora de inicio y fin, que el diseño no tiene.
+- **Número del pedido.** El controlador arma el `Pedido` sin número y `PedidoJpaAdapter.guardar()` le asigna el siguiente de una secuencia de PostgreSQL (PED-0251 en adelante, como la demo). Otras opciones: que lo eligiera la SPA (choques entre meseros) o un puerto nuevo para numerar (cambia el diagrama).
+- **Carta inicial.** ms-menu crea los 8 platos de la demo con `PlatoService` la primera vez que arranca; ms-pedidos y ms-inventario los reciben por `menu.actualizado` (leen el tópico desde el principio). Otra opción era cargarlos con SQL en las tres bases, saltándose el evento.
+- **Productos de V06.** `productosPorCategoria(null)` devuelve todos los productos, para armar el selector de categoría y producto; la categoría de cada insumo en V07 se toma de esos productos. Otra opción era un método nuevo para listar categorías (cambia el diagrama).
+- **Platos que salieron del menú en pedidos viejos.** El detalle de un pedido muestra el nombre que da el catálogo vigente; si el plato ya se desactivó, se muestra «Plato N». Guardar el nombre en el detalle del pedido cambiaría `DetallePedido`.
+- **Pedido precargado.** Como en la interfaz de Codex, la primera vez del turno V03 trae 2 bandejas paisas («Sin arepa») y 1 ajiaco en la mesa 5.
+- **Inicio del jefe (V05).** Los indicadores de solicitudes muestran «—» y la tabla de solicitudes dice que llegan en el corte 4 (ms-solicitudes).
 
 ---
 
