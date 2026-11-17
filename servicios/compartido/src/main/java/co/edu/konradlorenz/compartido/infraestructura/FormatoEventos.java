@@ -8,11 +8,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * El formato de los eventos en Kafka: JSON con los campos de la clase (los eventos no tienen getters
@@ -44,6 +46,34 @@ public class FormatoEventos {
             return json.writeValueAsString(evento);
         } catch (JsonProcessingException e) {
             throw new IllegalStateException("No se pudo convertir a JSON el evento " + evento.tipo(), e);
+        }
+    }
+
+    /**
+     * El JSON del evento con el usuario y la correlación del recorrido (DEC-64), sin tocar el objeto: el
+     * núcleo crea los eventos con «sistema» y una correlación propia porque no conoce la petición.
+     */
+    public String aJson(EventoDominio evento, String usuario, UUID correlacionId) {
+        ObjectNode nodo = json.valueToTree(evento);
+        if (usuario != null) {
+            nodo.put("usuario", usuario);
+        }
+        if (correlacionId != null) {
+            nodo.put("correlacionId", correlacionId.toString());
+        }
+        try {
+            return json.writeValueAsString(nodo);
+        } catch (JsonProcessingException e) {
+            throw new IllegalStateException("No se pudo convertir a JSON el evento " + evento.tipo(), e);
+        }
+    }
+
+    /** El correlacionId de un evento en JSON, o null si no lo trae. */
+    public UUID correlacionDe(String texto) {
+        try {
+            return ContextoRecorrido.uuid(json.readTree(texto).path("correlacionId").asText(null));
+        } catch (JsonProcessingException e) {
+            return null;
         }
     }
 
