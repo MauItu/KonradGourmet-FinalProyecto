@@ -106,8 +106,9 @@ public class PlatoRestController {
 
     // Atiende la ventana V06 de los mockups
     // GET /api/platos/productos?categoria={id}; sin categoría, todos
+    // (también la usan V08 para escoger el producto y V11–V12, del auxiliar, para nombrarlo: DEC-72)
     @GetMapping("/productos")
-    @PreAuthorize("hasRole('JEFE_COCINA')")
+    @PreAuthorize("hasAnyRole('JEFE_COCINA', 'AUXILIAR_COMPRAS')")
     public List<ProductoJson> productosPorCategoria(@RequestParam(name = "categoria", required = false) Long categoriaId) {
         return casoDeUso.productosPorCategoria(categoriaId).stream()
                 .map(p -> new ProductoJson(p.id(), p.nombre(), p.categoria().id(), p.categoria().nombre())).toList();
