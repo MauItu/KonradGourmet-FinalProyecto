@@ -23,14 +23,19 @@
     <name>Konrad Gourmet</name>
 
     <modules>
+        <module>compartido</module>
         <module>service-registry</module>
         <module>api-gateway</module>
+        <module>ms-identidad</module>
     </modules>
 
     <properties>
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
+        <!-- El núcleo hexagonal vive en src/ (DEC-61): cada servicio copia de ahí su paquete al compilar. -->
+        <nucleo.origen>${maven.multiModuleProjectDirectory}/../src/co/edu/konradlorenz</nucleo.origen>
+        <nucleo.destino>${project.build.directory}/generated-sources/nucleo</nucleo.destino>
     </properties>
 
     <dependencyManagement>
@@ -48,6 +53,50 @@
     <build>
         <pluginManagement>
             <plugins>
+                <!-- Copia el núcleo de src/; cada módulo dice qué paquetes con <includes>. -->
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>copiar-nucleo</id>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>${nucleo.destino}/co/edu/konradlorenz</outputDirectory>
+                                <overwrite>true</overwrite>
+                                <!-- Por omisión no copia nada (Eureka y el gateway no tienen núcleo). -->
+                                <resources>
+                                    <resource>
+                                        <directory>${nucleo.origen}</directory>
+                                        <includes>
+                                            <include>__ninguno__</include>
+                                        </includes>
+                                    </resource>
+                                </resources>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>fuente-nucleo</id>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>add-source</goal>
+                            </goals>
+                            <configuration>
+                                <sources>
+                                    <source>${nucleo.destino}</source>
+                                </sources>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
