@@ -34,17 +34,20 @@ if [ "$codigo" != "401" ]; then
   exit 1
 fi
 # Después los demás, con el token de la administradora: cada servicio responde 403 (su rol no entra),
-# y eso ya prueba que la petición llegó al servicio.
+# y eso ya prueba que la petición llegó al servicio. El WSDL de ms-integracion lo puede leer cualquier
+# usuario con sesión (DEC-72): responde 200.
 token=$(curl -s -H 'Content-Type: application/json' \
         -d '{"correo":"paula.herrera@konradgourmet.com","clave":"Konrad2026"}' http://localhost:8080/api/auth/token \
         | sed -n 's/.*"jwt":"\([^"]*\)".*/\1/p')
-for ruta in /api/pedidos/mesas /api/platos /api/inventario/insumos; do
+for par in /api/pedidos/mesas=403 /api/platos=403 /api/inventario/insumos=403 /api/solicitudes=403 \
+           '/api/integracion/abastecimiento?wsdl=200'; do
+  ruta=${par%=*}; esperado=${par##*=}
   for i in $(seq 1 60); do
     codigo=$(curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $token" "http://localhost:8080$ruta" || true)
-    [ "$codigo" = "403" ] && break
+    [ "$codigo" = "$esperado" ] && break
     sleep 2
   done
-  if [ "$codigo" != "403" ]; then
+  if [ "$codigo" != "$esperado" ]; then
     echo "El gateway todavía no enruta $ruta (respuesta $codigo)." >&2
     exit 1
   fi

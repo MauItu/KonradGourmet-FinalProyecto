@@ -1,0 +1,5 @@
+{
+  "name": "WSDL del servicio de precios",
+  "request": { "method": "GET", "urlPath": "/precios", "queryParameters": { "wsdl": { "matches": ".*" } } },
+  "response": { "status": 200, "bodyFileName": "precios.wsdl", "headers": { "Content-Type": "text/xml; charset=utf-8" } }
+}

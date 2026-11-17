@@ -106,6 +106,20 @@ services:
     ports:
       - "8025:8025"
 
+  # Servicio web SOAP de precios estándar del Ministerio de Comercio, simulado con WireMock (DEC-71):
+  # el WSDL y un precio por producto (infra/ministerio). Solo lo ve ms-integracion, dentro de la red.
+  ministerio:
+    image: wiremock/wiremock:3.13.1
+    restart: unless-stopped
+    command: ["--disable-banner"]
+    volumes:
+      - ./infra/ministerio:/home/wiremock:ro
+    mem_limit: 384m
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://127.0.0.1:8080/__admin/health >/dev/null"]
+      interval: 5s
+      retries: 20
+
   # ── Infraestructura de servicios ─────────────────────────────────────────────────
 
   service-registry:
@@ -203,6 +217,33 @@ services:
     depends_on: *depende-de-datos
     healthcheck: *salud-servicio
 
+  ms-solicitudes:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-solicitudes }
+    image: konrad-gourmet/ms-solicitudes
+    depends_on: *depende-de-datos
+    healthcheck: *salud-servicio
+
+  # La frontera SOA: precio estándar del Ministerio con la caché en Redis y el endpoint SOAP (/api/integracion/**).
+  ms-integracion:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-integracion }
+    image: konrad-gourmet/ms-integracion
+    depends_on:
+      kafka-topicos:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      ministerio:
+        condition: service_healthy
+    healthcheck: *salud-servicio
+
   # Servidor web de la SPA en React (imagen construida desde web/). Única entrada desde el navegador: http://localhost:8080
   web:
     build:
@@ -219,6 +260,10 @@ services:
       ms-pedidos:
         condition: service_healthy
       ms-inventario:
+        condition: service_healthy
+      ms-solicitudes:
+        condition: service_healthy
+      ms-integracion:
         condition: service_healthy
       kafka-topicos:
         condition: service_completed_successfully
