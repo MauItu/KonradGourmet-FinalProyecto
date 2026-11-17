@@ -32,6 +32,7 @@
         <module>ms-inventario</module>
         <module>ms-solicitudes</module>
         <module>ms-integracion</module>
+        <module>ms-cotizaciones</module>
     </modules>
 
     <properties>
@@ -41,6 +42,7 @@
         <awssdk.version>2.31.50</awssdk.version>
         <shedlock.version>6.9.0</shedlock.version>
         <cxf.version>4.1.5</cxf.version>
+        <openpdf.version>2.0.3</openpdf.version>
         <!-- El núcleo hexagonal vive en src/ (DEC-61): cada servicio copia de ahí su paquete al compilar. -->
         <nucleo.origen>${maven.multiModuleProjectDirectory}/../src/co/edu/konradlorenz</nucleo.origen>
         <nucleo.destino>${project.build.directory}/generated-sources/nucleo</nucleo.destino>
