@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ms-integracion: frontera SOA (página 4e, tabla 5). Consulta el precio estándar al Ministerio de Comercio por SOAP, con la caché en Redis (Proxy), y publica el endpoint SOAP del restaurante bajo /api/integracion/**. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>co.edu.konradlorenz</groupId>
+        <artifactId>konrad-gourmet</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <artifactId>ms-integracion</artifactId>
+    <name>ms-integracion</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>co.edu.konradlorenz</groupId>
+            <artifactId>compartido</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <!-- JAX-WS de Apache CXF: publica AbastecimientoSoapEndpoint (@WebService) con su WSDL. -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copiar-nucleo</id>
+                        <configuration>
+                            <resources combine.self="override">
+                                <resource>
+                                    <directory>${nucleo.origen}</directory>
+                                    <includes>
+                                        <include>integracion/**</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>integracion/adaptadores/**</exclude>
+                                    </excludes>
+                                </resource>
+                                <!-- El cliente SOAP es Java puro (sin Spring): ms-integracion usa el mismo de src/. -->
+                                <resource>
+                                    <directory>${nucleo.origen}</directory>
+                                    <includes>
+                                        <include>integracion/adaptadores/salida/MinisterioSoapClient.java</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
