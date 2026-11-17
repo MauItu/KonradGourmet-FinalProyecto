@@ -1,0 +1,9 @@
+{
+  "identities": [
+    {
+      "name": "konrad-gourmet",
+      "credentials": [{ "accessKey": "konrad", "secretKey": "konrad-secreto" }],
+      "actions": ["Admin", "Read", "Write", "List", "Tagging"]
+    }
+  ]
+}
