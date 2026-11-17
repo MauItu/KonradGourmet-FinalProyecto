@@ -34,13 +34,14 @@ export function leerUsuario(jwt: string): Usuario | null {
   }
 }
 
+/** Los nombres de los 6 roles del proyecto (reporte y casos de uso), no el cargo de una persona (DEC-65). */
 export const NOMBRE_ROL: Record<Rol, string> = {
   MESERO: 'Mesero',
-  JEFE_COCINA: 'Jefe de Cocina',
-  AUXILIAR_COMPRAS: 'Auxiliar Área de Compras',
-  DIRECTOR_COMPRAS: 'Directora Área de Compras',
-  DIRECTOR_COMERCIAL: 'Director Comercial',
-  ADMINISTRADOR: 'Administradora',
+  JEFE_COCINA: 'Jefe de cocina',
+  AUXILIAR_COMPRAS: 'Auxiliar de compras',
+  DIRECTOR_COMPRAS: 'Director de compras',
+  DIRECTOR_COMERCIAL: 'Director comercial',
+  ADMINISTRADOR: 'Administrador',
 };
 
 /** La clase del body que usa app.css para los matices de cada rol. */
