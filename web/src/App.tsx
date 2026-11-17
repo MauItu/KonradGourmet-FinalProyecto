@@ -9,6 +9,7 @@ import { Inicio } from './paginas/Inicio';
 import { Login } from './paginas/Login';
 import { Perfil } from './paginas/Perfil';
 import { PorConstruir } from './paginas/PorConstruir';
+import { Solicitudes } from './paginas/Solicitudes';
 import { ProveedorSesion } from './sesion/Sesion';
 
 export function App() {
@@ -26,6 +27,8 @@ export function App() {
               <Route path="/platos" element={<Platos />} />
               <Route path="/platos/nuevo" element={<Platos />} />
               <Route path="/inventario" element={<Inventario />} />
+              <Route path="/solicitudes" element={<Solicitudes />} />
+              <Route path="/solicitudes/nueva" element={<Solicitudes />} />
               <Route path="*" element={<PorConstruir />} />
             </Route>
           </Routes>

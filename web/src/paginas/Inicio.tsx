@@ -5,11 +5,12 @@ import { Tarjeta } from '../componentes/Tarjeta';
 import { pantalla } from '../pantallas';
 import { useSesion } from '../sesion/Sesion';
 import { NOMBRE_ROL, type ElementoMenu } from '../sesion/token';
+import { InicioAuxiliar } from './auxiliar/InicioAuxiliar';
 import { InicioJefe } from './jefe/InicioJefe';
 import { InicioMesero } from './mesero/InicioMesero';
 
 /**
- * Inicio de cada rol. El mesero ve V02 y el jefe de cocina V05; los demás, mientras llegan sus cortes, el
+ * Inicio de cada rol. El mesero ve V02, el jefe de cocina V05 y el auxiliar de compras V11; los demás, mientras llegan sus cortes, el
  * saludo y los accesos a sus ventanas, tomados del menú de ms-identidad.
  */
 export function Inicio() {
@@ -17,6 +18,7 @@ export function Inicio() {
   if (!usuario) return null;
   if (usuario.rol === 'MESERO') return <InicioMesero usuario={usuario} />;
   if (usuario.rol === 'JEFE_COCINA') return <InicioJefe usuario={usuario} />;
+  if (usuario.rol === 'AUXILIAR_COMPRAS') return <InicioAuxiliar usuario={usuario} />;
   const hojas = (m: ElementoMenu): ElementoMenu[] => (m.hijos.length ? m.hijos.flatMap(hojas) : [m]);
   const accesos = hojas(usuario.menu).filter((h) => !['/inicio', '/perfil', '/cerrar-sesion'].includes(h.ruta));
   // Los mockups de compras saludan solo con el nombre de pila.

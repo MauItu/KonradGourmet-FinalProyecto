@@ -74,7 +74,7 @@ export function Inventario() {
                 <td><Miniatura nombre={i.nombre} clase="sm" /></td><td><b>{i.nombre}</b></td><td>{categoria(i.productoId)}</td>
                 <td>{num(i.stockActual)}</td><td>{i.unidad}</td><td>{num(i.minimo)}</td>
                 <td>{i.bajoUmbral ? <span className="badge rojo">Stock bajo</span> : <span className="badge verde">Normal</span>}</td>
-                <td><button type="button" className="btn outline sm" onClick={() => navegar('/solicitudes/nueva')}><Icono nombre="cart" /> Solicitar</button></td>
+                <td><button type="button" className="btn outline sm" onClick={() => navegar(`/solicitudes/nueva?producto=${i.productoId}`)}><Icono nombre="cart" /> Solicitar</button></td>
               </tr>
             ))}
           </Tabla>
