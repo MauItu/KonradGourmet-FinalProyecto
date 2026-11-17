@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ms-solicitudes: solicitudes de alimentos del jefe de cocina; V08–V12 (página 4c, tabla 5). Publica solicitud.registrada; en el corte 4b escucha cotizacion.enviada y orden.generada. -->
+<!-- ms-solicitudes: solicitudes de alimentos del jefe de cocina; V08–V12 (página 4c, tabla 5). Publica solicitud.registrada y solicitud.en-tramite; escucha cotizacion.enviada y orden.generada. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -72,6 +72,8 @@
                                     <directory>${nucleo.origen}</directory>
                                     <includes>
                                         <include>solicitudes/**</include>
+                                        <include>cotizaciones/eventos/CotizacionEnviadaEvent.java</include>
+                                        <include>ordenes/eventos/OrdenGeneradaEvent.java</include>
                                     </includes>
                                     <excludes>
                                         <exclude>solicitudes/adaptadores/**</exclude>

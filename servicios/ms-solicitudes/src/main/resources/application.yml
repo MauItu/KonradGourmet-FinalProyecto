@@ -18,8 +18,8 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
     consumer:
-      # Para el corte 4b (cotizacion.enviada y orden.generada): un grupo por servicio y, la primera vez,
-      # desde el principio del tópico.
+      # cotizacion.enviada y orden.generada: un grupo por servicio y, la primera vez, desde el principio
+      # del tópico.
       group-id: ms-solicitudes
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
