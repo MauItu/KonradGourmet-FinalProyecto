@@ -34,6 +34,11 @@ public class OrdenEnMemoria implements OrdenRepositoryPort {
     }
 
     @Override
+    public OrdenCompra porNumero(String numero) {
+        return datos.get(numero);
+    }
+
+    @Override
     public boolean existePorCotizacion(String numero) {
         return datos.values().stream().anyMatch(o -> o.cotizacionNumero().equals(numero));
     }

@@ -29,6 +29,20 @@ public class OrdenCompra {
         this.items = new ArrayList<>(c.items());
     }
 
+    /** La orden tal como quedó guardada: la rearma el repositorio de la base (corte 5). */
+    public OrdenCompra(String numero, LocalDate fecha, String cotizacionNumero, List<String> solicitudNumeros, String proveedor,
+                       String correoProveedor, String pdfUrl, EstadoOrden estado, List<ItemOrden> items) {
+        this.numero = numero;
+        this.fecha = fecha;
+        this.cotizacionNumero = cotizacionNumero;
+        this.solicitudNumeros = solicitudNumeros;
+        this.proveedor = proveedor;
+        this.correoProveedor = correoProveedor;
+        this.pdfUrl = pdfUrl;
+        this.estado = estado;
+        this.items = new ArrayList<>(items);
+    }
+
     /** La misma orden, ya con el número que le dio el repositorio al guardarla. */
     public OrdenCompra(String numero, OrdenCompra sinNumero) {
         this.numero = numero;

@@ -48,6 +48,18 @@ public class OrdenCompraService implements GenerarOrdenUseCase {
     }
 
     @Override
+    public byte[] pdf(String numero) {
+        OrdenCompra o = repositorio.porNumero(numero);
+        if (o == null) {
+            throw new IllegalArgumentException("No existe la orden de compra " + numero);
+        }
+        if (o.pdfUrl() == null) {
+            throw new IllegalStateException("La orden " + numero + " todavía no tiene PDF");
+        }
+        return almacen.obtener(o.pdfUrl());
+    }
+
+    @Override
     public List<OrdenCompra> consultar(EstadoOrden estado) {
         if (estado != null) {
             return repositorio.porEstado(estado);

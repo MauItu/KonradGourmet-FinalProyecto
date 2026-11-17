@@ -15,6 +15,8 @@ import co.edu.konradlorenz.cotizaciones.dominio.ItemCotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.Proveedor;
 import co.edu.konradlorenz.demo.Ensamble;
 import co.edu.konradlorenz.notificaciones.dominio.Mensaje;
+import co.edu.konradlorenz.ordenes.dominio.EstadoOrden;
+import co.edu.konradlorenz.ordenes.dominio.ItemOrden;
 import co.edu.konradlorenz.ordenes.dominio.OrdenCompra;
 import co.edu.konradlorenz.pedidos.dominio.Mesa;
 import co.edu.konradlorenz.pedidos.dominio.Pedido;
@@ -211,6 +213,24 @@ final class PruebasFlujoDeCompra {
                 () -> s.ordenes.generar("COT-018"));
         Prueba.igual("sigue habiendo una sola orden", 1, s.ordenes.consultar(null).size());
         Prueba.igual("y una sola orden.generada", 1L, s.bus.cuantos("orden.generada"));
+
+        // Corte 5 (DEC-75): la directora abre el PDF de la orden desde V23
+        Prueba.verificar("el PDF de OC-0012 sale del almacén (V23)",
+                java.util.Arrays.equals(s.almacen.obtener(orden.pdfUrl()), s.ordenes.pdf("OC-0012")));
+        Prueba.lanza("el PDF de una orden que no existe", IllegalArgumentException.class, "No existe la orden de compra OC-9999",
+                () -> s.ordenes.pdf("OC-9999"));
+
+        // Corte 5: OrdenJpaAdapter rearma la orden desde la base
+        Prueba.grupo("Orden leída de la base (corte 5)");
+        OrdenCompra leida = new OrdenCompra("OC-0012", LocalDate.of(2026, 11, 17), "COT-018", List.of("SOL-031"), "Proveedor ABC",
+                "ventas@proveedorabc.com", "s3://documentos-pdf/ordenes/OC-0012.pdf", EstadoOrden.EN_PROCESO,
+                List.of(new ItemOrden(1L, new BigDecimal("20"), "kg", new BigDecimal("21250")),
+                        new ItemOrden(2L, new BigDecimal("15"), "kg", new BigDecimal("8000"))));
+        Prueba.igual("conserva el número", "OC-0012", leida.numero());
+        Prueba.igual("y la fecha guardada, no la de hoy", LocalDate.of(2026, 11, 17), leida.fecha());
+        Prueba.igual("y el estado", EstadoOrden.EN_PROCESO, leida.estado());
+        Prueba.igual("y el PDF", "s3://documentos-pdf/ordenes/OC-0012.pdf", leida.pdfUrl());
+        Prueba.igualValor("y el total se calcula igual: $545.000", "545000", leida.total());
     }
 
     private static void precioFaltante() {
