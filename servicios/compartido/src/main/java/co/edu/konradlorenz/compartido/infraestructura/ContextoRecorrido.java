@@ -31,13 +31,21 @@ public final class ContextoRecorrido {
         ACTUAL.remove();
     }
 
-    /** Ejecuta la tarea como un recorrido nuevo sin usuario (los jobs publican «sistema»). */
+    /**
+     * Ejecuta la tarea como un recorrido nuevo sin usuario (los jobs publican «sistema»). Al terminar
+     * deja el contexto que había, por si el job se lanzó desde una petición.
+     */
     public static void comoRecorridoNuevo(Runnable tarea) {
+        Datos anterior = ACTUAL.get();
         abrir(null, UUID.randomUUID());
         try {
             tarea.run();
         } finally {
-            cerrar();
+            if (anterior == null) {
+                cerrar();
+            } else {
+                ACTUAL.set(anterior);
+            }
         }
     }
 

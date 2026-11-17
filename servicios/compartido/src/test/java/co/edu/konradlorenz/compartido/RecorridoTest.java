@@ -107,7 +107,9 @@ class RecorridoTest {
 
     @Test
     void unJobPublicaComoSistemaYSusEventosCompartenRecorrido() {
-        autenticar(PAULA); // aunque el hilo tuviera un token, el job no abre contexto con usuario
+        autenticar(PAULA); // aunque el job se lance desde una petición, no publica a nombre de nadie
+        UUID peticion = UUID.randomUUID();
+        ContextoRecorrido.abrir(PAULA, peticion);
         ContextoRecorrido.comoRecorridoNuevo(() -> {
             publicador.publicar(new AuditoriaEvent("sistema", "Consumo diario descontado"));
             publicador.publicar(new AuditoriaEvent("sistema", "Otra"));
@@ -117,6 +119,8 @@ class RecorridoTest {
         AuditoriaEvent b = formato.deJson(enviados.get(1).value(), AuditoriaEvent.class);
         assertEquals("sistema", a.usuario());
         assertEquals(a.correlacionId(), b.correlacionId());
+        assertNotEquals(peticion, a.correlacionId());
+        assertEquals(new ContextoRecorrido.Datos(PAULA, peticion), ContextoRecorrido.actual(), "al terminar vuelve el contexto de la petición");
     }
 
     @Test
