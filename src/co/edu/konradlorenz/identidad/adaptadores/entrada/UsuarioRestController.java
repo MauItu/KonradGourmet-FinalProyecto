@@ -22,7 +22,7 @@ public class UsuarioRestController {
 
     // POST /api/usuarios
     public Long registrar(String nombre, String correo, String rol, Long sucursalId, String clave) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.registrar(nombre, correo, rol, sucursalId, clave);
     }
 
 }
