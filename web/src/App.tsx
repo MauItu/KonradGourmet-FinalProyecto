@@ -4,6 +4,8 @@ import { Armazon } from './paginas/Armazon';
 import { Proveedores } from './paginas/auxiliar/Proveedores';
 import { Cotizaciones } from './paginas/Cotizaciones';
 import { CotizacionesDirector } from './paginas/director/CotizacionesDirector';
+import { Opcionadas } from './paginas/director/Opcionadas';
+import { OrdenesCompra } from './paginas/director/OrdenesCompra';
 import { Inventario } from './paginas/jefe/Inventario';
 import { Platos } from './paginas/jefe/Platos';
 import { NuevoPedido } from './paginas/mesero/NuevoPedido';
@@ -36,6 +38,8 @@ export function App() {
               <Route path="/cotizaciones/nueva" element={<Cotizaciones />} />
               <Route path="/cotizaciones/todas" element={<CotizacionesDirector key="todas" soloPendientes={false} />} />
               <Route path="/cotizaciones/pendientes" element={<CotizacionesDirector key="pendientes" soloPendientes />} />
+              <Route path="/cotizaciones/opcionadas" element={<Opcionadas />} />
+              <Route path="/ordenes-compra" element={<OrdenesCompra />} />
               <Route path="/proveedores" element={<Proveedores />} />
               <Route path="*" element={<PorConstruir />} />
             </Route>

@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { inventario, platos, solicitudes } from '../../api/servicios';
+import { useAlarmaRecibida } from '../../componentes/Alarmas';
 import { Encabezado } from '../../componentes/Encabezado';
 import { desc, fecha, num } from '../../componentes/formato';
 import { Icono } from '../../componentes/Icono';
@@ -10,11 +11,13 @@ import { NOMBRE_ROL, type Usuario } from '../../sesion/token';
 /**
  * V05 · Inicio del jefe de cocina: alertas de stock bajo (GET /api/inventario/alertas, ms-inventario),
  * platos registrados (ms-menu) y sus solicitudes (GET /api/solicitudes?solicitante=yo, ms-solicitudes).
- * Una alerta deja de salir cuando ms-inventario recibe solicitud.registrada con ese producto (HU-16).
+ * Una alerta deja de salir cuando ms-inventario recibe solicitud.registrada con ese producto (HU-16). Cuando
+ * llega una alarma en vivo (ms-notificaciones, PD-01), vuelve a leer las alertas.
  */
 export function InicioJefe({ usuario }: { usuario: Usuario }) {
   const navegar = useNavigate();
   const alertas = useDatos(inventario.alertas);
+  useAlarmaRecibida(alertas.recargar);
   const carta = useDatos(platos.consultar);
   const mias = useDatos(() => solicitudes.mias());
   const lista = alertas.datos ?? [];

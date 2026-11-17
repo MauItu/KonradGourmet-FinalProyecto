@@ -10,7 +10,17 @@ export class ErrorApi extends Error {
 /** Avisa a la aplicación que el token venció o no es válido (401), para volver al login. */
 export const SESION_VENCIDA = 'kg:sesion-vencida';
 
-export async function api<T>(ruta: string, opciones: { metodo?: string; cuerpo?: unknown; publica?: boolean } = {}): Promise<T> {
+type Opciones = { metodo?: string; cuerpo?: unknown; publica?: boolean };
+
+export async function api<T>(ruta: string, opciones: Opciones = {}): Promise<T> {
+  return (await apiConCorrelacion<T>(ruta, opciones)).datos;
+}
+
+/**
+ * Como api(), pero devuelve también el X-Correlation-Id con que el gateway marcó el recorrido (DEC-64):
+ * V14 lo usa para preguntarle a ms-notificaciones si el correo del recorrido ya salió (DEC-76).
+ */
+export async function apiConCorrelacion<T>(ruta: string, opciones: Opciones = {}): Promise<{ datos: T; correlacion: string | null }> {
   const r = await pedir(ruta, {
     metodo: opciones.metodo ?? (opciones.cuerpo !== undefined ? 'POST' : 'GET'),
     tipo: opciones.cuerpo !== undefined ? 'application/json' : undefined,
@@ -30,10 +40,10 @@ export async function api<T>(ruta: string, opciones: { metodo?: string; cuerpo?:
         : 'No se pudo completar la operación.');
     throw new ErrorApi(r.status, mensaje);
   }
-  return datos as T;
+  return { datos: datos as T, correlacion: r.headers.get('X-Correlation-Id') };
 }
 
-/** Un archivo binario (la imagen de un plato o el PDF de una cotización); null si el servicio responde 404. */
+/** Un archivo binario (la imagen de un plato o el PDF de una cotización o de una orden); null si el servicio responde 404. */
 export async function apiArchivo(ruta: string): Promise<Blob | null> {
   const r = await pedir(ruta, { metodo: 'GET' });
   if (r.status === 404) return null;

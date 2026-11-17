@@ -1,6 +1,6 @@
-// Las rutas de la tabla 5 que usan los cortes 3, 4a y 4b, a través del gateway. El usuario y la sucursal los pone
+// Las rutas de la tabla 5 que usan los cortes 3 a 5, a través del gateway. El usuario y la sucursal los pone
 // cada servicio desde el JWT; la SPA no los manda.
-import { api, apiArchivo, subirArchivo } from './cliente';
+import { api, apiArchivo, apiConCorrelacion, subirArchivo } from './cliente';
 
 // ── ms-pedidos (V02–V04) ────────────────────────────────────────────────────────────────────────
 export interface PlatoCarta { platoId: number; nombre: string; categoria: string | null; precio: number }
@@ -114,9 +114,11 @@ export interface NuevaCotizacion {
 const ruta = (numero: string) => `/api/cotizaciones/${encodeURIComponent(numero)}`;
 
 export const cotizaciones = {
-  /** V13: genera y envía (o la deja PENDIENTE_PRECIO si el Ministerio no respondió). */
-  generar: (d: NuevaCotizacion) => api<Cotizacion>('/api/cotizaciones', { cuerpo: d }),
+  /** V13: genera y envía (o la deja PENDIENTE_PRECIO si el Ministerio no respondió); con la correlación, para V14. */
+  generar: (d: NuevaCotizacion) => apiConCorrelacion<Cotizacion>('/api/cotizaciones', { cuerpo: d }),
   consultar: (estado?: EstadoCotizacion) => api<Cotizacion[]>(`/api/cotizaciones${estado ? `?estado=${estado}` : ''}`),
+  /** V20: solo las OPCIONADA (las CON_ORDEN ya salieron de la lista). */
+  opcionadas: () => api<Cotizacion[]>('/api/cotizaciones?estado=OPCIONADA'),
   /** V16: las enviadas que esperan los valores del proveedor o la validación (director). */
   pendientes: () => api<Cotizacion[]>('/api/cotizaciones/pendientes'),
   detalle: (numero: string) => api<Cotizacion>(ruta(numero)),
@@ -127,4 +129,31 @@ export const cotizaciones = {
   reenviar: (numero: string) => api<Cotizacion>(`${ruta(numero)}/reenvio`, { metodo: 'POST' }),
   /** El PDF del almacén de objetos, pedido con el token. */
   pdf: (numero: string, descargar = false) => apiArchivo(`${ruta(numero)}/pdf${descargar ? '?descargar=true' : ''}`),
+};
+
+// ── ms-ordenes (V21–V23) ────────────────────────────────────────────────────────────────────────
+export type EstadoOrden = 'EN_PROCESO' | 'FINALIZADA';
+/** precio es por unidad; valor = cantidad × precio. */
+export interface ItemOrden { productoId: number; producto: string; cantidad: number; unidad: string; precio: number; valor: number }
+export interface OrdenCompra {
+  numero: string; fecha: string; cotizacion: string; solicitudes: string[]; proveedor: string; correoProveedor: string;
+  estado: EstadoOrden; pdf: boolean; items: ItemOrden[]; total: number;
+}
+
+const rutaOrden = (numero: string) => `/api/ordenes-compra/${encodeURIComponent(numero)}`;
+
+export const ordenes = {
+  /** V21: la orden de la cotización OPCIONADA escogida en V20 (OC-0012 en adelante). */
+  generar: (cotizacionNumero: string) => api<OrdenCompra>('/api/ordenes-compra', { cuerpo: { cotizacionNumero } }),
+  consultar: (estado?: EstadoOrden) => api<OrdenCompra[]>(`/api/ordenes-compra${estado ? `?estado=${estado}` : ''}`),
+  /** «Ver PDF» de V23 (DEC-75), pedido con el token. */
+  pdf: (numero: string, descargar = false) => apiArchivo(`${rutaOrden(numero)}/pdf${descargar ? '?descargar=true' : ''}`),
+};
+
+// ── ms-notificaciones ───────────────────────────────────────────────────────────────────────────
+export interface Envio { destino: string; tipo: string; fechaHora: string; exito: boolean; error: string | null }
+
+export const notificaciones = {
+  /** Los envíos de un recorrido (DEC-76): V14 sabe así si el correo al proveedor ya salió. */
+  envios: (correlacion: string) => api<Envio[]>(`/api/notificaciones/envios?correlacion=${encodeURIComponent(correlacion)}`),
 };

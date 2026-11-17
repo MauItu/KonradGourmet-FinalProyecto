@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { cotizaciones } from '../../api/servicios';
+import { cotizaciones, ordenes } from '../../api/servicios';
 import { porRegistrar, porValidar } from '../../componentes/Cotizaciones';
 import { Encabezado } from '../../componentes/Encabezado';
 import { asc } from '../../componentes/formato';
@@ -11,12 +11,13 @@ import { AccionPendiente } from './CotizacionesDirector';
 /**
  * V16 · Inicio del director de compras: las cotizaciones por registrar y por validar (GET
  * /api/cotizaciones/pendientes, ms-cotizaciones), el resumen por estado (GET /api/cotizaciones) y las
- * órdenes de compra, que llegan con ms-ordenes (corte 5). Cada acción abre V18 en «Pendientes de validar».
+ * órdenes de compra (GET /api/ordenes-compra, ms-ordenes). Cada acción abre V18 en «Pendientes de validar».
  */
 export function InicioDirector({ usuario }: { usuario: Usuario }) {
   const navegar = useNavigate();
   const pendientes = useDatos(cotizaciones.pendientes);
   const todas = useDatos(() => cotizaciones.consultar());
+  const compras = useDatos(() => ordenes.consultar());
   const pend = asc(pendientes.datos ?? []);
   const lista = todas.datos ?? [];
   const conteo = (e: string) => lista.filter((c) => c.estado === e).length;
@@ -25,12 +26,12 @@ export function InicioDirector({ usuario }: { usuario: Usuario }) {
     <>
       <Encabezado saludoA={usuario.nombre.split(' ')[0]} sub={`${NOMBRE_ROL[usuario.rol]} · ${usuario.sucursal}`} />
       <div className="page">
-        <ErrorCarga mensaje={pendientes.error || todas.error} />
+        <ErrorCarga mensaje={pendientes.error || todas.error || compras.error} />
         <div className="kpis four">
           <Kpi icono="file" valor={pendientes.datos ? porRegistrar(pend).length : '—'} etiqueta="Cotizaciones por registrar" />
           <Kpi icono="clock" valor={pendientes.datos ? porValidar(pend).length : '—'} etiqueta="Pendientes de validar" />
           <Kpi icono="star" valor={todas.datos ? conteo('OPCIONADA') : '—'} etiqueta="Cotizaciones opcionadas" />
-          <Kpi icono="cart" valor="—" etiqueta="Órdenes de compra" />
+          <Kpi icono="cart" valor={compras.datos ? compras.datos.length : '—'} etiqueta="Órdenes de compra" />
         </div>
         <div className="grid main-side">
           <Tarjeta titulo="Pendientes de atención" icono="file" sub="Cotizaciones recibidas listas para registro y validación.">

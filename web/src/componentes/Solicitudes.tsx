@@ -133,7 +133,7 @@ export function VentanaSolicitud({ usuario, productos, unidades, productoInicial
   );
 }
 
-/** V09 · Solicitud registrada. El correo de confirmación lo envía ms-notificaciones (corte 5). */
+/** V09 · Solicitud registrada. El correo de confirmación lo envía ms-notificaciones al recibir solicitud.registrada. */
 export function SolicitudRegistrada({ s, alVer, alInicio, alCerrar }: { s: Solicitud; alVer: () => void; alInicio: () => void; alCerrar: () => void }) {
   return (
     <Modal clase="modal sm center" alCerrar={alCerrar}>

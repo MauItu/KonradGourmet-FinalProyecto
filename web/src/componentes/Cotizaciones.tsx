@@ -1,5 +1,5 @@
-import { useMemo, useState, type ReactNode } from 'react';
-import { cotizaciones, type Cotizacion, type Proveedor, type Solicitud } from '../api/servicios';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { cotizaciones, notificaciones, type Cotizacion, type Proveedor, type Solicitud } from '../api/servicios';
 import { ESTADOS, fecha, hoyISO, money, num, pct } from './formato';
 import { Icono } from './Icono';
 import { Cerrar, Insignia, Modal, Tabla, VacioDetalle } from './Piezas';
@@ -11,13 +11,19 @@ export const sinPrecios = (c: Cotizacion) => c.items.some((i) => i.precioProveed
 export const porRegistrar = (l: Cotizacion[]) => l.filter((c) => c.estado === 'ENVIADA' && sinPrecios(c));
 export const porValidar = (l: Cotizacion[]) => l.filter((c) => c.estado === 'ENVIADA' && !sinPrecios(c));
 
-/** Abre el PDF (o lo descarga) pidiéndolo con el token: un enlace normal no manda la cabecera. */
-export async function abrirPdf(numero: string, descargar: boolean, avisar: (m: string, error?: boolean) => void) {
+/** Abre el PDF de una cotización (o lo descarga) pidiéndolo con el token: un enlace normal no manda la cabecera. */
+export function abrirPdf(numero: string, descargar: boolean, avisar: (m: string, error?: boolean) => void) {
+  return abrirArchivo(() => cotizaciones.pdf(numero, descargar), numero, `La cotización ${numero} no tiene PDF.`, descargar, avisar);
+}
+
+/** Abre (o descarga) un PDF que la API entrega con el token: el de una cotización o el de una orden (DEC-75). */
+export async function abrirArchivo(obtener: () => Promise<Blob | null>, numero: string, sinArchivo: string, descargar: boolean,
+                                   avisar: (m: string, error?: boolean) => void) {
   // la pestaña se abre ya, dentro del clic, para que el navegador no la bloquee
   const pestana = descargar ? null : window.open('', '_blank');
   try {
-    const pdf = await cotizaciones.pdf(numero, descargar);
-    if (!pdf) throw new Error(`La cotización ${numero} no tiene PDF.`);
+    const pdf = await obtener();
+    if (!pdf) throw new Error(sinArchivo);
     const url = URL.createObjectURL(pdf);
     if (pestana) {
       pestana.location.href = url;
@@ -37,11 +43,11 @@ export function Pares({ pares, clase = 'dl' }: { pares: [string, ReactNode][]; c
   return <dl className={clase}>{pares.map(([k, v]) => [<dt key={`t${k}`}>{k}</dt>, <dd key={`d${k}`}>{v}</dd>])}</dl>;
 }
 
-function OkIcono({ tono = 'verde' }: { tono?: string }) {
+export function OkIcono({ tono = 'verde' }: { tono?: string }) {
   return <div className={`ok-icon ${tono}`}><span><Icono nombre="check" /></span></div>;
 }
 
-function Marca({ centro = false }: { centro?: boolean }) {
+export function Marca({ centro = false }: { centro?: boolean }) {
   return (
     <div className={`ticket-brand${centro ? ' center' : ''}`}>
       <img src="/assets/logo/logo.png" alt="" />
@@ -59,7 +65,7 @@ interface Agregado { productoId: number; producto: string; cantidad: number; uni
  */
 export function VentanaCotizacion({ cotizables, nombre, proveedores, inicial, alCerrar, alGenerar }: {
   cotizables: Solicitud[]; nombre: (id: number) => string; proveedores: Proveedor[]; inicial: string | null;
-  alCerrar: () => void; alGenerar: (c: Cotizacion) => void;
+  alCerrar: () => void; alGenerar: (c: Cotizacion, correlacion: string | null) => void;
 }) {
   const [sols, setSols] = useState<string[]>(() => {
     if (inicial && cotizables.some((s) => s.numero === inicial)) return [inicial];
@@ -88,10 +94,11 @@ export function VentanaCotizacion({ cotizables, nombre, proveedores, inicial, al
   const enviar = async () => {
     setEnviando(true);
     try {
-      alGenerar(await cotizaciones.generar({
+      const { datos, correlacion } = await cotizaciones.generar({
         solicitudes: sols, proveedorId: Number(proveedor), fechaLimite: limite,
         items: incluidos.map((p) => ({ productoId: p.productoId, producto: p.producto, cantidad: Math.round(p.cantidad * 1000) / 1000, unidad: p.unidad })),
-      }));
+      });
+      alGenerar(datos, correlacion);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'No se pudo generar la cotización.');
       setEnviando(false);
@@ -150,12 +157,54 @@ export function VentanaCotizacion({ cotizables, nombre, proveedores, inicial, al
   );
 }
 
+type EstadoCorreo = 'esperando' | 'enviado' | 'fallo' | 'sin-respuesta';
+
+/**
+ * El correo al proveedor lo envía ms-notificaciones después, al recibir cotizacion.enviada: V14 pregunta por
+ * los envíos del recorrido (DEC-76) cada segundo, hasta 15 s, y se queda con el primero de ese tipo.
+ */
+function useCorreoDelRecorrido(correlacion: string | null, activo: boolean): EstadoCorreo {
+  const [estado, setEstado] = useState<EstadoCorreo>('esperando');
+  useEffect(() => {
+    if (!activo || !correlacion) { setEstado('sin-respuesta'); return undefined; }
+    let vivo = true;
+    let vueltas = 0;
+    let reloj = 0;
+    const mirar = async () => {
+      vueltas += 1;
+      try {
+        const envios = (await notificaciones.envios(correlacion)).filter((e) => e.tipo === 'cotizacion.enviada');
+        if (!vivo) return;
+        if (envios.some((e) => e.exito)) { setEstado('enviado'); return; }
+        if (envios.length) { setEstado('fallo'); return; }
+      } catch { /* se vuelve a intentar */ }
+      if (!vivo) return;
+      if (vueltas >= 15) setEstado('sin-respuesta'); else reloj = window.setTimeout(() => void mirar(), 1000);
+    };
+    reloj = window.setTimeout(() => void mirar(), 600);
+    return () => { vivo = false; window.clearTimeout(reloj); };
+  }, [correlacion, activo]);
+  return estado;
+}
+
+/** El texto del fallo es el de PD-10 (CU-08 / HU-12, «Falla el correo»). */
+const textoCorreo = (estado: EstadoCorreo, numero: string) => ({
+  esperando: 'Enviando el correo certificado al proveedor…',
+  enviado: 'El PDF fue generado y enviado al proveedor.',
+  fallo: `No se pudo enviar el correo al proveedor. La cotización ${numero} está guardada; puede reintentar el envío.`,
+  'sin-respuesta': 'El correo al proveedor lo envía ms-notificaciones al recibir cotizacion.enviada.',
+})[estado];
+
 /**
  * V14 · Cotización generada: el tiquete con el número, el PDF que quedó en el almacén de objetos y el
- * correo al proveedor, que envía ms-notificaciones al recibir cotizacion.enviada (corte 5).
+ * correo al proveedor, que envía ms-notificaciones al recibir cotizacion.enviada: la marca sale cuando ya
+ * salió (DEC-76).
  */
-export function CotizacionGenerada({ c, alVerPdf, alCerrar }: { c: Cotizacion; alVerPdf: () => void; alCerrar: () => void }) {
+export function CotizacionGenerada({ c, correlacion, alVerPdf, alCerrar }: {
+  c: Cotizacion; correlacion: string | null; alVerPdf: () => void; alCerrar: () => void;
+}) {
   const enviada = c.estado === 'ENVIADA';
+  const correo = useCorreoDelRecorrido(correlacion, enviada);
   return (
     <Modal clase="ticket-modal" alCerrar={alCerrar}>
       <Cerrar alCerrar={alCerrar} />
@@ -165,7 +214,7 @@ export function CotizacionGenerada({ c, alVerPdf, alCerrar }: { c: Cotizacion; a
         <h2>Solicitud de cotización<br />{enviada ? 'enviada' : 'guardada'}</h2>
         <div className="code-big">{c.numero}</div>
         <div className="estado-pill">Estado: <Insignia estado={c.estado} mayus punto /></div>
-        <p className="muted">{enviada ? 'El PDF fue generado y enviado al proveedor.'
+        <p className="muted">{enviada ? textoCorreo(correo, c.numero)
           : 'Quedó pendiente del precio estándar del Ministerio: reenvíala desde Cotizaciones enviadas.'}</p>
         <Pares clase="dl dotted" pares={[[c.solicitudes.length > 1 ? 'Solicitudes origen:' : 'Solicitud origen:', c.solicitudes.join(', ')],
           ['Proveedor:', c.proveedor], ['Fecha envío:', fecha(c.fechaEnvio)], ['Fecha límite:', fecha(c.fechaLimite)]]} />
@@ -173,7 +222,10 @@ export function CotizacionGenerada({ c, alVerPdf, alCerrar }: { c: Cotizacion; a
         <ul className="ticket-items">{c.items.map((i) => <li key={i.productoId}><span>{i.producto}</span><b>{num(i.cantidad)} {i.unidad}</b></li>)}</ul>
         <div className="ticket-checks">
           <span><Icono nombre="file" /> PDF generado {c.pdf && <i className="ok"><Icono nombre="check" /></i>}</span>
-          <span title="Lo envía ms-notificaciones al recibir cotizacion.enviada (corte 5)"><Icono nombre="send" /> Correo enviado</span>
+          <span title={textoCorreo(correo, c.numero)} className={`correo-${correo}`}>
+            <Icono nombre={correo === 'fallo' ? 'alert' : 'send'} /> {correo === 'fallo' ? 'Correo no enviado' : 'Correo enviado'}
+            {correo === 'enviado' && <i className="visto"><Icono nombre="check" /></i>}
+          </span>
         </div>
         {c.pdf && <button type="button" className="btn outline sm mt" onClick={alVerPdf}><Icono nombre="file" /> Ver PDF</button>}
         <p className="ticket-foot"><b>KONRAD GOURMET</b><br />{enviada ? '¡Cotización enviada con éxito!' : 'Cotización guardada sin enviar'}</p>

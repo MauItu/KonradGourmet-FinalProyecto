@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { inventario, platos } from '../../api/servicios';
+import { useAlarmaRecibida } from '../../componentes/Alarmas';
 import { Encabezado } from '../../componentes/Encabezado';
 import { num, plural } from '../../componentes/formato';
 import { Icono } from '../../componentes/Icono';
@@ -18,6 +19,7 @@ export function Inventario() {
   const navegar = useNavigate();
   const avisar = useAviso();
   const insumos = useDatos(inventario.insumos);
+  useAlarmaRecibida(insumos.recargar);
   const productos = useDatos(platos.productos);
   const [buscar, setBuscar] = useState('');
   const [cat, setCat] = useState('');

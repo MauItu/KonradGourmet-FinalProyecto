@@ -29,7 +29,7 @@ export function CotizacionesAuxiliar() {
   const { nombre } = useProductos(productos.datos);
   const [borrador, setBorrador] = useState(SIN_FILTRO);
   const [filtro, setFiltro] = useState(SIN_FILTRO);
-  const [generada, setGenerada] = useState<Cotizacion | null>(null);
+  const [generada, setGenerada] = useState<{ c: Cotizacion; correlacion: string | null } | null>(null);
   const [reenviando, setReenviando] = useState(false);
   const nueva = pathname === '/cotizaciones/nueva';
 
@@ -41,8 +41,8 @@ export function CotizacionesAuxiliar() {
   const estados = [...new Set(todas.map((c) => c.estado))];
 
   const cerrar = useCallback(() => navegar('/cotizaciones', { replace: true }), [navegar]);
-  const alGenerar = useCallback((c: Cotizacion) => {
-    setGenerada(c);
+  const alGenerar = useCallback((c: Cotizacion, correlacion: string | null) => {
+    setGenerada({ c, correlacion });
     lista.recargar();
     sols.recargar();
     navegar(`/cotizaciones?sel=${c.numero}`, { replace: true });
@@ -120,7 +120,8 @@ export function CotizacionesAuxiliar() {
         <VentanaCotizacion cotizables={asc((sols.datos ?? []).filter((s) => s.estado !== 'COMPLETADA'))} nombre={nombre}
           proveedores={(provs.datos ?? []).filter((p) => p.activo)} inicial={params.get('solicitud')} alCerrar={cerrar} alGenerar={alGenerar} />
       )}
-      {generada && <CotizacionGenerada c={generada} alVerPdf={() => void abrirPdf(generada.numero, false, avisar)} alCerrar={() => setGenerada(null)} />}
+      {generada && <CotizacionGenerada c={generada.c} correlacion={generada.correlacion}
+        alVerPdf={() => void abrirPdf(generada.c.numero, false, avisar)} alCerrar={() => setGenerada(null)} />}
     </>
   );
 }

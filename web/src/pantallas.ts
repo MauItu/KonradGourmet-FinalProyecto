@@ -1,6 +1,6 @@
 // Qué es cada ruta del menú (las rutas las arma ms-identidad en construirMenu()): título, ícono,
 // ventanas de los mockups y el servicio que la atiende. Las que todavía no están construidas dicen
-// en qué corte llegan (las de los cortes 3, 4a y 4b ya tienen su página en App.tsx).
+// en qué corte llegan (las de los cortes 3 a 5 ya tienen su página en App.tsx).
 export interface Pantalla {
   titulo: string;
   sub: string;
@@ -24,9 +24,9 @@ export const PANTALLAS: Record<string, Pantalla> = {
   '/cotizaciones/nueva': { titulo: 'Generar cotización', sub: 'Arma y envía la solicitud de cotización', icono: 'send', ventanas: 'V13 y V14', servicio: 'ms-cotizaciones' },
   '/cotizaciones/todas': { titulo: 'Todas las cotizaciones', sub: 'Cotizaciones de todos los proveedores', icono: 'file', ventanas: 'V17', servicio: 'ms-cotizaciones' },
   '/cotizaciones/pendientes': { titulo: 'Pendientes de validar', sub: 'Registra los valores del proveedor y valida', icono: 'scale', ventanas: 'V18 y V19', servicio: 'ms-cotizaciones' },
-  '/cotizaciones/opcionadas': { titulo: 'Cotizaciones opcionadas', sub: 'Listas para generar la orden de compra', icono: 'star', ventanas: 'V20', servicio: 'ms-cotizaciones', corte: 5 },
+  '/cotizaciones/opcionadas': { titulo: 'Cotizaciones opcionadas', sub: 'Listas para generar la orden de compra', icono: 'star', ventanas: 'V20', servicio: 'ms-cotizaciones' },
   '/proveedores': { titulo: 'Proveedores', sub: 'Registro y mantenimiento de proveedores (HU-15)', icono: 'store', ventanas: 'sin mockup', servicio: 'ms-cotizaciones' },
-  '/ordenes-compra': { titulo: 'Órdenes de compra', sub: 'Órdenes generadas y su seguimiento', icono: 'receipt', ventanas: 'V21 a V23', servicio: 'ms-ordenes', corte: 5 },
+  '/ordenes-compra': { titulo: 'Órdenes de compra', sub: 'Órdenes generadas y su seguimiento', icono: 'receipt', ventanas: 'V21 a V23', servicio: 'ms-ordenes' },
   '/bam': { titulo: 'Tablero BAM', sub: 'Indicadores del negocio (HU-18)', icono: 'chart', ventanas: 'sin mockup', servicio: 'ms-analitica', corte: 6 },
   '/admin': { titulo: 'Administración', sub: 'Parámetros, imagen corporativa, auditoría y logs', icono: 'settings', ventanas: 'sin mockup', servicio: 'ms-administracion', corte: 6 },
   '/usuarios': { titulo: 'Usuarios', sub: 'Alta de usuarios con su rol y sucursal', icono: 'users', ventanas: 'sin mockup', servicio: 'ms-identidad', corte: 6 },

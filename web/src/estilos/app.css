@@ -882,3 +882,26 @@ button.nav-item { cursor: pointer; font-family: inherit; }
 .form-grid .span2 { grid-column: 1 / -1; }
 @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
 .card .search.sm { max-width: 240px; }
+
+/* ── Corte 5: piezas que app.js no tenía ──────────────────────────────────────────────────────── */
+/* V14: «Correo enviado» espera a ms-notificaciones (DEC-76); si el envío falló, la marca se pone roja. */
+.ticket-checks span.correo-esperando { opacity: .7; }
+.ticket-checks i.visto { width: 18px; height: 18px; border-radius: 50%; background: var(--naranja); display: grid; place-items: center; }
+.ticket-checks i.visto .ic { color: #fff; width: 11px; height: 11px; stroke-width: 3; }
+.ticket-checks span.correo-fallo { background: var(--rojo-bg); color: var(--rojo); }
+.ticket-checks span.correo-fallo .ic { color: var(--rojo); }
+/* V23: «Ver PDF» y «Descargar» de la orden (DEC-75), lado a lado. */
+.ticket-acciones.dos { grid-template-columns: 1fr 1fr; }
+/* V20 y V23: el número de la cotización o de la orden no se parte en dos líneas. */
+.codigos td:first-child { white-space: nowrap; }
+/* V20: el selector de orden junto al de la solicitud (HU-17). */
+.filters.compact .orden-por { min-width: 200px; }
+/* V05: la alarma de stock bajo que llega en vivo por WebSocket (HU-16, PD-01): queda arriba hasta cerrarla. */
+.alarmas-vivas { position: fixed; top: 16px; right: 16px; z-index: 60; display: grid; gap: 10px; width: min(380px, calc(100vw - 32px)); }
+.alarma-viva { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: start; background: #fff;
+  border: 1px solid var(--rojo-bg); border-left: 5px solid var(--rojo); border-radius: 14px; padding: 12px 12px 12px 14px; box-shadow: var(--sombra-2); }
+.alarma-viva > .ic { color: var(--rojo); width: 22px; height: 22px; margin-top: 2px; }
+.alarma-viva b { display: block; font-size: 13px; color: var(--rojo); }
+.alarma-viva p { font-size: 13px; margin: 2px 0 8px; }
+.alarma-viva small { color: var(--suave); font-size: 11px; }
+.alarma-viva .acciones { display: flex; gap: 8px; align-items: center; }

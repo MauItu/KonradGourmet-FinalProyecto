@@ -32,6 +32,7 @@ export const ESTADOS: Record<string, [string, string]> = {
   PENDIENTE: ['Pendiente', 'ambar'], EN_TRAMITE: ['En trámite', 'azul'], COMPLETADA: ['Completada', 'verde'],
   PENDIENTE_PRECIO: ['Pendiente de precio', 'gris'], ENVIADA: ['Enviada', 'naranja'], RECHAZADA: ['Rechazada', 'rojo'],
   SOSPECHOSA: ['Sospechosa', 'ambar'], OPCIONADA: ['Opcionada', 'azul'], CON_ORDEN: ['Con orden', 'verde'],
+  EN_PROCESO: ['En proceso', 'naranja'], FINALIZADA: ['Finalizada', 'verde'],
   ACTIVO: ['Activo', 'verde'], INACTIVO: ['Inactivo', 'gris'],
 };
 

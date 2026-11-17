@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { AlarmasEnVivo } from '../componentes/Alarmas';
 import { Barra } from '../componentes/Barra';
 import { useSesion } from '../sesion/Sesion';
 import { CLASE_ROL, type ElementoMenu } from '../sesion/token';
@@ -43,6 +44,7 @@ export function Armazon() {
       <main className="shell" tabIndex={-1}>
         <Outlet />
       </main>
+      {usuario.rol === 'JEFE_COCINA' && <AlarmasEnVivo usuario={usuario} />}
     </div>
   );
 }
