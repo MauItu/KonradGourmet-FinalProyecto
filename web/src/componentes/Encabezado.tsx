@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Icono } from './Icono';
 
 const mayus = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const saludo = (h: number) => (h < 12 ? 'Buenos días' : h < 19 ? 'Buenas tardes' : 'Buenas noches');
 
-/** Encabezado de cada ventana: saludo (en el inicio) o título, y los chips de fecha y hora. */
-export function Encabezado(p: { saludoA?: string; titulo?: string; sub: string; icono?: string }) {
+/** Encabezado de cada ventana: saludo (en el inicio) o título, los chips de fecha y hora y, si hay, la acción principal. */
+export function Encabezado(p: { saludoA?: string; titulo?: string; sub: string; icono?: string; accion?: ReactNode }) {
   const [ahora, setAhora] = useState(() => new Date());
   useEffect(() => {
     const t = setInterval(() => setAhora(new Date()), 30_000);
@@ -28,6 +28,7 @@ export function Encabezado(p: { saludoA?: string; titulo?: string; sub: string; 
       <div className="topbar-chips">
         <span className="chip"><Icono nombre="calendar" /><span>{fecha}</span></span>
         <span className="chip"><Icono nombre="clock" /><span>{hora}</span></span>
+        {p.accion}
       </div>
     </header>
   );
