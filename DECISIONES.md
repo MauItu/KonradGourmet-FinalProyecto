@@ -14,7 +14,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-47:** la fecha de inicio del sprint 1 y la forma de mostrar «EN SEMANAS» las decidió Mauricio el 2026-11-08, al empezar la sesión 5 (hallazgo H20), y en las dos escogió la opción recomendada. Después pidió que todo diga 5 sprints y 10 semanas, y se quitó la fila de sprints mínimos. El orden de las filas del Excel es asumido, por confirmar.
 - **PD-01 a PD-11 y las confirmaciones de los supuestos (DEC-08, DEC-20, DEC-39 a DEC-41, DEC-44, DEC-45, DEC-47 y DEC-48):** las tomó el agente `arquitecto-revisor` de Claude el 2026-11-08, por delegación expresa de Mauricio (puntos 4 y 5 de `PENDIENTES_POST_SESION6.md`), respetando sus decisiones ya confirmadas. El informe completo, con la evidencia, está en `REVISION_ARQUITECTO_POST_S6.md`. «PD» significa decisión posterior a la sesión 6. Mauricio puede revertir cualquiera.
 - **DEC-63, DEC-68 y DEC-69:** las asumió Claude y las confirmó Mauricio el 2026-11-17, al aprobar el corte 3.
-- **DEC-71 y DEC-72:** las asumió Claude el 2026-11-17 en el corte 4a; esperan la confirmación de Mauricio.
+- **DEC-71 y DEC-72:** las asumió Claude el 2026-11-17 en el corte 4a y las confirmó Mauricio el mismo día, al aprobar el corte 4a.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -99,8 +99,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-68 | Cierre diario en la demostración | Botón «Cierre del día» en V07 que llama al mismo `ConsumoDiarioJob` (`CierreDiaController`, fuera del diagrama) | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
 | DEC-69 | Detalles del corte 3 | Turno = hoy en Bogotá, número de pedido por secuencia, carta inicial por eventos, productos sin categoría = todos, «Plato N», V03 precargado, «—» en V05 | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
 | DEC-70 | Tamaño del corte 4 | Partirlo en 4a (ms-solicitudes V08–V12 y ms-integracion) y 4b (ms-cotizaciones V13–V19, proveedores y PDF), cada uno con su reporte y su OK | Decidida por Mauricio (2026-11-17) |
-| DEC-71 | Cómo se simula en local el Ministerio de Comercio | Un contenedor `ministerio` con WireMock que publica el WSDL y responde por SOAP el precio de cada producto (300 ms) o un SOAP Fault; `MinisterioSoapClient` habla SOAP 1.1 de verdad con el JDK. El diagrama no cambia | Asumida por Claude (2026-11-17), por confirmar |
-| DEC-72 | Detalles del corte 4a | SOL-031 en adelante por secuencia, sin solicitudes iniciales y V08 precargada la primera vez; «Mis solicitudes» filtra por el jefe del token en el controlador; rol por ruta; el auxiliar lee los productos de ms-menu y ve el correo del solicitante; REST interno en `/interno/precios/{id}`; el SOAP con cualquier token válido; caché en Redis con vencimiento de un día; «—» en «Cotizaciones enviadas» hasta el 4b | Asumida por Claude (2026-11-17), por confirmar |
+| DEC-71 | Cómo se simula en local el Ministerio de Comercio | Un contenedor `ministerio` con WireMock que publica el WSDL y responde por SOAP el precio de cada producto (300 ms) o un SOAP Fault; `MinisterioSoapClient` habla SOAP 1.1 de verdad con el JDK. El diagrama no cambia | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-72 | Detalles del corte 4a | SOL-031 en adelante por secuencia, sin solicitudes iniciales y V08 precargada la primera vez; «Mis solicitudes» filtra por el jefe del token en el controlador; rol por ruta; el auxiliar lee los productos de ms-menu y ve el correo del solicitante; REST interno en `/interno/precios/{id}`; el SOAP con cualquier token válido; caché en Redis con vencimiento de un día; «—» en «Cotizaciones enviadas» hasta el 4b | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
 
 ---
 
@@ -1324,7 +1324,7 @@ Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los c
 **Por qué hubo que decidir.** ms-integracion consulta el precio estándar al Ministerio de Comercio por SOAP (`MinisterioComercioAdapter` sobre `MinisterioSoapClient`, página 4e), pero el Ministerio es un sistema externo (página 2) y en local no hay un servicio real al que llamar. `MinisterioSoapClient` estaba pendiente y la demo en memoria usa `MinisterioSoapSimulado`, una subclase que no sale del proceso.
 
 **Opciones:**
-- **A. Un contenedor `ministerio` con WireMock** (`wiremock/wiremock:3.13.1`), fuera del sistema como Mailpit: publica el WSDL (`plataforma/infra/ministerio/precios.wsdl`) y responde `consultarPrecioEstandar` con el precio por kilo de la demo (res $20.000, arroz $8.000, papa $3.500 y pollo $14.000) en 300 ms, o un SOAP Fault si no conoce el producto. `MinisterioSoapClient` se implementa en `src/` con el JDK (sobre SOAP 1.1 por `HttpClient` y lectura con DOM, sin XXE), así lo usan igual la versión en memoria y ms-integracion, que lo copia de `src/` porque no lleva Spring. WireMock cuenta las llamadas, y eso prueba cuándo respondió el Ministerio y cuándo Redis. ✅ **Asumida por Claude el 2026-11-17, por confirmar.**
+- **A. Un contenedor `ministerio` con WireMock** (`wiremock/wiremock:3.13.1`), fuera del sistema como Mailpit: publica el WSDL (`plataforma/infra/ministerio/precios.wsdl`) y responde `consultarPrecioEstandar` con el precio por kilo de la demo (res $20.000, arroz $8.000, papa $3.500 y pollo $14.000) en 300 ms, o un SOAP Fault si no conoce el producto. `MinisterioSoapClient` se implementa en `src/` con el JDK (sobre SOAP 1.1 por `HttpClient` y lectura con DOM, sin XXE), así lo usan igual la versión en memoria y ms-integracion, que lo copia de `src/` porque no lleva Spring. WireMock cuenta las llamadas, y eso prueba cuándo respondió el Ministerio y cuándo Redis. ✅ **Asumida por Claude el 2026-11-17 y confirmada por Mauricio el mismo día**, al aprobar el corte 4a.
 - **B. Un microservicio Spring propio que haga de Ministerio** (con CXF). Más código y otra imagen que compilar para algo que está fuera del sistema.
 - **C. Un `MinisterioSoapClient` falso dentro de ms-integracion** (como `MinisterioSoapSimulado`). No pasa nada por la red ni por SOAP: la prueba de la caché quedaría en el mismo proceso.
 
@@ -1332,7 +1332,7 @@ Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los c
 
 ## DEC-72 · Detalles del corte 4a asumidos por Claude
 
-Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17, **por confirmar**:
+Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los confirmó Mauricio el mismo día**, al aprobar el corte 4a:
 
 - **Numeración y datos iniciales.** `SolicitudJpaAdapter.guardar()` numera con una secuencia de PostgreSQL desde SOL-031, como la demo (30 solicitudes anteriores), igual que los pedidos (DEC-69). La demo no tiene solicitudes guardadas, así que la base empieza vacía; como en la interfaz de Codex, la primera vez V08 trae precargada la solicitud de la demo (res 20 kg «Marca X» y arroz 15 kg). Otra opción era insertar solicitudes de ejemplo con SQL, saltándose `solicitud.registrada`.
 - **Rearmar la solicitud.** `SolicitudAlimentos` gana un constructor con fecha, estado, valor sugerido, cotizaciones aplicadas y productos, para leerla de la base (los diagramas omiten los constructores, como el de `Pedido` en el corte 3).
