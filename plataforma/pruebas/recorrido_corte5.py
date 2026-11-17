@@ -89,8 +89,8 @@ def alarma_en_vivo(jefe, tag, producto, ancho, solicitar=False):
     if solicitar:
         alarma.get_by_role('button', name='Solicitar').click()
         jefe.wait_for_url(re.compile(r'/solicitudes/nueva'))
-        ok(jefe.locator('[role=dialog]', has=jefe.locator('h2', has_text='solicitud')).count() == 1,
-           f'{tag}: «Solicitar» lleva directo al formulario de solicitud (V08, HU-16)')
+        expect(jefe.locator('[role=dialog]', has=jefe.locator('h2', has_text='Nueva solicitud de alimentos'))).to_be_visible()
+        ok(True, f'{tag}: «Solicitar» lleva directo al formulario de solicitud (V08, HU-16)')
         foto(jefe, f'{tag}-V08-desde-la-alarma')
     jefe.goto(BASE + '/inicio'); jefe.wait_for_selector('.alert-list')
     jefe.wait_for_function(f"() => [...document.querySelectorAll('.alert-row b')].some(b => b.innerText === '{producto}')", timeout=10000)
