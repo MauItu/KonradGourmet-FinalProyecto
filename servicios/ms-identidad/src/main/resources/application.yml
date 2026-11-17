@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ms-identidad
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:postgres}:5432/ms_identidad
+    username: ms_identidad
+    password: ms_identidad
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  kafka:
+    bootstrap-servers: ${KAFKA:kafka:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://service-registry:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+
+konrad:
+  seguridad:
+    publicas: /api/auth/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
