@@ -8,7 +8,7 @@ import co.edu.konradlorenz.identidad.puertos.salida.EmisorTokenPort;
  *
  * En el proyecto real: @Component.
  *
- * Nota del diagrama: Firma el JWT con la llave privada de ms-identidad (RS256). El token lleva el id,
+ * Firma el JWT con la llave privada de ms-identidad (RS256). El token lleva el id,
  * el correo, el nombre, el rol y la sucursal; el gateway valida la firma con la llave pública que
  * ms-identidad publica (JWKS), y nadie más tiene la llave privada (DEC-62).
  */
