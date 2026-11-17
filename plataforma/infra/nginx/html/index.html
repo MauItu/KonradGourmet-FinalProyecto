@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Konrad Gourmet · Plataforma</title>
+<style>
+  :root { --naranja: #F26B21; --crema: #FBF7F2; --texto: #2B2B2B; --gris: #6B6B6B; --ok: #2E7D32; --no: #B3261E; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, sans-serif; background: var(--crema); color: var(--texto); }
+  main { max-width: 960px; margin: 0 auto; padding: 32px 16px; }
+  h1 { margin: 0 0 4px; font-size: 26px; } h1 span { color: var(--naranja); }
+  p.sub { margin: 0 0 24px; color: var(--gris); }
+  section { background: #fff; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,.06); padding: 20px; margin-bottom: 20px; }
+  h2 { font-size: 17px; margin: 0 0 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid #eee; }
+  th { color: var(--gris); font-weight: 600; }
+  .pill { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; color: #fff; }
+  .ok { background: var(--ok); } .no { background: var(--no); }
+  code { font-size: 13px; }
+  a { color: var(--naranja); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Konrad <span>Gourmet</span> · plataforma local</h1>
+  <p class="sub">Página provisional del corte 1. La SPA en React la reemplaza en el corte 2.
+     Eureka: <a href="http://localhost:8761">localhost:8761</a> · Correos: <a href="http://localhost:8025">localhost:8025</a></p>
+  <section>
+    <h2>Microservicios registrados en Eureka</h2>
+    <table><thead><tr><th>Servicio</th><th>Prefijos en el gateway</th><th>Estado</th></tr></thead><tbody id="servicios"></tbody></table>
+  </section>
+</main>
+<script>
+const esperados = ['ms-identidad','ms-pedidos','ms-menu','ms-inventario','ms-solicitudes','ms-cotizaciones',
+                   'ms-ordenes','ms-notificaciones','ms-integracion','ms-administracion','ms-analitica'];
+async function json(url) { const r = await fetch(url, { cache: 'no-store' }); if (!r.ok) throw new Error(r.status); return r.json(); }
+async function pintar() {
+  let vivos = new Set(), rutas = [];
+  try { const reg = await json('/plataforma/registro');
+        (reg.applications.application || []).forEach(a => { if (a.instance.some(i => i.status === 'UP')) vivos.add(a.name.toLowerCase()); }); } catch (e) {}
+  try { rutas = await json('/plataforma/rutas'); } catch (e) {}
+  const filas = esperados.map(s => {
+    const prefijos = rutas.filter(r => r.uri === 'lb://' + s).map(r => (r.predicate.match(/\/api\/[a-z-]+(?=\/\*\*)/g) || []).join(', ')).join(', ');
+    const up = vivos.has(s);
+    return `<tr><td><code>${s}</code></td><td><code>${prefijos || '—'}</code></td>` +
+           `<td><span class="pill ${up ? 'ok' : 'no'}">${up ? 'Activo' : 'Sin desplegar'}</span></td></tr>`;
+  });
+  document.getElementById('servicios').innerHTML = filas.join('');
+}
+pintar(); setInterval(pintar, 5000);
+</script>
+</body>
+</html>
