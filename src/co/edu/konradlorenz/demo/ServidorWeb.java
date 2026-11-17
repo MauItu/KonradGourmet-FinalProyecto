@@ -38,10 +38,6 @@ public class ServidorWeb {
     private int pedidos = 250, solicitudes = 30, cotizaciones = 17;
     private final Path web = Path.of(".").toAbsolutePath().normalize();
 
-    // datos de presentación que ms-menu no guarda (categoría de la carta e imagen)
-    private final Map<Long, String> categoriaPlato = new HashMap<>();
-    private final Map<Long, byte[]> imagenPlato = new HashMap<>();
-    private final Map<Long, String> tipoImagen = new HashMap<>();
     private static final Set<String> PUBLICOS = Set.of("/index.html", "/styles.css", "/app.html", "/app.css", "/app.js");
     private static final int MAX_CUERPO = 2 * 1024 * 1024;
     private static final Map<Long, String> CATEGORIA_INSUMO = Map.of(1L, "Proteína", 2L, "Cereal", 3L, "Tubérculo", 4L, "Proteína");
@@ -86,11 +82,9 @@ public class ServidorWeb {
 
     /** ms-menu crea el plato y publica menu.actualizado: ms-pedidos arma su catálogo y ms-inventario guarda la receta. */
     private long plato(String nombre, String precio, String categoria, String descripcion, Map<Long, BigDecimal> receta) {
-        Plato p = new Plato(CENTRO, JEFE, nombre, descripcion, new BigDecimal(precio));
+        Plato p = new Plato(CENTRO, JEFE, nombre, categoria, descripcion, new BigDecimal(precio));
         receta.forEach((insumo, kg) -> p.agregarIngrediente(new Ingrediente(new Producto(insumo, producto(insumo), null), kg, UnidadMedida.KG)));
-        long id = sistema.platos.crear(p).id();
-        categoriaPlato.put(id, categoria);
-        return id;
+        return sistema.platos.crear(p).id();
     }
 
     private static Map<Long, BigDecimal> receta(Long a, String ca, Long b, String cb) {
@@ -156,9 +150,7 @@ public class ServidorWeb {
 
     /** V06: nombre, descripción, categoría, precio, imagen e ingredientes (ing_{insumo} en kg). */
     private String registrarPlato(Map<String, String> p) {
-        String categoria = requerido(p, "categoria");
         long id = sistema.platos.crear(platoDe(p)).id();
-        categoriaPlato.put(id, categoria);
         guardarImagen(id, p);
         return String.valueOf(id);
     }
@@ -166,9 +158,7 @@ public class ServidorWeb {
     /** V06 · Editar plato: la misma ventana; la imagen solo cambia si llega una nueva. */
     private String editarPlato(Map<String, String> p) {
         long id = Long.parseLong(requerido(p, "id"));
-        String categoria = requerido(p, "categoria");
         sistema.platos.editar(id, platoDe(p));
-        categoriaPlato.put(id, categoria);
         guardarImagen(id, p);
         return String.valueOf(id);
     }
@@ -181,7 +171,7 @@ public class ServidorWeb {
     }
 
     private Plato platoDe(Map<String, String> p) {
-        Plato plato = new Plato(CENTRO, JEFE, requerido(p, "nombre"), p.getOrDefault("descripcion", ""), decimal(p, "precio"));
+        Plato plato = new Plato(CENTRO, JEFE, requerido(p, "nombre"), requerido(p, "categoria"), p.getOrDefault("descripcion", ""), decimal(p, "precio"));
         for (InsumoInventario i : sistema.inventario.insumos(CENTRO)) {
             String clave = "ing_" + i.productoId();
             if (p.containsKey(clave)) {
@@ -195,8 +185,7 @@ public class ServidorWeb {
         String datos = p.getOrDefault("imagen", "");
         int coma = datos.indexOf(',');
         if (datos.startsWith("data:image/") && coma > 0) {
-            tipoImagen.put(id, datos.substring(5, datos.indexOf(';')));
-            imagenPlato.put(id, Base64.getDecoder().decode(datos.substring(coma + 1)));
+            sistema.platos.subirImagen(id, Base64.getDecoder().decode(datos.substring(coma + 1)), datos.substring(5, datos.indexOf(';')));
         }
     }
 
@@ -281,8 +270,8 @@ public class ServidorWeb {
         campo(b, "mesas", lista(sistema.pedidos.mesas(CENTRO), m -> obj("numero", m.numero(), "capacidad", m.capacidad())));
         campo(b, "platos", lista(menu, m -> obj(
             "id", m.id(), "nombre", json(m.nombre()), "precio", n(m.precioVenta()), "activo", m.activo(), "enCatalogo", enCatalogo.contains(m.id()),
-            "categoria", json(categoriaPlato.get(m.id())), "descripcion", json(m.descripcion()),
-            "imagen", imagenPlato.containsKey(m.id()),
+            "categoria", json(m.categoria()), "descripcion", json(m.descripcion()),
+            "imagen", m.imagenUrl() != null,
             "receta", lista(m.ingredientes(), g -> obj("id", g.producto().id(), "insumo", json(producto(g.producto().id())),
                 "cantidad", n(g.enKg()), "unidad", json("kg"))))));
         campo(b, "insumos", lista(sistema.inventario.insumos(CENTRO), i -> obj(
@@ -407,9 +396,10 @@ public class ServidorWeb {
         enviar(x, 200, tipo, Files.readAllBytes(f));
     }
     private void imagen(HttpExchange x, long id) throws IOException {
-        byte[] b = imagenPlato.get(id);
-        if (b == null) { responder(x, 404, "{\"error\":\"Sin imagen\"}"); return; }
-        enviar(x, 200, tipoImagen.get(id), b);
+        String url = sistema.platos.consultar(CENTRO).stream().filter(p -> p.id() == id).map(Plato::imagenUrl).findFirst().orElse(null);
+        if (url == null) { responder(x, 404, "{\"error\":\"Sin imagen\"}"); return; }
+        String tipo = url.endsWith(".png") ? "image/png" : url.endsWith(".webp") ? "image/webp" : "image/jpeg";
+        enviar(x, 200, tipo, sistema.platos.imagen(id));
     }
     private static void texto(HttpExchange x, byte[] b) throws IOException { enviar(x, 200, "text/plain; charset=utf-8", b); }
     private static void responder(HttpExchange x, int codigo, String s) throws IOException {

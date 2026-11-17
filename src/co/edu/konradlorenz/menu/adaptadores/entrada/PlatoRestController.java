@@ -7,7 +7,7 @@ import co.edu.konradlorenz.menu.puertos.entrada.RegistrarPlatoUseCase;
 import java.util.List;
 
 /**
- * «REST · /api/platos · PUT …/{id} · PATCH …/{id}/desactivar · PATCH …/{id}/reactivar»
+ * «REST · /api/platos · PUT …/{id} · PATCH …/{id}/desactivar · PATCH …/{id}/reactivar · …/{id}/imagen»
  *
  * En el proyecto real: @RestController.
  *
@@ -51,8 +51,22 @@ public class PlatoRestController {
     }
 
     // Atiende la ventana V06 de los mockups
+    // GET /api/platos/productos?categoria={id}
     public List<Producto> productosPorCategoria(Long categoriaId) {
         return casoDeUso.productosPorCategoria(categoriaId);
+    }
+
+    // Atiende la ventana V06 de los mockups
+    // PUT /api/platos/{id}/imagen
+    public void subirImagen(Long id, byte[] contenido, String tipo) {
+        casoDeUso.guardarImagen(id, contenido, tipo);
+    }
+
+    // Atiende la ventana V03 de los mockups
+    // Atiende la ventana V06 de los mockups
+    // GET /api/platos/{id}/imagen
+    public byte[] imagen(Long id) {
+        return casoDeUso.imagen(id);
     }
 
 }

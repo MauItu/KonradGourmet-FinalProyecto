@@ -20,4 +20,10 @@ public interface RegistrarPlatoUseCase {
 
     List<Producto> productosPorCategoria(Long categoriaId);
 
+    /** Sube la imagen del plato (PNG, JPEG o WebP, hasta 1 MB) y reemplaza la anterior. */
+    void guardarImagen(Long id, byte[] contenido, String tipo);
+
+    /** La imagen del plato; si no tiene, IllegalArgumentException. */
+    byte[] imagen(Long id);
+
 }

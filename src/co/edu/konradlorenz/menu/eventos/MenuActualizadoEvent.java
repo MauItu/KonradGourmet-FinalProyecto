@@ -10,15 +10,17 @@ public class MenuActualizadoEvent extends EventoDominio {
     private Long platoId;
     private Long sucursalId;
     private String nombre;
+    private String categoria;
     private BigDecimal precioVenta;
     private boolean activo;
     private Map<Long, BigDecimal> receta;
 
-    public MenuActualizadoEvent(String usuario, Long platoId, Long sucursalId, String nombre, BigDecimal precioVenta, boolean activo, Map<Long, BigDecimal> receta) {
+    public MenuActualizadoEvent(String usuario, Long platoId, Long sucursalId, String nombre, String categoria, BigDecimal precioVenta, boolean activo, Map<Long, BigDecimal> receta) {
         super(usuario);
         this.platoId = platoId;
         this.sucursalId = sucursalId;
         this.nombre = nombre;
+        this.categoria = categoria;
         this.precioVenta = precioVenta;
         this.activo = activo;
         this.receta = receta;
@@ -34,6 +36,10 @@ public class MenuActualizadoEvent extends EventoDominio {
 
     public String nombre() {
         return nombre;
+    }
+
+    public String categoria() {
+        return categoria;
     }
 
     public BigDecimal precioVenta() {

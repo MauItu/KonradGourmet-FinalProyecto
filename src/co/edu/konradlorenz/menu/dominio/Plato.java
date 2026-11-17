@@ -12,16 +12,22 @@ public class Plato {
     private Long sucursalId;
     private Long creadoPor;
     private String nombre;
+    private String categoria;
     private String descripcion;
     private BigDecimal precioVenta;
     private boolean activo;
+    private String imagenUrl;
     private List<Ingrediente> ingredientes = new ArrayList<>();
 
-    /** Un plato nuevo nace activo y sin id: el repositorio se lo asigna al guardarlo. */
-    public Plato(Long sucursalId, Long creadoPor, String nombre, String descripcion, BigDecimal precioVenta) {
+    /**
+     * Un plato nuevo nace activo, sin id y sin imagen: el repositorio le asigna el id al guardarlo. La
+     * categoría es la de la carta (Fuertes, Sopas, Bebidas…), con la que el mesero filtra V03.
+     */
+    public Plato(Long sucursalId, Long creadoPor, String nombre, String categoria, String descripcion, BigDecimal precioVenta) {
         this.sucursalId = sucursalId;
         this.creadoPor = creadoPor;
         this.nombre = nombre == null ? null : nombre.trim();
+        this.categoria = categoria == null ? null : categoria.trim();
         this.descripcion = descripcion == null ? "" : descripcion.trim();
         this.precioVenta = precioVenta;
         this.activo = true;
@@ -48,6 +54,10 @@ public class Plato {
         return nombre;
     }
 
+    public String categoria() {
+        return categoria;
+    }
+
     public String descripcion() {
         return descripcion;
     }
@@ -58,6 +68,16 @@ public class Plato {
 
     public boolean activo() {
         return activo;
+    }
+
+    /** Dónde está la imagen en el almacén de objetos, o null si el plato no tiene. */
+    public String imagenUrl() {
+        return imagenUrl;
+    }
+
+    /** La guarda PlatoService después de subir el archivo al almacén. */
+    public void asignarImagen(String url) {
+        this.imagenUrl = url;
     }
 
     public List<Ingrediente> ingredientes() {
@@ -82,7 +102,7 @@ public class Plato {
         ingredientes.add(i);
     }
 
-    /** Exige sucursal, quién lo crea, nombre y un precio de venta mayor que cero. */
+    /** Exige sucursal, quién lo crea, nombre, categoría y un precio de venta mayor que cero. */
     public void validar() {
         if (sucursalId == null) {
             throw new IllegalStateException("El plato necesita una sucursal");
@@ -93,15 +113,22 @@ public class Plato {
         if (nombre == null || nombre.isBlank()) {
             throw new IllegalStateException("El nombre del plato es obligatorio");
         }
+        if (categoria == null || categoria.isBlank()) {
+            throw new IllegalStateException("La categoría del plato es obligatoria");
+        }
         if (precioVenta == null || precioVenta.signum() <= 0) {
             throw new IllegalStateException("El precio de venta debe ser mayor que cero");
         }
     }
 
-    /** Copia los datos editables; el id, la sucursal, quién lo creó y el estado no cambian. Si algo no es válido no cambia nada. */
+    /**
+     * Copia los datos editables; el id, la sucursal, quién lo creó, el estado y la imagen no cambian (la
+     * imagen se cambia con asignarImagen). Si algo no es válido no cambia nada.
+     */
     public void editar(Plato datos) {
         datos.validar();
         this.nombre = datos.nombre;
+        this.categoria = datos.categoria;
         this.descripcion = datos.descripcion;
         this.precioVenta = datos.precioVenta;
         this.ingredientes = new ArrayList<>(datos.ingredientes);

@@ -111,7 +111,7 @@ public class Ensamble {
         NotificacionListeners alNotificar = new NotificacionListeners(notificaciones);
 
         // ms-menu: cada cambio de un plato publica menu.actualizado
-        platos = new PlatoRestController(new PlatoService(new PlatoEnMemoria(), bus));
+        platos = new PlatoRestController(new PlatoService(new PlatoEnMemoria(), almacen, bus));
 
         // ms-pedidos
         PedidoService pedidoService = new PedidoService(repositorioPedidos, new CatalogoEnMemoria(), bus);
