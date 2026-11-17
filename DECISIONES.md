@@ -85,7 +85,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-55 | Formato del reporte nuevo | Sobrio, de documento académico: una sola letra (Times New Roman 12 pt), todo en negro, títulos en negrilla del mismo tamaño, tablas con líneas finas, APA 7; `.docx` editable más PDF | Decidida por Mauricio (2026-11-08); detalle en `PLAN_REPORTE.md` |
 | DEC-57 | Qué describe la documentación entregable | El proyecto completo, como diseño previo a la construcción: sin notas sobre límites del prototipo ni de la demo. Se aplica al reporte v2, el `.drawio`, los casos de uso, el Story Mapping corregido y el Excel; quedan fuera los textos que dependen del código (§13, README y pruebas) y los registros internos | Decidida por Mauricio (2026-11-09); cambios PC-01 a PC-21 |
 | DEC-58 | Cómo se construye la aplicación que funciona completa | El stack especificado (11 microservicios Spring Boot, gateway, Eureka, Kafka, PostgreSQL, Redis, almacén S3, SPA en React) con Docker Compose en un solo equipo, por cortes verticales; la versión en memoria queda de respaldo | Decidida por Mauricio (2026-11-16); corte 1 hecho en la rama `stack-real` de KonradGourmet |
-| DEC-59 | Almacén de objetos en local | SeaweedFS (S3 compatible) en lugar de MinIO, cuya imagen ya no se puede descargar | Asumida (2026-11-16), por confirmar; no cambia el `.drawio` ni el reporte |
+| DEC-59 | Almacén de objetos en local | SeaweedFS (S3 compatible) en lugar de MinIO, cuya imagen ya no se puede descargar | Aceptada por Mauricio (2026-11-16, con su OK al plan); no cambia el `.drawio` ni el reporte |
 | DEC-60 | Tecnología de la SPA | React + TypeScript, como dice la §8 del reporte; la web de Codex (HTML y JS) queda en la versión en memoria | Decidida por Mauricio (2026-11-16); va en el corte 2 |
 
 ---
@@ -1182,7 +1182,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Por qué hubo que decidir.** El reporte y el diagrama nombran MinIO como ejemplo del almacén de objetos S3 compatible, pero el 2026-11-16 su imagen ya no se podía descargar (Docker Hub: «pull access denied»; Quay: 401).
 
 **Opciones:**
-- **A. SeaweedFS** (`chrislusf/seaweedfs:3.97`), S3 compatible; probado con el cliente oficial de AWS: crea el bucket, sube y baja archivos y rechaza credenciales falsas. ✅ **Asumida por Claude el 2026-11-16, por confirmar.**
+- **A. SeaweedFS** (`chrislusf/seaweedfs:3.97`), S3 compatible; probado con el cliente oficial de AWS: crea el bucket, sube y baja archivos y rechaza credenciales falsas. ✅ **Propuesta por Claude y aceptada por Mauricio el 2026-11-16** (su OK al mensaje que la proponía).
 - **B. Compilar MinIO desde el código fuente.** Más lento de armar y de mantener.
 - **C. Guardar los PDF en disco.** Deja de ser un almacén de objetos.
 
