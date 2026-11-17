@@ -33,7 +33,7 @@ export async function api<T>(ruta: string, opciones: { metodo?: string; cuerpo?:
   return datos as T;
 }
 
-/** Un archivo binario (la imagen de un plato); null si el servicio responde 404. */
+/** Un archivo binario (la imagen de un plato o el PDF de una cotización); null si el servicio responde 404. */
 export async function apiArchivo(ruta: string): Promise<Blob | null> {
   const r = await pedir(ruta, { metodo: 'GET' });
   if (r.status === 404) return null;
@@ -56,7 +56,7 @@ export async function subirArchivo(ruta: string, archivo: Blob): Promise<void> {
 }
 
 async function pedir(ruta: string, o: { metodo: string; tipo?: string; cuerpo?: BodyInit; publica?: boolean }): Promise<Response> {
-  const cabeceras: Record<string, string> = { Accept: 'application/json, image/*' };
+  const cabeceras: Record<string, string> = { Accept: 'application/json, image/*, application/pdf' };
   if (o.tipo) cabeceras['Content-Type'] = o.tipo;
   const token = leerToken();
   if (token && !o.publica) cabeceras.Authorization = `Bearer ${token}`;

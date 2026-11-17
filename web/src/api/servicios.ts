@@ -1,4 +1,4 @@
-// Las rutas de la tabla 5 que usan los cortes 3 y 4a, a través del gateway. El usuario y la sucursal los pone
+// Las rutas de la tabla 5 que usan los cortes 3, 4a y 4b, a través del gateway. El usuario y la sucursal los pone
 // cada servicio desde el JWT; la SPA no los manda.
 import { api, apiArchivo, subirArchivo } from './cliente';
 
@@ -78,4 +78,53 @@ export const solicitudes = {
   /** V11–V12: las de todas las sucursales (auxiliar de compras). */
   consultar: (c: Criterios = {}) => api<Solicitud[]>(`/api/solicitudes${consulta(c) ? '?' + consulta(c) : ''}`),
   detalle: (numero: string) => api<Solicitud>(`/api/solicitudes/${encodeURIComponent(numero)}`),
+};
+
+// ── ms-cotizaciones: proveedores (HU-15) ────────────────────────────────────────────────────────
+export interface Proveedor {
+  id: number; razonSocial: string; nit: string; correo: string; telefono: string | null; direccion: string | null;
+  categorias: string[]; activo: boolean;
+}
+export type DatosProveedor = Omit<Proveedor, 'id' | 'activo'>;
+
+export const proveedores = {
+  /** activos = true: el desplegable de V13 (los inactivos no reciben cotizaciones). */
+  consultar: (activos = false) => api<Proveedor[]>(`/api/proveedores${activos ? '?activos=true' : ''}`),
+  registrar: (d: DatosProveedor) => api<Proveedor>('/api/proveedores', { cuerpo: d }),
+  editar: (id: number, d: DatosProveedor) => api<Proveedor>(`/api/proveedores/${id}`, { metodo: 'PUT', cuerpo: d }),
+  inactivar: (id: number) => api<void>(`/api/proveedores/${id}/inactivar`, { metodo: 'PATCH' }),
+};
+
+// ── ms-cotizaciones: cotizaciones (V13–V19) ─────────────────────────────────────────────────────
+export type EstadoCotizacion = 'PENDIENTE_PRECIO' | 'ENVIADA' | 'RECHAZADA' | 'SOSPECHOSA' | 'OPCIONADA' | 'CON_ORDEN';
+export interface ItemCotizacion {
+  productoId: number; producto: string; cantidad: number; unidad: string; precioEstandar: number | null; precioProveedor: number | null;
+}
+/** estandar, cotizado y diferencia (en %) los calcula el servicio; van en null mientras falten precios. */
+export interface Cotizacion {
+  numero: string; solicitudes: string[]; proveedorId: number; proveedor: string; correoProveedor: string;
+  fechaEnvio: string; fechaLimite: string; estado: EstadoCotizacion; pdf: boolean; items: ItemCotizacion[];
+  estandar: number | null; cotizado: number | null; diferencia: number | null;
+}
+export interface NuevaCotizacion {
+  solicitudes: string[]; proveedorId: number; fechaLimite: string;
+  items: { productoId: number; producto: string; cantidad: number; unidad: string }[];
+}
+
+const ruta = (numero: string) => `/api/cotizaciones/${encodeURIComponent(numero)}`;
+
+export const cotizaciones = {
+  /** V13: genera y envía (o la deja PENDIENTE_PRECIO si el Ministerio no respondió). */
+  generar: (d: NuevaCotizacion) => api<Cotizacion>('/api/cotizaciones', { cuerpo: d }),
+  consultar: (estado?: EstadoCotizacion) => api<Cotizacion[]>(`/api/cotizaciones${estado ? `?estado=${estado}` : ''}`),
+  /** V16: las enviadas que esperan los valores del proveedor o la validación (director). */
+  pendientes: () => api<Cotizacion[]>('/api/cotizaciones/pendientes'),
+  detalle: (numero: string) => api<Cotizacion>(ruta(numero)),
+  /** V18: el precio por unidad del proveedor de cada producto. */
+  registrarValores: (numero: string, precios: Record<number, number>) => api<Cotizacion>(`${ruta(numero)}/valores`, { metodo: 'PUT', cuerpo: { precios } }),
+  /** V19: la cadena de reglas decide OPCIONADA, RECHAZADA o SOSPECHOSA. */
+  validar: (numero: string) => api<Cotizacion>(`${ruta(numero)}/validacion`, { metodo: 'POST' }),
+  reenviar: (numero: string) => api<Cotizacion>(`${ruta(numero)}/reenvio`, { metodo: 'POST' }),
+  /** El PDF del almacén de objetos, pedido con el token. */
+  pdf: (numero: string, descargar = false) => apiArchivo(`${ruta(numero)}/pdf${descargar ? '?descargar=true' : ''}`),
 };
