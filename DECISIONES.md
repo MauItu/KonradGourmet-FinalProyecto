@@ -15,7 +15,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **PD-01 a PD-11 y las confirmaciones de los supuestos (DEC-08, DEC-20, DEC-39 a DEC-41, DEC-44, DEC-45, DEC-47 y DEC-48):** las tomó el agente `arquitecto-revisor` de Claude el 2026-11-08, por delegación expresa de Mauricio (puntos 4 y 5 de `PENDIENTES_POST_SESION6.md`), respetando sus decisiones ya confirmadas. El informe completo, con la evidencia, está en `REVISION_ARQUITECTO_POST_S6.md`. «PD» significa decisión posterior a la sesión 6. Mauricio puede revertir cualquiera.
 - **DEC-63, DEC-68 y DEC-69:** las asumió Claude y las confirmó Mauricio el 2026-11-17, al aprobar el corte 3.
 - **DEC-71 y DEC-72:** las asumió Claude el 2026-11-17 en el corte 4a y las confirmó Mauricio el mismo día, al aprobar el corte 4a.
-- **DEC-73 y DEC-74:** las asumió Claude el 2026-11-17 en el corte 4b; esperan la confirmación de Mauricio.
+- **DEC-73 y DEC-74:** las asumió Claude el 2026-11-17 en el corte 4b y las confirmó Mauricio el mismo día, al aprobar el corte 4b.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -102,8 +102,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-70 | Tamaño del corte 4 | Partirlo en 4a (ms-solicitudes V08–V12 y ms-integracion) y 4b (ms-cotizaciones V13–V19, proveedores y PDF), cada uno con su reporte y su OK | Decidida por Mauricio (2026-11-17) |
 | DEC-71 | Cómo se simula en local el Ministerio de Comercio | Un contenedor `ministerio` con WireMock que publica el WSDL y responde por SOAP el precio de cada producto (300 ms) o un SOAP Fault; `MinisterioSoapClient` habla SOAP 1.1 de verdad con el JDK. El diagrama no cambia | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
 | DEC-72 | Detalles del corte 4a | SOL-031 en adelante por secuencia, sin solicitudes iniciales y V08 precargada la primera vez; «Mis solicitudes» filtra por el jefe del token en el controlador; rol por ruta; el auxiliar lee los productos de ms-menu y ve el correo del solicitante; REST interno en `/interno/precios/{id}`; el SOAP con cualquier token válido; caché en Redis con vencimiento de un día; «—» en «Cotizaciones enviadas» hasta el 4b | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
-| DEC-73 | Librería del PDF de la cotización | OpenPDF, la que ya nombra el diagrama en `PdfCotizacionAdapter` («OpenPDF»); el diagrama no cambia | Asumida por Claude (2026-11-17), por confirmar |
-| DEC-74 | Detalles del corte 4b | COT-018 en adelante por secuencia, pedido antes de generar; los 4 proveedores de la demo; copia local del nombre de cada producto en ms-cotizaciones (lo manda la SPA); la SPA suma los productos de las solicitudes; roles por ruta; el PDF sin precio de referencia; V16 con «Órdenes de compra» en «—» hasta el corte 5; listeners de `orden.generada` ya suscritos | Asumida por Claude (2026-11-17), por confirmar |
+| DEC-73 | Librería del PDF de la cotización | OpenPDF, la que ya nombra el diagrama en `PdfCotizacionAdapter` («OpenPDF»); el diagrama no cambia | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-74 | Detalles del corte 4b | COT-018 en adelante por secuencia, pedido antes de generar; los 4 proveedores de la demo; copia local del nombre de cada producto en ms-cotizaciones (lo manda la SPA); la SPA suma los productos de las solicitudes; roles por ruta; el PDF sin precio de referencia; V16 con «Órdenes de compra» en «—» hasta el corte 5; listeners de `orden.generada` ya suscritos | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
 
 ---
 
@@ -1352,7 +1352,7 @@ Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los c
 **Por qué hubo que decidir.** `PdfCotizacionAdapter` estaba pendiente (la demo usa `PdfSimulado`, que escribe texto) y en la plataforma el proveedor tiene que recibir un PDF de verdad, que abra y que no esté dañado.
 
 **Opciones:**
-- **A. OpenPDF** (`com.github.librepdf:openpdf` 2.0.3, licencia LGPL/MPL), la que ya dice el diagrama: la 4c rotula `PdfCotizacionAdapter` con «OpenPDF». ✅ **Asumida por Claude el 2026-11-17, por confirmar.**
+- **A. OpenPDF** (`com.github.librepdf:openpdf` 2.0.3, licencia LGPL/MPL), la que ya dice el diagrama: la 4c rotula `PdfCotizacionAdapter` con «OpenPDF». ✅ **Asumida por Claude el 2026-11-17 y confirmada por Mauricio el mismo día.**
 - **B. Apache PDFBox.** También libre y madura, pero de más bajo nivel para armar tablas, y el rótulo del diagrama cambiaría a «PDFBox».
 - **C. Plantilla HTML convertida a PDF** (por ejemplo, OpenHTMLtoPDF). Más fácil de diseñar, pero suma un motor de plantillas y otra librería que el diagrama no tiene.
 
@@ -1360,7 +1360,7 @@ Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los c
 
 ## DEC-74 · Detalles del corte 4b asumidos por Claude
 
-Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17, **por confirmar**:
+Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los confirmó Mauricio el mismo día** (incluida la copia local de los nombres de productos):
 
 - **Numeración.** Una secuencia de PostgreSQL empieza en COT-018, la primera cotización de la demo (como SOL-031 en DEC-72). A diferencia de pedidos y solicitudes, el número se pide antes de generar (`NumeracionCotizaciones`, fuera del diagrama), porque la fachada crea el PDF, que ya lo lleva, antes de guardar la cotización. Si faltan las solicitudes o los productos, no se gasta número. Otra opción era un método nuevo `siguienteNumero()` en `CotizacionRepositoryPort` (cambia la 4c).
 - **Datos iniciales.** Los 4 proveedores de la demo (Proveedor ABC, B, C y D, con su NIT, correo, teléfono, dirección y categorías), cargados con Flyway. No hay cotizaciones iniciales.
