@@ -1,6 +1,6 @@
 // Qué es cada ruta del menú (las rutas las arma ms-identidad en construirMenu()): título, ícono,
 // ventanas de los mockups y el servicio que la atiende. Las que todavía no están construidas dicen
-// en qué corte llegan (las de los cortes 3 y 4a ya tienen su página en App.tsx).
+// en qué corte llegan (las de los cortes 3, 4a y 4b ya tienen su página en App.tsx).
 export interface Pantalla {
   titulo: string;
   sub: string;
@@ -20,12 +20,12 @@ export const PANTALLAS: Record<string, Pantalla> = {
   '/solicitudes': { titulo: 'Solicitudes', sub: 'Solicitudes de alimentos', icono: 'file', ventanas: 'V10 a V12', servicio: 'ms-solicitudes' },
   '/solicitudes/nueva': { titulo: 'Nueva solicitud', sub: 'Pide alimentos al área de compras', icono: 'file', ventanas: 'V08 y V09', servicio: 'ms-solicitudes' },
   '/promociones': { titulo: 'Promociones sugeridas', sub: 'Sugerencias del análisis semanal (HU-19)', icono: 'tag', ventanas: 'sin mockup', servicio: 'ms-analitica', corte: 6 },
-  '/cotizaciones': { titulo: 'Cotizaciones', sub: 'Cotizaciones enviadas a proveedores', icono: 'file', ventanas: 'V15 y V17', servicio: 'ms-cotizaciones', corte: '4b' },
-  '/cotizaciones/nueva': { titulo: 'Generar cotización', sub: 'Arma y envía la solicitud de cotización', icono: 'send', ventanas: 'V13 y V14', servicio: 'ms-cotizaciones', corte: '4b' },
-  '/cotizaciones/todas': { titulo: 'Todas las cotizaciones', sub: 'Cotizaciones de todos los proveedores', icono: 'file', ventanas: 'V17', servicio: 'ms-cotizaciones', corte: '4b' },
-  '/cotizaciones/pendientes': { titulo: 'Pendientes de validar', sub: 'Registra los valores del proveedor y valida', icono: 'scale', ventanas: 'V18 y V19', servicio: 'ms-cotizaciones', corte: '4b' },
+  '/cotizaciones': { titulo: 'Cotizaciones', sub: 'Cotizaciones enviadas a proveedores', icono: 'file', ventanas: 'V15 y V17', servicio: 'ms-cotizaciones' },
+  '/cotizaciones/nueva': { titulo: 'Generar cotización', sub: 'Arma y envía la solicitud de cotización', icono: 'send', ventanas: 'V13 y V14', servicio: 'ms-cotizaciones' },
+  '/cotizaciones/todas': { titulo: 'Todas las cotizaciones', sub: 'Cotizaciones de todos los proveedores', icono: 'file', ventanas: 'V17', servicio: 'ms-cotizaciones' },
+  '/cotizaciones/pendientes': { titulo: 'Pendientes de validar', sub: 'Registra los valores del proveedor y valida', icono: 'scale', ventanas: 'V18 y V19', servicio: 'ms-cotizaciones' },
   '/cotizaciones/opcionadas': { titulo: 'Cotizaciones opcionadas', sub: 'Listas para generar la orden de compra', icono: 'star', ventanas: 'V20', servicio: 'ms-cotizaciones', corte: 5 },
-  '/proveedores': { titulo: 'Proveedores', sub: 'Registro y mantenimiento de proveedores (HU-15)', icono: 'store', ventanas: 'sin mockup', servicio: 'ms-cotizaciones', corte: '4b' },
+  '/proveedores': { titulo: 'Proveedores', sub: 'Registro y mantenimiento de proveedores (HU-15)', icono: 'store', ventanas: 'sin mockup', servicio: 'ms-cotizaciones' },
   '/ordenes-compra': { titulo: 'Órdenes de compra', sub: 'Órdenes generadas y su seguimiento', icono: 'receipt', ventanas: 'V21 a V23', servicio: 'ms-ordenes', corte: 5 },
   '/bam': { titulo: 'Tablero BAM', sub: 'Indicadores del negocio (HU-18)', icono: 'chart', ventanas: 'sin mockup', servicio: 'ms-analitica', corte: 6 },
   '/admin': { titulo: 'Administración', sub: 'Parámetros, imagen corporativa, auditoría y logs', icono: 'settings', ventanas: 'sin mockup', servicio: 'ms-administracion', corte: 6 },

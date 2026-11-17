@@ -1,6 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ProveedorAviso } from './componentes/Piezas';
 import { Armazon } from './paginas/Armazon';
+import { Proveedores } from './paginas/auxiliar/Proveedores';
+import { Cotizaciones } from './paginas/Cotizaciones';
+import { CotizacionesDirector } from './paginas/director/CotizacionesDirector';
 import { Inventario } from './paginas/jefe/Inventario';
 import { Platos } from './paginas/jefe/Platos';
 import { NuevoPedido } from './paginas/mesero/NuevoPedido';
@@ -29,6 +32,11 @@ export function App() {
               <Route path="/inventario" element={<Inventario />} />
               <Route path="/solicitudes" element={<Solicitudes />} />
               <Route path="/solicitudes/nueva" element={<Solicitudes />} />
+              <Route path="/cotizaciones" element={<Cotizaciones />} />
+              <Route path="/cotizaciones/nueva" element={<Cotizaciones />} />
+              <Route path="/cotizaciones/todas" element={<CotizacionesDirector key="todas" soloPendientes={false} />} />
+              <Route path="/cotizaciones/pendientes" element={<CotizacionesDirector key="pendientes" soloPendientes />} />
+              <Route path="/proveedores" element={<Proveedores />} />
               <Route path="*" element={<PorConstruir />} />
             </Route>
           </Routes>
