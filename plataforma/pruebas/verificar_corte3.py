@@ -2,10 +2,10 @@
 # Revisa en PostgreSQL y en Kafka lo que dejó recorrido_corte3.py (corre contra los contenedores con
 # docker exec, sin instalar nada): el pedido a nombre del mesero, el plato nuevo en las tres bases, los
 # eventos con el usuario del JWT y la correlación del recorrido (DEC-64) y la alerta de stock bajo.
-# Uso: python verificar_corte3.py
-import json, subprocess, sys
+# Uso: python verificar_corte3.py   (COMPOSE_PROJECT_NAME elige otra instancia; por omisión, konrad-gourmet)
+import json, os, subprocess, sys
 
-PROYECTO = 'konrad-gourmet'
+PROYECTO = os.environ.get('COMPOSE_PROJECT_NAME', 'konrad-gourmet')
 fallas = []
 
 def ok(cond, texto):
