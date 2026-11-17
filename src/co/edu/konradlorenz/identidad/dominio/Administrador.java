@@ -6,9 +6,20 @@ public class Administrador extends Usuario {
         super(id, nombre, correo, sucursal);
     }
 
+    /**
+     * Menú del administrador (sin mockup): Inicio, Administración (parámetros, imagen corporativa,
+     * auditoría y logs), Usuarios, Destinatarios de alertas, Mi perfil y Cerrar sesión.
+     */
     @Override
     public ElementoMenu construirMenu() {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        GrupoMenu raiz = new GrupoMenu("Menú", "/");
+        raiz.agregar(new OpcionMenu("Inicio", "/inicio"));
+        raiz.agregar(new OpcionMenu("Administración", "/admin"));
+        raiz.agregar(new OpcionMenu("Usuarios", "/usuarios"));
+        raiz.agregar(new OpcionMenu("Destinatarios", "/destinatarios"));
+        raiz.agregar(new OpcionMenu("Mi perfil", "/perfil"));
+        raiz.agregar(new OpcionMenu("Cerrar sesión", "/cerrar-sesion"));
+        return raiz;
     }
 
     @Override
