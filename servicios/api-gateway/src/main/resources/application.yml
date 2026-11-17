@@ -4,6 +4,12 @@ server:
 spring:
   application:
     name: api-gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Llave pública de ms-identidad (DEC-62). Se lee la primera vez que llega un token.
+          jwk-set-uri: ${JWKS_URL:http://ms-identidad:8080/api/auth/jwks}
   cloud:
     gateway:
       server:

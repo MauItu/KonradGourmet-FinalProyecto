@@ -137,12 +137,35 @@ services:
       start_period: 20s
       retries: 30
 
+  # ── Microservicios ───────────────────────────────────────────────────────────────
+
+  ms-identidad:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-identidad }
+    image: konrad-gourmet/ms-identidad
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/actuator/health | grep -q UP"]
+      interval: 5s
+      start_period: 30s
+      retries: 30
+
   # Servidor web de la SPA. Única entrada desde el navegador: http://localhost:8080
   web:
     image: nginx:1.28.0-alpine
     restart: unless-stopped
     depends_on:
       api-gateway:
+        condition: service_healthy
+      ms-identidad:
         condition: service_healthy
       kafka-topicos:
         condition: service_completed_successfully
