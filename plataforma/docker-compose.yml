@@ -158,6 +158,51 @@ services:
       start_period: 30s
       retries: 30
 
+  ms-menu:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-menu }
+    image: konrad-gourmet/ms-menu
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      s3-bucket:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+    healthcheck: &salud-servicio
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/actuator/health | grep -q UP"]
+      interval: 5s
+      start_period: 30s
+      retries: 30
+
+  ms-pedidos:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-pedidos }
+    image: konrad-gourmet/ms-pedidos
+    depends_on: &depende-de-datos
+      postgres:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+    healthcheck: *salud-servicio
+
+  ms-inventario:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-inventario }
+    image: konrad-gourmet/ms-inventario
+    depends_on: *depende-de-datos
+    healthcheck: *salud-servicio
+
   # Servidor web de la SPA en React (imagen construida desde web/). Única entrada desde el navegador: http://localhost:8080
   web:
     build:
@@ -168,6 +213,12 @@ services:
       api-gateway:
         condition: service_healthy
       ms-identidad:
+        condition: service_healthy
+      ms-menu:
+        condition: service_healthy
+      ms-pedidos:
+        condition: service_healthy
+      ms-inventario:
         condition: service_healthy
       kafka-topicos:
         condition: service_completed_successfully
