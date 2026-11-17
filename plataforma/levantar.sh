@@ -40,7 +40,7 @@ token=$(curl -s -H 'Content-Type: application/json' \
         -d '{"correo":"paula.herrera@konradgourmet.com","clave":"Konrad2026"}' http://localhost:8080/api/auth/token \
         | sed -n 's/.*"jwt":"\([^"]*\)".*/\1/p')
 for par in /api/pedidos/mesas=403 /api/platos=403 /api/inventario/insumos=403 /api/solicitudes=403 \
-           '/api/integracion/abastecimiento?wsdl=200'; do
+           '/api/integracion/abastecimiento?wsdl=200' /api/cotizaciones=403 /api/proveedores=403; do
   ruta=${par%=*}; esperado=${par##*=}
   for i in $(seq 1 60); do
     codigo=$(curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $token" "http://localhost:8080$ruta" || true)

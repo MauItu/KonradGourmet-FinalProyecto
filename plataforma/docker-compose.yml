@@ -226,6 +226,24 @@ services:
     depends_on: *depende-de-datos
     healthcheck: *salud-servicio
 
+  # Proveedores y cotizaciones: el PDF va al almacén de objetos y el precio de referencia lo pide a ms-integracion.
+  ms-cotizaciones:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-cotizaciones }
+    image: konrad-gourmet/ms-cotizaciones
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      s3-bucket:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+    healthcheck: *salud-servicio
+
   # La frontera SOA: precio estándar del Ministerio con la caché en Redis y el endpoint SOAP (/api/integracion/**).
   ms-integracion:
     <<: *servicio-java
@@ -264,6 +282,8 @@ services:
       ms-solicitudes:
         condition: service_healthy
       ms-integracion:
+        condition: service_healthy
+      ms-cotizaciones:
         condition: service_healthy
       kafka-topicos:
         condition: service_completed_successfully
