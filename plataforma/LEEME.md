@@ -33,7 +33,8 @@ Solo necesita Docker: los servicios Java se compilan dentro de un contenedor de 
 | `ms-menu` | Spring Boot | V06: platos con su categoría, receta e imagen; publica `menu.actualizado` |
 | `ms-pedidos` | Spring Boot | V02–V04: pedidos por mesa y catálogo del mesero (escucha `menu.actualizado`); publica `pedido.registrado` |
 | `ms-inventario` | Spring Boot | V05 y V07: existencias, recetas (por `menu.actualizado`), consumo (por `pedido.registrado`) y cierre de las 23:59 con ShedLock; publica `inventario.stock-bajo`; con `solicitud.registrada` atiende las alertas |
-| `ms-solicitudes` | Spring Boot | V08–V12: el jefe de cocina registra y consulta sus solicitudes; el auxiliar de compras las consulta todas (filtros de HU-07); publica `solicitud.registrada` |
+| `ms-solicitudes` | Spring Boot | V08–V12: el jefe de cocina registra y consulta sus solicitudes; el auxiliar de compras las consulta todas (filtros de HU-07); publica `solicitud.registrada`; con `cotizacion.enviada` pasa a EN TRÁMITE las que quedan cotizadas y publica `solicitud.en-tramite` |
+| `ms-cotizaciones` | Spring Boot + OpenPDF | V13–V19 y proveedores (HU-15): el auxiliar arma la cotización de una o varias solicitudes y la envía con su PDF (bucket `documentos-pdf`) y el precio de referencia de ms-integracion; la directora registra los valores del proveedor y valida con la cadena de reglas; publica `cotizacion.enviada` y `cotizacion.validada`, escucha `orden.generada` |
 | `ms-integracion` | Spring Boot + Apache CXF | Frontera SOA: precio estándar del Ministerio por SOAP con la caché en Redis (Proxy) y el endpoint SOAP `/api/integracion/abastecimiento` (WSDL en `?wsdl`) |
 | `ministerio` | WireMock 3.13 | Servicio web SOAP de precios del Ministerio de Comercio, simulado (DEC-71); solo lo ve ms-integracion |
 | `kafka-topicos`, `s3-bucket` | — | Crean los tópicos y los buckets al arrancar (`levantar.sh` los vuelve a correr), y terminan |
@@ -62,8 +63,12 @@ Todos con la clave `Konrad2026` (la pantalla de inicio de sesión tiene un botó
   que reciben; el cierre diario publica «sistema»). El servicio devuelve la cabecera en la respuesta.
 - Los servicios corren en hora de Bogotá: el turno del mesero y el cierre de las 23:59 se cuentan así.
 - El endpoint SOAP de ms-integracion también pasa por el gateway, así que pide un token válido (de cualquier
-  rol, DEC-72). El REST interno de precios (`/interno/precios/{id}`, para ms-cotizaciones) no se publica en el
-  gateway: solo se alcanza dentro de la red de Docker, con el token del auxiliar o del director de compras.
+  rol, DEC-72). El REST interno de precios (`/interno/precios/{id}`) no se publica en el gateway: solo se
+  alcanza dentro de la red de Docker, con el token del auxiliar o del director de compras. ms-cotizaciones lo
+  llama (`PrecioSugeridoRestAdapter`, por Eureka) con el JWT de quien genera la cotización y su `X-Correlation-Id`.
+- En ms-cotizaciones, generar y reenviar son del auxiliar de compras; registrar valores, validar y ver las
+  pendientes, de la directora de compras; las dos ven la lista, el detalle y el PDF. Proveedores: el auxiliar
+  registra, edita e inactiva; la directora solo los lee.
 
 ## Clases que no están en el diagrama de clases
 
@@ -84,7 +89,10 @@ que el diagrama omite a propósito, como omite los constructores:
   solo para la demostración, DEC-68);
 - en ms-integracion, `MapaPreciosRedis` (el mapa `{Redis}` del Proxy: una llave por precio que vence en un día)
   y la publicación del endpoint SOAP en Apache CXF, en `ConfiguracionIntegracion`. `MinisterioSoapClient` no
-  tiene versión Spring: es Java puro y ms-integracion copia el de `src/` (DEC-71).
+  tiene versión Spring: es Java puro y ms-integracion copia el de `src/` (DEC-71);
+- en ms-cotizaciones, `NumeracionCotizaciones` (el número de la secuencia, COT-018 en adelante, que se pide
+  antes de generar porque el PDF ya lo lleva) y `NombresProductos` (la copia local del nombre de cada producto,
+  que la SPA manda al generar: la usan el PDF y las ventanas de la directora, DEC-74).
 
 Los adaptadores del diagrama (`AuthRestController`, `UsuarioJpaAdapter`, `JwtEmisorAdapter`…) tienen el
 mismo nombre, paquete y métodos que en el diagrama.
@@ -109,7 +117,7 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
 | 2 | ms-identidad (login con JWT y BCrypt, menú por rol) y la SPA en React + TypeScript | Hecho |
 | 3 | ms-pedidos, ms-menu y ms-inventario (V02–V07), DEC-64 y DEC-65 | Hecho |
 | 4a | ms-solicitudes (V08–V12) y ms-integracion (precio de referencia con caché en Redis, SOAP), DEC-70 a DEC-72 | Hecho |
-| 4b | ms-cotizaciones (V13–V19, proveedores y PDF) — DEC-70 | Pendiente |
+| 4b | ms-cotizaciones (V13–V19, proveedores y PDF con OpenPDF) y ms-solicitudes con `cotizacion.enviada`, DEC-73 y DEC-74 | Hecho, por aprobar |
 | 5 | ms-ordenes y ms-notificaciones (V20–V23) | Pendiente |
 | 6 | ms-administracion y ms-analitica (Administrador, Director comercial, tablero BAM) | Pendiente |
 | 7 | Pruebas de punta a punta, README y revisión | Pendiente |
@@ -123,6 +131,8 @@ python plataforma/pruebas/recorrido_corte3.py /tmp/capturas    # navegador: mese
 python plataforma/pruebas/verificar_corte3.py                  # revisa lo que quedó en PostgreSQL y en Kafka
 python plataforma/pruebas/recorrido_corte4a.py /tmp/capturas   # navegador: solicitudes del jefe y del auxiliar (después del corte 3)
 python plataforma/pruebas/verificar_corte4a.py /tmp/capturas   # PostgreSQL, Kafka, Redis, el Ministerio y el SOAP por el gateway
+python plataforma/pruebas/recorrido_corte4b.py /tmp/capturas   # navegador: cotizaciones del auxiliar y de la directora, proveedores (después del 4a)
+python plataforma/pruebas/verificar_corte4b.py /tmp/capturas   # PostgreSQL, el PDF en el almacén, Redis, Kafka de ida y vuelta, PENDIENTE_PRECIO
 ```
 
 El recorrido registra un pedido de $82.000 (2 bandejas paisas y 1 ajiaco), crea un plato con imagen, lo edita
@@ -137,5 +147,20 @@ revisa las solicitudes en PostgreSQL; en Kafka, que el evento lleve el correo de
 petición del navegador, y que ms-inventario lo haya recibido en el mismo recorrido; y en ms-integracion, que el
 precio del pollo salga del Ministerio la primera vez (WireMock cuenta la llamada) y de Redis la segunda, que el
 SOAP responda a través del gateway y que el REST interno no esté publicado.
+
+El del corte 4b sigue con esas dos solicitudes. La auxiliar abre V13 desde «Generar cotización con SOL-031» de
+V12 y envía COT-018 al Proveedor ABC (V14 con el PDF generado); desde V15 envía COT-019 al Proveedor C y descarga
+su PDF; a 390 px envía COT-020 con SOL-031 y SOL-032 juntas al Proveedor D. El jefe ve sus dos solicitudes EN
+TRÁMITE en V10 y V05. La directora, desde V16, registra los valores de COT-018 (res $21.250 y arroz $8.000) y
+valida: V19 dice OPCIONADA, +4,81 % (las cifras de la demo); COT-019 (res $29.000) queda RECHAZADA, +34,62 %, y
+COT-020 (res $4.000) SOSPECHOSA, −62,16 %. La auxiliar registra un proveedor, lo edita y lo inactiva, y ya no
+sale en V13. El verificador revisa las cotizaciones y sus precios en PostgreSQL; que cada PDF esté en el bucket,
+idéntico al que sirve el gateway y al que bajó el navegador, y que `pdftotext` lo lea; que el precio de cada
+producto se le pidió al Ministerio una sola vez (las demás veces respondió Redis) y que ms-integracion registró
+la consulta a nombre de la auxiliar y con la correlación del navegador; en Kafka, `cotizacion.enviada`,
+`cotizacion.validada` y la ida y vuelta con ms-solicitudes (`solicitud.en-tramite` en el mismo recorrido); que un
+producto que el Ministerio no conoce deja la cotización PENDIENTE_PRECIO, sin PDF ni evento; y los roles.
+El correo al proveedor con el PDF lo envía ms-notificaciones en el corte 5: el evento ya lleva el `pdfUrl` y el
+correo del proveedor.
 
 La versión en memoria (`./ejecutar.sh` y `./web.sh`) sigue funcionando igual y no necesita Docker.

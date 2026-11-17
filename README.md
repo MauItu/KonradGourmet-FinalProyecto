@@ -167,7 +167,7 @@ Cifras de la demo que no salen de los diagramas (supuestos, anotados en `DECISIO
 
 ### Qué métodos tienen lógica
 
-De los 274 cuerpos que lanzaban `Pendiente de implementar` al terminar la sesión 3, quedan **72** (incluidos `JwtEmisorAdapter.emitir()`, que se agregó con DEC-62, y los dos métodos del `AlmacenObjetosAdapter` de ms-menu, DEC-67; en el corte 4a, `MinisterioSoapClient.consultarPrecioEstandar()` pasó a tener lógica, DEC-71). Tienen
+De los 274 cuerpos que lanzaban `Pendiente de implementar` al terminar la sesión 3, quedan **72** (incluidos `JwtEmisorAdapter.emitir()`, que se agregó con DEC-62, y los dos métodos del `AlmacenObjetosAdapter` de ms-menu, DEC-67; en el corte 4a, `MinisterioSoapClient.consultarPrecioEstandar()` pasó a tener lógica, DEC-71; el corte 4b no cambia la cuenta: sus adaptadores reales están en `servicios/ms-cotizaciones`). Tienen
 lógica real todo lo que usa el recorrido de compra, de punta a punta; lo que queda pendiente es lo que
 habla con una tecnología externa (la demo pone un adaptador en memoria en su lugar) o lo que la demo no usa.
 
@@ -179,7 +179,7 @@ habla con una tecnología externa (la demo pone un adaptador en memoria en su lu
 | `menu` | `Plato` (validar, editar, desactivar, reactivar, categoría e imagen), `Ingrediente`, `Producto`, `Categoria`, `PlatoService`, `PlatoRestController`, `MenuActualizadoEvent` | `PlatoJpaAdapter` y `AlmacenObjetosAdapter` (la demo usa `PlatoEnMemoria` y `AlmacenEnMemoria`; los reales están en `servicios/ms-menu`) |
 | `inventario` | `InsumoInventario`, `Inventario`, `RecetaPlato`, `UmbralStock`, `InventarioService`, `ConsumoDiarioJob`, los 2 listeners y `InventarioRestController` | `InventarioJpaAdapter` (el real está en `servicios/ms-inventario`) |
 | `solicitudes` | `SolicitudAlimentos` (que también se rearma con su fecha y estado), `ItemSolicitud`, `CriteriosConsulta`, `SolicitudService`, `CotizacionEventsListener`, `SolicitudRestController` | `SolicitudJpaAdapter` (el real está en `servicios/ms-solicitudes`) |
-| `cotizaciones` | `Cotizacion`, `ItemCotizacion`, `Proveedor`, `ReglaValidacion` y sus 3 reglas, `GenerarCotizacionFacade`, `CotizacionService`, `ProveedorService`, `OrdenGeneradaListener`, los 2 controladores, `CotizacionJpaAdapter` | `ProveedorJpaAdapter`, `PdfCotizacionAdapter`, `AlmacenObjetosAdapter`, `PrecioSugeridoRestAdapter` |
+| `cotizaciones` | `Cotizacion` y `Proveedor` (que también se rearman desde la base), `ItemCotizacion`, `ReglaValidacion` y sus 3 reglas, `GenerarCotizacionFacade`, `CotizacionService`, `ProveedorService`, `OrdenGeneradaListener`, los 2 controladores, `CotizacionJpaAdapter` | `ProveedorJpaAdapter`, `PdfCotizacionAdapter`, `AlmacenObjetosAdapter`, `PrecioSugeridoRestAdapter` (la demo usa `ProveedorEnMemoria`, `PdfSimulado`, `AlmacenEnMemoria` y `PrecioSugeridoLocal`; los reales, con OpenPDF y el REST interno de ms-integracion, están en `servicios/ms-cotizaciones`) |
 | `ordenes` | `OrdenCompra`, `ItemOrden`, `CotizacionOpcionada`, `OrdenCompraService`, `OrdenCompraRestController` | `OrdenJpaAdapter`, `PdfOrdenAdapter`, `AlmacenObjetosAdapter`, `CotizacionRestClient` |
 | `notificaciones` | `CreadorNotificacion` y sus 2 creadores, `NotificacionCorreo`, `AlarmaApp`, `Mensaje`, los 3 decoradores, `NotificacionService`, `NotificacionListeners`, `DestinatarioRestController` | `CorreoSmtpAdapter`, `AlarmaPushAdapter`, `AlmacenObjetosAdapter`, `DestinatarioJpaAdapter`, `EnvioJpaAdapter`; la rama `tendencia.detectada` de `notificarEvento()` (T-06) |
 | `integracion` | `PrecioEstandar`, `MinisterioComercioAdapter`, `PrecioReferenciaCacheProxy`, `ConsultarPrecioService`, `PrecioRestController`, `AbastecimientoSoapEndpoint`, `MinisterioSoapClient` (SOAP 1.1 con el JDK, DEC-71; la demo usa `MinisterioSoapSimulado`, que no sale del proceso) | — (los adaptadores Spring y la caché en Redis están en `servicios/ms-integracion`) |
@@ -217,9 +217,9 @@ Límites que conviene conocer:
 
 ### Pruebas
 
-`pruebas/` tiene 266 verificaciones en 6 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
+`pruebas/` tiene 272 verificaciones en 6 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
 - `PruebasCotizacion`: los valores de V19 y los límites de la cadena de reglas (+25,00 % y −50,00 % siguen
-  OPCIONADA; +25,01 % y −50,01 % no);
+  OPCIONADA; +25,01 % y −50,01 % no), y la cotización y el proveedor rearmados desde la base;
 - `PruebasPatrones`: los 8 patrones, uno por uno;
 - `PruebasPlatos`: ms-menu (HU-04): crear, nombre repetido, editar, desactivar y reactivar; cada cambio publica
   `menu.actualizado` y el catálogo del mesero (con la categoría de la carta, DEC-66) y la receta del inventario se
@@ -249,8 +249,9 @@ git log --follow -M30% -- src/co/edu/konradlorenz/notificaciones/adaptadores/sal
 Además de la versión en memoria, el sistema se está pasando al stack del diagrama de contenedores
 (DEC-58) por cortes: API Gateway, Eureka, Kafka, PostgreSQL, Redis, almacén S3 y la SPA en React, con
 Docker Compose, y los microservicios Spring Boot uno a uno (hoy corren ms-identidad, ms-menu, ms-pedidos,
-ms-inventario, ms-solicitudes y ms-integracion, con las ventanas V01 a V12, el precio de referencia del Ministerio
-con su caché en Redis y el endpoint SOAP; el avance está en `plataforma/LEEME.md`). Solo necesita Docker:
+ms-inventario, ms-solicitudes, ms-integracion y ms-cotizaciones, con las ventanas V01 a V19, los proveedores,
+el PDF de la cotización en el almacén S3, el precio de referencia del Ministerio con su caché en Redis y el
+endpoint SOAP; el avance está en `plataforma/LEEME.md`). Solo necesita Docker:
 
 ```bash
 ./plataforma/levantar.sh     # compila y levanta todo; la aplicación queda en http://localhost:8080
