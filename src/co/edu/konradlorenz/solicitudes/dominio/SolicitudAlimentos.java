@@ -32,6 +32,21 @@ public class SolicitudAlimentos {
         this.items = new ArrayList<>();
     }
 
+    /**
+     * Rearma una solicitud guardada, con su fecha, su estado, su valor sugerido, las cotizaciones ya
+     * aplicadas y sus productos (lo usa el repositorio al leerla, o al ponerle el número a una nueva).
+     */
+    public SolicitudAlimentos(String numero, Long sucursalId, Long solicitanteId, String correoSolicitante, LocalDateTime fecha,
+                              EstadoSolicitud estado, BigDecimal valorSugeridoTotal, Set<String> cotizacionesAplicadas,
+                              List<ItemSolicitud> items) {
+        this(numero, sucursalId, solicitanteId, correoSolicitante);
+        this.fecha = fecha;
+        this.estado = estado;
+        this.valorSugeridoTotal = valorSugeridoTotal;
+        this.cotizacionesAplicadas.addAll(cotizacionesAplicadas);
+        this.items.addAll(items);
+    }
+
     public String numero() {
         return numero;
     }
