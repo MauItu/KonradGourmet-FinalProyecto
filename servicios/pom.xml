@@ -33,6 +33,7 @@
         <module>ms-solicitudes</module>
         <module>ms-integracion</module>
         <module>ms-cotizaciones</module>
+        <module>ms-ordenes</module>
     </modules>
 
     <properties>
