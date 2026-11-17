@@ -22,6 +22,21 @@ export const hora = (s: string | null | undefined) => {
 // Estados con su texto y color (los mismos de app.js).
 export const ESTADOS: Record<string, [string, string]> = {
   EN_PREPARACION: ['En preparación', 'naranja'], LISTO: ['Listo', 'verde'], SERVIDO: ['Servido', 'verde'], ENTREGADO: ['Entregado', 'verde'],
+  PENDIENTE: ['Pendiente', 'ambar'], EN_TRAMITE: ['En trámite', 'azul'], COMPLETADA: ['Completada', 'verde'],
+};
+
+/** Más reciente primero (por número, como desc() de app.js). */
+export const desc = <T extends { numero: string }>(a: T[]) => [...a].sort((x, y) => y.numero.localeCompare(x.numero));
+
+/** El filtro de fecha de V10: «hoy» o los últimos 7 días (enRango() de app.js). */
+export const enRango = (s: string, filtro: string) => {
+  if (!filtro) return true;
+  const d = aFecha(s);
+  if (!d) return false;
+  const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+  if (filtro === 'hoy') return d >= hoy;
+  const hace7 = new Date(hoy); hace7.setDate(hoy.getDate() - 7);
+  return d >= hace7;
 };
 
 export const EMOJI: Record<string, string> = {

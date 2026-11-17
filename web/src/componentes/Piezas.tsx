@@ -25,9 +25,31 @@ export function Tabla({ cabeceras, vacio = 'Aún no hay registros.', children }:
   );
 }
 
-export function Insignia({ estado }: { estado: string }) {
+/** El estado con su color; mayus y punto son las opciones up y dot de badge() en app.js. */
+export function Insignia({ estado, mayus = false, punto = false }: { estado: string; mayus?: boolean; punto?: boolean }) {
   const [t, c] = ESTADOS[estado] ?? [estado, 'gris'];
-  return <span className={`badge ${c}`}>{t}</span>;
+  return <span className={`badge ${c}${mayus ? ' up' : ''}${punto ? ' dot' : ''}`}>{mayus ? t.toUpperCase() : t}</span>;
+}
+
+/** Paginación de las tablas, como paginar() de app.js: las filas de la página y el pie «Mostrando…». */
+export function usePagina<T>(filas: T[], porPagina = 5) {
+  const [pagina, setPagina] = useState(1);
+  const total = filas.length;
+  const paginas = Math.max(1, Math.ceil(total / porPagina));
+  const p = Math.min(pagina, paginas);
+  const desde = (p - 1) * porPagina;
+  const pie = (
+    <div className="pager"><span>Mostrando {total ? desde + 1 : 0} - {Math.min(desde + porPagina, total)} de {total}</span>
+      <div>
+        <button type="button" className="pg" disabled={p === 1} onClick={() => setPagina(p - 1)} aria-label="Anterior"><Icono nombre="chevL" /></button>
+        {Array.from({ length: paginas }, (_, k) => (
+          <button type="button" key={k} className={`pg ${k + 1 === p ? 'on' : ''}`} onClick={() => setPagina(k + 1)}>{k + 1}</button>
+        ))}
+        <button type="button" className="pg" disabled={p === paginas} onClick={() => setPagina(p + 1)} aria-label="Siguiente"><Icono nombre="chevR" /></button>
+      </div>
+    </div>
+  );
+  return { filas: filas.slice(desde, desde + porPagina), pie, irA: setPagina };
 }
 
 export function BotonSuave({ texto, alHacer }: { texto: string; alHacer: () => void }) {
