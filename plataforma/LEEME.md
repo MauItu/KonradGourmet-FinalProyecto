@@ -15,7 +15,7 @@ Solo necesita Docker: los servicios Java se compilan dentro de un contenedor de 
 | http://localhost:8080 | La aplicación (Nginx sirve la SPA y pasa `/api/**` al gateway) |
 | http://localhost:8080/plataforma/ | Estado de los 11 servicios en Eureka y sus prefijos en el gateway |
 | http://localhost:8761 | Eureka: qué instancias están registradas |
-| http://localhost:8025 | Mailpit: los correos que envía ms-notificaciones |
+| http://localhost:8025 | Mailpit: los correos que envía ms-notificaciones, con sus adjuntos y cabeceras |
 
 ## Qué corre
 
@@ -25,8 +25,8 @@ Solo necesita Docker: los servicios Java se compilan dentro de un contenedor de 
 | `api-gateway` | Spring Cloud Gateway | Facade: valida el JWT y enruta los 13 prefijos a los 11 servicios |
 | `service-registry` | Eureka | Registro de instancias vivas |
 | `postgres` | PostgreSQL 17 | Una base y un usuario por servicio (`ms_pedidos`, `ms_cotizaciones`…); un usuario no puede conectarse a la base de otro |
-| `kafka` | Kafka 3.9 (KRaft) | Broker de eventos con los 10 tópicos; la creación automática de tópicos está apagada |
-| `redis` | Redis 7.4 | Caché de precios del Ministerio y canal de alarmas |
+| `kafka` | Kafka 3.9 (KRaft) | Broker de eventos con los 10 tópicos y la cola de errores de ms-notificaciones (`notificaciones.dlq`); la creación automática de tópicos está apagada |
+| `redis` | Redis 7.4 | Caché de precios del Ministerio y canal de alarmas (`alarmas:stock-bajo`, PD-01) |
 | `s3` | SeaweedFS 3.97 | Almacén de objetos S3 compatible: buckets `documentos-pdf` e `imagenes-platos` (DEC-67) |
 | `correo` | Mailpit 1.24 | Servidor de correo certificado simulado (SMTP en el puerto 1025) |
 | `ms-identidad` | Spring Boot | V01 y alta de usuarios: BCrypt, JWT RS256 con el menú del rol, JWKS en `/api/auth/jwks` |
@@ -34,7 +34,9 @@ Solo necesita Docker: los servicios Java se compilan dentro de un contenedor de 
 | `ms-pedidos` | Spring Boot | V02–V04: pedidos por mesa y catálogo del mesero (escucha `menu.actualizado`); publica `pedido.registrado` |
 | `ms-inventario` | Spring Boot | V05 y V07: existencias, recetas (por `menu.actualizado`), consumo (por `pedido.registrado`) y cierre de las 23:59 con ShedLock; publica `inventario.stock-bajo`; con `solicitud.registrada` atiende las alertas |
 | `ms-solicitudes` | Spring Boot | V08–V12: el jefe de cocina registra y consulta sus solicitudes; el auxiliar de compras las consulta todas (filtros de HU-07); publica `solicitud.registrada`; con `cotizacion.enviada` pasa a EN TRÁMITE las que quedan cotizadas y publica `solicitud.en-tramite` |
-| `ms-cotizaciones` | Spring Boot + OpenPDF | V13–V19 y proveedores (HU-15): el auxiliar arma la cotización de una o varias solicitudes y la envía con su PDF (bucket `documentos-pdf`) y el precio de referencia de ms-integracion; la directora registra los valores del proveedor y valida con la cadena de reglas; publica `cotizacion.enviada` y `cotizacion.validada`, escucha `orden.generada` |
+| `ms-cotizaciones` | Spring Boot + OpenPDF | V13–V20 y proveedores (HU-15): el auxiliar arma la cotización de una o varias solicitudes y la envía con su PDF (bucket `documentos-pdf`) y el precio de referencia de ms-integracion; la directora registra los valores del proveedor y valida con la cadena de reglas; publica `cotizacion.enviada` y `cotizacion.validada`, escucha `orden.generada` |
+| `ms-ordenes` | Spring Boot + OpenPDF | V21–V23: la directora genera la orden de compra de una cotización OPCIONADA (OC-0012 en adelante), que lee de ms-cotizaciones con su JWT; el PDF de la orden va al bucket `documentos-pdf` y se puede abrir desde V23 (DEC-75); publica `orden.generada`, con la que ms-cotizaciones pasa la cotización a CON_ORDEN y ms-solicitudes completa sus solicitudes |
+| `ms-notificaciones` | Spring Boot + Jakarta Mail | Correos certificados (huella SHA-256 y estampa cronológica) por `inventario.stock-bajo`, `solicitud.registrada`, `solicitud.en-tramite`, `cotizacion.enviada` y `orden.generada`, con el PDF del almacén adjunto; la alarma de stock bajo al jefe de cocina por Redis y WebSocket (PD-01); libreta de destinatarios; traza de envíos que V14 consulta (DEC-76); reintentos y cola de errores |
 | `ms-integracion` | Spring Boot + Apache CXF | Frontera SOA: precio estándar del Ministerio por SOAP con la caché en Redis (Proxy) y el endpoint SOAP `/api/integracion/abastecimiento` (WSDL en `?wsdl`) |
 | `ministerio` | WireMock 3.13 | Servicio web SOAP de precios del Ministerio de Comercio, simulado (DEC-71); solo lo ve ms-integracion |
 | `kafka-topicos`, `s3-bucket` | — | Crean los tópicos y los buckets al arrancar (`levantar.sh` los vuelve a correr), y terminan |
@@ -67,8 +69,17 @@ Todos con la clave `Konrad2026` (la pantalla de inicio de sesión tiene un botó
   alcanza dentro de la red de Docker, con el token del auxiliar o del director de compras. ms-cotizaciones lo
   llama (`PrecioSugeridoRestAdapter`, por Eureka) con el JWT de quien genera la cotización y su `X-Correlation-Id`.
 - En ms-cotizaciones, generar y reenviar son del auxiliar de compras; registrar valores, validar y ver las
-  pendientes, de la directora de compras; las dos ven la lista, el detalle y el PDF. Proveedores: el auxiliar
-  registra, edita e inactiva; la directora solo los lee.
+  pendientes, de la directora de compras; las dos ven la lista, las opcionadas, el detalle y el PDF.
+  Proveedores: el auxiliar registra, edita e inactiva; la directora solo los lee.
+- En ms-ordenes, todo es de la directora de compras: generar la orden, ver la lista y abrir su PDF. ms-ordenes
+  lee la cotización de ms-cotizaciones (`CotizacionRestClient`, por Eureka y sin pasar por el gateway) con el
+  JWT de la directora y su `X-Correlation-Id`.
+- En ms-notificaciones, la libreta de destinatarios es del administrador; la traza de envíos de un recorrido
+  (`GET /api/notificaciones/envios?correlacion=…`, V14) la leen el auxiliar, la directora y el administrador; y el
+  WebSocket de las alarmas (`/api/notificaciones/alarmas`), solo el jefe de cocina. Como el navegador no deja
+  poner la cabecera Authorization al abrir un WebSocket, solo en esa ruta el gateway y el servicio aceptan el
+  JWT en `?access_token=` (y Nginx no la escribe en su registro). El gateway acepta la conexión antes de
+  conectarse con el servicio, así que un rol sin permiso ve que se abre y se cierra enseguida.
 
 ## Clases que no están en el diagrama de clases
 
@@ -92,7 +103,16 @@ que el diagrama omite a propósito, como omite los constructores:
   tiene versión Spring: es Java puro y ms-integracion copia el de `src/` (DEC-71);
 - en ms-cotizaciones, `NumeracionCotizaciones` (el número de la secuencia, COT-018 en adelante, que se pide
   antes de generar porque el PDF ya lo lleva) y `NombresProductos` (la copia local del nombre de cada producto,
-  que la SPA manda al generar: la usan el PDF y las ventanas de la directora, DEC-74).
+  que la SPA manda al generar: la usan el PDF y las ventanas de la directora, DEC-74);
+- en ms-ordenes, `NombresProductos` (la copia local del nombre de cada producto, que `CotizacionRestClient` toma
+  de la cotización: la usan el PDF de la orden y V23, DEC-78);
+- en ms-notificaciones, `CanalAlarmas` y `ConfiguracionWebSocket` (las conexiones WebSocket de V05 en cada réplica,
+  que escuchan el canal de Redis donde publica `AlarmaPushAdapter`, PD-01) y `EnviosController` (la consulta de
+  envíos de V14, DEC-76). Los decoradores del correo (`CorreoDecorator`, `CorreoCertificadoDecorator`,
+  `EstampaCronologicaDecorator`) no tienen versión Spring: son Java puro y ms-notificaciones copia los de `src/`.
+
+Lo que todavía no está en la documentación (mockups, `.drawio` o reporte) está anotado en
+`documentos/CAMBIOS_A_DOCUMENTAR.md` (DEC-77).
 
 Los adaptadores del diagrama (`AuthRestController`, `UsuarioJpaAdapter`, `JwtEmisorAdapter`…) tienen el
 mismo nombre, paquete y métodos que en el diagrama.
@@ -105,7 +125,8 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
 - un solo PostgreSQL con once bases separadas, en lugar de once servidores con réplica síncrona;
 - sin CDN, WAF, DNS global, centro de datos alterno, MirrorMaker, mTLS ni ELK;
 - los sistemas externos son simulados: el Ministerio de Comercio con WireMock (DEC-71), el servidor de correo
-  certificado con Mailpit y, en el corte 6, las redes sociales;
+  certificado con Mailpit (SMTP sin TLS) y, en el corte 6, las redes sociales;
+- un solo Redis sin usuarios separados para la caché de precios y el canal de alarmas;
 - el almacén de objetos es SeaweedFS y no MinIO (DEC-59): la imagen de MinIO ya no se puede descargar
   y los dos hablan la misma API S3, así que el adaptador no cambia.
 
@@ -118,7 +139,7 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
 | 3 | ms-pedidos, ms-menu y ms-inventario (V02–V07), DEC-64 y DEC-65 | Hecho |
 | 4a | ms-solicitudes (V08–V12) y ms-integracion (precio de referencia con caché en Redis, SOAP), DEC-70 a DEC-72 | Hecho |
 | 4b | ms-cotizaciones (V13–V19, proveedores y PDF con OpenPDF) y ms-solicitudes con `cotizacion.enviada`, DEC-73 y DEC-74 | Hecho |
-| 5 | ms-ordenes y ms-notificaciones (V20–V23) | Pendiente |
+| 5 | ms-ordenes y ms-notificaciones (V20–V23, correos con el PDF, alarma en vivo), DEC-75 a DEC-78 | Hecho, por aprobar |
 | 6 | ms-administracion y ms-analitica (Administrador, Director comercial, tablero BAM) | Pendiente |
 | 7 | Pruebas de punta a punta, README y revisión | Pendiente |
 
@@ -133,6 +154,8 @@ python plataforma/pruebas/recorrido_corte4a.py /tmp/capturas   # navegador: soli
 python plataforma/pruebas/verificar_corte4a.py /tmp/capturas   # PostgreSQL, Kafka, Redis, el Ministerio y el SOAP por el gateway
 python plataforma/pruebas/recorrido_corte4b.py /tmp/capturas   # navegador: cotizaciones del auxiliar y de la directora, proveedores (después del 4a)
 python plataforma/pruebas/verificar_corte4b.py /tmp/capturas   # PostgreSQL, el PDF en el almacén, Redis, Kafka de ida y vuelta, PENDIENTE_PRECIO
+python plataforma/pruebas/recorrido_corte5.py /tmp/capturas    # navegador: V20 a V23, OC-0012, V14 con el correo, la alarma en vivo (después del 4b)
+python plataforma/pruebas/verificar_corte5.py /tmp/capturas    # PostgreSQL, el PDF de la orden, Kafka, Mailpit con los adjuntos, WebSocket, DLQ
 ```
 
 El recorrido registra un pedido de $82.000 (2 bandejas paisas y 1 ajiaco), crea un plato con imagen, lo edita
@@ -160,7 +183,20 @@ producto se le pidió al Ministerio una sola vez (las demás veces respondió Re
 la consulta a nombre de la auxiliar y con la correlación del navegador; en Kafka, `cotizacion.enviada`,
 `cotizacion.validada` y la ida y vuelta con ms-solicitudes (`solicitud.en-tramite` en el mismo recorrido); que un
 producto que el Ministerio no conoce deja la cotización PENDIENTE_PRECIO, sin PDF ni evento; y los roles.
-El correo al proveedor con el PDF lo envía ms-notificaciones en el corte 5: el evento ya lleva el `pdfUrl` y el
-correo del proveedor.
+El del corte 5 sigue con COT-018 OPCIONADA. La auxiliar envía COT-022 al Proveedor B y V14 marca «Correo enviado»
+cuando ms-notificaciones ya lo envió (DEC-76). La directora la valida (+7,69 %) y desde V19 abre V20, que compara
+COT-018 y COT-022 de SOL-031 con su diferencia y su valor total; escoge COT-018 y genera OC-0012 (V21 → V22,
+$545.000); V23 muestra la orden con su detalle y su PDF («Ver PDF» y «Descargar», DEC-75). COT-018 sale de V20
+(CON_ORDEN), V16 cuenta la orden y el jefe ve SOL-031 COMPLETADA. Para la alarma en vivo, el mesero registra por
+la API un pedido de 50 pechugas y el jefe ejecuta el cierre del día en V07: el pollo queda en 24,5 % y la alarma
+llega por WebSocket sin recargar; a 390 px pasa lo mismo con la papa (70 ajiacos) y «Solicitar» abre V08. El
+verificador revisa la orden en PostgreSQL; que su PDF esté en el bucket, idéntico al que sirve el gateway, al que
+bajó el navegador y al adjunto del correo; `orden.generada` con la directora y la correlación del navegador, y que
+ms-cotizaciones, ms-solicitudes y ms-notificaciones la recibieron en el mismo recorrido; en Mailpit, el correo
+certificado de cada cotización enviada y de la orden, con su PDF idéntico al del almacén y las cabeceras
+`X-Certificado` y `X-Sello-Tiempo`, y los avisos al jefe; el canal de Redis y el WebSocket (token y rol); la
+libreta de destinatarios; las reglas de HU-14 y los roles; y, con el servidor de correo en pausa, que el envío
+falla, queda en la traza, pasa a `notificaciones.dlq` después de los reintentos y el reenvío de la auxiliar lo
+entrega.
 
 La versión en memoria (`./ejecutar.sh` y `./web.sh`) sigue funcionando igual y no necesita Docker.
