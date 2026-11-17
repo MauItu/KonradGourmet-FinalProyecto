@@ -25,6 +25,12 @@ public class Proveedor {
         this.activo = true;
     }
 
+    /** Un proveedor leído de la base, activo o inactivo. */
+    public Proveedor(Long id, String razonSocial, String nit, String correo, String telefono, String direccion, List<String> categorias, boolean activo) {
+        this(id, razonSocial, nit, correo, telefono, direccion, categorias);
+        this.activo = activo;
+    }
+
     public Long id() {
         return id;
     }

@@ -33,6 +33,19 @@ public class Cotizacion {
         this.items = new ArrayList<>(items);
     }
 
+    /** Una cotización leída de la base, con su estado, su PDF y sus precios. */
+    public Cotizacion(String numero, List<String> solicitudNumeros, Proveedor proveedor, LocalDate fechaEnvio, LocalDate fechaLimite,
+                      String pdfUrl, EstadoCotizacion estado, List<ItemCotizacion> items) {
+        this.numero = numero;
+        this.solicitudNumeros = solicitudNumeros;
+        this.proveedor = proveedor;
+        this.fechaEnvio = fechaEnvio;
+        this.fechaLimite = fechaLimite;
+        this.pdfUrl = pdfUrl;
+        this.estado = estado;
+        this.items = new ArrayList<>(items);
+    }
+
     /** La misma cotización, con el PDF ya guardado en el almacén. */
     public Cotizacion(Cotizacion base, String pdfUrl) {
         this.numero = base.numero;
