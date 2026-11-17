@@ -183,6 +183,7 @@ public class PdfCotizacionAdapter implements GeneradorPdfPort {
         linea.setWidthPercentage(100);
         PdfPCell celda = new PdfPCell(new Phrase(" ", fuente(2, Font.NORMAL, Color.WHITE)));
         celda.setBorder(Rectangle.BOTTOM);
+        celda.setUseVariableBorders(true);
         celda.setBorderColorBottom(NARANJA);
         celda.setBorderWidthBottom(1.5f);
         celda.setPadding(0);
