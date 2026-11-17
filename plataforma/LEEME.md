@@ -98,7 +98,8 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
 | 1 | Infraestructura, Eureka, gateway con los 13 prefijos, Nginx | Hecho |
 | 2 | ms-identidad (login con JWT y BCrypt, menú por rol) y la SPA en React + TypeScript | Hecho |
 | 3 | ms-pedidos, ms-menu y ms-inventario (V02–V07), DEC-64 y DEC-65 | Hecho |
-| 4 | ms-solicitudes, ms-cotizaciones y ms-integracion (V08–V19) | Pendiente |
+| 4a | ms-solicitudes (V08–V12) y ms-integracion (precio de referencia, SOAP) — DEC-70 | Pendiente |
+| 4b | ms-cotizaciones (V13–V19, proveedores y PDF) — DEC-70 | Pendiente |
 | 5 | ms-ordenes y ms-notificaciones (V20–V23) | Pendiente |
 | 6 | ms-administracion y ms-analitica (Administrador, Director comercial, tablero BAM) | Pendiente |
 | 7 | Pruebas de punta a punta, README y revisión | Pendiente |
