@@ -117,7 +117,7 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
 | 2 | ms-identidad (login con JWT y BCrypt, menú por rol) y la SPA en React + TypeScript | Hecho |
 | 3 | ms-pedidos, ms-menu y ms-inventario (V02–V07), DEC-64 y DEC-65 | Hecho |
 | 4a | ms-solicitudes (V08–V12) y ms-integracion (precio de referencia con caché en Redis, SOAP), DEC-70 a DEC-72 | Hecho |
-| 4b | ms-cotizaciones (V13–V19, proveedores y PDF con OpenPDF) y ms-solicitudes con `cotizacion.enviada`, DEC-73 y DEC-74 | Hecho, por aprobar |
+| 4b | ms-cotizaciones (V13–V19, proveedores y PDF con OpenPDF) y ms-solicitudes con `cotizacion.enviada`, DEC-73 y DEC-74 | Hecho |
 | 5 | ms-ordenes y ms-notificaciones (V20–V23) | Pendiente |
 | 6 | ms-administracion y ms-analitica (Administrador, Director comercial, tablero BAM) | Pendiente |
 | 7 | Pruebas de punta a punta, README y revisión | Pendiente |
