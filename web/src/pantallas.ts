@@ -1,6 +1,6 @@
 // Qué es cada ruta del menú (las rutas las arma ms-identidad en construirMenu()): título, ícono,
 // ventanas de los mockups y el servicio que la atiende. Las que todavía no están construidas dicen
-// en qué corte llegan.
+// en qué corte llegan (las del corte 3 ya tienen su página en App.tsx).
 export interface Pantalla {
   titulo: string;
   sub: string;
@@ -12,11 +12,11 @@ export interface Pantalla {
 
 export const PANTALLAS: Record<string, Pantalla> = {
   '/inicio': { titulo: 'Inicio', sub: 'Resumen del día', icono: 'home', ventanas: '', servicio: '' },
-  '/pedidos': { titulo: 'Pedidos del turno', sub: 'Pedidos registrados en el turno', icono: 'clipboard', ventanas: 'V02', servicio: 'ms-pedidos', corte: 3 },
-  '/pedidos/nuevo': { titulo: 'Nuevo pedido', sub: 'Registra el pedido de una mesa', icono: 'plusCircle', ventanas: 'V03 y V04', servicio: 'ms-pedidos', corte: 3 },
-  '/platos': { titulo: 'Platos', sub: 'Platos de la sucursal y sus ingredientes', icono: 'utensils', ventanas: 'V06', servicio: 'ms-menu', corte: 3 },
-  '/platos/nuevo': { titulo: 'Nuevo plato', sub: 'Registra un plato con su receta', icono: 'utensils', ventanas: 'V06', servicio: 'ms-menu', corte: 3 },
-  '/inventario': { titulo: 'Inventario', sub: 'Existencias y alertas de stock bajo', icono: 'box', ventanas: 'V05 y V07', servicio: 'ms-inventario', corte: 3 },
+  '/pedidos': { titulo: 'Pedidos del turno', sub: 'Pedidos registrados en el turno', icono: 'clipboard', ventanas: 'V02', servicio: 'ms-pedidos' },
+  '/pedidos/nuevo': { titulo: 'Nuevo pedido', sub: 'Registra el pedido de una mesa', icono: 'plusCircle', ventanas: 'V03 y V04', servicio: 'ms-pedidos' },
+  '/platos': { titulo: 'Platos', sub: 'Platos de la sucursal y sus ingredientes', icono: 'utensils', ventanas: 'V06', servicio: 'ms-menu' },
+  '/platos/nuevo': { titulo: 'Nuevo plato', sub: 'Registra un plato con su receta', icono: 'utensils', ventanas: 'V06', servicio: 'ms-menu' },
+  '/inventario': { titulo: 'Inventario', sub: 'Existencias y alertas de stock bajo', icono: 'box', ventanas: 'V05 y V07', servicio: 'ms-inventario' },
   '/solicitudes': { titulo: 'Solicitudes', sub: 'Solicitudes de alimentos', icono: 'file', ventanas: 'V10 a V12', servicio: 'ms-solicitudes', corte: 4 },
   '/solicitudes/nueva': { titulo: 'Nueva solicitud', sub: 'Pide alimentos al área de compras', icono: 'file', ventanas: 'V08 y V09', servicio: 'ms-solicitudes', corte: 4 },
   '/promociones': { titulo: 'Promociones sugeridas', sub: 'Sugerencias del análisis semanal (HU-19)', icono: 'tag', ventanas: 'sin mockup', servicio: 'ms-analitica', corte: 6 },

@@ -5,17 +5,25 @@ import { Tarjeta } from '../componentes/Tarjeta';
 import { pantalla } from '../pantallas';
 import { useSesion } from '../sesion/Sesion';
 import { NOMBRE_ROL, type ElementoMenu } from '../sesion/token';
+import { InicioJefe } from './jefe/InicioJefe';
+import { InicioMesero } from './mesero/InicioMesero';
 
-/** Inicio de cada rol: saludo y accesos a sus ventanas, tomados del menú de ms-identidad. */
+/**
+ * Inicio de cada rol. El mesero ve V02 y el jefe de cocina V05; los demás, mientras llegan sus cortes, el
+ * saludo y los accesos a sus ventanas, tomados del menú de ms-identidad.
+ */
 export function Inicio() {
   const { usuario } = useSesion();
   if (!usuario) return null;
+  if (usuario.rol === 'MESERO') return <InicioMesero usuario={usuario} />;
+  if (usuario.rol === 'JEFE_COCINA') return <InicioJefe usuario={usuario} />;
   const hojas = (m: ElementoMenu): ElementoMenu[] => (m.hijos.length ? m.hijos.flatMap(hojas) : [m]);
   const accesos = hojas(usuario.menu).filter((h) => !['/inicio', '/perfil', '/cerrar-sesion'].includes(h.ruta));
+  // Los mockups de compras saludan solo con el nombre de pila.
   const nombre = usuario.nombre.split(' ')[0];
   return (
     <>
-      <Encabezado saludoA={usuario.rol === 'MESERO' || usuario.rol === 'JEFE_COCINA' ? usuario.nombre : nombre}
+      <Encabezado saludoA={nombre}
         sub={`${NOMBRE_ROL[usuario.rol]} · ${usuario.sucursal}`} />
       <div className="page">
         <Tarjeta titulo="Tus ventanas" sub="Lo que tu rol puede hacer en el sistema" icono="home">
