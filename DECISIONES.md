@@ -87,6 +87,9 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-58 | Cómo se construye la aplicación que funciona completa | El stack especificado (11 microservicios Spring Boot, gateway, Eureka, Kafka, PostgreSQL, Redis, almacén S3, SPA en React) con Docker Compose en un solo equipo, por cortes verticales; la versión en memoria queda de respaldo | Decidida por Mauricio (2026-11-16); corte 1 hecho en la rama `stack-real` de KonradGourmet |
 | DEC-59 | Almacén de objetos en local | SeaweedFS (S3 compatible) en lugar de MinIO, cuya imagen ya no se puede descargar | Aceptada por Mauricio (2026-11-16, con su OK al plan); no cambia el `.drawio` ni el reporte |
 | DEC-60 | Tecnología de la SPA | React + TypeScript, como dice la §8 del reporte; la web de Codex (HTML y JS) queda en la versión en memoria | Decidida por Mauricio (2026-11-16); va en el corte 2 |
+| DEC-61 | Cómo usan los servicios Spring el código de `src/` | Cada servicio copia al compilar el núcleo de su paquete en `src/` (dominio, eventos, puertos y aplicación), sin los adaptadores; sus adaptadores reales con Spring van en `servicios/` con los mismos nombres del diagrama. Una sola copia del dominio; `./ejecutar.sh` sigue compilando solo con `javac` | Decidida por Mauricio (2026-11-16) |
+| DEC-62 | Quién firma el JWT (no estaba en el diagrama) | Puerto nuevo `EmisorTokenPort` (puertos.salida) y `JwtEmisorAdapter` (adaptadores.salida); `IniciarSesionService` lo recibe en el constructor. Página 4b: 2 clases nuevas (191 → 193) | Decidida por Mauricio (2026-11-17) |
+| DEC-63 | Nombres del director comercial y del administrador | Andrés Rojas (`andres.rojas@konradgourmet.com`) y Paula Herrera (`paula.herrera@konradgourmet.com`), Sucursal Centro | Asumida (2026-11-17), por confirmar |
 
 ---
 
@@ -1198,6 +1201,35 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Qué implica:** la SPA nueva consume las rutas de la tabla 5 a través del gateway. La web de Codex queda en la versión en memoria (`./web.sh`).
 
+
+## DEC-61 · ¿Cómo usan los servicios Spring el código que ya existe en `src/`?
+
+**Por qué hubo que decidir.** En `src/` ya están, en Java sin frameworks, el dominio, los puertos, los servicios de aplicación y unos adaptadores con los nombres del diagrama (`PedidoJpaAdapter`, `PedidoRestController`…), que usa la versión en memoria. Los servicios Spring necesitan ese mismo núcleo y adaptadores con anotaciones y tecnología real.
+
+**Restricciones:** una sola copia del dominio, los puertos y la aplicación; los nombres siguen el diagrama; `./ejecutar.sh` sigue compilando con `javac` y pasando sus pruebas.
+
+**Opciones:**
+- **A. Cada servicio copia al compilar el núcleo de su paquete desde `src/`** (dominio, eventos, puertos y aplicación, sin `adaptadores/`) y tiene en `servicios/<ms>/` sus adaptadores Spring con los mismos nombres y paquetes. Los adaptadores de `src/` quedan como referencia de la versión en memoria. ✅ **Recomendada por Claude y aceptada por Mauricio el 2026-11-16** («si»).
+- **B. Mover el código a los módulos Maven** y poner las anotaciones en las clases de `src/`. Rompe `./ejecutar.sh`, la demo y el historial de `git log --follow`.
+- **C. Copiar el núcleo a mano en cada servicio.** Dos copias del dominio que se desincronizan.
+
+**Qué implica:** la lógica que falta (por ejemplo, el inicio de sesión) se escribe en `src/` con sus pruebas en `pruebas/`, y la usan las dos versiones. Hay dos clases con el mismo nombre por adaptador (la de `src/` y la Spring); la del diagrama es la Spring.
+
+## DEC-62 · ¿Quién firma el JWT?
+
+**Por qué hubo que decidir.** La §8.3 del reporte dice que ms-identidad «emite un JWT», y `IniciarSesionService.iniciarSesion()` devuelve `TokenAcceso` con el `jwt`, pero el servicio solo recibe `UsuarioRepositoryPort`, `CifradorPort` y `EventPublisherPort`: ningún puerto del diagrama firma el token.
+
+**Opciones:**
+- **A. Puerto nuevo `EmisorTokenPort`** (puertos.salida, `emitir(u: Usuario): String`) con su adaptador `JwtEmisorAdapter` (adaptadores.salida); `IniciarSesionService` lo recibe en el constructor. El núcleo no conoce la librería de JWT. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Que lo firme `AuthRestController`.** El diagrama no cambia, pero la seguridad queda en un adaptador de entrada.
+
+**Qué implica:** la página 4b gana 2 clases (191 → 193), un atributo en `IniciarSesionService` y dos relaciones. El token se firma con RS256; el gateway valida la firma con la llave pública que publica ms-identidad (JWKS), así que nadie más tiene la llave privada. La llave se guarda en la base de ms-identidad para que reiniciar el servicio no cierre las sesiones.
+
+## DEC-63 · Nombres del director comercial y del administrador
+
+**Por qué hubo que decidir.** Los mockups no tienen pantallas de estos dos roles, y el login necesita un usuario de cada uno.
+
+**Supuesto:** Andrés Rojas, director comercial (`andres.rojas@konradgourmet.com`), y Paula Herrera, administradora (`paula.herrera@konradgourmet.com`), los dos de la Sucursal Centro. Asumido por Claude el 2026-11-17, por confirmar; cambiarlos solo toca los datos iniciales de ms-identidad.
 
 ---
 
