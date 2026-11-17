@@ -1,5 +1,6 @@
-package co.edu.konradlorenz.identidad.configuracion;
+package co.edu.konradlorenz.compartido.infraestructura;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -7,8 +8,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Map;
 
-/** Las reglas del núcleo lanzan IllegalArgumentException con el mensaje para el usuario: llega como 400. */
+/**
+ * Igual en todos los servicios: las reglas del núcleo lanzan IllegalArgumentException con el mensaje para
+ * el usuario (llega como 400 {"mensaje": …}) e IllegalStateException cuando el estado no lo permite (409).
+ */
 @RestControllerAdvice
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class ManejoErrores {
 
     @ExceptionHandler(IllegalArgumentException.class)

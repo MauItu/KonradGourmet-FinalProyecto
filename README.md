@@ -241,9 +241,10 @@ git log --follow -M30% -- src/co/edu/konradlorenz/notificaciones/adaptadores/sal
 
 ## Plataforma con microservicios
 
-Además de la versión en memoria, el sistema corre con el stack del diagrama de contenedores (DEC-58):
-11 microservicios Spring Boot, API Gateway, Eureka, Kafka, PostgreSQL, Redis, almacén S3 y la SPA en
-React, todo con Docker Compose. Solo necesita Docker:
+Además de la versión en memoria, el sistema se está pasando al stack del diagrama de contenedores
+(DEC-58) por cortes: API Gateway, Eureka, Kafka, PostgreSQL, Redis, almacén S3 y la SPA en React, con
+Docker Compose, y los microservicios Spring Boot uno a uno (hoy corre ms-identidad; el avance está en
+`plataforma/LEEME.md`). Solo necesita Docker:
 
 ```bash
 ./plataforma/levantar.sh     # compila y levanta todo; la aplicación queda en http://localhost:8080

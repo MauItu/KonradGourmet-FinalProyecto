@@ -51,6 +51,21 @@ Todos con la clave `Konrad2026` (la pantalla de inicio de sesión tiene un botó
 - El gateway valida firma y vigencia en cada petición; solo `/api/auth/**` pasa sin token.
 - Cada servicio vuelve a validar el token y comprueba el rol en sus endpoints (módulo `compartido`).
 
+## Clases que no están en el diagrama de clases
+
+Cada servicio Spring tiene, además de las clases del diagrama (páginas 4a–4e), piezas de infraestructura
+que el diagrama omite a propósito, como omite los constructores:
+
+- la clase `…Application` y una clase de configuración que arma los servicios de aplicación (el núcleo de
+  `src/` no lleva anotaciones de Spring);
+- las entidades JPA y los repositorios de Spring Data, que son internos de su adaptador `…JpaAdapter`;
+- en ms-identidad, `LlaveFirma` (la llave RSA), `JwksController` (la llave pública que usa el gateway) y
+  `DatosIniciales` (los usuarios de demostración);
+- en `compartido`, `FormatoEventos`, `ConfiguracionCompartida`, `SeguridadServicio` y `ManejoErrores`.
+
+Los adaptadores del diagrama (`AuthRestController`, `UsuarioJpaAdapter`, `JwtEmisorAdapter`…) tienen el
+mismo nombre, paquete y métodos que en el diagrama.
+
 ## Diferencias con el despliegue de la página 5 (DEC-58)
 
 La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo no se puede reproducir:
