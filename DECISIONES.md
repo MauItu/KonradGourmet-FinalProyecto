@@ -16,6 +16,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-63, DEC-68 y DEC-69:** las asumió Claude y las confirmó Mauricio el 2026-11-17, al aprobar el corte 3.
 - **DEC-71 y DEC-72:** las asumió Claude el 2026-11-17 en el corte 4a y las confirmó Mauricio el mismo día, al aprobar el corte 4a.
 - **DEC-73 y DEC-74:** las asumió Claude el 2026-11-17 en el corte 4b y las confirmó Mauricio el mismo día, al aprobar el corte 4b.
+- **DEC-75 a DEC-77:** las decidió Mauricio el 2026-11-17, al empezar el corte 5 (DEC-76 siguiendo la recomendación de Claude; en DEC-75 escogió la opción no recomendada, «Ver PDF», y pidió además la lista de DEC-77).
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -104,6 +105,9 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-72 | Detalles del corte 4a | SOL-031 en adelante por secuencia, sin solicitudes iniciales y V08 precargada la primera vez; «Mis solicitudes» filtra por el jefe del token en el controlador; rol por ruta; el auxiliar lee los productos de ms-menu y ve el correo del solicitante; REST interno en `/interno/precios/{id}`; el SOAP con cualquier token válido; caché en Redis con vencimiento de un día; «—» en «Cotizaciones enviadas» hasta el 4b | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
 | DEC-73 | Librería del PDF de la cotización | OpenPDF, la que ya nombra el diagrama en `PdfCotizacionAdapter` («OpenPDF»); el diagrama no cambia | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
 | DEC-74 | Detalles del corte 4b | COT-018 en adelante por secuencia, pedido antes de generar; los 4 proveedores de la demo; copia local del nombre de cada producto en ms-cotizaciones (lo manda la SPA); la SPA suma los productos de las solicitudes; roles por ruta; el PDF sin precio de referencia; V16 con «Órdenes de compra» en «—» hasta el corte 5; listeners de `orden.generada` ya suscritos | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-75 | «Ver PDF» de la orden en V23 | La directora abre el PDF de la orden desde V23 (`GET /api/ordenes-compra/{id}/pdf`): `pdf(numero)` en `OrdenCompraRestController`, `GenerarOrdenUseCase` y `OrdenCompraService`, y `porNumero(numero)` en `OrdenRepositoryPort` y `OrdenJpaAdapter` | Decidida por Mauricio (2026-11-17); aplicada en el código y en las páginas 4d y 1; el mockup V23 queda por cambiar (CD-01) |
+| DEC-76 | Cómo sabe V14 que el correo salió | Cada envío guarda la correlación del recorrido; `EnviosController` (fuera del diagrama, solo lectura) responde `GET /api/notificaciones/envios?correlacion=…` y V14 espera unos segundos el resultado. La 4d no cambia | Decidida por Mauricio (2026-11-17) |
+| DEC-77 | Dónde se anotan los cambios que la documentación tiene que recoger | En `CAMBIOS_A_DOCUMENTAR.md`: cada cosa que el código agrega, quita o cambia frente a los mockups, el `.drawio`, el reporte o las guías, con el artefacto, el lugar exacto y su estado | Decidida por Mauricio (2026-11-17) |
 
 ---
 
@@ -1372,6 +1376,35 @@ Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los c
 - **V14 y V16.** El tiquete de V14 marca «PDF generado»; «Correo enviado» queda sin marca hasta el corte 5, cuando ms-notificaciones envíe el correo al recibir `cotizacion.enviada` (el evento ya lleva el `pdfUrl` y el correo del proveedor). En V16, «Órdenes de compra» muestra «—» hasta el corte 5.
 - **Proveedores sin mockup (HU-15).** Una ventana con las piezas de V12: la lista con buscador y estado, y al lado el formulario de alta o edición, con «Inactivar» (que pide confirmación y no borra).
 - **Listeners de órdenes.** `OrdenGeneradaListener` (ms-cotizaciones) y la rama `orden.generada` de `CotizacionEventsListener` (ms-solicitudes) ya están suscritos y probados con JUnit; la prueba de punta a punta llega con ms-ordenes (corte 5).
+
+## DEC-75 · ¿La directora puede abrir el PDF de la orden desde V23?
+
+**Por qué hubo que decidir.** HU-14 pide generar el PDF de la orden y enviarlo por correo certificado al proveedor; el mockup V23 (p. 30) muestra la lista y el detalle de la orden, sin un botón para ver el PDF. En la página 4d, ms-ordenes guarda el PDF en el almacén, pero ningún método lo devuelve: solo le llega al proveedor por correo (claim check).
+
+**Opciones:**
+- **A. No, como el mockup.** La 4d no cambia; el PDF se comprueba en el almacén y en el adjunto del correo. (Recomendada por Claude.)
+- **B. «Ver PDF» en el detalle de V23.** `GET /api/ordenes-compra/{id}/pdf`: `pdf(numero: String): byte[]` en `OrdenCompraRestController` ‹V23›, `GenerarOrdenUseCase` y `OrdenCompraService` (lee la orden con `porNumero()` y el PDF del almacén con `obtener()`), y `porNumero(numero: String): OrdenCompra` en `OrdenRepositoryPort` y `OrdenJpaAdapter`. ✅ **Escogida por Mauricio el 2026-11-17** («agrégale algo como ver PDF»).
+
+**Qué implica:** cambian cinco declaraciones de la 4d (no hay clases nuevas: la cuenta del reporte sigue igual) y la fila de V23 de la página 1 suma `GET …/{id}/pdf` (aplicado el 2026-11-17). En `src/`, `OrdenJpaAdapter.porNumero()` queda pendiente como los demás métodos de ese adaptador (el real está en `servicios/ms-ordenes`): los pendientes pasan de 72 a 73. Quedan por cambiar el mockup V23 y la tabla de rutas del reporte (CD-01 y CD-02 en `CAMBIOS_A_DOCUMENTAR.md`). Solo la directora de compras abre el PDF; una orden que no existe responde 404.
+
+## DEC-76 · ¿Cómo sabe V14 que el correo al proveedor salió?
+
+**Por qué hubo que decidir.** V14 tiene dos marcas: «PDF generado» y «Correo enviado». El correo no lo envía ms-cotizaciones: lo envía ms-notificaciones después, al recibir `cotizacion.enviada`, y en la página 4d `EnvioRepositoryPort` solo registra los envíos (`registrar()` y `registrarFallo()`); no hay cómo consultarlos.
+
+**Opciones:**
+- **A. Una clase fuera del diagrama.** `EnvioJpaAdapter` guarda en cada envío la correlación del recorrido (DEC-64), sin cambiar su firma, y `EnviosController` (fuera del diagrama, como `CierreDiaController`) responde `GET /api/notificaciones/envios?correlacion=…`, solo lectura, al auxiliar y al director de compras y al administrador. V14 lee la correlación de la respuesta al generar, espera hasta unos 15 s y marca «Correo enviado» o «No se pudo enviar». La 4d no cambia. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Agregarlo a la 4d:** `envios(correlacion)` en `NotificarUseCase`, `NotificacionService`, `EnvioRepositoryPort` y un controlador. Cambian tres o cuatro declaraciones.
+- **C. Marcarlo sin confirmar** apenas la cotización queda ENVIADA. No comprueba que el correo haya salido.
+
+**Qué implica:** la tabla `envio` de ms-notificaciones tiene la columna `correlacion_id`. La clase nueva va en la lista de clases fuera del diagrama del LEEME y en `CAMBIOS_A_DOCUMENTAR.md` (CD-03), para decidir en el corte 7 si se dibuja.
+
+## DEC-77 · ¿Dónde se anotan los cambios que la documentación tiene que recoger?
+
+**Por qué hubo que decidir.** Al construir la plataforma (DEC-58) aparecen cosas que los mockups, el `.drawio`, el reporte o las guías no tienen (un botón, una ruta, una clase fuera del diagrama) o que tienen distinto. Si no se anotan, se pierden antes de actualizar la documentación, que debe describir el proyecto completo (DEC-57).
+
+**Decisión (Mauricio, 2026-11-17):** cada vez que se agregue, se quite o se cambie algo frente a la documentación, se deja anotado qué cambio le toca a cada artefacto y dónde («agregar el botón Ver PDF al mockup V23», «agregar la clase al diagrama de la página tal o a la sección tal»).
+
+**Qué implica:** la lista vive en `CAMBIOS_A_DOCUMENTAR.md`, con un número CD-xx por cambio, el artefacto, el lugar exacto, la decisión que lo origina y su estado (pendiente o aplicado). Los cambios de los mockups los hace Mauricio en Canva, como M-01 a M-09 de `CORRECCIONES_HU_Y_MOCKUPS.md`; los del `.drawio` y del reporte se aplican en el corte 7, salvo los que ya se aplicaron al decidirlos. La lista también recoge lo de los cortes 1 a 4b que no estaba anotado.
 
 ---
 
