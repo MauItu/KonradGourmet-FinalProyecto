@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ms-menu
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:postgres}:5432/ms_menu
+    username: ms_menu
+    password: ms_menu
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  kafka:
+    bootstrap-servers: ${KAFKA:kafka:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://service-registry:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+konrad:
+  # Almacén de objetos S3 compatible (SeaweedFS en local, DEC-59). Las imágenes de los platos (DEC-67).
+  s3:
+    endpoint: ${S3_URL:http://s3:8333}
+    usuario: konrad
+    clave: konrad-secreto
+    bucket-imagenes: imagenes-platos
