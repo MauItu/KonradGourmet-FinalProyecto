@@ -74,7 +74,7 @@ clases, atributos, métodos y relaciones `extends`/`implements`.
 | `integracion` | ms-integracion | — | Frontera SOAP con el Ministerio de Comercio |
 | `administracion` | ms-administracion | — | Parámetros del sistema y auditoría |
 | `analitica` | ms-analitica | — | Tablero BAM e indicadores |
-| `demo` | — | — | `DemoArquitectura` recorre el flujo de compra; las otras 19 clases son los adaptadores en memoria y el `Ensamble` que lo conecta |
+| `demo` | — | — | `DemoArquitectura` recorre el flujo de compra; las otras 24 clases son los adaptadores en memoria, el `Ensamble` que los conecta y el `ServidorWeb` de la interfaz local |
 
 ## Patrones de diseño
 
@@ -167,14 +167,14 @@ Cifras de la demo que no salen de los diagramas (supuestos, anotados en `DECISIO
 
 ### Qué métodos tienen lógica
 
-De los 274 cuerpos que lanzaban `Pendiente de implementar` al terminar la sesión 3, quedan **80**. Tienen
+De los 274 cuerpos que lanzaban `Pendiente de implementar` al terminar la sesión 3, quedan **71** (incluido `JwtEmisorAdapter.emitir()`, que se agregó con DEC-62). Tienen
 lógica real todo lo que usa el recorrido de compra, de punta a punta; lo que queda pendiente es lo que
 habla con una tecnología externa (la demo pone un adaptador en memoria en su lugar) o lo que la demo no usa.
 
 | Módulo | Con lógica | Pendiente |
 |---|---|---|
 | `compartido` | `EventoDominio` y `AuditoriaEvent`; los otros 9 eventos están en el paquete `eventos` de su servicio y también tienen constructor, accesores y `tipo()` | `KafkaEventPublisher` |
-| `identidad` | Composite (`ElementoMenu`, `GrupoMenu`, `OpcionMenu`), `Usuario` y sus 6 roles (`rol()`), `DirectorCompras.construirMenu()`, `Sucursal` | `construirMenu()` de los otros 5 roles, `PoliticaContrasena`, `IniciarSesionService`, `RegistrarUsuarioService`, los 2 controladores y los 2 adaptadores (BCrypt y usuarios) |
+| `identidad` | Composite (`ElementoMenu`, `GrupoMenu`, `OpcionMenu`), `Usuario` y sus 6 roles con su `construirMenu()`, `Sucursal`, `PoliticaContrasena`, `TokenAcceso`, `IniciarSesionService`, `RegistrarUsuarioService` y los 2 controladores | `BCryptCifradorAdapter`, `UsuarioJpaAdapter` y `JwtEmisorAdapter` (la demo usa `CifradorEnMemoria`, `UsuarioEnMemoria` y `EmisorTokenEnMemoria`; los reales están en `servicios/ms-identidad`) |
 | `pedidos` | `Pedido`, `DetallePedido`, `Mesa`, `PlatoCatalogo`, `CatalogoPlatos`, `PedidoService`, `PedidoRestController`, `MenuActualizadoListener` | `CatalogoJpaAdapter`, `PedidoJpaAdapter` |
 | `menu` | `Plato` (validar, editar, desactivar y reactivar), `Ingrediente`, `Producto`, `PlatoService`, `PlatoRestController`, `MenuActualizadoEvent` | `PlatoJpaAdapter` (la demo usa `PlatoEnMemoria`) |
 | `inventario` | `InsumoInventario`, `Inventario`, `RecetaPlato`, `UmbralStock`, `InventarioService`, `ConsumoDiarioJob`, los 2 listeners y `InventarioRestController` | `InventarioJpaAdapter` |
@@ -216,14 +216,16 @@ Límites que conviene conocer:
 
 ### Pruebas
 
-`pruebas/` tiene 206 verificaciones en 4 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
+`pruebas/` tiene 239 verificaciones en 5 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
 - `PruebasCotizacion`: los valores de V19 y los límites de la cadena de reglas (+25,00 % y −50,00 % siguen
   OPCIONADA; +25,01 % y −50,01 % no);
 - `PruebasPatrones`: los 8 patrones, uno por uno;
 - `PruebasPlatos`: ms-menu (HU-04): crear, nombre repetido, editar, desactivar y reactivar; cada cambio publica
   `menu.actualizado` y el catálogo del mesero y la receta del inventario se actualizan por el bus;
 - `PruebasFlujoDeCompra`: pedido (con su mesero), inventario (incluido el cierre del día siguiente), solicitud, cotización,
-  orden OC-0012, una cotización con 2 solicitudes (DEC-05), proveedores y el caso PENDIENTE_PRECIO (H18).
+  orden OC-0012, una cotización con 2 solicitudes (DEC-05), proveedores y el caso PENDIENTE_PRECIO (H18);
+- `PruebasIdentidad`: la política de contraseña (DEC-10), el alta de los 6 roles (Factory Method), el correo único
+  y en minúsculas, el inicio de sesión con el token del `EmisorTokenPort` (DEC-62) y la auditoría de cada intento.
 
 ## Historia en git
 
@@ -237,6 +239,21 @@ git log --follow -M30% -- src/co/edu/konradlorenz/notificaciones/puertos/salida/
 git log --follow -M30% -- src/co/edu/konradlorenz/notificaciones/adaptadores/salida/CorreoDecorator.java
 ```
 
+## Plataforma con microservicios
+
+Además de la versión en memoria, el sistema corre con el stack del diagrama de contenedores (DEC-58):
+11 microservicios Spring Boot, API Gateway, Eureka, Kafka, PostgreSQL, Redis, almacén S3 y la SPA en
+React, todo con Docker Compose. Solo necesita Docker:
+
+```bash
+./plataforma/levantar.sh     # compila y levanta todo; la aplicación queda en http://localhost:8080
+./plataforma/bajar.sh        # la apaga
+```
+
+Cada servicio de `servicios/` copia al compilar el núcleo de su paquete en `src/` (dominio, eventos,
+puertos y aplicación) y agrega sus adaptadores Spring con los mismos nombres del diagrama (DEC-61). La
+SPA está en `web/`. El avance por cortes y lo que corre en cada contenedor están en `plataforma/LEEME.md`.
+
 ## Interfaz web
 
 La interfaz local usa los servicios Java del `Ensamble` y sus adaptadores en memoria.
@@ -249,8 +266,8 @@ Desde `KonradGourmet/`, con JDK 21 o superior:
 
 Abre la dirección que imprime el script. El inicio de sesión (V01) tiene cuatro accesos de
 demostración, uno por rol, y cada rol ve su panel, su menú y sus ventanas como en los mockups
-(`DISEÑO UXUI.pdf`). ms-identidad todavía no autentica (`IniciarSesionService` está pendiente):
-el correo decide el rol y la contraseña no se valida.
+(`DISEÑO UXUI.pdf`). Esta interfaz local no autentica: el correo decide el rol y la contraseña no se
+valida. El inicio de sesión real (JWT firmado por ms-identidad) está en la plataforma con microservicios.
 
 | Acceso | Rol | Ventanas |
 |---|---|---|
