@@ -32,7 +32,10 @@ Solo necesita Docker: los servicios Java se compilan dentro de un contenedor de 
 | `ms-identidad` | Spring Boot | V01 y alta de usuarios: BCrypt, JWT RS256 con el menú del rol, JWKS en `/api/auth/jwks` |
 | `ms-menu` | Spring Boot | V06: platos con su categoría, receta e imagen; publica `menu.actualizado` |
 | `ms-pedidos` | Spring Boot | V02–V04: pedidos por mesa y catálogo del mesero (escucha `menu.actualizado`); publica `pedido.registrado` |
-| `ms-inventario` | Spring Boot | V05 y V07: existencias, recetas (por `menu.actualizado`), consumo (por `pedido.registrado`) y cierre de las 23:59 con ShedLock; publica `inventario.stock-bajo` |
+| `ms-inventario` | Spring Boot | V05 y V07: existencias, recetas (por `menu.actualizado`), consumo (por `pedido.registrado`) y cierre de las 23:59 con ShedLock; publica `inventario.stock-bajo`; con `solicitud.registrada` atiende las alertas |
+| `ms-solicitudes` | Spring Boot | V08–V12: el jefe de cocina registra y consulta sus solicitudes; el auxiliar de compras las consulta todas (filtros de HU-07); publica `solicitud.registrada` |
+| `ms-integracion` | Spring Boot + Apache CXF | Frontera SOA: precio estándar del Ministerio por SOAP con la caché en Redis (Proxy) y el endpoint SOAP `/api/integracion/abastecimiento` (WSDL en `?wsdl`) |
+| `ministerio` | WireMock 3.13 | Servicio web SOAP de precios del Ministerio de Comercio, simulado (DEC-71); solo lo ve ms-integracion |
 | `kafka-topicos`, `s3-bucket` | — | Crean los tópicos y los buckets al arrancar (`levantar.sh` los vuelve a correr), y terminan |
 
 ## Usuarios de demostración
@@ -58,6 +61,9 @@ Todos con la clave `Konrad2026` (la pantalla de inicio de sesión tiene un botó
   correo de quien hizo la operación y el `correlacionId` del recorrido (los listeners heredan el del evento
   que reciben; el cierre diario publica «sistema»). El servicio devuelve la cabecera en la respuesta.
 - Los servicios corren en hora de Bogotá: el turno del mesero y el cierre de las 23:59 se cuentan así.
+- El endpoint SOAP de ms-integracion también pasa por el gateway, así que pide un token válido (de cualquier
+  rol, DEC-72). El REST interno de precios (`/interno/precios/{id}`, para ms-cotizaciones) no se publica en el
+  gateway: solo se alcanza dentro de la red de Docker, con el token del auxiliar o del director de compras.
 
 ## Clases que no están en el diagrama de clases
 
@@ -75,7 +81,10 @@ que el diagrama omite a propósito, como omite los constructores:
 - en el gateway, `SeguridadGateway` y `CorrelacionGateway`;
 - en ms-menu, `DatosIniciales` (la carta de la demo, creada con `PlatoService` para que viaje por el evento);
 - en ms-inventario, `CierreDiaController` (`POST /api/inventario/cierre`, el botón «Cierre del día» de V07,
-  solo para la demostración, DEC-68).
+  solo para la demostración, DEC-68);
+- en ms-integracion, `MapaPreciosRedis` (el mapa `{Redis}` del Proxy: una llave por precio que vence en un día)
+  y la publicación del endpoint SOAP en Apache CXF, en `ConfiguracionIntegracion`. `MinisterioSoapClient` no
+  tiene versión Spring: es Java puro y ms-integracion copia el de `src/` (DEC-71).
 
 Los adaptadores del diagrama (`AuthRestController`, `UsuarioJpaAdapter`, `JwtEmisorAdapter`…) tienen el
 mismo nombre, paquete y métodos que en el diagrama.
@@ -87,7 +96,8 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
 - una réplica por servicio, sin autoescalado ni zonas; un solo broker de Kafka (factor de replicación 1);
 - un solo PostgreSQL con once bases separadas, en lugar de once servidores con réplica síncrona;
 - sin CDN, WAF, DNS global, centro de datos alterno, MirrorMaker, mTLS ni ELK;
-- los sistemas externos (Ministerio de Comercio, servidor de correo certificado, redes sociales) son simulados;
+- los sistemas externos son simulados: el Ministerio de Comercio con WireMock (DEC-71), el servidor de correo
+  certificado con Mailpit y, en el corte 6, las redes sociales;
 - el almacén de objetos es SeaweedFS y no MinIO (DEC-59): la imagen de MinIO ya no se puede descargar
   y los dos hablan la misma API S3, así que el adaptador no cambia.
 
@@ -98,7 +108,7 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
 | 1 | Infraestructura, Eureka, gateway con los 13 prefijos, Nginx | Hecho |
 | 2 | ms-identidad (login con JWT y BCrypt, menú por rol) y la SPA en React + TypeScript | Hecho |
 | 3 | ms-pedidos, ms-menu y ms-inventario (V02–V07), DEC-64 y DEC-65 | Hecho |
-| 4a | ms-solicitudes (V08–V12) y ms-integracion (precio de referencia, SOAP) — DEC-70 | Pendiente |
+| 4a | ms-solicitudes (V08–V12) y ms-integracion (precio de referencia con caché en Redis, SOAP), DEC-70 a DEC-72 | Hecho, por aprobar |
 | 4b | ms-cotizaciones (V13–V19, proveedores y PDF) — DEC-70 | Pendiente |
 | 5 | ms-ordenes y ms-notificaciones (V20–V23) | Pendiente |
 | 6 | ms-administracion y ms-analitica (Administrador, Director comercial, tablero BAM) | Pendiente |
@@ -109,12 +119,23 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
 Con la plataforma arriba (mejor recién levantada con `./plataforma/bajar.sh --borrar` y `levantar.sh`):
 
 ```bash
-python plataforma/pruebas/recorrido_corte3.py /tmp/capturas   # navegador: mesero, jefe, cierre, alerta (necesita Playwright y Chromium)
-python plataforma/pruebas/verificar_corte3.py                 # revisa lo que quedó en PostgreSQL y en Kafka
+python plataforma/pruebas/recorrido_corte3.py /tmp/capturas    # navegador: mesero, jefe, cierre, alerta (necesita Playwright y Chromium)
+python plataforma/pruebas/verificar_corte3.py                  # revisa lo que quedó en PostgreSQL y en Kafka
+python plataforma/pruebas/recorrido_corte4a.py /tmp/capturas   # navegador: solicitudes del jefe y del auxiliar (después del corte 3)
+python plataforma/pruebas/verificar_corte4a.py /tmp/capturas   # PostgreSQL, Kafka, Redis, el Ministerio y el SOAP por el gateway
 ```
 
 El recorrido registra un pedido de $82.000 (2 bandejas paisas y 1 ajiaco), crea un plato con imagen, lo edita
 y lo desactiva mientras mira cómo cambia el catálogo del mesero, ejecuta el cierre del día y busca la alerta de
 la res en V05, en escritorio y a 390 px; también prueba el aviso de sesión vencida.
+
+El del corte 4a sigue desde ahí: el jefe registra SOL-031 (la de la demo: res 20 kg «Marca X» y arroz 15 kg),
+la ve en «Mis solicitudes» y en V05, donde la alerta de la res desaparece porque ms-inventario recibió
+`solicitud.registrada`; a 390 px pide papa desde «Solicitar» en V07 (SOL-032). La auxiliar de compras ve las dos
+en su inicio (V11) y en «Todas las solicitudes» (V12), con los filtros de HU-07 y el detalle. El verificador
+revisa las solicitudes en PostgreSQL; en Kafka, que el evento lleve el correo del jefe y la correlación de la
+petición del navegador, y que ms-inventario lo haya recibido en el mismo recorrido; y en ms-integracion, que el
+precio del pollo salga del Ministerio la primera vez (WireMock cuenta la llamada) y de Redis la segunda, que el
+SOAP responda a través del gateway y que el REST interno no esté publicado.
 
 La versión en memoria (`./ejecutar.sh` y `./web.sh`) sigue funcionando igual y no necesita Docker.
