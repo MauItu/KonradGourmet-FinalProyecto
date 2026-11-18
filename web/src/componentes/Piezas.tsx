@@ -31,6 +31,13 @@ export function Insignia({ estado, mayus = false, punto = false }: { estado: str
   return <span className={`badge ${c}${mayus ? ' up' : ''}${punto ? ' dot' : ''}`}>{mayus ? t.toUpperCase() : t}</span>;
 }
 
+/** Los números de página que se muestran: todos si son pocos; si no, la primera, las vecinas de la actual y la última. */
+function numeros(actual: number, paginas: number): (number | null)[] {
+  if (paginas <= 7) return Array.from({ length: paginas }, (_, k) => k + 1);
+  const visibles = [...new Set([1, actual - 1, actual, actual + 1, paginas])].filter((n) => n >= 1 && n <= paginas).sort((a, b) => a - b);
+  return visibles.flatMap((n, k) => (k > 0 && n - visibles[k - 1] > 1 ? [null, n] : [n]));
+}
+
 /** Paginación de las tablas, como paginar() de app.js: las filas de la página y el pie «Mostrando…». */
 export function usePagina<T>(filas: T[], porPagina = 5) {
   const [pagina, setPagina] = useState(1);
@@ -42,9 +49,9 @@ export function usePagina<T>(filas: T[], porPagina = 5) {
     <div className="pager"><span>Mostrando {total ? desde + 1 : 0} - {Math.min(desde + porPagina, total)} de {total}</span>
       <div>
         <button type="button" className="pg" disabled={p === 1} onClick={() => setPagina(p - 1)} aria-label="Anterior"><Icono nombre="chevL" /></button>
-        {Array.from({ length: paginas }, (_, k) => (
-          <button type="button" key={k} className={`pg ${k + 1 === p ? 'on' : ''}`} onClick={() => setPagina(k + 1)}>{k + 1}</button>
-        ))}
+        {numeros(p, paginas).map((n, k) => (n === null
+          ? <span key={`s${k}`} className="pg-salto">…</span>
+          : <button type="button" key={n} className={`pg ${n === p ? 'on' : ''}`} onClick={() => setPagina(n)}>{n}</button>))}
         <button type="button" className="pg" disabled={p === paginas} onClick={() => setPagina(p + 1)} aria-label="Siguiente"><Icono nombre="chevR" /></button>
       </div>
     </div>

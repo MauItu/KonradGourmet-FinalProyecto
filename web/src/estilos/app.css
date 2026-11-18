@@ -487,7 +487,7 @@ td .cell-thumb { min-height: 28px; }
 
 /* paginación */
 .pager { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 14px; font-size: 11.5px; color: var(--suave); flex-wrap: wrap; }
-.pager div { display: flex; gap: 6px; }
+.pager div { display: flex; gap: 6px; flex-wrap: wrap; }
 .pg { width: 30px; height: 30px; border-radius: 9px; border: 1px solid var(--linea-2); background: #fff; display: grid; place-items: center; font-size: 12px; padding: 0; }
 .pg .ic { width: 14px; height: 14px; }
 .pg.on { background: var(--degradado); border-color: transparent; color: #fff; font-weight: 600; }
@@ -921,6 +921,7 @@ button.nav-item { cursor: pointer; font-family: inherit; }
 .valor-parametro, .mensaje-error { word-break: break-word; }
 .mensaje-error { font-size: 12.5px; }
 td.nowrap { white-space: nowrap; }
+.pager .pg-salto { display: inline-grid; place-items: center; min-width: 22px; color: var(--suave); }
 @media (max-width: 640px) {
   .tema-boton { margin-left: 0; }
 }
