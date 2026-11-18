@@ -144,8 +144,9 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
 | 3 | ms-pedidos, ms-menu y ms-inventario (V02–V07), DEC-64 y DEC-65 | Hecho |
 | 4a | ms-solicitudes (V08–V12) y ms-integracion (precio de referencia con caché en Redis, SOAP), DEC-70 a DEC-72 | Hecho |
 | 4b | ms-cotizaciones (V13–V19, proveedores y PDF con OpenPDF) y ms-solicitudes con `cotizacion.enviada`, DEC-73 y DEC-74 | Hecho |
-| 5 | ms-ordenes y ms-notificaciones (V20–V23, correos con el PDF, alarma en vivo, orden recibida, reproceso de la cola de errores), DEC-75 a DEC-81 | Hecho, por aprobar |
-| 6 | ms-administracion y ms-analitica (Administrador, Director comercial, tablero BAM) | Pendiente |
+| 5 | ms-ordenes y ms-notificaciones (V20–V23, correos con el PDF, alarma en vivo, orden recibida, reproceso de la cola de errores), DEC-75 a DEC-82 | Hecho |
+| 6a | ms-administracion (auditoría, parámetros y tema, logs de errores con Elasticsearch, usuarios y destinatarios), DEC-83 y DEC-84 | Pendiente |
+| 6b | ms-analitica (tablero BAM del director comercial, promociones de HU-19 y `tendencia.detectada`, PD-05) | Pendiente |
 | 7 | Pruebas de punta a punta, README y revisión | Pendiente |
 
 ## Probar de punta a punta
