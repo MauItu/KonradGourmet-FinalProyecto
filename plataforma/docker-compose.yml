@@ -112,7 +112,8 @@ services:
       xpack.ml.enabled: "false"
       cluster.routing.allocation.disk.threshold_enabled: "false"
       ES_JAVA_OPTS: -Xms512m -Xmx512m
-    mem_limit: 1g
+    # 512 MB de heap; el resto es memoria fuera del heap y caché de Lucene.
+    mem_limit: 1536m
     volumes:
       - datos-elasticsearch:/usr/share/elasticsearch/data
     healthcheck:
