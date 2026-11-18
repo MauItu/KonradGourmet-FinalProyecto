@@ -20,7 +20,8 @@ import org.springframework.stereotype.Component;
  * Destinatarios: los eventos de solicitud traen correoSolicitante; para el stock bajo y las promociones
  * usa su libreta de jefes por sucursal, que carga el administrador.
  *
- * Escucha cinco: tendencia.detectada llega con ms-analitica en el corte 6 (T-06). Si el envío falla, el
+ * tendencia.detectada trae las sugerencias como líneas de texto (PD-05): el correo va a los jefes de todas las
+ * sucursales de la libreta, y ms-analitica publica a lo sumo un evento por día. Si el envío falla, el
  * evento se reintenta y después pasa a la cola de errores (ConfiguracionNotificaciones), que
  * ReprocesoColaErrores vuelve a procesar (DEC-81).
  */
@@ -36,7 +37,7 @@ public class NotificacionListeners implements EventListener<EventoDominio> {
     @Override
     @KafkaListener(topics = {"${konrad.kafka.prefijo-topico:}inventario.stock-bajo", "${konrad.kafka.prefijo-topico:}solicitud.registrada",
             "${konrad.kafka.prefijo-topico:}solicitud.en-tramite", "${konrad.kafka.prefijo-topico:}cotizacion.enviada",
-            "${konrad.kafka.prefijo-topico:}orden.generada"})
+            "${konrad.kafka.prefijo-topico:}orden.generada", "${konrad.kafka.prefijo-topico:}tendencia.detectada"})
     public void alRecibir(EventoDominio evento) {
         casoDeUso.notificarEvento(evento);
     }

@@ -97,12 +97,9 @@
                                         <include>solicitudes/eventos/SolicitudEnTramiteEvent.java</include>
                                         <include>cotizaciones/eventos/CotizacionEnviadaEvent.java</include>
                                         <include>ordenes/eventos/OrdenGeneradaEvent.java</include>
-                                        <!-- NotificacionService nombra TendenciaDetectadaEvent, que trae SugerenciaPromocion (y su EstadoSugerencia)
-                                             del dominio de ms-analitica (T-06). Solo para compilar: no escucha ese tópico
-                                             hasta el corte 6. -->
+                                        <!-- tendencia.detectada lleva las sugerencias como texto (PD-05): ya no se copia nada del
+                                             dominio de ms-analitica. -->
                                         <include>analitica/eventos/TendenciaDetectadaEvent.java</include>
-                                        <include>analitica/dominio/SugerenciaPromocion.java</include>
-                                        <include>analitica/dominio/EstadoSugerencia.java</include>
                                     </includes>
                                     <excludes>
                                         <!-- Los decoradores del correo son Java puro y se copian tal cual, como

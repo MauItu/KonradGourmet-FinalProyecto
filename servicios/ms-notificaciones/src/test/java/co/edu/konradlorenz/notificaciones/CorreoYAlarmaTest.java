@@ -4,6 +4,7 @@ import co.edu.konradlorenz.compartido.eventos.AuditoriaEvent;
 import co.edu.konradlorenz.compartido.eventos.EventoDominio;
 import co.edu.konradlorenz.compartido.puertos.EventPublisherPort;
 import co.edu.konradlorenz.cotizaciones.eventos.CotizacionEnviadaEvent;
+import co.edu.konradlorenz.analitica.eventos.TendenciaDetectadaEvent;
 import co.edu.konradlorenz.inventario.eventos.StockBajoEvent;
 import co.edu.konradlorenz.notificaciones.adaptadores.entrada.NotificacionListeners;
 import co.edu.konradlorenz.notificaciones.adaptadores.salida.CorreoCertificadoDecorator;
@@ -133,6 +134,32 @@ class CorreoYAlarmaTest {
         assertEquals("Stock bajo: Res", m.getSubject());
         assertTrue(m.getContent().toString().contains("Quedan 11.5 kg de Res"), m.getContent().toString());
         verify(envios, times(2)).registrar(eq("carlos.mendoza@konradgourmet.com"), eq("inventario.stock-bajo"), any());
+    }
+
+    @Test
+    void lasPromocionesSugeridasLleganALosJefesDeTodasLasSucursales() throws Exception {
+        when(destinatarios.jefes()).thenReturn(List.of("carlos.mendoza@konradgourmet.com", "sofia.ramirez@konradgourmet.com"));
+        listeners.alRecibir(new TendenciaDetectadaEvent("sistema", List.of(
+                "Ajiaco · Tendencia en redes y entre los 3 más pedidos de la semana · del 18/11/2026 al 24/11/2026",
+                "Limonada natural · Tendencia en redes · del 18/11/2026 al 24/11/2026"), "Redes sociales y pedidos del 11/11/2026 al 17/11/2026"));
+
+        ArgumentCaptor<MimeMessage> correos = ArgumentCaptor.forClass(MimeMessage.class);
+        verify(smtp, times(2)).send(correos.capture());
+        assertEquals(List.of("carlos.mendoza@konradgourmet.com", "sofia.ramirez@konradgourmet.com"),
+                correos.getAllValues().stream().map(c -> {
+                    try {
+                        return c.getAllRecipients()[0].toString();
+                    } catch (Exception e) {
+                        throw new IllegalStateException(e);
+                    }
+                }).toList());
+        MimeMessage m = correos.getAllValues().get(0);
+        assertEquals("Promociones sugeridas", m.getSubject());
+        String cuerpo = m.getContent().toString();
+        assertTrue(cuerpo.contains("• Ajiaco · Tendencia en redes y entre los 3 más pedidos de la semana · del 18/11/2026 al 24/11/2026"), cuerpo);
+        assertTrue(cuerpo.contains("• Limonada natural · Tendencia en redes"), cuerpo);
+        assertTrue(m.getHeader("X-Certificado")[0].startsWith("SHA-256:"), "certificado, como los demás");
+        verify(envios, times(2)).registrar(anyString(), eq("tendencia.detectada"), any());
     }
 
     @Test
