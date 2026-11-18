@@ -68,10 +68,15 @@ public class NotificacionService implements NotificarUseCase {
 
     @Override
     public void registrarDestinatario(Long sucursalId, String correo) {
+        if (sucursalId == null) {
+            throw new IllegalArgumentException("La sucursal es obligatoria.");
+        }
         if (correo == null || !correo.matches("[^@\\s]+@[^@\\s]+\\.[^@\\s]+")) {
-            throw new IllegalArgumentException("El correo del destinatario no es válido");
+            throw new IllegalArgumentException("El formato del correo electrónico no es válido.");
         }
         destinatarios.guardar(sucursalId, correo);
+        // CU-15: el registro de destinatarios también se audita (el adaptador pone quién lo hizo, DEC-64)
+        eventos.publicar(new AuditoriaEvent("sistema", "Destinatario registrado: " + correo + " (sucursal " + sucursalId + ")"));
     }
 
     @Override

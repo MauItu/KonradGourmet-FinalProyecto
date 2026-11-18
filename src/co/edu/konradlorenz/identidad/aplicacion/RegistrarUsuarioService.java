@@ -52,7 +52,7 @@ public class RegistrarUsuarioService implements RegistrarUsuarioUseCase {
         }
         politica.validar(clave);
         if (usuarios.buscarPorCorreo(c) != null) {
-            throw new IllegalArgumentException("Ya existe un usuario con el correo " + c + ".");
+            throw new IllegalArgumentException("Ya existe un usuario registrado con ese correo.");
         }
         Usuario u = crear(rol, nombre.trim(), c, new Sucursal(sucursalId, null));
         u.asignarPasswordHash(cifrador.cifrar(clave));

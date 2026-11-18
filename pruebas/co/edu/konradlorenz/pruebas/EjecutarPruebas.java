@@ -20,6 +20,7 @@ public final class EjecutarPruebas {
         PruebasPlatos.ejecutar();
         PruebasIdentidad.ejecutar();
         PruebasIntegracion.ejecutar();
+        PruebasAdministracion.ejecutar();
         System.exit(Prueba.resumen());
     }
 

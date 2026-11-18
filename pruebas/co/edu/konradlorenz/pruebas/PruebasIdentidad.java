@@ -63,7 +63,7 @@ final class PruebasIdentidad {
         Prueba.igual("el correo se guarda en minúsculas y sin espacios", "ana.perez@konradgourmet.com",
                 usuarios.buscarPorCorreo("ana.perez@konradgourmet.com").correo());
         Prueba.igual("devuelve el id nuevo", 7L, id);
-        Prueba.lanza("correo repetido", IllegalArgumentException.class, "Ya existe un usuario con el correo",
+        Prueba.lanza("correo repetido", IllegalArgumentException.class, "Ya existe un usuario registrado con ese correo.",
                 () -> registro.registrar("Otra", "ana.perez@konradgourmet.com", "MESERO", 1L, "Konrad2026"));
         Prueba.lanza("correo mal escrito", IllegalArgumentException.class, "El formato del correo electrónico no es válido.",
                 () -> registro.registrar("Otra", "ana.konradgourmet.com", "MESERO", 1L, "Konrad2026"));

@@ -33,6 +33,11 @@ public class AdminRestController {
         return casoDeUso.logs(servicio);
     }
 
+    // GET /api/admin/parametros (DEC-85)
+    public Map<String, String> parametros() {
+        return casoDeUso.parametros();
+    }
+
     // GET /api/admin/parametros/tema
     public Map<String, String> tema() {
         return casoDeUso.tema();
