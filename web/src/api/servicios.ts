@@ -189,3 +189,24 @@ export const administracion = {
   /** HU-22: el servicio es opcional. */
   logs: (servicio: string) => api<ErrorRegistrado[]>(`/api/admin/logs${servicio ? `?servicio=${encodeURIComponent(servicio)}` : ''}`),
 };
+
+// ── ms-analitica (HU-18 y HU-19, corte 6b) ──────────────────────────────────────────────────────
+export interface Puesto { clave: string; valor: number }
+/** Un indicador del tablero BAM: el ganador (null si no hay datos), el ranking de la gráfica y el periodo aplicado (DEC-88). */
+export interface Indicador { kpi: string; ganador: string | null; valor: number | null; ranking: Puesto[]; desde: string; hasta: string }
+export type EstadoSugerencia = 'SUGERIDA' | 'ACEPTADA' | 'DESCARTADA';
+export interface Sugerencia { id: number; producto: string; motivo: string; vigenciaDesde: string; vigenciaHasta: string; estado: EstadoSugerencia }
+
+const filtrosBam = (p: Record<string, string | number | undefined>) => {
+  const q = Object.entries(p).filter(([, v]) => v !== undefined && v !== '').map(([k, v]) => `${k}=${encodeURIComponent(String(v))}`);
+  return q.length ? `?${q.join('&')}` : '';
+};
+
+export const analitica = {
+  /** HU-18: sin rango, la demanda del último mes y el proveedor del último año; con rango, el rango (PD-03). */
+  kpis: (f: { desde?: string; hasta?: string; sucursalId?: number }) => api<Indicador[]>(`/api/bam/kpis${filtrosBam(f)}`),
+  /** HU-19: el histórico de promociones sugeridas (sin rango, todo). */
+  promociones: (desde?: string, hasta?: string) => api<Sugerencia[]>(`/api/bam/promociones${filtrosBam({ desde, hasta })}`),
+  aceptar: (id: number) => api<{ mensaje: string }>(`/api/bam/promociones/${id}/aceptar`, { metodo: 'PATCH' }),
+  descartar: (id: number) => api<{ mensaje: string }>(`/api/bam/promociones/${id}/descartar`, { metodo: 'PATCH' }),
+};

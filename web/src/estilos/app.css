@@ -925,3 +925,33 @@ td.nowrap { white-space: nowrap; }
 @media (max-width: 640px) {
   .tema-boton { margin-left: 0; }
 }
+
+/* ---------- Analítica (corte 6b): tablero BAM del director comercial y promociones sugeridas del jefe ---------- */
+.bam-nota { font-size: 12px; color: var(--texto-2); margin: -4px 2px 14px; }
+.bam-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: stretch; }
+.bam-kpi { display: flex; flex-direction: column; }
+.bam-kpi .card-head { align-items: flex-start; flex-wrap: nowrap; }
+.bam-kpi .kpi-ico { width: 40px; height: 40px; border-radius: 12px; }
+.bam-kpi .kpi-ico .ic { width: 20px; height: 20px; }
+.bam-valor strong { display: block; font-size: 22px; font-weight: 700; line-height: 1.15; word-break: break-word; }
+.bam-valor span { font-size: 12.5px; color: var(--texto-2); }
+.bam-grafica-titulo { font-size: 11.5px; color: var(--suave); margin: 16px 0 8px; }
+.bam-barras { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.bam-barras li { display: grid; grid-template-columns: minmax(0, 11em) minmax(0, 1fr) auto; gap: 8px; align-items: center; font-size: 12px; }
+.bam-etiqueta { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--texto-2); }
+.bam-cifra { font-variant-numeric: tabular-nums; color: var(--texto); font-weight: 500; text-align: right; min-width: 3.5em; }
+.bam-pista { position: relative; display: block; height: 12px; }
+.bam-pista i { position: absolute; top: 0; bottom: 0; left: 0; border-radius: 0 4px 4px 0; background: #F6C79A; }
+.bam-pista i.gana { background: var(--naranja); }
+.bam-pista.eje::before { content: ""; position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1px; background: var(--linea-2); }
+.bam-pista.eje i[style*="right"] { left: auto; border-radius: 4px 0 0 4px; }
+.bam-eje { display: grid; grid-template-columns: minmax(0, 11em) minmax(0, 1fr) auto; gap: 8px; font-size: 10.5px; color: var(--suave); margin-top: 6px; }
+.bam-eje-pista { display: flex; justify-content: space-between; gap: 4px; }
+.bam-vacio { padding: 26px 10px; }
+.promo-nota { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; color: var(--texto-2); background: var(--fondo);
+  border-radius: 12px; padding: 10px 12px; margin-bottom: 12px; }
+.promo-nota .ic { width: 16px; height: 16px; flex: none; color: var(--naranja); margin-top: 1px; }
+.promo-acciones { display: flex; gap: 6px; flex-wrap: wrap; }
+@media (max-width: 1080px) {
+  .bam-grid { grid-template-columns: minmax(0, 1fr); }
+}

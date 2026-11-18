@@ -34,6 +34,7 @@ export const ESTADOS: Record<string, [string, string]> = {
   SOSPECHOSA: ['Sospechosa', 'ambar'], OPCIONADA: ['Opcionada', 'azul'], CON_ORDEN: ['Con orden', 'verde'],
   EN_PROCESO: ['En proceso', 'naranja'], FINALIZADA: ['Finalizada', 'verde'],
   ACTIVO: ['Activo', 'verde'], INACTIVO: ['Inactivo', 'gris'],
+  SUGERIDA: ['Sugerida', 'ambar'], ACEPTADA: ['Aceptada', 'verde'], DESCARTADA: ['Descartada', 'gris'],
 };
 
 /** Más antiguo primero (asc() de app.js). */

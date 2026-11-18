@@ -22,6 +22,8 @@ import { Destinatarios } from './paginas/admin/Destinatarios';
 import { Logs } from './paginas/admin/Logs';
 import { ParametrosTema } from './paginas/admin/ParametrosTema';
 import { Usuarios } from './paginas/admin/Usuarios';
+import { TableroBam } from './paginas/comercial/TableroBam';
+import { Promociones } from './paginas/jefe/Promociones';
 
 export function App() {
   return (
@@ -53,6 +55,8 @@ export function App() {
               <Route path="/admin/logs" element={<Logs />} />
               <Route path="/usuarios" element={<Usuarios />} />
               <Route path="/destinatarios" element={<Destinatarios />} />
+              <Route path="/bam" element={<TableroBam />} />
+              <Route path="/promociones" element={<Promociones />} />
               <Route path="*" element={<PorConstruir />} />
             </Route>
           </Routes>

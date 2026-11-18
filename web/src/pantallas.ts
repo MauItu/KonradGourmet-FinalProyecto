@@ -1,6 +1,6 @@
 // Qué es cada ruta del menú (las rutas las arma ms-identidad en construirMenu()): título, ícono,
 // ventanas de los mockups y el servicio que la atiende. Las que todavía no están construidas dicen
-// en qué corte llegan (las de los cortes 3 a 6a ya tienen su página en App.tsx).
+// en qué corte llegan (las de los cortes 3 a 6b ya tienen su página en App.tsx).
 export interface Pantalla {
   titulo: string;
   sub: string;
@@ -19,7 +19,7 @@ export const PANTALLAS: Record<string, Pantalla> = {
   '/inventario': { titulo: 'Inventario', sub: 'Existencias y alertas de stock bajo', icono: 'box', ventanas: 'V05 y V07', servicio: 'ms-inventario' },
   '/solicitudes': { titulo: 'Solicitudes', sub: 'Solicitudes de alimentos', icono: 'file', ventanas: 'V10 a V12', servicio: 'ms-solicitudes' },
   '/solicitudes/nueva': { titulo: 'Nueva solicitud', sub: 'Pide alimentos al área de compras', icono: 'file', ventanas: 'V08 y V09', servicio: 'ms-solicitudes' },
-  '/promociones': { titulo: 'Promociones sugeridas', sub: 'Sugerencias del análisis semanal (HU-19)', icono: 'tag', ventanas: 'sin mockup', servicio: 'ms-analitica', corte: 6 },
+  '/promociones': { titulo: 'Promociones sugeridas', sub: 'Sugerencias del análisis semanal (HU-19)', icono: 'tag', ventanas: 'sin mockup', servicio: 'ms-analitica' },
   '/cotizaciones': { titulo: 'Cotizaciones', sub: 'Cotizaciones enviadas a proveedores', icono: 'file', ventanas: 'V15 y V17', servicio: 'ms-cotizaciones' },
   '/cotizaciones/nueva': { titulo: 'Generar cotización', sub: 'Arma y envía la solicitud de cotización', icono: 'send', ventanas: 'V13 y V14', servicio: 'ms-cotizaciones' },
   '/cotizaciones/todas': { titulo: 'Todas las cotizaciones', sub: 'Cotizaciones de todos los proveedores', icono: 'file', ventanas: 'V17', servicio: 'ms-cotizaciones' },
@@ -27,7 +27,7 @@ export const PANTALLAS: Record<string, Pantalla> = {
   '/cotizaciones/opcionadas': { titulo: 'Cotizaciones opcionadas', sub: 'Listas para generar la orden de compra', icono: 'star', ventanas: 'V20', servicio: 'ms-cotizaciones' },
   '/proveedores': { titulo: 'Proveedores', sub: 'Registro y mantenimiento de proveedores (HU-15)', icono: 'store', ventanas: 'sin mockup', servicio: 'ms-cotizaciones' },
   '/ordenes-compra': { titulo: 'Órdenes de compra', sub: 'Órdenes generadas y su seguimiento', icono: 'receipt', ventanas: 'V21 a V23', servicio: 'ms-ordenes' },
-  '/bam': { titulo: 'Tablero BAM', sub: 'Indicadores del negocio (HU-18)', icono: 'chart', ventanas: 'sin mockup', servicio: 'ms-analitica', corte: 6 },
+  '/bam': { titulo: 'Tablero BAM', sub: 'Indicadores del negocio (HU-18)', icono: 'chart', ventanas: 'sin mockup', servicio: 'ms-analitica' },
   '/admin': { titulo: 'Administración', sub: 'Parámetros, imagen corporativa, auditoría y logs', icono: 'settings', ventanas: 'sin mockup', servicio: 'ms-administracion' },
   '/admin/parametros': { titulo: 'Parámetros y tema', sub: 'Imagen corporativa y parámetros generales (HU-20)', icono: 'settings', ventanas: 'sin mockup', servicio: 'ms-administracion' },
   '/admin/auditoria': { titulo: 'Auditoría', sub: 'Quién hizo cada acción y cuándo (HU-21)', icono: 'clipboard', ventanas: 'sin mockup', servicio: 'ms-administracion' },
