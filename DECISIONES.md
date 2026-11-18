@@ -18,7 +18,9 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-73 y DEC-74:** las asumió Claude el 2026-11-17 en el corte 4b y las confirmó Mauricio el mismo día, al aprobar el corte 4b.
 - **DEC-75 a DEC-77:** las decidió Mauricio el 2026-11-17, al empezar el corte 5 (DEC-76 siguiendo la recomendación de Claude; en DEC-75 escogió la opción no recomendada, «Ver PDF», y pidió además la lista de DEC-77).
 - **DEC-79 a DEC-81:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación de Claude, al revisar los pendientes del corte 5.
-- **DEC-82:** la asumió Claude el 2026-11-17, al aplicar DEC-79 a DEC-81; está por confirmar.
+- **DEC-82:** la asumió Claude el 2026-11-17, al aplicar DEC-79 a DEC-81.
+- **DEC-78 y DEC-82:** las confirmó Mauricio el 2026-11-17, al aprobar el corte 5.
+- **DEC-83 y DEC-84, y la aplicación de PD-05:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación de Claude, al preparar el corte 6.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -80,7 +82,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | PD-02 | Categorías del proveedor | Se mantiene `List<String>`: nombres de las categorías de ms-menu, copiados por valor | Decidida por el arquitecto-revisor (2026-11-08); efecto en CU-09 |
 | PD-03 | BAM: periodos fijos frente al rango libre | Sin rango: demanda de 30 días y proveedor de 365; con rango, manda el rango; la sucursal filtra la demanda; solo cotizaciones OPCIONADAS | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_kpis`), CU-14 y R-31; código fuera de alcance |
 | PD-04 | Promociones: fuente de tendencias y periodo | Job semanal sobre los 7 días anteriores: tendencias de redes y los 3 más pedidos; vigencia de 7 días; supuesto S11 | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_promociones`), CU-06 y §17 del reporte |
-| PD-05 | T-06: eventos con tipos del dominio de otro servicio | Tipos simples en el contrato (`estado: String`, `diferenciaPorcentual`, `sugerencias: List<String>`); aplicación diferida | Decidida por el arquitecto-revisor (2026-11-08); aplicación diferida, pendiente de autorización de Mauricio (4c, 4e y código) |
+| PD-05 | T-06: eventos con tipos del dominio de otro servicio | Tipos simples en el contrato (`estado: String`, `diferenciaPorcentual`, `sugerencias: List<String>`); aplicación diferida | Decidida por el arquitecto-revisor (2026-11-08); **aplicación autorizada por Mauricio (2026-11-17)** para el corte 6 (4c, 4e y código) |
 | PD-06 | Administración de roles y permisos | Seis roles fijos y una matriz fija de permisos por rol; administrador de alcance global; supuesto S10 para las listas maestras | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-15, R-57 y §17 del reporte |
 | PD-07 | Filtros de la auditoría | Solo rango de fechas, obligatorio; usuario y acción quedan como evolución | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-16 y HU-21 |
 | PD-08 | Autenticación de los consumidores externos del SOAP | OAuth 2.0 client credentials: JWT de cliente validado por el gateway, solo para `/api/integracion/**`; supuesto S12 | Decidida por el arquitecto-revisor (2026-11-08); efectos en páginas 1, 2 y 3a, CU-18 y §3/§17 del reporte |
@@ -110,11 +112,13 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-75 | «Ver PDF» de la orden en V23 | La directora abre el PDF de la orden desde V23 (`GET /api/ordenes-compra/{id}/pdf`): `pdf(numero)` en `OrdenCompraRestController`, `GenerarOrdenUseCase` y `OrdenCompraService`, y `porNumero(numero)` en `OrdenRepositoryPort` y `OrdenJpaAdapter` | Decidida por Mauricio (2026-11-17); aplicada en el código y en las páginas 4d y 1; el mockup V23 queda por cambiar (CD-01) |
 | DEC-76 | Cómo sabe V14 que el correo salió | Cada envío guarda la correlación del recorrido; `EnviosController` (fuera del diagrama, solo lectura) responde `GET /api/notificaciones/envios?correlacion=…` y V14 espera unos segundos el resultado. La 4d no cambia | Decidida por Mauricio (2026-11-17) |
 | DEC-77 | Dónde se anotan los cambios que la documentación tiene que recoger | En `CAMBIOS_A_DOCUMENTAR.md`: cada cosa que el código agrega, quita o cambia frente a los mockups, el `.drawio`, el reporte o las guías, con el artefacto, el lugar exacto y su estado | Decidida por Mauricio (2026-11-17) |
-| DEC-78 | Detalles del corte 5 | OC-0012 en adelante por secuencia, en una transacción; copia local de los nombres en ms-ordenes; la cotización se lee de ms-cotizaciones por Eureka con el JWT; V20 con número, fecha y orden (HU-17); la orden queda EN_PROCESO; 5 tópicos (tendencia.detectada en el corte 6); decoradores copiados de `src/`; Mailpit sin TLS; el jefe de la demo como destinatario inicial; 2 reintentos y la cola `notificaciones.dlq`; la alarma por Redis y WebSocket con el token en la URL solo en esa ruta | Asumida por Claude (2026-11-17), por confirmar |
+| DEC-78 | Detalles del corte 5 | OC-0012 en adelante por secuencia, en una transacción; copia local de los nombres en ms-ordenes; la cotización se lee de ms-cotizaciones por Eureka con el JWT; V20 con número, fecha y orden (HU-17); la orden queda EN_PROCESO; 5 tópicos (tendencia.detectada en el corte 6); decoradores copiados de `src/`; Mailpit sin TLS; el jefe de la demo como destinatario inicial; 2 reintentos y la cola `notificaciones.dlq`; la alarma por Redis y WebSocket con el token en la URL solo en esa ruta | Asumida por Claude y confirmada por Mauricio (2026-11-17), con los reemplazos de DEC-80 y DEC-81 |
 | DEC-79 | Cómo se documentan las clases que no están en el diagrama | Como notas «Infraestructura que no se dibuja» en las páginas 4a, 4c y 4d, sin cajas nuevas; la cuenta del §13 sigue en 195; lo que es solo de la demostración (`CierreDiaController`, `DatosIniciales`) no se documenta | Decidida por Mauricio (2026-11-17); aplicada en el `.drawio` (páginas 1, 3a, 4a, 4c, 4d y 5); la frase del §13 queda para el corte 7 (CD-15) |
 | DEC-80 | Cómo pasa la orden a FINALIZADA | `finalizar()` en `OrdenCompra` y `finalizar(numero)` ‹V23› en `GenerarOrdenUseCase`, `OrdenCompraService` y `OrdenCompraRestController`; `PATCH /api/ordenes-compra/{id}/finalizar` (directora de compras) y el botón «Marcar como recibida» en V23 | Decidida por Mauricio (2026-11-17); aplicada en el código, la SPA y las páginas 4d y 1; el mockup V23 y el reporte, por cambiar (CD-11 y CD-12) |
 | DEC-81 | Quién vuelve a procesar la cola `notificaciones.dlq` | `ReprocesoColaErrores` en ms-notificaciones (fuera del diagrama): un listener que espera 5 min por registro y lo vuelve a notificar, hasta 3 rondas; HU-12 sigue igual | Decidida por Mauricio (2026-11-17); aplicada en el código y en `n_fallos` de la 4d; el reporte, por cambiar (CD-14) |
-| DEC-82 | Detalles de DEC-79 a DEC-81 | ‹V23› solo en el controlador; una nota de infraestructura por microservicio; V14 sube 8 px en la página 1; textos de la confirmación de V23; grupo, cabecera y fallos del reproceso de la cola; la cola vieja se reprocesa una vez | Asumida por Claude (2026-11-17), por confirmar |
+| DEC-82 | Detalles de DEC-79 a DEC-81 | ‹V23› solo en el controlador; una nota de infraestructura por microservicio; V14 sube 8 px en la página 1; textos de la confirmación de V23; grupo, cabecera y fallos del reproceso de la cola; la cola vieja se reprocesa una vez | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-83 | Tamaño del corte 6 | Partirlo en 6a (ms-administracion) y 6b (ms-analitica), cada uno con su reporte y su OK | Decidida por Mauricio (2026-11-17) |
+| DEC-84 | Logs de errores en local | Elasticsearch real en el compose (un nodo); cada servicio envía sus errores con un appender de logback en `compartido` y `ElasticsearchLogsAdapter` los consulta | Decidida por Mauricio (2026-11-17) |
 
 ---
 
@@ -1028,6 +1032,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Qué implica:** T-06 queda decidida. Mientras no se aplique, A sigue siendo el límite declarado de la demo. Aplicarla cambia a la vez la 4c, la 4e y el código (los dos eventos, la llamada en `CotizacionService.validar()` y la rama T-06 de `NotificacionService`); son unas 10 líneas y cabe en la demo, pero no hace falta: **solo se aplica si Mauricio lo autoriza**, porque el alcance actual es solo la demo (DEC-39). Se pierde el tipado fuerte del estado en el consumidor.
 
+**Autorización (2026-11-17).** Mauricio autorizó aplicarla en el corte 6 (6a o 6b, donde la necesite el primer consumidor), siguiendo la recomendación de Claude: ms-analitica necesita `diferenciaPorcentual` para el KPI del proveedor (PD-03) y ms-notificaciones deja de copiar clases del dominio de ms-analitica (DEC-78).
+
 ## PD-06 · ¿Quién administra roles y permisos, y con qué alcance?
 
 **Por qué hubo que decidir.** La 4a tiene seis subclases de `Usuario` (Factory Method) y el menú por rol (Composite); `RegistrarUsuarioUseCase.registrar(nombre, correo, rol, sucursalId, clave)` da de alta usuarios (DEC-10) y el reporte (§16) promete «verificación del rol en cada endpoint». `AdministracionUseCase.parametrizar(clave, valor)` guarda solo pares clave-valor. CU-15 lo dejaba abierto.
@@ -1415,7 +1421,7 @@ Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los c
 
 ## DEC-78 · Detalles del corte 5 asumidos por Claude
 
-Ninguno cambia firmas ni el diagrama (el único que los cambia es DEC-75, que decidió Mauricio). Los asumió Claude el 2026-11-17; **por confirmar**. Lo que la documentación tiene que recoger está en `CAMBIOS_A_DOCUMENTAR.md` (CD-05 a CD-10).
+Ninguno cambia firmas ni el diagrama (el único que los cambia es DEC-75, que decidió Mauricio). Los asumió Claude el 2026-11-17; **los confirmó Mauricio el mismo día**, al aprobar el corte 5. Lo que la documentación tiene que recoger está en `CAMBIOS_A_DOCUMENTAR.md` (CD-05 a CD-10).
 
 - **Número de la orden.** `OrdenJpaAdapter.guardar()` le da a la orden nueva el siguiente número de una secuencia de PostgreSQL, OC-0012 en adelante, como la demo (igual que pedidos y solicitudes, DEC-69 y DEC-72); el núcleo genera el PDF después de numerar. Otra opción era pedirlo antes, como las cotizaciones (DEC-74), pero aquí no hace falta: `OrdenCompraService.generar()` ya guarda dos veces.
 - **Rearmar la orden.** `OrdenCompra` gana un constructor con todos sus campos para leerla de la base (los diagramas omiten los constructores, como el de `SolicitudAlimentos` en DEC-72).
@@ -1490,7 +1496,7 @@ Ninguno cambia firmas ni el diagrama (el único que los cambia es DEC-75, que de
 
 ## DEC-82 · Detalles de DEC-79 a DEC-81 asumidos por Claude
 
-Ninguno cambia firmas ni agrega cajas al diagrama. Los asumió Claude el 2026-11-17, al aplicar DEC-79 a DEC-81; **por confirmar**.
+Ninguno cambia firmas ni agrega cajas al diagrama. Los asumió Claude el 2026-11-17, al aplicar DEC-79 a DEC-81; **los confirmó Mauricio el mismo día**, al aprobar el corte 5.
 
 - **‹V23› solo en el controlador.** `finalizar(numero)` lleva la marca de la ventana en `OrdenCompraRestController`, no en `GenerarOrdenUseCase` ni en `OrdenCompraService`: así está `pdf()` de DEC-75 y así marca la leyenda las ventanas (el método que las atiende). Las cajas crecen una línea; `OrdenCompraService` baja 14 px para no pegarse al caso de uso.
 - **Una nota de infraestructura por microservicio.** En la 4a van dos (en `compartido`, junto a `AuditoriaEvent`, y en ms-identidad, junto a `JwtEmisorAdapter`) y en la 4d otras dos (en ms-ordenes, junto a `CotizacionRestClient`, y en ms-notificaciones, unida a `EnvioRepositoryPort`); en la 4c, una, unida a `CotizacionService`. Una sola nota por página habría cruzado el marco de otro microservicio. El gateway no tiene página: `CorrelacionGateway` va en la nota de `compartido` (con lo de DEC-64) y `SeguridadGateway` en la de ms-identidad (con el JWKS que usa).
@@ -1500,6 +1506,26 @@ Ninguno cambia firmas ni agrega cajas al diagrama. Los asumió Claude el 2026-11
 - **Reproceso de la cola.** El grupo de consumo es `ms-notificaciones-reproceso` y la ronda viaja en la cabecera `kg-reproceso`. La espera se cuenta desde que el registro entró a la cola (su marca de tiempo); con menos de 1 s de diferencia ya se procesa. Si devolver el registro a la cola falla, se intenta dos veces más cada 10 s y después queda en el registro del servicio (el registro sigue en la cola y el grupo pasa al siguiente). Un registro que no se puede leer (sin la cabecera de su clase) cuenta como una ronda fallida. Para reconstruir el evento, `ConvertidorEventos` (de `compartido`) gana el método público `evento()`.
 - **La cola que ya tenía eventos.** El grupo nuevo empieza por el principio de `notificaciones.dlq` (como los demás grupos, `earliest`): en una instalación que ya tenía eventos en la cola, por ejemplo la de los volúmenes `konrad-gourmet_*`, la primera vez que arranca los vuelve a notificar una vez. En producción es lo esperado (son envíos pendientes).
 - **Pruebas.** `recorrido_corte5.py` marca OC-0012 como recibida al final del recorrido a 390 px, para que las comprobaciones de escritorio (V23 EN PROCESO, V16) no cambien.
+
+
+## DEC-83 · ¿El corte 6 va en un solo mensaje o en dos?
+
+**Por qué hubo que decidir.** El corte 6 trae dos servicios sin relación directa: ms-administracion (auditoría, parámetros y tema, logs de errores, alta de usuarios y libreta de destinatarios) y ms-analitica (tablero BAM del director comercial y promociones de HU-19 con `tendencia.detectada`).
+
+**Opciones:**
+- **A. Partirlo en 6a (ms-administracion) y 6b (ms-analitica)**, cada uno con su reporte, sus pruebas y su OK, como DEC-70. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Un solo corte 6**, más largo y más difícil de revisar.
+
+## DEC-84 · ¿Cómo se ven los logs de errores en local?
+
+**Por qué hubo que decidir.** La ventana de logs del administrador usa `LogsPort` y `ElasticsearchLogsAdapter` («ELK · Elasticsearch · HTTPS», 4e), y la plataforma local no tenía ELK (DEC-58).
+
+**Opciones:**
+- **A. Elasticsearch real.** Un nodo en el compose (≈512 MB de memoria); cada servicio envía sus errores con un appender de logback en `compartido`, y el adaptador los consulta de verdad. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Simulado** con WireMock, con errores de ejemplo: más liviano, pero los logs no son reales.
+- **C. Dejarlo pendiente** y anotarlo en el LEEME.
+
+**Qué implica:** la lista de diferencias con la página 5 del LEEME deja de decir «sin ELK» (queda sin Logstash ni Kibana, si así se construye). El diagrama no cambia.
 
 ---
 
