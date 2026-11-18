@@ -1,6 +1,6 @@
 // Qué es cada ruta del menú (las rutas las arma ms-identidad en construirMenu()): título, ícono,
 // ventanas de los mockups y el servicio que la atiende. Las que todavía no están construidas dicen
-// en qué corte llegan (las de los cortes 3 a 5 ya tienen su página en App.tsx).
+// en qué corte llegan (las de los cortes 3 a 6a ya tienen su página en App.tsx).
 export interface Pantalla {
   titulo: string;
   sub: string;
@@ -28,9 +28,12 @@ export const PANTALLAS: Record<string, Pantalla> = {
   '/proveedores': { titulo: 'Proveedores', sub: 'Registro y mantenimiento de proveedores (HU-15)', icono: 'store', ventanas: 'sin mockup', servicio: 'ms-cotizaciones' },
   '/ordenes-compra': { titulo: 'Órdenes de compra', sub: 'Órdenes generadas y su seguimiento', icono: 'receipt', ventanas: 'V21 a V23', servicio: 'ms-ordenes' },
   '/bam': { titulo: 'Tablero BAM', sub: 'Indicadores del negocio (HU-18)', icono: 'chart', ventanas: 'sin mockup', servicio: 'ms-analitica', corte: 6 },
-  '/admin': { titulo: 'Administración', sub: 'Parámetros, imagen corporativa, auditoría y logs', icono: 'settings', ventanas: 'sin mockup', servicio: 'ms-administracion', corte: 6 },
-  '/usuarios': { titulo: 'Usuarios', sub: 'Alta de usuarios con su rol y sucursal', icono: 'users', ventanas: 'sin mockup', servicio: 'ms-identidad', corte: 6 },
-  '/destinatarios': { titulo: 'Destinatarios de alertas', sub: 'Correos de los jefes de cocina por sucursal', icono: 'bell', ventanas: 'sin mockup', servicio: 'ms-notificaciones', corte: 6 },
+  '/admin': { titulo: 'Administración', sub: 'Parámetros, imagen corporativa, auditoría y logs', icono: 'settings', ventanas: 'sin mockup', servicio: 'ms-administracion' },
+  '/admin/parametros': { titulo: 'Parámetros y tema', sub: 'Imagen corporativa y parámetros generales (HU-20)', icono: 'settings', ventanas: 'sin mockup', servicio: 'ms-administracion' },
+  '/admin/auditoria': { titulo: 'Auditoría', sub: 'Quién hizo cada acción y cuándo (HU-21)', icono: 'clipboard', ventanas: 'sin mockup', servicio: 'ms-administracion' },
+  '/admin/logs': { titulo: 'Logs de errores', sub: 'Errores registrados por los servicios (HU-22)', icono: 'alert', ventanas: 'sin mockup', servicio: 'ms-administracion' },
+  '/usuarios': { titulo: 'Usuarios', sub: 'Alta de usuarios con su rol y sucursal', icono: 'users', ventanas: 'sin mockup', servicio: 'ms-identidad' },
+  '/destinatarios': { titulo: 'Destinatarios de alertas', sub: 'Correos de los jefes de cocina por sucursal', icono: 'bell', ventanas: 'sin mockup', servicio: 'ms-notificaciones' },
   '/perfil': { titulo: 'Mi perfil', sub: 'Tus datos en el sistema', icono: 'user', ventanas: '', servicio: 'ms-identidad' },
 };
 

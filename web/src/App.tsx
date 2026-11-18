@@ -16,10 +16,17 @@ import { Perfil } from './paginas/Perfil';
 import { PorConstruir } from './paginas/PorConstruir';
 import { Solicitudes } from './paginas/Solicitudes';
 import { ProveedorSesion } from './sesion/Sesion';
+import { ProveedorTema } from './sesion/Tema';
+import { Auditoria } from './paginas/admin/Auditoria';
+import { Destinatarios } from './paginas/admin/Destinatarios';
+import { Logs } from './paginas/admin/Logs';
+import { ParametrosTema } from './paginas/admin/ParametrosTema';
+import { Usuarios } from './paginas/admin/Usuarios';
 
 export function App() {
   return (
     <ProveedorSesion>
+      <ProveedorTema>
       <ProveedorAviso>
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Routes>
@@ -41,11 +48,17 @@ export function App() {
               <Route path="/cotizaciones/opcionadas" element={<Opcionadas />} />
               <Route path="/ordenes-compra" element={<OrdenesCompra />} />
               <Route path="/proveedores" element={<Proveedores />} />
+              <Route path="/admin/parametros" element={<ParametrosTema />} />
+              <Route path="/admin/auditoria" element={<Auditoria />} />
+              <Route path="/admin/logs" element={<Logs />} />
+              <Route path="/usuarios" element={<Usuarios />} />
+              <Route path="/destinatarios" element={<Destinatarios />} />
               <Route path="*" element={<PorConstruir />} />
             </Route>
           </Routes>
         </BrowserRouter>
       </ProveedorAviso>
+      </ProveedorTema>
     </ProveedorSesion>
   );
 }

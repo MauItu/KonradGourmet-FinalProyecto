@@ -66,3 +66,14 @@ export const EMOJI: Record<string, string> = {
 
 /** Las categorías de la carta (V03 y V06, DEC-66). */
 export const CATEGORIAS_CARTA = ['Fuertes', 'Entradas', 'Sopas', 'Bebidas', 'Postres'];
+
+/** Las sucursales de la empresa (las mismas de ms-identidad). */
+export const SUCURSALES = [
+  { id: 1, nombre: 'Sucursal Centro' },
+  { id: 2, nombre: 'Sucursal Norte' },
+  { id: 3, nombre: 'Sucursal Chapinero' },
+];
+
+/** Los 11 microservicios que envían sus errores a Elasticsearch (DEC-84), para el filtro de HU-22. */
+export const SERVICIOS = ['ms-identidad', 'ms-pedidos', 'ms-menu', 'ms-inventario', 'ms-solicitudes', 'ms-cotizaciones',
+  'ms-ordenes', 'ms-notificaciones', 'ms-integracion', 'ms-analitica', 'ms-administracion'];

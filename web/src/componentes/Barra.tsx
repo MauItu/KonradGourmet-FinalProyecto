@@ -2,17 +2,22 @@ import { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Icono } from './Icono';
 import { pantalla } from '../pantallas';
+import { useTema } from '../sesion/Tema';
 import { NOMBRE_ROL, type ElementoMenu, type Usuario } from '../sesion/token';
 
 const iniciales = (nombre: string) => nombre.split(/\s+/).filter(Boolean).slice(0, 2).map((p) => p[0]).join('').toUpperCase();
 
 /**
- * Panel izquierdo (V02, V05, V11, V16): marca, perfil y el menú que armó ms-identidad con el
+ * Panel izquierdo (V02, V05, V11, V16): marca (con el tema de HU-20), perfil y el menú que armó ms-identidad con el
  * Composite (GrupoMenu / OpcionMenu). «Mi perfil» y «Cerrar sesión» van al pie, como en los mockups.
  */
 export function Barra({ usuario, alSalir }: { usuario: Usuario; alSalir: () => void }) {
   const { pathname } = useLocation();
   const [abiertos, setAbiertos] = useState<Record<string, boolean>>({});
+  // La marca sale del tema (HU-20): la primera palabra del nombre en oscuro y el resto en el color principal.
+  const { tema } = useTema();
+  const [primera, ...demas] = tema.nombre.split(' ');
+  const resto = demas.join(' ');
   const opciones = usuario.menu.hijos.filter((h) => h.ruta !== '/perfil' && h.ruta !== '/cerrar-sesion');
 
   const grupo = (g: ElementoMenu) => {
@@ -39,8 +44,8 @@ export function Barra({ usuario, alSalir }: { usuario: Usuario; alSalir: () => v
   return (
     <aside className="sidebar">
       <div className="brand">
-        <img src="/assets/logo/logo.png" alt="" />
-        <div><b>Konrad <span>Gourmet</span></b><small>Sistema de Abastecimiento</small></div>
+        <img src={tema.logo} alt="" />
+        <div><b>{primera}{resto && <> <span>{resto}</span></>}</b><small>Sistema de Abastecimiento</small></div>
       </div>
       <div className="profile">
         <div className="avatar"><span>{iniciales(usuario.nombre)}</span><i className="online" title="En línea"></i></div>

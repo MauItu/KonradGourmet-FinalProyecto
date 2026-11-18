@@ -905,3 +905,22 @@ button.nav-item { cursor: pointer; font-family: inherit; }
 .alarma-viva p { font-size: 13px; margin: 2px 0 8px; }
 .alarma-viva small { color: var(--suave); font-size: 11px; }
 .alarma-viva .acciones { display: flex; gap: 8px; align-items: center; }
+
+/* ---------- Administrador (corte 6a): parámetros y tema, auditoría, logs, usuarios y destinatarios ---------- */
+.tema-vista { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 16px; margin-bottom: 14px;
+  border: 1px dashed var(--linea-2); border-radius: 12px; background: var(--fondo); }
+.tema-vista img { width: 44px; height: 44px; object-fit: contain; }
+.tema-vista b { display: block; font-size: 15px; font-weight: 700; line-height: 1.1; }
+.tema-vista small { font-size: 10px; color: var(--suave); }
+.tema-boton { margin-left: auto; color: #fff; font-size: 12px; font-weight: 600; padding: 8px 14px; border-radius: 10px; }
+.tema-color, .tema-logo { display: flex; gap: 8px; align-items: center; }
+.tema-color input[type="color"] { width: 44px; min-width: 44px; height: 38px; padding: 2px; cursor: pointer; }
+.tema-color input:not([type="color"]) { flex: 1; min-width: 0; }
+.tema-logo .btn { position: relative; overflow: hidden; }
+.tema-logo input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.valor-parametro, .mensaje-error { word-break: break-word; }
+.mensaje-error { font-size: 12.5px; }
+td.nowrap { white-space: nowrap; }
+@media (max-width: 640px) {
+  .tema-boton { margin-left: 0; }
+}

@@ -158,4 +158,34 @@ export interface Envio { destino: string; tipo: string; fechaHora: string; exito
 export const notificaciones = {
   /** Los envíos de un recorrido (DEC-76): V14 sabe así si el correo al proveedor ya salió. */
   envios: (correlacion: string) => api<Envio[]>(`/api/notificaciones/envios?correlacion=${encodeURIComponent(correlacion)}`),
+  /** La libreta de jefes de cocina por sucursal (DEC-13), solo el administrador. */
+  destinatarios: (sucursalId: number) => api<string[]>(`/api/notificaciones/destinatarios?sucursalId=${sucursalId}`),
+  registrarDestinatario: (sucursalId: number, correo: string) =>
+    api<void>('/api/notificaciones/destinatarios', { cuerpo: { sucursalId, correo } }),
+};
+
+// ── ms-identidad: alta de usuarios (CU-19) ──────────────────────────────────────────────────────
+export interface NuevoUsuario { nombre: string; correo: string; rol: string; sucursalId: number; clave: string }
+
+export const usuarios = {
+  registrar: (u: NuevoUsuario) => api<{ id: number }>('/api/usuarios', { cuerpo: u }),
+};
+
+// ── ms-administracion (HU-20 a HU-22, corte 6a) ─────────────────────────────────────────────────
+export interface Movimiento { accion: string; usuario: string; fecha: string; hora: string }
+export interface ErrorRegistrado { servicio: string; mensaje: string; fechaHora: string }
+
+export const administracion = {
+  /** Todos los parámetros (DEC-85). */
+  parametros: () => api<Record<string, string>>('/api/admin/parametros'),
+  /** Crea el parámetro o cambia su valor; queda en la auditoría. */
+  parametrizar: (clave: string, valor: string) =>
+    api<{ mensaje: string }>(`/api/admin/parametros/${encodeURIComponent(clave)}`, { metodo: 'PUT', cuerpo: { valor } }),
+  /** Nombre, color y logo: los lee cualquier usuario con sesión (DEC-86). */
+  tema: () => api<Record<string, string>>('/api/admin/parametros/tema'),
+  /** HU-21: el rango es obligatorio (PD-07). */
+  auditoria: (desde: string, hasta: string) =>
+    api<Movimiento[]>(`/api/admin/auditoria?desde=${encodeURIComponent(desde)}&hasta=${encodeURIComponent(hasta)}`),
+  /** HU-22: el servicio es opcional. */
+  logs: (servicio: string) => api<ErrorRegistrado[]>(`/api/admin/logs${servicio ? `?servicio=${encodeURIComponent(servicio)}` : ''}`),
 };
