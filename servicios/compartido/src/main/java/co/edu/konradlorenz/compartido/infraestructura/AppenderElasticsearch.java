@@ -41,9 +41,9 @@ public class AppenderElasticsearch extends AppenderBase<ILoggingEvent> {
     static final int MAXIMO_TRAZA = 8_000;
     private static final ZoneId BOGOTA = ZoneId.of("America/Bogota");
 
-    /** Los campos por los que se busca son keyword; la fecha, date. */
+    /** Los campos por los que se busca son keyword; la fecha, date. Sin réplicas: en local hay un solo nodo. */
     static final String MAPEO = """
-            {"mappings":{"properties":{
+            {"settings":{"number_of_replicas":0},"mappings":{"properties":{
               "servicio":{"type":"keyword"},"nivel":{"type":"keyword"},"mensaje":{"type":"text"},
               "fechaHora":{"type":"date"},"logger":{"type":"keyword"},"hilo":{"type":"keyword"},
               "traza":{"type":"text","index":false},"correlacionId":{"type":"keyword"},"usuario":{"type":"keyword"}}}}""";

@@ -6,12 +6,15 @@
 #   ./plataforma/bajar.sh        apaga todo (agrega --borrar para borrar los datos)
 #
 # Puertos en el equipo: 8080 la aplicación (Nginx), 8761 Eureka, 8025 los correos (Mailpit).
+# Elasticsearch (logs de error, DEC-84) no se publica: solo lo ve ms-administracion, dentro de la red.
 name: konrad-gourmet
 
 x-servicio-java: &servicio-java
   restart: unless-stopped
-  environment:
+  environment: &entorno-java
     EUREKA_URL: http://service-registry:8761/eureka/
+    # DEC-84: cada servicio envía sus errores a Elasticsearch (AppenderElasticsearch de compartido).
+    KONRAD_LOGS_ELASTICSEARCH: http://elasticsearch:9200
   mem_limit: 512m
 
 services:
@@ -96,6 +99,27 @@ services:
       - ./infra/s3/crear-bucket.sh:/crear-bucket.sh:ro
     entrypoint: ["/bin/bash", "/crear-bucket.sh"]
     restart: "no"
+
+  # Logs de error de los 11 servicios (DEC-84; «Logs de error [Elasticsearch · ELK]» de la página 3a): un nodo,
+  # sin TLS ni usuarios en local (DEC-58). Los servicios no dependen de él: si no está, sus errores siguen en
+  # el registro de cada contenedor. Solo lo consulta ms-administracion.
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.19.4
+    restart: unless-stopped
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      xpack.ml.enabled: "false"
+      cluster.routing.allocation.disk.threshold_enabled: "false"
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+    mem_limit: 1g
+    volumes:
+      - datos-elasticsearch:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs 'http://127.0.0.1:9200/_cluster/health?wait_for_status=yellow&timeout=5s' >/dev/null"]
+      interval: 10s
+      start_period: 40s
+      retries: 30
 
   # ── Sistemas externos simulados ──────────────────────────────────────────────────
 
@@ -288,7 +312,7 @@ services:
       args: { MODULO: ms-notificaciones }
     image: konrad-gourmet/ms-notificaciones
     environment:
-      EUREKA_URL: http://service-registry:8761/eureka/
+      <<: *entorno-java
       # DEC-81: en local, la cola de errores se vuelve a procesar a los 30 s (5 min por defecto).
       ESPERA_COLA_ERRORES: 30s
     depends_on:
@@ -304,6 +328,20 @@ services:
         condition: service_healthy
       correo:
         condition: service_started
+    healthcheck: *salud-servicio
+
+  # Parámetros y tema, auditoría de todos los servicios (escucha auditoria.evento) y logs de errores en Elasticsearch.
+  ms-administracion:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-administracion }
+    image: konrad-gourmet/ms-administracion
+    environment:
+      <<: *entorno-java
+      # Nota n_parametros: cada réplica refresca la caché de parámetros cada minuto; en local, cada 10 s.
+      REFRESCO_PARAMETROS: PT10S
+    depends_on: *depende-de-datos
     healthcheck: *salud-servicio
 
   # Servidor web de la SPA en React (imagen construida desde web/). Única entrada desde el navegador: http://localhost:8080
@@ -333,6 +371,10 @@ services:
         condition: service_healthy
       ms-notificaciones:
         condition: service_healthy
+      ms-administracion:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
       kafka-topicos:
         condition: service_completed_successfully
       s3-bucket:
@@ -350,3 +392,4 @@ volumes:
   datos-postgres:
   datos-kafka:
   datos-s3:
+  datos-elasticsearch:
