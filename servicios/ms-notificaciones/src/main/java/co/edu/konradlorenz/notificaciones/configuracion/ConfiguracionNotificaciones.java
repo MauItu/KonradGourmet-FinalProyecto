@@ -1,5 +1,7 @@
 package co.edu.konradlorenz.notificaciones.configuracion;
 
+import co.edu.konradlorenz.compartido.infraestructura.ContextoRecorrido;
+import co.edu.konradlorenz.compartido.infraestructura.FormatoEventos;
 import co.edu.konradlorenz.compartido.puertos.EventPublisherPort;
 import co.edu.konradlorenz.notificaciones.adaptadores.salida.CorreoCertificadoDecorator;
 import co.edu.konradlorenz.notificaciones.adaptadores.salida.CorreoSmtpAdapter;
@@ -13,6 +15,8 @@ import co.edu.konradlorenz.notificaciones.puertos.salida.Correo;
 import co.edu.konradlorenz.notificaciones.puertos.salida.DestinatarioRepositoryPort;
 import co.edu.konradlorenz.notificaciones.puertos.salida.EnvioRepositoryPort;
 import org.apache.kafka.common.TopicPartition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.kafka.ConcurrentKafkaListenerContainerFactoryConfigurer;
@@ -25,6 +29,7 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.CommonErrorHandler;
+import org.springframework.kafka.listener.ConsumerRecordRecoverer;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
@@ -40,6 +45,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Configuration;
 
 import java.net.URI;
+import java.util.UUID;
 
 /**
  * Arma el servicio de aplicación con sus constructores (el núcleo de src/ no lleva anotaciones): las dos
@@ -52,6 +58,8 @@ public class ConfiguracionNotificaciones {
 
     /** Donde el navegador del jefe de cocina abre el WebSocket de las alarmas de V05. */
     public static final String RUTA_ALARMAS = "/api/notificaciones/alarmas";
+
+    private static final Logger LOG = LoggerFactory.getLogger(ConfiguracionNotificaciones.class);
 
     @Bean
     public NotificarUseCase notificar(CorreoSmtpAdapter smtp, AlarmaPushPort alarmas, EnvioRepositoryPort envios,
@@ -66,11 +74,35 @@ public class ConfiguracionNotificaciones {
      * que ReprocesoColaErrores vuelve a procesar (DEC-81). El auxiliar también puede reenviar la cotización (HU-12).
      */
     @Bean
-    public CommonErrorHandler colaDeErrores(KafkaTemplate<String, String> kafka, @Value("${konrad.notificaciones.topico-errores}") String topico,
+    public CommonErrorHandler colaDeErrores(KafkaTemplate<String, String> kafka, FormatoEventos formato,
+                                            @Value("${konrad.notificaciones.topico-errores}") String topico,
                                             @Value("${konrad.notificaciones.reintentos}") long reintentos,
                                             @Value("${konrad.notificaciones.espera-reintento-ms}") long espera) {
         DeadLetterPublishingRecoverer dlq = new DeadLetterPublishingRecoverer(kafka, (registro, error) -> new TopicPartition(topico, -1));
-        return new DefaultErrorHandler(dlq, new FixedBackOff(espera, reintentos));
+        return new DefaultErrorHandler(registrarYEncolar(dlq, formato, topico, reintentos + 1), new FixedBackOff(espera, reintentos));
+    }
+
+    /**
+     * Requisito de mantenimiento 2 (DEC-84): el evento que no se pudo notificar deja un error en el log, que llega a
+     * Elasticsearch con la correlación de su recorrido, antes de pasar a la cola de errores.
+     */
+    static ConsumerRecordRecoverer registrarYEncolar(ConsumerRecordRecoverer dlq, FormatoEventos formato, String topico, long intentos) {
+        return (registro, error) -> {
+            UUID correlacion = registro.value() instanceof String json ? formato.correlacionDe(json) : null;
+            ContextoRecorrido.Datos anterior = ContextoRecorrido.actual();
+            ContextoRecorrido.abrir(null, correlacion != null ? correlacion : UUID.randomUUID());
+            try {
+                LOG.error("No se pudo notificar un evento de {} después de {} intentos; pasa a la cola de errores {}",
+                        registro.topic(), intentos, topico, error);
+            } finally {
+                if (anterior == null) {
+                    ContextoRecorrido.cerrar();
+                } else {
+                    ContextoRecorrido.abrir(anterior.usuario(), anterior.correlacionId());
+                }
+            }
+            dlq.accept(registro, error);
+        };
     }
 
     /**
