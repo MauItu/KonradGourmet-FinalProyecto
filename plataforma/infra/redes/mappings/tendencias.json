@@ -1,0 +1,32 @@
+{
+  "name": "Tendencias gastronómicas de la semana en Colombia (con el token de Konrad Gourmet)",
+  "priority": 1,
+  "request": {
+    "method": "GET",
+    "urlPath": "/v1/tendencias",
+    "headers": {
+      "Authorization": { "equalTo": "Bearer konrad-redes-local" }
+    },
+    "queryParameters": {
+      "pais": { "equalTo": "CO" },
+      "categoria": { "equalTo": "gastronomia" },
+      "periodo": { "equalTo": "semana" }
+    }
+  },
+  "response": {
+    "status": 200,
+    "fixedDelayMilliseconds": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "jsonBody": {
+      "pais": "CO",
+      "categoria": "gastronomia",
+      "periodo": "semana",
+      "tendencias": [
+        { "producto": "Ajiaco", "menciones": 1840 },
+        { "producto": "Limonada natural", "menciones": 960 }
+      ]
+    }
+  }
+}

@@ -1,6 +1,7 @@
 # Konrad Gourmet: el diagrama de contenedores (página 3a del .drawio) en una sola máquina.
 # Lo que cambia frente al despliegue de la página 5 está en DEC-58: una réplica por servicio,
-# un broker de Kafka, un PostgreSQL con una base por servicio y los sistemas externos simulados.
+# un broker de Kafka, un PostgreSQL con una base por servicio y los sistemas externos simulados (el Ministerio,
+# el correo certificado y las redes sociales).
 #
 #   ./plataforma/levantar.sh     compila los servicios y levanta todo
 #   ./plataforma/bajar.sh        apaga todo (agrega --borrar para borrar los datos)
@@ -139,6 +140,20 @@ services:
     command: ["--disable-banner"]
     volumes:
       - ./infra/ministerio:/home/wiremock:ro
+    mem_limit: 384m
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://127.0.0.1:8080/__admin/health >/dev/null"]
+      interval: 5s
+      retries: 20
+
+  # API de tendencias de una red social (supuesto S11), simulada con WireMock (infra/redes, DEC-91): los productos en
+  # tendencia de la semana, con token. Solo la ve ms-analitica, dentro de la red.
+  redes:
+    image: wiremock/wiremock:3.13.1
+    restart: unless-stopped
+    command: ["--disable-banner"]
+    volumes:
+      - ./infra/redes:/home/wiremock:ro
     mem_limit: 384m
     healthcheck:
       test: ["CMD-SHELL", "curl -fs http://127.0.0.1:8080/__admin/health >/dev/null"]
@@ -345,6 +360,31 @@ services:
     depends_on: *depende-de-datos
     healthcheck: *salud-servicio
 
+  # Tablero BAM del director comercial y promociones sugeridas al jefe de cocina, con su almacén de hechos armado con
+  # los eventos de negocio; consulta la API de tendencias de las redes (redes) y publica tendencia.detectada.
+  ms-analitica:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-analitica }
+    image: konrad-gourmet/ms-analitica
+    environment:
+      <<: *entorno-java
+      # TendenciasJob corre cada semana (lunes 6:00); en local, cada 30 s, para verlo trabajar.
+      TENDENCIAS: "*/30 * * * * *"
+      REDES_URL: http://redes:8080/v1/tendencias
+      REDES_TOKEN: konrad-redes-local
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+      redes:
+        condition: service_healthy
+    healthcheck: *salud-servicio
+
   # Servidor web de la SPA en React (imagen construida desde web/). Única entrada desde el navegador: http://localhost:8080
   web:
     build:
@@ -373,6 +413,8 @@ services:
       ms-notificaciones:
         condition: service_healthy
       ms-administracion:
+        condition: service_healthy
+      ms-analitica:
         condition: service_healthy
       elasticsearch:
         condition: service_healthy
