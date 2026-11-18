@@ -17,6 +17,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-71 y DEC-72:** las asumió Claude el 2026-11-17 en el corte 4a y las confirmó Mauricio el mismo día, al aprobar el corte 4a.
 - **DEC-73 y DEC-74:** las asumió Claude el 2026-11-17 en el corte 4b y las confirmó Mauricio el mismo día, al aprobar el corte 4b.
 - **DEC-75 a DEC-77:** las decidió Mauricio el 2026-11-17, al empezar el corte 5 (DEC-76 siguiendo la recomendación de Claude; en DEC-75 escogió la opción no recomendada, «Ver PDF», y pidió además la lista de DEC-77).
+- **DEC-79 a DEC-81:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación de Claude, al revisar los pendientes del corte 5.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -109,6 +110,9 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-76 | Cómo sabe V14 que el correo salió | Cada envío guarda la correlación del recorrido; `EnviosController` (fuera del diagrama, solo lectura) responde `GET /api/notificaciones/envios?correlacion=…` y V14 espera unos segundos el resultado. La 4d no cambia | Decidida por Mauricio (2026-11-17) |
 | DEC-77 | Dónde se anotan los cambios que la documentación tiene que recoger | En `CAMBIOS_A_DOCUMENTAR.md`: cada cosa que el código agrega, quita o cambia frente a los mockups, el `.drawio`, el reporte o las guías, con el artefacto, el lugar exacto y su estado | Decidida por Mauricio (2026-11-17) |
 | DEC-78 | Detalles del corte 5 | OC-0012 en adelante por secuencia, en una transacción; copia local de los nombres en ms-ordenes; la cotización se lee de ms-cotizaciones por Eureka con el JWT; V20 con número, fecha y orden (HU-17); la orden queda EN_PROCESO; 5 tópicos (tendencia.detectada en el corte 6); decoradores copiados de `src/`; Mailpit sin TLS; el jefe de la demo como destinatario inicial; 2 reintentos y la cola `notificaciones.dlq`; la alarma por Redis y WebSocket con el token en la URL solo en esa ruta | Asumida por Claude (2026-11-17), por confirmar |
+| DEC-79 | Cómo se documentan las clases que no están en el diagrama | Como notas «Infraestructura que no se dibuja» en las páginas 4a, 4c y 4d, sin cajas nuevas; la cuenta del §13 sigue en 195; lo que es solo de la demostración (`CierreDiaController`, `DatosIniciales`) no se documenta | Decidida por Mauricio (2026-11-17) |
+| DEC-80 | Cómo pasa la orden a FINALIZADA | `finalizar()` en `OrdenCompra` y `finalizar(numero)` ‹V23› en `GenerarOrdenUseCase`, `OrdenCompraService` y `OrdenCompraRestController`; `PATCH /api/ordenes-compra/{id}/finalizar` (directora de compras) y el botón «Marcar como recibida» en V23 | Decidida por Mauricio (2026-11-17) |
+| DEC-81 | Quién vuelve a procesar la cola `notificaciones.dlq` | `ReprocesoColaErrores` en ms-notificaciones (fuera del diagrama): un listener que espera 5 min por registro y lo vuelve a notificar, hasta 3 rondas; HU-12 sigue igual | Decidida por Mauricio (2026-11-17) |
 
 ---
 
@@ -1425,6 +1429,62 @@ Ninguno cambia firmas ni el diagrama (el único que los cambia es DEC-75, que de
 - **Alarma en vivo (PD-01).** `AlarmaPushAdapter` publica en el canal `alarmas:stock-bajo` del mismo Redis; en local no hay usuarios de Redis separados (DEC-58). `CanalAlarmas` (fuera del diagrama) entrega la alarma por WebSocket en `/api/notificaciones/alarmas`, solo al jefe de cocina. El navegador no deja poner la cabecera Authorization al abrir un WebSocket, así que solo en esa ruta el gateway y el servicio aceptan el JWT en `?access_token=` (RFC 6750); Nginx no la escribe en el registro de accesos. No se restringe el origen porque la conexión no usa cookies. La SPA muestra la alarma arriba hasta cerrarla, con «Solicitar», que abre V08 (la alarma solo trae el texto, no el producto), y V05 y V07 vuelven a leer sus alertas.
 - **V14.** Pregunta por los envíos del recorrido cada segundo, hasta 15 s: «Correo enviado» con visto; «Correo no enviado», con el mensaje de PD-10 para ese caso («No se pudo enviar el correo al proveedor. La cotización {número} está guardada; puede reintentar el envío.»); o, si no hay respuesta, sin marca (DEC-76).
 - **Datos de las pruebas.** `recorrido_corte5.py` envía COT-022 al Proveedor B (res $22.000, arroz $8.000: +7,69 %), para que V20 compare dos opcionadas como pide HU-17; es la COT-021 de DEC-49, que en la plataforma tiene otro número porque COT-021 ya es la PENDIENTE_PRECIO del 4b. Para ver la alarma en vivo, el mesero registra por la API un pedido de 50 pechugas (el pollo baja al 24,5 %) y otro de 70 ajiacos (la papa, al 21,75 %); la res ya estaba bajo el umbral y no vuelve a avisar (DEC-46).
+
+
+**Reemplazos posteriores.** Dos partes de esta lista las reemplazan decisiones de Mauricio del mismo día: el estado de la orden (DEC-80: la orden pasa a FINALIZADA) y la cola de errores, que ya no se procesa a mano (DEC-81). El resto sigue por confirmar.
+
+## DEC-79 · ¿Cómo se documentan las clases que no están en el diagrama de clases?
+
+**Por qué hubo que decidir.** Los servicios Spring tienen piezas de infraestructura que las páginas 4a–4e no dibujan: `EnviosController` (DEC-76), `CanalAlarmas` y `ConfiguracionWebSocket` (DEC-78), `NombresProductos` y `NumeracionCotizaciones` (DEC-74 y DEC-78), y lo compartido de seguridad y trazas (DEC-62, DEC-64). `CAMBIOS_A_DOCUMENTAR.md` las tenía como «dibujar en el `.drawio` o nombrar en el reporte» (CD-03, CD-07, CD-08, CD-09, CD-52, CD-53 y CD-54). La regla de DEC-61 es «un solo modelo»: lo que está en el diagrama tiene su clase en `src/`.
+
+**Opciones:**
+- **A. Notas, sin cajas nuevas.** Una nota «Infraestructura que no se dibuja» en la página del servicio, con el estilo de `n_fallos` y `n_alarmapush`, que nombra cada clase y lo que hace; las rutas nuevas van en la fila de su ventana en la página 1. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Cajas en la 4x.** Cada caja obliga a crear su clase en `src/` («un solo modelo») y mostraría controladores que se saltan el núcleo (no pasan por un caso de uso).
+- **C. Dejarlo solo en el reporte.** El diagrama quedaría sin decir que esas piezas existen.
+
+**Qué implica:**
+- La cuenta del §13 del reporte sigue en 195 clases (CD-50 no cambia).
+- **4d:** nota «Infraestructura que no se dibuja» con `EnviosController` (`GET /api/notificaciones/envios?correlacion=…`, solo lectura, DEC-76) y la columna `correlacion_id`; `NombresProductos` de ms-ordenes (tabla `producto_nombre`); `n_alarmapush` crece con `CanalAlarmas`, `ConfiguracionWebSocket`, la ruta `/api/notificaciones/alarmas` y el token en `?access_token=` (solo en esa ruta); `n_fallos` nombra `notificaciones.dlq` con el texto de DEC-81.
+- **4c:** nota con `NumeracionCotizaciones` y `NombresProductos` de ms-cotizaciones (tabla `producto_nombre`).
+- **4a:** nota con `LlaveFirma` y `JwksController` (el JWKS que usa el gateway); lo de DEC-64 (`ContextoRecorrido`, `FiltroContexto`, `InterceptorCorrelacion` y `ConvertidorEventos`); `SeguridadServicio`, `Sesion`, `ManejoErrores` y `FormatoEventos`; y `SeguridadGateway` y `CorrelacionGateway`. `MapaPreciosRedis` no se toca: ya está como `{Redis}` en la 4e (DEC-27).
+- **3a:** la caja de Kafka (`c3a_bus`) nombra `notificaciones.dlq`; **5:** también `v17`.
+- **Página 1:** `GET /api/notificaciones/envios?correlacion=…` en la fila de V14 (`v23`) y `WS /api/notificaciones/alarmas` en la de V05 (`v12`).
+- **No se documentan** `CierreDiaController` (CD-52 pasa a «No aplica») ni los `DatosIniciales`: son solo de la demostración (DEC-57, DEC-68).
+- **Reporte (corte 7):** una frase en el §13 que remita a las notas, y la tabla de rutas (CD-10).
+
+## DEC-80 · ¿Cómo pasa la orden de compra a FINALIZADA?
+
+**Por qué hubo que decidir.** `EstadoOrden` tiene EN_PROCESO y FINALIZADA, y el filtro de V23 (p. 30) ofrece los dos, pero en la página 4d ningún método pasa la orden a FINALIZADA: en la plataforma toda orden quedaba EN_PROCESO (DEC-78).
+
+**Opciones:**
+- **A. Un método para finalizarla.** `+ finalizar(): void` en `OrdenCompra` (solo de EN_PROCESO a FINALIZADA; si ya lo está: «La orden OC-0012 ya está finalizada») y `+ finalizar(numero: String): OrdenCompra ‹V23›` en `GenerarOrdenUseCase`, `OrdenCompraService` y `OrdenCompraRestController`. Reutiliza `guardar()` del repositorio. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Dejarla EN_PROCESO y anotarlo.** El filtro de V23 tendría un estado que nunca aparece.
+
+**Qué implica:**
+- Cambian cuatro declaraciones de la 4d. No hay clases ni tópicos nuevos: siguen 195 clases, 73 pendientes y 10 tópicos.
+- La auditoría registra un `AuditoriaEvent` con la directora y la correlación del recorrido (DEC-64).
+- `PATCH /api/ordenes-compra/{id}/finalizar`, solo para la directora de compras: 404 si la orden no existe y 409 si ya está finalizada.
+- V23: botón «Marcar como recibida» en el detalle, solo en las órdenes EN_PROCESO, con confirmación.
+- Código: el núcleo en `src/` con sus pruebas en `pruebas/` (finalizar, finalizar dos veces y una orden que no existe); el adaptador Spring en `servicios/ms-ordenes`, con JUnit en `OrdenRestTest` (rol, 404 y 409); la SPA en `web/src/paginas/director/OrdenesCompra.tsx`.
+- Documentación: la 4d y la fila de V23 de la página 1 (`v34`) se actualizan ahora; el mockup V23 (p. 30), la tabla de rutas y el CU-13 del reporte quedan en `CAMBIOS_A_DOCUMENTAR.md` (corte 7).
+
+## DEC-81 · ¿Quién vuelve a procesar la cola de errores `notificaciones.dlq`?
+
+**Por qué hubo que decidir.** Con DEC-78, un evento cuyo correo falla tres veces pasa a `notificaciones.dlq` y ahí se queda: «se vuelve a procesar a mano», pero nada lo hace. HU-12 solo cubre el reenvío de una cotización; los avisos de `orden.generada`, de stock bajo y de las solicitudes no tienen reenvío.
+
+**Opciones:**
+- **A. Un listener con espera larga.** `ReprocesoColaErrores` en ms-notificaciones, fuera del diagrama como `CanalAlarmas`, lee la cola con su propio grupo de consumo y acuse manual; espera a que cada registro lleve la espera en la cola (con `nack(Duration)`, sin bloquear el hilo) y vuelve a llamar a `notificarEvento()`; si falla, lo publica otra vez en la cola con un contador en una cabecera, y después de 3 rondas lo deja ahí, con cada fallo en la traza. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Un endpoint del administrador** para reprocesar la cola a mano. Necesita una ventana que no existe.
+- **C. Solo el reenvío de HU-12.** No cubre `orden.generada`, el stock bajo ni las solicitudes.
+
+**Qué implica:**
+- Espera de 5 min de forma predeterminada y de 30 s en el compose local, por variable de entorno.
+- HU-12 sigue igual: la auxiliar puede reenviar la cotización cuando quiera.
+- La entrega es «al menos una vez»: si un evento tenía varios destinatarios y falló a mitad, al reprocesarlo se reenvía a todos.
+- El registro de la cola lleva su tópico original en la cabecera `kafka_dlt-original-topic`; con ella se sabe qué evento es.
+- Diagrama: solo cambia el texto de `n_fallos` en la 4d: «Si el correo falla, registrarFallo() deja la traza; tras dos reintentos el evento pasa a la cola de errores notificaciones.dlq, que se vuelve a procesar cada 5 minutos, hasta tres veces; el auxiliar también puede reenviar la cotización (HU-12).»
+- Pruebas: JUnit (el reproceso entrega el correo y se agota después de 3 rondas) y `verificar_corte5.py` (con el correo en pausa el evento llega a la cola; al reanudarlo, el correo llega solo, una vez y con la correlación original; después, el reenvío de HU-12 entrega un segundo correo).
+- La clase va en la lista de clases fuera del diagrama del LEEME y en `CAMBIOS_A_DOCUMENTAR.md`.
 
 ---
 
