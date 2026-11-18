@@ -2,7 +2,8 @@
 # Revisa lo que dejó recorrido_corte5.py (corre contra los contenedores con docker exec, contra el gateway en
 # http://localhost:8080 y contra la API de Mailpit en http://localhost:8025, sin instalar nada; usa pdftotext y
 # pdfinfo de poppler si están):
-#   ms-ordenes: OC-0012 de COT-018 en PostgreSQL (proveedor, productos, precios, solicitud, PDF, EN_PROCESO);
+#   ms-ordenes: OC-0012 de COT-018 en PostgreSQL (proveedor, productos, precios, solicitud, PDF), FINALIZADA desde
+#     V23 con su auditoría (DEC-80);
 #     COT-018 CON_ORDEN en ms-cotizaciones y SOL-031 COMPLETADA en ms-solicitudes;
 #   el PDF de la orden: en el bucket, idéntico al que sirve el gateway (DEC-75) y al que bajó el navegador, legible;
 #   Kafka: orden.generada con la directora y la correlación del navegador, y la ida y vuelta en el mismo recorrido
@@ -12,7 +13,8 @@
 #     cotización PENDIENTE_PRECIO; la traza de envíos y la consulta de V14 (DEC-76);
 #   la alarma: el canal de Redis, el WebSocket (token y rol) y los eventos de stock bajo;
 #   la libreta de destinatarios; las reglas de HU-14 (segunda orden, no opcionada) y los roles;
-#   el correo caído: el envío falla, queda en la traza, va a la cola de errores y el reenvío lo entrega (HU-12).
+#   el correo caído: el envío falla, queda en la traza y va a la cola de errores; al volver el correo, la cola se
+#     reprocesa sola y lo entrega una vez, en el recorrido original (DEC-81); el reenvío de HU-12 entrega otro.
 # Uso: python verificar_corte5.py <carpeta-de-capturas-del-recorrido>
 #      (COMPOSE_PROJECT_NAME elige otra instancia; por omisión, konrad-gourmet)
 import datetime, json, os, re, shutil, subprocess, sys, tempfile, time, urllib.request, uuid
@@ -125,11 +127,12 @@ hoy = datetime.date.today().isoformat()
 aux, dire, jefe, admin = token(AUXILIAR), token(DIRECTORA), token(JEFE), token(ADMIN)
 cot22 = next(iter(recorrido['generadas']))
 c_orden = recorrido['ordenes']['OC-0012']['correlacion']
+c_final = recorrido['finalizada']['correlacion']
 
 print('== ms-ordenes, ms-cotizaciones y ms-solicitudes (PostgreSQL)')
 fila = sql('ms_ordenes', "SELECT numero, fecha, cotizacion_numero, proveedor, correo_proveedor, pdf_url, estado FROM orden_compra")
-ok(fila == [['OC-0012', hoy, 'COT-018', 'Proveedor ABC', 'ventas@proveedorabc.com', 's3://documentos-pdf/ordenes/OC-0012.pdf', 'EN_PROCESO']],
-   f'una sola orden: OC-0012 de hoy sobre COT-018, Proveedor ABC, con su PDF, EN_PROCESO ({fila})')
+ok(fila == [['OC-0012', hoy, 'COT-018', 'Proveedor ABC', 'ventas@proveedorabc.com', 's3://documentos-pdf/ordenes/OC-0012.pdf', 'FINALIZADA']],
+   f'una sola orden: OC-0012 de hoy sobre COT-018, Proveedor ABC, con su PDF, FINALIZADA desde V23 (DEC-80) ({fila})')
 items = sql('ms_ordenes', "SELECT producto_id, cantidad, unidad, precio FROM item_orden WHERE orden_numero = 'OC-0012' ORDER BY posicion")
 ok(items == [['1', '20.000', 'kg', '21250.00'], ['2', '15.000', 'kg', '8000.00']], f'hereda de COT-018 productos, cantidades, unidades y precios (HU-14) ({items})')
 sols = sql('ms_ordenes', "SELECT solicitud_numero FROM orden_solicitud WHERE orden_numero = 'OC-0012'")
@@ -172,6 +175,9 @@ for accion, quien in (('Orden OC-0012 generada sobre COT-018', 'ms-ordenes'), ('
                       ('Solicitud SOL-031 completada', 'ms-solicitudes'), ('Notificación orden.generada enviada a ventas@proveedorabc.com', 'ms-notificaciones')):
     ok(accion in acciones, f'{quien} lo dejó en la auditoría, en el mismo recorrido: «{accion}»')
 ok(any(a['accion'] == 'Orden OC-0012 generada sobre COT-018' and a['usuario'] == DIRECTORA for a in auditoria), 'la generación queda a nombre de la directora (HU-14)')
+final = [a for a in topico('auditoria.evento') if a.get('accion') == 'Orden OC-0012 finalizada']
+ok(len(final) == 1 and final[0]['usuario'] == DIRECTORA and final[0]['correlacionId'] == c_final,
+   f'«Marcar como recibida» (DEC-80) deja una auditoría, a nombre de la directora y en el recorrido del navegador ({len(final)})')
 
 print('== Mailpit: los correos certificados con el PDF')
 cotizaciones = {'COT-018': 'ventas@proveedorabc.com', 'COT-019': 'ventas@proveedorc.com', 'COT-020': 'ventas@proveedord.com', cot22: 'ventas@proveedorb.com'}
@@ -233,17 +239,23 @@ estado, cuerpo = http('POST', '/api/ordenes-compra', {'cotizacionNumero': 'COT-9
 ok(estado == 400 and 'No existe la cotización COT-999' in cuerpo, f'sobre una cotización que no existe: {estado} {cuerpo}')
 estado, _ = http('GET', '/api/ordenes-compra/OC-9999/pdf', cabeceras=con(dire))
 ok(estado == 404, f'el PDF de una orden que no existe: {estado}')
+estado, cuerpo = http('PATCH', '/api/ordenes-compra/OC-0012/finalizar', cabeceras=con(dire))
+ok(estado == 409 and 'La orden OC-0012 ya está finalizada' in cuerpo, f'finalizar OC-0012 otra vez (DEC-80): {estado} {cuerpo}')
+estado, cuerpo = http('PATCH', '/api/ordenes-compra/OC-9999/finalizar', cabeceras=con(dire))
+ok(estado == 404 and 'No existe la orden de compra OC-9999' in cuerpo, f'finalizar una orden que no existe: {estado} {cuerpo}')
 ok(len(sql('ms_ordenes', 'SELECT numero FROM orden_compra')) == 1, 'sigue habiendo una sola orden')
 
 print('== Roles en el gateway')
 for quien, tok, metodo, ruta, esperado in (('la auxiliar', aux, 'POST', '/api/ordenes-compra', 403), ('el jefe', jefe, 'GET', '/api/ordenes-compra', 403),
                                           ('la auxiliar', aux, 'GET', '/api/ordenes-compra/OC-0012/pdf', 403), ('sin token', None, 'GET', '/api/ordenes-compra', 401),
+                                          ('la auxiliar', aux, 'PATCH', '/api/ordenes-compra/OC-0012/finalizar', 403),
+                                          ('el jefe', jefe, 'PATCH', '/api/ordenes-compra/OC-0012/finalizar', 403),
                                           ('la directora', dire, 'GET', '/api/notificaciones/destinatarios?sucursalId=1', 403),
                                           ('el jefe', jefe, 'GET', f'/api/notificaciones/envios?correlacion={c22}', 403)):
     estado, _ = http(metodo, ruta, {'cotizacionNumero': 'COT-022'} if metodo == 'POST' else None, con(tok) if tok else {})
     ok(estado == esperado, f'{metodo} {ruta.split("?")[0]} con {quien}: {estado}')
 
-print('== Correo caído: reintento, cola de errores y reenvío (HU-12)')
+print('== Correo caído: reintento, cola de errores, su reproceso (DEC-81) y el reenvío (HU-12)')
 recorrido_fallo, recorrido_reenvio = str(uuid.uuid4()), str(uuid.uuid4())
 subprocess.run(['docker', 'pause', f'{PROYECTO}-correo-1'], capture_output=True)
 try:
@@ -266,14 +278,33 @@ try:
 finally:
     subprocess.run(['docker', 'unpause', f'{PROYECTO}-correo-1'], capture_output=True)
 if nueva:
-    estado, cuerpo = http('POST', f'/api/cotizaciones/{nueva}/reenvio', cabeceras={**con(aux), 'X-Correlation-Id': recorrido_reenvio})
-    ok(estado == 200, f'con el correo de vuelta, la auxiliar reenvía {nueva} ({estado})')
-    m = []
-    for _ in range(30):
-        m = correo_de('ventas@proveedorc.com', f'Solicitud de cotización {nueva}')
+    # DEC-81: en el compose local la cola se reprocesa a los 30 s de que el evento llegó a ella
+    asunto = f'Solicitud de cotización {nueva}'
+    m, inicio = [], time.time()
+    for _ in range(90):
+        m = correo_de('ventas@proveedorc.com', asunto)
         if m: break
         time.sleep(1)
-    ok(len(m) == 1, f'el Proveedor C recibe {nueva} con el reenvío ({len(m)} correo)')
+    ok(len(m) == 1, f'con el correo de vuelta, la cola de errores se reprocesa sola y el Proveedor C recibe {nueva} '
+                    f'({len(m)} correo, a los {time.time() - inicio:.0f} s)')
+    if m:
+        nombre, datos = adjunto(m[0]['ID'])
+        ok(nombre == f'{nueva}.pdf' and datos == filer(f'cotizaciones/{nueva}.pdf'), f'con {nombre} adjunto, idéntico al del almacén')
+    exitos = sql('ms_notificaciones', f"SELECT count(*) FROM envio WHERE exito AND tipo = 'cotizacion.enviada' AND correlacion_id = '{recorrido_fallo}'")[0][0]
+    ok(int(exitos) == 1, f'la traza lo registra en el recorrido original de la auxiliar ({exitos} envío con la correlación {recorrido_fallo[:8]}…)')
+    estado, cuerpo = http('GET', f'/api/notificaciones/envios?correlacion={recorrido_fallo}', cabeceras=con(aux))
+    ok(estado == 200 and any(e['exito'] for e in json.loads(cuerpo)), 'V14 ya vería «Correo enviado» para ese recorrido (DEC-76)')
+    time.sleep(5)
+    dlq, crudo = cola_de_errores(nueva)
+    ok(len(correo_de('ventas@proveedorc.com', asunto)) == 1 and len(dlq) == 1 and 'kg-reproceso' not in crudo,
+       f'una sola vez: no llega otro correo ni el evento vuelve a la cola ({len(dlq)} registro)')
+    estado, cuerpo = http('POST', f'/api/cotizaciones/{nueva}/reenvio', cabeceras={**con(aux), 'X-Correlation-Id': recorrido_reenvio})
+    ok(estado == 200, f'después, la auxiliar reenvía {nueva} (HU-12) ({estado})')
+    for _ in range(30):
+        m = correo_de('ventas@proveedorc.com', asunto)
+        if len(m) >= 2: break
+        time.sleep(1)
+    ok(len(m) == 2, f'el Proveedor C recibe {nueva} por segunda vez con el reenvío ({len(m)} correos)')
     if m:
         nombre, datos = adjunto(m[0]['ID'])
         ok(nombre == f'{nueva}.pdf' and datos == filer(f'cotizaciones/{nueva}.pdf'), f'con {nombre} adjunto, idéntico al del almacén')
