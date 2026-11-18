@@ -252,8 +252,9 @@ Además de la versión en memoria, el sistema se está pasando al stack del diag
 Docker Compose, y los microservicios Spring Boot uno a uno (hoy corren ms-identidad, ms-menu, ms-pedidos,
 ms-inventario, ms-solicitudes, ms-integracion, ms-cotizaciones, ms-ordenes y ms-notificaciones, con las ventanas
 V01 a V23, los proveedores, el PDF de la cotización y el de la orden en el almacén S3, el precio de referencia
-del Ministerio con su caché en Redis, el endpoint SOAP, los correos certificados con el PDF adjunto (Mailpit) y
-la alarma de stock bajo en vivo; el avance está en `plataforma/LEEME.md`). Solo necesita Docker:
+del Ministerio con su caché en Redis, el endpoint SOAP, los correos certificados con el PDF adjunto (Mailpit) y su
+cola de errores, que se vuelve a procesar sola (DEC-81), la orden marcada como recibida (DEC-80) y la alarma de
+stock bajo en vivo; el avance está en `plataforma/LEEME.md`). Solo necesita Docker:
 
 ```bash
 ./plataforma/levantar.sh     # compila y levanta todo; la aplicación queda en http://localhost:8080
