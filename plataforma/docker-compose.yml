@@ -287,6 +287,10 @@ services:
       context: ../servicios
       args: { MODULO: ms-notificaciones }
     image: konrad-gourmet/ms-notificaciones
+    environment:
+      EUREKA_URL: http://service-registry:8761/eureka/
+      # DEC-81: en local, la cola de errores se vuelve a procesar a los 30 s (5 min por defecto).
+      ESPERA_COLA_ERRORES: 30s
     depends_on:
       postgres:
         condition: service_healthy

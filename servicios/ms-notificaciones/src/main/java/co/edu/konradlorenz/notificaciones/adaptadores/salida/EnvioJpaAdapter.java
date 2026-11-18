@@ -9,8 +9,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Nota del diagrama: Si el correo falla, registrarFallo() deja la traza y el evento pasa a una cola de
- * errores (DLQ) para reintentarlo; el auxiliar también puede reenviar la cotización (HU-12).
+ * Nota del diagrama: Si el correo falla, registrarFallo() deja la traza; tras dos reintentos el evento pasa
+ * a la cola de errores notificaciones.dlq, que se vuelve a procesar cada 5 minutos, hasta tres veces; el
+ * auxiliar también puede reenviar la cotización (HU-12).
  *
  * Cada fila guarda además la correlación del recorrido (DEC-64), la del evento que originó el envío: con
  * ella V14 sabe si el correo de su cotización ya salió (DEC-76). La firma del puerto no cambia.

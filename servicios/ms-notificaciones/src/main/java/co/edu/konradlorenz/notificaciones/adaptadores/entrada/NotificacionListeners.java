@@ -21,7 +21,8 @@ import org.springframework.stereotype.Component;
  * usa su libreta de jefes por sucursal, que carga el administrador.
  *
  * Escucha cinco: tendencia.detectada llega con ms-analitica en el corte 6 (T-06). Si el envío falla, el
- * evento se reintenta y después pasa a la cola de errores (ConfiguracionNotificaciones).
+ * evento se reintenta y después pasa a la cola de errores (ConfiguracionNotificaciones), que
+ * ReprocesoColaErrores vuelve a procesar (DEC-81).
  */
 @Component
 public class NotificacionListeners implements EventListener<EventoDominio> {

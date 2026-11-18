@@ -13,14 +13,19 @@ import co.edu.konradlorenz.notificaciones.puertos.salida.Correo;
 import co.edu.konradlorenz.notificaciones.puertos.salida.DestinatarioRepositoryPort;
 import co.edu.konradlorenz.notificaciones.puertos.salida.EnvioRepositoryPort;
 import org.apache.kafka.common.TopicPartition;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.kafka.ConcurrentKafkaListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.CommonErrorHandler;
+import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
@@ -40,7 +45,7 @@ import java.net.URI;
  * Arma el servicio de aplicación con sus constructores (el núcleo de src/ no lleva anotaciones): las dos
  * fábricas del Factory Method y, en el mismo orden que el Ensamble de la demo, los decoradores del correo:
  * certificado (huella SHA-256) → estampa cronológica → SMTP. Además, el cliente S3, la cola de errores de
- * Kafka, el canal de Redis de las alarmas (PD-01) y el token del WebSocket.
+ * Kafka y la fábrica de su reproceso (DEC-81), el canal de Redis de las alarmas (PD-01) y el token del WebSocket.
  */
 @Configuration
 public class ConfiguracionNotificaciones {
@@ -58,7 +63,7 @@ public class ConfiguracionNotificaciones {
     /**
      * Nota n_fallos de la 4d: si el correo falla, registrarFallo() deja la traza (lo hace el núcleo) y el
      * evento se reintenta; si sigue fallando, pasa a la cola de errores (DLQ) con las cabeceras del error,
-     * para volver a procesarlo. El auxiliar también puede reenviar la cotización (HU-12).
+     * que ReprocesoColaErrores vuelve a procesar (DEC-81). El auxiliar también puede reenviar la cotización (HU-12).
      */
     @Bean
     public CommonErrorHandler colaDeErrores(KafkaTemplate<String, String> kafka, @Value("${konrad.notificaciones.topico-errores}") String topico,
@@ -66,6 +71,21 @@ public class ConfiguracionNotificaciones {
                                             @Value("${konrad.notificaciones.espera-reintento-ms}") long espera) {
         DeadLetterPublishingRecoverer dlq = new DeadLetterPublishingRecoverer(kafka, (registro, error) -> new TopicPartition(topico, -1));
         return new DefaultErrorHandler(dlq, new FixedBackOff(espera, reintentos));
+    }
+
+    /**
+     * Los contenedores de ReprocesoColaErrores: lo mismo que la fábrica de Spring Boot (conversión de eventos y
+     * recorrido de InterceptorCorrelacion), pero con acuse manual para esperar con nack(). Si devolver un
+     * registro a la cola falla, se intenta dos veces más; después se registra en el log y se sigue con el siguiente.
+     */
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<Object, Object> fabricaReproceso(ConcurrentKafkaListenerContainerFactoryConfigurer configurador,
+                                                                                    ObjectProvider<ConsumerFactory<Object, Object>> consumidores) {
+        ConcurrentKafkaListenerContainerFactory<Object, Object> fabrica = new ConcurrentKafkaListenerContainerFactory<>();
+        configurador.configure(fabrica, consumidores.getObject());
+        fabrica.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL);
+        fabrica.setCommonErrorHandler(new DefaultErrorHandler(new FixedBackOff(10_000L, 2L)));
+        return fabrica;
     }
 
     /** Cada réplica escucha el canal de alarmas y las entrega a las conexiones que tenga abiertas (PD-01). */

@@ -13,6 +13,8 @@ import java.nio.charset.StandardCharsets;
  * Convierte el JSON de cada registro en el evento de dominio que lo originó, para que los listeners
  * reciban alRecibir(EventoDominio) con @KafkaListener, como dice su Javadoc. La clase viaja en la
  * cabecera que pone KafkaEventPublisher y solo se aceptan subclases de EventoDominio del proyecto.
+ * La cola de errores de ms-notificaciones conserva esa cabecera, así que su reproceso (DEC-81) también
+ * reconstruye el evento original con evento().
  */
 public class ConvertidorEventos extends MessagingMessageConverter {
 
@@ -24,8 +26,16 @@ public class ConvertidorEventos extends MessagingMessageConverter {
 
     @Override
     protected Object extractAndConvertValue(ConsumerRecord<?, ?> registro, Type tipo) {
-        if (!(registro.value() instanceof String json)) {
+        if (!(registro.value() instanceof String)) {
             return super.extractAndConvertValue(registro, tipo);
+        }
+        return evento(registro);
+    }
+
+    /** El evento de dominio de un registro en JSON, con la clase que dice su cabecera. */
+    public EventoDominio evento(ConsumerRecord<?, ?> registro) {
+        if (!(registro.value() instanceof String json)) {
+            throw new IllegalArgumentException("El registro de " + registro.topic() + " no es JSON");
         }
         Header cabecera = registro.headers().lastHeader(KafkaEventPublisher.CABECERA_CLASE);
         if (cabecera == null) {
