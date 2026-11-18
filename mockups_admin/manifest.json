@@ -1,0 +1,103 @@
+[
+  {
+    "carpeta": "01_inicio",
+    "titulo": "Inicio",
+    "estados": [
+      "principal"
+    ]
+  },
+  {
+    "carpeta": "02_parametros_tema",
+    "titulo": "Parámetros y tema",
+    "estados": [
+      "principal",
+      "editar",
+      "imagen_guardada",
+      "parametro_guardado",
+      "color_invalido",
+      "logo_invalido",
+      "clave_obligatoria",
+      "valor_obligatorio",
+      "clave_invalida"
+    ]
+  },
+  {
+    "carpeta": "03_auditoria",
+    "titulo": "Auditoría",
+    "estados": [
+      "principal",
+      "fechas_obligatorias",
+      "fechas_invertidas",
+      "vacio"
+    ]
+  },
+  {
+    "carpeta": "04_logs_errores",
+    "titulo": "Logs de errores",
+    "estados": [
+      "principal",
+      "vacio",
+      "error"
+    ]
+  },
+  {
+    "carpeta": "05_usuarios",
+    "titulo": "Usuarios",
+    "estados": [
+      "principal",
+      "registrado",
+      "correo_duplicado",
+      "contrasena_invalida",
+      "correo_invalido"
+    ]
+  },
+  {
+    "carpeta": "06_destinatarios",
+    "titulo": "Destinatarios",
+    "estados": [
+      "principal",
+      "vacio",
+      "correo_invalido"
+    ]
+  },
+  {
+    "carpeta": "V05_stock_bajo",
+    "titulo": "V05 · Alarma de stock bajo",
+    "estados": [
+      "principal"
+    ]
+  },
+  {
+    "carpeta": "V07_stock_bajo",
+    "titulo": "V07 · Alarma de stock bajo",
+    "estados": [
+      "principal"
+    ]
+  },
+  {
+    "carpeta": "V20_opcionadas",
+    "titulo": "Cotizaciones opcionadas",
+    "estados": [
+      "principal",
+      "vacio"
+    ]
+  },
+  {
+    "carpeta": "V23_ordenes",
+    "titulo": "Órdenes de compra",
+    "estados": [
+      "principal",
+      "confirmar",
+      "finalizada"
+    ]
+  },
+  {
+    "carpeta": "V14_correo",
+    "titulo": "V14 · Estado del correo",
+    "estados": [
+      "principal",
+      "esperando",
+      "no_enviado"
+    ]
+  }
+]

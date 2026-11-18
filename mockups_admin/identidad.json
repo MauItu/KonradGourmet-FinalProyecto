@@ -1,0 +1,14 @@
+{
+  "referencias": {
+    "estilos": "KonradGourmet/web/src/estilos/app.css",
+    "tipografia": "KonradGourmet/web/index.html",
+    "marca": "KonradGourmet/web/src/componentes/Barra.tsx",
+    "iconos": "KonradGourmet/web/src/componentes/Icono.tsx",
+    "logo": "KonradGourmet/web/public/assets/logo/logo.png"
+  },
+  "fuente": "Poppins",
+  "primario_solicitado": "#F26B21",
+  "logo_sha256": "b61120318ae35a2df14a343f0a7c3f2f34353f884d6c444f2f5064a7d69ef66f",
+  "fuentes_origen": "https://github.com/google/fonts/tree/main/ofl/poppins",
+  "capturas": "1440x900 y 390x844"
+}
