@@ -36,6 +36,7 @@
         <module>ms-ordenes</module>
         <module>ms-notificaciones</module>
         <module>ms-administracion</module>
+        <module>ms-analitica</module>
     </modules>
 
     <properties>
