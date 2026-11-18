@@ -23,15 +23,19 @@ public class ProveedorMejoresPrecios implements CalculadorKpi {
                 cuenta.merge(h.clave(), 1, Integer::sum);
             }
         }
-        // gana el proveedor con el promedio más bajo contra el precio estándar; si hay empate, el primero
-        ResultadoKpi mejor = new ResultadoKpi(nombre(), null, BigDecimal.ZERO);
-        for (Map.Entry<String, BigDecimal> e : suma.entrySet()) {
-            BigDecimal promedio = e.getValue().divide(BigDecimal.valueOf(cuenta.get(e.getKey())), 2, RoundingMode.HALF_UP);
-            if (mejor.ganador() == null || promedio.compareTo(mejor.valor()) < 0) {
-                mejor = new ResultadoKpi(nombre(), e.getKey(), promedio);
-            }
-        }
-        return mejor;
+        // la diferencia promedio contra el precio estándar, con 2 decimales: gana la más baja (PD-03);
+        // el orden es estable, así que en un empate gana el proveedor que apareció primero
+        Map<String, BigDecimal> promedios = new LinkedHashMap<>();
+        suma.forEach((proveedor, total) -> promedios.put(proveedor,
+                total.divide(BigDecimal.valueOf(cuenta.get(proveedor)), 2, RoundingMode.HALF_UP)));
+        Map<String, BigDecimal> ranking = new LinkedHashMap<>();
+        promedios.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .limit(ResultadoKpi.PUESTOS)
+                .forEach(e -> ranking.put(e.getKey(), e.getValue()));
+        return ranking.entrySet().stream().findFirst()
+                .map(e -> new ResultadoKpi(nombre(), e.getKey(), e.getValue(), ranking))
+                .orElse(new ResultadoKpi(nombre(), null, BigDecimal.ZERO));
     }
 
 }

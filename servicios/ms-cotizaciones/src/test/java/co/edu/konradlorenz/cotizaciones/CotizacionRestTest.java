@@ -246,8 +246,11 @@ class CotizacionRestTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.estado").value("OPCIONADA"));
         CotizacionValidadaEvent validada = publicado("cotizacion.validada", CotizacionValidadaEvent.class);
-        assertEquals(EstadoCotizacion.OPCIONADA, validada.estado());
+        // PD-05: tipos simples en el contrato; DEC-89: el nombre del proveedor
+        assertEquals("OPCIONADA", validada.estado());
         assertEquals(0, new BigDecimal("545000").compareTo(validada.valorCotizado()));
+        assertEquals(0, new BigDecimal("4.81").compareTo(validada.diferenciaPorcentual()));
+        assertEquals("Proveedor ABC", validada.proveedor());
         assertEquals(DIRECTORA, validada.usuario());
     }
 

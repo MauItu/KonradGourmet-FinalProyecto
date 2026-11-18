@@ -58,9 +58,17 @@ public class NotificacionService implements NotificarUseCase {
             enviar(creadorCorreo, e.correoProveedor(), evento, "Orden de compra " + e.numero() + "\nOrden " + e.numero()
                     + " sobre la cotización " + e.cotizacionNumero() + ", total " + e.total().toPlainString()
                     + ". El PDF va adjunto.", e.pdfUrl());
-        } else if (evento instanceof TendenciaDetectadaEvent) {
-            // el evento trae SugerenciaPromocion, del dominio de ms-analitica, y DEC-29 no deja importarlo (T-06)
-            throw new UnsupportedOperationException("Pendiente de implementar: tendencia.detectada (T-06)");
+        } else if (evento instanceof TendenciaDetectadaEvent e) {
+            // HU-19: correo de promociones a los jefes de cocina de todas las sucursales (la libreta, DEC-13); las
+            // sugerencias llegan como líneas de texto (PD-05) y ms-analitica publica a lo sumo un evento por día
+            StringBuilder cuerpo = new StringBuilder("Promociones sugeridas\nEl análisis de la semana sugiere:");
+            for (String linea : e.sugerencias()) {
+                cuerpo.append("\n• ").append(linea);
+            }
+            cuerpo.append("\nRevíselas en Promociones sugeridas para aceptarlas o descartarlas.");
+            for (String jefe : destinatarios.jefes()) {
+                enviar(creadorCorreo, jefe, evento, cuerpo.toString());
+            }
         } else {
             throw new IllegalArgumentException("ms-notificaciones no atiende el evento " + evento.tipo());
         }

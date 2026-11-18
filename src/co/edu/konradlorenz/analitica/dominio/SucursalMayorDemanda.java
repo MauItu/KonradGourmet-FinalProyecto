@@ -20,10 +20,14 @@ public class SucursalMayorDemanda implements CalculadorKpi {
                 total.merge(h.clave(), h.valor(), BigDecimal::add);
             }
         }
-        // gana la clave con más demanda; si hay empate, la que apareció primero
-        return total.entrySet().stream()
-                .reduce((a, b) -> b.getValue().compareTo(a.getValue()) > 0 ? b : a)
-                .map(e -> new ResultadoKpi(nombre(), e.getKey(), e.getValue()))
+        // de mayor a menor demanda; el orden es estable, así que en un empate gana la clave que apareció primero
+        Map<String, BigDecimal> ranking = new LinkedHashMap<>();
+        total.entrySet().stream()
+                .sorted(Map.Entry.<String, BigDecimal>comparingByValue().reversed())
+                .limit(ResultadoKpi.PUESTOS)
+                .forEach(e -> ranking.put(e.getKey(), e.getValue()));
+        return ranking.entrySet().stream().findFirst()
+                .map(e -> new ResultadoKpi(nombre(), e.getKey(), e.getValue(), ranking))
                 .orElse(new ResultadoKpi(nombre(), null, BigDecimal.ZERO));
     }
 

@@ -13,6 +13,7 @@ import co.edu.konradlorenz.cotizaciones.dominio.Cotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.EstadoCotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.ItemCotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.Proveedor;
+import co.edu.konradlorenz.cotizaciones.eventos.CotizacionValidadaEvent;
 import co.edu.konradlorenz.demo.Ensamble;
 import co.edu.konradlorenz.notificaciones.dominio.Mensaje;
 import co.edu.konradlorenz.ordenes.dominio.EstadoOrden;
@@ -173,6 +174,11 @@ final class PruebasFlujoDeCompra {
         Prueba.igual("COT-018 queda OPCIONADA", EstadoCotizacion.OPCIONADA, validada.estado());
         Prueba.igualValor("con +4,81 %", "4.81", validada.diferenciaPorcentual());
         Prueba.igual("se publicó cotizacion.validada", 1L, s.bus.cuantos("cotizacion.validada"));
+        CotizacionValidadaEvent evento = (CotizacionValidadaEvent) s.bus.publicados().stream()
+                .filter(e -> e instanceof CotizacionValidadaEvent).findFirst().orElseThrow();
+        Prueba.igual("con tipos simples (PD-05): el estado como texto", "OPCIONADA", evento.estado());
+        Prueba.igualValor("la diferencia contra el precio estándar, para el tablero (PD-03)", "4.81", evento.diferenciaPorcentual());
+        Prueba.igual("y el nombre del proveedor (DEC-89)", "Proveedor ABC", evento.proveedor());
         Prueba.lanza("no se vuelve a validar una cotización ya validada", IllegalStateException.class, "Solo se valida una cotización enviada",
                 () -> s.cotizaciones.validar("COT-018"));
         Prueba.lanza("no se registran valores en una cotización ya validada", IllegalStateException.class, "Solo se registran valores",

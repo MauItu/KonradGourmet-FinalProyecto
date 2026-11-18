@@ -21,6 +21,7 @@ public final class EjecutarPruebas {
         PruebasIdentidad.ejecutar();
         PruebasIntegracion.ejecutar();
         PruebasAdministracion.ejecutar();
+        PruebasAnalitica.ejecutar();
         System.exit(Prueba.resumen());
     }
 

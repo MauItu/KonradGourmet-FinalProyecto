@@ -7,7 +7,6 @@ import co.edu.konradlorenz.administracion.aplicacion.AdministracionService;
 import co.edu.konradlorenz.administracion.dominio.Bitacora;
 import co.edu.konradlorenz.analitica.adaptadores.entrada.TableroRestController;
 import co.edu.konradlorenz.analitica.adaptadores.salida.KpiJpaAdapter;
-import co.edu.konradlorenz.analitica.adaptadores.salida.RedesSocialesAdapter;
 import co.edu.konradlorenz.analitica.adaptadores.salida.SugerenciaJpaAdapter;
 import co.edu.konradlorenz.analitica.aplicacion.TableroService;
 import co.edu.konradlorenz.analitica.dominio.CalculadorKpi;
@@ -142,10 +141,10 @@ public class Ensamble {
         ordenes = new OrdenCompraRestController(new OrdenCompraService(
                 new OrdenEnMemoria(ultimaOrden), new CotizacionConsultaLocal(cotizacionService), new PdfSimulado(), almacen, bus));
 
-        // ms-analitica: las tres estrategias del Strategy
+        // ms-analitica: las tres estrategias del Strategy (la demo no consulta las redes sociales ni sugiere promociones)
         List<CalculadorKpi> estrategias = List.of(new ProductoMayorDemanda(), new SucursalMayorDemanda(), new ProveedorMejoresPrecios());
         tablero = new TableroRestController(new TableroService(
-                estrategias, new KpiJpaAdapter(hechos), new RedesSocialesAdapter(), bus, new SugerenciaJpaAdapter()));
+                estrategias, new KpiJpaAdapter(hechos), () -> List.of(), bus, new SugerenciaJpaAdapter()));
 
         // ms-administracion
         AdministracionService administracion = new AdministracionService(
@@ -165,6 +164,7 @@ public class Ensamble {
         bus.suscribir("orden.generada", new OrdenGeneradaListener(cotizacionService));
         bus.suscribir("orden.generada", alNotificar);
         bus.suscribir("inventario.stock-bajo", alNotificar);
+        bus.suscribir("tendencia.detectada", alNotificar);
         bus.suscribir("auditoria.evento", new AuditoriaListener(administracion));
     }
 
