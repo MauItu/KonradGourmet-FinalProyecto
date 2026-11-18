@@ -18,6 +18,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-73 y DEC-74:** las asumió Claude el 2026-11-17 en el corte 4b y las confirmó Mauricio el mismo día, al aprobar el corte 4b.
 - **DEC-75 a DEC-77:** las decidió Mauricio el 2026-11-17, al empezar el corte 5 (DEC-76 siguiendo la recomendación de Claude; en DEC-75 escogió la opción no recomendada, «Ver PDF», y pidió además la lista de DEC-77).
 - **DEC-79 a DEC-81:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación de Claude, al revisar los pendientes del corte 5.
+- **DEC-85 y DEC-86:** las decidió Mauricio el 2026-11-17, al empezar el corte 6a (en DEC-86 escogió la opción con token, que no era la recomendada). **DEC-87** la asumió Claude el mismo día, por confirmar.
 - **DEC-82:** la asumió Claude el 2026-11-17, al aplicar DEC-79 a DEC-81.
 - **DEC-78 y DEC-82:** las confirmó Mauricio el 2026-11-17, al aprobar el corte 5.
 - **DEC-83 y DEC-84, y la aplicación de PD-05:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación de Claude, al preparar el corte 6.
@@ -119,6 +120,9 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-82 | Detalles de DEC-79 a DEC-81 | ‹V23› solo en el controlador; una nota de infraestructura por microservicio; V14 sube 8 px en la página 1; textos de la confirmación de V23; grupo, cabecera y fallos del reproceso de la cola; la cola vieja se reprocesa una vez | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
 | DEC-83 | Tamaño del corte 6 | Partirlo en 6a (ms-administracion) y 6b (ms-analitica), cada uno con su reporte y su OK | Decidida por Mauricio (2026-11-17) |
 | DEC-84 | Logs de errores en local | Elasticsearch real en el compose (un nodo); cada servicio envía sus errores con un appender de logback en `compartido` y `ElasticsearchLogsAdapter` los consulta | Decidida por Mauricio (2026-11-17) |
+| DEC-85 | Cómo ve el administrador los parámetros generales | `+ parametros(): Map<String, String>` en `AdministracionUseCase`, `AdministracionService` y `AdminRestController` (`GET /api/admin/parametros`, solo el administrador) | Decidida por Mauricio (2026-11-17); aplicada en el código, la SPA y la página 4e |
+| DEC-86 | Quién lee el tema | Cualquier usuario con sesión (`GET /api/admin/parametros/tema` con token); la pantalla de inicio de sesión conserva el logo y el color de siempre | Decidida por Mauricio (2026-11-17); aplicada en el código, la SPA y la nota `n_parametros` de la 4e |
+| DEC-87 | Detalles del corte 6a | Elasticsearch 8.19.4 de un nodo; appender propio por lotes; la bitácora guarda la correlación y no repite eventos; las acciones propias a nombre de quien inició sesión; claves, color y logo validados; refresco cada minuto; menú del administrador en un grupo; la auditoría de los destinatarios; mensajes de PD-10 en el código; ventanas sin mockup | Asumida por Claude (2026-11-17), por confirmar |
 
 ---
 
@@ -1526,6 +1530,52 @@ Ninguno cambia firmas ni agrega cajas al diagrama. Los asumió Claude el 2026-11
 - **C. Dejarlo pendiente** y anotarlo en el LEEME.
 
 **Qué implica:** la lista de diferencias con la página 5 del LEEME deja de decir «sin ELK» (queda sin Logstash ni Kibana, si así se construye). El diagrama no cambia.
+
+## DEC-85 · ¿Cómo ve el administrador los parámetros generales?
+
+**Por qué hubo que decidir.** HU-20 (1) pide consultar y cambiar los parámetros generales y la imagen corporativa. En la página 4e, `AdminRestController` solo tiene `tema()`, que devuelve las claves `tema.*`: ningún método lista todos los parámetros, así que la ventana no podía mostrar los generales.
+
+**Opciones:**
+- **A. Agregar `parametros()`.** `+ parametros(): Map<String, String>` en `AdministracionUseCase`, `AdministracionService` y `AdminRestController` (`GET /api/admin/parametros`, solo el administrador). Tres líneas en la 4e, sin clases nuevas, como DEC-75. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Solo el tema.** La 4e no cambia; la ventana muestra y edita solo `tema.nombre`, `tema.color-primario` y `tema.logo` con `tema()`. Los parámetros generales de HU-20 (1) quedan fuera.
+
+**Qué implica:**
+- Cambian tres declaraciones de la 4e; siguen 195 clases y 73 pendientes.
+- `parametros()` y `tema()` leen la caché `ParametrosSistema` (nota `n_parametros`); si la réplica acaba de arrancar y está vacía, la cargan de la base.
+- Para cambiar un parámetro, `PUT /api/admin/parametros/{clave}` con `{"valor": …}` (crea la clave si no existe), que llama a `parametrizar()`.
+- La tabla de rutas del reporte y los casos de uso quedan en `CAMBIOS_A_DOCUMENTAR.md` (CD-23 y CD-24).
+
+## DEC-86 · ¿Quién lee el tema?
+
+**Por qué hubo que decidir.** La nota `n_parametros` de la 4e dice que la SPA lee el tema «al iniciar» con `GET /api/admin/parametros/tema`. Si eso incluye la pantalla de inicio de sesión, la ruta tendría que pasar sin token, y hoy el gateway solo deja pasar sin token `/api/auth/**`.
+
+**Opciones:**
+- **A. Lectura pública.** Solo esa ruta pasa sin token, en el gateway y en el servicio, y devuelve solo las claves `tema.*`, que no son sensibles. La pantalla de inicio de sesión también toma el tema. Era la recomendada por Claude.
+- **B. Solo con sesión.** Cualquier rol con token lo lee al iniciar sesión. La regla de seguridad no cambia; la pantalla de inicio de sesión conserva el logo y el color de siempre. ✅ **Escogida por Mauricio el 2026-11-17** («lo ideal sería con token»).
+
+**Qué implica:**
+- `GET /api/admin/parametros/tema` pide token (cualquier rol); sin token responde 401. Lo demás de `/api/admin/**` es del administrador.
+- La SPA lo pide en cuanto alguien inicia sesión (y al recargar con la sesión abierta) y aplica el nombre, el color y el logo; al cerrar sesión vuelve al tema de siempre.
+- La nota `n_parametros` de la 4e dice ahora «al iniciar sesión».
+
+## DEC-87 · Detalles del corte 6a asumidos por Claude
+
+Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-85 y DEC-86, que decidió Mauricio). Los asumió Claude el 2026-11-17, **por confirmar**. Lo que la documentación tiene que recoger está en `CAMBIOS_A_DOCUMENTAR.md` (CD-16 a CD-26).
+
+- **Elasticsearch (DEC-84).** La imagen oficial `docker.elastic.co/elasticsearch/elasticsearch:8.19.4`, un nodo (`discovery.type=single-node`), 512 MB de heap y 1,5 GB de límite, sin TLS ni usuarios (en local no hay TLS, DEC-58) y sin publicar puerto: solo lo ven los servicios. Sin Logstash ni Kibana: los servicios escriben directo y ms-administracion consulta. El índice es `logs-errores`, sin réplicas (un solo nodo), con `servicio`, `nivel`, `logger`, `hilo`, `correlacionId` y `usuario` como keyword, `mensaje` como texto, `fechaHora` como fecha y la traza sin indexar. Lo crea el primer servicio que tenga un error. Los servicios no dependen de Elasticsearch para arrancar (si no está, sus errores siguen en el registro del contenedor); `web` sí lo espera, para que `levantar.sh` termine con todo arriba.
+- **Cómo se envían los errores.** Un appender propio, `AppenderElasticsearch` en `compartido` (unas 200 líneas), en vez de una librería de terceros: logstash-logback-encoder envía a Logstash, que aquí no está. Toma los eventos de nivel ERROR de cualquier logger, con el mensaje, la causa más profunda, la traza (hasta 8.000 caracteres) y la correlación y el usuario del recorrido (DEC-64). Los envía por lotes de hasta 100 a `_bulk`, desde un hilo propio y con una cola de 1.000: el servicio nunca espera a Elasticsearch. Si Elasticsearch no responde, el lote se intenta 3 veces (5, 10 y 15 s) y se descarta. `RegistroLogsElasticsearch` lo engancha al logger raíz justo después de que Spring Boot configura logback, así que también llegan los errores del arranque; se activa con `KONRAD_LOGS_ELASTICSEARCH` (las pruebas JUnit no la tienen). El gateway y Eureka no envían: no usan `compartido`.
+- **Consulta de logs.** Los 200 errores más recientes, de un servicio (filtro exacto) o de todos; la hora en Bogotá. Si el índice no existe todavía (ningún servicio ha fallado), la lista sale vacía; si Elasticsearch no responde, 503 con «No se pudieron consultar los logs de errores. Intente de nuevo en unos minutos.», y ese error queda en el registro del servicio.
+- **La bitácora.** `AuditoriaJpaAdapter` guarda además la correlación del recorrido (columna `correlacion_id`): la del evento recibido o la de la petición del administrador. `RegistroAuditoria` no cambia. Un evento que Kafka entrega dos veces no se repite (índice único sobre fecha, hora, usuario, acción y correlación). El grupo de consumo `ms-administracion` empieza por el principio de `auditoria.evento`: la primera vez carga la auditoría de todos los servicios desde el corte 3.
+- **Las acciones propias de ms-administracion (n_bitacora).** El núcleo registra «sistema», como los demás servicios, y el adaptador pone el correo de quien inició sesión, como hace `KafkaEventPublisher` (DEC-64). Antes el núcleo escribía «administrador».
+- **Auditoría.** Lo más reciente primero; la hora con segundos. Sin una de las dos fechas, «Seleccione la fecha inicial y la fecha final.» (texto nuevo); con una fecha mal escrita, «La fecha no es válida.». La ventana abre con los últimos 7 días, tiene «Consultar» y «Hoy», y pagina de 10 en 10. Por PD-07 no se filtra por usuario ni por acción, tampoco en la SPA.
+- **Parámetros.** Las claves llevan minúsculas, números, guiones y puntos (`general.moneda`), hasta 80 caracteres; los valores, hasta 500. El tema usa tres claves: `tema.nombre`, `tema.color-primario` (`#RRGGBB`) y `tema.logo` (la ruta del logo de siempre, `/assets/logo/logo.png`, o la imagen misma en una data URL PNG, JPG, SVG o WebP de hasta 200 KB; así no hace falta un almacén de archivos en ms-administracion). Textos nuevos: «La clave del parámetro solo puede tener minúsculas, números, guiones y puntos (por ejemplo, general.moneda).», «El color debe tener el formato #RRGGBB (por ejemplo, #F28705).», «El logo debe ser una imagen PNG, JPG, SVG o WebP de máximo 200 KB.» y «El valor del parámetro {clave} no puede tener más de 500 caracteres.». Flyway carga el tema de siempre (Konrad Gourmet, `#F28705` y el logo) y tres parámetros generales: `general.moneda` (COP), `general.zona-horaria` (America/Bogota) y `general.correo-soporte`. No se borran parámetros: el puerto no tiene cómo.
+- **Refresco de la caché (n_parametros).** `RefrescoParametros` (fuera del diagrama, como `CanalAlarmas`) recarga la caché de la réplica desde la base cada minuto; en el compose, cada 10 s (`REFRESCO_PARAMETROS`). La réplica que guarda un cambio lo ve de inmediato.
+- **El tema en la SPA.** El color principal reemplaza el naranja de la aplicación y de él salen el tono oscuro, el degradado y los fondos suaves (`color-mix`); el nombre va en la marca de la barra (primera palabra en oscuro, el resto en el color) y en el título de la pestaña; el logo, en la barra. Si el color es el de siempre, la hoja de estilos no cambia.
+- **Menú del administrador.** «Administración» pasa a ser un grupo con «Parámetros y tema» (`/admin/parametros`), «Auditoría» (`/admin/auditoria`) y «Logs de errores» (`/admin/logs`), como los grupos de los otros roles. Cambia `Administrador.construirMenu()`, no su firma.
+- **Destinatarios.** CU-15 dice que su registro se audita y el núcleo no lo hacía: `registrarDestinatario()` publica ahora `AuditoriaEvent`. La ventana los consulta por sucursal y los agrega; no los quita (el puerto no tiene cómo; cambiaría la 4d).
+- **Usuarios.** La ventana registra (CU-19) y muestra los usuarios registrados en esa visita: no hay una ruta para listarlos (PD-06 deja fuera cambiar el rol o desactivar). Las tres sucursales de la SPA son las de ms-identidad (Centro, Norte y Chapinero).
+- **Mensajes de PD-10 en el código.** Con las ventanas nuevas, el código usa los textos de PD-10 que les tocan: «Ya existe un usuario registrado con ese correo.» (antes «Ya existe un usuario con el correo …»), «El formato del correo electrónico no es válido.» en destinatarios (antes «El correo del destinatario no es válido»), «La clave del parámetro es obligatoria.» y «El valor del parámetro {clave} es obligatorio.» (con punto final, y también si el valor está en blanco).
+- **Ventanas sin mockup.** Se diseñaron con las piezas de la SPA (encabezado con fecha y hora, filtros en tarjeta, tablas paginadas, formularios de dos columnas y avisos abajo), como Proveedores. Cada una queda como cambio de mockup en `CAMBIOS_A_DOCUMENTAR.md`.
 
 ---
 
