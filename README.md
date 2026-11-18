@@ -73,7 +73,7 @@ clases, atributos, métodos y relaciones `extends`/`implements`.
 | `notificaciones` | ms-notificaciones | — | Correos y alarmas en la aplicación |
 | `integracion` | ms-integracion | — | Frontera SOAP con el Ministerio de Comercio |
 | `administracion` | ms-administracion | — | Parámetros del sistema y auditoría |
-| `analitica` | ms-analitica | — | Tablero BAM e indicadores |
+| `analitica` | ms-analitica | — | Tablero BAM e indicadores; promociones sugeridas y tendencias |
 | `demo` | — | — | `DemoArquitectura` recorre el flujo de compra; las otras 24 clases son los adaptadores en memoria, el `Ensamble` que los conecta y el `ServidorWeb` de la interfaz local |
 
 ## Patrones de diseño
@@ -162,12 +162,12 @@ Cifras de la demo que no salen de los diagramas (supuestos, anotados en `DECISIO
   proveedores cotizan la res a $21.250, $29.000 y $4.000/kg, y el arroz a $8.000/kg.
 - El pedido de $82.000 es 2 bandejas paisas ($32.000) y 1 ajiaco ($18.000), como dice el reporte; el mockup
   V03 muestra además una limonada, y con ella el total sería $88.000.
-- Los hechos del tablero (demanda y precios de proveedores) son un histórico cargado a mano: el listener
-  que los armaría con los eventos (`NegocioEventsListener`) sigue pendiente.
+- Los hechos del tablero (demanda y precios de proveedores) son un histórico cargado a mano; en la plataforma
+  los arma `NegocioEventsListener` con los eventos de negocio (corte 6b).
 
 ### Qué métodos tienen lógica
 
-De los 274 cuerpos que lanzaban `Pendiente de implementar` al terminar la sesión 3, quedan **73** (incluidos `JwtEmisorAdapter.emitir()`, que se agregó con DEC-62, y los dos métodos del `AlmacenObjetosAdapter` de ms-menu, DEC-67; en el corte 4a, `MinisterioSoapClient.consultarPrecioEstandar()` pasó a tener lógica, DEC-71; el corte 4b no cambia la cuenta: sus adaptadores reales están en `servicios/ms-cotizaciones`; el corte 5 suma `OrdenJpaAdapter.porNumero()`, de «Ver PDF» en V23, DEC-75, y sus adaptadores reales están en `servicios/ms-ordenes` y `servicios/ms-notificaciones`; el corte 6a no cambia la cuenta: `AdminRestController.parametros()` (DEC-85) ya nace con lógica y los adaptadores reales de ms-administracion están en `servicios/ms-administracion`). Tienen
+De los 274 cuerpos que lanzaban `Pendiente de implementar` al terminar la sesión 3, quedan **60** (incluidos `JwtEmisorAdapter.emitir()`, que se agregó con DEC-62, y los dos métodos del `AlmacenObjetosAdapter` de ms-menu, DEC-67; en el corte 4a, `MinisterioSoapClient.consultarPrecioEstandar()` pasó a tener lógica, DEC-71; el corte 4b no cambia la cuenta: sus adaptadores reales están en `servicios/ms-cotizaciones`; el corte 5 suma `OrdenJpaAdapter.porNumero()`, de «Ver PDF» en V23, DEC-75, y sus adaptadores reales están en `servicios/ms-ordenes` y `servicios/ms-notificaciones`; el corte 6a no cambia la cuenta: `AdminRestController.parametros()` (DEC-85) ya nace con lógica y los adaptadores reales de ms-administracion están en `servicios/ms-administracion`; el corte 6b quita 13: las promociones de ms-analitica, `NegocioEventsListener`, `TendenciasJob`, `RedesSocialesAdapter` y la rama `tendencia.detectada` de `NotificacionService` tienen lógica, y `SugerenciaJpaAdapter` sigue pendiente porque el real está en `servicios/ms-analitica`). Tienen
 lógica real todo lo que usa el recorrido de compra, de punta a punta; lo que queda pendiente es lo que
 habla con una tecnología externa (la demo pone un adaptador en memoria en su lugar) o lo que la demo no usa.
 
@@ -181,9 +181,9 @@ habla con una tecnología externa (la demo pone un adaptador en memoria en su lu
 | `solicitudes` | `SolicitudAlimentos` (que también se rearma con su fecha y estado), `ItemSolicitud`, `CriteriosConsulta`, `SolicitudService`, `CotizacionEventsListener`, `SolicitudRestController` | `SolicitudJpaAdapter` (el real está en `servicios/ms-solicitudes`) |
 | `cotizaciones` | `Cotizacion` y `Proveedor` (que también se rearman desde la base), `ItemCotizacion`, `ReglaValidacion` y sus 3 reglas, `GenerarCotizacionFacade`, `CotizacionService`, `ProveedorService`, `OrdenGeneradaListener`, los 2 controladores, `CotizacionJpaAdapter` | `ProveedorJpaAdapter`, `PdfCotizacionAdapter`, `AlmacenObjetosAdapter`, `PrecioSugeridoRestAdapter` (la demo usa `ProveedorEnMemoria`, `PdfSimulado`, `AlmacenEnMemoria` y `PrecioSugeridoLocal`; los reales, con OpenPDF y el REST interno de ms-integracion, están en `servicios/ms-cotizaciones`) |
 | `ordenes` | `OrdenCompra` (que también se rearma desde la base), `ItemOrden`, `CotizacionOpcionada`, `OrdenCompraService` (con `pdf()`, DEC-75, y `finalizar()`, DEC-80), `OrdenCompraRestController` | `OrdenJpaAdapter`, `PdfOrdenAdapter`, `AlmacenObjetosAdapter`, `CotizacionRestClient` (la demo usa `OrdenEnMemoria`, `PdfSimulado`, `AlmacenEnMemoria` y `CotizacionConsultaLocal`; los reales, con OpenPDF, el almacén S3 y el REST de ms-cotizaciones, están en `servicios/ms-ordenes`) |
-| `notificaciones` | `CreadorNotificacion` y sus 2 creadores, `NotificacionCorreo`, `AlarmaApp`, `Mensaje`, los 3 decoradores, `NotificacionService`, `NotificacionListeners`, `DestinatarioRestController` | `CorreoSmtpAdapter`, `AlarmaPushAdapter`, `AlmacenObjetosAdapter`, `DestinatarioJpaAdapter`, `EnvioJpaAdapter` (los reales, con SMTP, Redis y WebSocket, S3 y PostgreSQL, están en `servicios/ms-notificaciones`, que copia los decoradores de `src/`); la rama `tendencia.detectada` de `notificarEvento()` (T-06) |
+| `notificaciones` | `CreadorNotificacion` y sus 2 creadores, `NotificacionCorreo`, `AlarmaApp`, `Mensaje`, los 3 decoradores, `NotificacionService` (con el correo de promociones de `tendencia.detectada`, PD-05), `NotificacionListeners`, `DestinatarioRestController` | `CorreoSmtpAdapter`, `AlarmaPushAdapter`, `AlmacenObjetosAdapter`, `DestinatarioJpaAdapter`, `EnvioJpaAdapter` (los reales, con SMTP, Redis y WebSocket, S3 y PostgreSQL, están en `servicios/ms-notificaciones`, que copia los decoradores de `src/`) |
 | `integracion` | `PrecioEstandar`, `MinisterioComercioAdapter`, `PrecioReferenciaCacheProxy`, `ConsultarPrecioService`, `PrecioRestController`, `AbastecimientoSoapEndpoint`, `MinisterioSoapClient` (SOAP 1.1 con el JDK, DEC-71; la demo usa `MinisterioSoapSimulado`, que no sale del proceso) | — (los adaptadores Spring y la caché en Redis están en `servicios/ms-integracion`) |
-| `analitica` | `HechoNegocio`, `ResultadoKpi`, las 3 estrategias, `kpis()` y `registrarHecho()` de `TableroService`, `KpiJpaAdapter`, `TableroRestController` | las promociones (HU-19): `SugerenciaPromocion`, `detectarTendencias()`, `sugerencias()`, `aceptarSugerencia()`, `descartarSugerencia()`, `PromocionRestController`, `TendenciasJob`, `NegocioEventsListener`, `SugerenciaJpaAdapter`, `RedesSocialesAdapter` |
+| `analitica` | `HechoNegocio`, `ResultadoKpi` (con el ranking y el periodo, DEC-88), las 3 estrategias, `TableroService` (los periodos de PD-03 y las promociones de PD-04), `SugerenciaPromocion`, `KpiJpaAdapter`, `TableroRestController`, `PromocionRestController`, `NegocioEventsListener` (los hechos de los 5 tópicos), `TendenciasJob`, `RedesSocialesAdapter` (la API de tendencias con el HttpClient del JDK; ms-analitica copia el mismo) | `SugerenciaJpaAdapter` (el real está en `servicios/ms-analitica`; las pruebas usan uno en memoria) |
 | `administracion` | `ParametrosSistema`, `RegistroAuditoria`, `LogError`, `Bitacora`, `AdministracionService`, `AuditoriaListener`, `AdminRestController`, `AuditoriaJpaAdapter` | `ParametrosJpaAdapter`, `ElasticsearchLogsAdapter` |
 
 Las 3 clases `*JpaAdapter` que tienen un atributo en el diagrama (`CotizacionJpaAdapter`, `KpiJpaAdapter`,
@@ -217,7 +217,7 @@ Límites que conviene conocer:
 
 ### Pruebas
 
-`pruebas/` tiene 320 verificaciones en 7 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
+`pruebas/` tiene 398 verificaciones en 8 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
 - `PruebasCotizacion`: los valores de V19 y los límites de la cadena de reglas (+25,00 % y −50,00 % siguen
   OPCIONADA; +25,01 % y −50,01 % no), y la cotización y el proveedor rearmados desde la base;
 - `PruebasPatrones`: los 8 patrones, uno por uno;
@@ -235,7 +235,13 @@ Límites que conviene conocer:
 - `PruebasAdministracion`: ms-administracion (corte 6a): los parámetros y el tema (DEC-85; los mensajes de PD-10 y
   la validación del color y del logo), la auditoría por rango obligatorio y ordenada (PD-07), la que llega por
   `AuditoriaListener`, los logs con el servicio opcional, la auditoría del registro de destinatarios y el menú del
-  administrador.
+  administrador;
+- `PruebasAnalitica`: ms-analitica (corte 6b): el ranking de cada indicador y sus periodos (sin rango, 30 y 365 días;
+  con rango; la sucursal solo filtra la demanda; los mensajes de PD-10), los hechos que deja cada uno de los 5
+  tópicos (solo las cotizaciones OPCIONADAS), las promociones del análisis semanal (redes y los 3 más pedidos, sin
+  repetir el mismo día y una sola notificación por día; el error de las redes queda en el log), aceptar y descartar,
+  el correo de promociones a los jefes y `RedesSocialesAdapter` contra un servidor simulado con el `HttpServer` del JDK.
+  `PruebasFlujoDeCompra` revisa además que `cotizacion.validada` lleve tipos simples (PD-05) y el proveedor (DEC-89).
 
 ## Historia en git
 
@@ -254,9 +260,10 @@ git log --follow -M30% -- src/co/edu/konradlorenz/notificaciones/adaptadores/sal
 Además de la versión en memoria, el sistema se está pasando al stack del diagrama de contenedores
 (DEC-58) por cortes: API Gateway, Eureka, Kafka, PostgreSQL, Redis, almacén S3 y la SPA en React, con
 Docker Compose, y los microservicios Spring Boot uno a uno (hoy corren ms-identidad, ms-menu, ms-pedidos,
-ms-inventario, ms-solicitudes, ms-integracion, ms-cotizaciones, ms-ordenes, ms-notificaciones y ms-administracion,
-con las ventanas V01 a V23, los proveedores, las cinco del administrador (parámetros y tema, auditoría, logs de
-errores en Elasticsearch, usuarios y destinatarios), el PDF de la cotización y el de la orden en el almacén S3, el precio de referencia
+ms-inventario, ms-solicitudes, ms-integracion, ms-cotizaciones, ms-ordenes, ms-notificaciones, ms-administracion y
+ms-analitica, con las ventanas V01 a V23, los proveedores, las cinco del administrador (parámetros y tema, auditoría, logs de
+errores en Elasticsearch, usuarios y destinatarios), el tablero BAM del director comercial y las promociones sugeridas
+del jefe de cocina (con la API de redes simulada y su correo), el PDF de la cotización y el de la orden en el almacén S3, el precio de referencia
 del Ministerio con su caché en Redis, el endpoint SOAP, los correos certificados con el PDF adjunto (Mailpit) y su
 cola de errores, que se vuelve a procesar sola (DEC-81), la orden marcada como recibida (DEC-80) y la alarma de
 stock bajo en vivo; el avance está en `plataforma/LEEME.md`). Solo necesita Docker:

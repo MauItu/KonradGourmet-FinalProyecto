@@ -37,10 +37,12 @@ Solo necesita Docker: los servicios Java se compilan dentro de un contenedor de 
 | `ms-solicitudes` | Spring Boot | V08–V12: el jefe de cocina registra y consulta sus solicitudes; el auxiliar de compras las consulta todas (filtros de HU-07); publica `solicitud.registrada`; con `cotizacion.enviada` pasa a EN TRÁMITE las que quedan cotizadas y publica `solicitud.en-tramite` |
 | `ms-cotizaciones` | Spring Boot + OpenPDF | V13–V20 y proveedores (HU-15): el auxiliar arma la cotización de una o varias solicitudes y la envía con su PDF (bucket `documentos-pdf`) y el precio de referencia de ms-integracion; la directora registra los valores del proveedor y valida con la cadena de reglas; publica `cotizacion.enviada` y `cotizacion.validada`, escucha `orden.generada` |
 | `ms-ordenes` | Spring Boot + OpenPDF | V21–V23: la directora genera la orden de compra de una cotización OPCIONADA (OC-0012 en adelante), que lee de ms-cotizaciones con su JWT; el PDF de la orden va al bucket `documentos-pdf` y se puede abrir desde V23 (DEC-75); cuando el pedido llega, la directora la marca como recibida y pasa a FINALIZADA (DEC-80); publica `orden.generada`, con la que ms-cotizaciones pasa la cotización a CON_ORDEN y ms-solicitudes completa sus solicitudes |
-| `ms-notificaciones` | Spring Boot + Jakarta Mail | Correos certificados (huella SHA-256 y estampa cronológica) por `inventario.stock-bajo`, `solicitud.registrada`, `solicitud.en-tramite`, `cotizacion.enviada` y `orden.generada`, con el PDF del almacén adjunto; la alarma de stock bajo al jefe de cocina por Redis y WebSocket (PD-01); libreta de destinatarios; traza de envíos que V14 consulta (DEC-76); reintentos y cola de errores, que se vuelve a procesar sola (DEC-81) |
+| `ms-notificaciones` | Spring Boot + Jakarta Mail | Correos certificados (huella SHA-256 y estampa cronológica) por `inventario.stock-bajo`, `solicitud.registrada`, `solicitud.en-tramite`, `cotizacion.enviada`, `orden.generada` y `tendencia.detectada` (las promociones, a los jefes de todas las sucursales), con el PDF del almacén adjunto; la alarma de stock bajo al jefe de cocina por Redis y WebSocket (PD-01); libreta de destinatarios; traza de envíos que V14 consulta (DEC-76); reintentos y cola de errores, que se vuelve a procesar sola (DEC-81) |
 | `ms-integracion` | Spring Boot + Apache CXF | Frontera SOA: precio estándar del Ministerio por SOAP con la caché en Redis (Proxy) y el endpoint SOAP `/api/integracion/abastecimiento` (WSDL en `?wsdl`) |
 | `ms-administracion` | Spring Boot | Ventanas del administrador: parámetros y tema (el Singleton `ParametrosSistema`, que cada réplica refresca de la base), la auditoría de todos los servicios (escucha `auditoria.evento`; sus propias acciones van directo a su bitácora) y los logs de errores que consulta en Elasticsearch |
+| `ms-analitica` | Spring Boot | Tablero BAM del director comercial (los tres indicadores con su ranking y su periodo) y promociones sugeridas al jefe de cocina, sobre su propio almacén de hechos: escucha `pedido.registrado`, `cotizacion.validada`, `inventario.stock-bajo`, `solicitud.registrada` y `orden.generada` (y `menu.actualizado`, para los nombres de los platos); `TendenciasJob` con ShedLock consulta la API de redes y publica `tendencia.detectada` |
 | `ministerio` | WireMock 3.13 | Servicio web SOAP de precios del Ministerio de Comercio, simulado (DEC-71); solo lo ve ms-integracion |
+| `redes` | WireMock 3.13 | API de tendencias de una red social, simulada (DEC-91): los productos en tendencia de la semana, con token; solo la ve ms-analitica |
 | `kafka-topicos`, `s3-bucket` | — | Crean los tópicos y los buckets al arrancar (`levantar.sh` los vuelve a correr), y terminan |
 
 ## Usuarios de demostración
@@ -83,6 +85,9 @@ Todos con la clave `Konrad2026` (la pantalla de inicio de sesión tiene un botó
 - Logs de errores (DEC-84): cada servicio con `compartido` envía sus errores (nivel ERROR) a Elasticsearch con
   `AppenderElasticsearch`, con la correlación y el usuario del recorrido; Elasticsearch no se publica fuera de la red de
   Docker y solo ms-administracion lo consulta.
+- En ms-analitica, el tablero (`GET /api/bam/kpis`) es del director comercial y las promociones (`GET /api/bam/promociones`
+  y `PATCH …/{id}/aceptar` o `…/{id}/descartar`), del jefe de cocina. `TendenciasJob` corre sin usuario («sistema»). La
+  API de redes no se publica fuera de la red de Docker y se consulta con un token (`REDES_TOKEN`).
 - En ms-notificaciones, la libreta de destinatarios es del administrador; la traza de envíos de un recorrido
   (`GET /api/notificaciones/envios?correlacion=…`, V14) la leen el auxiliar, la directora y el administrador; y el
   WebSocket de las alarmas (`/api/notificaciones/alarmas`), solo el jefe de cocina. Como el navegador no deja
@@ -120,6 +125,11 @@ que el diagrama omite a propósito, como omite los constructores:
 - en ms-administracion, `RefrescoParametros` (cada minuto recarga de la base la caché `ParametrosSistema` de la réplica;
   10 s en el compose, con `REFRESCO_PARAMETROS`). La bitácora guarda además la correlación del recorrido (columna
   `correlacion_id`) y no repite un evento entregado dos veces;
+- en ms-analitica, `NombresNegocio` (la copia local de los nombres de los platos, de `menu.actualizado`, y de las sucursales,
+  DEC-90) y `EventosProcesados` (no cuenta dos veces un evento que Kafka entregue de nuevo); cada hecho guarda además la
+  correlación del evento. `RedesSocialesAdapter` no tiene versión Spring: es Java puro y ms-analitica copia el de `src/`.
+  El histórico de la demostración (migración `V2__historico_demo.sql`: 400 días de demanda de las tres sucursales y las
+  cotizaciones OPCIONADAS del último año) es solo de la demostración;
 - en ms-notificaciones, `CanalAlarmas` y `ConfiguracionWebSocket` (las conexiones WebSocket de V05 en cada réplica,
   que escuchan el canal de Redis donde publica `AlarmaPushAdapter`, PD-01) y `EnviosController` (la consulta de
   envíos de V14, DEC-76) y `ReprocesoColaErrores` (vuelve a procesar `notificaciones.dlq`, DEC-81). Los decoradores del correo (`CorreoDecorator`, `CorreoCertificadoDecorator`,
@@ -127,7 +137,7 @@ que el diagrama omite a propósito, como omite los constructores:
 
 El `.drawio` las nombra sin caja, en notas «Infraestructura que no se dibuja» de las páginas 4a, 4c, 4d y 4e y en
 `n_alarmapush` y `n_fallos` de la 4d (DEC-79); `ReprocesoColaErrores` solo aparece en el texto de `n_fallos`. Lo que
-es solo de la demostración (`CierreDiaController` y los `DatosIniciales`) no se documenta (DEC-57).
+es solo de la demostración (`CierreDiaController`, los `DatosIniciales` y el histórico de ms-analitica) no se documenta (DEC-57).
 
 Lo que todavía no está en la documentación (mockups, `.drawio` o reporte) está anotado en
 `documentos/CAMBIOS_A_DOCUMENTAR.md` (DEC-77); `ReprocesoColaErrores` es CD-14.
@@ -145,7 +155,7 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
 - de ELK solo está Elasticsearch, con un nodo y sin TLS ni usuarios (DEC-84): los servicios le escriben directo, sin
   Logstash, y sin Kibana (los logs se ven en la ventana del administrador);
 - los sistemas externos son simulados: el Ministerio de Comercio con WireMock (DEC-71), el servidor de correo
-  certificado con Mailpit (SMTP sin TLS) y, en el corte 6, las redes sociales;
+  certificado con Mailpit (SMTP sin TLS) y la API de tendencias de las redes sociales con WireMock, sin TLS (DEC-91);
 - un solo Redis sin usuarios separados para la caché de precios y el canal de alarmas;
 - el almacén de objetos es SeaweedFS y no MinIO (DEC-59): la imagen de MinIO ya no se puede descargar
   y los dos hablan la misma API S3, así que el adaptador no cambia.
@@ -161,7 +171,7 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
 | 4b | ms-cotizaciones (V13–V19, proveedores y PDF con OpenPDF) y ms-solicitudes con `cotizacion.enviada`, DEC-73 y DEC-74 | Hecho |
 | 5 | ms-ordenes y ms-notificaciones (V20–V23, correos con el PDF, alarma en vivo, orden recibida, reproceso de la cola de errores), DEC-75 a DEC-82 | Hecho |
 | 6a | ms-administracion (auditoría, parámetros y tema, logs de errores con Elasticsearch, usuarios y destinatarios), DEC-83 a DEC-87 | Hecho |
-| 6b | ms-analitica (tablero BAM del director comercial, promociones de HU-19 y `tendencia.detectada`, PD-05) | Pendiente |
+| 6b | ms-analitica (tablero BAM del director comercial, promociones de HU-19 con la API de redes simulada y `tendencia.detectada`, PD-05), DEC-88 a DEC-91 | Hecho, por aprobar |
 | 7 | Pruebas de punta a punta, README y revisión | Pendiente |
 
 ## Probar de punta a punta
@@ -179,6 +189,8 @@ python plataforma/pruebas/recorrido_corte5.py /tmp/capturas    # navegador: V20 
 python plataforma/pruebas/verificar_corte5.py /tmp/capturas    # PostgreSQL, el PDF de la orden, Kafka, Mailpit con los adjuntos, WebSocket, DLQ y su reproceso
 python plataforma/pruebas/recorrido_corte6a.py /tmp/capturas   # navegador: las ventanas del administrador, el tema y un error real (después del 5)
 python plataforma/pruebas/verificar_corte6a.py /tmp/capturas   # la bitácora contra Kafka, el tema y su caché, Elasticsearch, usuarios y destinatarios
+python plataforma/pruebas/recorrido_corte6b.py /tmp/capturas   # navegador: el tablero BAM del director comercial y las promociones del jefe (después del 6a)
+python plataforma/pruebas/verificar_corte6b.py /tmp/capturas   # los hechos contra Kafka, el tablero contra SQL, el job, tendencia.detectada, el correo y los roles
 ```
 
 El recorrido registra un pedido de $82.000 (2 bandejas paisas y 1 ajiaco), crea un plato con imagen, lo edita
@@ -241,6 +253,30 @@ antes del cambio de color; que un cambio hecho directo en la base llega a la cac
 el índice `logs-errores`, el error del recorrido con su correlación y la consulta por servicio; que con Elasticsearch en
 pausa la ventana avisa (503) y ese error llega después; y el alta de Sofía (hash BCrypt y auditoría) y su registro como
 destinataria.
+
+El del corte 6b empieza con el director comercial, que entra directo al «Tablero BAM»: los tres indicadores con su valor,
+su gráfica y su periodo (sin fechas, la demanda de los últimos 30 días y el proveedor de los últimos 365), en menos de 5 s.
+La Sucursal Norte cambia el producto (el Ajiaco) y no el proveedor; un rango de hace 70 a 120 días (la temporada de
+lluvias del histórico) también da el Ajiaco y los tres indicadores dicen ese periodo; prueba los mensajes (rango invertido,
+una sola fecha y un periodo sin datos); y un pedido nuevo del mesero (3 Punta de anca) sube la barra al volver a consultar.
+El jefe de cocina abre «Promociones sugeridas»: lo que sugirió `TendenciasJob` al arrancar (el Ajiaco y la Limonada por las
+redes; la Bandeja paisa, el Ajiaco y la Pechuga entre los 3 más pedidos de la semana), con su motivo y 7 días de vigencia;
+acepta el Ajiaco y descarta la Limonada; Sofía (la jefa del corte 6a) acepta la Bandeja paisa y, cuando Carlos intenta
+descartarla con la lista vieja, recibe «Esta sugerencia ya fue aceptada o descartada.»; y el filtro por fechas. A 390 px,
+las dos ventanas caben a lo ancho. El verificador compara el almacén de hechos con los 5 tópicos (cada evento con sus
+hechos, sus nombres, su fecha y su correlación; solo las cotizaciones OPCIONADAS; uno publicado otra vez no se cuenta) y el
+tablero con SQL (sin rango, con la sucursal y con un rango); revisa lo que sugirió el job contra la API de redes y los 7 días
+anteriores, `tendencia.detectada` (una vez hoy, con su correlación), el correo «Promociones sugeridas» en Mailpit (uno por
+jefe) con esa correlación en la traza de envíos; con una tendencia nueva en la API, el job la sugiere sin otro correo; con la
+API caída, el error llega a «Logs de errores» y lo demás sigue; y aceptar y descartar (409, 404, la auditoría) y los roles,
+también directo al servicio.
+
+**ms-analitica en una instalación con datos.** El grupo de consumo `ms-analitica` empieza por el principio de sus tópicos:
+la primera vez que arranca en una instalación que ya tenía eventos (por ejemplo, la de los volúmenes `konrad-gourmet_*`),
+arma los hechos de todo lo que ya pasó. Las cotizaciones validadas antes de PD-05 no traen la diferencia ni el proveedor, así
+que no cuentan para el proveedor con mejores precios. `TendenciasJob` corre cada 30 s en el compose (`TENDENCIAS`): el correo
+«Promociones sugeridas» sale apenas arranca la plataforma, a los jefes que tenga la libreta en ese momento, y no vuelve a
+salir ese día.
 
 **La bitácora de ms-administracion.** El grupo de consumo `ms-administracion` empieza por el principio de
 `auditoria.evento`: en una instalación que ya tenía datos (por ejemplo, la de los volúmenes `konrad-gourmet_*`), la
