@@ -102,6 +102,14 @@ public class OrdenCompra {
         return new OrdenCompra(c);
     }
 
+    /** La directora marca la orden como recibida (V23): solo pasa de EN_PROCESO a FINALIZADA. */
+    public void finalizar() {
+        if (estado == EstadoOrden.FINALIZADA) {
+            throw new IllegalStateException("La orden " + numero + " ya está finalizada");
+        }
+        this.estado = EstadoOrden.FINALIZADA;
+    }
+
     public BigDecimal total() {
         return items.stream()
                 .map(i -> i.precio().multiply(i.cantidad()))

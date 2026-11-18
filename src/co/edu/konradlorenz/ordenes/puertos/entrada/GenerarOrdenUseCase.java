@@ -13,4 +13,6 @@ public interface GenerarOrdenUseCase {
 
     byte[] pdf(String numero);
 
+    OrdenCompra finalizar(String numero);
+
 }

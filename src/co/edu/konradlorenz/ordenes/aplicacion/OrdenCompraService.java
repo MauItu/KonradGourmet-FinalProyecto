@@ -60,6 +60,18 @@ public class OrdenCompraService implements GenerarOrdenUseCase {
     }
 
     @Override
+    public OrdenCompra finalizar(String numero) {
+        OrdenCompra o = repositorio.porNumero(numero);
+        if (o == null) {
+            throw new IllegalArgumentException("No existe la orden de compra " + numero);
+        }
+        o.finalizar();
+        OrdenCompra finalizada = repositorio.guardar(o);
+        eventos.publicar(new AuditoriaEvent("sistema", "Orden " + numero + " finalizada"));
+        return finalizada;
+    }
+
+    @Override
     public List<OrdenCompra> consultar(EstadoOrden estado) {
         if (estado != null) {
             return repositorio.porEstado(estado);

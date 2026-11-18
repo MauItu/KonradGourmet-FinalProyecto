@@ -180,7 +180,7 @@ habla con una tecnología externa (la demo pone un adaptador en memoria en su lu
 | `inventario` | `InsumoInventario`, `Inventario`, `RecetaPlato`, `UmbralStock`, `InventarioService`, `ConsumoDiarioJob`, los 2 listeners y `InventarioRestController` | `InventarioJpaAdapter` (el real está en `servicios/ms-inventario`) |
 | `solicitudes` | `SolicitudAlimentos` (que también se rearma con su fecha y estado), `ItemSolicitud`, `CriteriosConsulta`, `SolicitudService`, `CotizacionEventsListener`, `SolicitudRestController` | `SolicitudJpaAdapter` (el real está en `servicios/ms-solicitudes`) |
 | `cotizaciones` | `Cotizacion` y `Proveedor` (que también se rearman desde la base), `ItemCotizacion`, `ReglaValidacion` y sus 3 reglas, `GenerarCotizacionFacade`, `CotizacionService`, `ProveedorService`, `OrdenGeneradaListener`, los 2 controladores, `CotizacionJpaAdapter` | `ProveedorJpaAdapter`, `PdfCotizacionAdapter`, `AlmacenObjetosAdapter`, `PrecioSugeridoRestAdapter` (la demo usa `ProveedorEnMemoria`, `PdfSimulado`, `AlmacenEnMemoria` y `PrecioSugeridoLocal`; los reales, con OpenPDF y el REST interno de ms-integracion, están en `servicios/ms-cotizaciones`) |
-| `ordenes` | `OrdenCompra` (que también se rearma desde la base), `ItemOrden`, `CotizacionOpcionada`, `OrdenCompraService` (con `pdf()`, DEC-75), `OrdenCompraRestController` | `OrdenJpaAdapter`, `PdfOrdenAdapter`, `AlmacenObjetosAdapter`, `CotizacionRestClient` (la demo usa `OrdenEnMemoria`, `PdfSimulado`, `AlmacenEnMemoria` y `CotizacionConsultaLocal`; los reales, con OpenPDF, el almacén S3 y el REST de ms-cotizaciones, están en `servicios/ms-ordenes`) |
+| `ordenes` | `OrdenCompra` (que también se rearma desde la base), `ItemOrden`, `CotizacionOpcionada`, `OrdenCompraService` (con `pdf()`, DEC-75, y `finalizar()`, DEC-80), `OrdenCompraRestController` | `OrdenJpaAdapter`, `PdfOrdenAdapter`, `AlmacenObjetosAdapter`, `CotizacionRestClient` (la demo usa `OrdenEnMemoria`, `PdfSimulado`, `AlmacenEnMemoria` y `CotizacionConsultaLocal`; los reales, con OpenPDF, el almacén S3 y el REST de ms-cotizaciones, están en `servicios/ms-ordenes`) |
 | `notificaciones` | `CreadorNotificacion` y sus 2 creadores, `NotificacionCorreo`, `AlarmaApp`, `Mensaje`, los 3 decoradores, `NotificacionService`, `NotificacionListeners`, `DestinatarioRestController` | `CorreoSmtpAdapter`, `AlarmaPushAdapter`, `AlmacenObjetosAdapter`, `DestinatarioJpaAdapter`, `EnvioJpaAdapter` (los reales, con SMTP, Redis y WebSocket, S3 y PostgreSQL, están en `servicios/ms-notificaciones`, que copia los decoradores de `src/`); la rama `tendencia.detectada` de `notificarEvento()` (T-06) |
 | `integracion` | `PrecioEstandar`, `MinisterioComercioAdapter`, `PrecioReferenciaCacheProxy`, `ConsultarPrecioService`, `PrecioRestController`, `AbastecimientoSoapEndpoint`, `MinisterioSoapClient` (SOAP 1.1 con el JDK, DEC-71; la demo usa `MinisterioSoapSimulado`, que no sale del proceso) | — (los adaptadores Spring y la caché en Redis están en `servicios/ms-integracion`) |
 | `analitica` | `HechoNegocio`, `ResultadoKpi`, las 3 estrategias, `kpis()` y `registrarHecho()` de `TableroService`, `KpiJpaAdapter`, `TableroRestController` | las promociones (HU-19): `SugerenciaPromocion`, `detectarTendencias()`, `sugerencias()`, `aceptarSugerencia()`, `descartarSugerencia()`, `PromocionRestController`, `TendenciasJob`, `NegocioEventsListener`, `SugerenciaJpaAdapter`, `RedesSocialesAdapter` |
@@ -217,7 +217,7 @@ Límites que conviene conocer:
 
 ### Pruebas
 
-`pruebas/` tiene 279 verificaciones en 6 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
+`pruebas/` tiene 287 verificaciones en 6 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
 - `PruebasCotizacion`: los valores de V19 y los límites de la cadena de reglas (+25,00 % y −50,00 % siguen
   OPCIONADA; +25,01 % y −50,01 % no), y la cotización y el proveedor rearmados desde la base;
 - `PruebasPatrones`: los 8 patrones, uno por uno;
@@ -225,7 +225,7 @@ Límites que conviene conocer:
   `menu.actualizado` y el catálogo del mesero (con la categoría de la carta, DEC-66) y la receta del inventario se
   actualizan por el bus; la imagen del plato en el almacén (DEC-67) y el pedido rearmado con su fecha y estado;
 - `PruebasFlujoDeCompra`: pedido (con su mesero), inventario (incluido el cierre del día siguiente), solicitud, cotización,
-  orden OC-0012 con su PDF (DEC-75) y rearmada desde la base, una cotización con 2 solicitudes (DEC-05), proveedores y el
+  orden OC-0012 con su PDF (DEC-75), finalizada una sola vez (DEC-80) y rearmada desde la base, una cotización con 2 solicitudes (DEC-05), proveedores y el
   caso PENDIENTE_PRECIO (H18);
 - `PruebasIdentidad`: la política de contraseña (DEC-10), el alta de los 6 roles (Factory Method), el correo único
   y en minúsculas, el inicio de sesión con el token del `EmisorTokenPort` (DEC-62) y la auditoría de cada intento;

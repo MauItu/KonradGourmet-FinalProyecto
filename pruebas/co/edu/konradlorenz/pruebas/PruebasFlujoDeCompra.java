@@ -220,6 +220,23 @@ final class PruebasFlujoDeCompra {
         Prueba.lanza("el PDF de una orden que no existe", IllegalArgumentException.class, "No existe la orden de compra OC-9999",
                 () -> s.ordenes.pdf("OC-9999"));
 
+        // DEC-80: la directora marca la orden como recibida desde V23
+        long auditoriasAntes = s.bus.cuantos("auditoria.evento");
+        OrdenCompra finalizada = s.ordenes.finalizar("OC-0012");
+        Prueba.igual("OC-0012 pasa a FINALIZADA", EstadoOrden.FINALIZADA, finalizada.estado());
+        Prueba.igual("y queda guardada así", List.of("OC-0012"),
+                s.ordenes.consultar(EstadoOrden.FINALIZADA).stream().map(OrdenCompra::numero).toList());
+        Prueba.igual("ya no sale entre las EN_PROCESO", 0, s.ordenes.consultar(EstadoOrden.EN_PROCESO).size());
+        Prueba.verificar("finalizarla deja auditoría",
+                s.bus.cuantos("auditoria.evento") == auditoriasAntes + 1 && s.bus.publicados().stream()
+                        .anyMatch(e -> e instanceof AuditoriaEvent a && a.accion().equals("Orden OC-0012 finalizada")));
+        Prueba.igual("y no publica otra orden.generada", 1L, s.bus.cuantos("orden.generada"));
+        Prueba.lanza("finalizarla dos veces se rechaza", IllegalStateException.class, "La orden OC-0012 ya está finalizada",
+                () -> s.ordenes.finalizar("OC-0012"));
+        Prueba.igual("la segunda vez no deja auditoría", auditoriasAntes + 1, s.bus.cuantos("auditoria.evento"));
+        Prueba.lanza("finalizar una orden que no existe", IllegalArgumentException.class, "No existe la orden de compra OC-9999",
+                () -> s.ordenes.finalizar("OC-9999"));
+
         // Corte 5: OrdenJpaAdapter rearma la orden desde la base
         Prueba.grupo("Orden leída de la base (corte 5)");
         OrdenCompra leida = new OrdenCompra("OC-0012", LocalDate.of(2026, 11, 17), "COT-018", List.of("SOL-031"), "Proveedor ABC",
