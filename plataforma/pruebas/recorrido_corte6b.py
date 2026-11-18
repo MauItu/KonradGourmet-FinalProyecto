@@ -251,13 +251,12 @@ with sync_playwright() as pw:
             jefe.get_by_role('button', name='Todo el histórico').click()
             expect(jefe.locator('.card-head p', has_text='todo el histórico')).to_be_visible()
         else:
-            pe = fila(jefe, 'Pechuga a la plancha')
-            if pe.count() and pe.first.get_by_role('button', name='Aceptar Pechuga a la plancha').count():
-                pe.first.get_by_role('button', name='Aceptar Pechuga a la plancha').click()
-                expect(jefe.locator('#toast')).to_contain_text('Aceptaste la promoción de Pechuga a la plancha.')
-                ok(True, 'a 390 px el jefe acepta la Pechuga a la plancha')
-            else:
-                ok(False, 'a 390 px la Pechuga a la plancha sigue sugerida para aceptarla')
+            aceptar = fila(jefe, 'Pechuga a la plancha').first.get_by_role('button', name='Aceptar Pechuga a la plancha')
+            expect(aceptar).to_be_visible()
+            aceptar.click()
+            expect(jefe.locator('#toast')).to_contain_text('Aceptaste la promoción de Pechuga a la plancha.')
+            expect(fila(jefe, 'Pechuga a la plancha').first).to_contain_text('Aceptada')
+            ok(True, 'a 390 px el jefe acepta la Pechuga a la plancha')
             sin_desborde(jefe, ancho, 'Promociones sugeridas')
             foto(jefe, f'{tag}-promociones')
 
