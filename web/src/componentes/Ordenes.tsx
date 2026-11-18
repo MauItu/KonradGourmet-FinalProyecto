@@ -71,8 +71,13 @@ export function OrdenGenerada({ o, alVer, alInicio, alCerrar }: { o: OrdenCompra
   );
 }
 
-/** El detalle de V23: cabecera de la orden, datos, siguiente paso, productos, total y su PDF (DEC-75). */
-export function DetalleOrden({ o, alVerPdf, alDescargar }: { o: OrdenCompra | null; alVerPdf: () => void; alDescargar: () => void }) {
+/**
+ * El detalle de V23: cabecera de la orden, datos, siguiente paso, productos, total, su PDF (DEC-75) y, mientras
+ * está EN_PROCESO, «Marcar como recibida» (DEC-80).
+ */
+export function DetalleOrden({ o, alVerPdf, alDescargar, alRecibir }: {
+  o: OrdenCompra | null; alVerPdf: () => void; alDescargar: () => void; alRecibir: () => void;
+}) {
   if (!o) return <VacioDetalle texto="Aún no hay órdenes de compra." />;
   return (
     <>
@@ -97,6 +102,38 @@ export function DetalleOrden({ o, alVerPdf, alDescargar }: { o: OrdenCompra | nu
           <button type="button" className="btn outline sm w" onClick={alDescargar}><Icono nombre="download" /> Descargar</button>
         </div>
       )}
+      {o.estado === 'EN_PROCESO' && (
+        <button type="button" className="btn primary w" onClick={alRecibir}><Icono nombre="circleCheck" /> Marcar como recibida</button>
+      )}
     </>
+  );
+}
+
+/**
+ * Confirmación de «Marcar como recibida» (V23, DEC-80): la orden pasa a FINALIZADA
+ * (PATCH /api/ordenes-compra/{id}/finalizar) y ya no se puede volver a marcar.
+ */
+export function VentanaRecibida({ o, alCerrar, alFinalizar }: { o: OrdenCompra; alCerrar: () => void; alFinalizar: (o: OrdenCompra) => void }) {
+  const [error, setError] = useState('');
+  const [enviando, setEnviando] = useState(false);
+  const confirmar = async () => {
+    setEnviando(true);
+    try {
+      alFinalizar(await ordenes.finalizar(o.numero));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'No se pudo marcar la orden como recibida.');
+      setEnviando(false);
+    }
+  };
+  return (
+    <Modal clase="modal sm" alCerrar={alCerrar}>
+      <header className="m-head"><span className="m-ico"><Icono nombre="circleCheck" /></span><h2>Marcar como recibida</h2><Cerrar alCerrar={alCerrar} /></header>
+      <p className="m-sub">¿El pedido de la orden <b>{o.numero}</b> a {o.proveedor} llegó completo? La orden pasará a FINALIZADA y no se podrá deshacer.</p>
+      {error && <p className="form-error" role="alert">{error}</p>}
+      <footer className="m-foot">
+        <button type="button" className="btn ghost" onClick={alCerrar}>Cancelar</button>
+        <button type="button" className="btn primary" disabled={enviando} onClick={() => void confirmar()}>Confirmar recepción</button>
+      </footer>
+    </Modal>
   );
 }

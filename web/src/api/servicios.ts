@@ -148,6 +148,8 @@ export const ordenes = {
   consultar: (estado?: EstadoOrden) => api<OrdenCompra[]>(`/api/ordenes-compra${estado ? `?estado=${estado}` : ''}`),
   /** «Ver PDF» de V23 (DEC-75), pedido con el token. */
   pdf: (numero: string, descargar = false) => apiArchivo(`${rutaOrden(numero)}/pdf${descargar ? '?descargar=true' : ''}`),
+  /** «Marcar como recibida» de V23 (DEC-80): de EN_PROCESO a FINALIZADA. */
+  finalizar: (numero: string) => api<OrdenCompra>(`${rutaOrden(numero)}/finalizar`, { metodo: 'PATCH' }),
 };
 
 // ── ms-notificaciones ───────────────────────────────────────────────────────────────────────────

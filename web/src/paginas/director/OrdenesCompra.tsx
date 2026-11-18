@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { ordenes, proveedores } from '../../api/servicios';
+import { ordenes, proveedores, type OrdenCompra } from '../../api/servicios';
 import { Encabezado } from '../../componentes/Encabezado';
 import { desc, enRango, ESTADOS, fecha, money } from '../../componentes/formato';
 import { Icono } from '../../componentes/Icono';
-import { abrirPdfOrden, DetalleOrden } from '../../componentes/Ordenes';
+import { abrirPdfOrden, DetalleOrden, VentanaRecibida } from '../../componentes/Ordenes';
 import { ErrorCarga, Insignia, Tabla, useAviso, useDatos, usePagina } from '../../componentes/Piezas';
 import { Tarjeta } from '../../componentes/Tarjeta';
 
 /**
  * V23 · Órdenes de compra + detalle (HU-14): GET /api/ordenes-compra (ms-ordenes), con los filtros de fecha,
  * proveedor y estado, la lista y el detalle de la escogida (?sel=OC-…), y su PDF del almacén de objetos
- * («Ver PDF» y «Descargar», DEC-75).
+ * («Ver PDF» y «Descargar», DEC-75). Una orden EN_PROCESO se marca como recibida y pasa a FINALIZADA (DEC-80).
  */
 export function OrdenesCompra() {
   const avisar = useAviso();
@@ -19,6 +19,7 @@ export function OrdenesCompra() {
   const lista = useDatos(() => ordenes.consultar());
   const provs = useDatos(() => proveedores.consultar());
   const [filtro, setFiltro] = useState({ fecha: '', proveedor: '', estado: '' });
+  const [recibir, setRecibir] = useState<OrdenCompra | null>(null);
 
   const todas = desc(lista.datos ?? []);
   const visibles = todas.filter((o) => (!filtro.proveedor || o.proveedor === filtro.proveedor) && (!filtro.estado || o.estado === filtro.estado)
@@ -57,10 +58,14 @@ export function OrdenesCompra() {
           </div>
           <Tarjeta titulo="Detalle de orden de compra" icono="receipt">
             <DetalleOrden o={sel} alVerPdf={() => sel && void abrirPdfOrden(sel.numero, false, avisar)}
-              alDescargar={() => sel && void abrirPdfOrden(sel.numero, true, avisar)} />
+              alDescargar={() => sel && void abrirPdfOrden(sel.numero, true, avisar)} alRecibir={() => setRecibir(sel)} />
           </Tarjeta>
         </div>
       </div>
+      {recibir && (
+        <VentanaRecibida o={recibir} alCerrar={() => setRecibir(null)}
+          alFinalizar={(o) => { setRecibir(null); lista.recargar(); avisar(`La orden ${o.numero} quedó finalizada.`); }} />
+      )}
     </>
   );
 }
