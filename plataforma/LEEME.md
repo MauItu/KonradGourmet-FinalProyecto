@@ -29,6 +29,7 @@ Solo necesita Docker: los servicios Java se compilan dentro de un contenedor de 
 | `redis` | Redis 7.4 | Caché de precios del Ministerio y canal de alarmas (`alarmas:stock-bajo`, PD-01) |
 | `s3` | SeaweedFS 3.97 | Almacén de objetos S3 compatible: buckets `documentos-pdf` e `imagenes-platos` (DEC-67) |
 | `correo` | Mailpit 1.24 | Servidor de correo certificado simulado (SMTP en el puerto 1025) |
+| `elasticsearch` | Elasticsearch 8.19 | Logs de error de los servicios (índice `logs-errores`, DEC-84): un nodo, sin TLS ni usuarios, solo dentro de la red |
 | `ms-identidad` | Spring Boot | V01 y alta de usuarios: BCrypt, JWT RS256 con el menú del rol, JWKS en `/api/auth/jwks` |
 | `ms-menu` | Spring Boot | V06: platos con su categoría, receta e imagen; publica `menu.actualizado` |
 | `ms-pedidos` | Spring Boot | V02–V04: pedidos por mesa y catálogo del mesero (escucha `menu.actualizado`); publica `pedido.registrado` |
@@ -38,6 +39,7 @@ Solo necesita Docker: los servicios Java se compilan dentro de un contenedor de 
 | `ms-ordenes` | Spring Boot + OpenPDF | V21–V23: la directora genera la orden de compra de una cotización OPCIONADA (OC-0012 en adelante), que lee de ms-cotizaciones con su JWT; el PDF de la orden va al bucket `documentos-pdf` y se puede abrir desde V23 (DEC-75); cuando el pedido llega, la directora la marca como recibida y pasa a FINALIZADA (DEC-80); publica `orden.generada`, con la que ms-cotizaciones pasa la cotización a CON_ORDEN y ms-solicitudes completa sus solicitudes |
 | `ms-notificaciones` | Spring Boot + Jakarta Mail | Correos certificados (huella SHA-256 y estampa cronológica) por `inventario.stock-bajo`, `solicitud.registrada`, `solicitud.en-tramite`, `cotizacion.enviada` y `orden.generada`, con el PDF del almacén adjunto; la alarma de stock bajo al jefe de cocina por Redis y WebSocket (PD-01); libreta de destinatarios; traza de envíos que V14 consulta (DEC-76); reintentos y cola de errores, que se vuelve a procesar sola (DEC-81) |
 | `ms-integracion` | Spring Boot + Apache CXF | Frontera SOA: precio estándar del Ministerio por SOAP con la caché en Redis (Proxy) y el endpoint SOAP `/api/integracion/abastecimiento` (WSDL en `?wsdl`) |
+| `ms-administracion` | Spring Boot | Ventanas del administrador: parámetros y tema (el Singleton `ParametrosSistema`, que cada réplica refresca de la base), la auditoría de todos los servicios (escucha `auditoria.evento`; sus propias acciones van directo a su bitácora) y los logs de errores que consulta en Elasticsearch |
 | `ministerio` | WireMock 3.13 | Servicio web SOAP de precios del Ministerio de Comercio, simulado (DEC-71); solo lo ve ms-integracion |
 | `kafka-topicos`, `s3-bucket` | — | Crean los tópicos y los buckets al arrancar (`levantar.sh` los vuelve a correr), y terminan |
 
@@ -75,6 +77,12 @@ Todos con la clave `Konrad2026` (la pantalla de inicio de sesión tiene un botó
   recibida (`PATCH /api/ordenes-compra/{id}/finalizar`, DEC-80). ms-ordenes
   lee la cotización de ms-cotizaciones (`CotizacionRestClient`, por Eureka y sin pasar por el gateway) con el
   JWT de la directora y su `X-Correlation-Id`.
+- En ms-administracion, todo es del administrador, salvo el tema (`GET /api/admin/parametros/tema`), que lee cualquier
+  usuario con sesión: la SPA lo aplica al iniciar sesión (DEC-86). La pantalla de inicio de sesión no lo usa: solo
+  `/api/auth/**` pasa sin token. El alta de usuarios (`POST /api/usuarios`, ms-identidad) también es del administrador.
+- Logs de errores (DEC-84): cada servicio con `compartido` envía sus errores (nivel ERROR) a Elasticsearch con
+  `AppenderElasticsearch`, con la correlación y el usuario del recorrido; Elasticsearch no se publica fuera de la red de
+  Docker y solo ms-administracion lo consulta.
 - En ms-notificaciones, la libreta de destinatarios es del administrador; la traza de envíos de un recorrido
   (`GET /api/notificaciones/envios?correlacion=…`, V14) la leen el auxiliar, la directora y el administrador; y el
   WebSocket de las alarmas (`/api/notificaciones/alarmas`), solo el jefe de cocina. Como el navegador no deja
@@ -107,12 +115,17 @@ que el diagrama omite a propósito, como omite los constructores:
   que la SPA manda al generar: la usan el PDF y las ventanas de la directora, DEC-74);
 - en ms-ordenes, `NombresProductos` (la copia local del nombre de cada producto, que `CotizacionRestClient` toma
   de la cotización: la usan el PDF de la orden y V23, DEC-78);
+- en `compartido` también, `AppenderElasticsearch` y `RegistroLogsElasticsearch` (envían los errores de cada servicio a
+  Elasticsearch, DEC-84);
+- en ms-administracion, `RefrescoParametros` (cada minuto recarga de la base la caché `ParametrosSistema` de la réplica;
+  10 s en el compose, con `REFRESCO_PARAMETROS`). La bitácora guarda además la correlación del recorrido (columna
+  `correlacion_id`) y no repite un evento entregado dos veces;
 - en ms-notificaciones, `CanalAlarmas` y `ConfiguracionWebSocket` (las conexiones WebSocket de V05 en cada réplica,
   que escuchan el canal de Redis donde publica `AlarmaPushAdapter`, PD-01) y `EnviosController` (la consulta de
   envíos de V14, DEC-76) y `ReprocesoColaErrores` (vuelve a procesar `notificaciones.dlq`, DEC-81). Los decoradores del correo (`CorreoDecorator`, `CorreoCertificadoDecorator`,
   `EstampaCronologicaDecorator`) no tienen versión Spring: son Java puro y ms-notificaciones copia los de `src/`.
 
-El `.drawio` las nombra sin caja, en notas «Infraestructura que no se dibuja» de las páginas 4a, 4c y 4d y en
+El `.drawio` las nombra sin caja, en notas «Infraestructura que no se dibuja» de las páginas 4a, 4c, 4d y 4e y en
 `n_alarmapush` y `n_fallos` de la 4d (DEC-79); `ReprocesoColaErrores` solo aparece en el texto de `n_fallos`. Lo que
 es solo de la demostración (`CierreDiaController` y los `DatosIniciales`) no se documenta (DEC-57).
 
@@ -128,7 +141,9 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
 
 - una réplica por servicio, sin autoescalado ni zonas; un solo broker de Kafka (factor de replicación 1);
 - un solo PostgreSQL con once bases separadas, en lugar de once servidores con réplica síncrona;
-- sin CDN, WAF, DNS global, centro de datos alterno, MirrorMaker, mTLS ni ELK;
+- sin CDN, WAF, DNS global, centro de datos alterno, MirrorMaker ni mTLS;
+- de ELK solo está Elasticsearch, con un nodo y sin TLS ni usuarios (DEC-84): los servicios le escriben directo, sin
+  Logstash, y sin Kibana (los logs se ven en la ventana del administrador);
 - los sistemas externos son simulados: el Ministerio de Comercio con WireMock (DEC-71), el servidor de correo
   certificado con Mailpit (SMTP sin TLS) y, en el corte 6, las redes sociales;
 - un solo Redis sin usuarios separados para la caché de precios y el canal de alarmas;
@@ -145,7 +160,7 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
 | 4a | ms-solicitudes (V08–V12) y ms-integracion (precio de referencia con caché en Redis, SOAP), DEC-70 a DEC-72 | Hecho |
 | 4b | ms-cotizaciones (V13–V19, proveedores y PDF con OpenPDF) y ms-solicitudes con `cotizacion.enviada`, DEC-73 y DEC-74 | Hecho |
 | 5 | ms-ordenes y ms-notificaciones (V20–V23, correos con el PDF, alarma en vivo, orden recibida, reproceso de la cola de errores), DEC-75 a DEC-82 | Hecho |
-| 6a | ms-administracion (auditoría, parámetros y tema, logs de errores con Elasticsearch, usuarios y destinatarios), DEC-83 y DEC-84 | Pendiente |
+| 6a | ms-administracion (auditoría, parámetros y tema, logs de errores con Elasticsearch, usuarios y destinatarios), DEC-83 a DEC-87 | Hecho, por aprobar |
 | 6b | ms-analitica (tablero BAM del director comercial, promociones de HU-19 y `tendencia.detectada`, PD-05) | Pendiente |
 | 7 | Pruebas de punta a punta, README y revisión | Pendiente |
 
@@ -162,6 +177,8 @@ python plataforma/pruebas/recorrido_corte4b.py /tmp/capturas   # navegador: coti
 python plataforma/pruebas/verificar_corte4b.py /tmp/capturas   # PostgreSQL, el PDF en el almacén, Redis, Kafka de ida y vuelta, PENDIENTE_PRECIO
 python plataforma/pruebas/recorrido_corte5.py /tmp/capturas    # navegador: V20 a V23, OC-0012 (y recibida), V14 con el correo, la alarma en vivo (después del 4b)
 python plataforma/pruebas/verificar_corte5.py /tmp/capturas    # PostgreSQL, el PDF de la orden, Kafka, Mailpit con los adjuntos, WebSocket, DLQ y su reproceso
+python plataforma/pruebas/recorrido_corte6a.py /tmp/capturas   # navegador: las ventanas del administrador, el tema y un error real (después del 5)
+python plataforma/pruebas/verificar_corte6a.py /tmp/capturas   # la bitácora contra Kafka, el tema y su caché, Elasticsearch, usuarios y destinatarios
 ```
 
 El recorrido registra un pedido de $82.000 (2 bandejas paisas y 1 ajiaco), crea un plato con imagen, lo edita
@@ -207,6 +224,27 @@ falla, queda en la traza y pasa a `notificaciones.dlq` después de los reintento
 reprocesa sola (a los 30 s en local) y lo entrega una vez, en el recorrido original de la auxiliar (DEC-81); después,
 el reenvío de la auxiliar (HU-12) entrega un segundo correo. También revisa que la orden quedó FINALIZADA, con su
 auditoría a nombre de la directora, y que finalizarla otra vez da 409.
+
+El del corte 6a es de la administradora. En «Parámetros y tema» crea `general.propina-sugerida`, prueba los mensajes
+(valor vacío, clave mal escrita, color que no es #RRGGBB y un logo de más de 200 KB) y cambia la imagen corporativa a
+«Konrad Gourmet Express», verde y con un logo PNG: la SPA la aplica enseguida y el mesero la ve al iniciar sesión, sin
+redesplegar (la pantalla de inicio de sesión sigue igual, DEC-86); el mesero no entra a las ventanas del administrador.
+«Auditoría» abre con los últimos 7 días, lo más reciente primero, con los mensajes del rango y «Hoy». Con el servidor de
+correo en pausa, la auxiliar reenvía una cotización: el error de ms-notificaciones llega a Elasticsearch y «Logs de
+errores» lo muestra al filtrar por ese servicio. En «Usuarios» registra a Sofía Ramírez, jefa de cocina de la Sucursal
+Norte (y ella inicia sesión), y en «Destinatarios» la agrega a esa sucursal. A 390 px, las cinco ventanas caben a lo
+ancho y la administradora restaura el tema de siempre. El verificador compara la bitácora con `auditoria.evento`: cada
+evento de los cortes 3 a 6a está una vez, con su usuario y su correlación, y uno publicado otra vez no se repite; los
+cambios de parámetros están a nombre de la administradora, con la correlación del navegador y sin pasar por Kafka.
+Revisa la API de auditoría y sus roles; el tema con cualquier rol y sin token (401); que el contenedor `web` arrancó
+antes del cambio de color; que un cambio hecho directo en la base llega a la caché cuando la réplica la refresca (10 s);
+el índice `logs-errores`, el error del recorrido con su correlación y la consulta por servicio; que con Elasticsearch en
+pausa la ventana avisa (503) y ese error llega después; y el alta de Sofía (hash BCrypt y auditoría) y su registro como
+destinataria.
+
+**La bitácora de ms-administracion.** El grupo de consumo `ms-administracion` empieza por el principio de
+`auditoria.evento`: en una instalación que ya tenía datos (por ejemplo, la de los volúmenes `konrad-gourmet_*`), la
+primera vez que arranca carga toda la auditoría desde el corte 3.
 
 **La cola de errores (DEC-81).** `ReprocesoColaErrores` lee `notificaciones.dlq` con su propio grupo de consumo
 (`ms-notificaciones-reproceso`): cada evento espera en la cola 5 minutos (30 s en este compose, con
