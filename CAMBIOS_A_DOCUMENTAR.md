@@ -3,7 +3,7 @@
 Lo que la plataforma (rama `stack-real` de KonradGourmet, DEC-58) agrega, quita o cambia frente a la documentación: los mockups (`DISEÑO UXUI.pdf`), el `.drawio`, el reporte, los casos de uso y las guías. Cada cambio dice qué artefacto se toca, dónde y por qué decisión. La regla es DEC-77 (Mauricio, 2026-11-17).
 
 - **Mockups:** los cambia Mauricio en Canva, como M-01 a M-09 de `CORRECCIONES_HU_Y_MOCKUPS.md`.
-- **`.drawio`:** se aplica al decidir cuando cambia una firma (por ejemplo, DEC-75); el resto se revisa en el corte 7.
+- **`.drawio`:** se aplica al decidir cuando cambia una firma (por ejemplo, DEC-75 y DEC-80). Las clases que no están en el diagrama se nombran en notas «Infraestructura que no se dibuja», sin cajas (DEC-79, aplicado el 2026-11-17); el resto se revisa en el corte 7.
 - **Reporte:** se regenera en el corte 7 (por DEC-57, describe el proyecto completo, sin hablar del prototipo).
 - **Estado:** *pendiente* o *aplicado (fecha)*.
 

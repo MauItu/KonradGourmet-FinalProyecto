@@ -18,6 +18,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-73 y DEC-74:** las asumió Claude el 2026-11-17 en el corte 4b y las confirmó Mauricio el mismo día, al aprobar el corte 4b.
 - **DEC-75 a DEC-77:** las decidió Mauricio el 2026-11-17, al empezar el corte 5 (DEC-76 siguiendo la recomendación de Claude; en DEC-75 escogió la opción no recomendada, «Ver PDF», y pidió además la lista de DEC-77).
 - **DEC-79 a DEC-81:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación de Claude, al revisar los pendientes del corte 5.
+- **DEC-82:** la asumió Claude el 2026-11-17, al aplicar DEC-79 a DEC-81; está por confirmar.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -110,9 +111,10 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-76 | Cómo sabe V14 que el correo salió | Cada envío guarda la correlación del recorrido; `EnviosController` (fuera del diagrama, solo lectura) responde `GET /api/notificaciones/envios?correlacion=…` y V14 espera unos segundos el resultado. La 4d no cambia | Decidida por Mauricio (2026-11-17) |
 | DEC-77 | Dónde se anotan los cambios que la documentación tiene que recoger | En `CAMBIOS_A_DOCUMENTAR.md`: cada cosa que el código agrega, quita o cambia frente a los mockups, el `.drawio`, el reporte o las guías, con el artefacto, el lugar exacto y su estado | Decidida por Mauricio (2026-11-17) |
 | DEC-78 | Detalles del corte 5 | OC-0012 en adelante por secuencia, en una transacción; copia local de los nombres en ms-ordenes; la cotización se lee de ms-cotizaciones por Eureka con el JWT; V20 con número, fecha y orden (HU-17); la orden queda EN_PROCESO; 5 tópicos (tendencia.detectada en el corte 6); decoradores copiados de `src/`; Mailpit sin TLS; el jefe de la demo como destinatario inicial; 2 reintentos y la cola `notificaciones.dlq`; la alarma por Redis y WebSocket con el token en la URL solo en esa ruta | Asumida por Claude (2026-11-17), por confirmar |
-| DEC-79 | Cómo se documentan las clases que no están en el diagrama | Como notas «Infraestructura que no se dibuja» en las páginas 4a, 4c y 4d, sin cajas nuevas; la cuenta del §13 sigue en 195; lo que es solo de la demostración (`CierreDiaController`, `DatosIniciales`) no se documenta | Decidida por Mauricio (2026-11-17) |
-| DEC-80 | Cómo pasa la orden a FINALIZADA | `finalizar()` en `OrdenCompra` y `finalizar(numero)` ‹V23› en `GenerarOrdenUseCase`, `OrdenCompraService` y `OrdenCompraRestController`; `PATCH /api/ordenes-compra/{id}/finalizar` (directora de compras) y el botón «Marcar como recibida» en V23 | Decidida por Mauricio (2026-11-17) |
-| DEC-81 | Quién vuelve a procesar la cola `notificaciones.dlq` | `ReprocesoColaErrores` en ms-notificaciones (fuera del diagrama): un listener que espera 5 min por registro y lo vuelve a notificar, hasta 3 rondas; HU-12 sigue igual | Decidida por Mauricio (2026-11-17) |
+| DEC-79 | Cómo se documentan las clases que no están en el diagrama | Como notas «Infraestructura que no se dibuja» en las páginas 4a, 4c y 4d, sin cajas nuevas; la cuenta del §13 sigue en 195; lo que es solo de la demostración (`CierreDiaController`, `DatosIniciales`) no se documenta | Decidida por Mauricio (2026-11-17); aplicada en el `.drawio` (páginas 1, 3a, 4a, 4c, 4d y 5); la frase del §13 queda para el corte 7 (CD-15) |
+| DEC-80 | Cómo pasa la orden a FINALIZADA | `finalizar()` en `OrdenCompra` y `finalizar(numero)` ‹V23› en `GenerarOrdenUseCase`, `OrdenCompraService` y `OrdenCompraRestController`; `PATCH /api/ordenes-compra/{id}/finalizar` (directora de compras) y el botón «Marcar como recibida» en V23 | Decidida por Mauricio (2026-11-17); aplicada en el código, la SPA y las páginas 4d y 1; el mockup V23 y el reporte, por cambiar (CD-11 y CD-12) |
+| DEC-81 | Quién vuelve a procesar la cola `notificaciones.dlq` | `ReprocesoColaErrores` en ms-notificaciones (fuera del diagrama): un listener que espera 5 min por registro y lo vuelve a notificar, hasta 3 rondas; HU-12 sigue igual | Decidida por Mauricio (2026-11-17); aplicada en el código y en `n_fallos` de la 4d; el reporte, por cambiar (CD-14) |
+| DEC-82 | Detalles de DEC-79 a DEC-81 | ‹V23› solo en el controlador; una nota de infraestructura por microservicio; V14 sube 8 px en la página 1; textos de la confirmación de V23; grupo, cabecera y fallos del reproceso de la cola; la cola vieja se reprocesa una vez | Asumida por Claude (2026-11-17), por confirmar |
 
 ---
 
@@ -1430,7 +1432,6 @@ Ninguno cambia firmas ni el diagrama (el único que los cambia es DEC-75, que de
 - **V14.** Pregunta por los envíos del recorrido cada segundo, hasta 15 s: «Correo enviado» con visto; «Correo no enviado», con el mensaje de PD-10 para ese caso («No se pudo enviar el correo al proveedor. La cotización {número} está guardada; puede reintentar el envío.»); o, si no hay respuesta, sin marca (DEC-76).
 - **Datos de las pruebas.** `recorrido_corte5.py` envía COT-022 al Proveedor B (res $22.000, arroz $8.000: +7,69 %), para que V20 compare dos opcionadas como pide HU-17; es la COT-021 de DEC-49, que en la plataforma tiene otro número porque COT-021 ya es la PENDIENTE_PRECIO del 4b. Para ver la alarma en vivo, el mesero registra por la API un pedido de 50 pechugas (el pollo baja al 24,5 %) y otro de 70 ajiacos (la papa, al 21,75 %); la res ya estaba bajo el umbral y no vuelve a avisar (DEC-46).
 
-
 **Reemplazos posteriores.** Dos partes de esta lista las reemplazan decisiones de Mauricio del mismo día: el estado de la orden (DEC-80: la orden pasa a FINALIZADA) y la cola de errores, que ya no se procesa a mano (DEC-81). El resto sigue por confirmar.
 
 ## DEC-79 · ¿Cómo se documentan las clases que no están en el diagrama de clases?
@@ -1485,6 +1486,20 @@ Ninguno cambia firmas ni el diagrama (el único que los cambia es DEC-75, que de
 - Diagrama: solo cambia el texto de `n_fallos` en la 4d: «Si el correo falla, registrarFallo() deja la traza; tras dos reintentos el evento pasa a la cola de errores notificaciones.dlq, que se vuelve a procesar cada 5 minutos, hasta tres veces; el auxiliar también puede reenviar la cotización (HU-12).»
 - Pruebas: JUnit (el reproceso entrega el correo y se agota después de 3 rondas) y `verificar_corte5.py` (con el correo en pausa el evento llega a la cola; al reanudarlo, el correo llega solo, una vez y con la correlación original; después, el reenvío de HU-12 entrega un segundo correo).
 - La clase va en la lista de clases fuera del diagrama del LEEME y en `CAMBIOS_A_DOCUMENTAR.md`.
+
+
+## DEC-82 · Detalles de DEC-79 a DEC-81 asumidos por Claude
+
+Ninguno cambia firmas ni agrega cajas al diagrama. Los asumió Claude el 2026-11-17, al aplicar DEC-79 a DEC-81; **por confirmar**.
+
+- **‹V23› solo en el controlador.** `finalizar(numero)` lleva la marca de la ventana en `OrdenCompraRestController`, no en `GenerarOrdenUseCase` ni en `OrdenCompraService`: así está `pdf()` de DEC-75 y así marca la leyenda las ventanas (el método que las atiende). Las cajas crecen una línea; `OrdenCompraService` baja 14 px para no pegarse al caso de uso.
+- **Una nota de infraestructura por microservicio.** En la 4a van dos (en `compartido`, junto a `AuditoriaEvent`, y en ms-identidad, junto a `JwtEmisorAdapter`) y en la 4d otras dos (en ms-ordenes, junto a `CotizacionRestClient`, y en ms-notificaciones, unida a `EnvioRepositoryPort`); en la 4c, una, unida a `CotizacionService`. Una sola nota por página habría cruzado el marco de otro microservicio. El gateway no tiene página: `CorrelacionGateway` va en la nota de `compartido` (con lo de DEC-64) y `SeguridadGateway` en la de ms-identidad (con el JWKS que usa).
+- **Página 1.** La ruta de los envíos ocupa dos líneas en la fila de V14 y no cabía en el marco del auxiliar: la miniatura y el texto de V14 suben 8 px.
+- **V23.** «Marcar como recibida» es un botón naranja de ancho completo, bajo «Ver PDF» y «Descargar», solo en una orden EN PROCESO. La confirmación dice «¿El pedido de la orden OC-0012 a Proveedor ABC llegó completo? La orden pasará a FINALIZADA y no se podrá deshacer.», con «Cancelar» y «Confirmar recepción»; después aparece el aviso «La orden OC-0012 quedó finalizada.» y la lista se recarga. «Siguiente paso» ya solo salía en las órdenes EN PROCESO.
+- **Núcleo y respuestas.** `finalizar()` del servicio publica `AuditoriaEvent("sistema", "Orden OC-0012 finalizada")`; en la plataforma, `KafkaEventPublisher` pone el correo de la directora y la correlación de la petición (DEC-64). No publica ningún evento de negocio (siguen los 10 tópicos). El 404 lo arma el controlador, como el de `pdf()`; el 409 sale de `ManejoErrores`.
+- **Reproceso de la cola.** El grupo de consumo es `ms-notificaciones-reproceso` y la ronda viaja en la cabecera `kg-reproceso`. La espera se cuenta desde que el registro entró a la cola (su marca de tiempo); con menos de 1 s de diferencia ya se procesa. Si devolver el registro a la cola falla, se intenta dos veces más cada 10 s y después queda en el registro del servicio (el registro sigue en la cola y el grupo pasa al siguiente). Un registro que no se puede leer (sin la cabecera de su clase) cuenta como una ronda fallida. Para reconstruir el evento, `ConvertidorEventos` (de `compartido`) gana el método público `evento()`.
+- **La cola que ya tenía eventos.** El grupo nuevo empieza por el principio de `notificaciones.dlq` (como los demás grupos, `earliest`): en una instalación que ya tenía eventos en la cola, por ejemplo la de los volúmenes `konrad-gourmet_*`, la primera vez que arranca los vuelve a notificar una vez. En producción es lo esperado (son envíos pendientes).
+- **Pruebas.** `recorrido_corte5.py` marca OC-0012 como recibida al final del recorrido a 390 px, para que las comprobaciones de escritorio (V23 EN PROCESO, V16) no cambien.
 
 ---
 
