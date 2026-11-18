@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,7 +38,8 @@ import java.util.Map;
  * solo entrega cotizaciones OPCIONADA: si no, responde «Solo se pueden generar órdenes de compra sobre
  * cotizaciones opcionadas» (HU-14).
  *
- * Solo la directora de compras. generar() corre en una transacción: si el PDF o el almacén fallan, la orden
+ * Solo la directora de compras. finalizar() marca la orden como recibida (DEC-80): solo de EN_PROCESO a
+ * FINALIZADA; una orden que no existe responde 404 y una ya finalizada, 409. generar() corre en una transacción: si el PDF o el almacén fallan, la orden
  * no queda guardada a medias (sin PDF y bloqueando la cotización). El número de la secuencia sí se gasta.
  */
 @RestController
@@ -110,6 +112,21 @@ public class OrdenCompraRestController {
                 .filename(numero + ".pdf").build();
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
                 .header(HttpHeaders.CONTENT_DISPOSITION, disposicion.toString()).body(pdf);
+    }
+
+    // Atiende la ventana V23 de los mockups
+    // PATCH /api/ordenes-compra/{id}/finalizar («Marcar como recibida», DEC-80)
+    @PatchMapping("/{numero}/finalizar")
+    @PreAuthorize("hasRole('DIRECTOR_COMPRAS')")
+    @Transactional
+    public ResponseEntity<?> finalizar(@PathVariable String numero) {
+        OrdenCompra o;
+        try {
+            o = casoDeUso.finalizar(numero);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", e.getMessage()));
+        }
+        return ResponseEntity.ok(json(o, nombres.todos()));
     }
 
     /** Dos peticiones a la vez sobre la misma cotización: la base rechaza la segunda (cotizacionNumero {único}). */

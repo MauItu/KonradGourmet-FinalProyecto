@@ -55,6 +55,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -64,7 +65,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * V21–V23 con el controlador, la seguridad, el núcleo y el publicador de Kafka reales; la base, el almacén,
  * el PDF, ms-cotizaciones y el broker son simulados. Recorre OC-0012 de la demo: la directora la genera
  * sobre COT-018 (res 20 kg a $21.250 y arroz 15 kg a $8.000: $545.000), la ve en V23 y abre su PDF; y prueba
- * la segunda orden, la cotización no opcionada, el doble clic, ms-cotizaciones caído y los roles.
+ * la segunda orden, la cotización no opcionada, el doble clic, ms-cotizaciones caído, la orden recibida
+ * (FINALIZADA, DEC-80) y los roles.
  */
 @WebMvcTest(OrdenCompraRestController.class)
 @ImportAutoConfiguration({ConfiguracionCompartida.class, SeguridadServicio.class, ManejoErrores.class})
@@ -218,12 +220,52 @@ class OrdenRestTest {
     }
 
     @Test
+    void laDirectoraMarcaOc0012ComoRecibidaUnaSolaVez() throws Exception {
+        mvc.perform(post("/api/ordenes-compra").with(como("DIRECTOR_COMPRAS", 4, DIRECTORA)).contentType(MediaType.APPLICATION_JSON).content(NUEVA))
+                .andExpect(status().isCreated());
+        UUID recorrido = UUID.randomUUID();
+        mvc.perform(patch("/api/ordenes-compra/OC-0012/finalizar").with(como("DIRECTOR_COMPRAS", 4, DIRECTORA))
+                        .header("X-Correlation-Id", recorrido.toString()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.numero").value("OC-0012"))
+                .andExpect(jsonPath("$.estado").value("FINALIZADA"))
+                .andExpect(jsonPath("$.items[0].producto").value("Res"))
+                .andExpect(jsonPath("$.total").value(545000));
+        assertEquals(EstadoOrden.FINALIZADA, tabla.get("OC-0012").estado(), "quedó guardada FINALIZADA");
+        AuditoriaEvent auditoria = publicados("auditoria.evento", AuditoriaEvent.class).stream()
+                .filter(a -> a.accion().equals("Orden OC-0012 finalizada")).findFirst().orElseThrow();
+        assertEquals(DIRECTORA, auditoria.usuario(), "a nombre de la directora");
+        assertEquals(recorrido, auditoria.correlacionId(), "en el recorrido de la petición");
+        assertEquals(1, publicados("orden.generada", OrdenGeneradaEvent.class).size(), "no publica otra orden.generada");
+
+        mvc.perform(get("/api/ordenes-compra?estado=FINALIZADA").with(como("DIRECTOR_COMPRAS", 4, DIRECTORA)))
+                .andExpect(status().isOk()).andExpect(jsonPath("$[0].numero").value("OC-0012"));
+        mvc.perform(get("/api/ordenes-compra?estado=EN_PROCESO").with(como("DIRECTOR_COMPRAS", 4, DIRECTORA)))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(0));
+
+        mvc.perform(patch("/api/ordenes-compra/OC-0012/finalizar").with(como("DIRECTOR_COMPRAS", 4, DIRECTORA)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.mensaje").value("La orden OC-0012 ya está finalizada"));
+        mvc.perform(patch("/api/ordenes-compra/OC-9999/finalizar").with(como("DIRECTOR_COMPRAS", 4, DIRECTORA)))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.mensaje").value("No existe la orden de compra OC-9999"));
+        assertEquals(1, publicados("auditoria.evento", AuditoriaEvent.class).stream()
+                .filter(a -> a.accion().equals("Orden OC-0012 finalizada")).count(), "una sola auditoría de la finalización");
+    }
+
+    @Test
     void soloLaDirectoraDeCompras() throws Exception {
         mvc.perform(post("/api/ordenes-compra").with(como("AUXILIAR_COMPRAS", 3, "isabella.castro@konradgourmet.com"))
                 .contentType(MediaType.APPLICATION_JSON).content(NUEVA)).andExpect(status().isForbidden());
         mvc.perform(get("/api/ordenes-compra").with(como("JEFE_COCINA", 2, "carlos.mendoza@konradgourmet.com"))).andExpect(status().isForbidden());
         mvc.perform(get("/api/ordenes-compra/OC-0012/pdf").with(como("ADMINISTRADOR", 6, "paula.herrera@konradgourmet.com")))
                 .andExpect(status().isForbidden());
+        mvc.perform(patch("/api/ordenes-compra/OC-0012/finalizar").with(como("AUXILIAR_COMPRAS", 3, "isabella.castro@konradgourmet.com")))
+                .andExpect(status().isForbidden());
+        mvc.perform(patch("/api/ordenes-compra/OC-0012/finalizar").with(como("JEFE_COCINA", 2, "carlos.mendoza@konradgourmet.com")))
+                .andExpect(status().isForbidden());
+        mvc.perform(patch("/api/ordenes-compra/OC-0012/finalizar")).andExpect(status().isUnauthorized());
+        verify(repositorio, never()).porNumero("OC-0012");
         mvc.perform(get("/api/ordenes-compra")).andExpect(status().isUnauthorized());
         assertEquals(EstadoOrden.EN_PROCESO, EstadoOrden.valueOf("EN_PROCESO"));
     }
