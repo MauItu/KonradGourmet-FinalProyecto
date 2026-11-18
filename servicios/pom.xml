@@ -35,6 +35,7 @@
         <module>ms-cotizaciones</module>
         <module>ms-ordenes</module>
         <module>ms-notificaciones</module>
+        <module>ms-administracion</module>
     </modules>
 
     <properties>
