@@ -9,7 +9,7 @@ Lo que la plataforma (rama `stack-real` de KonradGourmet, DEC-58) agrega, quita 
 
 ## Corte 6a (ms-administracion)
 
-Las cinco ventanas del administrador no tienen mockup (CU-15, CU-16, CU-17 y CU-19 decían «sin mockup»): se diseñaron con las piezas de la SPA (encabezado con fecha y hora, filtros en una tarjeta, tablas paginadas, formularios de dos columnas y el aviso abajo), como Proveedores. Las capturas de `recorrido_corte6a.py` sirven de referencia para dibujarlas.
+Las cinco ventanas del administrador no tienen mockup (CU-15, CU-16, CU-17 y CU-19 decían «sin mockup»): se diseñaron con las piezas de la SPA (encabezado con fecha y hora, filtros en una tarjeta, tablas paginadas, formularios de dos columnas y el aviso abajo), como Proveedores. Las capturas de `recorrido_corte6a.py` sirven de referencia para dibujarlas. Mauricio (2026-11-18) decidió que los mockups se generan aparte, como los anteriores (imágenes), no en Canva a mano.
 
 | # | Artefacto | Dónde | Cambio | Origen | Estado |
 |---|---|---|---|---|---|
