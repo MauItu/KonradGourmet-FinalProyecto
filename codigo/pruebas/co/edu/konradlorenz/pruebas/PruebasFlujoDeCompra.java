@@ -13,8 +13,11 @@ import co.edu.konradlorenz.cotizaciones.dominio.Cotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.EstadoCotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.ItemCotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.Proveedor;
+import co.edu.konradlorenz.cotizaciones.eventos.CotizacionValidadaEvent;
 import co.edu.konradlorenz.demo.Ensamble;
 import co.edu.konradlorenz.notificaciones.dominio.Mensaje;
+import co.edu.konradlorenz.ordenes.dominio.EstadoOrden;
+import co.edu.konradlorenz.ordenes.dominio.ItemOrden;
 import co.edu.konradlorenz.ordenes.dominio.OrdenCompra;
 import co.edu.konradlorenz.pedidos.dominio.Mesa;
 import co.edu.konradlorenz.pedidos.dominio.Pedido;
@@ -171,6 +174,11 @@ final class PruebasFlujoDeCompra {
         Prueba.igual("COT-018 queda OPCIONADA", EstadoCotizacion.OPCIONADA, validada.estado());
         Prueba.igualValor("con +4,81 %", "4.81", validada.diferenciaPorcentual());
         Prueba.igual("se publicó cotizacion.validada", 1L, s.bus.cuantos("cotizacion.validada"));
+        CotizacionValidadaEvent evento = (CotizacionValidadaEvent) s.bus.publicados().stream()
+                .filter(e -> e instanceof CotizacionValidadaEvent).findFirst().orElseThrow();
+        Prueba.igual("con tipos simples (PD-05): el estado como texto", "OPCIONADA", evento.estado());
+        Prueba.igualValor("la diferencia contra el precio estándar, para el tablero (PD-03)", "4.81", evento.diferenciaPorcentual());
+        Prueba.igual("y el nombre del proveedor (DEC-89)", "Proveedor ABC", evento.proveedor());
         Prueba.lanza("no se vuelve a validar una cotización ya validada", IllegalStateException.class, "Solo se valida una cotización enviada",
                 () -> s.cotizaciones.validar("COT-018"));
         Prueba.lanza("no se registran valores en una cotización ya validada", IllegalStateException.class, "Solo se registran valores",
@@ -211,6 +219,41 @@ final class PruebasFlujoDeCompra {
                 () -> s.ordenes.generar("COT-018"));
         Prueba.igual("sigue habiendo una sola orden", 1, s.ordenes.consultar(null).size());
         Prueba.igual("y una sola orden.generada", 1L, s.bus.cuantos("orden.generada"));
+
+        // Corte 5 (DEC-75): la directora abre el PDF de la orden desde V23
+        Prueba.verificar("el PDF de OC-0012 sale del almacén (V23)",
+                java.util.Arrays.equals(s.almacen.obtener(orden.pdfUrl()), s.ordenes.pdf("OC-0012")));
+        Prueba.lanza("el PDF de una orden que no existe", IllegalArgumentException.class, "No existe la orden de compra OC-9999",
+                () -> s.ordenes.pdf("OC-9999"));
+
+        // DEC-80: la directora marca la orden como recibida desde V23
+        long auditoriasAntes = s.bus.cuantos("auditoria.evento");
+        OrdenCompra finalizada = s.ordenes.finalizar("OC-0012");
+        Prueba.igual("OC-0012 pasa a FINALIZADA", EstadoOrden.FINALIZADA, finalizada.estado());
+        Prueba.igual("y queda guardada así", List.of("OC-0012"),
+                s.ordenes.consultar(EstadoOrden.FINALIZADA).stream().map(OrdenCompra::numero).toList());
+        Prueba.igual("ya no sale entre las EN_PROCESO", 0, s.ordenes.consultar(EstadoOrden.EN_PROCESO).size());
+        Prueba.verificar("finalizarla deja auditoría",
+                s.bus.cuantos("auditoria.evento") == auditoriasAntes + 1 && s.bus.publicados().stream()
+                        .anyMatch(e -> e instanceof AuditoriaEvent a && a.accion().equals("Orden OC-0012 finalizada")));
+        Prueba.igual("y no publica otra orden.generada", 1L, s.bus.cuantos("orden.generada"));
+        Prueba.lanza("finalizarla dos veces se rechaza", IllegalStateException.class, "La orden OC-0012 ya está finalizada",
+                () -> s.ordenes.finalizar("OC-0012"));
+        Prueba.igual("la segunda vez no deja auditoría", auditoriasAntes + 1, s.bus.cuantos("auditoria.evento"));
+        Prueba.lanza("finalizar una orden que no existe", IllegalArgumentException.class, "No existe la orden de compra OC-9999",
+                () -> s.ordenes.finalizar("OC-9999"));
+
+        // Corte 5: OrdenJpaAdapter rearma la orden desde la base
+        Prueba.grupo("Orden leída de la base (corte 5)");
+        OrdenCompra leida = new OrdenCompra("OC-0012", LocalDate.of(2026, 11, 17), "COT-018", List.of("SOL-031"), "Proveedor ABC",
+                "ventas@proveedorabc.com", "s3://documentos-pdf/ordenes/OC-0012.pdf", EstadoOrden.EN_PROCESO,
+                List.of(new ItemOrden(1L, new BigDecimal("20"), "kg", new BigDecimal("21250")),
+                        new ItemOrden(2L, new BigDecimal("15"), "kg", new BigDecimal("8000"))));
+        Prueba.igual("conserva el número", "OC-0012", leida.numero());
+        Prueba.igual("y la fecha guardada, no la de hoy", LocalDate.of(2026, 11, 17), leida.fecha());
+        Prueba.igual("y el estado", EstadoOrden.EN_PROCESO, leida.estado());
+        Prueba.igual("y el PDF", "s3://documentos-pdf/ordenes/OC-0012.pdf", leida.pdfUrl());
+        Prueba.igualValor("y el total se calcula igual: $545.000", "545000", leida.total());
     }
 
     private static void precioFaltante() {

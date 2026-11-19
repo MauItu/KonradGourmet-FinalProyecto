@@ -1,0 +1,524 @@
+/* Estilos del inicio de sesión (V01), tomados de styles.css y encerrados en .pantalla-login
+   para que no choquen con los del armazón (app.css). */
+/* ============================================================
+   Konrad Gourmet — Pantalla de inicio de sesión
+   ============================================================ */
+
+.pantalla-login {
+  --naranja:        #F28705;
+  --naranja-claro:  #FFA42B;
+  --naranja-oscuro: #E06F00;
+
+  /* Degradado del fondo: izquierda -> derecha */
+  --fondo-izq:      #E4C2A6;
+  --fondo-der:      #C8956F;
+
+  /* Cuanto se corre el video hacia la derecha, mas alla del borde.
+     Sube el valor para correrlo mas; lo que sobresalga queda fuera de pantalla. */
+  --video-x:        8%;
+  --texto:          #3B3733;
+  --texto-suave:    #6B6560;
+  --placeholder:    #BDB7B1;
+  --borde:          #ECE6DF;
+  --blanco:         #FFFFFF;
+
+  --radio-card:  28px;
+  --radio-input: 14px;
+  --radio-btn:   16px;
+}
+
+.pantalla-login * { box-sizing: border-box; }
+
+.pantalla-login {
+  height: 100%;
+  margin: 0;
+}
+
+.pantalla-login {
+  font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--texto);
+  background: var(--fondo-izq);
+  overflow: hidden;
+}
+
+/* ---------- Escenario / fondo en video ---------- */
+
+.pantalla-login .stage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+
+  /* Fondo: degradado de izquierda a derecha */
+  background: linear-gradient(90deg, var(--fondo-izq) 0%, var(--fondo-der) 100%);
+}
+
+/* Video 3D: pegado al lateral derecho, de borde superior a borde inferior.
+   Conserva su proporcion original (no se recorta); el espacio que sobre
+   a la izquierda lo ocupa el degradado del fondo. */
+.pantalla-login .bg-video {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  transform: translateX(var(--video-x));
+  pointer-events: none;
+}
+
+/* Velo muy tenue bajo la tarjeta. Se apaga de forma progresiva para que
+   no genere ninguna franja ni corte visible sobre el video. */
+.pantalla-login .bg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background:
+    radial-gradient(130% 110% at 0% 50%,
+      rgba(255, 248, 238, .26) 0%,
+      rgba(255, 248, 238, .10) 38%,
+      rgba(255, 248, 238, 0)   70%);
+  pointer-events: none;
+}
+
+/* ---------- Formas decorativas naranjas ---------- */
+
+.pantalla-login .deco {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Cuadrado redondeado inferior izquierdo */
+.pantalla-login .deco--square {
+  left: -70px;
+  bottom: -60px;
+  width: 230px;
+  height: 230px;
+  border-radius: 48px;
+  transform: rotate(-12deg);
+  background: linear-gradient(145deg, var(--naranja-claro), var(--naranja));
+  box-shadow: 0 30px 60px rgba(226, 118, 0, .28);
+}
+
+/* Resplandor cálido detrás de la tarjeta */
+.pantalla-login .deco--glow {
+  left: -120px;
+  top: -80px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 190, 90, .55), rgba(255, 190, 90, 0) 68%);
+  filter: blur(10px);
+}
+
+/* ---------- Tarjeta ---------- */
+
+.pantalla-login .login-card {
+  position: relative;
+  z-index: 20;            /* capa de frente: por encima del video y de todo */
+  margin-left: clamp(16px, 4.5vw, 58px);
+  width: min(430px, calc(100% - 32px));
+  padding: 34px 36px 38px;
+  border-radius: var(--radio-card);
+  background: rgba(255, 255, 255, .88);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, .85);
+  box-shadow:
+    0 30px 70px rgba(97, 64, 20, .18),
+    0 4px 14px rgba(97, 64, 20, .06);
+  animation: entrada .7s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@keyframes entrada {
+  from { opacity: 0; transform: translateY(26px) scale(.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Marca ---------- */
+
+.pantalla-login .brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 26px;
+}
+
+.pantalla-login .brand__logo {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  flex: none;
+}
+
+.pantalla-login .brand__name {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -.2px;
+}
+
+.pantalla-login .brand__name span { color: var(--texto); }
+.pantalla-login .brand__name strong { color: var(--naranja); font-weight: 700; }
+
+.pantalla-login .brand__tagline {
+  margin: 3px 0 0;
+  font-size: 11.5px;
+  font-weight: 400;
+  color: var(--texto-suave);
+  letter-spacing: .2px;
+}
+
+/* ---------- Bienvenida ---------- */
+
+.pantalla-login .welcome {
+  margin: 0;
+  font-size: clamp(34px, 4.2vw, 42px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -1.2px;
+  color: var(--texto);
+}
+
+.pantalla-login .welcome span { color: var(--naranja); }
+
+.pantalla-login .welcome__sub {
+  margin: 8px 0 24px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--texto-suave);
+}
+
+/* ---------- Campos ---------- */
+
+.pantalla-login .field { margin-bottom: 16px; }
+
+.pantalla-login .field__label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--texto-suave);
+}
+
+.pantalla-login .input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--blanco);
+  border: 1.5px solid var(--borde);
+  border-radius: var(--radio-input);
+  transition: border-color .22s ease, box-shadow .22s ease;
+}
+
+.pantalla-login .input-wrap:focus-within {
+  border-color: var(--naranja-claro);
+  box-shadow: 0 0 0 4px rgba(242, 135, 5, .12);
+}
+
+.pantalla-login .input-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  flex: none;
+  color: #C3BCB4;
+  transition: color .22s ease;
+}
+
+.pantalla-login .input-icon svg { width: 19px; height: 19px; }
+
+.pantalla-login .input-wrap:focus-within .input-icon { color: var(--naranja); }
+
+.pantalla-login .input-wrap input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 50px;
+  padding: 0 8px 0 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--texto);
+}
+
+.pantalla-login .input-wrap input::placeholder {
+  color: var(--placeholder);
+  font-weight: 400;
+}
+
+/* Autocompletado del navegador: mantener el fondo blanco */
+.pantalla-login .input-wrap input:-webkit-autofill, .pantalla-login .input-wrap input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--texto);
+  box-shadow: 0 0 0 1000px var(--blanco) inset;
+}
+
+/* Ojo mostrar / ocultar */
+.pantalla-login .input-toggle {
+  flex: none;
+  width: 46px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #BDB7B1;
+  cursor: pointer;
+  transition: color .2s ease;
+}
+
+.pantalla-login .input-toggle:hover { color: var(--naranja); }
+.pantalla-login .input-toggle svg { width: 19px; height: 19px; }
+
+.pantalla-login .input-toggle .icon-eye { display: none; }
+.pantalla-login .input-toggle.is-visible .icon-eye { display: block; }
+.pantalla-login .input-toggle.is-visible .icon-eye-off { display: none; }
+
+/* ---------- Recordarme / olvidé ---------- */
+
+.pantalla-login .form__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 18px 0 24px;
+}
+
+.pantalla-login .check {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.pantalla-login .check input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.pantalla-login .check__box {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.8px solid #DCD5CD;
+  border-radius: 6px;
+  background: var(--blanco);
+  color: var(--blanco);
+  transition: background .2s ease, border-color .2s ease;
+}
+
+.pantalla-login .check__box svg {
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  transform: scale(.6);
+  transition: opacity .18s ease, transform .18s ease;
+}
+
+.pantalla-login .check input:checked + .check__box {
+  background: var(--naranja);
+  border-color: var(--naranja);
+}
+
+.pantalla-login .check input:checked + .check__box svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.pantalla-login .check input:focus-visible + .check__box {
+  box-shadow: 0 0 0 4px rgba(242, 135, 5, .18);
+}
+
+.pantalla-login .check__label {
+  font-size: 13.5px;
+  font-weight: 400;
+  color: var(--texto-suave);
+}
+
+.pantalla-login .forgot {
+  background: none; border: 0; padding: 0; cursor: pointer; font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--naranja);
+  text-decoration: none;
+  transition: color .2s ease;
+}
+
+.pantalla-login .forgot:hover {
+  color: var(--naranja-oscuro);
+  text-decoration: underline;
+}
+
+/* ---------- Botón ---------- */
+
+.pantalla-login .btn-login {
+  width: 100%;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  border-radius: var(--radio-btn);
+  background: linear-gradient(135deg, #FA9113 0%, var(--naranja) 55%, var(--naranja-oscuro) 100%);
+  color: var(--blanco);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .1px;
+  cursor: pointer;
+  box-shadow: 0 12px 26px rgba(226, 118, 0, .34);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+
+.pantalla-login .btn-login svg {
+  width: 18px;
+  height: 18px;
+  transition: transform .22s ease;
+}
+
+.pantalla-login .btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(226, 118, 0, .42);
+  filter: brightness(1.03);
+}
+
+.pantalla-login .btn-login:hover svg { transform: translateX(4px); }
+
+.pantalla-login .btn-login:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(226, 118, 0, .3);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 860px) {
+  .pantalla-login { overflow: auto; }
+
+  .pantalla-login .stage {
+    justify-content: center;
+    padding: 32px 16px;
+    min-height: 100dvh;
+    height: auto;
+    background: linear-gradient(160deg, var(--fondo-izq) 0%, var(--fondo-der) 100%);
+  }
+
+  /* En pantallas angostas no cabe a lo alto: pasa a fondo completo
+     detrás de la tarjeta, atenuado. */
+  .pantalla-login .bg-video {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: none;
+    opacity: .4;
+  }
+
+  .pantalla-login .bg-overlay {
+    position: fixed;
+    background: rgba(255, 248, 238, .30);
+  }
+
+  .pantalla-login .login-card {
+    margin-left: 0;
+    width: min(430px, 100%);
+  }
+
+  .pantalla-login .deco--square { width: 170px; height: 170px; left: -60px; }
+}
+
+@media (max-width: 420px) {
+  .pantalla-login .login-card { padding: 26px 22px 30px; border-radius: 24px; }
+  .pantalla-login .brand__logo { width: 44px; height: 44px; }
+  .pantalla-login .welcome { font-size: 32px; }
+}
+
+/* Ventana de poca altura: la tarjeta nunca se recorta, la pagina hace scroll */
+@media (max-height: 720px) {
+  .pantalla-login { overflow: auto; }
+
+  .pantalla-login .stage {
+    height: auto;
+    min-height: 100dvh;
+    padding: 28px 0;
+    align-items: flex-start;
+  }
+
+  .pantalla-login .bg-video {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .pantalla-login .bg-overlay { position: fixed; }
+}
+
+/* ---------- Accesibilidad ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .pantalla-login *, .pantalla-login *::before, .pantalla-login *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ---------- Accesos de demostración (demo local) ---------- */
+
+.pantalla-login .login-error {
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  color: #C0392B;
+}
+
+.pantalla-login .demo-access {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--borde);
+}
+
+.pantalla-login .demo-access__title {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 11.5px;
+  color: var(--texto-suave);
+}
+
+.pantalla-login .demo-access__roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pantalla-login .demo-access__roles button {
+  border: 1px solid #F6D7B5;
+  background: #FFF6EC;
+  color: var(--naranja-oscuro);
+  border-radius: 999px;
+  padding: 6px 11px;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+.pantalla-login .demo-access__roles button:hover { background: #FFE8CF; }

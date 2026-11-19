@@ -63,8 +63,10 @@ public class CotizacionService implements GestionarCotizacionUseCase {
         // la cadena de reglas decide: Rechazada → Sospechosa → Opcionada
         c.cambiarEstado(reglas.evaluar(c));
         Cotizacion validada = repositorio.guardar(c);
+        // PD-05: tipos simples en el contrato; DEC-89: el nombre del proveedor para el tablero BAM
         eventos.publicar(new CotizacionValidadaEvent("sistema", validada.numero(), validada.proveedor().id(),
-                validada.estado(), validada.valorCotizadoTotal()));
+                validada.proveedor().razonSocial(), validada.estado().name(), validada.valorCotizadoTotal(),
+                validada.diferenciaPorcentual()));
         eventos.publicar(new AuditoriaEvent("sistema", "Cotización " + numero + " validada: " + validada.estado()));
         return validada;
     }

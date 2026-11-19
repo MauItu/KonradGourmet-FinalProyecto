@@ -26,6 +26,13 @@ public class Pedido {
         this.estado = EstadoPedido.EN_PREPARACION;
     }
 
+    /** Rearma un pedido guardado, con su fecha y su estado (lo usa el repositorio al leerlo). */
+    public Pedido(String numero, Mesa mesa, Long meseroId, LocalDateTime fecha, EstadoPedido estado) {
+        this(numero, mesa, meseroId);
+        this.fecha = fecha;
+        this.estado = estado;
+    }
+
     public String numero() {
         return numero;
     }

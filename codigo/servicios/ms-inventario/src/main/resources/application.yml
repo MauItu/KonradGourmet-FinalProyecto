@@ -1,0 +1,47 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ms-inventario
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:postgres}:5432/ms_inventario
+    username: ms_inventario
+    password: ms_inventario
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  kafka:
+    bootstrap-servers: ${KAFKA:kafka:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      # Un grupo por servicio: las réplicas se reparten las particiones. earliest: al arrancar por
+      # primera vez, el servicio lee los eventos que se publicaron antes (por ejemplo, la carta inicial).
+      group-id: ms-inventario
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://service-registry:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+konrad:
+  inventario:
+    # El umbral es un parámetro propio de ms-inventario (nota del diagrama), no de ms-administracion.
+    umbral: 25
+    # Cierre diario: descuenta el consumo de los pedidos (hora de Bogotá).
+    cierre: "0 59 23 * * *"

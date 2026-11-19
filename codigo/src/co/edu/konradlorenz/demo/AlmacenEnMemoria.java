@@ -4,13 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Almacén de objetos en memoria. Lo usan los tres servicios que guardan o leen PDF, y cada uno
- * lo ve por su propio puerto AlmacenArchivosPort.
+ * Almacén de objetos en memoria. Lo usan los tres servicios que guardan o leen PDF y ms-menu,
+ * que guarda las imágenes de los platos; cada uno lo ve por su propio puerto AlmacenArchivosPort.
  */
 public class AlmacenEnMemoria implements
         co.edu.konradlorenz.cotizaciones.puertos.salida.AlmacenArchivosPort,
         co.edu.konradlorenz.ordenes.puertos.salida.AlmacenArchivosPort,
-        co.edu.konradlorenz.notificaciones.puertos.salida.AlmacenArchivosPort {
+        co.edu.konradlorenz.notificaciones.puertos.salida.AlmacenArchivosPort,
+        co.edu.konradlorenz.menu.puertos.salida.AlmacenArchivosPort {
 
     private final Map<String, byte[]> objetos = new HashMap<>();
 

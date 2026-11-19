@@ -73,8 +73,8 @@ clases, atributos, métodos y relaciones `extends`/`implements`.
 | `notificaciones` | ms-notificaciones | — | Correos y alarmas en la aplicación |
 | `integracion` | ms-integracion | — | Frontera SOAP con el Ministerio de Comercio |
 | `administracion` | ms-administracion | — | Parámetros del sistema y auditoría |
-| `analitica` | ms-analitica | — | Tablero BAM e indicadores |
-| `demo` | — | — | `DemoArquitectura` recorre el flujo de compra; las otras 19 clases son los adaptadores en memoria y el `Ensamble` que lo conecta |
+| `analitica` | ms-analitica | — | Tablero BAM e indicadores; promociones sugeridas y tendencias |
+| `demo` | — | — | `DemoArquitectura` recorre el flujo de compra; las otras 24 clases son los adaptadores en memoria, el `Ensamble` que los conecta y el `ServidorWeb` de la interfaz local |
 
 ## Patrones de diseño
 
@@ -162,28 +162,28 @@ Cifras de la demo que no salen de los diagramas (supuestos, anotados en `DECISIO
   proveedores cotizan la res a $21.250, $29.000 y $4.000/kg, y el arroz a $8.000/kg.
 - El pedido de $82.000 es 2 bandejas paisas ($32.000) y 1 ajiaco ($18.000), como dice el reporte; el mockup
   V03 muestra además una limonada, y con ella el total sería $88.000.
-- Los hechos del tablero (demanda y precios de proveedores) son un histórico cargado a mano: el listener
-  que los armaría con los eventos (`NegocioEventsListener`) sigue pendiente.
+- Los hechos del tablero (demanda y precios de proveedores) son un histórico cargado a mano; en la plataforma
+  los arma `NegocioEventsListener` con los eventos de negocio (corte 6b).
 
 ### Qué métodos tienen lógica
 
-De los 274 cuerpos que lanzaban `Pendiente de implementar` al terminar la sesión 3, quedan **94**. Tienen
+De los 274 cuerpos que lanzaban `Pendiente de implementar` al terminar la sesión 3, quedan **60** (incluidos `JwtEmisorAdapter.emitir()`, que se agregó con DEC-62, y los dos métodos del `AlmacenObjetosAdapter` de ms-menu, DEC-67; en el corte 4a, `MinisterioSoapClient.consultarPrecioEstandar()` pasó a tener lógica, DEC-71; el corte 4b no cambia la cuenta: sus adaptadores reales están en `servicios/ms-cotizaciones`; el corte 5 suma `OrdenJpaAdapter.porNumero()`, de «Ver PDF» en V23, DEC-75, y sus adaptadores reales están en `servicios/ms-ordenes` y `servicios/ms-notificaciones`; el corte 6a no cambia la cuenta: `AdminRestController.parametros()` (DEC-85) ya nace con lógica y los adaptadores reales de ms-administracion están en `servicios/ms-administracion`; el corte 6b quita 13: las promociones de ms-analitica, `NegocioEventsListener`, `TendenciasJob`, `RedesSocialesAdapter` y la rama `tendencia.detectada` de `NotificacionService` tienen lógica, y `SugerenciaJpaAdapter` sigue pendiente porque el real está en `servicios/ms-analitica`). Tienen
 lógica real todo lo que usa el recorrido de compra, de punta a punta; lo que queda pendiente es lo que
 habla con una tecnología externa (la demo pone un adaptador en memoria en su lugar) o lo que la demo no usa.
 
 | Módulo | Con lógica | Pendiente |
 |---|---|---|
 | `compartido` | `EventoDominio` y `AuditoriaEvent`; los otros 9 eventos están en el paquete `eventos` de su servicio y también tienen constructor, accesores y `tipo()` | `KafkaEventPublisher` |
-| `identidad` | Composite (`ElementoMenu`, `GrupoMenu`, `OpcionMenu`), `Usuario` y sus 6 roles (`rol()`), `DirectorCompras.construirMenu()`, `Sucursal` | `construirMenu()` de los otros 5 roles, `PoliticaContrasena`, `IniciarSesionService`, `RegistrarUsuarioService`, los 2 controladores y los 2 adaptadores (BCrypt y usuarios) |
-| `pedidos` | `Pedido`, `DetallePedido`, `Mesa`, `PlatoCatalogo`, `CatalogoPlatos`, `PedidoService`, `PedidoRestController`, `MenuActualizadoListener` | `CatalogoJpaAdapter`, `PedidoJpaAdapter` |
-| `menu` | `MenuActualizadoEvent` | todo lo demás: `Plato`, `PlatoService`, `PlatoRestController`, `PlatoJpaAdapter` |
-| `inventario` | `InsumoInventario`, `Inventario`, `RecetaPlato`, `UmbralStock`, `InventarioService`, `ConsumoDiarioJob`, los 2 listeners y `InventarioRestController` | `InventarioJpaAdapter` |
-| `solicitudes` | `SolicitudAlimentos`, `ItemSolicitud`, `CriteriosConsulta`, `SolicitudService`, `CotizacionEventsListener`, `SolicitudRestController` | `SolicitudJpaAdapter` |
-| `cotizaciones` | `Cotizacion`, `ItemCotizacion`, `Proveedor`, `ReglaValidacion` y sus 3 reglas, `GenerarCotizacionFacade`, `CotizacionService`, `ProveedorService`, `OrdenGeneradaListener`, los 2 controladores, `CotizacionJpaAdapter` | `ProveedorJpaAdapter`, `PdfCotizacionAdapter`, `AlmacenObjetosAdapter`, `PrecioSugeridoRestAdapter` |
-| `ordenes` | `OrdenCompra`, `ItemOrden`, `CotizacionOpcionada`, `OrdenCompraService`, `OrdenCompraRestController` | `OrdenJpaAdapter`, `PdfOrdenAdapter`, `AlmacenObjetosAdapter`, `CotizacionRestClient` |
-| `notificaciones` | `CreadorNotificacion` y sus 2 creadores, `NotificacionCorreo`, `AlarmaApp`, `Mensaje`, los 3 decoradores, `NotificacionService`, `NotificacionListeners`, `DestinatarioRestController` | `CorreoSmtpAdapter`, `AlarmaPushAdapter`, `AlmacenObjetosAdapter`, `DestinatarioJpaAdapter`, `EnvioJpaAdapter`; la rama `tendencia.detectada` de `notificarEvento()` (T-06) |
-| `integracion` | `PrecioEstandar`, `MinisterioComercioAdapter`, `PrecioReferenciaCacheProxy`, `ConsultarPrecioService`, `PrecioRestController`, `AbastecimientoSoapEndpoint` | `MinisterioSoapClient` (la demo usa `MinisterioSoapSimulado`) |
-| `analitica` | `HechoNegocio`, `ResultadoKpi`, las 3 estrategias, `kpis()` y `registrarHecho()` de `TableroService`, `KpiJpaAdapter`, `TableroRestController` | las promociones (HU-19): `SugerenciaPromocion`, `detectarTendencias()`, `sugerencias()`, `aceptarSugerencia()`, `descartarSugerencia()`, `PromocionRestController`, `TendenciasJob`, `NegocioEventsListener`, `SugerenciaJpaAdapter`, `RedesSocialesAdapter` |
+| `identidad` | Composite (`ElementoMenu`, `GrupoMenu`, `OpcionMenu`), `Usuario` y sus 6 roles con su `construirMenu()`, `Sucursal`, `PoliticaContrasena`, `TokenAcceso`, `IniciarSesionService`, `RegistrarUsuarioService` y los 2 controladores | `BCryptCifradorAdapter`, `UsuarioJpaAdapter` y `JwtEmisorAdapter` (la demo usa `CifradorEnMemoria`, `UsuarioEnMemoria` y `EmisorTokenEnMemoria`; los reales están en `servicios/ms-identidad`) |
+| `pedidos` | `Pedido`, `DetallePedido`, `Mesa`, `PlatoCatalogo`, `CatalogoPlatos`, `PedidoService`, `PedidoRestController`, `MenuActualizadoListener` | `CatalogoJpaAdapter`, `PedidoJpaAdapter` (los reales están en `servicios/ms-pedidos`) |
+| `menu` | `Plato` (validar, editar, desactivar, reactivar, categoría e imagen), `Ingrediente`, `Producto`, `Categoria`, `PlatoService`, `PlatoRestController`, `MenuActualizadoEvent` | `PlatoJpaAdapter` y `AlmacenObjetosAdapter` (la demo usa `PlatoEnMemoria` y `AlmacenEnMemoria`; los reales están en `servicios/ms-menu`) |
+| `inventario` | `InsumoInventario`, `Inventario`, `RecetaPlato`, `UmbralStock`, `InventarioService`, `ConsumoDiarioJob`, los 2 listeners y `InventarioRestController` | `InventarioJpaAdapter` (el real está en `servicios/ms-inventario`) |
+| `solicitudes` | `SolicitudAlimentos` (que también se rearma con su fecha y estado), `ItemSolicitud`, `CriteriosConsulta`, `SolicitudService`, `CotizacionEventsListener`, `SolicitudRestController` | `SolicitudJpaAdapter` (el real está en `servicios/ms-solicitudes`) |
+| `cotizaciones` | `Cotizacion` y `Proveedor` (que también se rearman desde la base), `ItemCotizacion`, `ReglaValidacion` y sus 3 reglas, `GenerarCotizacionFacade`, `CotizacionService`, `ProveedorService`, `OrdenGeneradaListener`, los 2 controladores, `CotizacionJpaAdapter` | `ProveedorJpaAdapter`, `PdfCotizacionAdapter`, `AlmacenObjetosAdapter`, `PrecioSugeridoRestAdapter` (la demo usa `ProveedorEnMemoria`, `PdfSimulado`, `AlmacenEnMemoria` y `PrecioSugeridoLocal`; los reales, con OpenPDF y el REST interno de ms-integracion, están en `servicios/ms-cotizaciones`) |
+| `ordenes` | `OrdenCompra` (que también se rearma desde la base), `ItemOrden`, `CotizacionOpcionada`, `OrdenCompraService` (con `pdf()`, DEC-75, y `finalizar()`, DEC-80), `OrdenCompraRestController` | `OrdenJpaAdapter`, `PdfOrdenAdapter`, `AlmacenObjetosAdapter`, `CotizacionRestClient` (la demo usa `OrdenEnMemoria`, `PdfSimulado`, `AlmacenEnMemoria` y `CotizacionConsultaLocal`; los reales, con OpenPDF, el almacén S3 y el REST de ms-cotizaciones, están en `servicios/ms-ordenes`) |
+| `notificaciones` | `CreadorNotificacion` y sus 2 creadores, `NotificacionCorreo`, `AlarmaApp`, `Mensaje`, los 3 decoradores, `NotificacionService` (con el correo de promociones de `tendencia.detectada`, PD-05), `NotificacionListeners`, `DestinatarioRestController` | `CorreoSmtpAdapter`, `AlarmaPushAdapter`, `AlmacenObjetosAdapter`, `DestinatarioJpaAdapter`, `EnvioJpaAdapter` (los reales, con SMTP, Redis y WebSocket, S3 y PostgreSQL, están en `servicios/ms-notificaciones`, que copia los decoradores de `src/`) |
+| `integracion` | `PrecioEstandar`, `MinisterioComercioAdapter`, `PrecioReferenciaCacheProxy`, `ConsultarPrecioService`, `PrecioRestController`, `AbastecimientoSoapEndpoint`, `MinisterioSoapClient` (SOAP 1.1 con el JDK, DEC-71; la demo usa `MinisterioSoapSimulado`, que no sale del proceso) | — (los adaptadores Spring y la caché en Redis están en `servicios/ms-integracion`) |
+| `analitica` | `HechoNegocio`, `ResultadoKpi` (con el ranking y el periodo, DEC-88), las 3 estrategias, `TableroService` (los periodos de PD-03 y las promociones de PD-04), `SugerenciaPromocion`, `KpiJpaAdapter`, `TableroRestController`, `PromocionRestController`, `NegocioEventsListener` (los hechos de los 5 tópicos), `TendenciasJob`, `RedesSocialesAdapter` (la API de tendencias con el HttpClient del JDK; ms-analitica copia el mismo) | `SugerenciaJpaAdapter` (el real está en `servicios/ms-analitica`; las pruebas usan uno en memoria) |
 | `administracion` | `ParametrosSistema`, `RegistroAuditoria`, `LogError`, `Bitacora`, `AdministracionService`, `AuditoriaListener`, `AdminRestController`, `AuditoriaJpaAdapter` | `ParametrosJpaAdapter`, `ElasticsearchLogsAdapter` |
 
 Las 3 clases `*JpaAdapter` que tienen un atributo en el diagrama (`CotizacionJpaAdapter`, `KpiJpaAdapter`,
@@ -191,10 +191,11 @@ Las 3 clases `*JpaAdapter` que tienen un atributo en el diagrama (`CotizacionJpa
 demo trae su adaptador en memoria en el paquete `demo`.
 
 Límites que conviene conocer:
-- Los casos de uso no reciben al usuario (en el proyecto real sale del token JWT), así que los eventos llevan
-  `sistema` o el correo de la entidad. La excepción es el pedido: nace con el `meseroId` de quien lo tomó
-  (HU-01, DEC-51), `validar()` lo exige y `pedidosDelTurno()` filtra por él. Cada evento crea su propio `correlacionId`; propagarlo entre
-  servicios queda para el proyecto real.
+- Los casos de uso no reciben al usuario (en el proyecto real sale del token JWT), así que en esta versión los
+  eventos llevan `sistema` o el correo de la entidad. La excepción es el pedido: nace con el `meseroId` de quien
+  lo tomó (HU-01, DEC-51), `validar()` lo exige y `pedidosDelTurno()` filtra por él. Cada evento crea su propio
+  `correlacionId`. En la plataforma con microservicios, `KafkaEventPublisher` pone el correo del JWT y la
+  correlación del recorrido (DEC-64).
 - `Notificacion.enviar(destino, contenido, adjuntoUrl)` y `CreadorNotificacion.notificar(destino, contenido,
   adjuntoUrl)` llevan el enlace del adjunto (DEC-42, decidido por Mauricio): el correo certificado al proveedor
   lleva el PDF en `Mensaje.adjuntoUrl`, y `AlarmaApp` lo ignora. La página 4d tiene las mismas firmas.
@@ -216,12 +217,31 @@ Límites que conviene conocer:
 
 ### Pruebas
 
-`pruebas/` tiene 176 verificaciones en 3 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
+`pruebas/` tiene 398 verificaciones en 8 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
 - `PruebasCotizacion`: los valores de V19 y los límites de la cadena de reglas (+25,00 % y −50,00 % siguen
-  OPCIONADA; +25,01 % y −50,01 % no);
+  OPCIONADA; +25,01 % y −50,01 % no), y la cotización y el proveedor rearmados desde la base;
 - `PruebasPatrones`: los 8 patrones, uno por uno;
+- `PruebasPlatos`: ms-menu (HU-04): crear, nombre repetido, editar, desactivar y reactivar; cada cambio publica
+  `menu.actualizado` y el catálogo del mesero (con la categoría de la carta, DEC-66) y la receta del inventario se
+  actualizan por el bus; la imagen del plato en el almacén (DEC-67) y el pedido rearmado con su fecha y estado;
 - `PruebasFlujoDeCompra`: pedido (con su mesero), inventario (incluido el cierre del día siguiente), solicitud, cotización,
-  orden OC-0012, una cotización con 2 solicitudes (DEC-05), proveedores y el caso PENDIENTE_PRECIO (H18).
+  orden OC-0012 con su PDF (DEC-75), finalizada una sola vez (DEC-80) y rearmada desde la base, una cotización con 2 solicitudes (DEC-05), proveedores y el
+  caso PENDIENTE_PRECIO (H18);
+- `PruebasIdentidad`: la política de contraseña (DEC-10), el alta de los 6 roles (Factory Method), el correo único
+  y en minúsculas, el inicio de sesión con el token del `EmisorTokenPort` (DEC-62) y la auditoría de cada intento;
+- `PruebasIntegracion`: `MinisterioSoapClient` contra un servicio web simulado con el `HttpServer` del JDK (el sobre
+  SOAP, la cabecera `SOAPAction`, el SOAP Fault y el Ministerio caído), el Proxy con ese cliente (la 2.ª consulta
+  la responde la caché y un precio de más de un día se vuelve a pedir) y la solicitud rearmada desde la base;
+- `PruebasAdministracion`: ms-administracion (corte 6a): los parámetros y el tema (DEC-85; los mensajes de PD-10 y
+  la validación del color y del logo), la auditoría por rango obligatorio y ordenada (PD-07), la que llega por
+  `AuditoriaListener`, los logs con el servicio opcional, la auditoría del registro de destinatarios y el menú del
+  administrador;
+- `PruebasAnalitica`: ms-analitica (corte 6b): el ranking de cada indicador y sus periodos (sin rango, 30 y 365 días;
+  con rango; la sucursal solo filtra la demanda; los mensajes de PD-10), los hechos que deja cada uno de los 5
+  tópicos (solo las cotizaciones OPCIONADAS), las promociones del análisis semanal (redes y los 3 más pedidos, sin
+  repetir el mismo día y una sola notificación por día; el error de las redes queda en el log), aceptar y descartar,
+  el correo de promociones a los jefes y `RedesSocialesAdapter` contra un servidor simulado con el `HttpServer` del JDK.
+  `PruebasFlujoDeCompra` revisa además que `cotizacion.validada` lleve tipos simples (PD-05) y el proveedor (DEC-89).
 
 ## Historia en git
 
@@ -235,20 +255,87 @@ git log --follow -M30% -- src/co/edu/konradlorenz/notificaciones/puertos/salida/
 git log --follow -M30% -- src/co/edu/konradlorenz/notificaciones/adaptadores/salida/CorreoDecorator.java
 ```
 
+## Plataforma con microservicios
+
+Además de la versión en memoria, el sistema se está pasando al stack del diagrama de contenedores
+(DEC-58) por cortes: API Gateway, Eureka, Kafka, PostgreSQL, Redis, almacén S3 y la SPA en React, con
+Docker Compose, y los microservicios Spring Boot uno a uno (hoy corren ms-identidad, ms-menu, ms-pedidos,
+ms-inventario, ms-solicitudes, ms-integracion, ms-cotizaciones, ms-ordenes, ms-notificaciones, ms-administracion y
+ms-analitica, con las ventanas V01 a V23, los proveedores, las cinco del administrador (parámetros y tema, auditoría, logs de
+errores en Elasticsearch, usuarios y destinatarios), el tablero BAM del director comercial y las promociones sugeridas
+del jefe de cocina (con la API de redes simulada y su correo), el PDF de la cotización y el de la orden en el almacén S3, el precio de referencia
+del Ministerio con su caché en Redis, el endpoint SOAP, los correos certificados con el PDF adjunto (Mailpit) y su
+cola de errores, que se vuelve a procesar sola (DEC-81), la orden marcada como recibida (DEC-80) y la alarma de
+stock bajo en vivo; el avance está en `plataforma/LEEME.md`). Solo necesita Docker:
+
+```bash
+./plataforma/levantar.sh     # compila y levanta todo; la aplicación queda en http://localhost:8080
+./plataforma/bajar.sh        # la apaga
+```
+
+Cada servicio de `servicios/` copia al compilar el núcleo de su paquete en `src/` (dominio, eventos,
+puertos y aplicación) y agrega sus adaptadores Spring con los mismos nombres del diagrama (DEC-61). La
+SPA está en `web/`. Las pruebas de los servicios corren al compilar (JUnit, en `servicios/*/src/test`) y las de
+punta a punta están en `plataforma/pruebas/`. El avance por cortes y lo que corre en cada contenedor están en
+`plataforma/LEEME.md`.
+
 ## Interfaz web
 
-La pantalla de inicio de sesión está en la raíz del proyecto:
+La interfaz local usa los servicios Java del `Ensamble` y sus adaptadores en memoria.
+Desde `KonradGourmet/`, con JDK 21 o superior:
+
+```bash
+./web.sh             # abre http://localhost:8000
+./web.sh 8765        # puerto alternativo
+```
+
+Abre la dirección que imprime el script. El inicio de sesión (V01) tiene cuatro accesos de
+demostración, uno por rol, y cada rol ve su panel, su menú y sus ventanas como en los mockups
+(`DISEÑO UXUI.pdf`). Esta interfaz local no autentica: el correo decide el rol y la contraseña no se
+valida. El inicio de sesión real (JWT firmado por ms-identidad) está en la plataforma con microservicios.
+
+| Acceso | Rol | Ventanas |
+|---|---|---|
+| `isabella.torres@konradgourmet.com` | Mesero | V02 inicio · V03 nuevo pedido · V04 pedido registrado · pedidos del turno |
+| `carlos.mendoza@konradgourmet.com` | Jefe de cocina | V05 inicio · V06 platos y nuevo plato · V07 inventario · V08 y V09 solicitud · V10 mis solicitudes · alertas |
+| `isabella.castro@konradgourmet.com` | Auxiliar de compras | V11 inicio · V12 solicitudes con los filtros de HU-07 · V13 y V14 cotización · V15 cotizaciones |
+| `laura.gomez@konradgourmet.com` | Director de compras | V16 inicio · V17 todas y pendientes de validar · V18 y V19 valores y validación · V20 opcionadas · V21 y V22 orden · V23 órdenes |
+
+El recorrido de la demo de terminal se repite con clics y da las mismas cifras: el mesero
+registra PED-0251 (2 bandejas paisas «Sin arepa» y 1 ajiaco, $82.000; el pedido viene
+precargado); el jefe ejecuta «Cierre del día (23:59)» en Inventario (Res al 23 %) y envía
+SOL-031 (Res 20 kg y Arroz 15 kg, precargada); el auxiliar genera COT-018, COT-019 y COT-020
+para Proveedor ABC, C y D; el director registra los precios por kilo (21.250/8.000, 29.000/8.000
+y 4.000/8.000), valida (OPCIONADA, RECHAZADA y SOSPECHOSA) y genera OC-0012 por $545.000.
+
+Lo que la interfaz web agrega sobre la demo de terminal, solo para que las pantallas tengan
+contenido: las mesas 2, 3, 6 y 8, los otros seis platos de la carta de V03, el Proveedor D en
+el desplegable y los precios del Ministerio de la papa y el pollo. V13 ya permite varias
+solicitudes por cotización (M-01, DEC-05). El menú del director sale de
+`DirectorCompras.construirMenu()` (Composite). No se muestran los datos que el dominio no tiene:
+vencimientos de V07, «Nuevo insumo», «Editar solicitud» y las tendencias semanales de V16.
+Al detener el servidor se pierden los datos.
+
+**Platos (V06).** Crear, editar, desactivar y activar un plato pasa por `PlatoRestController` →
+`PlatoService` (ms-menu), que publica `menu.actualizado`: ms-pedidos actualiza el catálogo del mesero y
+ms-inventario la receta, sin que la web toque esos servicios. «Desactivar» no borra: el plato sale del
+catálogo de V03, pero sigue en la lista del jefe de cocina como *Inactivo* y los pedidos que ya lo tenían
+no cambian. «Editar plato» reutiliza la ventana de «Nuevo plato». El nombre es único en la sucursal.
+Endpoints: `POST /api/platos`, `/api/platos/editar` (`id` y los campos del plato) y `/api/platos/estado`
+(`id`, `activo=0|1`).
+
+Los archivos web están en la raíz del proyecto:
 
 ```
 index.html      maquetado
 styles.css      estilos
+app.html        panel de cada rol (V02 a V23)
+app.css         estilos del panel
+app.js          ventanas y conexión con la API local
+src/.../demo/ServidorWeb.java   API local sobre el Ensamble
+web.sh          compila y arranca el servidor Java
 assets/logo/    logo.png
 assets/video/   3DVideo.mp4
 ```
 
-Se abre directamente en el navegador. Si el video no arranca por las
-restricciones de `file://`, levanta un servidor local:
-
-```bash
-python -m http.server 8000
-```
+La interfaz conectada requiere `./web.sh`; abrir `index.html` directamente no inicia la API.

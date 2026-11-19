@@ -11,4 +11,8 @@ public interface GenerarOrdenUseCase {
 
     List<OrdenCompra> consultar(EstadoOrden estado);
 
+    byte[] pdf(String numero);
+
+    OrdenCompra finalizar(String numero);
+
 }

@@ -37,4 +37,16 @@ public class OrdenCompraRestController {
         return casoDeUso.consultar(estado);
     }
 
+    // Atiende la ventana V23 de los mockups
+    // GET /api/ordenes-compra/{id}/pdf
+    public byte[] pdf(String numero) {
+        return casoDeUso.pdf(numero);
+    }
+
+    // Atiende la ventana V23 de los mockups
+    // PATCH /api/ordenes-compra/{id}/finalizar
+    public OrdenCompra finalizar(String numero) {
+        return casoDeUso.finalizar(numero);
+    }
+
 }

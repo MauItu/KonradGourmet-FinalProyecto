@@ -17,6 +17,8 @@ public interface AdministracionUseCase {
 
     List<LogError> logs(String servicio);
 
+    Map<String, String> parametros();
+
     Map<String, String> tema();
 
 }

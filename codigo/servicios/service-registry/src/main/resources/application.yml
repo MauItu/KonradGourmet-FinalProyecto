@@ -1,0 +1,27 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: service-registry
+
+eureka:
+  instance:
+    hostname: service-registry
+  client:
+    # El registro no se registra a sí mismo: en local hay una sola réplica.
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    # En local las instancias se apagan y prenden a mano; sin esto Eureka entra en
+    # «modo de autopreservación» y deja instancias muertas en la lista.
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 10000
+    # Sin la caché de solo lectura (30 s por omisión), el gateway ve una instancia nueva enseguida.
+    use-read-only-response-cache: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

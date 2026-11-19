@@ -1,0 +1,76 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ms-notificaciones
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:postgres}:5432/ms_notificaciones
+    username: ms_notificaciones
+    password: ms_notificaciones
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  kafka:
+    bootstrap-servers: ${KAFKA:kafka:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      # Un grupo por servicio y, la primera vez, desde el principio de cada tópico.
+      group-id: ms-notificaciones
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  # Servidor de correo certificado: Mailpit en local (SMTP en el puerto 1025, sin TLS; DEC-58).
+  mail:
+    host: ${SMTP_HOST:correo}
+    port: ${SMTP_PORT:1025}
+    properties:
+      mail.smtp.connectiontimeout: 5000
+      mail.smtp.timeout: 5000
+      mail.smtp.writetimeout: 5000
+  data:
+    redis:
+      host: ${REDIS_HOST:redis}
+      port: 6379
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://service-registry:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  health:
+    # Si el servidor de correo cae, el servicio sigue sano: los correos fallidos quedan en la traza y en la DLQ.
+    mail:
+      enabled: false
+
+konrad:
+  notificaciones:
+    remitente: Konrad Gourmet <notificaciones@konradgourmet.com>
+    # PD-01: la réplica que consume inventario.stock-bajo publica la alarma aquí y cada réplica la entrega
+    # a las conexiones WebSocket que tenga abiertas.
+    canal-alarmas: alarmas:stock-bajo
+    # Cola de errores (DLQ, nota n_fallos de la 4d): el evento cuyo correo falla después de los reintentos.
+    topico-errores: notificaciones.dlq
+    reintentos: 2
+    espera-reintento-ms: 2000
+    # DEC-81: ReprocesoColaErrores vuelve a procesar cada evento de la cola cuando lleva esta espera en ella,
+    # hasta 3 rondas (5 min; 30 s en el compose local).
+    espera-cola-errores: ${ESPERA_COLA_ERRORES:5m}
+    rondas-cola-errores: 3
+  # Almacén de objetos (SeaweedFS en local, DEC-59): de aquí se descarga el PDF que se adjunta (claim check).
+  s3:
+    endpoint: ${S3_URL:http://s3:8333}
+    usuario: konrad
+    clave: konrad-secreto
+    bucket-documentos: documentos-pdf

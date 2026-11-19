@@ -22,7 +22,7 @@ public class MenuActualizadoListener implements EventListener<EventoDominio> {
     @Override
     public void alRecibir(EventoDominio evento) {
         if (evento instanceof MenuActualizadoEvent menu) {
-            casoDeUso.actualizarCatalogo(new PlatoCatalogo(menu.platoId(), menu.sucursalId(), menu.nombre(), menu.precioVenta(), menu.activo()));
+            casoDeUso.actualizarCatalogo(new PlatoCatalogo(menu.platoId(), menu.sucursalId(), menu.nombre(), menu.categoria(), menu.precioVenta(), menu.activo()));
         }
     }
 
