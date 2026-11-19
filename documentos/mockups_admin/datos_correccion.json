@@ -1,0 +1,90 @@
+{
+  "auditoria": [
+    [
+      "17/11/2026",
+      "23:31:08",
+      "paula.herrera@konradgourmet.com",
+      "Parámetro tema.logo actualizado"
+    ],
+    [
+      "17/11/2026",
+      "23:31:06",
+      "paula.herrera@konradgourmet.com",
+      "Destinatario registrado: sofia.ramirez@konradgourmet.com (sucursal 2)"
+    ],
+    [
+      "17/11/2026",
+      "23:31:04",
+      "paula.herrera@konradgourmet.com",
+      "Usuario registrado: sofia.ramirez@konradgourmet.com (JEFE_COCINA)"
+    ],
+    [
+      "17/11/2026",
+      "23:30:17",
+      "paula.herrera@konradgourmet.com",
+      "Parámetro general.propina-sugerida actualizado"
+    ],
+    [
+      "17/11/2026",
+      "23:29:04",
+      "laura.gomez@konradgourmet.com",
+      "Orden OC-0012 finalizada"
+    ],
+    [
+      "17/11/2026",
+      "23:28:40",
+      "laura.gomez@konradgourmet.com",
+      "Orden OC-0012 generada"
+    ],
+    [
+      "17/11/2026",
+      "23:27:15",
+      "carlos.mendoza@konradgourmet.com",
+      "Solicitud SOL-031 registrada"
+    ],
+    [
+      "17/11/2026",
+      "23:26:24",
+      "isabella.torres@konradgourmet.com",
+      "Inicio de sesión (MESERO)"
+    ],
+    [
+      "17/11/2026",
+      "23:25:50",
+      "carlos.mendoza@konradgourmet.com",
+      "Plato Sancocho creado"
+    ],
+    [
+      "17/11/2026",
+      "23:25:10",
+      "isabella.torres@konradgourmet.com",
+      "Pedido PED-0251 registrado por el mesero 3"
+    ]
+  ],
+  "cotizaciones": [
+    [
+      "COT-018",
+      "22/09/2026",
+      "Proveedor ABC",
+      "$545.000",
+      "+4,81 %"
+    ],
+    [
+      "COT-021",
+      "23/09/2026",
+      "Proveedor B",
+      "$560.000",
+      "+7,69 %"
+    ]
+  ],
+  "pendientes": [],
+  "fuentes": {
+    "tipo": "Todos los registros de estas pantallas son ilustrativos, suministrados por el usuario. No proceden de una consulta al backend.",
+    "auditoria": "Diez filas de la última aclaración del usuario, 17/11/2026.",
+    "logs": "Cuatro fechas y horas de la última aclaración.",
+    "cotizaciones": "COT-018 y COT-021, fechas 22/09/2026 y 23/09/2026; última aclaración prevalece sobre COT-022 del mensaje anterior.",
+    "orden": "OC-0012, COT-018, Proveedor ABC, fecha 22/09/2026, total $545.000.",
+    "avatar": "Iniciales LG solicitadas por el usuario; sin foto.",
+    "stock": "Pollo al 24,5 %, presente en alertas y en inventario. Arroz no aparece en las alertas de V05."
+  }
+}

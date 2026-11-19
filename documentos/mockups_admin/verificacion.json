@@ -1,0 +1,244 @@
+[
+  {
+    "pantalla": "01_inicio",
+    "viewport": [
+      1440,
+      900
+    ],
+    "contenido": {
+      "w": 1440,
+      "h": 900
+    }
+  },
+  {
+    "pantalla": "01_inicio",
+    "viewport": [
+      390,
+      844
+    ],
+    "contenido": {
+      "w": 390,
+      "h": 976
+    }
+  },
+  {
+    "pantalla": "02_parametros_tema",
+    "viewport": [
+      1440,
+      900
+    ],
+    "contenido": {
+      "w": 1440,
+      "h": 900
+    }
+  },
+  {
+    "pantalla": "02_parametros_tema",
+    "viewport": [
+      390,
+      844
+    ],
+    "contenido": {
+      "w": 390,
+      "h": 1640
+    }
+  },
+  {
+    "pantalla": "03_auditoria",
+    "viewport": [
+      1440,
+      900
+    ],
+    "contenido": {
+      "w": 1440,
+      "h": 900
+    }
+  },
+  {
+    "pantalla": "03_auditoria",
+    "viewport": [
+      390,
+      844
+    ],
+    "contenido": {
+      "w": 390,
+      "h": 1053
+    }
+  },
+  {
+    "pantalla": "04_logs_errores",
+    "viewport": [
+      1440,
+      900
+    ],
+    "contenido": {
+      "w": 1440,
+      "h": 900
+    }
+  },
+  {
+    "pantalla": "04_logs_errores",
+    "viewport": [
+      390,
+      844
+    ],
+    "contenido": {
+      "w": 390,
+      "h": 934
+    }
+  },
+  {
+    "pantalla": "05_usuarios",
+    "viewport": [
+      1440,
+      900
+    ],
+    "contenido": {
+      "w": 1440,
+      "h": 900
+    }
+  },
+  {
+    "pantalla": "05_usuarios",
+    "viewport": [
+      390,
+      844
+    ],
+    "contenido": {
+      "w": 390,
+      "h": 1107
+    }
+  },
+  {
+    "pantalla": "06_destinatarios",
+    "viewport": [
+      1440,
+      900
+    ],
+    "contenido": {
+      "w": 1440,
+      "h": 900
+    }
+  },
+  {
+    "pantalla": "06_destinatarios",
+    "viewport": [
+      390,
+      844
+    ],
+    "contenido": {
+      "w": 390,
+      "h": 846
+    }
+  },
+  {
+    "pantalla": "V05_stock_bajo",
+    "viewport": [
+      1440,
+      900
+    ],
+    "contenido": {
+      "w": 1440,
+      "h": 900
+    }
+  },
+  {
+    "pantalla": "V05_stock_bajo",
+    "viewport": [
+      390,
+      844
+    ],
+    "contenido": {
+      "w": 390,
+      "h": 1213
+    }
+  },
+  {
+    "pantalla": "V07_stock_bajo",
+    "viewport": [
+      1440,
+      900
+    ],
+    "contenido": {
+      "w": 1440,
+      "h": 900
+    }
+  },
+  {
+    "pantalla": "V07_stock_bajo",
+    "viewport": [
+      390,
+      844
+    ],
+    "contenido": {
+      "w": 390,
+      "h": 1160
+    }
+  },
+  {
+    "pantalla": "V20_opcionadas",
+    "viewport": [
+      1440,
+      900
+    ],
+    "contenido": {
+      "w": 1440,
+      "h": 900
+    }
+  },
+  {
+    "pantalla": "V20_opcionadas",
+    "viewport": [
+      390,
+      844
+    ],
+    "contenido": {
+      "w": 390,
+      "h": 1370
+    }
+  },
+  {
+    "pantalla": "V23_ordenes",
+    "viewport": [
+      1440,
+      900
+    ],
+    "contenido": {
+      "w": 1440,
+      "h": 900
+    }
+  },
+  {
+    "pantalla": "V23_ordenes",
+    "viewport": [
+      390,
+      844
+    ],
+    "contenido": {
+      "w": 390,
+      "h": 1731
+    }
+  },
+  {
+    "pantalla": "V14_correo",
+    "viewport": [
+      1440,
+      900
+    ],
+    "contenido": {
+      "w": 1440,
+      "h": 900
+    }
+  },
+  {
+    "pantalla": "V14_correo",
+    "viewport": [
+      390,
+      844
+    ],
+    "contenido": {
+      "w": 390,
+      "h": 1493
+    }
+  }
+]

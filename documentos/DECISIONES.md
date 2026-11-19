@@ -13,6 +13,16 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-49 y DEC-50:** las tomó el arquitecto-revisor el 2026-11-08, a pedido de Mauricio («actúa como el agente de arquitectura que tengo configurado y toma esas decisiones»). Mauricio puede revertirlas.
 - **DEC-47:** la fecha de inicio del sprint 1 y la forma de mostrar «EN SEMANAS» las decidió Mauricio el 2026-11-08, al empezar la sesión 5 (hallazgo H20), y en las dos escogió la opción recomendada. Después pidió que todo diga 5 sprints y 10 semanas, y se quitó la fila de sprints mínimos. El orden de las filas del Excel es asumido, por confirmar.
 - **PD-01 a PD-11 y las confirmaciones de los supuestos (DEC-08, DEC-20, DEC-39 a DEC-41, DEC-44, DEC-45, DEC-47 y DEC-48):** las tomó el agente `arquitecto-revisor` de Claude el 2026-11-08, por delegación expresa de Mauricio (puntos 4 y 5 de `PENDIENTES_POST_SESION6.md`), respetando sus decisiones ya confirmadas. El informe completo, con la evidencia, está en `REVISION_ARQUITECTO_POST_S6.md`. «PD» significa decisión posterior a la sesión 6. Mauricio puede revertir cualquiera.
+- **DEC-63, DEC-68 y DEC-69:** las asumió Claude y las confirmó Mauricio el 2026-11-17, al aprobar el corte 3.
+- **DEC-71 y DEC-72:** las asumió Claude el 2026-11-17 en el corte 4a y las confirmó Mauricio el mismo día, al aprobar el corte 4a.
+- **DEC-73 y DEC-74:** las asumió Claude el 2026-11-17 en el corte 4b y las confirmó Mauricio el mismo día, al aprobar el corte 4b.
+- **DEC-75 a DEC-77:** las decidió Mauricio el 2026-11-17, al empezar el corte 5 (DEC-76 siguiendo la recomendación de Claude; en DEC-75 escogió la opción no recomendada, «Ver PDF», y pidió además la lista de DEC-77).
+- **DEC-79 a DEC-81:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación de Claude, al revisar los pendientes del corte 5.
+- **DEC-85 y DEC-86:** las decidió Mauricio el 2026-11-17, al empezar el corte 6a (en DEC-86 escogió la opción con token, que no era la recomendada). **DEC-87** la asumió Claude el mismo día y la confirmó Mauricio el 2026-11-18, al aprobar el corte 6a.
+- **DEC-82:** la asumió Claude el 2026-11-17, al aplicar DEC-79 a DEC-81.
+- **DEC-78 y DEC-82:** las confirmó Mauricio el 2026-11-17, al aprobar el corte 5.
+- **DEC-83 y DEC-84, y la aplicación de PD-05:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación de Claude, al preparar el corte 6.
+- **DEC-88 a DEC-90:** las decidió Mauricio el 2026-11-18, al empezar el corte 6b, siguiendo la recomendación de Claude. **DEC-91** la asumió Claude el mismo día, por confirmar.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -45,7 +55,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-26 | Comentario de ventana (Q2) | «Atiende la ventana Vxx de los mockups», una línea por ventana | Aplicada |
 | DEC-27 | Caché del Proxy en Redis (Q3, cierra DEC-22) | `{Redis}` en el atributo y una nota en la 4e | Aplicada |
 | DEC-28 | El dominio de notificaciones usa puertos (Q4) | Se deja la 4d; se precisa la regla del README | Aplicada |
-| DEC-29 | Eventos entre servicios (Q5) | Un servicio solo importa el paquete `eventos` de otro, nunca su dominio | Aplicada (README). La demo no consume `cotizacion.validada` ni `tendencia.detectada`, así que T-06 sigue abierta (DEC-42) |
+| DEC-29 | Eventos entre servicios (Q5) | Un servicio solo importa el paquete `eventos` de otro, nunca su dominio | Aplicada (README). La demo no consume `cotizacion.validada` ni `tendencia.detectada`, así que T-06 sigue abierta (DEC-42). **Cerrada en el corte 6b** con PD-05: los dos eventos llevan tipos simples |
 | DEC-30 | Adaptadores JPA con colecciones en memoria (Q6) | Se copian tal cual, explicados en el Javadoc | Aplicada |
 | DEC-31 | Alcance de la demo (Q7) | La demo cubre las 7 salidas del reporte; el Singleton muestra un parámetro del tema | Aplicada (sesión 4) |
 | DEC-32 | `/api/integracion/**` en la 4e (D2) | En la misma línea del estereotipo de `AbastecimientoSoapEndpoint` | Aplicada |
@@ -58,7 +68,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-39 | Qué métodos tienen lógica en la sesión 4 | Solo lo que usa el recorrido de compra; los adaptadores de tecnología externa y los módulos que la demo no usa siguen pendientes (94 cuerpos) | **Confirmada** por el arquitecto-revisor (2026-11-08); Mauricio fija el alcance en **solo la demo** |
 | DEC-40 | Datos del recorrido que los mockups no fijan | Precios por unidad; pedido de $82.000; res en 12,5 kg; histórico del tablero cargado a mano | Mauricio confirmó precios por unidad y pedido; inventario inicial e histórico del tablero **confirmados por el arquitecto-revisor** (2026-11-08) como datos y límite de la demo |
 | DEC-41 | Cómo cambia una entidad sin métodos para eso | Constructores de copia y accesores de lista modificables; no se agregan métodos | **Confirmada con ajuste** por el arquitecto-revisor (2026-11-08): las listas modificables son una simplificación declarada de la demo |
-| DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 decidida en PD-05 | `adjuntoUrl` y límite de usuario/correlación: **confirmados por Mauricio**; 4d y nota `n_outbox` de la 4a actualizadas en la sesión 5 (`4da992c`, `f57a89e`); aclaraciones del reporte anotadas en `CORRECCIONES_REPORTE.md` (R-13, R-21, R-23 y R-45); T-06: **decidida por el arquitecto en PD-05, aplicación diferida** |
+| DEC-42 | Lo que los contratos entre servicios no alcanzan a llevar | El PDF va como `adjuntoUrl` en la firma (decidido por Mauricio); usuario `sistema`; un `correlacionId` por evento; T-06 decidida en PD-05 | `adjuntoUrl` y límite de usuario/correlación: **confirmados por Mauricio**; 4d y nota `n_outbox` de la 4a actualizadas en la sesión 5 (`4da992c`, `f57a89e`); aclaraciones del reporte anotadas en `CORRECCIONES_REPORTE.md` (R-13, R-21, R-23 y R-45); T-06: **decidida por el arquitecto en PD-05 y aplicada en el corte 6b (2026-11-18)** |
 | DEC-43 | Límites de la cadena de reglas y del umbral | Porcentajes redondeados a 2 decimales antes de comparar; límites estrictos y stock por debajo del 25 % | Decidida por Mauricio en la segunda ronda de la sesión 4 (2026-11-08), incluido el redondeo del stock |
 | DEC-44 | Dónde van las pruebas y el script | Carpeta `pruebas/` fuera de `src/`, sin JUnit, y `ejecutar.sh` | **Confirmada** por el arquitecto-revisor (2026-11-08); cifra actualizada a 176 verificaciones en 6 archivos |
 | DEC-45 | La demo y la cuenta de clases del reporte | 191 clases más `DemoArquitectura`, y 19 clases de apoyo en `demo/` que el reporte no cuenta | **Confirmada** por el arquitecto-revisor (2026-11-08): 211 = 191 + 20 |
@@ -72,9 +82,9 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-53 | Cómo llega el `meseroId` al pedido (DEC-51) | En el constructor: `Pedido(numero, mesa, meseroId)`; ninguna otra firma cambia | Aplicada y aprobada en la fase 1 de la sesión 6; validada en `VALIDACION_SESION6.md` |
 | PD-01 | Alarma WebSocket con varias réplicas de ms-notificaciones (A2) | Difusión por Redis pub/sub; V05 relee las alertas guardadas al abrirse | Decidida por el arquitecto-revisor (2026-11-08); efectos en 1, 3a, 4d y 5, y R-56 |
 | PD-02 | Categorías del proveedor | Se mantiene `List<String>`: nombres de las categorías de ms-menu, copiados por valor | Decidida por el arquitecto-revisor (2026-11-08); efecto en CU-09 |
-| PD-03 | BAM: periodos fijos frente al rango libre | Sin rango: demanda de 30 días y proveedor de 365; con rango, manda el rango; la sucursal filtra la demanda; solo cotizaciones OPCIONADAS | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_kpis`), CU-14 y R-31; código fuera de alcance |
-| PD-04 | Promociones: fuente de tendencias y periodo | Job semanal sobre los 7 días anteriores: tendencias de redes y los 3 más pedidos; vigencia de 7 días; supuesto S11 | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_promociones`), CU-06 y §17 del reporte |
-| PD-05 | T-06: eventos con tipos del dominio de otro servicio | Tipos simples en el contrato (`estado: String`, `diferenciaPorcentual`, `sugerencias: List<String>`); aplicación diferida | Decidida por el arquitecto-revisor (2026-11-08); aplicación diferida, pendiente de autorización de Mauricio (4c, 4e y código) |
+| PD-03 | BAM: periodos fijos frente al rango libre | Sin rango: demanda de 30 días y proveedor de 365; con rango, manda el rango; la sucursal filtra la demanda; solo cotizaciones OPCIONADAS | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_kpis`), CU-14 y R-31; código: aplicado en el corte 6b (`TableroService.kpis()` y `NegocioEventsListener`, 2026-11-18) |
+| PD-04 | Promociones: fuente de tendencias y periodo | Job semanal sobre los 7 días anteriores: tendencias de redes y los 3 más pedidos; vigencia de 7 días; supuesto S11 | Decidida por el arquitecto-revisor (2026-11-08); efectos en 4e (`n_promociones`), CU-06 y §17 del reporte; código: aplicado en el corte 6b (`detectarTendencias()` y `TendenciasJob`, 2026-11-18) |
+| PD-05 | T-06: eventos con tipos del dominio de otro servicio | Tipos simples en el contrato (`estado: String`, `diferenciaPorcentual`, `sugerencias: List<String>`); aplicación diferida | Decidida por el arquitecto-revisor (2026-11-08); **aplicación autorizada por Mauricio (2026-11-17)** para el corte 6 (4c, 4e y código); **aplicada en el corte 6b (2026-11-18)**, con el nombre del proveedor de DEC-89 |
 | PD-06 | Administración de roles y permisos | Seis roles fijos y una matriz fija de permisos por rol; administrador de alcance global; supuesto S10 para las listas maestras | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-15, R-57 y §17 del reporte |
 | PD-07 | Filtros de la auditoría | Solo rango de fechas, obligatorio; usuario y acción quedan como evolución | Decidida por el arquitecto-revisor (2026-11-08); efectos en CU-16 y HU-21 |
 | PD-08 | Autenticación de los consumidores externos del SOAP | OAuth 2.0 client credentials: JWT de cliente validado por el gateway, solo para `/api/integracion/**`; supuesto S12 | Decidida por el arquitecto-revisor (2026-11-08); efectos en páginas 1, 2 y 3a, CU-18 y §3/§17 del reporte |
@@ -84,6 +94,40 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-54 | Cómo se corrige el reporte si no aparece el script (A1) | Mauricio pregunta al equipo; si nadie lo tiene, se rehace el reporte con un script nuevo, conservando el PDF original | Decidida por Mauricio (2026-11-08); la reconstrucción va en el punto 1 |
 | DEC-55 | Formato del reporte nuevo | Sobrio, de documento académico: una sola letra (Times New Roman 12 pt), todo en negro, títulos en negrilla del mismo tamaño, tablas con líneas finas, APA 7; `.docx` editable más PDF | Decidida por Mauricio (2026-11-08); detalle en `PLAN_REPORTE.md` |
 | DEC-57 | Qué describe la documentación entregable | El proyecto completo, como diseño previo a la construcción: sin notas sobre límites del prototipo ni de la demo. Se aplica al reporte v2, el `.drawio`, los casos de uso, el Story Mapping corregido y el Excel; quedan fuera los textos que dependen del código (§13, README y pruebas) y los registros internos | Decidida por Mauricio (2026-11-09); cambios PC-01 a PC-21 |
+| DEC-58 | Cómo se construye la aplicación que funciona completa | El stack especificado (11 microservicios Spring Boot, gateway, Eureka, Kafka, PostgreSQL, Redis, almacén S3, SPA en React) con Docker Compose en un solo equipo, por cortes verticales; la versión en memoria queda de respaldo | Decidida por Mauricio (2026-11-16); corte 1 hecho en la rama `stack-real` de KonradGourmet |
+| DEC-59 | Almacén de objetos en local | SeaweedFS (S3 compatible) en lugar de MinIO, cuya imagen ya no se puede descargar | Aceptada por Mauricio (2026-11-16, con su OK al plan); no cambia el `.drawio` ni el reporte |
+| DEC-60 | Tecnología de la SPA | React + TypeScript, como dice la §8 del reporte; la web de Codex (HTML y JS) queda en la versión en memoria | Decidida por Mauricio (2026-11-16); va en el corte 2 |
+| DEC-61 | Cómo usan los servicios Spring el código de `src/` | Cada servicio copia al compilar el núcleo de su paquete en `src/` (dominio, eventos, puertos y aplicación), sin los adaptadores; sus adaptadores reales con Spring van en `servicios/` con los mismos nombres del diagrama. Una sola copia del dominio; `./ejecutar.sh` sigue compilando solo con `javac` | Decidida por Mauricio (2026-11-16) |
+| DEC-62 | Quién firma el JWT (no estaba en el diagrama) | Puerto nuevo `EmisorTokenPort` (puertos.salida) y `JwtEmisorAdapter` (adaptadores.salida); `IniciarSesionService` lo recibe en el constructor. Página 4a: 2 clases nuevas (191 → 193) | Decidida por Mauricio (2026-11-17); aplicada en el código y en las páginas 4a y 1 |
+| DEC-63 | Nombres del director comercial y del administrador | Andrés Rojas (`andres.rojas@konradgourmet.com`) y Paula Herrera (`paula.herrera@konradgourmet.com`), Sucursal Centro | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-64 | Quién aparece en la auditoría y cómo se une un recorrido en la plataforma | Como lo dicen el reporte y el diagrama: el usuario autenticado (del JWT) y un `correlacionId` que viaja por todo el recorrido. Lo pone el adaptador `KafkaEventPublisher` de `compartido` sin cambiar firmas del núcleo; DEC-42 sigue como límite solo de la versión en memoria | Decidida por Mauricio (2026-11-17); aplicada en el corte 3 |
+| DEC-65 | Cargo que muestra la SPA bajo el nombre | El nombre del rol del proyecto: Mesero, Jefe de cocina, Auxiliar de compras, Director de compras, Director comercial y Administrador, sin variantes por persona | Decidida por Mauricio (2026-11-17); aplicada en el corte 3 |
+| DEC-66 | Categoría de la carta en los platos | `categoria` obligatoria en `Plato`, `MenuActualizadoEvent` y `PlatoCatalogo` (filtro de V03, campo de V06) | Decidida por Mauricio (2026-11-17); aplicada en el código y en la página 4b |
+| DEC-67 | Dónde se guarda la imagen del plato | En el almacén de objetos (S3): `AlmacenArchivosPort` y `AlmacenObjetosAdapter` de ms-menu; 2 clases nuevas (193 → 195) | Decidida por Mauricio (2026-11-17); aplicada en el código y en las páginas 4b, 3a y 1 |
+| DEC-68 | Cierre diario en la demostración | Botón «Cierre del día» en V07 que llama al mismo `ConsumoDiarioJob` (`CierreDiaController`, fuera del diagrama) | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-69 | Detalles del corte 3 | Turno = hoy en Bogotá, número de pedido por secuencia, carta inicial por eventos, productos sin categoría = todos, «Plato N», V03 precargado, «—» en V05 | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-70 | Tamaño del corte 4 | Partirlo en 4a (ms-solicitudes V08–V12 y ms-integracion) y 4b (ms-cotizaciones V13–V19, proveedores y PDF), cada uno con su reporte y su OK | Decidida por Mauricio (2026-11-17) |
+| DEC-71 | Cómo se simula en local el Ministerio de Comercio | Un contenedor `ministerio` con WireMock que publica el WSDL y responde por SOAP el precio de cada producto (300 ms) o un SOAP Fault; `MinisterioSoapClient` habla SOAP 1.1 de verdad con el JDK. El diagrama no cambia | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-72 | Detalles del corte 4a | SOL-031 en adelante por secuencia, sin solicitudes iniciales y V08 precargada la primera vez; «Mis solicitudes» filtra por el jefe del token en el controlador; rol por ruta; el auxiliar lee los productos de ms-menu y ve el correo del solicitante; REST interno en `/interno/precios/{id}`; el SOAP con cualquier token válido; caché en Redis con vencimiento de un día; «—» en «Cotizaciones enviadas» hasta el 4b | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-73 | Librería del PDF de la cotización | OpenPDF, la que ya nombra el diagrama en `PdfCotizacionAdapter` («OpenPDF»); el diagrama no cambia | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-74 | Detalles del corte 4b | COT-018 en adelante por secuencia, pedido antes de generar; los 4 proveedores de la demo; copia local del nombre de cada producto en ms-cotizaciones (lo manda la SPA); la SPA suma los productos de las solicitudes; roles por ruta; el PDF sin precio de referencia; V16 con «Órdenes de compra» en «—» hasta el corte 5; listeners de `orden.generada` ya suscritos | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-75 | «Ver PDF» de la orden en V23 | La directora abre el PDF de la orden desde V23 (`GET /api/ordenes-compra/{id}/pdf`): `pdf(numero)` en `OrdenCompraRestController`, `GenerarOrdenUseCase` y `OrdenCompraService`, y `porNumero(numero)` en `OrdenRepositoryPort` y `OrdenJpaAdapter` | Decidida por Mauricio (2026-11-17); aplicada en el código y en las páginas 4d y 1; el mockup V23 queda por cambiar (CD-01) |
+| DEC-76 | Cómo sabe V14 que el correo salió | Cada envío guarda la correlación del recorrido; `EnviosController` (fuera del diagrama, solo lectura) responde `GET /api/notificaciones/envios?correlacion=…` y V14 espera unos segundos el resultado. La 4d no cambia | Decidida por Mauricio (2026-11-17) |
+| DEC-77 | Dónde se anotan los cambios que la documentación tiene que recoger | En `CAMBIOS_A_DOCUMENTAR.md`: cada cosa que el código agrega, quita o cambia frente a los mockups, el `.drawio`, el reporte o las guías, con el artefacto, el lugar exacto y su estado | Decidida por Mauricio (2026-11-17) |
+| DEC-78 | Detalles del corte 5 | OC-0012 en adelante por secuencia, en una transacción; copia local de los nombres en ms-ordenes; la cotización se lee de ms-cotizaciones por Eureka con el JWT; V20 con número, fecha y orden (HU-17); la orden queda EN_PROCESO; 5 tópicos (tendencia.detectada en el corte 6); decoradores copiados de `src/`; Mailpit sin TLS; el jefe de la demo como destinatario inicial; 2 reintentos y la cola `notificaciones.dlq`; la alarma por Redis y WebSocket con el token en la URL solo en esa ruta | Asumida por Claude y confirmada por Mauricio (2026-11-17), con los reemplazos de DEC-80 y DEC-81 |
+| DEC-79 | Cómo se documentan las clases que no están en el diagrama | Como notas «Infraestructura que no se dibuja» en las páginas 4a, 4c y 4d, sin cajas nuevas; la cuenta del §13 sigue en 195; lo que es solo de la demostración (`CierreDiaController`, `DatosIniciales`) no se documenta | Decidida por Mauricio (2026-11-17); aplicada en el `.drawio` (páginas 1, 3a, 4a, 4c, 4d y 5); la frase del §13 queda para el corte 7 (CD-15) |
+| DEC-80 | Cómo pasa la orden a FINALIZADA | `finalizar()` en `OrdenCompra` y `finalizar(numero)` ‹V23› en `GenerarOrdenUseCase`, `OrdenCompraService` y `OrdenCompraRestController`; `PATCH /api/ordenes-compra/{id}/finalizar` (directora de compras) y el botón «Marcar como recibida» en V23 | Decidida por Mauricio (2026-11-17); aplicada en el código, la SPA y las páginas 4d y 1; el mockup V23 y el reporte, por cambiar (CD-11 y CD-12) |
+| DEC-81 | Quién vuelve a procesar la cola `notificaciones.dlq` | `ReprocesoColaErrores` en ms-notificaciones (fuera del diagrama): un listener que espera 5 min por registro y lo vuelve a notificar, hasta 3 rondas; HU-12 sigue igual | Decidida por Mauricio (2026-11-17); aplicada en el código y en `n_fallos` de la 4d; el reporte, por cambiar (CD-14) |
+| DEC-82 | Detalles de DEC-79 a DEC-81 | ‹V23› solo en el controlador; una nota de infraestructura por microservicio; V14 sube 8 px en la página 1; textos de la confirmación de V23; grupo, cabecera y fallos del reproceso de la cola; la cola vieja se reprocesa una vez | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-83 | Tamaño del corte 6 | Partirlo en 6a (ms-administracion) y 6b (ms-analitica), cada uno con su reporte y su OK | Decidida por Mauricio (2026-11-17) |
+| DEC-84 | Logs de errores en local | Elasticsearch real en el compose (un nodo); cada servicio envía sus errores con un appender de logback en `compartido` y `ElasticsearchLogsAdapter` los consulta | Decidida por Mauricio (2026-11-17) |
+| DEC-85 | Cómo ve el administrador los parámetros generales | `+ parametros(): Map<String, String>` en `AdministracionUseCase`, `AdministracionService` y `AdminRestController` (`GET /api/admin/parametros`, solo el administrador) | Decidida por Mauricio (2026-11-17); aplicada en el código, la SPA y la página 4e |
+| DEC-86 | Quién lee el tema | Cualquier usuario con sesión (`GET /api/admin/parametros/tema` con token); la pantalla de inicio de sesión conserva el logo y el color de siempre | Decidida por Mauricio (2026-11-17); aplicada en el código, la SPA y la nota `n_parametros` de la 4e |
+| DEC-87 | Detalles del corte 6a | Elasticsearch 8.19.4 de un nodo; appender propio por lotes; la bitácora guarda la correlación y no repite eventos; las acciones propias a nombre de quien inició sesión; claves, color y logo validados; refresco cada minuto; menú del administrador en un grupo; la auditoría de los destinatarios; mensajes de PD-10 en el código; ventanas sin mockup | Asumida por Claude (2026-11-17) y confirmada por Mauricio (2026-11-18), al aprobar el corte 6a |
+| DEC-88 | Gráfica y periodo de cada indicador del tablero BAM | `ResultadoKpi` gana `- ranking: Map<String, BigDecimal>` (los 5 primeros) y `- desde` / `- hasta: LocalDate` (el periodo que aplicó `TableroService`); la SPA dibuja las barras con el ganador resaltado | Decidida por Mauricio (2026-11-18); aplicada en el código, la SPA y la página 4e |
+| DEC-89 | Nombre del proveedor en el tablero | `CotizacionValidadaEvent` gana `- proveedor: String`, junto con lo de PD-05 (`estado: String` y `+ diferenciaPorcentual`) | Decidida por Mauricio (2026-11-18); aplicada en el código y en la página 4c |
+| DEC-90 | Nombre de los platos en el tablero | Copia local en ms-analitica con `menu.actualizado` (`NombresNegocio`, fuera del diagrama, como el catálogo de ms-pedidos); `NegocioEventsListener` sigue con sus 5 tópicos | Decidida por Mauricio (2026-11-18); aplicada en el código y en las páginas 4e (nota) y 3a (consume `menu.actualizado`) |
+| DEC-91 | Detalles del corte 6b | API de redes simulada con WireMock y token; job semanal (cada 30 s en local) con ShedLock; reglas de las sugerencias (7 días anteriores, motivos, vigencia, sin repetir el mismo día, una notificación por día); sugerencias de toda la empresa; correo a todos los jefes; hechos de los 5 tópicos sin repetir eventos; rango completo o nada; histórico de la demostración; ventanas sin mockup | Asumida por Claude (2026-11-18), por confirmar |
 
 ---
 
@@ -997,6 +1041,8 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Qué implica:** T-06 queda decidida. Mientras no se aplique, A sigue siendo el límite declarado de la demo. Aplicarla cambia a la vez la 4c, la 4e y el código (los dos eventos, la llamada en `CotizacionService.validar()` y la rama T-06 de `NotificacionService`); son unas 10 líneas y cabe en la demo, pero no hace falta: **solo se aplica si Mauricio lo autoriza**, porque el alcance actual es solo la demo (DEC-39). Se pierde el tipado fuerte del estado en el consumidor.
 
+**Autorización (2026-11-17).** Mauricio autorizó aplicarla en el corte 6 (6a o 6b, donde la necesite el primer consumidor), siguiendo la recomendación de Claude: ms-analitica necesita `diferenciaPorcentual` para el KPI del proveedor (PD-03) y ms-notificaciones deja de copiar clases del dominio de ms-analitica (DEC-78).
+
 ## PD-06 · ¿Quién administra roles y permisos, y con qué alcance?
 
 **Por qué hubo que decidir.** La 4a tiene seis subclases de `Usuario` (Factory Method) y el menú por rol (Composite); `RegistrarUsuarioUseCase.registrar(nombre, correo, rol, sucursalId, clave)` da de alta usuarios (DEC-10) y el reporte (§16) promete «verificación del rol en cada endpoint». `AdministracionUseCase.parametrizar(clave, valor)` guarda solo pares clave-valor. CU-15 lo dejaba abierto.
@@ -1158,6 +1204,433 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Alcance:** el reporte v2, el `.drawio`, los casos de uso, el Story Mapping corregido y el Excel. Quedan fuera los textos que dependen del código (la §13 del reporte, el README y las pruebas), que siguen describiendo el código tal como está, y los registros internos (este archivo, `CORRECCIONES_*`, `VALIDACION_*`, `REVISION_*`, `INVENTARIO_*`, `PLAN_*`, `PENDIENTES_POST_SESION6.md` y `ESTADO_PROYECTO_Y_C4.md`), que quedan como historial.
 
 **Qué implica:** DEC-42 sigue valiendo para el código; solo deja de citarse en los entregables. Los cambios van en los commits PC-01 a PC-21.
+
+## DEC-58 · ¿La aplicación completa corre con todos los microservicios, o con una versión distinta para local?
+
+**Por qué hubo que decidir.** Para la entrega final (23 o 28 de noviembre de 2026), Mauricio pidió que la web de Konrad Gourmet funcione completa, «tal como lo tenemos especificado». Hasta ahí el código era un solo programa Java en memoria, sin Spring, Kafka ni bases de datos (DEC-25), y la web de Codex usaba rutas propias, no las del reporte.
+
+**Prueba hecha el 2026-11-16 en el equipo de Mauricio** (31 GB de RAM, 12 núcleos, Docker 29): PostgreSQL con las 11 bases, Kafka con los 10 tópicos, Redis, almacén S3 y Mailpit respondieron; un microservicio Spring Boot de prueba arrancó en 2,9 s con unos 200 MB, guardó un pedido en su base y publicó y recibió el evento por Kafka. Estimado de todo el sistema: 5–6 GB.
+
+**Opciones:**
+- **A. Solo funcionalidad, en memoria:** completar la web y la lógica sobre el programa actual. Rápido, pero no es la arquitectura del reporte.
+- **B. Por etapas:** primero toda la funcionalidad en memoria y después el stack real. La SPA se haría dos veces contra rutas distintas.
+- **C. El stack real directo, por cortes verticales** (cada corte con su pantalla, su servicio, su base y sus eventos, funcionando de punta a punta); la versión en memoria queda de respaldo. ✅ **Recomendada por Claude y aceptada por Mauricio el 2026-11-16.**
+
+**Qué cambia frente a la página 5 (despliegue):** una réplica por servicio, un broker de Kafka, un PostgreSQL con once bases y once usuarios separados (cada usuario solo puede conectarse a su base), sistemas externos simulados (Ministerio, correo certificado con Mailpit, redes sociales) y sin CDN, WAF, zonas, centro alterno, MirrorMaker, mTLS ni ELK. La funcionalidad y la arquitectura de software no cambian.
+
+**Qué implica:** el código nuevo va en la rama `stack-real` de KonradGourmet (carpetas `servicios/` y `plataforma/`), en 7 cortes: 1) infraestructura, Eureka, gateway y Nginx; 2) ms-identidad y la SPA; 3) pedidos, menú e inventario; 4) solicitudes, cotizaciones e integración; 5) órdenes y notificaciones; 6) administración y analítica; 7) pruebas y cierre. Si el tiempo se acorta, se protegen los cortes 1 a 5. Por DEC-57, los entregables no cambian.
+
+## DEC-59 · ¿Qué almacén de objetos se usa en local?
+
+**Por qué hubo que decidir.** El reporte y el diagrama nombran MinIO como ejemplo del almacén de objetos S3 compatible, pero el 2026-11-16 su imagen ya no se podía descargar (Docker Hub: «pull access denied»; Quay: 401).
+
+**Opciones:**
+- **A. SeaweedFS** (`chrislusf/seaweedfs:3.97`), S3 compatible; probado con el cliente oficial de AWS: crea el bucket, sube y baja archivos y rechaza credenciales falsas. ✅ **Propuesta por Claude y aceptada por Mauricio el 2026-11-16** (su OK al mensaje que la proponía).
+- **B. Compilar MinIO desde el código fuente.** Más lento de armar y de mantener.
+- **C. Guardar los PDF en disco.** Deja de ser un almacén de objetos.
+
+**Qué implica:** el adaptador habla la API S3, así que no cambia. El `.drawio` ya dice «almacén de objetos (S3 compatible)»; el reporte no se toca (DEC-57).
+
+## DEC-60 · ¿En qué tecnología va la SPA?
+
+**Por qué hubo que decidir.** La §8 del reporte dice que la SPA está hecha con React y TypeScript y la sirve Nginx, pero la web que dejó Codex es HTML y JavaScript sin framework.
+
+**Opciones:**
+- **A. Migrar a React + TypeScript,** aprovechando los estilos y las pantallas de Codex. ✅ **Escogida por Mauricio el 2026-11-16.**
+- **B. Mantener HTML y JS** y anotar la diferencia con el reporte.
+
+**Qué implica:** la SPA nueva consume las rutas de la tabla 5 a través del gateway. La web de Codex queda en la versión en memoria (`./web.sh`).
+
+
+## DEC-61 · ¿Cómo usan los servicios Spring el código que ya existe en `src/`?
+
+**Por qué hubo que decidir.** En `src/` ya están, en Java sin frameworks, el dominio, los puertos, los servicios de aplicación y unos adaptadores con los nombres del diagrama (`PedidoJpaAdapter`, `PedidoRestController`…), que usa la versión en memoria. Los servicios Spring necesitan ese mismo núcleo y adaptadores con anotaciones y tecnología real.
+
+**Restricciones:** una sola copia del dominio, los puertos y la aplicación; los nombres siguen el diagrama; `./ejecutar.sh` sigue compilando con `javac` y pasando sus pruebas.
+
+**Opciones:**
+- **A. Cada servicio copia al compilar el núcleo de su paquete desde `src/`** (dominio, eventos, puertos y aplicación, sin `adaptadores/`) y tiene en `servicios/<ms>/` sus adaptadores Spring con los mismos nombres y paquetes. Los adaptadores de `src/` quedan como referencia de la versión en memoria. ✅ **Recomendada por Claude y aceptada por Mauricio el 2026-11-16** («si»).
+- **B. Mover el código a los módulos Maven** y poner las anotaciones en las clases de `src/`. Rompe `./ejecutar.sh`, la demo y el historial de `git log --follow`.
+- **C. Copiar el núcleo a mano en cada servicio.** Dos copias del dominio que se desincronizan.
+
+**Qué implica:** la lógica que falta (por ejemplo, el inicio de sesión) se escribe en `src/` con sus pruebas en `pruebas/`, y la usan las dos versiones. Hay dos clases con el mismo nombre por adaptador (la de `src/` y la Spring); la del diagrama es la Spring.
+
+## DEC-62 · ¿Quién firma el JWT?
+
+**Por qué hubo que decidir.** La §8.3 del reporte dice que ms-identidad «emite un JWT», y `IniciarSesionService.iniciarSesion()` devuelve `TokenAcceso` con el `jwt`, pero el servicio solo recibe `UsuarioRepositoryPort`, `CifradorPort` y `EventPublisherPort`: ningún puerto del diagrama firma el token.
+
+**Opciones:**
+- **A. Puerto nuevo `EmisorTokenPort`** (puertos.salida, `emitir(u: Usuario): String`) con su adaptador `JwtEmisorAdapter` (adaptadores.salida); `IniciarSesionService` lo recibe en el constructor. El núcleo no conoce la librería de JWT. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Que lo firme `AuthRestController`.** El diagrama no cambia, pero la seguridad queda en un adaptador de entrada.
+
+**Qué implica:** la página 4a gana 2 clases (191 → 193), un atributo en `IniciarSesionService` y dos relaciones, y la caja «Cifrado · JWT» de la página 1 suma `JwtEmisorAdapter` (aplicado el 2026-11-17; en la pregunta a Mauricio se dijo «4b» por error: `identidad` está en la 4a). La §13 del reporte dice «191 clases»: pasa a 193 cuando se regenere el reporte (corte 7). El token se firma con RS256; el gateway valida la firma con la llave pública que publica ms-identidad (JWKS), así que nadie más tiene la llave privada. La llave se guarda en la base de ms-identidad para que reiniciar el servicio no cierre las sesiones.
+
+## DEC-63 · Nombres del director comercial y del administrador
+
+**Por qué hubo que decidir.** Los mockups no tienen pantallas de estos dos roles, y el login necesita un usuario de cada uno.
+
+**Supuesto:** Andrés Rojas, director comercial (`andres.rojas@konradgourmet.com`), y Paula Herrera, administradora (`paula.herrera@konradgourmet.com`), los dos de la Sucursal Centro. Asumido por Claude el 2026-11-17 y **confirmado por Mauricio el mismo día**, al aprobar el corte 3; cambiarlos solo toca los datos iniciales de ms-identidad.
+
+## DEC-64 · ¿Quién aparece en la auditoría de la plataforma, y cómo se une un recorrido?
+
+**Por qué hubo que decidir.** En la plataforma, cuando la administradora registra un usuario, `auditoria.evento` dice «sistema»: los casos de uso no reciben al usuario autenticado y cada evento crea su propio `correlacionId`. Eso era DEC-42 (opción A), aceptada como límite de la demo en memoria. Pero el reporte promete acción, usuario, fecha y hora en cada auditoría (§3 y tabla 11), la nota `n_outbox` de la 4a dice que el `correlacionId` une todos los eventos de un mismo recorrido, y la §5 dice que la sesión viaja en el JWT.
+
+**Opciones:**
+- **A. Dejar «sistema»** en la plataforma, como en la demo.
+- **B. Pasar el usuario y la correlación por parámetro** en todos los casos de uso: cambia firmas y el diagrama 4a–4e.
+- **C. Lo que dicen la documentación y el diagrama, resuelto en la infraestructura:** el adaptador `KafkaEventPublisher` de `compartido` completa el evento antes de publicarlo: si dice «sistema» y hay un usuario autenticado, pone su correo; y pone el `correlacionId` del recorrido (el de la cabecera `X-Correlation-Id` de la petición, o el del evento que la originó cuando la escritura viene de un listener de Kafka; si no hay, uno nuevo). Un filtro de `compartido` guarda ese contexto por petición, y el gateway crea la cabecera si no viene. El núcleo y sus firmas no cambian. ✅ **Escogida por Mauricio el 2026-11-17** («como lo definimos en la documentación y diagramas, aplicado a local»); la forma concreta la propuso Claude.
+
+**Qué implica:** DEC-42 queda como límite solo de la versión en memoria (`./ejecutar.sh`). Los procesos sin usuario (jobs programados, como `ConsumoDiarioJob`) siguen publicando «sistema», que es correcto. Se aplica al empezar el corte 3, con pruebas: el alta de un usuario queda a nombre de quien la hizo y los eventos de un mismo recorrido comparten `correlacionId`.
+
+**Aplicada el 2026-11-17** (corte 3): `FiltroContexto`, `InterceptorCorrelacion`, `ContextoRecorrido` y `KafkaEventPublisher` en `compartido`, y `CorrelacionGateway` en el gateway. Lo prueban `RecorridoTest` (compartido), `AltaUsuarioAuditadaTest` (ms-identidad) y, en la plataforma, `verificar_corte3.py`: el pedido y su auditoría salen con el correo del mesero y la misma correlación, y el cierre diario publica «sistema». Para reconstruir el evento en el consumidor, el publicador agrega una cabecera con la clase del evento (`kg-evento`), que solo acepta subclases de `EventoDominio` del proyecto.
+
+## DEC-65 · ¿Qué cargo muestra la SPA bajo el nombre del usuario?
+
+**Por qué hubo que decidir.** La SPA mostraba «Directora Área de Compras» y «Administradora», como los mockups de Laura y Paula, pero el texto sale del rol, así que un usuario nuevo de ese rol quedaba con un cargo que no necesariamente le corresponde.
+
+**Opciones:**
+- **A. Dejar los textos de los mockups.**
+- **B. Cargos neutros inventados** («Dirección de Compras»).
+- **C. Los nombres de los roles del proyecto:** Mesero, Jefe de cocina, Auxiliar de compras, Director de compras, Director comercial y Administrador (los 6 roles del reporte y de los casos de uso). ✅ **Escogida por Mauricio el 2026-11-17** («manejemos los roles que maneja el proyecto»).
+
+**Qué implica:** cambia solo `NOMBRE_ROL` de la SPA (`web/src/sesion/token.ts`); se aplica al empezar el corte 3. **Aplicada el 2026-11-17.**
+
+## DEC-66 · ¿Los platos tienen categoría de la carta?
+
+**Por qué hubo que decidir.** V03 filtra la carta por categoría (Fuertes, Entradas, Sopas, Bebidas, Postres) y V06 pide la categoría del plato, pero `Plato`, `PlatoCatalogo` y `MenuActualizadoEvent` no la tienen en el diagrama; la interfaz en memoria de Codex la guardaba aparte, solo en `ServidorWeb`.
+
+**Opciones:**
+- **A. Agregarla al diseño:** `categoria: String` en `Plato` (obligatoria en `validar()`), `MenuActualizadoEvent` y `PlatoCatalogo`. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. No usarla:** el diagrama no cambia; V03 queda sin filtro y V06 sin el campo.
+
+**Qué implica:** cambian los constructores de las tres clases y la página 4b (aplicado el 2026-11-17). La categoría de la carta no es la `Categoria` de productos (Proteína, Cereal…), que sigue igual.
+
+## DEC-67 · ¿Dónde se guarda la imagen del plato?
+
+**Por qué hubo que decidir.** V06 tiene «Subir imagen del plato», y el diseño no tenía dónde guardarla (el almacén de objetos solo guardaba PDF).
+
+**Opciones:**
+- **A. Sin imagen por ahora:** el plato se muestra con un ícono; el diagrama no cambia.
+- **B. En el almacén de objetos (S3):** ms-menu sube la imagen a un bucket propio y el plato guarda su `imagenUrl`. ✅ **Escogida por Mauricio el 2026-11-17** (Claude había recomendado A).
+
+**Qué implica:** en la 4b, `Plato` gana `imagenUrl` y `asignarImagen(url)`; `RegistrarPlatoUseCase` y `PlatoService` ganan `guardarImagen(id, contenido, tipo)` e `imagen(id)`; `PlatoService` recibe un `AlmacenArchivosPort` propio de ms-menu, y aparece `AlmacenObjetosAdapter` en ms-menu (2 clases nuevas: 193 → 195, la §13 del reporte cambia al regenerarlo en el corte 7). La página 3a suma la flecha de ms-menu al almacén de objetos y la página 1 el adaptador «S3» de ms-menu. Rutas: `PUT` y `GET /api/platos/{id}/imagen` (PNG, JPEG o WebP, hasta 1 MB). `menu.actualizado` no lleva la imagen. El mesero también puede verla (V03); como un `<img>` no manda el JWT, la SPA la pide con `fetch` y la muestra desde la memoria del navegador.
+
+## DEC-68 · ¿Cómo se ve el cierre diario en la demostración?
+
+**Por qué hubo que decidir.** El inventario solo se descuenta en el cierre de las 23:59 (`ConsumoDiarioJob`), así que en una demostración la alerta de stock bajo de V05 no aparecería. La interfaz de Codex tenía un botón «Cierre del día (23:59)».
+
+**Opciones:**
+- **A. Un botón en V07 que llama al mismo job** (`POST /api/inventario/cierre`, solo el jefe de cocina, en una clase `CierreDiaController` fuera del diagrama, como `JwksController`). El job conserva su `@Scheduled` y su ShedLock. ✅ **Asumida por Claude el 2026-11-17 y confirmada por Mauricio el mismo día**, al aprobar el corte 3.
+- **B. Cambiar la hora del job por configuración** (por ejemplo, cada minuto) solo para la demostración.
+- **C. Sin atajo:** la alerta aparece solo después de las 23:59.
+
+**Qué implica:** el diagrama no cambia; el LEEME lista `CierreDiaController` entre las clases que no están en el diagrama.
+
+## DEC-69 · Detalles del corte 3 asumidos por Claude
+
+Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los confirmó Mauricio el mismo día**, al aprobar el corte 3:
+
+- **Turno del mesero.** `GET /api/pedidos?turno=actual` devuelve los pedidos del mesero desde las 00:00 de hoy, hora de Bogotá (los servicios corren con esa zona horaria). Otra opción era guardar turnos con hora de inicio y fin, que el diseño no tiene.
+- **Número del pedido.** El controlador arma el `Pedido` sin número y `PedidoJpaAdapter.guardar()` le asigna el siguiente de una secuencia de PostgreSQL (PED-0251 en adelante, como la demo). Otras opciones: que lo eligiera la SPA (choques entre meseros) o un puerto nuevo para numerar (cambia el diagrama).
+- **Carta inicial.** ms-menu crea los 8 platos de la demo con `PlatoService` la primera vez que arranca; ms-pedidos y ms-inventario los reciben por `menu.actualizado` (leen el tópico desde el principio). Otra opción era cargarlos con SQL en las tres bases, saltándose el evento.
+- **Productos de V06.** `productosPorCategoria(null)` devuelve todos los productos, para armar el selector de categoría y producto; la categoría de cada insumo en V07 se toma de esos productos. Otra opción era un método nuevo para listar categorías (cambia el diagrama).
+- **Platos que salieron del menú en pedidos viejos.** El detalle de un pedido muestra el nombre que da el catálogo vigente; si el plato ya se desactivó, se muestra «Plato N». Guardar el nombre en el detalle del pedido cambiaría `DetallePedido`.
+- **Pedido precargado.** Como en la interfaz de Codex, la primera vez del turno V03 trae 2 bandejas paisas («Sin arepa») y 1 ajiaco en la mesa 5.
+- **Inicio del jefe (V05).** Los indicadores de solicitudes muestran «—» y la tabla de solicitudes dice que llegan en el corte 4 (ms-solicitudes). Desde el corte 4a muestran las solicitudes del jefe (DEC-72).
+
+## DEC-70 · ¿El corte 4 va en un solo mensaje o en dos?
+
+**Por qué hubo que decidir.** El corte 4 trae tres servicios (ms-solicitudes, ms-cotizaciones y ms-integracion) y doce ventanas (V08–V19), más proveedores (HU-15, sin mockup), el PDF de la cotización y el cliente SOAP del Ministerio: el doble que el corte 3, que llenó una sesión entera. La regla de trabajo es un corte por mensaje, con reporte y OK.
+
+**Opciones:**
+- **A. Un solo corte,** como estaba en el plan.
+- **B. Partirlo en dos, cada uno con su reporte y su OK:** 4a, ms-solicitudes (V08–V12) y ms-integracion (precio de referencia del Ministerio, con su caché y el endpoint SOAP); 4b, ms-cotizaciones (V13–V19, proveedores y PDF en el almacén de objetos), que une el recorrido solicitud → cotización. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+
+**Qué implica:** el plan pasa a 8 entregas (1, 2, 3, 4a, 4b, 5, 6 y 7); la fecha de entrega (23 o 28 de noviembre) no cambia. En 4a, las solicitudes no reciben todavía los eventos de cotizaciones (`CotizacionEventsListener` se prueba en 4b).
+
+## DEC-71 · ¿Cómo se simula en local el servicio web del Ministerio de Comercio?
+
+**Por qué hubo que decidir.** ms-integracion consulta el precio estándar al Ministerio de Comercio por SOAP (`MinisterioComercioAdapter` sobre `MinisterioSoapClient`, página 4e), pero el Ministerio es un sistema externo (página 2) y en local no hay un servicio real al que llamar. `MinisterioSoapClient` estaba pendiente y la demo en memoria usa `MinisterioSoapSimulado`, una subclase que no sale del proceso.
+
+**Opciones:**
+- **A. Un contenedor `ministerio` con WireMock** (`wiremock/wiremock:3.13.1`), fuera del sistema como Mailpit: publica el WSDL (`plataforma/infra/ministerio/precios.wsdl`) y responde `consultarPrecioEstandar` con el precio por kilo de la demo (res $20.000, arroz $8.000, papa $3.500 y pollo $14.000) en 300 ms, o un SOAP Fault si no conoce el producto. `MinisterioSoapClient` se implementa en `src/` con el JDK (sobre SOAP 1.1 por `HttpClient` y lectura con DOM, sin XXE), así lo usan igual la versión en memoria y ms-integracion, que lo copia de `src/` porque no lleva Spring. WireMock cuenta las llamadas, y eso prueba cuándo respondió el Ministerio y cuándo Redis. ✅ **Asumida por Claude el 2026-11-17 y confirmada por Mauricio el mismo día**, al aprobar el corte 4a.
+- **B. Un microservicio Spring propio que haga de Ministerio** (con CXF). Más código y otra imagen que compilar para algo que está fuera del sistema.
+- **C. Un `MinisterioSoapClient` falso dentro de ms-integracion** (como `MinisterioSoapSimulado`). No pasa nada por la red ni por SOAP: la prueba de la caché quedaría en el mismo proceso.
+
+**Qué implica:** el diagrama no cambia (el Ministerio ya es la caja gris externa de las páginas 2 y 3a y `MinisterioSoapClient` conserva su atributo y su método). El README pasa de 73 a 72 métodos pendientes. El LEEME de la plataforma lista el contenedor entre los sistemas externos simulados (DEC-58).
+
+## DEC-72 · Detalles del corte 4a asumidos por Claude
+
+Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los confirmó Mauricio el mismo día**, al aprobar el corte 4a:
+
+- **Numeración y datos iniciales.** `SolicitudJpaAdapter.guardar()` numera con una secuencia de PostgreSQL desde SOL-031, como la demo (30 solicitudes anteriores), igual que los pedidos (DEC-69). La demo no tiene solicitudes guardadas, así que la base empieza vacía; como en la interfaz de Codex, la primera vez V08 trae precargada la solicitud de la demo (res 20 kg «Marca X» y arroz 15 kg). Otra opción era insertar solicitudes de ejemplo con SQL, saltándose `solicitud.registrada`.
+- **Rearmar la solicitud.** `SolicitudAlimentos` gana un constructor con fecha, estado, valor sugerido, cotizaciones aplicadas y productos, para leerla de la base (los diagramas omiten los constructores, como el de `Pedido` en el corte 3).
+- **«Mis solicitudes» (V10).** `CriteriosConsulta` no tiene solicitante, así que `misSolicitudes()` atiende `GET /api/solicitudes?solicitante=yo`, consulta con los demás criterios y deja solo las del jefe del token. Otra opción era agregar `solicitanteId` a `CriteriosConsulta` (cambia la 4c).
+- **Roles.** Registrar y «Mis solicitudes»: jefe de cocina. Consultar (V11–V12): auxiliar de compras, de todas las sucursales. Detalle: el auxiliar, y el jefe solo de las suyas (las de otro responden 404). El director de compras entra en el 4b, si lo necesita.
+- **Nombres en V11–V12.** ms-solicitudes guarda el id del producto, el de la sucursal y el correo del solicitante. Los nombres de los productos se leen de ms-menu (`GET /api/platos/productos`, que se abre también al auxiliar); la sucursal se nombra con la del token si es la misma y si no «Sucursal N»; el auxiliar ve el correo del solicitante, no su nombre. Guardar los nombres en la solicitud cambiaría `ItemSolicitud` y `SolicitudAlimentos`.
+- **REST interno de precios.** `PrecioRestController` atiende `GET /interno/precios/{productoId}`, fuera de `/api/**`: el gateway no lo enruta. Pide el JWT del auxiliar o del director de compras, que ms-cotizaciones le pasará en el 4b (en local no hay mTLS, DEC-58).
+- **SOAP con token.** El gateway valida el JWT en todo salvo `/api/auth/**`, así que el endpoint SOAP (y su WSDL) piden un token válido de cualquier rol; el WSDL anuncia la dirección del gateway. Un usuario propio para sistemas externos sería un rol nuevo (cambia la 4a).
+- **Caché.** Cada precio es una llave de Redis `precio-referencia:{producto}` con su JSON y un vencimiento de un día, el mismo plazo del Proxy (supuesto S3), así Redis no acumula precios viejos. La lógica del Proxy no cambia.
+- **Pendiente del 4b.** «Cotizaciones enviadas» en V11 muestra «—» y «Generar cotización» lleva a la ventana del 4b. V09 dice «La confirmación se enviará al correo registrado»: el correo lo manda ms-notificaciones (corte 5).
+
+## DEC-73 · ¿Con qué librería se genera el PDF de la cotización?
+
+**Por qué hubo que decidir.** `PdfCotizacionAdapter` estaba pendiente (la demo usa `PdfSimulado`, que escribe texto) y en la plataforma el proveedor tiene que recibir un PDF de verdad, que abra y que no esté dañado.
+
+**Opciones:**
+- **A. OpenPDF** (`com.github.librepdf:openpdf` 2.0.3, licencia LGPL/MPL), la que ya dice el diagrama: la 4c rotula `PdfCotizacionAdapter` con «OpenPDF». ✅ **Asumida por Claude el 2026-11-17 y confirmada por Mauricio el mismo día.**
+- **B. Apache PDFBox.** También libre y madura, pero de más bajo nivel para armar tablas, y el rótulo del diagrama cambiaría a «PDFBox».
+- **C. Plantilla HTML convertida a PDF** (por ejemplo, OpenHTMLtoPDF). Más fácil de diseñar, pero suma un motor de plantillas y otra librería que el diagrama no tiene.
+
+**Qué implica:** el diagrama no cambia. El PDF tiene una página carta con la marca, el número, el proveedor (razón social, NIT, correo, teléfono y dirección), las solicitudes de origen, la fecha límite y la tabla de productos con una columna vacía para el precio por unidad. No lleva el precio de referencia del Ministerio: ese lo compara la directora al validar. `PdfOrdenAdapter` (corte 5) puede usar la misma librería.
+
+## DEC-74 · Detalles del corte 4b asumidos por Claude
+
+Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los confirmó Mauricio el mismo día** (incluida la copia local de los nombres de productos):
+
+- **Numeración.** Una secuencia de PostgreSQL empieza en COT-018, la primera cotización de la demo (como SOL-031 en DEC-72). A diferencia de pedidos y solicitudes, el número se pide antes de generar (`NumeracionCotizaciones`, fuera del diagrama), porque la fachada crea el PDF, que ya lo lleva, antes de guardar la cotización. Si faltan las solicitudes o los productos, no se gasta número. Otra opción era un método nuevo `siguienteNumero()` en `CotizacionRepositoryPort` (cambia la 4c).
+- **Datos iniciales.** Los 4 proveedores de la demo (Proveedor ABC, B, C y D, con su NIT, correo, teléfono, dirección y categorías), cargados con Flyway. No hay cotizaciones iniciales.
+- **Nombres de los productos.** ms-cotizaciones guarda el id de cada producto. Para que el PDF diga «Res» y no «Producto 1», y para que la directora (que no lee ms-menu, DEC-72) vea los nombres, la SPA manda el nombre de cada producto al generar y ms-cotizaciones guarda una copia local (`producto_nombre`, `NombresProductos`, fuera del diagrama), como una orden guarda el nombre que tenía el producto al comprarlo. Otras opciones: que ms-cotizaciones le pregunte a ms-menu al generar el PDF (una dependencia nueva en la página 3a) o agregar el nombre a `ItemCotizacion` (cambia la 4c).
+- **Productos de V13.** La SPA suma las cantidades de cada producto de las solicitudes marcadas (las mismas que lee de ms-solicitudes) y el auxiliar puede quitar alguno; ms-cotizaciones no consulta ms-solicitudes (su base es otra). Un producto que no queda en la cotización deja su solicitud sin cotizar completa, y la solicitud no pasa a EN TRÁMITE.
+- **Proveedor y fecha.** Solo los proveedores activos salen en V13 y reciben cotizaciones (409 si está inactivo). La fecha máxima es obligatoria y no puede ser anterior a hoy; por omisión, dentro de 7 días, como la interfaz de Codex.
+- **Roles.** Generar y reenviar: auxiliar de compras. Pendientes, registrar valores y validar: directora de compras. Lista, detalle y PDF: las dos. Proveedores: el auxiliar registra, edita e inactiva; la directora los lee (filtro de V17).
+- **Precio de referencia.** `PrecioSugeridoRestAdapter` llama al REST interno de ms-integracion por Eureka (balanceador) con el JWT del usuario y su `X-Correlation-Id`, con 5 s de espera; si falla, la fachada guarda la cotización PENDIENTE_PRECIO, como dice el diagrama, y se reenvía desde V15.
+- **V14 y V16.** El tiquete de V14 marca «PDF generado»; «Correo enviado» queda sin marca hasta el corte 5, cuando ms-notificaciones envíe el correo al recibir `cotizacion.enviada` (el evento ya lleva el `pdfUrl` y el correo del proveedor). En V16, «Órdenes de compra» muestra «—» hasta el corte 5.
+- **Proveedores sin mockup (HU-15).** Una ventana con las piezas de V12: la lista con buscador y estado, y al lado el formulario de alta o edición, con «Inactivar» (que pide confirmación y no borra).
+- **Listeners de órdenes.** `OrdenGeneradaListener` (ms-cotizaciones) y la rama `orden.generada` de `CotizacionEventsListener` (ms-solicitudes) ya están suscritos y probados con JUnit; la prueba de punta a punta llega con ms-ordenes (corte 5).
+
+## DEC-75 · ¿La directora puede abrir el PDF de la orden desde V23?
+
+**Por qué hubo que decidir.** HU-14 pide generar el PDF de la orden y enviarlo por correo certificado al proveedor; el mockup V23 (p. 30) muestra la lista y el detalle de la orden, sin un botón para ver el PDF. En la página 4d, ms-ordenes guarda el PDF en el almacén, pero ningún método lo devuelve: solo le llega al proveedor por correo (claim check).
+
+**Opciones:**
+- **A. No, como el mockup.** La 4d no cambia; el PDF se comprueba en el almacén y en el adjunto del correo. (Recomendada por Claude.)
+- **B. «Ver PDF» en el detalle de V23.** `GET /api/ordenes-compra/{id}/pdf`: `pdf(numero: String): byte[]` en `OrdenCompraRestController` ‹V23›, `GenerarOrdenUseCase` y `OrdenCompraService` (lee la orden con `porNumero()` y el PDF del almacén con `obtener()`), y `porNumero(numero: String): OrdenCompra` en `OrdenRepositoryPort` y `OrdenJpaAdapter`. ✅ **Escogida por Mauricio el 2026-11-17** («agrégale algo como ver PDF»).
+
+**Qué implica:** cambian cinco declaraciones de la 4d (no hay clases nuevas: la cuenta del reporte sigue igual) y la fila de V23 de la página 1 suma `GET …/{id}/pdf` (aplicado el 2026-11-17). En `src/`, `OrdenJpaAdapter.porNumero()` queda pendiente como los demás métodos de ese adaptador (el real está en `servicios/ms-ordenes`): los pendientes pasan de 72 a 73. Quedan por cambiar el mockup V23 y la tabla de rutas del reporte (CD-01 y CD-02 en `CAMBIOS_A_DOCUMENTAR.md`). Solo la directora de compras abre el PDF; una orden que no existe responde 404.
+
+## DEC-76 · ¿Cómo sabe V14 que el correo al proveedor salió?
+
+**Por qué hubo que decidir.** V14 tiene dos marcas: «PDF generado» y «Correo enviado». El correo no lo envía ms-cotizaciones: lo envía ms-notificaciones después, al recibir `cotizacion.enviada`, y en la página 4d `EnvioRepositoryPort` solo registra los envíos (`registrar()` y `registrarFallo()`); no hay cómo consultarlos.
+
+**Opciones:**
+- **A. Una clase fuera del diagrama.** `EnvioJpaAdapter` guarda en cada envío la correlación del recorrido (DEC-64), sin cambiar su firma, y `EnviosController` (fuera del diagrama, como `CierreDiaController`) responde `GET /api/notificaciones/envios?correlacion=…`, solo lectura, al auxiliar y al director de compras y al administrador. V14 lee la correlación de la respuesta al generar, espera hasta unos 15 s y marca «Correo enviado» o «Correo no enviado». La 4d no cambia. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Agregarlo a la 4d:** `envios(correlacion)` en `NotificarUseCase`, `NotificacionService`, `EnvioRepositoryPort` y un controlador. Cambian tres o cuatro declaraciones.
+- **C. Marcarlo sin confirmar** apenas la cotización queda ENVIADA. No comprueba que el correo haya salido.
+
+**Qué implica:** la tabla `envio` de ms-notificaciones tiene la columna `correlacion_id`. La clase nueva va en la lista de clases fuera del diagrama del LEEME y en `CAMBIOS_A_DOCUMENTAR.md` (CD-03), para decidir en el corte 7 si se dibuja.
+
+## DEC-77 · ¿Dónde se anotan los cambios que la documentación tiene que recoger?
+
+**Por qué hubo que decidir.** Al construir la plataforma (DEC-58) aparecen cosas que los mockups, el `.drawio`, el reporte o las guías no tienen (un botón, una ruta, una clase fuera del diagrama) o que tienen distinto. Si no se anotan, se pierden antes de actualizar la documentación, que debe describir el proyecto completo (DEC-57).
+
+**Decisión (Mauricio, 2026-11-17):** cada vez que se agregue, se quite o se cambie algo frente a la documentación, se deja anotado qué cambio le toca a cada artefacto y dónde («agregar el botón Ver PDF al mockup V23», «agregar la clase al diagrama de la página tal o a la sección tal»).
+
+**Qué implica:** la lista vive en `CAMBIOS_A_DOCUMENTAR.md`, con un número CD-xx por cambio, el artefacto, el lugar exacto, la decisión que lo origina y su estado (pendiente o aplicado). Los cambios de los mockups los hace Mauricio en Canva, como M-01 a M-09 de `CORRECCIONES_HU_Y_MOCKUPS.md`; los del `.drawio` y del reporte se aplican en el corte 7, salvo los que ya se aplicaron al decidirlos. La lista también recoge lo de los cortes 1 a 4b que no estaba anotado.
+
+## DEC-78 · Detalles del corte 5 asumidos por Claude
+
+Ninguno cambia firmas ni el diagrama (el único que los cambia es DEC-75, que decidió Mauricio). Los asumió Claude el 2026-11-17; **los confirmó Mauricio el mismo día**, al aprobar el corte 5. Lo que la documentación tiene que recoger está en `CAMBIOS_A_DOCUMENTAR.md` (CD-05 a CD-10).
+
+- **Número de la orden.** `OrdenJpaAdapter.guardar()` le da a la orden nueva el siguiente número de una secuencia de PostgreSQL, OC-0012 en adelante, como la demo (igual que pedidos y solicitudes, DEC-69 y DEC-72); el núcleo genera el PDF después de numerar. Otra opción era pedirlo antes, como las cotizaciones (DEC-74), pero aquí no hace falta: `OrdenCompraService.generar()` ya guarda dos veces.
+- **Rearmar la orden.** `OrdenCompra` gana un constructor con todos sus campos para leerla de la base (los diagramas omiten los constructores, como el de `SolicitudAlimentos` en DEC-72).
+- **Una transacción por orden.** El núcleo no lleva anotaciones, así que `generar()` del controlador corre en una transacción: si el PDF o el almacén fallan, no queda una orden sin PDF que bloquee la cotización (el número de la secuencia sí se gasta). Dos clics a la vez sobre la misma cotización: la base rechaza la segunda (`cotizacion_numero` único) y responde 409. Si ms-cotizaciones no responde, 503 (se puede intentar de nuevo). Otra opción era un servicio Spring envolvente, una clase más.
+- **Nombres de los productos en ms-ordenes.** `ItemOrden` solo guarda el id del producto. Como en ms-cotizaciones (DEC-74), ms-ordenes guarda una copia local (`NombresProductos`, tabla `producto_nombre`) que `CotizacionRestClient` toma de la cotización que lee; con ella el PDF y V23 dicen «Res». Otra opción era agregar el nombre a `ItemOrden` (cambia la 4d).
+- **`CotizacionRestClient`.** Lee `GET /api/cotizaciones/{id}` de ms-cotizaciones dentro de la red, por Eureka y sin pasar por el gateway, con el JWT de la directora y su `X-Correlation-Id` (como `PrecioSugeridoRestAdapter`, DEC-74). Si la cotización no existe responde 400 «No existe la cotización…»; si no está OPCIONADA, 409 con el mensaje de HU-14.
+- **V20.** `opcionadas()` de `CotizacionRestController` (ya estaba en la 4c, faltaba en el servicio) responde `GET /api/cotizaciones?estado=OPCIONADA` a la auxiliar y a la directora; las CON_ORDEN ya no salen. La ventana compara las opcionadas de una misma solicitud, como el mockup, y agrega lo que HU-17 pide y el mockup no tiene: las columnas Nº y Fecha, «Ordenar por» (diferencia, valor total o número) y el mensaje «No hay cotizaciones opcionadas disponibles».
+- **Roles y estado de la orden.** Generar, consultar y abrir el PDF de una orden: solo la directora de compras. La orden queda EN_PROCESO: la 4d no tiene cómo pasarla a FINALIZADA; el filtro de V23 ofrece los dos estados, como el mockup.
+- **Tópicos de ms-notificaciones.** Escucha cinco: `tendencia.detectada` llega con ms-analitica en el corte 6 (T-06). Para compilar `NotificacionService` copia también `TendenciaDetectadaEvent` y, por T-06, `SugerenciaPromocion` y `EstadoSugerencia` del dominio de ms-analitica.
+- **Decoradores del correo.** Son Java puro, así que ms-notificaciones copia los de `src/` (como `MinisterioSoapClient`, DEC-71), en el orden del `Ensamble`: certificado (huella SHA-256), estampa cronológica y SMTP. En local, SMTP sin TLS hacia Mailpit (DEC-58), desde `notificaciones@konradgourmet.com`; el adjunto lleva el nombre del archivo en el almacén (`OC-0012.pdf`) y los textos son los del núcleo.
+- **Destinatarios.** Hasta la ventana del administrador (corte 6), la libreta empieza con el jefe de la demo en la Sucursal Centro (Flyway). `DestinatarioRestController` ya responde, solo al administrador.
+- **Fallos del correo.** Un intento y dos reintentos cada 2 s; si sigue fallando, el evento pasa a la cola de errores `notificaciones.dlq`, que se crea con los tópicos y no es uno de los 10 (la página 3a dice «cola de errores»). Desde ahí se vuelve a procesar a mano; la auxiliar también puede reenviar la cotización (HU-12). Cada intento queda en la traza. El chequeo de salud no mira el servidor de correo: si cae, el servicio sigue sano.
+- **Alarma en vivo (PD-01).** `AlarmaPushAdapter` publica en el canal `alarmas:stock-bajo` del mismo Redis; en local no hay usuarios de Redis separados (DEC-58). `CanalAlarmas` (fuera del diagrama) entrega la alarma por WebSocket en `/api/notificaciones/alarmas`, solo al jefe de cocina. El navegador no deja poner la cabecera Authorization al abrir un WebSocket, así que solo en esa ruta el gateway y el servicio aceptan el JWT en `?access_token=` (RFC 6750); Nginx no la escribe en el registro de accesos. No se restringe el origen porque la conexión no usa cookies. La SPA muestra la alarma arriba hasta cerrarla, con «Solicitar», que abre V08 (la alarma solo trae el texto, no el producto), y V05 y V07 vuelven a leer sus alertas.
+- **V14.** Pregunta por los envíos del recorrido cada segundo, hasta 15 s: «Correo enviado» con visto; «Correo no enviado», con el mensaje de PD-10 para ese caso («No se pudo enviar el correo al proveedor. La cotización {número} está guardada; puede reintentar el envío.»); o, si no hay respuesta, sin marca (DEC-76).
+- **Datos de las pruebas.** `recorrido_corte5.py` envía COT-022 al Proveedor B (res $22.000, arroz $8.000: +7,69 %), para que V20 compare dos opcionadas como pide HU-17; es la COT-021 de DEC-49, que en la plataforma tiene otro número porque COT-021 ya es la PENDIENTE_PRECIO del 4b. Para ver la alarma en vivo, el mesero registra por la API un pedido de 50 pechugas (el pollo baja al 24,5 %) y otro de 70 ajiacos (la papa, al 21,75 %); la res ya estaba bajo el umbral y no vuelve a avisar (DEC-46).
+
+**Reemplazos posteriores.** Dos partes de esta lista las reemplazan decisiones de Mauricio del mismo día: el estado de la orden (DEC-80: la orden pasa a FINALIZADA) y la cola de errores, que ya no se procesa a mano (DEC-81). El resto sigue por confirmar.
+
+## DEC-79 · ¿Cómo se documentan las clases que no están en el diagrama de clases?
+
+**Por qué hubo que decidir.** Los servicios Spring tienen piezas de infraestructura que las páginas 4a–4e no dibujan: `EnviosController` (DEC-76), `CanalAlarmas` y `ConfiguracionWebSocket` (DEC-78), `NombresProductos` y `NumeracionCotizaciones` (DEC-74 y DEC-78), y lo compartido de seguridad y trazas (DEC-62, DEC-64). `CAMBIOS_A_DOCUMENTAR.md` las tenía como «dibujar en el `.drawio` o nombrar en el reporte» (CD-03, CD-07, CD-08, CD-09, CD-52, CD-53 y CD-54). La regla de DEC-61 es «un solo modelo»: lo que está en el diagrama tiene su clase en `src/`.
+
+**Opciones:**
+- **A. Notas, sin cajas nuevas.** Una nota «Infraestructura que no se dibuja» en la página del servicio, con el estilo de `n_fallos` y `n_alarmapush`, que nombra cada clase y lo que hace; las rutas nuevas van en la fila de su ventana en la página 1. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Cajas en la 4x.** Cada caja obliga a crear su clase en `src/` («un solo modelo») y mostraría controladores que se saltan el núcleo (no pasan por un caso de uso).
+- **C. Dejarlo solo en el reporte.** El diagrama quedaría sin decir que esas piezas existen.
+
+**Qué implica:**
+- La cuenta del §13 del reporte sigue en 195 clases (CD-50 no cambia).
+- **4d:** nota «Infraestructura que no se dibuja» con `EnviosController` (`GET /api/notificaciones/envios?correlacion=…`, solo lectura, DEC-76) y la columna `correlacion_id`; `NombresProductos` de ms-ordenes (tabla `producto_nombre`); `n_alarmapush` crece con `CanalAlarmas`, `ConfiguracionWebSocket`, la ruta `/api/notificaciones/alarmas` y el token en `?access_token=` (solo en esa ruta); `n_fallos` nombra `notificaciones.dlq` con el texto de DEC-81.
+- **4c:** nota con `NumeracionCotizaciones` y `NombresProductos` de ms-cotizaciones (tabla `producto_nombre`).
+- **4a:** nota con `LlaveFirma` y `JwksController` (el JWKS que usa el gateway); lo de DEC-64 (`ContextoRecorrido`, `FiltroContexto`, `InterceptorCorrelacion` y `ConvertidorEventos`); `SeguridadServicio`, `Sesion`, `ManejoErrores` y `FormatoEventos`; y `SeguridadGateway` y `CorrelacionGateway`. `MapaPreciosRedis` no se toca: ya está como `{Redis}` en la 4e (DEC-27).
+- **3a:** la caja de Kafka (`c3a_bus`) nombra `notificaciones.dlq`; **5:** también `v17`.
+- **Página 1:** `GET /api/notificaciones/envios?correlacion=…` en la fila de V14 (`v23`) y `WS /api/notificaciones/alarmas` en la de V05 (`v12`).
+- **No se documentan** `CierreDiaController` (CD-52 pasa a «No aplica») ni los `DatosIniciales`: son solo de la demostración (DEC-57, DEC-68).
+- **Reporte (corte 7):** una frase en el §13 que remita a las notas, y la tabla de rutas (CD-10).
+
+## DEC-80 · ¿Cómo pasa la orden de compra a FINALIZADA?
+
+**Por qué hubo que decidir.** `EstadoOrden` tiene EN_PROCESO y FINALIZADA, y el filtro de V23 (p. 30) ofrece los dos, pero en la página 4d ningún método pasa la orden a FINALIZADA: en la plataforma toda orden quedaba EN_PROCESO (DEC-78).
+
+**Opciones:**
+- **A. Un método para finalizarla.** `+ finalizar(): void` en `OrdenCompra` (solo de EN_PROCESO a FINALIZADA; si ya lo está: «La orden OC-0012 ya está finalizada») y `+ finalizar(numero: String): OrdenCompra ‹V23›` en `GenerarOrdenUseCase`, `OrdenCompraService` y `OrdenCompraRestController`. Reutiliza `guardar()` del repositorio. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Dejarla EN_PROCESO y anotarlo.** El filtro de V23 tendría un estado que nunca aparece.
+
+**Qué implica:**
+- Cambian cuatro declaraciones de la 4d. No hay clases ni tópicos nuevos: siguen 195 clases, 73 pendientes y 10 tópicos.
+- La auditoría registra un `AuditoriaEvent` con la directora y la correlación del recorrido (DEC-64).
+- `PATCH /api/ordenes-compra/{id}/finalizar`, solo para la directora de compras: 404 si la orden no existe y 409 si ya está finalizada.
+- V23: botón «Marcar como recibida» en el detalle, solo en las órdenes EN_PROCESO, con confirmación.
+- Código: el núcleo en `src/` con sus pruebas en `pruebas/` (finalizar, finalizar dos veces y una orden que no existe); el adaptador Spring en `servicios/ms-ordenes`, con JUnit en `OrdenRestTest` (rol, 404 y 409); la SPA en `web/src/paginas/director/OrdenesCompra.tsx`.
+- Documentación: la 4d y la fila de V23 de la página 1 (`v34`) se actualizan ahora; el mockup V23 (p. 30), la tabla de rutas y el CU-13 del reporte quedan en `CAMBIOS_A_DOCUMENTAR.md` (corte 7).
+
+## DEC-81 · ¿Quién vuelve a procesar la cola de errores `notificaciones.dlq`?
+
+**Por qué hubo que decidir.** Con DEC-78, un evento cuyo correo falla tres veces pasa a `notificaciones.dlq` y ahí se queda: «se vuelve a procesar a mano», pero nada lo hace. HU-12 solo cubre el reenvío de una cotización; los avisos de `orden.generada`, de stock bajo y de las solicitudes no tienen reenvío.
+
+**Opciones:**
+- **A. Un listener con espera larga.** `ReprocesoColaErrores` en ms-notificaciones, fuera del diagrama como `CanalAlarmas`, lee la cola con su propio grupo de consumo y acuse manual; espera a que cada registro lleve la espera en la cola (con `nack(Duration)`, sin bloquear el hilo) y vuelve a llamar a `notificarEvento()`; si falla, lo publica otra vez en la cola con un contador en una cabecera, y después de 3 rondas lo deja ahí, con cada fallo en la traza. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Un endpoint del administrador** para reprocesar la cola a mano. Necesita una ventana que no existe.
+- **C. Solo el reenvío de HU-12.** No cubre `orden.generada`, el stock bajo ni las solicitudes.
+
+**Qué implica:**
+- Espera de 5 min de forma predeterminada y de 30 s en el compose local, por variable de entorno.
+- HU-12 sigue igual: la auxiliar puede reenviar la cotización cuando quiera.
+- La entrega es «al menos una vez»: si un evento tenía varios destinatarios y falló a mitad, al reprocesarlo se reenvía a todos.
+- El registro de la cola lleva su tópico original en la cabecera `kafka_dlt-original-topic`; con ella se sabe qué evento es.
+- Diagrama: solo cambia el texto de `n_fallos` en la 4d: «Si el correo falla, registrarFallo() deja la traza; tras dos reintentos el evento pasa a la cola de errores notificaciones.dlq, que se vuelve a procesar cada 5 minutos, hasta tres veces; el auxiliar también puede reenviar la cotización (HU-12).»
+- Pruebas: JUnit (el reproceso entrega el correo y se agota después de 3 rondas) y `verificar_corte5.py` (con el correo en pausa el evento llega a la cola; al reanudarlo, el correo llega solo, una vez y con la correlación original; después, el reenvío de HU-12 entrega un segundo correo).
+- La clase va en la lista de clases fuera del diagrama del LEEME y en `CAMBIOS_A_DOCUMENTAR.md`.
+
+
+## DEC-82 · Detalles de DEC-79 a DEC-81 asumidos por Claude
+
+Ninguno cambia firmas ni agrega cajas al diagrama. Los asumió Claude el 2026-11-17, al aplicar DEC-79 a DEC-81; **los confirmó Mauricio el mismo día**, al aprobar el corte 5.
+
+- **‹V23› solo en el controlador.** `finalizar(numero)` lleva la marca de la ventana en `OrdenCompraRestController`, no en `GenerarOrdenUseCase` ni en `OrdenCompraService`: así está `pdf()` de DEC-75 y así marca la leyenda las ventanas (el método que las atiende). Las cajas crecen una línea; `OrdenCompraService` baja 14 px para no pegarse al caso de uso.
+- **Una nota de infraestructura por microservicio.** En la 4a van dos (en `compartido`, junto a `AuditoriaEvent`, y en ms-identidad, junto a `JwtEmisorAdapter`) y en la 4d otras dos (en ms-ordenes, junto a `CotizacionRestClient`, y en ms-notificaciones, unida a `EnvioRepositoryPort`); en la 4c, una, unida a `CotizacionService`. Una sola nota por página habría cruzado el marco de otro microservicio. El gateway no tiene página: `CorrelacionGateway` va en la nota de `compartido` (con lo de DEC-64) y `SeguridadGateway` en la de ms-identidad (con el JWKS que usa).
+- **Página 1.** La ruta de los envíos ocupa dos líneas en la fila de V14 y no cabía en el marco del auxiliar: la miniatura y el texto de V14 suben 8 px.
+- **V23.** «Marcar como recibida» es un botón naranja de ancho completo, bajo «Ver PDF» y «Descargar», solo en una orden EN PROCESO. La confirmación dice «¿El pedido de la orden OC-0012 a Proveedor ABC llegó completo? La orden pasará a FINALIZADA y no se podrá deshacer.», con «Cancelar» y «Confirmar recepción»; después aparece el aviso «La orden OC-0012 quedó finalizada.» y la lista se recarga. «Siguiente paso» ya solo salía en las órdenes EN PROCESO.
+- **Núcleo y respuestas.** `finalizar()` del servicio publica `AuditoriaEvent("sistema", "Orden OC-0012 finalizada")`; en la plataforma, `KafkaEventPublisher` pone el correo de la directora y la correlación de la petición (DEC-64). No publica ningún evento de negocio (siguen los 10 tópicos). El 404 lo arma el controlador, como el de `pdf()`; el 409 sale de `ManejoErrores`.
+- **Reproceso de la cola.** El grupo de consumo es `ms-notificaciones-reproceso` y la ronda viaja en la cabecera `kg-reproceso`. La espera se cuenta desde que el registro entró a la cola (su marca de tiempo); con menos de 1 s de diferencia ya se procesa. Si devolver el registro a la cola falla, se intenta dos veces más cada 10 s y después queda en el registro del servicio (el registro sigue en la cola y el grupo pasa al siguiente). Un registro que no se puede leer (sin la cabecera de su clase) cuenta como una ronda fallida. Para reconstruir el evento, `ConvertidorEventos` (de `compartido`) gana el método público `evento()`.
+- **La cola que ya tenía eventos.** El grupo nuevo empieza por el principio de `notificaciones.dlq` (como los demás grupos, `earliest`): en una instalación que ya tenía eventos en la cola, por ejemplo la de los volúmenes `konrad-gourmet_*`, la primera vez que arranca los vuelve a notificar una vez. En producción es lo esperado (son envíos pendientes).
+- **Pruebas.** `recorrido_corte5.py` marca OC-0012 como recibida al final del recorrido a 390 px, para que las comprobaciones de escritorio (V23 EN PROCESO, V16) no cambien.
+
+
+## DEC-83 · ¿El corte 6 va en un solo mensaje o en dos?
+
+**Por qué hubo que decidir.** El corte 6 trae dos servicios sin relación directa: ms-administracion (auditoría, parámetros y tema, logs de errores, alta de usuarios y libreta de destinatarios) y ms-analitica (tablero BAM del director comercial y promociones de HU-19 con `tendencia.detectada`).
+
+**Opciones:**
+- **A. Partirlo en 6a (ms-administracion) y 6b (ms-analitica)**, cada uno con su reporte, sus pruebas y su OK, como DEC-70. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Un solo corte 6**, más largo y más difícil de revisar.
+
+## DEC-84 · ¿Cómo se ven los logs de errores en local?
+
+**Por qué hubo que decidir.** La ventana de logs del administrador usa `LogsPort` y `ElasticsearchLogsAdapter` («ELK · Elasticsearch · HTTPS», 4e), y la plataforma local no tenía ELK (DEC-58).
+
+**Opciones:**
+- **A. Elasticsearch real.** Un nodo en el compose (≈512 MB de memoria); cada servicio envía sus errores con un appender de logback en `compartido`, y el adaptador los consulta de verdad. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Simulado** con WireMock, con errores de ejemplo: más liviano, pero los logs no son reales.
+- **C. Dejarlo pendiente** y anotarlo en el LEEME.
+
+**Qué implica:** la lista de diferencias con la página 5 del LEEME deja de decir «sin ELK» (queda sin Logstash ni Kibana, si así se construye). El diagrama no cambia.
+
+## DEC-85 · ¿Cómo ve el administrador los parámetros generales?
+
+**Por qué hubo que decidir.** HU-20 (1) pide consultar y cambiar los parámetros generales y la imagen corporativa. En la página 4e, `AdminRestController` solo tiene `tema()`, que devuelve las claves `tema.*`: ningún método lista todos los parámetros, así que la ventana no podía mostrar los generales.
+
+**Opciones:**
+- **A. Agregar `parametros()`.** `+ parametros(): Map<String, String>` en `AdministracionUseCase`, `AdministracionService` y `AdminRestController` (`GET /api/admin/parametros`, solo el administrador). Tres líneas en la 4e, sin clases nuevas, como DEC-75. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Solo el tema.** La 4e no cambia; la ventana muestra y edita solo `tema.nombre`, `tema.color-primario` y `tema.logo` con `tema()`. Los parámetros generales de HU-20 (1) quedan fuera.
+
+**Qué implica:**
+- Cambian tres declaraciones de la 4e; siguen 195 clases y 73 pendientes.
+- `parametros()` y `tema()` leen la caché `ParametrosSistema` (nota `n_parametros`); si la réplica acaba de arrancar y está vacía, la cargan de la base.
+- Para cambiar un parámetro, `PUT /api/admin/parametros/{clave}` con `{"valor": …}` (crea la clave si no existe), que llama a `parametrizar()`.
+- La tabla de rutas del reporte y los casos de uso quedan en `CAMBIOS_A_DOCUMENTAR.md` (CD-23 y CD-24).
+
+## DEC-86 · ¿Quién lee el tema?
+
+**Por qué hubo que decidir.** La nota `n_parametros` de la 4e dice que la SPA lee el tema «al iniciar» con `GET /api/admin/parametros/tema`. Si eso incluye la pantalla de inicio de sesión, la ruta tendría que pasar sin token, y hoy el gateway solo deja pasar sin token `/api/auth/**`.
+
+**Opciones:**
+- **A. Lectura pública.** Solo esa ruta pasa sin token, en el gateway y en el servicio, y devuelve solo las claves `tema.*`, que no son sensibles. La pantalla de inicio de sesión también toma el tema. Era la recomendada por Claude.
+- **B. Solo con sesión.** Cualquier rol con token lo lee al iniciar sesión. La regla de seguridad no cambia; la pantalla de inicio de sesión conserva el logo y el color de siempre. ✅ **Escogida por Mauricio el 2026-11-17** («lo ideal sería con token»).
+
+**Qué implica:**
+- `GET /api/admin/parametros/tema` pide token (cualquier rol); sin token responde 401. Lo demás de `/api/admin/**` es del administrador.
+- La SPA lo pide en cuanto alguien inicia sesión (y al recargar con la sesión abierta) y aplica el nombre, el color y el logo; al cerrar sesión vuelve al tema de siempre.
+- La nota `n_parametros` de la 4e dice ahora «al iniciar sesión».
+
+## DEC-87 · Detalles del corte 6a asumidos por Claude
+
+Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-85 y DEC-86, que decidió Mauricio). Los asumió Claude el 2026-11-17; **los confirmó Mauricio el 2026-11-18**, al aprobar el corte 6a. Lo que la documentación tiene que recoger está en `CAMBIOS_A_DOCUMENTAR.md` (CD-16 a CD-26).
+
+- **Elasticsearch (DEC-84).** La imagen oficial `docker.elastic.co/elasticsearch/elasticsearch:8.19.4`, un nodo (`discovery.type=single-node`), 512 MB de heap y 1,5 GB de límite, sin TLS ni usuarios (en local no hay TLS, DEC-58) y sin publicar puerto: solo lo ven los servicios. Sin Logstash ni Kibana: los servicios escriben directo y ms-administracion consulta. El índice es `logs-errores`, sin réplicas (un solo nodo), con `servicio`, `nivel`, `logger`, `hilo`, `correlacionId` y `usuario` como keyword, `mensaje` como texto, `fechaHora` como fecha y la traza sin indexar. Lo crea el primer servicio que tenga un error. Los servicios no dependen de Elasticsearch para arrancar (si no está, sus errores siguen en el registro del contenedor); `web` sí lo espera, para que `levantar.sh` termine con todo arriba.
+- **Cómo se envían los errores.** Un appender propio, `AppenderElasticsearch` en `compartido` (unas 200 líneas), en vez de una librería de terceros: logstash-logback-encoder envía a Logstash, que aquí no está. Toma los eventos de nivel ERROR de cualquier logger, con el mensaje, la causa más profunda, la traza (hasta 8.000 caracteres) y la correlación y el usuario del recorrido (DEC-64). Los envía por lotes de hasta 100 a `_bulk`, desde un hilo propio y con una cola de 1.000: el servicio nunca espera a Elasticsearch. Si Elasticsearch no responde, el lote se intenta 3 veces (5, 10 y 15 s) y se descarta. `RegistroLogsElasticsearch` lo engancha al logger raíz justo después de que Spring Boot configura logback, así que también llegan los errores del arranque; se activa con `KONRAD_LOGS_ELASTICSEARCH` (las pruebas JUnit no la tienen). El gateway y Eureka no envían: no usan `compartido`.
+- **El correo que no sale también es un error.** Al probar el corte se vio que, con el servidor de correo caído, Spring Kafka reintentaba y pasaba el evento a `notificaciones.dlq` sin registrar nada en nivel ERROR, así que la ventana de logs no lo veía. Ahora ms-notificaciones registra «No se pudo notificar un evento de {tópico} después de 3 intentos; pasa a la cola de errores notificaciones.dlq», con la causa y la correlación del recorrido, antes de encolarlo (requisito de mantenimiento 2). La traza de envíos (`registrarFallo()`) no cambia.
+- **Consulta de logs.** Los 200 errores más recientes, de un servicio (filtro exacto) o de todos; la hora en Bogotá. Si el índice no existe todavía (ningún servicio ha fallado), la lista sale vacía; si Elasticsearch no responde, 503 con «No se pudieron consultar los logs de errores. Intente de nuevo en unos minutos.», y ese error queda en el registro del servicio.
+- **La bitácora.** `AuditoriaJpaAdapter` guarda además la correlación del recorrido (columna `correlacion_id`): la del evento recibido o la de la petición del administrador. `RegistroAuditoria` no cambia. Un evento que Kafka entrega dos veces no se repite (índice único sobre fecha, hora, usuario, acción y correlación). El grupo de consumo `ms-administracion` empieza por el principio de `auditoria.evento`: la primera vez carga la auditoría de todos los servicios desde el corte 3.
+- **Las acciones propias de ms-administracion (n_bitacora).** El núcleo registra «sistema», como los demás servicios, y el adaptador pone el correo de quien inició sesión, como hace `KafkaEventPublisher` (DEC-64). Antes el núcleo escribía «administrador».
+- **Auditoría.** Lo más reciente primero; la hora con segundos. Sin una de las dos fechas, «Seleccione la fecha inicial y la fecha final.» (texto nuevo); con una fecha mal escrita, «La fecha no es válida.». La ventana abre con los últimos 7 días, tiene «Consultar» y «Hoy», y pagina de 10 en 10. Por PD-07 no se filtra por usuario ni por acción, tampoco en la SPA.
+- **Parámetros.** Las claves llevan minúsculas, números, guiones y puntos (`general.moneda`), hasta 80 caracteres; los valores, hasta 500. El tema usa tres claves: `tema.nombre`, `tema.color-primario` (`#RRGGBB`) y `tema.logo` (la ruta del logo de siempre, `/assets/logo/logo.png`, o la imagen misma en una data URL PNG, JPG, SVG o WebP de hasta 200 KB; así no hace falta un almacén de archivos en ms-administracion). Textos nuevos: «La clave del parámetro solo puede tener minúsculas, números, guiones y puntos (por ejemplo, general.moneda).», «El color debe tener el formato #RRGGBB (por ejemplo, #F28705).», «El logo debe ser una imagen PNG, JPG, SVG o WebP de máximo 200 KB.» y «El valor del parámetro {clave} no puede tener más de 500 caracteres.». Flyway carga el tema de siempre (Konrad Gourmet, `#F28705` y el logo) y tres parámetros generales: `general.moneda` (COP), `general.zona-horaria` (America/Bogota) y `general.correo-soporte`. No se borran parámetros: el puerto no tiene cómo.
+- **Refresco de la caché (n_parametros).** `RefrescoParametros` (fuera del diagrama, como `CanalAlarmas`) recarga la caché de la réplica desde la base cada minuto; en el compose, cada 10 s (`REFRESCO_PARAMETROS`). La réplica que guarda un cambio lo ve de inmediato.
+- **El tema en la SPA.** El color principal reemplaza el naranja de la aplicación y de él salen el tono oscuro, el degradado y los fondos suaves (`color-mix`); el nombre va en la marca de la barra (primera palabra en oscuro, el resto en el color) y en el título de la pestaña; el logo, en la barra. Si el color es el de siempre, la hoja de estilos no cambia.
+- **Menú del administrador.** «Administración» pasa a ser un grupo con «Parámetros y tema» (`/admin/parametros`), «Auditoría» (`/admin/auditoria`) y «Logs de errores» (`/admin/logs`), como los grupos de los otros roles. Cambia `Administrador.construirMenu()`, no su firma.
+- **Destinatarios.** CU-15 dice que su registro se audita y el núcleo no lo hacía: `registrarDestinatario()` publica ahora `AuditoriaEvent`. La ventana los consulta por sucursal y los agrega; no los quita (el puerto no tiene cómo; cambiaría la 4d).
+- **Usuarios.** La ventana registra (CU-19) y muestra los usuarios registrados en esa visita: no hay una ruta para listarlos (PD-06 deja fuera cambiar el rol o desactivar). Las tres sucursales de la SPA son las de ms-identidad (Centro, Norte y Chapinero).
+- **Mensajes de PD-10 en el código.** Con las ventanas nuevas, el código usa los textos de PD-10 que les tocan: «Ya existe un usuario registrado con ese correo.» (antes «Ya existe un usuario con el correo …»), «El formato del correo electrónico no es válido.» en destinatarios (antes «El correo del destinatario no es válido»), «La clave del parámetro es obligatoria.» y «El valor del parámetro {clave} es obligatorio.» (con punto final, y también si el valor está en blanco). La contraseña conserva su mensaje, que dice lo que le falta («La contraseña debe tener 8 caracteres o más, una mayúscula, un número.», DEC-10), en vez del texto fijo de PD-10; la ventana muestra la regla completa debajo del campo.
+- **Ventanas sin mockup.** Se diseñaron con las piezas de la SPA (encabezado con fecha y hora, filtros en tarjeta, tablas paginadas, formularios de dos columnas y avisos abajo), como Proveedores. Cada una queda como cambio de mockup en `CAMBIOS_A_DOCUMENTAR.md`.
+
+## DEC-88 · ¿Cómo muestra el tablero BAM la gráfica y el periodo de cada indicador?
+
+**Por qué hubo que decidir.** HU-18 (4) pide cada indicador «con su valor numérico y una representación gráfica», y PD-03 dice que la pantalla muestra el periodo aplicado. En la página 4e, `ResultadoKpi` solo tiene `kpi`, `ganador` y `valor`: la gráfica solo podría dibujar al ganador, sin contra qué compararlo, y la SPA tendría que repetir la regla de los 30 y 365 días para decir el periodo.
+
+**Opciones:**
+- **A. Ranking y periodo.** `ResultadoKpi` gana `- ranking: Map<String, BigDecimal>` (los 5 primeros, el ganador primero) y `- desde: LocalDate` / `- hasta: LocalDate` (el periodo que aplicó `TableroService`). Tres atributos en la 4e, ninguna firma de método. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-18.**
+- **B. Solo el ranking.** La SPA deduce el periodo con la misma regla (repetida en dos lugares).
+- **C. Sin cambios.** La gráfica es una sola barra o un medidor del ganador; cumple a medias HU-18 (4).
+
+**Qué implica:**
+- Cada estrategia llena el ranking (la demanda de mayor a menor; el proveedor de menor a mayor diferencia); `TableroService` pone el periodo con un constructor de copia (DEC-41), así que `CalculadorKpi` no cambia.
+- `GET /api/bam/kpis` responde, por indicador, el ganador, el valor, el ranking y el periodo. La SPA dibuja barras horizontales; las del proveedor salen de un eje en el precio estándar.
+- La 4e cambia en `ResultadoKpi` (tres atributos). Siguen 195 clases.
+
+## DEC-89 · ¿De dónde sale el nombre del proveedor del tablero?
+
+**Por qué hubo que decidir.** El indicador «proveedor con mejores precios» sale de `cotizacion.validada`, que trae `proveedorId` pero no el nombre. ms-analitica no tiene de dónde sacarlo: no hay un tópico de proveedores y el listener no tiene un JWT para pedirlo por REST a ms-cotizaciones. PD-05 ya cambiaba ese evento (`estado: String` y `+ diferenciaPorcentual`).
+
+**Opciones:**
+- **A. `+ proveedor: String` en `CotizacionValidadaEvent`**, junto con lo de PD-05: un atributo más en la 4c y en el constructor. El tablero dice «Proveedor B», como la demo en memoria. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-18.**
+- **B. Solo el id.** El tablero mostraría «Proveedor 2».
+- **C. El nombre desde `orden.generada`.** Sin tocar la 4c, pero los proveedores sin orden saldrían como «Proveedor 2».
+
+**Qué implica:** `CotizacionService.validar()` publica el evento con la razón social del proveedor, el estado como texto y la diferencia. La 4c cambia en `CotizacionValidadaEvent` (tres atributos, por PD-05 y por esta decisión).
+
+## DEC-90 · ¿Cómo sabe ms-analitica el nombre de cada plato?
+
+**Por qué hubo que decidir.** El producto con mayor demanda son los platos vendidos (como el histórico de la demo en memoria, DEC-40), pero `pedido.registrado` solo trae el id de cada plato (`lineas: Map<Long, Integer>`) y el de la sucursal.
+
+**Opciones:**
+- **A. Copia local con `menu.actualizado`.** Como ms-pedidos con su catálogo: una pieza de infraestructura (fuera del diagrama, nombrada en la nota de la 4e) guarda id → nombre al escuchar `menu.actualizado`. Ninguna firma cambia; `NegocioEventsListener` sigue con sus 5 tópicos, pero en la 3a ms-analitica consume además `menu.actualizado`. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-18.**
+- **B. El nombre en el evento.** `PedidoRegistradoEvent` gana los nombres de los platos: cambia la 4b y el contrato que también lee ms-inventario.
+
+**Qué implica:** `NombresNegocio` (ms-analitica) guarda los nombres de los platos (tabla `plato_nombre`) y los de las sucursales, que vienen de la carga inicial (supuesto S10, tabla `sucursal`). Los dos tópicos se leen en paralelo: si un pedido llega antes que su plato, espera hasta 10 s y, si no, usa «Plato N». Cambian la nota de infraestructura de ms-analitica (4e) y el texto de la flecha de ms-analitica en la 3a.
+
+## DEC-91 · Detalles del corte 6b asumidos por Claude
+
+Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-88 a DEC-90, que decidió Mauricio). Los asumió Claude el 2026-11-18; **están por confirmar**. Lo que la documentación tiene que recoger está en `CAMBIOS_A_DOCUMENTAR.md` (CD-27 en adelante).
+
+- **Las redes sociales en local.** Un contenedor `redes` con WireMock (como el Ministerio, DEC-71), que solo ve ms-analitica. El contrato que sigue `RedesSocialesAdapter`: `GET {url}?pais=CO&categoria=gastronomia&periodo=semana` con `Authorization: Bearer {token}` responde `{"tendencias": [{"producto": "Ajiaco", "menciones": 1840}, …]}`, de más a menos menciones; sin token, 401. La URL y el token son variables (`REDES_URL`, `REDES_TOKEN`). En local, las tendencias son el Ajiaco y la Limonada natural. `RedesSocialesAdapter` es Java puro (HttpClient del JDK, lee los productos sin librería de JSON) y ms-analitica copia el de `src/`, como `MinisterioSoapClient`. Si la API no responde o responde un error, lanza `IllegalStateException`.
+- **`TendenciasJob`.** Los lunes a las 6:00 de Bogotá; en el compose, cada 30 s (`TENDENCIAS`), para verlo trabajar. `@SchedulerLock` (ShedLock) como el cierre de ms-inventario. Corre en un recorrido propio (usuario «sistema» y una correlación que comparten la auditoría y `tendencia.detectada`, DEC-64). Si el análisis falla, registra «Falló el análisis de tendencias de promociones: …» en nivel ERROR (llega a Elasticsearch y a «Logs de errores», DEC-84), no guarda nada esa vez —tampoco lo de los pedidos— y la próxima ejecución lo vuelve a intentar.
+- **Las reglas de `detectarTendencias()` (PD-04).** Los 7 días anteriores son de hoy − 7 a hoy − 1. Los 3 más pedidos se cuentan con los hechos `DEMANDA_PRODUCTO` de todas las sucursales. Primero van los productos de las redes, en su orden, y después los pedidos. Motivos: «Tendencia en redes», «Entre los 3 más pedidos de la semana» y, si es los dos, «Tendencia en redes y entre los 3 más pedidos de la semana». La vigencia va de hoy a hoy + 6. Un producto no se sugiere dos veces con el mismo día de inicio. `notificadaEl(fecha)` es «ya hay sugerencias que empiezan ese día»: con sugerencias nuevas, publica `tendencia.detectada` solo si hoy no había ninguna; así, una tendencia nueva el mismo día queda sugerida, pero sin otro correo. Cada tanda queda en la auditoría («Promociones sugeridas: Ajiaco, …»).
+- **Las sugerencias son de toda la empresa**, como las tendencias: cualquier jefe de cocina las ve, y la que acepta o descarta uno queda así para todos. El histórico filtra por vigencia (las vigentes en algún día del rango); sin rango, todo; lo más reciente primero. El cambio de estado es condicional: si dos jefes resuelven la misma a la vez, el segundo recibe «Esta sugerencia ya fue aceptada o descartada.» (409). Una que no existe responde 404. Cada decisión queda en la auditoría («Promoción sugerida Ajiaco aceptada»), a nombre de quien la tomó.
+- **El correo de promociones.** Asunto «Promociones sugeridas», una línea por sugerencia («producto · motivo · del dd/mm/aaaa al dd/mm/aaaa») y la invitación a revisarlas en la aplicación; certificado, como los demás. Va a todos los jefes de la libreta (`jefes()`), de todas las sucursales. «Uno al día» lo garantiza ms-analitica con `notificadaEl`; ms-notificaciones no descarta eventos repetidos (como con los demás tópicos).
+- **Los hechos.** `NegocioEventsListener` deja, además de los tres que leen los KPI (`DEMANDA_PRODUCTO`, `DEMANDA_SUCURSAL` y `PRECIO_PROVEEDOR`), `STOCK_BAJO`, `SOLICITUD_SUCURSAL` y `ORDEN_PROVEEDOR`, para indicadores futuros. La fecha del hecho es la del evento. Un evento que Kafka entrega dos veces no se cuenta otra vez (tabla `evento_procesado`, en la misma transacción). Cada hecho guarda la correlación del evento. Una cotización validada sin diferencia (de antes de PD-05) no cuenta.
+- **El tablero.** El rango va completo o no va: con una sola fecha, «Seleccione la fecha inicial y la fecha final.» (el texto de DEC-87). El último mes son los 30 días que terminan hoy, y el último año, los 365. El ranking tiene 5 puestos; en un empate gana el que apareció primero; la diferencia del proveedor se promedia con 2 decimales. Una fecha mal escrita: «La fecha no es válida.»; una sucursal mal escrita: «La sucursal no es válida.».
+- **El histórico de la demostración.** Una migración de ms-analitica carga 400 días de demanda de las tres sucursales con los 8 platos de la carta (la Bandeja paisa manda en Centro, el Ajiaco en Norte y la Pechuga en Chapinero; el Ajiaco sube entre 60 y 150 días atrás) y 13 cotizaciones OPCIONADAS del último año (y una de hace más de un año). Cumple el papel del histórico cargado a mano de la versión en memoria (DEC-40). Es solo de la demostración y no se documenta (DEC-57).
+- **Ventanas sin mockup.** «Tablero BAM» (`/bam`, primera ventana del director comercial) y «Promociones sugeridas» (`/promociones`, del jefe de cocina), con las piezas de la SPA, como las del administrador. Las gráficas son barras hechas con CSS, sin librería. El menú no cambia: ya tenían las dos opciones.
 
 ---
 
