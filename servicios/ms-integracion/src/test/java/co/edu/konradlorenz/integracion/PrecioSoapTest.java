@@ -140,7 +140,7 @@ class PrecioSoapTest {
     void sinPrecioDelMinisterioEsUnSoapFault() throws Exception {
         HttpResponse<String> r = soap("AUXILIAR_COMPRAS", "99", UUID.randomUUID());
         assertEquals(500, r.statusCode());
-        assertTrue(r.body().contains("Fault") && r.body().contains("no tiene precio para el producto 99"), r.body());
+        assertTrue(r.body().contains("Fault") && r.body().contains("No hay precio estándar disponible para el producto 99."), r.body());
     }
 
     @Test

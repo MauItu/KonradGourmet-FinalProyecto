@@ -124,7 +124,7 @@ public class SolicitudRestController {
     }
 
     private static ResponseEntity<Map<String, String>> noExiste(String numero) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", "No existe la solicitud " + numero));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", "La solicitud consultada no está disponible")); // HU-08
     }
 
     /** Los filtros de HU-07; uno vacío no filtra. */

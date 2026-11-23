@@ -31,7 +31,12 @@ public class AbastecimientoSoapEndpoint {
         if (productoId == null) {
             throw new IllegalArgumentException("Falta el productoId");
         }
-        return casoDeUso.precioSugerido(productoId);
+        try {
+            return casoDeUso.precioSugerido(productoId);
+        } catch (IllegalArgumentException sinPrecio) {
+            // el Ministerio no tiene precio para el producto: el SOAP Fault lleva el texto de CU-18
+            throw new IllegalArgumentException("No hay precio estándar disponible para el producto " + productoId + ".", sinPrecio);
+        }
     }
 
 }

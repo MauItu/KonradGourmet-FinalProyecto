@@ -136,7 +136,7 @@ ok('location="http://localhost:8080/api/integracion/abastecimiento"' in wsdl, 'y
 estado, _, _ = soap(None, PRODUCTO)
 ok(estado == 401, f'sin token el gateway responde 401 ({estado})')
 estado, cuerpo, _ = soap(aux, 99)
-ok(estado == 500 and 'no tiene precio para el producto 99' in cuerpo, 'un producto que el Ministerio no conoce llega como SOAP Fault')
+ok(estado == 500 and 'No hay precio estándar disponible para el producto 99.' in cuerpo, 'un producto que el Ministerio no conoce llega como SOAP Fault')
 rutas = json.loads(http('GET', '/plataforma/rutas')[1])
 ok(not any('/interno' in json.dumps(r) for r in rutas), 'el REST interno (/interno/precios) no está en las rutas del gateway')
 dentro = docker('api-gateway', 'wget', '-qO-', '--header', f'Authorization: Bearer {aux}', 'http://ms-integracion:8080/interno/precios/2')

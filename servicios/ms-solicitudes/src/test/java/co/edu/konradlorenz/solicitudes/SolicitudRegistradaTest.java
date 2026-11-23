@@ -165,7 +165,7 @@ class SolicitudRegistradaTest {
                 .andExpect(jsonPath("$[0].numero").value("SOL-031"));
         mvc.perform(get("/api/solicitudes/SOL-032").with(como("JEFE_COCINA", 2, JEFE)))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.mensaje").value("No existe la solicitud SOL-032"));
+                .andExpect(jsonPath("$.mensaje").value("La solicitud consultada no está disponible"));
         mvc.perform(get("/api/solicitudes?estado=PENDIENTE&producto=1&marca=Marca X").with(como("AUXILIAR_COMPRAS", 3, "isabella.castro@konradgourmet.com")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
