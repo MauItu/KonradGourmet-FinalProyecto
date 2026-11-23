@@ -381,6 +381,10 @@ with sync_playwright() as pw:
     adm.goto(BASE + '/destinatarios')
     expect(tarjeta(adm, 'Destinatarios de la Sucursal Centro').locator('tbody')).to_contain_text(JEFE)
     ok(True, f'«Destinatarios»: el jefe que recibió la alarma y los avisos es destinatario de la Sucursal Centro')
+    adm.goto(BASE + '/no-existe')
+    expect(adm.locator('.topbar h1')).to_have_text('La ventana no existe')
+    adm.get_by_role('link', name='Volver al inicio').click(); adm.wait_for_url(re.compile('/inicio'))
+    ok(True, 'una dirección que no está en el menú dice «La ventana no existe» y lleva a Inicio (C7-16)')
 
     errores = [e for e in errores if not re.search(r'status of (400|401|403|404|409)', e)]
     ok(not errores, f'escritorio: sin errores en la consola ({errores[:3]})')

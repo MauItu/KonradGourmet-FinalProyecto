@@ -309,6 +309,65 @@ ok(set(ROLES) <= usuarios, f'y en ella están los 6 roles ({len(set(ROLES) & usu
 _, api = http('GET', f'/api/admin/auditoria?desde={HOY}&hasta={HOY}', tok=adm)
 ok(api and all(any(m['accion'] == a for m in api) for a in orden_esperado), '«Auditoría» (GET /api/admin/auditoria de hoy) devuelve todos esos pasos', 'ms-administracion')
 
+print('== DEC-104: outbox, eventos repetidos y límite de tasa')
+BASES = ['ms_' + x.removeprefix('ms-').replace('-', '_') for x in SERVICIOS]
+def outbox(base):
+    return int(sql(base, 'SELECT count(*) FROM outbox')[0][0])
+for _ in range(20):
+    pendientes = {b: outbox(b) for b in BASES}
+    if not any(pendientes.values()): break
+    time.sleep(1)
+ok(not any(pendientes.values()), f'las 11 bases tienen su outbox y el relé ya publicó todo ({sum(pendientes.values())} pendientes)')
+crudo = [l.split('§', 1) for l in docker('kafka', '/opt/kafka/bin/kafka-console-consumer.sh', '--bootstrap-server', 'localhost:9092', '--topic',
+         'pedido.registrado', '--from-beginning', '--timeout-ms', '6000', '--property', 'print.key=true', '--property', 'key.separator=§').splitlines()
+         if '§{' in l and f'"numero":"{numero_ped}"' in l]
+id_ped = json.loads(crudo[0][1])['id'] if crudo else None
+marcas = sql('ms_inventario', f"SELECT consumidor FROM evento_procesado WHERE id = '{id_ped}'") if id_ped else []
+ok(marcas == [['PedidoRegistradoListener']], f'ms-inventario guardó el id de {numero_ped} como procesado ({marcas})', 'ms-inventario')
+antes_inv = sql('ms_inventario', 'SELECT producto_id, cantidad FROM consumo_pendiente WHERE sucursal_id = 1 ORDER BY producto_id')
+antes_bam = sql('ms_analitica', f"SELECT count(*), sum(valor) FROM hecho WHERE correlacion_id = '{pedido['correlacion']}'")
+if crudo:
+    # el mismo evento, con su id, otra vez en el tópico: como si Kafka o la outbox lo entregaran dos veces
+    linea = f'kg-evento:co.edu.konradlorenz.pedidos.eventos.PedidoRegistradoEvent\t{crudo[0][0]}§{crudo[0][1]}\n'
+    subprocess.run(['docker', 'exec', '-i', f'{PROYECTO}-kafka-1', '/opt/kafka/bin/kafka-console-producer.sh', '--bootstrap-server', 'localhost:9092',
+                    '--topic', 'pedido.registrado', '--property', 'parse.headers=true', '--property', 'parse.key=true', '--property', 'key.separator=§'],
+                   input=linea.encode(), capture_output=True)
+    for _ in range(15):
+        repetidos = [e for e in topico('pedido.registrado') if e['numero'] == numero_ped]
+        if len(repetidos) == 2: break
+    time.sleep(5)  # que los consumidores lo lean
+ok(crudo and len(repetidos) == 2, f'{numero_ped} quedó dos veces en pedido.registrado, con el mismo id')
+ok(sql('ms_inventario', 'SELECT producto_id, cantidad FROM consumo_pendiente WHERE sucursal_id = 1 ORDER BY producto_id') == antes_inv,
+   f'ms-inventario descartó el repetido: el consumo pendiente no cambió (C7-5; {antes_inv})', 'ms-inventario')
+ok(sql('ms_analitica', f"SELECT count(*), sum(valor) FROM hecho WHERE correlacion_id = '{pedido['correlacion']}'") == antes_bam,
+   f'ms-analitica tampoco lo contó dos veces ({antes_bam})', 'ms-analitica')
+# con Kafka detenido la escritura igual se confirma: el evento espera en la outbox y sale cuando Kafka vuelve
+CORREO_OUTBOX = 'prueba.outbox@konradgourmet.com'
+subprocess.run(['docker', 'pause', f'{PROYECTO}-kafka-1'], capture_output=True)
+try:
+    inicio = time.time()
+    estado_d, _ = http('POST', '/api/notificaciones/destinatarios', {'sucursalId': 3, 'correo': CORREO_OUTBOX}, tok=adm)
+    demora = time.time() - inicio
+    en_cola = outbox('ms_notificaciones')
+finally:
+    subprocess.run(['docker', 'unpause', f'{PROYECTO}-kafka-1'], capture_output=True)
+ok(estado_d in (200, 201, 204) and demora < 10 and en_cola >= 1,
+   f'con Kafka detenido, registrar un destinatario responde {estado_d} en {demora:.1f} s y su auditoría queda en la outbox ({en_cola})', 'ms-notificaciones')
+accion = f'Destinatario registrado: {CORREO_OUTBOX} (sucursal 3)'
+for _ in range(60):
+    filas = sql('ms_administracion', f"SELECT count(*) FROM auditoria WHERE accion = '{accion}'")
+    if outbox('ms_notificaciones') == 0 and filas[0][0] != '0': break
+    time.sleep(1)
+ok(outbox('ms_notificaciones') == 0 and filas == [['1']], f'al volver Kafka, el relé la publicó y la bitácora la tiene una sola vez ({filas})', 'ms-administracion')
+# el límite de tasa del gateway: una ráfaga de 600 peticiones de un mismo usuario
+from concurrent.futures import ThreadPoolExecutor
+with ThreadPoolExecutor(60) as hilos:
+    codigos = list(hilos.map(lambda _: http('GET', '/api/platos/productos', tok=jefe)[0], range(600)))
+cuenta = Counter(codigos)
+time.sleep(3)
+ok(cuenta[429] > 0 and set(cuenta) <= {200, 429} and http('GET', '/api/platos/productos', tok=jefe)[0] == 200,
+   f'el gateway limita la tasa: de 600 peticiones seguidas, {cuenta[200]} pasan y {cuenta[429]} reciben 429; a los 3 s vuelve a responder')
+
 print('== Los 11 servicios y los 6 roles')
 for s in SERVICIOS:
     ok(bool(rastro[s]), f'{s}: {len(rastro[s])} comprobaciones de la historia')
