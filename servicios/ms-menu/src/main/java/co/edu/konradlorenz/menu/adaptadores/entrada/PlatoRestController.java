@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -72,6 +73,7 @@ public class PlatoRestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('JEFE_COCINA')")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public PlatoJson crear(@RequestBody DatosPlato p, @AuthenticationPrincipal Jwt jwt) {
         return json(casoDeUso.registrar(plato(p, jwt)));
     }
@@ -86,6 +88,7 @@ public class PlatoRestController {
     // PUT /api/platos/{id}
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('JEFE_COCINA')")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public PlatoJson editar(@PathVariable Long id, @RequestBody DatosPlato p, @AuthenticationPrincipal Jwt jwt) {
         deLaSucursal(id, jwt);
         return json(casoDeUso.editar(id, plato(p, jwt)));
@@ -95,6 +98,7 @@ public class PlatoRestController {
     @PatchMapping("/{id}/desactivar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('JEFE_COCINA')")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public void desactivar(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
         deLaSucursal(id, jwt);
         casoDeUso.desactivar(id);
@@ -104,6 +108,7 @@ public class PlatoRestController {
     @PatchMapping("/{id}/reactivar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('JEFE_COCINA')")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public void reactivar(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
         deLaSucursal(id, jwt);
         casoDeUso.reactivar(id);
@@ -124,6 +129,7 @@ public class PlatoRestController {
     @PutMapping(value = "/{id}/imagen", consumes = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, "image/webp", "image/gif"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('JEFE_COCINA')")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public void subirImagen(@PathVariable Long id, @RequestBody byte[] contenido, @RequestHeader("Content-Type") String tipo,
                             @AuthenticationPrincipal Jwt jwt) {
         deLaSucursal(id, jwt);

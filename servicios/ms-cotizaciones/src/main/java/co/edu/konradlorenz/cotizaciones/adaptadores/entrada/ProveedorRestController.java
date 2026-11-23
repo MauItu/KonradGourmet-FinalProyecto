@@ -4,6 +4,7 @@ import co.edu.konradlorenz.cotizaciones.dominio.Proveedor;
 import co.edu.konradlorenz.cotizaciones.puertos.entrada.GestionarProveedorUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +46,7 @@ public class ProveedorRestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('AUXILIAR_COMPRAS')")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public ProveedorJson registrar(@RequestBody DatosProveedor datos) {
         return json(casoDeUso.registrar(proveedor(null, datos)));
     }
@@ -67,6 +69,7 @@ public class ProveedorRestController {
     // PUT /api/proveedores/{id}
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('AUXILIAR_COMPRAS')")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public ProveedorJson editar(@PathVariable Long id, @RequestBody DatosProveedor datos) {
         return json(casoDeUso.editar(id, proveedor(id, datos)));
     }
@@ -75,6 +78,7 @@ public class ProveedorRestController {
     @PatchMapping("/{id}/inactivar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('AUXILIAR_COMPRAS')")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public void inactivar(@PathVariable Long id) {
         casoDeUso.inactivar(id);
     }

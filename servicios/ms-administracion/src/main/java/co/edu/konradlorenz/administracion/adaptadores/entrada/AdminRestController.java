@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,6 +56,7 @@ public class AdminRestController {
     // PUT /api/admin/parametros/{clave}: crea el parámetro o cambia su valor
     @PutMapping("/parametros/{clave}")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public Map<String, String> parametrizar(@PathVariable String clave, @RequestBody(required = false) Valor v) {
         casoDeUso.parametrizar(clave, v == null ? null : v.valor());
         return Map.of("mensaje", "Parámetro actualizado.");

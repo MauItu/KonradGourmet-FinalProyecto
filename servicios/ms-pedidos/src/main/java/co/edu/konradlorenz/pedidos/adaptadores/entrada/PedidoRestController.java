@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -67,6 +68,7 @@ public class PedidoRestController {
     // POST /api/pedidos → 201 Created
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public PedidoJson registrar(@RequestBody NuevoPedido datos, @AuthenticationPrincipal Jwt jwt) {
         Long sucursal = Sesion.sucursalId(jwt);
         if (datos.mesa() == null) {

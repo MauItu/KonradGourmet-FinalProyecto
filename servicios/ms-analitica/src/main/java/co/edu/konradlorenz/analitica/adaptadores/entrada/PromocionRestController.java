@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -52,12 +53,14 @@ public class PromocionRestController {
 
     // PATCH /api/bam/promociones/{id}/aceptar
     @PatchMapping("/{id}/aceptar")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public ResponseEntity<Map<String, String>> aceptar(@PathVariable Long id) {
         return resolver(() -> casoDeUso.aceptarSugerencia(id), "Sugerencia aceptada.");
     }
 
     // PATCH /api/bam/promociones/{id}/descartar
     @PatchMapping("/{id}/descartar")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public ResponseEntity<Map<String, String>> descartar(@PathVariable Long id) {
         return resolver(() -> casoDeUso.descartarSugerencia(id), "Sugerencia descartada.");
     }

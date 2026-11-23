@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -82,6 +83,7 @@ public class CotizacionRestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('AUXILIAR_COMPRAS')")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public CotizacionJson generar(@RequestBody NuevaCotizacion datos) {
         if (datos.proveedorId() == null) {
             throw new IllegalArgumentException("Selecciona el proveedor");
@@ -161,6 +163,7 @@ public class CotizacionRestController {
     // PUT /api/cotizaciones/{id}/valores
     @PutMapping("/{numero}/valores")
     @PreAuthorize("hasRole('DIRECTOR_COMPRAS')")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public ResponseEntity<?> registrarValores(@PathVariable String numero, @RequestBody Valores valores) {
         if (!existe(numero)) {
             return noExiste(numero);
@@ -175,6 +178,7 @@ public class CotizacionRestController {
     // POST /api/cotizaciones/{id}/validacion
     @PostMapping("/{numero}/validacion")
     @PreAuthorize("hasRole('DIRECTOR_COMPRAS')")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public ResponseEntity<?> validar(@PathVariable String numero) {
         if (!existe(numero)) {
             return noExiste(numero);
@@ -206,6 +210,7 @@ public class CotizacionRestController {
     // POST /api/cotizaciones/{id}/reenvio
     @PostMapping("/{numero}/reenvio")
     @PreAuthorize("hasRole('AUXILIAR_COMPRAS')")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public ResponseEntity<?> reenviar(@PathVariable String numero) {
         if (!existe(numero)) {
             return noExiste(numero);

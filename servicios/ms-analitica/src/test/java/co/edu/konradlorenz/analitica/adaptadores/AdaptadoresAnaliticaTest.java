@@ -23,6 +23,7 @@ import co.edu.konradlorenz.cotizaciones.eventos.CotizacionValidadaEvent;
 import co.edu.konradlorenz.pedidos.eventos.PedidoRegistradoEvent;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
@@ -50,6 +51,8 @@ class AdaptadoresAnaliticaTest {
     private final List<HechoNegocio> hechos = new ArrayList<>();
     private final NombresNegocio nombres = mock(NombresNegocio.class);
     private final EventosProcesados procesados = mock(EventosProcesados.class);
+    /** El job corre en una transacción (DEC-104); aquí no hay base. */
+    private final PlatformTransactionManager transacciones = mock(PlatformTransactionManager.class);
     private final KpiRepositoryPort repositorio = new KpiRepositoryPort() {
         @Override
         public void guardar(HechoNegocio h) {
@@ -122,7 +125,7 @@ class AdaptadoresAnaliticaTest {
             throw new IllegalStateException("La API de tendencias de las redes sociales respondió 503");
         }).when(caido).detectarTendencias();
 
-        new TendenciasJob(caido).ejecutar();
+        new TendenciasJob(caido, transacciones).ejecutar();
 
         assertEquals(1, registrados.size(), registrados.toString());
         String[] r = registrados.get(0).split("\\|");
@@ -140,10 +143,10 @@ class AdaptadoresAnaliticaTest {
         testigo.start();
         log.addAppender(testigo);
         TableroUseCase bien = mock(TableroUseCase.class);
-        new TendenciasJob(bien).ejecutar();
+        new TendenciasJob(bien, transacciones).ejecutar();
         assertEquals(List.of(), registrados);
         doThrow(new RuntimeException("x")).when(bien).detectarTendencias();
-        new TendenciasJob(bien).ejecutar();
+        new TendenciasJob(bien, transacciones).ejecutar();
         assertEquals(1, registrados.size());
         assertNotNull(UUID.fromString(registrados.get(0).split("@")[1]));
     }

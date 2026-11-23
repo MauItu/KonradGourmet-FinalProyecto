@@ -3,6 +3,7 @@ package co.edu.konradlorenz.notificaciones.adaptadores.entrada;
 import co.edu.konradlorenz.notificaciones.puertos.entrada.NotificarUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +37,7 @@ public class DestinatarioRestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public void registrar(@RequestBody Destinatario d) {
         if (d == null || d.sucursalId() == null) {
             throw new IllegalArgumentException("Indica la sucursal del destinatario");

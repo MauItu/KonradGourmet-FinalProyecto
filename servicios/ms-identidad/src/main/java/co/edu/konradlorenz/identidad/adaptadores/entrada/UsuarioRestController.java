@@ -3,6 +3,7 @@ package co.edu.konradlorenz.identidad.adaptadores.entrada;
 import co.edu.konradlorenz.identidad.puertos.entrada.RegistrarUsuarioUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -34,6 +35,7 @@ public class UsuarioRestController {
     @PostMapping("/api/usuarios")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
     public Map<String, Long> registrar(@RequestBody NuevoUsuario u) {
         return Map.of("id", casoDeUso.registrar(u.nombre(), u.correo(), u.rol(), u.sucursalId(), u.clave()));
     }
