@@ -69,7 +69,7 @@ RF-01 a RF-12 son los identificadores usados en este documento; la tabla siguien
 | RF-11 | Administrar parámetros, usuarios y destinatarios; consultar auditoría y logs | CU-15, CU-16, CU-17, CU-19 | [Reporte, §3, p. 6](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=6) y [§5, tabla 5, p. 12](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=12); [DEC-10 y DEC-13](DECISIONES.md) fijan usuarios y destinatarios |
 | RF-12 | Mantener los datos de proveedores | CU-09 | [DEC-07](DECISIONES.md), HU-15; [Reporte, §5, tabla 5, p. 12: ms-cotizaciones · proveedores](Reporte_Arquitectura_Konrad_Gourmet_v2.pdf#page=12) |
 
-Las referencias DEC remiten a [DECISIONES.md](DECISIONES.md); las HU son las historias del Story Mapping y V01–V23 son las ventanas de [DISEÑO UXUI.pdf](DISE%C3%91O%20UXUI.pdf). Los supuestos S2 y S3 se definen junto a su uso y remiten al §17 del reporte.
+Las referencias DEC remiten a [DECISIONES.md](DECISIONES.md); las HU son las historias del Story Mapping y V01–V23 son las ventanas de [DISEÑO UXUI.pdf](DISE%C3%91O%20UXUI.pdf). Las ventanas que se nombran sin número («Promociones sugeridas», «Proveedores», «Tablero BAM» y las cinco del administrador) se diseñaron después con las mismas piezas; sus mockups están en `mockups_faltantes/`, `mockups_admin/` y el de proveedores (M-08). Los supuestos S2 y S3 se definen junto a su uso y remiten al §17 del reporte.
 
 ## Diagrama de casos de uso
 
