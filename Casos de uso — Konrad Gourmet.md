@@ -91,7 +91,7 @@ Trece casos agrupan las 19 historias de usuario; los seis restantes son el inici
 | CU-06 | Revisar promociones sugeridas | Jefe de cocina | Redes sociales, servidor de correo certificado | HU-19 | RF-10 | Promociones sugeridas | 4 |
 | CU-07 | Consultar solicitudes de compras | Auxiliar de compras | — | HU-06, HU-07, HU-08 | RF-05 | V11, V12 | 2 |
 | CU-08 | Enviar solicitud de cotización | Auxiliar de compras | Proveedor, Ministerio de Comercio, servidor de correo certificado | HU-09, HU-12 | RF-06 | V13, V14, V15 | 2 y 3 |
-| CU-09 | Registrar datos de proveedor | Auxiliar de compras | — | HU-15 | RF-12 | Sin ventana | 3 |
+| CU-09 | Registrar datos de proveedor | Auxiliar de compras | — | HU-15 | RF-12 | Proveedores | 3 |
 | CU-10 | Registrar valores de cotización | Director de compras | — | HU-11 | RF-07 | V18 | 2 |
 | CU-11 | Validar cotización | Director de compras | — | HU-13 | RF-07 | V16, V17, V19 | 3 |
 | CU-12 | Consultar cotizaciones opcionadas | Director de compras | — | HU-17 | RF-08 | V20 | 4 |
@@ -298,7 +298,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 ### CU-09 Registrar datos de proveedor
 
-**Actor:** auxiliar de compras. **Historia:** HU-15. **Ventana:** ninguna.
+**Actor:** auxiliar de compras. **Historia:** HU-15. **Ventana:** «Proveedores» (la lista de proveedores registrados y el formulario «Nuevo proveedor» o «Editar proveedor»).
 
 **Flujo principal:**
 
