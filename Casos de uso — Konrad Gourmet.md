@@ -22,7 +22,7 @@ Este cuadro asigna cada caso de uso a su adaptador de entrada (controlador REST,
 | CU-10 | `CotizacionRestController.registrarValores` | `GestionarCotizacionUseCase.registrarValores` | — |
 | CU-11 | `CotizacionRestController.validar` y `consultar` | `GestionarCotizacionUseCase.validar`, `consultar` | Publica `CotizacionValidadaEvent` |
 | CU-12 | `CotizacionRestController.opcionadas` y `detalle` | `GestionarCotizacionUseCase.consultar`, `detalle` | — |
-| CU-13 | `OrdenCompraRestController`: `generar`, `consultar` (ordenes) | `GenerarOrdenUseCase`: `generar`, `consultar` | Publica `OrdenGeneradaEvent`. `OrdenGeneradaListener` (cotizaciones) llama a `marcarConOrden`; ms-solicitudes llama a `completar` |
+| CU-13 | `OrdenCompraRestController`: `generar`, `consultar`, `pdf`, `finalizar` (ordenes) | `GenerarOrdenUseCase`: `generar`, `consultar`, `pdf`, `finalizar` | Publica `OrdenGeneradaEvent`. `OrdenGeneradaListener` (cotizaciones) llama a `marcarConOrden`; ms-solicitudes llama a `completar` |
 | CU-14 | `TableroRestController.kpis` y `NegocioEventsListener` (analitica) | `TableroUseCase.kpis`, `registrarHecho` | Consume 5 tópicos |
 | CU-15 | `AdminRestController`: `parametros`, `parametrizar` y `tema` (administracion); `DestinatarioRestController` (notificaciones) | `AdministracionUseCase`: `parametros`, `parametrizar`, `tema`; `NotificarUseCase.registrarDestinatario`, `destinatarios` | Auditoría |
 | CU-16 | `AdminRestController.auditoria` y `AuditoriaListener` | `AdministracionUseCase.auditoria`, `registrarAuditoria` | Consume `auditoria.evento` |
@@ -380,16 +380,18 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 2. El sistema crea la orden con los mismos datos de la cotización (proveedor, productos, cantidades, unidades y valores) y un número consecutivo único (V22).
 3. El sistema genera el PDF de la orden y lo envía por correo certificado al proveedor.
 4. La cotización cambia a un estado que impide generar una segunda orden sobre ella.
-5. El director puede consultar las órdenes generadas (V23).
+5. El director puede consultar las órdenes generadas (V23) y abrir el PDF de cada una con «Ver PDF» (`GET /api/ordenes-compra/{id}/pdf`, DEC-75).
+6. Cuando el pedido llega completo, el director marca la orden como recibida en V23 («Marcar como recibida», solo en una orden EN PROCESO) y confirma: la orden pasa de EN\_PROCESO a FINALIZADA, queda en la auditoría y el sistema avisa «La orden OC-0012 quedó finalizada.» (`PATCH /api/ordenes-compra/{id}/finalizar`, DEC-80).
 
 **Flujos alternos:**
 
 - Cotización en otro estado: "Solo se pueden generar órdenes de compra sobre cotizaciones opcionadas".
 - La cotización ya tiene orden: "Ya existe una orden de compra para la cotización COT-018".
+- La orden ya está finalizada: «La orden OC-0012 ya está finalizada»; no se puede deshacer.
 
-**Postcondición:** orden EN PROCESO; la cotización queda CON ORDEN y sale de V20; cada solicitud incluida pasa a COMPLETADA, aunque la cotización la haya cubierto solo en parte (DEC-46); la generación queda en la auditoría.
+**Postcondición:** orden EN PROCESO; la cotización queda CON ORDEN y sale de V20; cada solicitud incluida pasa a COMPLETADA, aunque la cotización la haya cubierto solo en parte (DEC-46); la generación queda en la auditoría. Al marcarla como recibida, la orden queda FINALIZADA.
 
-**Reglas y fuente:** el estado del paso 4 es CON\_ORDEN en el diseño y en el código del 8 de noviembre. Los estados de la orden (EN\_PROCESO y FINALIZADA) salen del diagrama, no del enunciado.
+**Reglas y fuente:** el estado del paso 4 es CON\_ORDEN en el diseño. Los estados de la orden (EN\_PROCESO y FINALIZADA) salen del diagrama, no del enunciado; el paso 6 es el que la lleva a FINALIZADA (DEC-80).
 
 ## Especificación: dirección comercial, administrador y sistemas externos
 
