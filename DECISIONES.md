@@ -23,8 +23,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-78 y DEC-82:** las confirmó Mauricio el 2026-11-17, al aprobar el corte 5.
 - **DEC-83 y DEC-84, y la aplicación de PD-05:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación de Claude, al preparar el corte 6.
 - **DEC-88 a DEC-90:** las decidió Mauricio el 2026-11-18, al empezar el corte 6b, siguiendo la recomendación de Claude. **DEC-91** la asumió Claude el mismo día y Mauricio la confirmó el 2026-11-23.
-- **DEC-92:** la asumió Claude el 2026-11-23, al dibujar el diagrama de casos de uso (fase 1 antes del corte 7); por confirmar.
-- **DEC-93:** la decidió Mauricio el 2026-11-23, al revisar qué mostraba la aplicación antes de hacer los mockups que faltaban (fase 2). **DEC-94** la asumió Claude el mismo día; por confirmar.
+- **DEC-92:** la asumió Claude el 2026-11-23, al dibujar el diagrama de casos de uso (fase 1 antes del corte 7); la confirmó Mauricio el mismo día, al aprobar el 7a.
+- **DEC-93:** la decidió Mauricio el 2026-11-23, al revisar qué mostraba la aplicación antes de hacer los mockups que faltaban (fase 2). **DEC-94** la asumió Claude el mismo día y la confirmó Mauricio al aprobar el 7a.
 - **DEC-95:** la decidió Mauricio el 2026-11-23, al aprobar el plan del corte 7.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
@@ -132,9 +132,9 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-89 | Nombre del proveedor en el tablero | `CotizacionValidadaEvent` gana `- proveedor: String`, junto con lo de PD-05 (`estado: String` y `+ diferenciaPorcentual`) | Decidida por Mauricio (2026-11-18); aplicada en el código y en la página 4c |
 | DEC-90 | Nombre de los platos en el tablero | Copia local en ms-analitica con `menu.actualizado` (`NombresNegocio`, fuera del diagrama, como el catálogo de ms-pedidos); `NegocioEventsListener` sigue con sus 5 tópicos | Decidida por Mauricio (2026-11-18); aplicada en el código y en las páginas 4e (nota) y 3a (consume `menu.actualizado`) |
 | DEC-91 | Detalles del corte 6b | API de redes simulada con WireMock y token; job semanal (cada 30 s en local) con ShedLock; reglas de las sugerencias (7 días anteriores, motivos, vigencia, sin repetir el mismo día, una notificación por día); sugerencias de toda la empresa; correo a todos los jefes; hechos de los 5 tópicos sin repetir eventos; rango completo o nada; histórico de la demostración; ventanas sin mockup | Asumida por Claude (2026-11-18) y confirmada por Mauricio (2026-11-23) |
-| DEC-92 | Cómo se dibuja el diagrama UML de casos de uso | Actor abstracto *Usuario* con generalización desde los seis roles (CU-01); todas las asociaciones del catálogo, también las del servidor de correo con CU-04 y CU-05; el diagrama se genera desde el texto | Asumida por Claude (2026-11-23), por confirmar; aplicada en `casos_de_uso.png` |
+| DEC-92 | Cómo se dibuja el diagrama UML de casos de uso | Actor abstracto *Usuario* con generalización desde los seis roles (CU-01); todas las asociaciones del catálogo, también las del servidor de correo con CU-04 y CU-05; el diagrama se genera desde el texto | Asumida por Claude y confirmada por Mauricio (2026-11-23); aplicada en `casos_de_uso.png` |
 | DEC-93 | M-02, M-05 y M-07 frente a la aplicación | V21 dice «Solicitud» o «Solicitudes» según cuántas tenga la cotización (la web no cambia); M-05 se cumple en V18 y V19 se deja con sus totales; M-07 no se hace | Decidida por Mauricio (2026-11-23); aplicada en `mockups_faltantes/` |
-| DEC-94 | Datos y forma de los mockups faltantes | Una carpeta por ventana con sus estados; las cuatro cotizaciones de la demo sobre SOL-031; SOL-032 (Norte) y SOL-033 para mostrar varias solicitudes en V13; V19 y V21 sobre el fondo de V17 y V20 | Asumida por Claude (2026-11-23), por confirmar |
+| DEC-94 | Datos y forma de los mockups faltantes | Una carpeta por ventana con sus estados; las cuatro cotizaciones de la demo sobre SOL-031; SOL-032 (Norte) y SOL-033 para mostrar varias solicitudes en V13; V19 y V21 sobre el fondo de V17 y V20 | Asumida por Claude y confirmada por Mauricio (2026-11-23) |
 | DEC-95 | Plan del corte 7 | Pasos 7a (documentación pendiente), 7b (pruebas de punta a punta y clon limpio), 7c (arquitecto-revisor) y 7d (README, LEEME, reporte y plan); la leyenda del eje del proveedor se corrige en la SPA; CD-51 no aplica; el diagrama de casos de uso entra al reporte en el 7d | Decidida por Mauricio (2026-11-23) |
 
 ---
@@ -1681,7 +1681,7 @@ Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-8
 
 ## DEC-94 · Datos y forma de los mockups faltantes
 
-Los asumió Claude el 2026-11-23; por confirmar. Ninguno cambia el diseño ni el código.
+Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno cambia el diseño ni el código.
 
 - **Datos.** Los de M-03 en todas las ventanas: COT-018 (Proveedor ABC, $545.000, +4,81 %), COT-019 (Proveedor C, $700.000, RECHAZADA), COT-020 (Proveedor D, $200.000, SOSPECHOSA) y COT-021 (Proveedor B, $560.000, OPCIONADA), las cuatro de SOL-031 (res 20 kg y arroz 15 kg, estándar $520.000), y OC-0012 sobre COT-018. Para que V13 muestre varias solicitudes (M-01) hay además SOL-032, de Sofía Ramírez, jefa de la Sucursal Norte (res 10 kg y papa 8 kg), y SOL-033 (papa 12 kg); en «varias solicitudes» están marcadas SOL-031 y SOL-032 y la res suma 30 kg. El pedido de M-04 es PED-0251, el número que ya cita el reporte, así que el reporte no cambia.
 - **Fondos.** V19 aparece sobre V17 (todas las cotizaciones), para que el fondo muestre las cuatro de la demo (M-03 pide corregir la lista del fondo); V21 y V22, sobre V20.
