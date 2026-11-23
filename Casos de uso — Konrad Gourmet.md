@@ -223,7 +223,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 **Postcondición:** la alerta permanece activa hasta que se registre una solicitud para ese producto.
 
-**Reglas y fuente:** el proceso no debe afectar el desempeño en horario de operación. El 25 % es un parámetro propio de ms-inventario (`UmbralStock`); no se cambia desde la parametrización (DEC-43). El modelo no tiene una entidad Alerta; en el código del 8 de noviembre la alerta es la marca `alertaAtendida` del insumo.
+**Reglas y fuente:** el proceso no debe afectar el desempeño en horario de operación. El 25 % es un parámetro propio de ms-inventario (`UmbralStock`); no se cambia desde la parametrización (DEC-43). El modelo no tiene una entidad Alerta: la alerta es la marca `alertaAtendida` de `InsumoInventario` (página 4b, nota `n_alerta`). `alertas()` devuelve los insumos bajo el umbral con la marca sin atender, `solicitud.registrada` la atiende y `descontar()` la reactiva cuando el insumo vuelve a cruzar el umbral.
 
 ### CU-06 Revisar promociones sugeridas
 
