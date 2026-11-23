@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * «REST · /api/platos · PUT …/{id} · PATCH …/{id}/desactivar · PATCH …/{id}/reactivar · …/{id}/imagen»
@@ -36,7 +38,7 @@ import java.util.List;
  * (HU-04, ventana V06).
  *
  * La sucursal y quién crea el plato salen del JWT, no del cuerpo. Solo el jefe de cocina gestiona
- * platos; la imagen también la puede ver el mesero (V03).
+ * platos, y solo los de su sucursal; la imagen también la puede ver el mesero de esa sucursal (V03).
  */
 @RestController
 @RequestMapping("/api/platos")
@@ -85,6 +87,7 @@ public class PlatoRestController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('JEFE_COCINA')")
     public PlatoJson editar(@PathVariable Long id, @RequestBody DatosPlato p, @AuthenticationPrincipal Jwt jwt) {
+        deLaSucursal(id, jwt);
         return json(casoDeUso.editar(id, plato(p, jwt)));
     }
 
@@ -92,7 +95,8 @@ public class PlatoRestController {
     @PatchMapping("/{id}/desactivar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('JEFE_COCINA')")
-    public void desactivar(@PathVariable Long id) {
+    public void desactivar(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
+        deLaSucursal(id, jwt);
         casoDeUso.desactivar(id);
     }
 
@@ -100,7 +104,8 @@ public class PlatoRestController {
     @PatchMapping("/{id}/reactivar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('JEFE_COCINA')")
-    public void reactivar(@PathVariable Long id) {
+    public void reactivar(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
+        deLaSucursal(id, jwt);
         casoDeUso.reactivar(id);
     }
 
@@ -119,7 +124,9 @@ public class PlatoRestController {
     @PutMapping(value = "/{id}/imagen", consumes = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, "image/webp", "image/gif"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('JEFE_COCINA')")
-    public void subirImagen(@PathVariable Long id, @RequestBody byte[] contenido, @RequestHeader("Content-Type") String tipo) {
+    public void subirImagen(@PathVariable Long id, @RequestBody byte[] contenido, @RequestHeader("Content-Type") String tipo,
+                            @AuthenticationPrincipal Jwt jwt) {
+        deLaSucursal(id, jwt);
         casoDeUso.guardarImagen(id, contenido, MediaType.parseMediaType(tipo).getType() + "/" + MediaType.parseMediaType(tipo).getSubtype());
     }
 
@@ -128,7 +135,8 @@ public class PlatoRestController {
     // GET /api/platos/{id}/imagen (404 si el plato no tiene)
     @GetMapping("/{id}/imagen")
     @PreAuthorize("hasAnyRole('JEFE_COCINA', 'MESERO')")
-    public ResponseEntity<byte[]> imagen(@PathVariable Long id) {
+    public ResponseEntity<byte[]> imagen(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
+        deLaSucursal(id, jwt);
         byte[] b;
         try {
             b = casoDeUso.imagen(id);
@@ -136,6 +144,29 @@ public class PlatoRestController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().contentType(tipoDe(b)).header("Cache-Control", "no-cache").body(b);
+    }
+
+    /** El plato no es de la sucursal del token (o no existe): se responde como si no existiera. */
+    static class PlatoNoDisponible extends RuntimeException {
+        PlatoNoDisponible() {
+            super("El plato consultado no está disponible", null, false, false);
+        }
+    }
+
+    @ExceptionHandler(PlatoNoDisponible.class)
+    public ResponseEntity<Map<String, String>> noDisponible(PlatoNoDisponible e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", e.getMessage()));
+    }
+
+    /**
+     * Cada jefe gestiona solo los platos de su sucursal, y el mesero solo ve las imágenes de la suya: la
+     * sucursal sale del JWT, como en GET /api/platos (C7-1).
+     */
+    private void deLaSucursal(Long id, Jwt jwt) {
+        Long sucursal = Sesion.sucursalId(jwt);
+        if (id == null || casoDeUso.consultar(sucursal).stream().noneMatch(p -> id.equals(p.id()))) {
+            throw new PlatoNoDisponible();
+        }
     }
 
     private static MediaType tipoDe(byte[] b) {
