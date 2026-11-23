@@ -215,7 +215,7 @@ export function CotizacionGenerada({ c, correlacion, alVerPdf, alCerrar }: {
         <div className="code-big">{c.numero}</div>
         <div className="estado-pill">Estado: <Insignia estado={c.estado} mayus punto /></div>
         <p className="muted">{enviada ? textoCorreo(correo, c.numero)
-          : 'Quedó pendiente del precio estándar del Ministerio: reenvíala desde Cotizaciones enviadas.'}</p>
+          : `No se pudo consultar el precio del Ministerio de Comercio. La cotización ${c.numero} quedó pendiente de precio; puede reenviarla desde Cotizaciones.`}</p>
         <Pares clase="dl dotted" pares={[[c.solicitudes.length > 1 ? 'Solicitudes origen:' : 'Solicitud origen:', c.solicitudes.join(', ')],
           ['Proveedor:', c.proveedor], ['Fecha envío:', fecha(c.fechaEnvio)], ['Fecha límite:', fecha(c.fechaLimite)]]} />
         <h4 className="sub-title">Productos solicitados</h4>

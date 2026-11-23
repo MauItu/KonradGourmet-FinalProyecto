@@ -34,7 +34,7 @@ export async function apiConCorrelacion<T>(ruta: string, opciones: Opciones = {}
   if (!r.ok) {
     if (r.status === 401 && !opciones.publica) avisarVencida();
     const mensaje = (datos as { mensaje?: string } | null)?.mensaje
-      ?? (r.status === 403 ? 'Tu rol no tiene permiso para esta acción.'
+      ?? (r.status === 403 ? 'No tiene permiso para acceder a esta opción.'
         : r.status === 503 ? 'El servicio todavía no está disponible.'
         : r.status === 401 ? 'Tu sesión venció. Vuelve a iniciar sesión.'
         : 'No se pudo completar la operación.');
