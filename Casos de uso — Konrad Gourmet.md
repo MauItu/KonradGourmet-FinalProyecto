@@ -12,7 +12,7 @@ Este cuadro asigna cada caso de uso a su adaptador de entrada (controlador REST,
 | --- | --- | --- | --- |
 | CU-01 | `AuthRestController.iniciarSesion` (identidad) | `IniciarSesionUseCase.iniciarSesion(correo, clave)` | Auditoría (`AuditoriaEvent`) |
 | CU-02 | `PedidoRestController`: `pedidosDelTurno`, `registrar`, `catalogo`, `mesas` (pedidos) | `RegistrarPedidoUseCase`: los mismos cuatro, y `actualizarCatalogo` | Publica `PedidoRegistradoEvent`. `MenuActualizadoListener` consume `menu.actualizado` |
-| CU-03 | `PlatoRestController`: `crear`, `editar`, `desactivar`, `productosPorCategoria` (menu) | `RegistrarPlatoUseCase`: `registrar`, `editar`, `desactivar`, `productosPorCategoria`, `consultar` | Publica `MenuActualizadoEvent` |
+| CU-03 | `PlatoRestController`: `crear`, `editar`, `desactivar`, `reactivar`, `productosPorCategoria` (menu) | `RegistrarPlatoUseCase`: `registrar`, `editar`, `desactivar`, `reactivar`, `productosPorCategoria`, `consultar` | Publica `MenuActualizadoEvent` |
 | CU-04 | `SolicitudRestController.registrar` y `misSolicitudes` (solicitudes) | `GestionarSolicitudUseCase`: `registrar` y `consultar` | Publica `SolicitudRegistradaEvent`; ms-inventario la consume y apaga la alerta |
 | CU-05 | `ConsumoDiarioJob` (diario 23:59), `PedidoRegistradoListener`, `InventarioEventsListener` y `InventarioRestController`: `alertas`, `insumos` (inventario) | `GestionarInventarioUseCase`: `descontarConsumoDiario`, `acumularConsumo`, `actualizarReceta`, `atenderAlertas`, `alertas`, `insumos` | Consume `pedido.registrado`, `menu.actualizado` y `solicitud.registrada`. Publica `StockBajoEvent` |
 | CU-06 | `TendenciasJob` (semanal) y `PromocionRestController` (analitica) | `TableroUseCase`: `detectarTendencias`, `sugerencias`, `aceptarSugerencia`, `descartarSugerencia` | Publica `TendenciaDetectadaEvent` |
@@ -177,7 +177,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 - Nombre repetido en la sucursal: "Ya existe un plato registrado con ese nombre".
 - Categoría sin productos: "No hay productos disponibles para la categoría seleccionada".
 - Sin ningún ingrediente: el sistema no permite guardar.
-- El jefe puede consultar, editar y desactivar platos ya registrados.
+- El jefe puede consultar, editar y desactivar platos ya registrados, y volver a activar uno desactivado; solo los de su sucursal.
 
 **Postcondición:** plato registrado con su receta; cada acción queda en la auditoría.
 
