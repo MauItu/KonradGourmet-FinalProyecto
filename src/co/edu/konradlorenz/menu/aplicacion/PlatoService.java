@@ -31,7 +31,7 @@ public class PlatoService implements RegistrarPlatoUseCase {
     public Plato registrar(Plato p) {
         p.validar();
         if (repositorio.existeNombre(p.sucursalId(), p.nombre())) {
-            throw new IllegalArgumentException("Ya existe un plato llamado " + p.nombre() + " en la sucursal");
+            throw new IllegalArgumentException("Ya existe un plato registrado con ese nombre");
         }
         Plato guardado = repositorio.guardar(p);
         publicar(guardado, "creado");
@@ -49,7 +49,7 @@ public class PlatoService implements RegistrarPlatoUseCase {
         p.validar();
         // el nombre es único en la sucursal, pero el plato puede conservar el suyo
         if (!actual.nombre().equalsIgnoreCase(p.nombre()) && repositorio.existeNombre(actual.sucursalId(), p.nombre())) {
-            throw new IllegalArgumentException("Ya existe un plato llamado " + p.nombre() + " en la sucursal");
+            throw new IllegalArgumentException("Ya existe un plato registrado con ese nombre");
         }
         actual.editar(p);
         Plato guardado = repositorio.guardar(actual);

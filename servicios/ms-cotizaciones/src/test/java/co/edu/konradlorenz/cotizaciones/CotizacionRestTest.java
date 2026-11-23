@@ -315,11 +315,11 @@ class CotizacionRestTest {
         mvc.perform(post("/api/proveedores").with(como("AUXILIAR_COMPRAS", 3, AUXILIAR)).contentType(MediaType.APPLICATION_JSON)
                         .content("{\"razonSocial\":\"Otro\",\"nit\":\"900123456-1\",\"correo\":\"otro@correo.com\"}"))
                 .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.mensaje").value("Ya existe un proveedor con el NIT 900123456-1"));
+                .andExpect(jsonPath("$.mensaje").value("Ya existe un proveedor registrado con ese número de identificación"));
         mvc.perform(post("/api/proveedores").with(como("AUXILIAR_COMPRAS", 3, AUXILIAR)).contentType(MediaType.APPLICATION_JSON)
                         .content("{\"razonSocial\":\"Otro\",\"nit\":\"901\",\"correo\":\"sin-arroba\"}"))
                 .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.mensaje").value("El correo del proveedor no es válido"));
+                .andExpect(jsonPath("$.mensaje").value("El formato del correo electrónico no es válido"));
         mvc.perform(patch("/api/proveedores/1/inactivar").with(como("AUXILIAR_COMPRAS", 3, AUXILIAR)))
                 .andExpect(status().isNoContent());
         ArgumentCaptor<Proveedor> guardado = ArgumentCaptor.forClass(Proveedor.class);

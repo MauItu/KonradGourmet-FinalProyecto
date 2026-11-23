@@ -204,7 +204,7 @@ with sync_playwright() as pw:
             aux.get_by_label('NIT').fill('900123456-1')
             aux.get_by_label('Correo').fill('ventas@frutasdelvalle.com')
             aux.get_by_role('button', name='Registrar proveedor').click()
-            expect(aux.locator('.form-error')).to_contain_text('Ya existe un proveedor con el NIT 900123456-1')
+            expect(aux.locator('.form-error')).to_contain_text('Ya existe un proveedor registrado con ese número de identificación')
             ok(True, 'Proveedores: un NIT repetido muestra el error del servicio')
             aux.get_by_label('NIT').fill('901555666-7')
             aux.get_by_label('Categorías').fill('Frutas, Verduras')

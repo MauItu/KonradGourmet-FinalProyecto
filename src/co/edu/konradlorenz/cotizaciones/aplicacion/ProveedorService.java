@@ -27,7 +27,7 @@ public class ProveedorService implements GestionarProveedorUseCase {
     public Proveedor registrar(Proveedor p) {
         p.validar();
         if (repositorio.existeNit(p.nit())) {
-            throw new IllegalStateException("Ya existe un proveedor con el NIT " + p.nit());
+            throw new IllegalStateException("Ya existe un proveedor registrado con ese número de identificación");
         }
         Proveedor guardado = repositorio.guardar(p);
         eventos.publicar(new AuditoriaEvent("sistema", "Proveedor registrado: " + guardado.razonSocial()));
@@ -53,7 +53,7 @@ public class ProveedorService implements GestionarProveedorUseCase {
         Proveedor existente = detalle(id);
         p.validar();
         if (!existente.nit().equals(p.nit()) && repositorio.existeNit(p.nit())) {
-            throw new IllegalStateException("Ya existe un proveedor con el NIT " + p.nit());
+            throw new IllegalStateException("Ya existe un proveedor registrado con ese número de identificación");
         }
         existente.editar(p);
         Proveedor guardado = repositorio.guardar(existente);

@@ -59,7 +59,7 @@ public class Pedido {
 
     public void agregarPlato(Long platoId, int cantidad, String nota, BigDecimal precio) {
         if (cantidad <= 0) {
-            throw new IllegalArgumentException("La cantidad debe ser mayor que cero");
+            throw new IllegalArgumentException("La cantidad debe ser un número entero mayor a cero");
         }
         detalles.add(new DetallePedido(platoId, cantidad, nota, precio));
     }

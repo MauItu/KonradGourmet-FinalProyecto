@@ -72,7 +72,7 @@ public class Proveedor {
             throw new IllegalStateException("El NIT es obligatorio");
         }
         if (correo == null || !correo.matches("[^@\\s]+@[^@\\s]+\\.[^@\\s]+")) {
-            throw new IllegalStateException("El correo del proveedor no es válido");
+            throw new IllegalStateException("El formato del correo electrónico no es válido");
         }
     }
 

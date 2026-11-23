@@ -74,7 +74,7 @@ final class PruebasFlujoDeCompra {
         Pedido otroPrecio = new Pedido("PED-0255", new Mesa(5, 1L, 4, true), 3L);
         otroPrecio.agregarPlato(1L, 1, null, new BigDecimal("30000"));
         Prueba.lanza("un precio distinto al del catálogo se rechaza", IllegalArgumentException.class, "no coincide", () -> s.pedidos.registrar(otroPrecio));
-        Prueba.lanza("la cantidad debe ser mayor que cero", IllegalArgumentException.class, "mayor que cero",
+        Prueba.lanza("la cantidad debe ser mayor que cero (HU-02)", IllegalArgumentException.class, "La cantidad debe ser un número entero mayor a cero",
                 () -> new Pedido("PED-0256", new Mesa(5, 1L, 4, true), 3L).agregarPlato(1L, 0, null, BigDecimal.TEN));
     }
 
@@ -167,7 +167,7 @@ final class PruebasFlujoDeCompra {
         Prueba.igualValor("pero SOL-031 no suma dos veces la misma cotización", "520000", s.solicitudes.detalle("SOL-031").valorSugeridoTotal());
         Prueba.igual("ni vuelve a avisar que está en trámite", 1L, s.bus.cuantos("solicitud.en-tramite"));
 
-        Prueba.lanza("no se valida una cotización con los valores sin registrar", IllegalStateException.class, "Falta el precio del proveedor",
+        Prueba.lanza("no se valida una cotización con los valores sin registrar (HU-13)", IllegalStateException.class, "La cotización no tiene valores registrados para validar",
                 () -> s.cotizaciones.validar("COT-018"));
         s.cotizaciones.registrarValores("COT-018", Datos.precios("21250", "8000"));
         Cotizacion validada = s.cotizaciones.validar("COT-018");
@@ -181,7 +181,7 @@ final class PruebasFlujoDeCompra {
         Prueba.igual("y el nombre del proveedor (DEC-89)", "Proveedor ABC", evento.proveedor());
         Prueba.lanza("no se vuelve a validar una cotización ya validada", IllegalStateException.class, "Solo se valida una cotización enviada",
                 () -> s.cotizaciones.validar("COT-018"));
-        Prueba.lanza("no se registran valores en una cotización ya validada", IllegalStateException.class, "Solo se registran valores",
+        Prueba.lanza("no se registran valores en una cotización ya validada (HU-11)", IllegalStateException.class, "La cotización ya fue validada; sus valores no se pueden modificar.",
                 () -> s.cotizaciones.registrarValores("COT-018", Datos.precios("21250", "8000")));
 
         s.cotizaciones.generar(Datos.cotizacionNueva(s, "COT-019", 2L));
@@ -325,9 +325,9 @@ final class PruebasFlujoDeCompra {
     private static void proveedores() {
         Prueba.grupo("Proveedores (HU-15)");
         Ensamble s = Datos.sistema();
-        Prueba.lanza("un NIT repetido se rechaza", IllegalStateException.class, "Ya existe un proveedor con el NIT",
+        Prueba.lanza("un NIT repetido se rechaza (HU-15)", IllegalStateException.class, "Ya existe un proveedor registrado con ese número de identificación",
                 () -> s.proveedores.registrar(new Proveedor(9L, "Otro", "900123456-1", "otro@correo.co", "1", "d", List.of())));
-        Prueba.lanza("un correo inválido se rechaza", IllegalStateException.class, "correo del proveedor no es válido",
+        Prueba.lanza("un correo inválido se rechaza (HU-15)", IllegalStateException.class, "El formato del correo electrónico no es válido",
                 () -> s.proveedores.registrar(new Proveedor(9L, "Otro", "900999999-9", "correo-sin-arroba", "1", "d", List.of())));
         Prueba.lanza("el NIT es obligatorio", IllegalStateException.class, "NIT es obligatorio",
                 () -> s.proveedores.registrar(new Proveedor(9L, "Otro", " ", "otro@correo.co", "1", "d", List.of())));

@@ -139,7 +139,7 @@ public class Cotizacion {
     /** Guarda el precio del proveedor para un producto de la cotización. */
     public void registrarValor(Long productoId, BigDecimal precio) {
         if (precio == null || precio.signum() <= 0) {
-            throw new IllegalArgumentException("El precio del proveedor debe ser mayor que cero");
+            throw new IllegalArgumentException("El valor unitario debe ser un número mayor a cero.");
         }
         for (int k = 0; k < items.size(); k++) {
             ItemCotizacion i = items.get(k);

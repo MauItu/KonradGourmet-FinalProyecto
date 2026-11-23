@@ -72,7 +72,7 @@ final class PruebasCotizacion {
                         List.of(new ItemCotizacion(1L, BigDecimal.ONE, "kg"))).validarSolicitudes());
         Prueba.lanza("registrarValor() de un producto que no está en la cotización", IllegalArgumentException.class, "no está en la cotización",
                 () -> c18.registrarValor(99L, BigDecimal.TEN));
-        Prueba.lanza("el precio del proveedor debe ser mayor que cero", IllegalArgumentException.class, "mayor que cero",
+        Prueba.lanza("el valor unitario debe ser mayor que cero (HU-11)", IllegalArgumentException.class, "El valor unitario debe ser un número mayor a cero.",
                 () -> c18.registrarValor(1L, BigDecimal.ZERO));
         Prueba.lanza("sin el precio del proveedor no hay valor cotizado", IllegalStateException.class, "Falta el precio del proveedor",
                 () -> new Cotizacion("COT-X", List.of("SOL-031"), proveedor(), LocalDate.now(),
