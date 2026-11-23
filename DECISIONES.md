@@ -28,7 +28,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-95:** la decidió Mauricio el 2026-11-23, al aprobar el plan del corte 7.
 - **DEC-96:** la decidió Mauricio el 2026-11-23, al aprobar el 7a («no puede quedar nada sin mockup»).
 - **DEC-97:** Mauricio pidió el 2026-11-23 «la que incluya menos modificaciones»; Claude comparó las dos y aplicó la de la web.
-- **DEC-98:** la decidió Mauricio el 2026-11-23, durante el 7b, siguiendo la recomendación de Claude. **DEC-99** la asumió Claude el mismo día, por confirmar al aprobar el 7b.
+- **DEC-98:** la decidió Mauricio el 2026-11-23, durante el 7b, siguiendo la recomendación de Claude. **DEC-99** la asumió Claude el mismo día y la confirmó Mauricio al aprobar el 7b. **DEC-100** la decidió Mauricio el mismo día, siguiendo la recomendación de Claude, y se aplica en el 7c. El lugar de la figura de casos de uso (DEC-95, punto 3) lo confirmó Mauricio el mismo día.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -142,7 +142,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-96 | Ventanas «sin mockup» | Ninguna queda sin mockup: la página 1 cambia el recuadro «Sin mockup» por «Ventanas nuevas», con la miniatura de cada una como V01–V23; se hacen los dos que faltaban (editar y desactivar un plato, reenviar una cotización); la 3a, la nota de platos de la 4b, el Story Mapping corregido y el reporte (7d) dejan de decir «sin mockup» | Decidida por Mauricio (2026-11-23) |
 | DEC-97 | Mensajes de la aplicación frente a los documentados | La aplicación muestra los textos de las historias y de PD-10 (12 mensajes: cantidad, plato y NIT repetidos, correo del proveedor, valor unitario, cotización ya validada o sin valores, solicitud no disponible, sin resultados en V11, Ministerio sin responder en V14, sin permiso y el SOAP Fault de CU-18); la documentación no cambia | Criterio de Mauricio («la que incluya menos modificaciones»), aplicado por Claude (2026-11-23) |
 | DEC-98 | Coma decimal en la alarma y el correo de stock bajo | La alarma en vivo y el correo dicen «Arroz al 17,33 %» y «Quedan 10,4 kg», con coma, como CD-06 y la SPA; antes salían con punto | Decidida por Mauricio (2026-11-23) |
-| DEC-99 | Historia del corte 7 y `probar_todo.sh` | La historia va del plato nuevo (Arroz con verduras) a la orden recibida (Proveedor C) por los 11 servicios y los 6 roles; `probar_todo.sh` cuenta el núcleo, los JUnit y los recorridos sobre una instancia limpia (`kg-limpio` por omisión; no acepta `konrad-gourmet`) y la detiene al final | Asumida por Claude (2026-11-23), por confirmar |
+| DEC-99 | Historia del corte 7 y `probar_todo.sh` | La historia va del plato nuevo (Arroz con verduras) a la orden recibida (Proveedor C) por los 11 servicios y los 6 roles; `probar_todo.sh` cuenta el núcleo, los JUnit y los recorridos sobre una instancia limpia (`kg-limpio` por omisión; no acepta `konrad-gourmet`) y la detiene al final | Asumida por Claude y confirmada por Mauricio (2026-11-23, al aprobar el 7b) |
+| DEC-100 | «Solicitar» de la alarma en vivo | Abre V08 con el producto de la alarma ya escogido, como desde V05 y V07 | Decidida por Mauricio (2026-11-23); se aplica en el 7c |
 
 ---
 
@@ -1703,7 +1704,7 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 - **Pasos.** 7a: lo que `CAMBIOS_A_DOCUMENTAR.md` aún marca pendiente fuera del reporte (casos de uso CD-12, CD-24 y CD-35; `.drawio` CD-26; la fila de DEC-56; `ESTADO_PROYECTO_Y_C4.md`). 7b: `recorrido_corte7.py` y `verificar_corte7.py` (una historia que cruza los 11 servicios y los 6 roles), `probar_todo.sh` (instancia limpia, cortes 3 a 7 en orden, total de comprobaciones) y el clon limpio (`kg-limpio`). 7c: validación del arquitecto-revisor en `VALIDACION_CORTE7.md`. 7d: README y LEEME finales, el reporte regenerado y `PLAN_Y_ESTADO.md`. Un reporte y un OK por paso.
 - **1. La leyenda del eje del proveedor** («← Más barato · Estándar · Más caro →») se parte en dos líneas. Opciones: (a) dejarla; (b) **escogida:** corregirla en la SPA (CSS) y regenerar los cinco estados de `mockups_faltantes/tablero_bam/`.
 - **2. CD-51** (botón «Cierre del día (23:59)» de V07). Opciones: (a) dibujarlo en el mockup; (b) **escogida:** no aplica, por DEC-57: es solo de la demostración, como su controlador (CD-52).
-- **3. El diagrama de casos de uso en el reporte.** Opciones: (a) dejarlo fuera; (b) **escogida:** el reporte lo incluye. Se hace en el 7d, al regenerar el reporte, después de que el 7a cierre los casos de uso (así entra la versión final del diagrama). Lugar propuesto: una figura al comienzo de la §10 (flujos), que ya relaciona roles, ventanas y servicios; se confirma al presentar el 7d.
+- **3. El diagrama de casos de uso en el reporte.** Opciones: (a) dejarlo fuera; (b) **escogida:** el reporte lo incluye. Se hace en el 7d, al regenerar el reporte, después de que el 7a cierre los casos de uso (así entra la versión final del diagrama). Lugar: una figura al comienzo de la §10 (flujos), que ya relaciona roles, ventanas y servicios (confirmado por Mauricio el 2026-11-23, al aprobar el 7b).
 
 ## DEC-96 · ¿Qué pasa con lo que el proyecto marca «sin mockup»?
 
@@ -1755,6 +1756,18 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 - **La historia** (`recorrido_corte7.py` y `verificar_corte7.py`). Opciones: (a) repetir pasos de los cortes anteriores con los mismos datos; (b) **escogida:** una historia nueva que arranca de un plato nuevo, para que cada servicio tenga algo propio que hacer. El jefe crea el «Arroz con verduras» (Fuertes, $22.000, 250 g de arroz, con imagen); el mesero lo pide para un evento, con las unidades que hacen falta para que el arroz baje del 25 % (96 en una instalación limpia); el cierre del día dispara la alarma en vivo; desde «Solicitar», el jefe pide 40 kg de arroz; la auxiliar cotiza con el Proveedor ABC y el Proveedor C, sin la caché del precio (el Ministerio responde una sola vez para las dos); la directora valida las dos (+3,75 % y −1,25 %), compra al Proveedor C (OC-0013, $316.000) y la marca recibida; el director comercial ve el plato y el Proveedor C en el tablero de hoy; la administradora ve los 11 servicios activos, la auditoría y los destinatarios. A 390 px, cada rol abre su ventana con el resultado. El arroz es el único insumo de la demostración que no había cruzado el umbral y que el Ministerio simulado conoce.
 - **El cierre del día** corre como el job de las 23:59 (V07 solo lo adelanta, CD-52): publica a nombre de «sistema» y con su propia correlación, no la de la petición del navegador, como ya comprobaba el corte 3. El verificador lo revisa así; el código no cambia.
 - **`probar_todo.sh`.** Opciones para la instancia: (a) la de siempre (`konrad-gourmet`); (b) **escogida:** una aparte, `kg-limpio` por omisión (otra con `COMPOSE_PROJECT_NAME`), que se borra al empezar (`docker compose down -v`) y se detiene al terminar (`stop`); se niega a correr sobre `konrad-gourmet`. Corre el núcleo (pruebas/), los JUnit (`compilar.sh`, salvo `--sin-compilar`), levanta la plataforma, espera 75 s a que Eureka propague y corre recorrido y verificador de los cortes 3 a 7 en orden. **El total** es la suma de las verificaciones del núcleo, las pruebas JUnit y las líneas «✓» de los recorridos y verificadores; un script que termina con error sin ninguna «✗» cuenta como una falla.
+
+
+## DEC-100 · ¿«Solicitar» de la alarma en vivo trae el producto?
+
+**Contexto.** En el recorrido del corte 7 se vio que «Solicitar» de la alarma en vivo (`Alarmas.tsx`) abre V08 vacía: el jefe tiene que volver a escoger la categoría y el producto. Desde V05 y V07 el botón abre `/solicitudes/nueva?producto=…` con el producto escogido. HU-16 (criterio 5) solo pide «acceder directamente al formulario de solicitud de alimentos desde la alerta», así que se cumplía.
+
+**Opciones:**
+- **A. Que traiga el producto**, como V05 y V07. ✅ **Escogida por Mauricio el 2026-11-23** (era la recomendada por Claude).
+- **B. Dejarlo así**, porque cumple HU-16, y que el revisor lo anote.
+- **C. Dejar que lo decida el arquitecto-revisor en el 7c.**
+
+**Qué implica:** se aplica en el 7c. La alarma necesita saber el producto (el `productoId` del evento o su nombre), «Solicitar» navega a `/solicitudes/nueva?producto=…`, `recorrido_corte5.py` y `recorrido_corte7.py` comprueban que V08 llega con el producto escogido, y se vuelve a correr `probar_todo.sh`. Si cambia lo que muestra la alarma frente a CD-06, se anota en `CAMBIOS_A_DOCUMENTAR.md`.
 
 ---
 
