@@ -22,7 +22,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-82:** la asumió Claude el 2026-11-17, al aplicar DEC-79 a DEC-81.
 - **DEC-78 y DEC-82:** las confirmó Mauricio el 2026-11-17, al aprobar el corte 5.
 - **DEC-83 y DEC-84, y la aplicación de PD-05:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación de Claude, al preparar el corte 6.
-- **DEC-88 a DEC-90:** las decidió Mauricio el 2026-11-18, al empezar el corte 6b, siguiendo la recomendación de Claude. **DEC-91** la asumió Claude el mismo día, por confirmar.
+- **DEC-88 a DEC-90:** las decidió Mauricio el 2026-11-18, al empezar el corte 6b, siguiendo la recomendación de Claude. **DEC-91** la asumió Claude el mismo día y Mauricio la confirmó el 2026-11-23.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -127,7 +127,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-88 | Gráfica y periodo de cada indicador del tablero BAM | `ResultadoKpi` gana `- ranking: Map<String, BigDecimal>` (los 5 primeros) y `- desde` / `- hasta: LocalDate` (el periodo que aplicó `TableroService`); la SPA dibuja las barras con el ganador resaltado | Decidida por Mauricio (2026-11-18); aplicada en el código, la SPA y la página 4e |
 | DEC-89 | Nombre del proveedor en el tablero | `CotizacionValidadaEvent` gana `- proveedor: String`, junto con lo de PD-05 (`estado: String` y `+ diferenciaPorcentual`) | Decidida por Mauricio (2026-11-18); aplicada en el código y en la página 4c |
 | DEC-90 | Nombre de los platos en el tablero | Copia local en ms-analitica con `menu.actualizado` (`NombresNegocio`, fuera del diagrama, como el catálogo de ms-pedidos); `NegocioEventsListener` sigue con sus 5 tópicos | Decidida por Mauricio (2026-11-18); aplicada en el código y en las páginas 4e (nota) y 3a (consume `menu.actualizado`) |
-| DEC-91 | Detalles del corte 6b | API de redes simulada con WireMock y token; job semanal (cada 30 s en local) con ShedLock; reglas de las sugerencias (7 días anteriores, motivos, vigencia, sin repetir el mismo día, una notificación por día); sugerencias de toda la empresa; correo a todos los jefes; hechos de los 5 tópicos sin repetir eventos; rango completo o nada; histórico de la demostración; ventanas sin mockup | Asumida por Claude (2026-11-18), por confirmar |
+| DEC-91 | Detalles del corte 6b | API de redes simulada con WireMock y token; job semanal (cada 30 s en local) con ShedLock; reglas de las sugerencias (7 días anteriores, motivos, vigencia, sin repetir el mismo día, una notificación por día); sugerencias de toda la empresa; correo a todos los jefes; hechos de los 5 tópicos sin repetir eventos; rango completo o nada; histórico de la demostración; ventanas sin mockup | Asumida por Claude (2026-11-18) y confirmada por Mauricio (2026-11-23) |
 
 ---
 
@@ -1620,7 +1620,7 @@ Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-8
 
 ## DEC-91 · Detalles del corte 6b asumidos por Claude
 
-Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-88 a DEC-90, que decidió Mauricio). Los asumió Claude el 2026-11-18; **están por confirmar**. Lo que la documentación tiene que recoger está en `CAMBIOS_A_DOCUMENTAR.md` (CD-27 en adelante).
+Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-88 a DEC-90, que decidió Mauricio). Los asumió Claude el 2026-11-18; Mauricio las confirmó el 2026-11-23 tras probarlas en la aplicación. Lo que la documentación tiene que recoger está en `CAMBIOS_A_DOCUMENTAR.md` (CD-27 en adelante).
 
 - **Las redes sociales en local.** Un contenedor `redes` con WireMock (como el Ministerio, DEC-71), que solo ve ms-analitica. El contrato que sigue `RedesSocialesAdapter`: `GET {url}?pais=CO&categoria=gastronomia&periodo=semana` con `Authorization: Bearer {token}` responde `{"tendencias": [{"producto": "Ajiaco", "menciones": 1840}, …]}`, de más a menos menciones; sin token, 401. La URL y el token son variables (`REDES_URL`, `REDES_TOKEN`). En local, las tendencias son el Ajiaco y la Limonada natural. `RedesSocialesAdapter` es Java puro (HttpClient del JDK, lee los productos sin librería de JSON) y ms-analitica copia el de `src/`, como `MinisterioSoapClient`. Si la API no responde o responde un error, lanza `IllegalStateException`.
 - **`TendenciasJob`.** Los lunes a las 6:00 de Bogotá; en el compose, cada 30 s (`TENDENCIAS`), para verlo trabajar. `@SchedulerLock` (ShedLock) como el cierre de ms-inventario. Corre en un recorrido propio (usuario «sistema» y una correlación que comparten la auditoría y `tendencia.detectada`, DEC-64). Si el análisis falla, registra «Falló el análisis de tendencias de promociones: …» en nivel ERROR (llega a Elasticsearch y a «Logs de errores», DEC-84), no guarda nada esa vez —tampoco lo de los pedidos— y la próxima ejecución lo vuelve a intentar.

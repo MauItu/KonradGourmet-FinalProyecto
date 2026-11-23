@@ -51,7 +51,7 @@ Stack: Docker Compose con 11 microservicios Spring Boot 3.5 y Spring Cloud 2025.
 | 4b | ms-cotizaciones (V13 a V19, proveedores, PDF) | Hecho y aprobado |
 | 5 | ms-ordenes y ms-notificaciones (V20 a V23, correos con PDF, alarma en vivo, reproceso de la cola de errores) | Hecho |
 | 6a | ms-administracion (auditoría, parámetros y tema, logs con Elasticsearch, usuarios, destinatarios) | Hecho y aprobado |
-| 6b | ms-analitica (tablero BAM, promociones sugeridas, `tendencia.detectada`, PD-05) | Hecho, **por aprobar** |
+| 6b | ms-analitica (tablero BAM, promociones sugeridas, `tendencia.detectada`, PD-05) | Hecho y aprobado (2026-11-23) |
 | 7 | Pruebas de punta a punta, README y revisión | **Pendiente** |
 
 Estado de las pruebas al corte 6b: 398 verificaciones en 8 clases, 86 pruebas JUnit, y los recorridos de navegador (`recorrido_corteN.py` y `verificar_corteN.py`) pasan también en un clon limpio.
@@ -60,7 +60,7 @@ Estado de las pruebas al corte 6b: 398 verificaciones en 8 clases, 86 pruebas JU
 
 ### Para cerrar la plataforma
 
-- [ ] Que Mauricio apruebe el corte 6b y confirme DEC-91 (detalles asumidos por Claude: API de redes simulada, `TendenciasJob`, reglas de las sugerencias, correo, tablero, histórico de la demostración y ventanas sin mockup).
+- [x] (2026-11-23) Mauricio aprobó el corte 6b y confirmó DEC-91 (detalles asumidos por Claude: API de redes simulada, `TendenciasJob`, reglas de las sugerencias, correo, tablero, histórico de la demostración y ventanas sin mockup).
 - [ ] Revisar que DEC-78 y DEC-82 (detalles del corte 5, asumidos por Claude) estén confirmadas en `DECISIONES.md`.
 - [ ] **Corte 7:** pruebas de punta a punta con todos los servicios, README y LEEME finales, revisión del arquitecto revisor sobre la plataforma completa.
 - [ ] Detalle visual: la leyenda del eje del proveedor se parte en dos líneas en el tablero BAM.
