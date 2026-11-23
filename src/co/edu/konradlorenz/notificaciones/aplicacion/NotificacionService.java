@@ -36,8 +36,9 @@ public class NotificacionService implements NotificarUseCase {
     @Override
     public void notificarEvento(EventoDominio evento) {
         if (evento instanceof StockBajoEvent e) {
-            String porcentaje = e.porcentaje().stripTrailingZeros().toPlainString();
-            String stock = e.stockActual().stripTrailingZeros().toPlainString() + " " + e.unidad();
+            // con coma decimal, como lo muestra la aplicación (CD-06: «Pollo al 24,5 %»; DEC-98)
+            String porcentaje = e.porcentaje().stripTrailingZeros().toPlainString().replace('.', ',');
+            String stock = e.stockActual().stripTrailingZeros().toPlainString().replace('.', ',') + " " + e.unidad();
             // alarma en la app (V05) y correo a los jefes de la sucursal
             for (String jefe : destinatarios.jefesDe(e.sucursalId())) {
                 enviar(creadorAlarma, jefe, evento, e.nombreProducto() + " al " + porcentaje + " %: realice una solicitud");

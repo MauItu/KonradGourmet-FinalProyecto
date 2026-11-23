@@ -93,6 +93,7 @@ final class PruebasFlujoDeCompra {
                 s.alarmas.alarmas().get(0));
         Mensaje correo = s.correos.enviados().get(0);
         Prueba.igual("el correo va al jefe de la sucursal", "jefe.centro@konradgourmet.com", correo.para());
+        Prueba.verificar("el correo dice «Quedan 11,5 kg de Res», con coma decimal (DEC-98)", correo.cuerpo().contains("Quedan 11,5 kg de Res (23 %"));
         Prueba.verificar("el correo lleva X-Certificado", correo.cabeceras().containsKey("X-Certificado"));
         Prueba.verificar("el correo lleva X-Sello-Tiempo", correo.cabeceras().containsKey("X-Sello-Tiempo"));
 
