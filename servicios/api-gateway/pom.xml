@@ -28,6 +28,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <dependency>
+            <!-- El límite de tasa (RequestRateLimiter) cuenta las peticiones en Redis (página 3a, DEC-104) -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

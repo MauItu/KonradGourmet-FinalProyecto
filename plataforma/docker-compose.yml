@@ -185,6 +185,8 @@ services:
     depends_on:
       service-registry:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/actuator/health | grep -q UP"]
       interval: 5s

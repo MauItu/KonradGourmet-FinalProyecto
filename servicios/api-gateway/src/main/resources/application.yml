@@ -10,6 +10,10 @@ spring:
         jwt:
           # Llave pública de ms-identidad (DEC-62). Se lee la primera vez que llega un token.
           jwk-set-uri: ${JWKS_URL:http://ms-identidad:8080/api/auth/jwks}
+  data:
+    redis:
+      host: ${REDIS_HOST:redis}
+      port: 6379
   cloud:
     loadbalancer:
       cache:
@@ -19,6 +23,16 @@ spring:
     gateway:
       server:
         webflux:
+          # El gateway limita la tasa (página 3a, DEC-104): cada usuario (o cada IP sin sesión) tiene un balde de
+          # tokens en Redis que se llena a LIMITE_TASA por segundo y admite ráfagas de LIMITE_RAFAGA; pasado el
+          # límite responde 429 Too Many Requests.
+          default-filters:
+            - name: RequestRateLimiter
+              args:
+                key-resolver: "#{@claveLimiteTasa}"
+                redis-rate-limiter.replenishRate: ${LIMITE_TASA:100}
+                redis-rate-limiter.burstCapacity: ${LIMITE_RAFAGA:200}
+                redis-rate-limiter.requestedTokens: 1
           # Los 13 prefijos de la tabla 5 del reporte. lb:// resuelve la instancia en Eureka.
           routes:
             - id: identidad-auth
