@@ -1,6 +1,7 @@
 package co.edu.konradlorenz.analitica.configuracion;
 
 import co.edu.konradlorenz.compartido.eventos.EventoDominio;
+import co.edu.konradlorenz.compartido.infraestructura.EventosProcesados;
 import co.edu.konradlorenz.menu.eventos.MenuActualizadoEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,20 +25,27 @@ public class NombresNegocio {
     private static final Logger LOG = LoggerFactory.getLogger(NombresNegocio.class);
 
     private final JdbcTemplate jdbc;
+    private final EventosProcesados procesados;
     private final long esperaMs;
 
     @Autowired
-    public NombresNegocio(JdbcTemplate jdbc) {
-        this(jdbc, 10_000);
+    public NombresNegocio(JdbcTemplate jdbc, EventosProcesados procesados) {
+        this(jdbc, procesados, 10_000);
     }
 
-    NombresNegocio(JdbcTemplate jdbc, long esperaMs) {
+    NombresNegocio(JdbcTemplate jdbc, EventosProcesados procesados, long esperaMs) {
         this.jdbc = jdbc;
+        this.procesados = procesados;
         this.esperaMs = esperaMs;
     }
 
+    @Transactional
     @KafkaListener(topics = "${konrad.kafka.prefijo-topico:}menu.actualizado")
     public void alRecibir(EventoDominio evento) {
+        // un menu.actualizado repetido (y ya viejo) no vuelve a poner un nombre anterior (DEC-104)
+        if (!procesados.marcar(evento, "NombresNegocio")) {
+            return;
+        }
         if (evento instanceof MenuActualizadoEvent m && m.nombre() != null && !m.nombre().isBlank()) {
             jdbc.update("INSERT INTO plato_nombre (plato_id, nombre) VALUES (?, ?) "
                     + "ON CONFLICT (plato_id) DO UPDATE SET nombre = EXCLUDED.nombre", m.platoId(), m.nombre().trim());

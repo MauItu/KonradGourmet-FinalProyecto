@@ -2,6 +2,7 @@ package co.edu.konradlorenz.notificaciones.adaptadores.entrada;
 
 import co.edu.konradlorenz.compartido.eventos.EventListener;
 import co.edu.konradlorenz.compartido.eventos.EventoDominio;
+import co.edu.konradlorenz.compartido.infraestructura.EventosProcesados;
 import co.edu.konradlorenz.notificaciones.puertos.entrada.NotificarUseCase;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -28,10 +29,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class NotificacionListeners implements EventListener<EventoDominio> {
 
-    private final NotificarUseCase casoDeUso;
+    /** El nombre con que marca los eventos ya notificados; ReprocesoColaErrores usa el mismo. */
+    public static final String CONSUMIDOR = "NotificacionListeners";
 
-    public NotificacionListeners(NotificarUseCase casoDeUso) {
+    private final NotificarUseCase casoDeUso;
+    private final EventosProcesados procesados;
+
+    public NotificacionListeners(NotificarUseCase casoDeUso, EventosProcesados procesados) {
         this.casoDeUso = casoDeUso;
+        this.procesados = procesados;
     }
 
     @Override
@@ -39,7 +45,14 @@ public class NotificacionListeners implements EventListener<EventoDominio> {
             "${konrad.kafka.prefijo-topico:}solicitud.en-tramite", "${konrad.kafka.prefijo-topico:}cotizacion.enviada",
             "${konrad.kafka.prefijo-topico:}orden.generada", "${konrad.kafka.prefijo-topico:}tendencia.detectada"})
     public void alRecibir(EventoDominio evento) {
+        // un evento ya notificado no se vuelve a enviar (DEC-104). Se marca después de enviar, sin una
+        // transacción alrededor: si el envío falla, la traza del fallo queda y el evento sigue sin marcar,
+        // para los reintentos y la cola de errores
+        if (procesados.procesado(evento, CONSUMIDOR)) {
+            return;
+        }
         casoDeUso.notificarEvento(evento);
+        procesados.marcar(evento, CONSUMIDOR);
     }
 
 }

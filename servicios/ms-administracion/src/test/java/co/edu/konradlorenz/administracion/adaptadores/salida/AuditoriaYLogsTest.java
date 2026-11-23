@@ -1,5 +1,6 @@
 package co.edu.konradlorenz.administracion.adaptadores.salida;
 
+import co.edu.konradlorenz.compartido.infraestructura.EventosProcesados;
 import co.edu.konradlorenz.administracion.adaptadores.entrada.AuditoriaListener;
 import co.edu.konradlorenz.administracion.aplicacion.AdministracionService;
 import co.edu.konradlorenz.administracion.configuracion.RefrescoParametros;
@@ -36,6 +37,13 @@ import static org.mockito.Mockito.when;
  */
 class AuditoriaYLogsTest {
 
+    /** Ningún evento se había procesado (DEC-104). */
+    private static EventosProcesados nuevos() {
+        EventosProcesados p = org.mockito.Mockito.mock(EventosProcesados.class);
+        org.mockito.Mockito.when(p.marcar(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any())).thenReturn(true);
+        return p;
+    }
+
     private static final String PAULA = "paula.herrera@konradgourmet.com";
 
     private final AuditoriaJpaRepository repositorio = mock(AuditoriaJpaRepository.class);
@@ -62,7 +70,7 @@ class AuditoriaYLogsTest {
         UUID recorrido = UUID.randomUUID();
         ContextoRecorrido.abrir(null, recorrido); // lo abre InterceptorCorrelacion con la correlación del evento
         AuditoriaEvent evento = new AuditoriaEvent("isabella.torres@konradgourmet.com", "Pedido PED-0251 registrado por el mesero 3");
-        new AuditoriaListener(servicio).alRecibir(evento);
+        new AuditoriaListener(servicio, nuevos()).alRecibir(evento);
         AuditoriaEntidad e = guardada();
         assertEquals("Pedido PED-0251 registrado por el mesero 3", e.accion);
         assertEquals("isabella.torres@konradgourmet.com", e.usuario);
@@ -73,7 +81,7 @@ class AuditoriaYLogsTest {
     @Test
     void unEventoRepetidoNoSeGuardaDosVeces() {
         when(repositorio.existsByFechaAndHoraAndUsuarioAndAccionAndCorrelacionId(any(), any(), any(), any(), any())).thenReturn(true);
-        new AuditoriaListener(servicio).alRecibir(new AuditoriaEvent("carlos.mendoza@konradgourmet.com", "Solicitud SOL-031 registrada"));
+        new AuditoriaListener(servicio, nuevos()).alRecibir(new AuditoriaEvent("carlos.mendoza@konradgourmet.com", "Solicitud SOL-031 registrada"));
         verify(repositorio, never()).saveAndFlush(any());
     }
 
@@ -91,7 +99,7 @@ class AuditoriaYLogsTest {
 
     @Test
     void sinSesionQuedaElUsuarioDelEvento() {
-        new AuditoriaListener(servicio).alRecibir(new AuditoriaEvent("sistema", "Cierre diario de inventario"));
+        new AuditoriaListener(servicio, nuevos()).alRecibir(new AuditoriaEvent("sistema", "Cierre diario de inventario"));
         AuditoriaEntidad e = guardada();
         assertEquals("sistema", e.usuario);
         assertEquals(null, e.correlacionId);

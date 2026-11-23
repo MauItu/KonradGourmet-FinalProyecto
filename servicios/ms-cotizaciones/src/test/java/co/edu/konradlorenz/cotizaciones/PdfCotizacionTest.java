@@ -1,5 +1,6 @@
 package co.edu.konradlorenz.cotizaciones;
 
+import co.edu.konradlorenz.compartido.infraestructura.EventosProcesados;
 import co.edu.konradlorenz.cotizaciones.adaptadores.entrada.OrdenGeneradaListener;
 import co.edu.konradlorenz.cotizaciones.adaptadores.salida.PdfCotizacionAdapter;
 import co.edu.konradlorenz.cotizaciones.configuracion.NombresProductos;
@@ -27,6 +28,13 @@ import static org.mockito.Mockito.when;
 /** El PDF de OpenPDF se puede abrir y dice lo que el proveedor necesita; y el listener de orden.generada. */
 class PdfCotizacionTest {
 
+    /** Ningún evento se había procesado (DEC-104). */
+    private static EventosProcesados nuevos() {
+        EventosProcesados p = org.mockito.Mockito.mock(EventosProcesados.class);
+        org.mockito.Mockito.when(p.marcar(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any())).thenReturn(true);
+        return p;
+    }
+
     @Test
     void elPdfAbreYLlevaLaCotizacionElProveedorYLosProductos() throws Exception {
         NombresProductos nombres = mock(NombresProductos.class);
@@ -52,7 +60,7 @@ class PdfCotizacionTest {
     @Test
     void ordenGeneradaMarcaLaCotizacionConOrden() {
         GestionarCotizacionUseCase casoDeUso = mock(GestionarCotizacionUseCase.class);
-        new OrdenGeneradaListener(casoDeUso).alRecibir(new OrdenGeneradaEvent("laura.gomez@konradgourmet.com", "OC-0012", "COT-018",
+        new OrdenGeneradaListener(casoDeUso, nuevos()).alRecibir(new OrdenGeneradaEvent("laura.gomez@konradgourmet.com", "OC-0012", "COT-018",
                 List.of("SOL-031"), "Proveedor ABC", "ventas@proveedorabc.com", "s3://documentos-pdf/ordenes/OC-0012.pdf", new BigDecimal("545000")));
         verify(casoDeUso).marcarConOrden("COT-018");
     }

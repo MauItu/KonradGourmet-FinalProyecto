@@ -1,5 +1,6 @@
 package co.edu.konradlorenz.solicitudes;
 
+import co.edu.konradlorenz.compartido.infraestructura.EventosProcesados;
 import co.edu.konradlorenz.compartido.eventos.AuditoriaEvent;
 import co.edu.konradlorenz.compartido.eventos.EventoDominio;
 import co.edu.konradlorenz.compartido.puertos.EventPublisherPort;
@@ -33,6 +34,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class CotizacionEventsListenerTest {
 
+    /** Ningún evento se había procesado (DEC-104). */
+    private static EventosProcesados nuevos() {
+        EventosProcesados p = org.mockito.Mockito.mock(EventosProcesados.class);
+        org.mockito.Mockito.when(p.marcar(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any())).thenReturn(true);
+        return p;
+    }
+
     private static final String JEFE = "carlos.mendoza@konradgourmet.com";
 
     private final Map<String, SolicitudAlimentos> tabla = new HashMap<>();
@@ -59,7 +67,7 @@ class CotizacionEventsListenerTest {
             }
         };
         EventPublisherPort eventos = publicados::add;
-        listener = new CotizacionEventsListener(new SolicitudService(repositorio, eventos));
+        listener = new CotizacionEventsListener(new SolicitudService(repositorio, eventos), nuevos());
         tabla.put("SOL-031", solicitud("SOL-031", new ItemSolicitud(1L, new BigDecimal("20"), "Marca X", "kg"),
                 new ItemSolicitud(2L, new BigDecimal("15"), null, "kg")));
         tabla.put("SOL-032", solicitud("SOL-032", new ItemSolicitud(3L, new BigDecimal("10"), null, "kg")));

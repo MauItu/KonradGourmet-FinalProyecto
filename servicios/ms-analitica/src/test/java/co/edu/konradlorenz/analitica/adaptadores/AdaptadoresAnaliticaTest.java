@@ -7,7 +7,7 @@ import ch.qos.logback.core.AppenderBase;
 import co.edu.konradlorenz.analitica.adaptadores.entrada.NegocioEventsListener;
 import co.edu.konradlorenz.analitica.adaptadores.entrada.TendenciasJob;
 import co.edu.konradlorenz.analitica.aplicacion.TableroService;
-import co.edu.konradlorenz.analitica.configuracion.EventosProcesados;
+import co.edu.konradlorenz.compartido.infraestructura.EventosProcesados;
 import co.edu.konradlorenz.analitica.configuracion.NombresNegocio;
 import co.edu.konradlorenz.analitica.dominio.CalculadorKpi;
 import co.edu.konradlorenz.analitica.dominio.HechoNegocio;
@@ -86,7 +86,7 @@ class AdaptadoresAnaliticaTest {
 
     @Test
     void elPedidoDejaSusHechosConLosNombresDeLaCopiaLocal() {
-        when(procesados.marcar(any())).thenReturn(true);
+        when(procesados.marcar(any(), any())).thenReturn(true);
         when(nombres.plato(1L)).thenReturn("Bandeja paisa");
         when(nombres.plato(2L)).thenReturn("Ajiaco");
         when(nombres.sucursal(1L)).thenReturn("Sucursal Centro");
@@ -102,7 +102,7 @@ class AdaptadoresAnaliticaTest {
 
     @Test
     void unEventoRepetidoNoDejaHechosOtraVez() {
-        when(procesados.marcar(any())).thenReturn(true, false);
+        when(procesados.marcar(any(), any())).thenReturn(true, false);
         NegocioEventsListener listener = new NegocioEventsListener(tablero, nombres, procesados);
         CotizacionValidadaEvent cot018 = new CotizacionValidadaEvent("laura.gomez@konradgourmet.com", "COT-018", 1L, "Proveedor ABC",
                 "OPCIONADA", new BigDecimal("545000"), new BigDecimal("4.81"));

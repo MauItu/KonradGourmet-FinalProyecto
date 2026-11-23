@@ -1,5 +1,6 @@
 package co.edu.konradlorenz.analitica.configuracion;
 
+import co.edu.konradlorenz.compartido.infraestructura.EventosProcesados;
 import co.edu.konradlorenz.menu.eventos.MenuActualizadoEvent;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -15,6 +16,13 @@ import static org.mockito.Mockito.when;
 /** Arma NombresNegocio con un JdbcTemplate simulado y una espera corta (el constructor es del paquete). */
 public final class NombresNegocioPrueba {
 
+    /** Ningún evento se había procesado (DEC-104). */
+    private static EventosProcesados nuevos() {
+        EventosProcesados p = org.mockito.Mockito.mock(EventosProcesados.class);
+        org.mockito.Mockito.when(p.marcar(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any())).thenReturn(true);
+        return p;
+    }
+
     private NombresNegocioPrueba() {
     }
 
@@ -24,7 +32,7 @@ public final class NombresNegocioPrueba {
         when(jdbc.queryForList("SELECT nombre FROM plato_nombre WHERE plato_id = ?", String.class, 9L)).thenReturn(List.of());
         when(jdbc.queryForList("SELECT nombre FROM sucursal WHERE id = ?", String.class, 2L)).thenReturn(List.of("Sucursal Norte"));
         when(jdbc.queryForList("SELECT nombre FROM sucursal WHERE id = ?", String.class, 7L)).thenReturn(List.of());
-        NombresNegocio nombres = new NombresNegocio(jdbc, 600);
+        NombresNegocio nombres = new NombresNegocio(jdbc, nuevos(), 600);
         nombres.alRecibir(new MenuActualizadoEvent("carlos.mendoza@konradgourmet.com", 2L, 1L, "Ajiaco", "Sopas", new BigDecimal("18000"), true, Map.of()));
         verify(jdbc).update(eq("INSERT INTO plato_nombre (plato_id, nombre) VALUES (?, ?) ON CONFLICT (plato_id) DO UPDATE SET nombre = EXCLUDED.nombre"),
                 eq(2L), eq("Ajiaco"));

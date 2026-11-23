@@ -1,5 +1,6 @@
 package co.edu.konradlorenz.notificaciones;
 
+import co.edu.konradlorenz.compartido.infraestructura.EventosProcesados;
 import co.edu.konradlorenz.compartido.eventos.AuditoriaEvent;
 import co.edu.konradlorenz.compartido.eventos.EventoDominio;
 import co.edu.konradlorenz.compartido.puertos.EventPublisherPort;
@@ -89,7 +90,7 @@ class CorreoYAlarmaTest {
         NotificacionService servicio = new NotificacionService(
                 new CreadorCorreo(new CorreoCertificadoDecorator(new EstampaCronologicaDecorator(adaptador))),
                 new CreadorAlarmaApp(alarmas), envios, destinatarios, eventos);
-        listeners = new NotificacionListeners(servicio);
+        listeners = new NotificacionListeners(servicio, org.mockito.Mockito.mock(EventosProcesados.class));
     }
 
     private MimeMessage enviado() {

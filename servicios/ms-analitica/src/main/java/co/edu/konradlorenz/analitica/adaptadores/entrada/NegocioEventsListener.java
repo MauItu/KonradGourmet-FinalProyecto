@@ -1,6 +1,6 @@
 package co.edu.konradlorenz.analitica.adaptadores.entrada;
 
-import co.edu.konradlorenz.analitica.configuracion.EventosProcesados;
+import co.edu.konradlorenz.compartido.infraestructura.EventosProcesados;
 import co.edu.konradlorenz.analitica.configuracion.NombresNegocio;
 import co.edu.konradlorenz.analitica.dominio.HechoNegocio;
 import co.edu.konradlorenz.analitica.puertos.entrada.TableroUseCase;
@@ -28,7 +28,7 @@ import java.util.Map;
  * • cotizacion.validada → PRECIO_PROVEEDOR (diferencia contra el precio estándar), solo si quedó OPCIONADA (PD-03);
  * • inventario.stock-bajo → STOCK_BAJO; solicitud.registrada → SOLICITUD_SUCURSAL; orden.generada → ORDEN_PROVEEDOR.
  * Los nombres del plato y de la sucursal salen de NombresNegocio (DEC-90). Un evento repetido no deja hechos otra vez
- * (EventosProcesados, en la misma transacción); el recorrido del evento (InterceptorCorrelacion) llega hasta
+ * (EventosProcesados de compartido, en la misma transacción; DEC-104); el recorrido del evento (InterceptorCorrelacion) llega hasta
  * KpiJpaAdapter, que guarda su correlacionId.
  */
 @Component
@@ -50,7 +50,7 @@ public class NegocioEventsListener implements EventListener<EventoDominio> {
             "${konrad.kafka.prefijo-topico:}inventario.stock-bajo", "${konrad.kafka.prefijo-topico:}solicitud.registrada",
             "${konrad.kafka.prefijo-topico:}orden.generada"})
     public void alRecibir(EventoDominio evento) {
-        if (!procesados.marcar(evento)) {
+        if (!procesados.marcar(evento, "NegocioEventsListener")) {
             return;
         }
         LocalDate fecha = evento.ocurridoEn().toLocalDate();
