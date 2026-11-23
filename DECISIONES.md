@@ -27,6 +27,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-93:** la decidió Mauricio el 2026-11-23, al revisar qué mostraba la aplicación antes de hacer los mockups que faltaban (fase 2). **DEC-94** la asumió Claude el mismo día y la confirmó Mauricio al aprobar el 7a.
 - **DEC-95:** la decidió Mauricio el 2026-11-23, al aprobar el plan del corte 7.
 - **DEC-96:** la decidió Mauricio el 2026-11-23, al aprobar el 7a («no puede quedar nada sin mockup»).
+- **DEC-97:** Mauricio pidió el 2026-11-23 «la que incluya menos modificaciones»; Claude comparó las dos y aplicó la de la web.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -138,6 +139,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-94 | Datos y forma de los mockups faltantes | Una carpeta por ventana con sus estados; las cuatro cotizaciones de la demo sobre SOL-031; SOL-032 (Norte) y SOL-033 para mostrar varias solicitudes en V13; V19 y V21 sobre el fondo de V17 y V20 | Asumida por Claude y confirmada por Mauricio (2026-11-23) |
 | DEC-95 | Plan del corte 7 | Pasos 7a (documentación pendiente), 7b (pruebas de punta a punta y clon limpio), 7c (arquitecto-revisor) y 7d (README, LEEME, reporte y plan); la leyenda del eje del proveedor se corrige en la SPA; CD-51 no aplica; el diagrama de casos de uso entra al reporte en el 7d | Decidida por Mauricio (2026-11-23) |
 | DEC-96 | Ventanas «sin mockup» | Ninguna queda sin mockup: la página 1 cambia el recuadro «Sin mockup» por «Ventanas nuevas», con la miniatura de cada una como V01–V23; se hacen los dos que faltaban (editar y desactivar un plato, reenviar una cotización); la 3a, la nota de platos de la 4b, el Story Mapping corregido y el reporte (7d) dejan de decir «sin mockup» | Decidida por Mauricio (2026-11-23) |
+| DEC-97 | Mensajes de la aplicación frente a los documentados | La aplicación muestra los textos de las historias y de PD-10 (12 mensajes: cantidad, plato y NIT repetidos, correo del proveedor, valor unitario, cotización ya validada o sin valores, solicitud no disponible, sin resultados en V11, Ministerio sin responder en V14, sin permiso y el SOAP Fault de CU-18); la documentación no cambia | Criterio de Mauricio («la que incluya menos modificaciones»), aplicado por Claude (2026-11-23) |
 
 ---
 
@@ -1714,6 +1716,22 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 - Mockups nuevos, con los datos de la demostración, en `mockups_faltantes/`: `editar_desactivar_plato/` (el detalle del Ajiaco con «Editar plato» y «Desactivar», la ventana de edición y el plato desactivado) y `reenviar_cotizacion/` (COT-022 de SOL-033 pendiente de precio, el botón «Reenviar» y la cotización ya enviada).
 - Proveedores: el mockup hecho a mano de `mockups_nuevos/07_proveedores` (M-08) no coincidía con la demostración (el Proveedor D inactivo, aunque COT-020 es suya; el Proveedor B sin correo; otra distribución de la ventana). Mauricio pidió rehacerlo desde la aplicación (2026-11-23): `mockups_faltantes/proveedores/` (`nuevo_proveedor`, `editar_proveedor`, `registrado`), y esa es la miniatura de la página 1. Los estados de error (NIT repetido, correo mal formado) esperan a que la aplicación muestre los textos de HU-15.
 - 4b: `n_platos` dice que los platos se editan y desactivan desde «Platos» (V06). Story Mapping corregido: HU-15, HU-18 y HU-19 nombran su ventana. Reporte: S5 y las tablas de §5 y §10, al regenerarlo en el 7d (CD-60).
+
+## DEC-97 · ¿Se corrige la aplicación o la documentación cuando los mensajes no coinciden?
+
+**Contexto.** Al hacer los mockups de DEC-96 se vio que la aplicación muestra, en algunos errores, un texto distinto al de las historias de usuario (criterios literales de las tarjetas) o al de la tabla de PD-10 de los casos de uso: por ejemplo, «Ya existe un proveedor con el NIT 900123456-1» en vez de «Ya existe un proveedor registrado con ese número de identificación» (HU-15), o «Quedó pendiente del precio estándar del Ministerio: reenvíala desde Cotizaciones enviadas.» en vez del mensaje de PD-10. La nota de PD-10 ya lo anticipaba: el adaptador traduce los mensajes internos a estos textos, pero el código no lo hacía. Mauricio pidió aplicar la opción con menos modificaciones.
+
+**Opciones:**
+- **A. Cambiar la aplicación.** Unos 12 textos en el núcleo (`src/`), en dos adaptadores (ms-solicitudes y el SOAP de ms-integracion) y en la SPA, y las pruebas que comprueban los textos viejos (unos 6 archivos). La documentación no cambia. ✅ **Escogida** (Claude, con el criterio de Mauricio).
+- **B. Cambiar la documentación.** Los textos son literales de las tarjetas HU del Story Mapping, que no se modifica: habría que cambiar el Story Mapping corregido, los casos de uso, PD-10 y el reporte, y aun así contradirían las tarjetas originales.
+- **C. Dejar la diferencia anotada.**
+
+**Qué implica:**
+- Núcleo: «La cantidad debe ser un número entero mayor a cero» (HU-02), «Ya existe un plato registrado con ese nombre» (HU-04), «Ya existe un proveedor registrado con ese número de identificación» y «El formato del correo electrónico no es válido» (HU-15), «El valor unitario debe ser un número mayor a cero.» y «La cotización ya fue validada; sus valores no se pueden modificar.» (HU-11, PD-10; el segundo solo cuando la cotización ya está validada) y «La cotización no tiene valores registrados para validar» (HU-13, cuando ningún producto tiene precio).
+- Adaptadores: el 404 de una solicitud dice «La solicitud consultada no está disponible» (HU-08) y el SOAP Fault de un producto sin precio, «No hay precio estándar disponible para el producto {id}.» (CU-18).
+- SPA: «No se encontraron solicitudes registradas» en V11 sin resultados (HU-06), el aviso de V14 con el Ministerio sin responder (PD-10) y «No tiene permiso para acceder a esta opción.» (PD-10).
+- Sin cambio, porque el usuario no llega a verlos: «Debe seleccionar una mesa para continuar» (V03 siempre trae una mesa escogida) y «No hay productos disponibles para la categoría seleccionada» (V06 solo ofrece categorías con productos).
+- Se rehacen el mockup de V14 pendiente de precio y se agregan los dos errores de proveedores; la nota de PD-10 de los casos de uso deja de decir que el código conserva otros textos.
 
 ---
 
