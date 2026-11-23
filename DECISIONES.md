@@ -24,6 +24,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-83 y DEC-84, y la aplicación de PD-05:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación de Claude, al preparar el corte 6.
 - **DEC-88 a DEC-90:** las decidió Mauricio el 2026-11-18, al empezar el corte 6b, siguiendo la recomendación de Claude. **DEC-91** la asumió Claude el mismo día y Mauricio la confirmó el 2026-11-23.
 - **DEC-92:** la asumió Claude el 2026-11-23, al dibujar el diagrama de casos de uso (fase 1 antes del corte 7); por confirmar.
+- **DEC-93:** la decidió Mauricio el 2026-11-23, al revisar qué mostraba la aplicación antes de hacer los mockups que faltaban (fase 2). **DEC-94** la asumió Claude el mismo día; por confirmar.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -130,6 +131,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-90 | Nombre de los platos en el tablero | Copia local en ms-analitica con `menu.actualizado` (`NombresNegocio`, fuera del diagrama, como el catálogo de ms-pedidos); `NegocioEventsListener` sigue con sus 5 tópicos | Decidida por Mauricio (2026-11-18); aplicada en el código y en las páginas 4e (nota) y 3a (consume `menu.actualizado`) |
 | DEC-91 | Detalles del corte 6b | API de redes simulada con WireMock y token; job semanal (cada 30 s en local) con ShedLock; reglas de las sugerencias (7 días anteriores, motivos, vigencia, sin repetir el mismo día, una notificación por día); sugerencias de toda la empresa; correo a todos los jefes; hechos de los 5 tópicos sin repetir eventos; rango completo o nada; histórico de la demostración; ventanas sin mockup | Asumida por Claude (2026-11-18) y confirmada por Mauricio (2026-11-23) |
 | DEC-92 | Cómo se dibuja el diagrama UML de casos de uso | Actor abstracto *Usuario* con generalización desde los seis roles (CU-01); todas las asociaciones del catálogo, también las del servidor de correo con CU-04 y CU-05; el diagrama se genera desde el texto | Asumida por Claude (2026-11-23), por confirmar; aplicada en `casos_de_uso.png` |
+| DEC-93 | M-02, M-05 y M-07 frente a la aplicación | V21 dice «Solicitud» o «Solicitudes» según cuántas tenga la cotización (la web no cambia); M-05 se cumple en V18 y V19 se deja con sus totales; M-07 no se hace | Decidida por Mauricio (2026-11-23); aplicada en `mockups_faltantes/` |
+| DEC-94 | Datos y forma de los mockups faltantes | Una carpeta por ventana con sus estados; las cuatro cotizaciones de la demo sobre SOL-031; SOL-032 (Norte) y SOL-033 para mostrar varias solicitudes en V13; V19 y V21 sobre el fondo de V17 y V20 | Asumida por Claude (2026-11-23), por confirmar |
 
 ---
 
@@ -1652,6 +1655,36 @@ Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-8
 - (b) **Escogida:** `diagrama_casos_de_uso/generar.py` lee las tablas «Actores» y «Catálogo de casos de uso» del md, comprueba los 19 casos, los 6 roles y los 5 externos, y dibuja las asociaciones que dice la tabla (SVG con Poppins, PNG con Playwright, como `mockups_admin/`). Si el catálogo cambia, se vuelve a correr.
 
 **Implica.** `casos_de_uso.png` queda en `documentos/`; se quita la nota «Pendiente» del md y el párrafo del diagrama dice cómo está dibujado. Los roles de cocina y compras van a la izquierda; el director comercial, el administrador y los externos, a la derecha. Ningún caso, rol ni actor cambia.
+
+## DEC-93 · M-02, M-05 y M-07 frente a lo que muestra la aplicación
+
+**Contexto.** Mauricio pidió el 2026-11-23 que los mockups faltantes salgan de la aplicación cuando la pantalla ya corre, y que se le avise antes de dibujar M-05 o M-07 si la aplicación no los muestra. Al revisar la SPA quedaron tres diferencias con `CORRECCIONES_HU_Y_MOCKUPS.md`.
+
+**1. M-02 (V21).** M-02 pide cambiar «Solicitud» por «Solicitudes». La aplicación escribe «Solicitud: SOL-031» si la cotización tiene una y «Solicitudes: SOL-031, SOL-032» si tiene varias; COT-018 tiene solo SOL-031.
+- (a) Cambiar la web para que diga siempre «Solicitudes».
+- (b) **Escogida:** dejar la web como está. El mockup de V21 dice «Solicitud: SOL-031»; el plural aparece solo cuando hay varias, que es lo que M-02 buscaba (que la ventana admita varias).
+- (c) Dejar la web y agregar un estado de V21 con una cotización de dos solicitudes.
+
+**2. M-05 (V18 y V19).** El mockup original muestra en las dos una columna «Valor» con el valor de la línea, y el sistema guarda el precio por unidad. En la aplicación, V18 ya muestra el precio por unidad del Ministerio y del proveedor ($/kg) con el valor de la línea debajo; V19 no tiene tabla de productos, solo los totales, la diferencia y el estado.
+- (a) **Escogida:** V18 tal como está cumple M-05; V19 se deja con sus totales, porque sin líneas no hay columna que confundir.
+- (b) Dibujar V19 con una tabla de productos (no coincidiría con la web).
+- (c) Agregar la tabla a V19 en la web.
+
+**3. M-07 (V12).** El detalle de la solicitud no muestra en qué cotización está ni las otras solicitudes de esa cotización.
+- (a) **Escogida:** no hacerlo: es opcional y no está en las tarjetas.
+- (b) Dibujarlo. (c) Agregarlo a la API y a la SPA.
+
+**Implica.** Ningún cambio de código. En `CAMBIOS_A_DOCUMENTAR.md`, M-02 y M-05 quedan aplicados con esta salvedad y M-07 como «No aplica».
+
+## DEC-94 · Datos y forma de los mockups faltantes
+
+Los asumió Claude el 2026-11-23; por confirmar. Ninguno cambia el diseño ni el código.
+
+- **Datos.** Los de M-03 en todas las ventanas: COT-018 (Proveedor ABC, $545.000, +4,81 %), COT-019 (Proveedor C, $700.000, RECHAZADA), COT-020 (Proveedor D, $200.000, SOSPECHOSA) y COT-021 (Proveedor B, $560.000, OPCIONADA), las cuatro de SOL-031 (res 20 kg y arroz 15 kg, estándar $520.000), y OC-0012 sobre COT-018. Para que V13 muestre varias solicitudes (M-01) hay además SOL-032, de Sofía Ramírez, jefa de la Sucursal Norte (res 10 kg y papa 8 kg), y SOL-033 (papa 12 kg); en «varias solicitudes» están marcadas SOL-031 y SOL-032 y la res suma 30 kg. El pedido de M-04 es PED-0251, el número que ya cita el reporte, así que el reporte no cambia.
+- **Fondos.** V19 aparece sobre V17 (todas las cotizaciones), para que el fondo muestre las cuatro de la demo (M-03 pide corregir la lista del fondo); V21 y V22, sobre V20.
+- **Estados de V17.** Dos: COT-018 OPCIONADA y COT-018 CON ORDEN, porque M-03 dice «OPCIONADA, luego CON ORDEN».
+- **Carpetas.** `mockups_faltantes/` con una carpeta por ventana (V03, V04, V13, V17, V18, V19, V21, V22, `tablero_bam` y `promociones_sugeridas`) y un PNG por estado: escritorio (1440×900), 390×844 y, si no cabe, la ventana completa. El `LEEME.md` dice qué corrección cubre cada carpeta.
+- **Fechas y horas.** Las del día en que se hicieron (23/11/2026), las mismas en todas las ventanas.
 
 ---
 
