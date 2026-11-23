@@ -151,7 +151,8 @@ with sync_playwright() as pw:
             ok(numero in lista.inner_text(), 'V12 (HU-07): filtrar por producto «Res» la encuentra')
             filtros.locator('input').nth(2).fill('Marca Y')
             filtros.get_by_role('button', name='Buscar').click(); aux.wait_for_timeout(600)
-            ok('No se encontraron solicitudes' in lista.inner_text(), 'V12 (HU-07): res «Marca Y» no da resultados')
+            ok('No se encontraron solicitudes con los criterios indicados' in lista.inner_text(),
+               'V12 (HU-07, 4): res «Marca Y» no da resultados: «No se encontraron solicitudes con los criterios indicados»')
             foto(aux, f'{tag}-V12-filtro-sin-resultados')
             filtros.locator('input').nth(0).fill('2026-12-31'); filtros.locator('input').nth(1).fill('2026-01-01')
             filtros.get_by_role('button', name='Buscar').click()

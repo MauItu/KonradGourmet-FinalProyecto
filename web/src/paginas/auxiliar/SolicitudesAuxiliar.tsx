@@ -76,7 +76,7 @@ export function SolicitudesAuxiliar() {
           <Tarjeta titulo="Solicitudes de alimentos" icono="file" sub="Revisa y gestiona las últimas solicitudes de alimentos"
             extra={<button type="button" className="btn soft sm" onClick={() => cotizar()}><Icono nombre="plusCircle" /> Generar cotización</button>}>
             <Tabla cabeceras={['Nº solicitud', 'Sucursal', 'Fecha', 'Productos', 'Estado', 'Acción']}
-              vacio={resultado ? 'No se encontraron solicitudes registradas' : 'Aún no hay solicitudes de alimentos.'}>
+              vacio={resultado ? 'No se encontraron solicitudes con los criterios indicados' : 'No se encontraron solicitudes registradas'}>
               {filas.map((s) => (
                 <tr key={s.numero} className={`clickable ${sel && s.numero === sel.numero ? 'selected' : ''}`} onClick={() => setParams({ sel: s.numero })}>
                   <td><b>{s.numero}</b></td><td>{nombreSucursal(usuario, s.sucursalId)}</td><td>{fecha(s.fecha)}</td><td>{s.items.length}</td>
