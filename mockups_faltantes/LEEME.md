@@ -1,6 +1,6 @@
 # Mockups faltantes · Konrad Gourmet
 
-Los mockups que faltaban después de `mockups_admin/` (las seis ventanas del administrador y los cambios a V05, V07, V14, V20 y V23) y de `mockups_nuevos/07_proveedores` (HU-15): las dos ventanas nuevas de ms-analitica (CD-27 y CD-28), las correcciones M-01 a M-09 de `CORRECCIONES_HU_Y_MOCKUPS.md` que quedaban abiertas y las dos funciones que no tenían mockup: editar y desactivar un plato, y reenviar una cotización pendiente de precio (CD-58, DEC-96).
+Los mockups que faltaban después de `mockups_admin/` (las seis ventanas del administrador y los cambios a V05, V07, V14, V20 y V23): las dos ventanas nuevas de ms-analitica (CD-27 y CD-28), las correcciones M-01 a M-09 de `CORRECCIONES_HU_Y_MOCKUPS.md` que quedaban abiertas y las dos funciones que no tenían mockup: editar y desactivar un plato, y reenviar una cotización pendiente de precio (CD-58, DEC-96).
 
 Cada estado tiene dos imágenes: `nombre.png`, en escritorio (**1440×900**), y `nombre_movil.png`, a **390×844**. Cuando el contenido no cabe en la pantalla, `nombre_completa.png` y `nombre_movil_completa.png` muestran la ventana entera.
 
@@ -19,6 +19,7 @@ Cada estado tiene dos imágenes: `nombre.png`, en escritorio (**1440×900**), y 
 | [V03_nuevo_pedido](V03_nuevo_pedido/) | V03 · Nuevo pedido | M-04 y M-09 | `pedido_82000` |
 | [V04_pedido_registrado](V04_pedido_registrado/) | V04 · Pedido registrado | M-04 | `pedido_82000` |
 | [editar_desactivar_plato](editar_desactivar_plato/) | Platos y V06 en modo edición (HU-04, CU-03), jefe de cocina | CD-58 | `detalle_plato`, `editar_plato`, `plato_desactivado` |
+| [proveedores](proveedores/) | Proveedores (HU-15, CU-09), auxiliar de compras | M-08 | `nuevo_proveedor`, `editar_proveedor`, `registrado` |
 | [reenviar_cotizacion](reenviar_cotizacion/) | V14 y V15 con una cotización pendiente de precio (HU-12, CU-08), auxiliar de compras | CD-58 | `pendiente_de_precio`, `reenviar`, `reenviada` |
 
 ## Los datos
@@ -46,4 +47,5 @@ Las cuatro cotizaciones son de SOL-031 (res 20 kg y arroz 15 kg, Sucursal Centro
 - **M-05 · V18.** El precio por unidad: el estándar del Ministerio ($20.000/kg y $8.000/kg) y el del proveedor ($21.250/kg y $8.000/kg), con el valor de la línea debajo ($425.000 y $120.000). V19 muestra solo los totales y la diferencia, sin líneas de producto, así que ahí no hay columna que corregir (DEC-93).
 - **M-07** no se hace (opcional, DEC-93).
 - **CD-58 · Editar y desactivar un plato.** El detalle del Ajiaco con «Editar plato» y «Desactivar»; la ventana «Editar plato» (V06) con sus datos e ingredientes; el plato desactivado, con «Activar» y el aviso «Plato «Ajiaco» desactivado: sale del catálogo del mesero, sus pedidos anteriores siguen intactos.».
+- **M-08 · Proveedores.** La lista de proveedores registrados (los cuatro de la demostración, activos y con su correo) y, al lado, el formulario «Nuevo proveedor»; «Editar proveedor» con el Proveedor B y «Inactivar»; el registro de Distribuidora La Sabana, con el aviso «Proveedor «Distribuidora La Sabana» registrado: ya sale en «Generar cotización».».
 - **CD-58 · Reenviar una cotización.** Con el Ministerio sin responder, COT-022 (SOL-033, papa 12 kg, Proveedor B) queda PENDIENTE DE PRECIO y se guarda sin enviar; en «Cotizaciones enviadas», «Reenviar (consultar el precio otra vez)»; al reenviarla con el Ministerio de vuelta, pasa a ENVIADA, con «Ver PDF» y el aviso «COT-022 se completó con el precio del Ministerio y se envió al proveedor.».
