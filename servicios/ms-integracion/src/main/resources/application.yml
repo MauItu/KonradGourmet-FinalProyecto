@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: ms-integracion
+  # Su base solo guarda la outbox de los eventos (DEC-104): el precio vive en la caché de Redis.
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:postgres}:5432/ms_integracion
+    username: ms_integracion
+    password: ms_integracion
   data:
     redis:
       host: ${REDIS_HOST:redis}

@@ -43,10 +43,13 @@ import static org.mockito.Mockito.when;
  * ms-integracion de punta a punta dentro del proceso: Apache CXF publica el endpoint SOAP, la seguridad
  * valida el token, el Proxy guarda el precio y el adaptador traduce lo que responde el cliente del
  * Ministerio (simulado aquí; en la plataforma, el contenedor ministerio). La caché es un mapa en memoria
- * en lugar de Redis, y Kafka y la llave del JWT también son simulados.
+ * en lugar de Redis, y Kafka y la llave del JWT también son simulados; sin la base, la outbox no se arma.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
-        "eureka.client.enabled=false", "konrad.integracion.url-publica=http://localhost:8080/api/integracion"})
+        "eureka.client.enabled=false", "konrad.integracion.url-publica=http://localhost:8080/api/integracion",
+        // sin base: la outbox no se arma y la auditoría sale directo al KafkaTemplate simulado
+        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,"
+                + "org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration"})
 class PrecioSoapTest {
 
     @TestConfiguration

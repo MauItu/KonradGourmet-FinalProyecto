@@ -292,6 +292,8 @@ services:
       args: { MODULO: ms-integracion }
     image: konrad-gourmet/ms-integracion
     depends_on:
+      postgres:
+        condition: service_healthy
       kafka-topicos:
         condition: service_completed_successfully
       service-registry:

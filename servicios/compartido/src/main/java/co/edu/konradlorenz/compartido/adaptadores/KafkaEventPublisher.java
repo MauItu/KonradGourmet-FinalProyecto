@@ -3,12 +3,14 @@ package co.edu.konradlorenz.compartido.adaptadores;
 import co.edu.konradlorenz.compartido.eventos.EventoDominio;
 import co.edu.konradlorenz.compartido.infraestructura.ContextoRecorrido;
 import co.edu.konradlorenz.compartido.infraestructura.FormatoEventos;
+import co.edu.konradlorenz.compartido.infraestructura.OutboxEventos;
 import co.edu.konradlorenz.compartido.puertos.EventPublisherPort;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.kafka.core.KafkaTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * «Publish-Subscribe · publicador» [Kafka]
@@ -22,8 +24,10 @@ import java.util.UUID;
  * originó (ContextoRecorrido). Sin contexto (por ejemplo, un job) el evento sale como lo creó el núcleo.
  * La clase del evento viaja en una cabecera para que el consumidor lo reconstruya (ConvertidorEventos).
  *
- * El envío es asíncrono: el servicio no espera al broker y un fallo queda en el log. La tabla outbox
- * del diagrama (nota n_outbox de la 4a) es la versión que garantiza la entrega.
+ * Outbox transaccional (nota n_outbox de la 4a, DEC-104): en un servicio con base, el registro no va
+ * directo a Kafka, se guarda en la tabla outbox en la misma transacción que el cambio (OutboxEventos) y
+ * el relé lo publica después (ReleOutbox). Sin base (las pruebas de un controlador solo, por ejemplo), se
+ * envía directo con el KafkaTemplate.
  */
 public class KafkaEventPublisher implements EventPublisherPort {
 
@@ -31,12 +35,20 @@ public class KafkaEventPublisher implements EventPublisherPort {
     private static final String SISTEMA = "sistema";
 
     private final String prefijoTopico;
-    private final KafkaTemplate<String, String> kafka;
+    private final Consumer<ProducerRecord<String, String>> salida;
     private final FormatoEventos formato;
 
+    /** Publica directo en Kafka (sin outbox). */
     public KafkaEventPublisher(String prefijoTopico, KafkaTemplate<String, String> kafka, FormatoEventos formato) {
         this.prefijoTopico = prefijoTopico;
-        this.kafka = kafka;
+        this.salida = kafka::send;
+        this.formato = formato;
+    }
+
+    /** Guarda cada evento en la outbox del servicio, en la transacción en curso; el relé lo publica. */
+    public KafkaEventPublisher(String prefijoTopico, OutboxEventos outbox, FormatoEventos formato) {
+        this.prefijoTopico = prefijoTopico;
+        this.salida = registro -> outbox.guardar(registro, CABECERA_CLASE);
         this.formato = formato;
     }
 
@@ -54,7 +66,7 @@ public class KafkaEventPublisher implements EventPublisherPort {
         ProducerRecord<String, String> registro = new ProducerRecord<>(prefijoTopico + evento.tipo(),
                 formato.clave(evento), formato.aJson(evento, usuario, correlacion));
         registro.headers().add(CABECERA_CLASE, evento.getClass().getName().getBytes(StandardCharsets.UTF_8));
-        kafka.send(registro);
+        salida.accept(registro);
     }
 
 }
