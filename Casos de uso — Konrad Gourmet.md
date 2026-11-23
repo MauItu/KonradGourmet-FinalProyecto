@@ -24,7 +24,7 @@ Este cuadro asigna cada caso de uso a su adaptador de entrada (controlador REST,
 | CU-12 | `CotizacionRestController.opcionadas` y `detalle` | `GestionarCotizacionUseCase.consultar`, `detalle` | — |
 | CU-13 | `OrdenCompraRestController`: `generar`, `consultar` (ordenes) | `GenerarOrdenUseCase`: `generar`, `consultar` | Publica `OrdenGeneradaEvent`. `OrdenGeneradaListener` (cotizaciones) llama a `marcarConOrden`; ms-solicitudes llama a `completar` |
 | CU-14 | `TableroRestController.kpis` y `NegocioEventsListener` (analitica) | `TableroUseCase.kpis`, `registrarHecho` | Consume 5 tópicos |
-| CU-15 | `AdminRestController.parametrizar` y `tema` (administracion); `DestinatarioRestController` (notificaciones) | `AdministracionUseCase.parametrizar`, `tema`; `NotificarUseCase.registrarDestinatario`, `destinatarios` | Auditoría |
+| CU-15 | `AdminRestController`: `parametros`, `parametrizar` y `tema` (administracion); `DestinatarioRestController` (notificaciones) | `AdministracionUseCase`: `parametros`, `parametrizar`, `tema`; `NotificarUseCase.registrarDestinatario`, `destinatarios` | Auditoría |
 | CU-16 | `AdminRestController.auditoria` y `AuditoriaListener` | `AdministracionUseCase.auditoria`, `registrarAuditoria` | Consume `auditoria.evento` |
 | CU-17 | `AdminRestController.logs` | `AdministracionUseCase.logs` | — |
 | CU-18 | `AbastecimientoSoapEndpoint.consultarPrecioSugerido` (integracion) | `ConsultarPrecioUseCase.precioSugerido(productoId)` | — |
@@ -97,11 +97,11 @@ Trece casos agrupan las 19 historias de usuario; los seis restantes son el inici
 | CU-12 | Consultar cotizaciones opcionadas | Director de compras | — | HU-17 | RF-08 | V20 | 4 |
 | CU-13 | Generar orden de compra | Director de compras | Proveedor, servidor de correo certificado | HU-14 | RF-08 | V21, V22, V23 | 3 |
 | CU-14 | Consultar tablero BAM | Director comercial | — | HU-18 | RF-09 | Tablero BAM | 4 |
-| CU-15 | Parametrizar el sistema | Administrador | — | HU-20 (propuesta) | RF-11 | Sin mockup | — |
-| CU-16 | Consultar auditoría | Administrador | — | HU-21 (propuesta) | RF-11 | Sin mockup | — |
-| CU-17 | Consultar logs de errores | Administrador | — | HU-22 (propuesta) | RF-11 | Sin mockup | — |
+| CU-15 | Parametrizar el sistema | Administrador | — | HU-20 (propuesta) | RF-11 | Parámetros y tema, Destinatarios de alertas | — |
+| CU-16 | Consultar auditoría | Administrador | — | HU-21 (propuesta) | RF-11 | Auditoría | — |
+| CU-17 | Consultar logs de errores | Administrador | — | HU-22 (propuesta) | RF-11 | Logs de errores | — |
 | CU-18 | Consultar precio sugerido (SOAP) | Sistemas externos | — | Ninguna (requisito de integración) | — | Sin ventana | — |
-| CU-19 | Registrar usuario | Administrador | — | Ninguna (DEC-10) | RF-11 | Sin ventana | — |
+| CU-19 | Registrar usuario | Administrador | — | Ninguna (DEC-10) | RF-11 | Usuarios | — |
 
 CU-18 viene del informe de arquitectura, que expone `consultarPrecioSugerido` por SOAP. El enunciado exige que todo servicio expuesto a sistemas externos use SOAP, pero no dice cuál exponer; es una decisión de diseño y como tal hay que defenderla.
 
@@ -393,7 +393,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 ## Especificación: dirección comercial, administrador y sistemas externos
 
-Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciado, las historias y el informe de arquitectura; lo que ninguna fuente define queda marcado como "por definir".
+Estos seis casos no están entre las ventanas V01 a V23 del prototipo de Canva. Se escriben con lo que dicen el enunciado, las historias y el informe de arquitectura; sus ventanas («Tablero BAM», «Parámetros y tema», «Destinatarios de alertas», «Auditoría», «Logs de errores» y «Usuarios») se diseñaron con las mismas piezas que las demás y sus mockups están en `mockups_faltantes/` y `mockups_admin/`. CU-18 no tiene ventana: lo usan otros sistemas.
 
 ### CU-14 Consultar tablero BAM
 
@@ -416,14 +416,16 @@ Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciad
 
 ### CU-15 Parametrizar el sistema
 
-**Actor:** administrador. **Historia propuesta:** HU-20. **Requisito:** RF-11.
+**Actor:** administrador. **Historia propuesta:** HU-20. **Requisito:** RF-11. **Ventanas:** «Parámetros y tema» y «Destinatarios de alertas».
 
 **Flujo principal:**
 
-1. El administrador abre la parametrización y elige qué va a cambiar: un parámetro general o la imagen corporativa (tema y logos).
-2. Cambia el valor.
-3. El sistema valida y guarda el cambio, y lo registra en la auditoría. Mensajes: «La clave del parámetro es obligatoria.», «El valor del parámetro {clave} es obligatorio.» y «Parámetro actualizado.» (PD-10).
-4. Registra los correos de los jefes de cocina por sucursal (`/api/notificaciones/destinatarios`, DEC-13). Un correo mal formado muestra «El formato del correo electrónico no es válido.» Este registro también se audita (`auditoria.evento`).
+1. El administrador abre «Parámetros y tema». El sistema muestra la imagen corporativa (nombre del sistema, color principal y logo, con una vista previa) y la tabla de todos los parámetros generales con su clave y su valor (`parametros()`, DEC-85).
+2. Elige qué va a cambiar: un parámetro general («Editar» o «Nuevo parámetro») o la imagen corporativa (nombre, color en formato #RRGGBB y logo PNG, JPG, SVG o WebP de hasta 200 KB, o «Restaurar» el de siempre).
+3. El sistema valida y guarda el cambio, y lo registra en la auditoría. Mensajes: «Parámetro actualizado.» e «Imagen corporativa actualizada: la verán todos los usuarios al iniciar sesión.»; los de error están en la tabla de PD-10.
+4. En «Destinatarios de alertas» elige una sucursal, ve sus destinatarios y agrega los correos de sus jefes de cocina (`/api/notificaciones/destinatarios`, DEC-13). Un correo mal formado muestra «El formato del correo electrónico no es válido.» Este registro también se audita (`auditoria.evento`).
+
+**Postcondición:** cada usuario toma el tema nuevo (nombre, color y logo) al iniciar sesión, sin redespliegue (DEC-86); la pantalla de inicio de sesión conserva la imagen de siempre, porque el tema se lee con la sesión iniciada. Las alertas de stock bajo de la sucursal llegan a los destinatarios registrados.
 
 **Datos paramétricos que las fuentes mencionan:** categorías de producto, productos por categoría, unidades de medida y marcas (listas desplegables de RF-01 y RF-03); mesas por sucursal (HU-03); imagen corporativa, es decir tema y logos (requisito de interfaz 1). El alta de usuarios es CU-19 (DEC-10).
 
@@ -431,25 +433,37 @@ Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciad
 
 ### CU-16 Consultar auditoría
 
-**Actor:** administrador. **Historia propuesta:** HU-21. **Requisito:** RF-11.
+**Actor:** administrador. **Historia propuesta:** HU-21. **Requisito:** RF-11. **Ventana:** «Auditoría».
 
 **Flujo principal:**
 
-1. El administrador abre la auditoría y elige un rango de fechas.
-2. El sistema lista los movimientos con acción, usuario, fecha y hora.
+1. El administrador abre «Auditoría»; la ventana empieza con los movimientos de los últimos 7 días.
+2. Elige un rango de fechas («Desde» y «Hasta») y pulsa «Consultar», o «Hoy» para ver solo el día.
+3. El sistema lista los movimientos con fecha, hora, usuario y acción, lo más reciente primero, de 10 en 10, e indica cuántos hay en el periodo.
+
+**Flujos alternos:**
+
+- Falta una de las dos fechas: «Seleccione la fecha inicial y la fecha final.»
+- Fecha mal escrita: «La fecha no es válida.»
+- Rango invertido o sin movimientos: los mensajes de la tabla de PD-10.
 
 **Reglas y fuente:** cada acción CRUD del sistema debe registrar esos cuatro datos (requisito de mantenimiento 1). El informe asigna la consulta por rango de fechas a ms-administracion. El usuario de cada registro sale del JWT de quien hizo la acción. Filtros: solo por rango de fechas, obligatorio, y «desde» no puede ser posterior a «hasta» (PD-07); filtrar por usuario o acción es una evolución que cambia cinco firmas de la 4e. Mensajes: «La fecha inicial no puede ser posterior a la fecha final.» y «No hay movimientos de auditoría en el periodo seleccionado.» (PD-10).
 
 ### CU-17 Consultar logs de errores
 
-**Actor:** administrador. **Historia propuesta:** HU-22. **Requisito:** RF-11.
+**Actor:** administrador. **Historia propuesta:** HU-22. **Requisito:** RF-11. **Ventana:** «Logs de errores».
 
 **Flujo principal:**
 
-1. El administrador abre los logs de error y, si quiere, elige un servicio.
-2. El sistema lista los errores con servicio, mensaje, fecha y hora.
+1. El administrador abre «Logs de errores» y, si quiere, elige uno de los 11 microservicios en «Servicio» (o «Todos») y pulsa «Actualizar».
+2. El sistema lista los errores más recientes con fecha, hora, servicio y mensaje, de 10 en 10.
 
-**Reglas y fuente:** cada error producido en el sistema debe quedar registrado en un log (requisito de mantenimiento 2). Los campos de la lista salen de la clase LogError del `.drawio`.
+**Flujos alternos:**
+
+- Sin errores: «No hay errores registrados para el servicio seleccionado.»
+- El almacén de logs no responde: «No se pudieron consultar los logs de errores. Intente de nuevo en unos minutos.», y ese error queda en el log del servicio.
+
+**Reglas y fuente:** cada error producido en el sistema debe quedar registrado en un log (requisito de mantenimiento 2): cada servicio envía sus errores, con la correlación del recorrido y el usuario, al índice de Elasticsearch que lee `ElasticsearchLogsAdapter`, sin esperar a que responda. Un correo que no se pudo enviar después de los reintentos también queda como error. Los campos de la lista salen de la clase LogError del `.drawio`.
 
 ### CU-18 Consultar precio sugerido (SOAP)
 
@@ -464,17 +478,18 @@ Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciad
 
 ### CU-19 Registrar usuario
 
-**Actor:** administrador. **Decisión:** DEC-10. **Requisito:** RF-11. **Ventana:** ninguna (`POST /api/usuarios`, ms-identidad).
+**Actor:** administrador. **Decisión:** DEC-10. **Requisito:** RF-11. **Ventana:** «Usuarios» (`POST /api/usuarios`, ms-identidad).
 
 **Flujo principal:**
 
-1. El administrador envía nombre, correo, rol, sucursal y contraseña.
+1. El administrador abre «Usuarios» y llena el formulario «Nuevo usuario»: nombre completo, correo, rol (uno de los seis), sucursal y contraseña inicial; la regla de la contraseña aparece debajo del campo.
 2. El sistema valida que la contraseña tenga 8 o más caracteres, con mayúscula, minúscula y número (`PoliticaContrasena`).
-3. La cifra (`CifradorPort.cifrar`), registra al usuario y deja la auditoría.
+3. La cifra (`CifradorPort.cifrar`), registra al usuario y deja la auditoría. La ventana confirma «Usuario {correo} registrado como {rol}.» y lo agrega a la lista «Registrados ahora»; el usuario ya puede iniciar sesión.
 
 **Flujos alternos:**
 
-- Si la contraseña no cumple la regla, el usuario no se registra.
+- Si la contraseña no cumple la regla, el usuario no se registra y el mensaje dice lo que le falta.
+- Correo repetido o mal formado: los mensajes de la tabla de PD-10.
 
 **Reglas y fuente:** los requisitos de seguridad 3 y 4 del enunciado (contraseña y cifrado); la relación «Parametriza, registra usuarios y destinatarios» de la página 2 del `.drawio`.
 
@@ -484,7 +499,7 @@ El Story Mapping no tiene historias para el administrador. Estas tres siguen el 
 
 | Historia | Como | Quiero | Para | Criterios de aceptación (con su fuente) |
 | --- | --- | --- | --- | --- |
-| HU-20 Parametrizar el sistema | Administrador del sistema | Mantener los parámetros generales, la imagen corporativa y los destinatarios | Cambiarlos sin depender de un experto en diseño ni de un nuevo despliegue | (1) Puedo consultar y cambiar los parámetros generales y la imagen corporativa (tema y logos); la SPA los toma al iniciar, sin redespliegue (requisito de interfaz 1). (2) Puedo registrar y consultar los correos de los jefes de cocina por sucursal (DEC-13). (3) Las validaciones y mensajes son los de PD-10. (4) Cada cambio queda en la auditoría con acción, usuario, fecha y hora (mantenimiento 1). (5) Solo un usuario con rol administrador accede (seguridad 1). (6) Un error al guardar queda en el log (mantenimiento 2). (7) Las listas maestras (categorías, productos, unidades, marcas y mesas) quedan fuera: se cargan con la migración inicial de cada servicio (supuesto S10, PD-06) |
+| HU-20 Parametrizar el sistema | Administrador del sistema | Mantener los parámetros generales, la imagen corporativa y los destinatarios | Cambiarlos sin depender de un experto en diseño ni de un nuevo despliegue | (1) Puedo consultar y cambiar los parámetros generales y la imagen corporativa (tema y logos); la SPA los toma al iniciar sesión, sin redespliegue (requisito de interfaz 1; DEC-86). (2) Puedo registrar y consultar los correos de los jefes de cocina por sucursal (DEC-13). (3) Las validaciones y mensajes son los de PD-10. (4) Cada cambio queda en la auditoría con acción, usuario, fecha y hora (mantenimiento 1). (5) Solo un usuario con rol administrador accede (seguridad 1). (6) Un error al guardar queda en el log (mantenimiento 2). (7) Las listas maestras (categorías, productos, unidades, marcas y mesas) quedan fuera: se cargan con la migración inicial de cada servicio (supuesto S10, PD-06) |
 | HU-21 Consultar la auditoría | Administrador del sistema | Consultar los movimientos de auditoría | Verificar quién hizo cada acción y cuándo | (1) La lista muestra acción, usuario, fecha y hora (mantenimiento 1). (2) El rango de fechas es obligatorio y «desde» no puede ser posterior a «hasta» (informe de arquitectura, ms-administracion; PD-07). (3) La consulta es de solo lectura y solo el administrador accede (seguridad 1). (4) Los mensajes son los de PD-10 |
 | HU-22 Consultar logs de errores | Administrador del sistema | Consultar los errores registrados | Diagnosticar fallas del sistema | (1) La lista muestra servicio, mensaje, fecha y hora (clase LogError del `.drawio`). (2) El servicio es opcional; sin él, salen todos (informe de arquitectura). (3) La consulta es de solo lectura y solo el administrador accede (seguridad 1). (4) Los mensajes son los de PD-10 |
 
@@ -502,17 +517,22 @@ Criterio: el mismo estilo que las tarjetas del Story Mapping, en una frase compl
 | CU-08 (HU-12) | Falla el correo | «No se pudo enviar el correo al proveedor. La cotización {número} está guardada; puede reintentar el envío.» |
 | CU-10 (HU-11) | Cotización ya validada | «La cotización ya fue validada; sus valores no se pueden modificar.» |
 | CU-10 (HU-11) | Valor no válido | «El valor unitario debe ser un número mayor a cero.» |
-| CU-19 | Contraseña que no cumple la regla | «La contraseña debe tener al menos 8 caracteres, con una mayúscula, una minúscula y un número.» |
+| CU-19 | Contraseña que no cumple la regla | «La contraseña debe tener …» con lo que le falta, en el orden de la regla; por ejemplo, «La contraseña debe tener 8 caracteres o más, una mayúscula, un número.» (DEC-10, DEC-87). La ventana muestra la regla completa debajo del campo |
 | CU-19 | Correo repetido | «Ya existe un usuario registrado con ese correo.» |
 | CU-15, CU-19 (HU-20) | Correo mal formado | «El formato del correo electrónico no es válido.» (el de HU-15) |
 | CU-15 (HU-20) | Clave o valor vacío | «La clave del parámetro es obligatoria.» / «El valor del parámetro {clave} es obligatorio.» |
-| CU-15 (HU-20) | Guardado | «Parámetro actualizado.» |
+| CU-15 (HU-20) | Clave con caracteres no permitidos | «La clave del parámetro solo puede tener minúsculas, números, guiones y puntos (por ejemplo, general.moneda).» |
+| CU-15 (HU-20) | Valor demasiado largo | «El valor del parámetro {clave} no puede tener más de 500 caracteres.» |
+| CU-15 (HU-20) | Color mal escrito | «El color debe tener el formato #RRGGBB (por ejemplo, #F28705).» |
+| CU-15 (HU-20) | Logo no permitido | «El logo debe ser una imagen PNG, JPG, SVG o WebP de máximo 200 KB.» |
+| CU-15 (HU-20) | Guardado | «Parámetro actualizado.» / «Imagen corporativa actualizada: la verán todos los usuarios al iniciar sesión.» |
 | CU-07, CU-14, CU-06, CU-16 (HU-07, HU-18, HU-19, HU-21) | Rango de fechas invertido | «La fecha inicial no puede ser posterior a la fecha final.» |
-| CU-14, CU-06 (HU-18, HU-19) | Solo una de las dos fechas | «Seleccione la fecha inicial y la fecha final.» |
-| CU-14, CU-06 (HU-18, HU-19) | Fecha mal escrita | «La fecha no es válida.» |
+| CU-14, CU-06, CU-16 (HU-18, HU-19, HU-21) | Solo una de las dos fechas (en CU-16, el rango es obligatorio) | «Seleccione la fecha inicial y la fecha final.» |
+| CU-14, CU-06, CU-16 (HU-18, HU-19, HU-21) | Fecha mal escrita | «La fecha no es válida.» |
 | CU-14 (HU-18) | Sucursal mal escrita | «La sucursal no es válida.» |
 | CU-14 (HU-18) | Sin datos en el periodo | «No hay información suficiente para el periodo seleccionado» (el de HU-18) |
 | CU-16 (HU-21) | Sin resultados | «No hay movimientos de auditoría en el periodo seleccionado.» |
 | CU-17 (HU-22) | Sin resultados | «No hay errores registrados para el servicio seleccionado.» |
+| CU-17 (HU-22) | El almacén de logs no responde | «No se pudieron consultar los logs de errores. Intente de nuevo en unos minutos.» |
 | CU-06 (HU-19) | Sin sugerencias / ya resuelta | «No hay promociones sugeridas para el periodo seleccionado.» / «Esta sugerencia ya fue aceptada o descartada.» |
 | CU-18 | Producto sin precio (SOAP Fault) | «No hay precio estándar disponible para el producto {id}.»; un token inválido recibe 401 en el gateway |
