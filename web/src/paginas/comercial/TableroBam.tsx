@@ -56,7 +56,7 @@ export function TableroBam() {
             <option value="">Todas</option>{SUCURSALES.map((s) => <option key={s.id} value={s.id}>{s.nombre}</option>)}</select></label>
           <div className="filter-btns">
             <button type="button" className="btn outline sm" disabled={buscando} onClick={() => void consultar()}><Icono nombre="search" /> Consultar</button>
-            <button type="button" className="btn ghost sm" disabled={buscando} onClick={periodosFijos}><Icono nombre="calendar" /> Último mes y año</button>
+            <button type="button" className="btn ghost sm" disabled={buscando} onClick={periodosFijos}><Icono nombre="calendar" /> Restablecer periodo</button>
           </div>
           {error && <p className="form-error" role="alert">{error}</p>}
         </section>

@@ -160,7 +160,7 @@ with sync_playwright() as pw:
             foto(dir_, f'{tag}-bam-sin-datos')
 
             # un pedido nuevo se ve al volver a consultar
-            dir_.get_by_role('button', name='Último mes y año').click()
+            dir_.get_by_role('button', name='Restablecer periodo').click()
             expect(indicador(dir_, 'Producto con mayor demanda').locator('.bam-barras li')).to_have_count(5)
             punta = indicador(dir_, 'Producto con mayor demanda').locator('.bam-barras li', has_text='Punta de anca')
             valor_antes = punta.locator('.bam-cifra').inner_text() if punta.count() else None
