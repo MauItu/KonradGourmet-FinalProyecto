@@ -215,7 +215,7 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 1. El sistema verifica las órdenes preparadas o vendidas del día y descuenta las cantidades correspondientes del inventario.
 2. Cuando el porcentaje de un producto frente a su stock de referencia, redondeado a dos decimales, queda por debajo del 25 %, el sistema genera una alarma visible en la aplicación y envía un correo avisando que debe hacerse una solicitud de alimentos. La alarma sale una sola vez, la noche en que el producto cruza el umbral (DEC-43, DEC-46).
-3. La alerta indica producto, cantidad restante, unidad y sucursal, y da acceso directo al formulario de solicitud de alimentos (CU-04).
+3. La alerta indica producto, cantidad restante, unidad y sucursal, y da acceso directo al formulario de solicitud de alimentos (CU-04), con el producto ya escogido. En V05, cada alerta muestra el producto, la cantidad restante con su unidad y el porcentaje, en la ventana de la sucursal; el correo nombra además la sucursal. Si el jefe tiene la sesión abierta, la alarma en vivo («Arroz al 17,33 %: realice una solicitud») es el aviso que lo lleva a la alerta (DEC-100, DEC-102).
 
 **Flujos alternos:**
 
