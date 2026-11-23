@@ -41,6 +41,7 @@ export function InicioJefe({ usuario }: { usuario: Usuario }) {
                 <div key={i.productoId} className="alert-row">
                   <Miniatura nombre={i.nombre} clase="sm" />
                   <b>{i.nombre}</b>
+                  <span className="queda" title="Cantidad restante">{num(i.stockActual)} {i.unidad}</span>
                   <span className={`pct ${i.porcentaje < 20 ? 'rojo' : 'naranja'}`}>{num(i.porcentaje)}%</span>
                   <Medidor p={i.porcentaje} />
                   <button type="button" className="round-btn" onClick={() => navegar(`/solicitudes/nueva?producto=${i.productoId}`)} aria-label={`Solicitar ${i.nombre}`}><Icono nombre="chevR" /></button>

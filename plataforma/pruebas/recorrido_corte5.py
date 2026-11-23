@@ -99,6 +99,8 @@ def alarma_en_vivo(jefe, tag, producto, ancho, solicitar=False):
     jefe.goto(BASE + '/inicio'); jefe.wait_for_selector('.alert-list')
     jefe.wait_for_function(f"() => [...document.querySelectorAll('.alert-row b')].some(b => b.innerText === '{producto}')", timeout=10000)
     ok(True, f'{tag} V05: la alerta de {producto} está en la lista (ms-inventario la guardó)')
+    fila = jefe.locator('.alert-row', has=jefe.locator('b', has_text=producto)).inner_text()
+    ok(re.search(r'\d+(,\d+)? kg', fila) is not None and '%' in fila, f'{tag} V05: la fila dice cuánto queda, con su unidad, y el porcentaje (HU-16, 4; DEC-102): «{" · ".join(fila.split())}»')
     return alarma
 
 with sync_playwright() as pw:
