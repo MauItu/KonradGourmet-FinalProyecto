@@ -25,6 +25,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-88 a DEC-90:** las decidió Mauricio el 2026-11-18, al empezar el corte 6b, siguiendo la recomendación de Claude. **DEC-91** la asumió Claude el mismo día y Mauricio la confirmó el 2026-11-23.
 - **DEC-92:** la asumió Claude el 2026-11-23, al dibujar el diagrama de casos de uso (fase 1 antes del corte 7); por confirmar.
 - **DEC-93:** la decidió Mauricio el 2026-11-23, al revisar qué mostraba la aplicación antes de hacer los mockups que faltaban (fase 2). **DEC-94** la asumió Claude el mismo día; por confirmar.
+- **DEC-95:** la decidió Mauricio el 2026-11-23, al aprobar el plan del corte 7.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -133,6 +134,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-92 | Cómo se dibuja el diagrama UML de casos de uso | Actor abstracto *Usuario* con generalización desde los seis roles (CU-01); todas las asociaciones del catálogo, también las del servidor de correo con CU-04 y CU-05; el diagrama se genera desde el texto | Asumida por Claude (2026-11-23), por confirmar; aplicada en `casos_de_uso.png` |
 | DEC-93 | M-02, M-05 y M-07 frente a la aplicación | V21 dice «Solicitud» o «Solicitudes» según cuántas tenga la cotización (la web no cambia); M-05 se cumple en V18 y V19 se deja con sus totales; M-07 no se hace | Decidida por Mauricio (2026-11-23); aplicada en `mockups_faltantes/` |
 | DEC-94 | Datos y forma de los mockups faltantes | Una carpeta por ventana con sus estados; las cuatro cotizaciones de la demo sobre SOL-031; SOL-032 (Norte) y SOL-033 para mostrar varias solicitudes en V13; V19 y V21 sobre el fondo de V17 y V20 | Asumida por Claude (2026-11-23), por confirmar |
+| DEC-95 | Plan del corte 7 | Pasos 7a (documentación pendiente), 7b (pruebas de punta a punta y clon limpio), 7c (arquitecto-revisor) y 7d (README, LEEME, reporte y plan); la leyenda del eje del proveedor se corrige en la SPA; CD-51 no aplica; el diagrama de casos de uso entra al reporte en el 7d | Decidida por Mauricio (2026-11-23) |
 
 ---
 
@@ -1685,6 +1687,15 @@ Los asumió Claude el 2026-11-23; por confirmar. Ninguno cambia el diseño ni el
 - **Estados de V17.** Dos: COT-018 OPCIONADA y COT-018 CON ORDEN, porque M-03 dice «OPCIONADA, luego CON ORDEN».
 - **Carpetas.** `mockups_faltantes/` con una carpeta por ventana (V03, V04, V13, V17, V18, V19, V21, V22, `tablero_bam` y `promociones_sugeridas`) y un PNG por estado: escritorio (1440×900), 390×844 y, si no cabe, la ventana completa. El `LEEME.md` dice qué corrección cubre cada carpeta.
 - **Fechas y horas.** Las del día en que se hicieron (23/11/2026), las mismas en todas las ventanas.
+
+## DEC-95 · Plan del corte 7
+
+**Contexto.** Antes de empezar el corte 7, Claude presentó el plan y tres decisiones; Mauricio lo aprobó el 2026-11-23.
+
+- **Pasos.** 7a: lo que `CAMBIOS_A_DOCUMENTAR.md` aún marca pendiente fuera del reporte (casos de uso CD-12, CD-24 y CD-35; `.drawio` CD-26; la fila de DEC-56; `ESTADO_PROYECTO_Y_C4.md`). 7b: `recorrido_corte7.py` y `verificar_corte7.py` (una historia que cruza los 11 servicios y los 6 roles), `probar_todo.sh` (instancia limpia, cortes 3 a 7 en orden, total de comprobaciones) y el clon limpio (`kg-limpio`). 7c: validación del arquitecto-revisor en `VALIDACION_CORTE7.md`. 7d: README y LEEME finales, el reporte regenerado y `PLAN_Y_ESTADO.md`. Un reporte y un OK por paso.
+- **1. La leyenda del eje del proveedor** («← Más barato · Estándar · Más caro →») se parte en dos líneas. Opciones: (a) dejarla; (b) **escogida:** corregirla en la SPA (CSS) y regenerar los cinco estados de `mockups_faltantes/tablero_bam/`.
+- **2. CD-51** (botón «Cierre del día (23:59)» de V07). Opciones: (a) dibujarlo en el mockup; (b) **escogida:** no aplica, por DEC-57: es solo de la demostración, como su controlador (CD-52).
+- **3. El diagrama de casos de uso en el reporte.** Opciones: (a) dejarlo fuera; (b) **escogida:** el reporte lo incluye. Se hace en el 7d, al regenerar el reporte, después de que el 7a cierre los casos de uso (así entra la versión final del diagrama). Lugar propuesto: una figura al comienzo de la §10 (flujos), que ya relaciona roles, ventanas y servicios; se confirma al presentar el 7d.
 
 ---
 
