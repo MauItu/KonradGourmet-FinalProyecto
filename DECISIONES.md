@@ -1769,6 +1769,8 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 
 **Qué implica:** se aplica en el 7c. La alarma necesita saber el producto (el `productoId` del evento o su nombre), «Solicitar» navega a `/solicitudes/nueva?producto=…`, `recorrido_corte5.py` y `recorrido_corte7.py` comprueban que V08 llega con el producto escogido, y se vuelve a correr `probar_todo.sh`. Si cambia lo que muestra la alarma frente a CD-06, se anota en `CAMBIOS_A_DOCUMENTAR.md`.
 
+**Cómo se aplicó (7c, código 9aaf10b).** El mensaje del WebSocket trae `destino`, `contenido` y `fechaHora`; agregarle el `productoId` cambiaría la firma de `AlarmaPushPort.empujar()` y de la página 4d. Por eso la SPA toma el nombre del producto del texto que ya arma `NotificacionService` («{producto} al {porcentaje} %: realice una solicitud») y abre `/solicitudes/nueva?nombreProducto=…`; V10 lo busca en el catálogo y V08 llega con la categoría y el producto escogidos. Si el texto no tiene esa forma, abre V08 sin producto, como antes. Lo que muestra la alarma no cambia (CD-06 sigue igual), ni el diagrama ni ms-notificaciones; no hay nada que anotar en `CAMBIOS_A_DOCUMENTAR.md`.
+
 ---
 
 ## Preguntas abiertas (sin decidir)
