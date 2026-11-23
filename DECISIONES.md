@@ -23,6 +23,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-78 y DEC-82:** las confirmó Mauricio el 2026-11-17, al aprobar el corte 5.
 - **DEC-83 y DEC-84, y la aplicación de PD-05:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación de Claude, al preparar el corte 6.
 - **DEC-88 a DEC-90:** las decidió Mauricio el 2026-11-18, al empezar el corte 6b, siguiendo la recomendación de Claude. **DEC-91** la asumió Claude el mismo día y Mauricio la confirmó el 2026-11-23.
+- **DEC-92:** la asumió Claude el 2026-11-23, al dibujar el diagrama de casos de uso (fase 1 antes del corte 7); por confirmar.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -128,6 +129,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-89 | Nombre del proveedor en el tablero | `CotizacionValidadaEvent` gana `- proveedor: String`, junto con lo de PD-05 (`estado: String` y `+ diferenciaPorcentual`) | Decidida por Mauricio (2026-11-18); aplicada en el código y en la página 4c |
 | DEC-90 | Nombre de los platos en el tablero | Copia local en ms-analitica con `menu.actualizado` (`NombresNegocio`, fuera del diagrama, como el catálogo de ms-pedidos); `NegocioEventsListener` sigue con sus 5 tópicos | Decidida por Mauricio (2026-11-18); aplicada en el código y en las páginas 4e (nota) y 3a (consume `menu.actualizado`) |
 | DEC-91 | Detalles del corte 6b | API de redes simulada con WireMock y token; job semanal (cada 30 s en local) con ShedLock; reglas de las sugerencias (7 días anteriores, motivos, vigencia, sin repetir el mismo día, una notificación por día); sugerencias de toda la empresa; correo a todos los jefes; hechos de los 5 tópicos sin repetir eventos; rango completo o nada; histórico de la demostración; ventanas sin mockup | Asumida por Claude (2026-11-18) y confirmada por Mauricio (2026-11-23) |
+| DEC-92 | Cómo se dibuja el diagrama UML de casos de uso | Actor abstracto *Usuario* con generalización desde los seis roles (CU-01); todas las asociaciones del catálogo, también las del servidor de correo con CU-04 y CU-05; el diagrama se genera desde el texto | Asumida por Claude (2026-11-23), por confirmar; aplicada en `casos_de_uso.png` |
 
 ---
 
@@ -1631,6 +1633,25 @@ Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-8
 - **El tablero.** El rango va completo o no va: con una sola fecha, «Seleccione la fecha inicial y la fecha final.» (el texto de DEC-87). El último mes son los 30 días que terminan hoy, y el último año, los 365. El ranking tiene 5 puestos; en un empate gana el que apareció primero; la diferencia del proveedor se promedia con 2 decimales. Una fecha mal escrita: «La fecha no es válida.»; una sucursal mal escrita: «La sucursal no es válida.».
 - **El histórico de la demostración.** Una migración de ms-analitica carga 400 días de demanda de las tres sucursales con los 8 platos de la carta (la Bandeja paisa manda en Centro, el Ajiaco en Norte y la Pechuga en Chapinero; el Ajiaco sube entre 60 y 150 días atrás) y 13 cotizaciones OPCIONADAS del último año (y una de hace más de un año). Cumple el papel del histórico cargado a mano de la versión en memoria (DEC-40). Es solo de la demostración y no se documenta (DEC-57).
 - **Ventanas sin mockup.** «Tablero BAM» (`/bam`, primera ventana del director comercial) y «Promociones sugeridas» (`/promociones`, del jefe de cocina), con las piezas de la SPA, como las del administrador. Las gráficas son barras hechas con CSS, sin librería. El menú no cambia: ya tenían las dos opciones.
+
+## DEC-92 · Cómo se dibuja el diagrama UML de casos de uso
+
+**Contexto.** `Casos de uso — Konrad Gourmet.md` enlazaba `casos_de_uso.png` con una nota «Pendiente»: el diagrama lo iba a exportar un compañero y nunca llegó a `documentos/`. El que había en `entregables_finales_drive/` (hoy en `archivo_desactualizado/`) no seguía el texto: mostraba un actor «Usuario (cualquier rol)» suelto, sin relación con los seis roles, y dibujaba las líneas del correo de CU-04 y CU-05, que el texto decía omitir. Mauricio pidió el 2026-11-23 rehacerlo con los 19 casos, sus roles y sus actores externos tal como están hoy. Quedaban tres detalles de dibujo sin fijar.
+
+**1. CU-01 lo usan los seis roles (la tabla dice «Los seis roles»).**
+- (a) Seis líneas de asociación, una por rol, hasta CU-01: correcto, pero cruza todo el diagrama.
+- (b) Un actor «Usuario» suelto con una nota, como el diagrama anterior: no dice en UML que los roles sean usuarios.
+- (c) **Escogida:** un actor abstracto *Usuario* (en cursiva), asociado a CU-01, del que heredan los seis roles con generalizaciones (punta hueca). Es la forma UML de decir «cualquier rol» y no agrega un actor al texto: la leyenda lo explica.
+
+**2. El servidor de correo en CU-04 y CU-05.** El catálogo lo pone como actor secundario de los dos, pero el párrafo del diagrama decía que esa línea no se dibujaba para no cruzar las otras.
+- (a) Omitirla y dejar el párrafo como estaba: el diagrama queda incompleto frente al catálogo.
+- (b) **Escogida:** dibujar todas las asociaciones del catálogo, también esas dos, y corregir el párrafo. Con las líneas llegando al extremo de cada elipse y el servidor de correo debajo del Ministerio y del proveedor, no tapan ningún caso ni ninguna etiqueta.
+
+**3. Cómo se produce.**
+- (a) Dibujarlo a mano en draw.io: hay que revisarlo a ojo contra el texto cada vez que cambie.
+- (b) **Escogida:** `diagrama_casos_de_uso/generar.py` lee las tablas «Actores» y «Catálogo de casos de uso» del md, comprueba los 19 casos, los 6 roles y los 5 externos, y dibuja las asociaciones que dice la tabla (SVG con Poppins, PNG con Playwright, como `mockups_admin/`). Si el catálogo cambia, se vuelve a correr.
+
+**Implica.** `casos_de_uso.png` queda en `documentos/`; se quita la nota «Pendiente» del md y el párrafo del diagrama dice cómo está dibujado. Los roles de cocina y compras van a la izquierda; el director comercial, el administrador y los externos, a la derecha. Ningún caso, rol ni actor cambia.
 
 ---
 

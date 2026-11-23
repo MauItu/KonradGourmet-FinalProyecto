@@ -75,9 +75,7 @@ Las referencias DEC remiten a [DECISIONES.md](DECISIONES.md); las HU son las his
 
 ![Diagrama de casos de uso](casos_de_uso.png)
 
-> **Pendiente:** falta el diagrama UML de casos de uso, `casos_de_uso.png`, en la misma carpeta que este archivo, con los casos de este documento (incluido CU-19, Registrar usuario), los 6 roles y los 5 actores externos.
-
-Los roles de cocina y compras están a la izquierda y los roles de dirección, administración y los actores externos a la derecha. Los correos de CU-04 y CU-05 también salen por el servidor de correo certificado; esa línea no se dibuja para no cruzar las otras.
+Los roles de cocina y compras están a la izquierda; el director comercial, el administrador y los actores externos, a la derecha. Los seis roles heredan del actor abstracto *Usuario*, que es quien inicia sesión (CU-01). Cada línea es una asociación de la tabla del catálogo, con su actor principal y sus actores secundarios.
 
 ## Catálogo de casos de uso
 
