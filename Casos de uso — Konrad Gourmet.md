@@ -1,6 +1,6 @@
 # Casos de uso — Konrad Gourmet
 
-Carlos Franco · versión corregida del 8 de noviembre de 2026
+Carlos Franco · versión corregida del 23 de noviembre de 2026
 
 Este documento fija 19 casos de uso, cada uno amarrado a una historia de usuario, a un requisito del enunciado y a sus ventanas. Los criterios salen de las historias del Story Mapping; lo que el equipo no definió queda marcado como propuesta.
 
@@ -497,7 +497,7 @@ Estos seis casos no están entre las ventanas V01 a V23 del prototipo de Canva. 
 
 ## Historias propuestas para el administrador
 
-El Story Mapping no tiene historias para el administrador. Estas tres siguen el mismo formato (HU-20 a HU-22). **Estado: propuesta de diseño aprobada por el arquitecto-revisor de Claude, con ajustes y sin estimar (PD-09); no forma parte del Story Mapping original.** Por decisión de Mauricio quedan **fuera del plan de sprints**: no se estiman ni se asignan a un sprint, y el plan de 5 sprints y 10 semanas no cambia (DEC-47). Son historias identificadas para una versión posterior; la arquitectura ya las soporta.
+El Story Mapping no tiene historias para el administrador. Estas tres siguen el mismo formato (HU-20 a HU-22). **Estado: propuesta de diseño, sin estimar (PD-09); no forma parte del Story Mapping original.** Por decisión de Mauricio quedan **fuera del plan de sprints**: no se estiman ni se asignan a un sprint, y el plan de 5 sprints y 10 semanas no cambia (DEC-47). Son historias identificadas para una versión posterior; la arquitectura ya las soporta.
 
 | Historia | Como | Quiero | Para | Criterios de aceptación (con su fuente) |
 | --- | --- | --- | --- | --- |
