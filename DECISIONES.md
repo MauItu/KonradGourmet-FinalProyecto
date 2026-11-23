@@ -28,6 +28,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-95:** la decidió Mauricio el 2026-11-23, al aprobar el plan del corte 7.
 - **DEC-96:** la decidió Mauricio el 2026-11-23, al aprobar el 7a («no puede quedar nada sin mockup»).
 - **DEC-97:** Mauricio pidió el 2026-11-23 «la que incluya menos modificaciones»; Claude comparó las dos y aplicó la de la web.
+- **DEC-98:** la decidió Mauricio el 2026-11-23, durante el 7b, siguiendo la recomendación de Claude. **DEC-99** la asumió Claude el mismo día, por confirmar al aprobar el 7b.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -140,6 +141,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-95 | Plan del corte 7 | Pasos 7a (documentación pendiente), 7b (pruebas de punta a punta y clon limpio), 7c (arquitecto-revisor) y 7d (README, LEEME, reporte y plan); la leyenda del eje del proveedor se corrige en la SPA; CD-51 no aplica; el diagrama de casos de uso entra al reporte en el 7d | Decidida por Mauricio (2026-11-23) |
 | DEC-96 | Ventanas «sin mockup» | Ninguna queda sin mockup: la página 1 cambia el recuadro «Sin mockup» por «Ventanas nuevas», con la miniatura de cada una como V01–V23; se hacen los dos que faltaban (editar y desactivar un plato, reenviar una cotización); la 3a, la nota de platos de la 4b, el Story Mapping corregido y el reporte (7d) dejan de decir «sin mockup» | Decidida por Mauricio (2026-11-23) |
 | DEC-97 | Mensajes de la aplicación frente a los documentados | La aplicación muestra los textos de las historias y de PD-10 (12 mensajes: cantidad, plato y NIT repetidos, correo del proveedor, valor unitario, cotización ya validada o sin valores, solicitud no disponible, sin resultados en V11, Ministerio sin responder en V14, sin permiso y el SOAP Fault de CU-18); la documentación no cambia | Criterio de Mauricio («la que incluya menos modificaciones»), aplicado por Claude (2026-11-23) |
+| DEC-98 | Coma decimal en la alarma y el correo de stock bajo | La alarma en vivo y el correo dicen «Arroz al 17,33 %» y «Quedan 10,4 kg», con coma, como CD-06 y la SPA; antes salían con punto | Decidida por Mauricio (2026-11-23) |
+| DEC-99 | Historia del corte 7 y `probar_todo.sh` | La historia va del plato nuevo (Arroz con verduras) a la orden recibida (Proveedor C) por los 11 servicios y los 6 roles; `probar_todo.sh` cuenta el núcleo, los JUnit y los recorridos sobre una instancia limpia (`kg-limpio` por omisión; no acepta `konrad-gourmet`) y la detiene al final | Asumida por Claude (2026-11-23), por confirmar |
 
 ---
 
@@ -1732,6 +1735,26 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 - SPA: «No se encontraron solicitudes registradas» en V11 sin resultados (HU-06), el aviso de V14 con el Ministerio sin responder (PD-10) y «No tiene permiso para acceder a esta opción.» (PD-10).
 - Sin cambio, porque el usuario no llega a verlos: «Debe seleccionar una mesa para continuar» (V03 siempre trae una mesa escogida) y «No hay productos disponibles para la categoría seleccionada» (V06 solo ofrece categorías con productos).
 - Se rehacen el mockup de V14 pendiente de precio y se agregan los dos errores de proveedores; la nota de PD-10 de los casos de uso deja de decir que el código conserva otros textos.
+
+
+## DEC-98 · ¿Con punto o con coma los decimales de la alarma de stock bajo?
+
+**Contexto.** En el recorrido del corte 7, la alarma en vivo dijo «Arroz al 17.33 %: realice una solicitud» y el correo «Quedan 10.4 kg de Arroz (17.33 % …)». CD-06 y el mockup de V05 y V07 la escriben con coma («Pollo al 24,5 %»), como el resto de la SPA. El texto lo arma `NotificacionService` (núcleo) con `toPlainString()`.
+
+**Opciones:**
+- **A. Coma en la alarma y en el correo.** ✅ **Escogida por Mauricio el 2026-11-23** (era la recomendada por Claude).
+- **B. Solo la alarma con coma**; el correo con punto.
+- **C. Dejarlo** y anotar en CAMBIOS_A_DOCUMENTAR que CD-06 diría punto.
+
+**Qué implica:** `NotificacionService` cambia el punto por la coma en el porcentaje y en la cantidad restante. `CorreoYAlarmaTest` comprueba «Quedan 11,5 kg de Res (23 % …)»; pruebas/ suma una verificación del correo (399); `recorrido_corte5.py` y `recorrido_corte7.py` leen el porcentaje con coma. La documentación no cambia (ya decía coma).
+
+## DEC-99 · Detalles del 7b asumidos por Claude
+
+**Contexto.** DEC-95 pidió para el 7b una historia que cruzara los 11 servicios y los 6 roles, `probar_todo.sh` con el total de comprobaciones y el clon limpio. Estos detalles los escogió Claude.
+
+- **La historia** (`recorrido_corte7.py` y `verificar_corte7.py`). Opciones: (a) repetir pasos de los cortes anteriores con los mismos datos; (b) **escogida:** una historia nueva que arranca de un plato nuevo, para que cada servicio tenga algo propio que hacer. El jefe crea el «Arroz con verduras» (Fuertes, $22.000, 250 g de arroz, con imagen); el mesero lo pide para un evento, con las unidades que hacen falta para que el arroz baje del 25 % (96 en una instalación limpia); el cierre del día dispara la alarma en vivo; desde «Solicitar», el jefe pide 40 kg de arroz; la auxiliar cotiza con el Proveedor ABC y el Proveedor C, sin la caché del precio (el Ministerio responde una sola vez para las dos); la directora valida las dos (+3,75 % y −1,25 %), compra al Proveedor C (OC-0013, $316.000) y la marca recibida; el director comercial ve el plato y el Proveedor C en el tablero de hoy; la administradora ve los 11 servicios activos, la auditoría y los destinatarios. A 390 px, cada rol abre su ventana con el resultado. El arroz es el único insumo de la demostración que no había cruzado el umbral y que el Ministerio simulado conoce.
+- **El cierre del día** corre como el job de las 23:59 (V07 solo lo adelanta, CD-52): publica a nombre de «sistema» y con su propia correlación, no la de la petición del navegador, como ya comprobaba el corte 3. El verificador lo revisa así; el código no cambia.
+- **`probar_todo.sh`.** Opciones para la instancia: (a) la de siempre (`konrad-gourmet`); (b) **escogida:** una aparte, `kg-limpio` por omisión (otra con `COMPOSE_PROJECT_NAME`), que se borra al empezar (`docker compose down -v`) y se detiene al terminar (`stop`); se niega a correr sobre `konrad-gourmet`. Corre el núcleo (pruebas/), los JUnit (`compilar.sh`, salvo `--sin-compilar`), levanta la plataforma, espera 75 s a que Eureka propague y corre recorrido y verificador de los cortes 3 a 7 en orden. **El total** es la suma de las verificaciones del núcleo, las pruebas JUnit y las líneas «✓» de los recorridos y verificadores; un script que termina con error sin ninguna «✗» cuenta como una falla.
 
 ---
 
