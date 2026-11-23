@@ -26,6 +26,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-92:** la asumió Claude el 2026-11-23, al dibujar el diagrama de casos de uso (fase 1 antes del corte 7); la confirmó Mauricio el mismo día, al aprobar el 7a.
 - **DEC-93:** la decidió Mauricio el 2026-11-23, al revisar qué mostraba la aplicación antes de hacer los mockups que faltaban (fase 2). **DEC-94** la asumió Claude el mismo día y la confirmó Mauricio al aprobar el 7a.
 - **DEC-95:** la decidió Mauricio el 2026-11-23, al aprobar el plan del corte 7.
+- **DEC-96:** la decidió Mauricio el 2026-11-23, al aprobar el 7a («no puede quedar nada sin mockup»).
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -136,6 +137,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-93 | M-02, M-05 y M-07 frente a la aplicación | V21 dice «Solicitud» o «Solicitudes» según cuántas tenga la cotización (la web no cambia); M-05 se cumple en V18 y V19 se deja con sus totales; M-07 no se hace | Decidida por Mauricio (2026-11-23); aplicada en `mockups_faltantes/` |
 | DEC-94 | Datos y forma de los mockups faltantes | Una carpeta por ventana con sus estados; las cuatro cotizaciones de la demo sobre SOL-031; SOL-032 (Norte) y SOL-033 para mostrar varias solicitudes en V13; V19 y V21 sobre el fondo de V17 y V20 | Asumida por Claude y confirmada por Mauricio (2026-11-23) |
 | DEC-95 | Plan del corte 7 | Pasos 7a (documentación pendiente), 7b (pruebas de punta a punta y clon limpio), 7c (arquitecto-revisor) y 7d (README, LEEME, reporte y plan); la leyenda del eje del proveedor se corrige en la SPA; CD-51 no aplica; el diagrama de casos de uso entra al reporte en el 7d | Decidida por Mauricio (2026-11-23) |
+| DEC-96 | Ventanas «sin mockup» | Ninguna queda sin mockup: la página 1 cambia el recuadro «Sin mockup» por «Ventanas nuevas», con la miniatura de cada una como V01–V23; se hacen los dos que faltaban (editar y desactivar un plato, reenviar una cotización); la 3a, la nota de platos de la 4b, el Story Mapping corregido y el reporte (7d) dejan de decir «sin mockup» | Decidida por Mauricio (2026-11-23) |
 
 ---
 
@@ -1697,6 +1699,21 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 - **1. La leyenda del eje del proveedor** («← Más barato · Estándar · Más caro →») se parte en dos líneas. Opciones: (a) dejarla; (b) **escogida:** corregirla en la SPA (CSS) y regenerar los cinco estados de `mockups_faltantes/tablero_bam/`.
 - **2. CD-51** (botón «Cierre del día (23:59)» de V07). Opciones: (a) dibujarlo en el mockup; (b) **escogida:** no aplica, por DEC-57: es solo de la demostración, como su controlador (CD-52).
 - **3. El diagrama de casos de uso en el reporte.** Opciones: (a) dejarlo fuera; (b) **escogida:** el reporte lo incluye. Se hace en el 7d, al regenerar el reporte, después de que el 7a cierre los casos de uso (así entra la versión final del diagrama). Lugar propuesto: una figura al comienzo de la §10 (flujos), que ya relaciona roles, ventanas y servicios; se confirma al presentar el 7d.
+
+## DEC-96 · ¿Qué pasa con lo que el proyecto marca «sin mockup»?
+
+**Contexto.** Al cerrar el 7a quedaba el recuadro «Sin mockup» de la página 1 (tablero BAM, administración, usuarios, destinatarios, editar y desactivar platos, promociones sugeridas, proveedores y reenviar cotización), las etiquetas «sin mockup» de ms-administracion y ms-analitica (páginas 1 y 3a), la nota `n_platos` de la 4b («Sin ventana en el prototipo»), tres filas del Story Mapping corregido y, en el reporte, el supuesto S5 y las tablas de §5 y §10. Casi todas esas ventanas ya tenían mockup (`mockups_admin/`, `mockups_faltantes/`, `mockups_nuevos/07_proveedores`); editar y desactivar un plato y reenviar una cotización, no.
+
+**Opciones:**
+- **A.** Dejar «Sin mockup», entendido como «no está entre V01 y V23 de Canva».
+- **B.** Cambiar el rótulo a «Ventanas nuevas (mockups aparte)», sin imágenes. Era la recomendada por Claude.
+- **C. Poner los mockups.** ✅ **Escogida por Mauricio el 2026-11-23** («pues coloca los mockups, no puede quedar nada sin mockup»).
+
+**Qué implica:**
+- Página 1: el recuadro pasa a «Ventanas nuevas», con una miniatura de 150 px por ventana y su texto debajo (título, rol, servicio y rutas), en dos filas de cinco: editar y desactivar plato, promociones sugeridas, proveedores, reenviar cotización, tablero BAM, parámetros y tema, auditoría, logs de errores, usuarios y destinatarios de alertas. «Administración» se separa en sus tres ventanas. El recuadro crece a 822 px de ancho y 18 px de alto, y el marco de la SPA, hacia la derecha; las flechas del director comercial, del administrador y de la SPA al balanceador conservan su posición. Las etiquetas de ms-administracion y ms-analitica nombran sus ventanas, en la página 1 y en la 3a.
+- Mockups nuevos, con los datos de la demostración, en `mockups_faltantes/`: `editar_desactivar_plato/` (el detalle del Ajiaco con «Editar plato» y «Desactivar», la ventana de edición y el plato desactivado) y `reenviar_cotizacion/` (COT-022 de SOL-033 pendiente de precio, el botón «Reenviar» y la cotización ya enviada).
+- La miniatura de proveedores es la de `mockups_nuevos/07_proveedores` (M-08), que Mauricio dio por buena.
+- 4b: `n_platos` dice que los platos se editan y desactivan desde «Platos» (V06). Story Mapping corregido: HU-15, HU-18 y HU-19 nombran su ventana. Reporte: S5 y las tablas de §5 y §10, al regenerarlo en el 7d (CD-60).
 
 ---
 
