@@ -13,7 +13,7 @@ import { PedidosTurno } from './paginas/mesero/PedidosTurno';
 import { Inicio } from './paginas/Inicio';
 import { Login } from './paginas/Login';
 import { Perfil } from './paginas/Perfil';
-import { PorConstruir } from './paginas/PorConstruir';
+import { NoExiste } from './paginas/NoExiste';
 import { Solicitudes } from './paginas/Solicitudes';
 import { ProveedorSesion } from './sesion/Sesion';
 import { ProveedorTema } from './sesion/Tema';
@@ -57,7 +57,7 @@ export function App() {
               <Route path="/destinatarios" element={<Destinatarios />} />
               <Route path="/bam" element={<TableroBam />} />
               <Route path="/promociones" element={<Promociones />} />
-              <Route path="*" element={<PorConstruir />} />
+              <Route path="*" element={<NoExiste />} />
             </Route>
           </Routes>
         </BrowserRouter>
