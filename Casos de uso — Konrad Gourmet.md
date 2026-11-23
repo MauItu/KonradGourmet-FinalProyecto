@@ -509,7 +509,7 @@ Lo que antes quedaba por definir ya está decidido: los mensajes (PD-10, abajo),
 
 ## Mensajes de interfaz (PD-10)
 
-Criterio: el mismo estilo que las tarjetas del Story Mapping, en una frase completa, sin códigos técnicos, que diga qué pasó y qué hacer; el mismo texto para el mismo caso en todas las pantallas. Los mensajes literales de las historias siguen siendo el contrato de la interfaz; estos completan los que estaban por definir. Los mensajes de las excepciones del dominio son internos y el adaptador REST los traduce a estos textos (efecto futuro: hoy el código conserva sus textos, que comprueban las pruebas).
+Criterio: el mismo estilo que las tarjetas del Story Mapping, en una frase completa, sin códigos técnicos, que diga qué pasó y qué hacer; el mismo texto para el mismo caso en todas las pantallas. Los mensajes literales de las historias siguen siendo el contrato de la interfaz; estos completan los que estaban por definir. El sistema muestra al usuario estos textos y los de las historias, tal como están escritos (DEC-97).
 
 | Caso | Situación | Mensaje |
 | --- | --- | --- |
