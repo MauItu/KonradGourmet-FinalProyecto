@@ -31,7 +31,7 @@ export function SolicitudesAuxiliar() {
   const { nombre, categoria } = useProductos(productos.datos);
   const lista = desc(resultado ?? todas.datos ?? []);
   const sel = (elegido && detalle.datos?.numero === elegido ? detalle.datos : null) ?? (elegido ? null : lista[0] ?? null);
-  const { filas, pie, irA } = usePagina(lista, 6);
+  const { filas, pie, irA } = usePagina(lista, 25); // HU-06 (4): paginado cuando hay más de 25 (DEC-103)
   const marcas = [...new Set((todas.datos ?? []).flatMap((s) => s.items.map((i) => i.marca)).filter((m): m is string => !!m))];
   const campo = (k: keyof Criterios) => (e: { target: { value: string } }) => setFiltro((f) => ({ ...f, [k]: e.target.value }));
 
