@@ -9,7 +9,8 @@
 #   un pedido de 50 pechugas, el cierre del día deja el pollo bajo el 25 % y la alarma llega por WebSocket a V07,
 #   sin recargar; V05 la lista.
 #   390 px: V20 (solo COT-022), V21 abierta, V23 con el detalle; la directora marca OC-0012 como recibida y pasa
-#   a FINALIZADA (DEC-80); y la alarma de la papa (70 ajiacos), que cabe a lo ancho y con «Solicitar» abre V08.
+#   a FINALIZADA (DEC-80); y la alarma de la papa (70 ajiacos), que cabe a lo ancho y con «Solicitar» abre V08 con la papa
+#   ya escogida (DEC-100).
 # Que nada se desborde a lo ancho y que la consola quede limpia.
 # Corre después de recorrido_corte4b.py y verificar_corte4b.py (COT-018 OPCIONADA; COT-021 ya existe).
 # Uso: python recorrido_corte5.py <carpeta-de-capturas>   (necesita playwright y /usr/bin/chromium;
@@ -89,8 +90,11 @@ def alarma_en_vivo(jefe, tag, producto, ancho, solicitar=False):
     if solicitar:
         alarma.get_by_role('button', name='Solicitar').click()
         jefe.wait_for_url(re.compile(r'/solicitudes/nueva'))
-        expect(jefe.locator('[role=dialog]', has=jefe.locator('h2', has_text='Nueva solicitud de alimentos'))).to_be_visible()
+        v08 = jefe.locator('[role=dialog]', has=jefe.locator('h2', has_text='Nueva solicitud de alimentos'))
+        expect(v08).to_be_visible()
         ok(True, f'{tag}: «Solicitar» lleva directo al formulario de solicitud (V08, HU-16)')
+        escogido = v08.get_by_label('Producto').evaluate('s => s.options[s.selectedIndex].text')
+        ok(escogido == producto, f'{tag} V08: llega con {producto} ya escogido, como desde V05 y V07 (DEC-100): «{escogido}»')
         foto(jefe, f'{tag}-V08-desde-la-alarma')
     jefe.goto(BASE + '/inicio'); jefe.wait_for_selector('.alert-list')
     jefe.wait_for_function(f"() => [...document.querySelectorAll('.alert-row b')].some(b => b.innerText === '{producto}')", timeout=10000)

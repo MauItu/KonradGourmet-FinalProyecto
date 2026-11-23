@@ -8,6 +8,15 @@ import { Icono } from './Icono';
 /** Lo que manda ms-notificaciones por el WebSocket (AlarmaPushAdapter → Redis → CanalAlarmas, PD-01). */
 interface Alarma { destino: string; contenido: string; fechaHora: string }
 
+/**
+ * El producto de la alarma: ms-notificaciones la arma como «{producto} al {porcentaje} %: realice una solicitud»
+ * (NotificacionService). Sin ese formato devuelve null y «Solicitar» abre V08 sin producto.
+ */
+export function productoDeAlarma(contenido: string): string | null {
+  const m = /^(.+) al \d+(?:,\d+)? %: realice una solicitud$/.exec(contenido.trim());
+  return m ? m[1] : null;
+}
+
 /** Evento del navegador que avisa a V05 y V07 que llegó una alarma: vuelven a leer las alertas de ms-inventario. */
 export const ALARMA_RECIBIDA = 'kg:alarma';
 
@@ -25,8 +34,9 @@ export function useAlarmaRecibida(alLlegar: () => void) {
 /**
  * La alarma de stock bajo en vivo (HU-16): mientras el jefe de cocina tiene la sesión abierta, un WebSocket
  * con ms-notificaciones (/api/notificaciones/alarmas; el JWT va en la URL porque el navegador no deja poner
- * la cabecera) recibe cada alarma y la muestra arriba hasta cerrarla, con «Solicitar», que abre V08. Si se
- * cae la conexión, vuelve a abrirla. Las alertas guardadas las sigue mostrando V05 al abrirse.
+ * la cabecera) recibe cada alarma y la muestra arriba hasta cerrarla, con «Solicitar», que abre V08 con el
+ * producto de la alarma ya escogido, como las alertas de V05 y V07 (DEC-100; V10 lo busca por nombre en el
+ * catálogo). Si se cae la conexión, vuelve a abrirla. Las alertas guardadas las sigue mostrando V05 al abrirse.
  */
 export function AlarmasEnVivo({ usuario }: { usuario: Usuario }) {
   const navegar = useNavigate();
@@ -63,6 +73,10 @@ export function AlarmasEnVivo({ usuario }: { usuario: Usuario }) {
   }, [correo, vence]);
 
   if (!alarmas.length) return null;
+  const solicitar = (contenido: string) => {
+    const producto = productoDeAlarma(contenido);
+    return producto ? `/solicitudes/nueva?nombreProducto=${encodeURIComponent(producto)}` : '/solicitudes/nueva';
+  };
   const cerrar = (id: number) => setAlarmas((x) => x.filter((a) => a.id !== id));
   return (
     <div className="alarmas-vivas" role="alert" aria-live="assertive">
@@ -73,7 +87,7 @@ export function AlarmasEnVivo({ usuario }: { usuario: Usuario }) {
             <b>Alarma de stock bajo</b>
             <p>{a.contenido}</p>
             <div className="acciones">
-              <button type="button" className="btn primary sm" onClick={() => { cerrar(a.id); navegar('/solicitudes/nueva'); }}>Solicitar</button>
+              <button type="button" className="btn primary sm" onClick={() => { cerrar(a.id); navegar(solicitar(a.contenido)); }}>Solicitar</button>
               <small>{hora(a.fechaHora)}</small>
             </div>
           </div>

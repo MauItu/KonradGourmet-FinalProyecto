@@ -12,7 +12,8 @@ import { useSesion } from '../../sesion/Sesion';
 /**
  * V10 · Mis solicitudes (GET /api/solicitudes?solicitante=yo, ms-solicitudes): la lista con los filtros de
  * fecha y estado, y el detalle de la seleccionada. /solicitudes/nueva abre V08 encima (?producto= la
- * preselecciona, desde una alerta de V05 o V07); al registrar, V09 muestra el número.
+ * preselecciona, desde una alerta de V05 o V07, y ?nombreProducto=, desde la alarma en vivo, DEC-100); al
+ * registrar, V09 muestra el número.
  */
 export function MisSolicitudes() {
   const { usuario } = useSesion();
@@ -42,6 +43,10 @@ export function MisSolicitudes() {
 
   if (!usuario) return null;
   const listos = productos.datos && insumos.datos && lista.datos;
+  // la alarma en vivo solo trae el nombre del producto: se busca en el catálogo
+  const porNombre = params.get('nombreProducto')?.trim().toLocaleLowerCase('es');
+  const productoInicial = params.get('producto') ? Number(params.get('producto'))
+    : porNombre ? productos.datos?.find((p) => p.nombre.trim().toLocaleLowerCase('es') === porNombre)?.id ?? null : null;
   return (
     <>
       <Encabezado titulo="Mis solicitudes" sub="Consulta el estado de las solicitudes registradas" icono="file" />
@@ -80,9 +85,9 @@ export function MisSolicitudes() {
         </div>
       </div>
       {nueva && listos && (
-        <VentanaSolicitud usuario={usuario} productos={productos.datos ?? []} unidades={unidades}
-          productoInicial={params.get('producto') ? Number(params.get('producto')) : null}
-          precargar={!params.get('producto') && !(lista.datos ?? []).length}
+        <VentanaSolicitud key={productoInicial ?? 'nueva'} usuario={usuario} productos={productos.datos ?? []} unidades={unidades}
+          productoInicial={productoInicial}
+          precargar={productoInicial == null && !(lista.datos ?? []).length}
           alCerrar={cerrar} alRegistrar={registrar} />
       )}
       {registrada && (

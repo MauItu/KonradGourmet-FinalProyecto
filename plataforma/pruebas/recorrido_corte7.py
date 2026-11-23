@@ -8,8 +8,8 @@
 #   2. El mesero lo pide en V03 para un evento (las unidades que hacen falta para que el arroz cruce el 25 %) y V04
 #      confirma el pedido (ms-pedidos, pedido.registrado).
 #   3. El jefe ejecuta el cierre del día en V07 (ms-inventario): el arroz queda bajo el 25 % y la alarma llega en
-#      vivo por WebSocket (ms-notificaciones, Redis); «Solicitar» abre V08 y el jefe pide 40 kg de arroz (V09,
-#      ms-solicitudes); la alerta del arroz sale de V05.
+#      vivo por WebSocket (ms-notificaciones, Redis); «Solicitar» abre V08 con el arroz ya escogido (DEC-100) y
+#      el jefe pide 40 kg (V09, ms-solicitudes); la alerta del arroz sale de V05.
 #   4. La auxiliar de compras, desde V12, cotiza la solicitud con el Proveedor ABC y el Proveedor C (V13 y V14 con
 #      «Correo enviado»): ms-cotizaciones pide el precio del Ministerio a ms-integracion (sin la caché, así que
 #      llama al Ministerio una vez), guarda el PDF y ms-notificaciones lo envía; el jefe ve la solicitud EN TRÁMITE.
@@ -202,10 +202,11 @@ with sync_playwright() as pw:
     v08 = jefe.locator('[role=dialog]', has=jefe.locator('h2', has_text='Nueva solicitud de alimentos'))
     expect(v08).to_be_visible()
     ok(True, '«Solicitar» abre V08 (HU-16)')
+    categoria = v08.locator('label', has_text='Categoría').locator('select').input_value()
+    escogido = v08.get_by_label('Producto').evaluate('s => s.options[s.selectedIndex].text')
+    ok(categoria == 'Cereal' and escogido == 'Arroz', f'V08 llega con el arroz ya escogido, como desde V05 y V07 (DEC-100): {categoria} · {escogido}')
     while v08.locator('button[aria-label^="Quitar "]').count():
         v08.locator('button[aria-label^="Quitar "]').first.click()
-    v08.locator('label', has_text='Categoría').locator('select').select_option('Cereal')
-    v08.get_by_label('Producto').select_option(label='Arroz')
     v08.get_by_label('Cantidad').fill(str(KILOS))
     v08.get_by_role('button', name='Agregar').click()
     filas = v08.locator('tbody tr').all_inner_texts()
