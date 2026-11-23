@@ -88,7 +88,7 @@ Trece casos agrupan las 19 historias de usuario; los seis restantes son el inici
 | CU-03 | Registrar plato con ingredientes | Jefe de cocina | — | HU-04, HU-05 | RF-01 | V06 | 1 |
 | CU-04 | Registrar solicitud de alimentos | Jefe de cocina | Servidor de correo certificado | HU-10 | RF-03 | V08, V09, V10 | 2 |
 | CU-05 | Recibir alerta de inventario bajo | Jefe de cocina | Servidor de correo certificado | HU-16 | RF-04 | V05, V07 | 4 |
-| CU-06 | Revisar promociones sugeridas | Jefe de cocina | Redes sociales, servidor de correo certificado | HU-19 | RF-10 | Sin mockup | 4 |
+| CU-06 | Revisar promociones sugeridas | Jefe de cocina | Redes sociales, servidor de correo certificado | HU-19 | RF-10 | Promociones sugeridas | 4 |
 | CU-07 | Consultar solicitudes de compras | Auxiliar de compras | — | HU-06, HU-07, HU-08 | RF-05 | V11, V12 | 2 |
 | CU-08 | Enviar solicitud de cotización | Auxiliar de compras | Proveedor, Ministerio de Comercio, servidor de correo certificado | HU-09, HU-12 | RF-06 | V13, V14, V15 | 2 y 3 |
 | CU-09 | Registrar datos de proveedor | Auxiliar de compras | — | HU-15 | RF-12 | Sin ventana | 3 |
@@ -96,7 +96,7 @@ Trece casos agrupan las 19 historias de usuario; los seis restantes son el inici
 | CU-11 | Validar cotización | Director de compras | — | HU-13 | RF-07 | V16, V17, V19 | 3 |
 | CU-12 | Consultar cotizaciones opcionadas | Director de compras | — | HU-17 | RF-08 | V20 | 4 |
 | CU-13 | Generar orden de compra | Director de compras | Proveedor, servidor de correo certificado | HU-14 | RF-08 | V21, V22, V23 | 3 |
-| CU-14 | Consultar tablero BAM | Director comercial | — | HU-18 | RF-09 | Sin mockup | 4 |
+| CU-14 | Consultar tablero BAM | Director comercial | — | HU-18 | RF-09 | Tablero BAM | 4 |
 | CU-15 | Parametrizar el sistema | Administrador | — | HU-20 (propuesta) | RF-11 | Sin mockup | — |
 | CU-16 | Consultar auditoría | Administrador | — | HU-21 (propuesta) | RF-11 | Sin mockup | — |
 | CU-17 | Consultar logs de errores | Administrador | — | HU-22 (propuesta) | RF-11 | Sin mockup | — |
@@ -227,22 +227,26 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 ### CU-06 Revisar promociones sugeridas
 
-**Actor:** jefe de cocina. **Actores secundarios:** redes sociales, servidor de correo certificado. **Historia:** HU-19. **Ventana:** sin mockup.
+**Actor:** jefe de cocina. **Actores secundarios:** redes sociales, servidor de correo certificado. **Historia:** HU-19. **Ventana:** «Promociones sugeridas».
 
 **Disparador:** análisis automático de tendencias.
 
 **Flujo principal:**
 
 1. El sistema identifica tendencias a partir del comportamiento en redes sociales y los productos más solicitados.
-2. Envía al jefe un correo con las promociones o productos destacados.
-3. El jefe consulta dentro de la aplicación el histórico de promociones sugeridas. Cada sugerencia indica el producto, el motivo y el periodo de vigencia.
-4. El jefe marca una sugerencia como aceptada o descartada.
+2. Envía un correo certificado con las promociones o productos destacados a los jefes de cocina de todas las sucursales, una línea por sugerencia (producto, motivo y vigencia).
+3. El jefe abre «Promociones sugeridas»: tres contadores (por revisar vigentes, aceptadas y descartadas) y el histórico, filtrable por rango de fechas («Consultar» y «Todo el histórico»). Cada sugerencia indica el producto, el motivo y el periodo de vigencia.
+4. El jefe marca una sugerencia como aceptada o descartada. El sistema confirma («Aceptaste la promoción de Ajiaco.» o «Descartaste la promoción de …») y lo registra en la auditoría a su nombre.
 
 **Flujos alternos:**
 
-- Si el análisis de tendencias falla, el error queda en el log sin interrumpir el resto del sistema.
+- Si la consulta a las redes sociales o el análisis falla, el error queda en el log sin interrumpir el resto del sistema y esa vez no se sugiere nada; la ejecución siguiente lo vuelve a intentar.
+- Otro jefe ya resolvió la sugerencia: «Esta sugerencia ya fue aceptada o descartada.»
+- Sin sugerencias en el periodo: «No hay promociones sugeridas para el periodo seleccionado.»
 
-**Reglas y fuente:** no se envía más de una notificación de promociones por día. El análisis corre cada semana sobre los 7 días anteriores: productos en tendencia del adaptador de redes y los 3 más pedidos de la semana; cada sugerencia vale 7 días (PD-04). La red social concreta y los valores 7 y 3 son supuestos del diseño (S11): ni la historia ni las fuentes locales los fijan.
+**Postcondición:** la sugerencia queda ACEPTADA o DESCARTADA para todos los jefes y deja de mostrar sus acciones.
+
+**Reglas y fuente:** no se envía más de una notificación de promociones por día: una tendencia nueva que aparece el mismo día queda sugerida, pero sin otro correo. Las sugerencias son de toda la empresa, como las tendencias: cualquier jefe de cocina las ve y la que uno acepta o descarta queda así para todos. El análisis corre cada semana sobre los 7 días anteriores: primero los productos en tendencia de las redes y después los 3 más pedidos de la semana, con el motivo «Tendencia en redes», «Entre los 3 más pedidos de la semana» o los dos; cada sugerencia vale 7 días y un producto no se sugiere dos veces con el mismo día de inicio (PD-04). El histórico muestra las sugerencias vigentes en algún día del rango, lo más reciente primero. La red social concreta y los valores 7 y 3 son supuestos del diseño (S11): ni la historia ni las fuentes locales los fijan.
 
 ## Especificación: auxiliar y director de compras
 
@@ -393,18 +397,20 @@ Estos seis casos no tienen mockup. Se escriben solo con lo que dicen el enunciad
 
 ### CU-14 Consultar tablero BAM
 
-**Actor:** director comercial. **Historia:** HU-18. **Ventana:** sin mockup.
+**Actor:** director comercial. **Historia:** HU-18. **Ventana:** «Tablero BAM», su pantalla de inicio.
 
 **Flujo principal:**
 
 1. El director comercial abre el tablero de control.
 2. El sistema muestra tres indicadores: el producto con mayor demanda en el último mes, el restaurante o sucursal con mayor demanda en el último mes y el proveedor con los mejores precios en el último año.
-3. Cada indicador aparece con su valor numérico y una representación gráfica.
-4. El director filtra los indicadores por rango de fechas y por sucursal.
+3. Cada indicador aparece con el ganador, su valor numérico («711 platos vendidos» o «−2,10 % frente al precio estándar, en promedio»), el periodo aplicado («Del dd/mm/aaaa al dd/mm/aaaa») y una gráfica de barras con los 5 primeros del ranking, el ganador resaltado. La del proveedor sale de un eje en el precio estándar: a un lado los más baratos y al otro los más caros.
+4. El director filtra los indicadores por rango de fechas («Desde» y «Hasta») y por sucursal, y pulsa «Consultar»; «Restablecer periodo» vuelve al periodo normal. Una nota dice qué periodo usa cada indicador.
 
 **Flujos alternos:**
 
 - Datos insuficientes: "No hay información suficiente para el periodo seleccionado".
+- Solo una de las dos fechas: «Seleccione la fecha inicial y la fecha final.»
+- Fecha o sucursal mal escrita: «La fecha no es válida.» / «La sucursal no es válida.»
 
 **Reglas y fuente:** los datos se actualizan automáticamente al menos una vez al día; el tablero es responsive, funciona en móviles y carga en menos de 5 segundos. El enunciado fija los periodos de los indicadores (último mes, último año) y la historia agrega un filtro por rango de fechas. Conviven así (PD-03): sin rango, la demanda (producto y sucursal) usa los últimos 30 días y el proveedor con mejores precios los últimos 365; con rango, los tres usan ese rango y la pantalla muestra el periodo aplicado. La sucursal filtra solo la demanda. «Mejores precios» es la menor diferencia promedio contra el precio estándar, solo con cotizaciones OPCIONADAS. Sin hechos: «No hay información suficiente para el periodo seleccionado». Un rango invertido muestra «La fecha inicial no puede ser posterior a la fecha final.»
 
@@ -502,6 +508,10 @@ Criterio: el mismo estilo que las tarjetas del Story Mapping, en una frase compl
 | CU-15 (HU-20) | Clave o valor vacío | «La clave del parámetro es obligatoria.» / «El valor del parámetro {clave} es obligatorio.» |
 | CU-15 (HU-20) | Guardado | «Parámetro actualizado.» |
 | CU-07, CU-14, CU-06, CU-16 (HU-07, HU-18, HU-19, HU-21) | Rango de fechas invertido | «La fecha inicial no puede ser posterior a la fecha final.» |
+| CU-14, CU-06 (HU-18, HU-19) | Solo una de las dos fechas | «Seleccione la fecha inicial y la fecha final.» |
+| CU-14, CU-06 (HU-18, HU-19) | Fecha mal escrita | «La fecha no es válida.» |
+| CU-14 (HU-18) | Sucursal mal escrita | «La sucursal no es válida.» |
+| CU-14 (HU-18) | Sin datos en el periodo | «No hay información suficiente para el periodo seleccionado» (el de HU-18) |
 | CU-16 (HU-21) | Sin resultados | «No hay movimientos de auditoría en el periodo seleccionado.» |
 | CU-17 (HU-22) | Sin resultados | «No hay errores registrados para el servicio seleccionado.» |
 | CU-06 (HU-19) | Sin sugerencias / ya resuelta | «No hay promociones sugeridas para el periodo seleccionado.» / «Esta sugerencia ya fue aceptada o descartada.» |
