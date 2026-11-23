@@ -1,10 +1,10 @@
 # Plan y estado del proyecto · Konrad Gourmet
 
-Resumen único de **qué se planeó, qué se ha hecho y qué falta**. Es un mapa: el detalle de cada punto está en los documentos que se nombran. Estado a 2026-11-19.
+Resumen único de **qué se planeó, qué se ha hecho y qué falta**. Es un mapa: el detalle de cada punto está en los documentos que se nombran. Estado a 2026-11-23.
 
 - **Proyecto:** Sistema de Abastecimiento Konrad Gourmet, proyecto final de Arquitectura de Software (Fundación Universitaria Konrad Lorenz, semestre 2026-2, profesor Carlos Andrés López).
 - **Equipo:** Mauricio Iturriza, Isabella Castro, Carlos Franco y Adrián Corredor.
-- **Fecha de entrega final:** 23 o 28 de noviembre de 2026 (por confirmar).
+- **Fecha de entrega final:** 23 de noviembre de 2026.
 - **Arquitectura:** 11 microservicios y 10 tópicos de Kafka, orientada a eventos y hexagonal; REST, SOAP (ms-integracion), OAuth2/JWT, Eureka y balanceador.
 
 ## 1. El plan en una vista
@@ -13,7 +13,7 @@ Resumen único de **qué se planeó, qué se ha hecho y qué falta**. Es un mapa
 |---|---|---|
 | A. Revisión y correcciones (sesiones 1 a 6) | Corregir el `.drawio`, las historias de usuario, los casos de uso y el código base según la revisión del 2026-11-07 | Hecha y aprobada |
 | B. Documentos de entrega (post sesión 6) | Reporte v2, Story Mapping corregido, casos de uso, decisiones de arquitectura (PD-01 a PD-11) | Casi toda hecha; quedan puntos sueltos (sección 3) |
-| C. Plataforma real (rama `stack-real`) | La web funcionando completa «tal como está especificada», en Docker Compose, en 7 cortes | 6 de 7 cortes hechos; el 6b espera aprobación; falta el corte 7 |
+| C. Plataforma real (rama `stack-real`) | La web funcionando completa «tal como está especificada», en Docker Compose, en 7 cortes | 6 de 7 cortes hechos y aprobados; falta el corte 7 |
 | D. Cierre y sustentación | Reporte regenerado, pruebas finales, guiones de la sustentación | Pendiente |
 
 Reglas de trabajo vigentes: un commit por corrección con su id al inicio; un corte por mensaje y esperar el OK de Mauricio; cada decisión se registra en `DECISIONES.md` con contexto, opciones y la escogida; todo cambio frente a mockups, diagramas o guías se anota en `CAMBIOS_A_DOCUMENTAR.md`; la documentación entregable describe el proyecto completo, sin hablar de límites de la demo (DEC-57).
@@ -75,11 +75,11 @@ Estado de las pruebas al corte 6b: 398 verificaciones en 8 clases, 86 pruebas JU
 ### Para Mauricio y el equipo
 
 - [ ] Mockups: M-01 a M-09 de `CORRECCIONES_HU_Y_MOCKUPS.md` (V13, V21, V17 y V19 a V23, V05, V03/V04) y dibujar los de las ventanas nuevas CD-27 y CD-28 (tablero BAM y promociones sugeridas) con las capturas de `capturas_referencia/corte6b/`.
-- [ ] Diagrama UML de los casos de uso (`casos_de_uso.png`): decidir si lo hace Mauricio o Carlos (PC-22) y retirar la nota de ausencia cuando exista.
-- [ ] Nombre del director comercial: resolver Laura Gómez (demo) contra Isabella Castro (mockups V16 a V23).
-- [ ] Guiones de la sustentación (los hace Carlos; no están en ninguna carpeta del repo).
+- [x] (2026-11-23) Diagrama UML de los casos de uso: `casos_de_uso.png`, generado desde el md con `diagrama_casos_de_uso/generar.py` (DEC-92); la nota «Pendiente» del md se quitó.
+- [x] Nombre del director comercial: Andrés Rojas (DEC-63; Mauricio, 2026-11-23).
+- [ ] Guiones de la sustentación: se rehacen al final del proyecto. Los anteriores y los entregables viejos de Drive quedaron en `FinalProyecto/archivo_desactualizado/` (fuera de git).
 - [ ] Opcionales sin aplicar al reporte: R-14, R-19, R-39 y R-53.
-- [ ] Confirmar la fecha de entrega (23 o 28 de noviembre).
+- [x] Fecha de entrega: 23 de noviembre (Mauricio, 2026-11-23).
 
 ## 4. Dónde está cada cosa
 
