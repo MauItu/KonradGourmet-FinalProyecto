@@ -143,7 +143,11 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-97 | Mensajes de la aplicación frente a los documentados | La aplicación muestra los textos de las historias y de PD-10 (12 mensajes: cantidad, plato y NIT repetidos, correo del proveedor, valor unitario, cotización ya validada o sin valores, solicitud no disponible, sin resultados en V11, Ministerio sin responder en V14, sin permiso y el SOAP Fault de CU-18); la documentación no cambia | Criterio de Mauricio («la que incluya menos modificaciones»), aplicado por Claude (2026-11-23) |
 | DEC-98 | Coma decimal en la alarma y el correo de stock bajo | La alarma en vivo y el correo dicen «Arroz al 17,33 %» y «Quedan 10,4 kg», con coma, como CD-06 y la SPA; antes salían con punto | Decidida por Mauricio (2026-11-23) |
 | DEC-99 | Historia del corte 7 y `probar_todo.sh` | La historia va del plato nuevo (Arroz con verduras) a la orden recibida (Proveedor C) por los 11 servicios y los 6 roles; `probar_todo.sh` cuenta el núcleo, los JUnit y los recorridos sobre una instancia limpia (`kg-limpio` por omisión; no acepta `konrad-gourmet`) y la detiene al final | Asumida por Claude y confirmada por Mauricio (2026-11-23, al aprobar el 7b) |
-| DEC-100 | «Solicitar» de la alarma en vivo | Abre V08 con el producto de la alarma ya escogido, como desde V05 y V07 | Decidida por Mauricio (2026-11-23); se aplica en el 7c |
+| DEC-100 | «Solicitar» de la alarma en vivo | Abre V08 con el producto de la alarma ya escogido, como desde V05 y V07 | Decidida por Mauricio (2026-11-23); aplicada en el 7c (código 9aaf10b) |
+| DEC-101 | `reactivar()` de los platos (C7-4) | Se lleva al diagrama: `reactivar()` en `Plato`, `RegistrarPlatoUseCase`, `PlatoService` y `PlatoRestController` (4b), la ruta en la página 1 y CU-03; el código y el mockup no cambian | Decidida por Mauricio (2026-11-23) |
+| DEC-102 | Datos de la alerta de stock bajo (C7-7) | La fila de V05 muestra la cantidad restante con su unidad y el porcentaje; el correo nombra la sucursal; CU-05 aclara que la alarma en vivo es el aviso que lleva a la alerta; la alarma no cambia | Decidida por Mauricio (2026-11-23) |
+| DEC-103 | Paginado de V11 (C7-17) | Páginas de 25 filas, como HU-06 (4) y CU-07; la documentación no cambia | Decidida por Mauricio (2026-11-23) |
+| DEC-104 | Outbox, consumidores idempotentes y límite de tasa (C7-5, C7-6) | Se implementa lo que dice el diagrama: tabla outbox y relé en cada servicio que publica, descarte de eventos repetidos en todos los consumidores y límite de tasa en el gateway | Decidida por Mauricio (2026-11-23) |
 
 ---
 
@@ -1770,6 +1774,48 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 **Qué implica:** se aplica en el 7c. La alarma necesita saber el producto (el `productoId` del evento o su nombre), «Solicitar» navega a `/solicitudes/nueva?producto=…`, `recorrido_corte5.py` y `recorrido_corte7.py` comprueban que V08 llega con el producto escogido, y se vuelve a correr `probar_todo.sh`. Si cambia lo que muestra la alarma frente a CD-06, se anota en `CAMBIOS_A_DOCUMENTAR.md`.
 
 **Cómo se aplicó (7c, código 9aaf10b).** El mensaje del WebSocket trae `destino`, `contenido` y `fechaHora`; agregarle el `productoId` cambiaría la firma de `AlarmaPushPort.empujar()` y de la página 4d. Por eso la SPA toma el nombre del producto del texto que ya arma `NotificacionService` («{producto} al {porcentaje} %: realice una solicitud») y abre `/solicitudes/nueva?nombreProducto=…`; V10 lo busca en el catálogo y V08 llega con la categoría y el producto escogidos. Si el texto no tiene esa forma, abre V08 sin producto, como antes. Lo que muestra la alarma no cambia (CD-06 sigue igual), ni el diagrama ni ms-notificaciones; no hay nada que anotar en `CAMBIOS_A_DOCUMENTAR.md`.
+
+## DEC-101 · ¿Qué se hace con `reactivar()` de los platos? (C7-4)
+
+**Contexto.** La validación del 7c (`VALIDACION_CORTE7.md`, C7-4) encontró que `reactivar()` está en el núcleo (`Plato`, `RegistrarPlatoUseCase`, `PlatoService`), en ms-menu (`PATCH /api/platos/{id}/reactivar`), en la SPA (botón «Activar» de V06) y en el mockup `mockups_faltantes/editar_desactivar_plato/plato_desactivado` (CD-58), pero no en la página 4b, en la fila de la ventana en la página 1, en CU-03 ni en `CAMBIOS_A_DOCUMENTAR.md`. Viene de la base de la web (Codex, HU-04/05). Rompe «un solo modelo» (DEC-61): las 195 clases coinciden por nombre, pero esa firma no.
+
+**Opciones:**
+- **A. Llevarlo al diagrama.** `+ reactivar(): void` en `Plato` y `+ reactivar(id: Long): void` en las otras tres cajas, la ruta en el estereotipo del controlador y en la fila `vn01` de la página 1, «reactivar» en CU-03 y un CD nuevo. ✅ **Escogida por Mauricio el 2026-11-23** (era la recomendada por el revisor).
+- **B. Quitarlo del código**, de la SPA y del mockup, porque HU-04 (6) solo pide desactivar.
+
+**Qué implica:** cambian la 4b y la página 1 del `.drawio` y CU-03; el código y el mockup no cambian. Se anota como CD nuevo; el reporte (tabla 13) lo recoge en el 7d.
+
+## DEC-102 · ¿Cómo cumple la alerta lo que pide HU-16 (4)? (C7-7)
+
+**Contexto.** HU-16 (4) y CU-05 (paso 3) dicen que la alerta indica el producto, la cantidad restante, la unidad y la sucursal. La alarma en vivo dice «Arroz al 17,33 %: realice una solicitud»; el correo dice la cantidad y la unidad, pero no la sucursal; la fila de la alerta en V05 solo muestra el nombre y el porcentaje; V07 sí muestra el stock y la unidad.
+
+**Opciones:**
+- **A. Ampliar el texto de la alarma y del correo.** Cambian el mockup de CD-06, la lectura del producto de DEC-100 y las pruebas.
+- **B. La fila de V05 muestra la cantidad restante y la unidad** («10,4 kg · 17,33 %»; la API ya los trae) y **el correo nombra la sucursal**; la sucursal de V05 y V07 ya está en el encabezado. CU-05 aclara que la alarma en vivo es el aviso que lleva a la alerta. ✅ **Escogida por Mauricio el 2026-11-23** (era la recomendada por el revisor).
+- **C. Dejarlo** y defender que V07 completa la información.
+
+**Qué implica:** cambian la fila de la alerta en V05 (SPA), el texto del correo de stock bajo (núcleo, `NotificacionService`) y sus pruebas, y CU-05; la alarma en vivo, CD-06 y DEC-100 no cambian. El correo necesita el nombre de la sucursal: si el evento no lo trae, se anota en `CAMBIOS_A_DOCUMENTAR.md` cómo se obtiene.
+
+## DEC-103 · ¿De cuántas filas son las páginas de V11? (C7-17)
+
+**Contexto.** V11 (solicitudes del auxiliar) pagina cada 6 filas; HU-06 (4) y CU-07 dicen «paginado cuando existan más de 25 registros».
+
+**Opciones:**
+- **A. Páginas de 25 filas.** La SPA cumple la historia tal cual y la documentación no cambia. ✅ **Escogida por Mauricio el 2026-11-23** (recomendada por Claude).
+- **B. Dejar 6** y precisar en CU-07 y en el Story Mapping corregido «páginas de 6», con un CD nuevo.
+
+**Qué implica:** `SolicitudesAuxiliar.tsx` pagina de a 25; si algún recorrido cuenta páginas de V11, se ajusta. Los mockups de V11 no muestran más de 25 filas, así que no cambian.
+
+## DEC-104 · ¿Se implementa el outbox, la idempotencia de los consumidores y el límite de tasa? (C7-5, C7-6)
+
+**Contexto.** La nota `n_outbox` de la 4a dice que `KafkaEventPublisher` no publica directo: escribe el evento en la tabla *outbox* del servicio, en la misma transacción que el cambio, y un proceso relé lo publica después; y que cada consumidor guarda los id ya procesados y descarta los repetidos. La 3a y la 3b dicen lo mismo («tabla outbox», «consumidores idempotentes») y que el gateway «limita la tasa». La plataforma publica directo y en segundo plano (si Kafka falla después del commit, el evento se pierde; `orden.generada` sale antes del commit de la transacción del controlador), solo ms-analitica descarta repetidos (ms-inventario puede sumar dos veces un `pedido.registrado` y descontar el doble en el cierre, C7-5) y el gateway no tiene `RequestRateLimiter`. La base `ms_integracion` se crea y ningún servicio la usa.
+
+**Opciones:**
+- **A. Implementar todo**: outbox y relé en el módulo compartido (una tabla `outbox` con Flyway en cada servicio que publica; el relé toma las filas con `FOR UPDATE SKIP LOCKED` para que varias réplicas no publiquen lo mismo), descarte de repetidos en todos los consumidores y `RequestRateLimiter` con Redis en el gateway. ✅ **Escogida por Mauricio el 2026-11-23.**
+- **B. Corregir solo la idempotencia de ms-inventario** (el único consumidor que suma) y anotar el outbox y el límite de tasa en «Diferencias con el despliegue» del LEEME. Era la recomendada por Claude.
+- **C. Como B, más el límite de tasa** del gateway; solo el outbox queda como diferencia.
+
+**Qué implica:** cambia el módulo `compartido` (el publicador escribe en la outbox dentro de la transacción en curso y un relé publica) y cada servicio que publica suma su migración; los consumidores que aún no descartan repetidos guardan los id procesados en la misma transacción que su cambio; el gateway limita la tasa por usuario o por IP con Redis. El diagrama no cambia (ya lo dice); los detalles que escoja Claude van en DEC-105. Se vuelve a correr `probar_todo.sh`.
 
 ---
 
