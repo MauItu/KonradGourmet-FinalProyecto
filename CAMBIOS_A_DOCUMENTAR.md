@@ -21,6 +21,15 @@ Lo que la plataforma (rama `stack-real` de KonradGourmet, DEC-58) agrega, quita 
 | M-08 | Nuevas | Proveedores (HU-15) y promociones sugeridas (HU-19) | DEC-07 | Aplicado: `mockups_nuevos/07_proveedores` y `mockups_faltantes/promociones_sugeridas/` (CD-28) |
 | M-09 | V03 | El saludo del mesero: «Isabella Torres · Mesero · Sucursal Centro» | — | Aplicado (2026-11-23): `mockups_faltantes/V03_nuevo_pedido/` |
 
+## Corte 7 (nada sin mockup, DEC-96)
+
+| # | Artefacto | Dónde | Cambio | Origen | Estado |
+|---|---|---|---|---|---|
+| CD-58 | Mockup | V06 (editar y desactivar un plato) y V15 (reenviar una cotización pendiente de precio) | Los dos que no tenían mockup: `mockups_faltantes/editar_desactivar_plato/` (`detalle_plato`, `editar_plato`, `plato_desactivado`) y `mockups_faltantes/reenviar_cotizacion/` (`pendiente_de_precio`, `reenviar`, `reenviada`), en escritorio y a 390 px | DEC-96 | Aplicado (2026-11-23) |
+| CD-59 | `.drawio` | Página 1, recuadro «Sin mockup» (`grp_sin`, `v36`, `v37` a `v38g`) y etiquetas `v153` y `v164`; página 3a, `c3a_ms_administracion` y `c3a_ms_analitica`; página 4b, `n_platos` | Página 1: «Ventanas nuevas», con la miniatura de cada una de las 10 ventanas y su texto (`win_vn01` a `win_vn10`, `vn01` a `vn10`); el marco de la SPA crece hacia la derecha. Las etiquetas dicen «Parámetros · Auditoría · Logs» y «Tablero BAM · Promociones» (también en la 3a). `n_platos`: «Se editan y desactivan desde la ventana «Platos» (V06).» | DEC-96 | Aplicado (2026-11-23) |
+| CD-60 | Reporte | §17, supuesto S5; §5, tabla de microservicios (filas de ms-administracion y ms-analitica); §10, tabla de flujos (director comercial y administrador) | Dejan de decir «sin mockup» o «no tienen mockup»: nombran sus ventanas y S5 se reescribe sin esa parte | DEC-96 | Pendiente (7d) |
+| CD-61 | Story Mapping corregido | §9, columna «Ventanas» (HU-15, HU-18 y HU-19), y §10, «Los mockups» | «Proveedores», «Tablero BAM» y «Promociones sugeridas»; la nota de los mockups dice dónde están | DEC-96 | Aplicado (2026-11-23) |
+
 ## Corte 6b (ms-analitica)
 
 Las dos ventanas de ms-analitica no tienen mockup (CU-06 y CU-14 decían «sin mockup»): se diseñaron con las piezas de la SPA, como las del administrador. Las capturas de `recorrido_corte6b.py` (escritorio y 390 px) están en `capturas_referencia/corte6b/` para dibujar los mockups.
