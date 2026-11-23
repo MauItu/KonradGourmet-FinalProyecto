@@ -242,7 +242,7 @@ public class ServidorWeb {
         String desde = p.getOrDefault("desde", ""), hasta = p.getOrDefault("hasta", ""), producto = p.getOrDefault("producto", "");
         String marca = p.getOrDefault("marca", "").trim(), estado = p.getOrDefault("estado", "");
         LocalDate d = desde.isEmpty() ? null : LocalDate.parse(desde), h = hasta.isEmpty() ? null : LocalDate.parse(hasta);
-        if (d != null && h != null && d.isAfter(h)) throw new IllegalArgumentException("La fecha «desde» es posterior a «hasta»");
+        if (d != null && h != null && d.isAfter(h)) throw new IllegalArgumentException("La fecha inicial no puede ser posterior a la fecha final.");
         CriteriosConsulta c = new CriteriosConsulta(d, h, producto.isEmpty() ? null : Long.valueOf(producto),
             marca.isEmpty() ? null : marca, estado.isEmpty() ? null : EstadoSolicitud.valueOf(estado));
         return lista(sistema.solicitudes.consultar(c), s -> json(s.numero()));

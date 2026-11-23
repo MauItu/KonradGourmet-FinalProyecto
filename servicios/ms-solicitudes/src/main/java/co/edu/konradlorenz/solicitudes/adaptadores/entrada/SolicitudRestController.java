@@ -132,7 +132,7 @@ public class SolicitudRestController {
         LocalDate d = fecha(desde, "desde");
         LocalDate h = fecha(hasta, "hasta");
         if (d != null && h != null && d.isAfter(h)) {
-            throw new IllegalArgumentException("La fecha «desde» es posterior a «hasta»");
+            throw new IllegalArgumentException("La fecha inicial no puede ser posterior a la fecha final."); // HU-07 (6), PD-10
         }
         EstadoSolicitud e = null;
         if (estado != null && !estado.isBlank()) {

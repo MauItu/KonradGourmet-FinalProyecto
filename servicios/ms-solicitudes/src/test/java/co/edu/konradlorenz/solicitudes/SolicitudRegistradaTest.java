@@ -185,7 +185,7 @@ class SolicitudRegistradaTest {
     void filtrosMalEscritos() throws Exception {
         mvc.perform(get("/api/solicitudes?desde=2026-11-20&hasta=2026-11-01").with(como("AUXILIAR_COMPRAS", 3, "isabella.castro@konradgourmet.com")))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.mensaje").value("La fecha «desde» es posterior a «hasta»"));
+                .andExpect(jsonPath("$.mensaje").value("La fecha inicial no puede ser posterior a la fecha final."));
         mvc.perform(get("/api/solicitudes?estado=ABIERTA").with(como("AUXILIAR_COMPRAS", 3, "isabella.castro@konradgourmet.com")))
                 .andExpect(status().isBadRequest());
     }
