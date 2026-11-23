@@ -87,7 +87,7 @@ export function MisSolicitudes() {
       {nueva && listos && (
         <VentanaSolicitud key={productoInicial ?? 'nueva'} usuario={usuario} productos={productos.datos ?? []} unidades={unidades}
           productoInicial={productoInicial}
-          precargar={productoInicial == null && !(lista.datos ?? []).length}
+          precargar={productoInicial == null && !params.get('nombreProducto') && !(lista.datos ?? []).length}
           alCerrar={cerrar} alRegistrar={registrar} />
       )}
       {registrada && (
