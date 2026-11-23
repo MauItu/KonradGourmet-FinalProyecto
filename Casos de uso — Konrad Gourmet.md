@@ -265,7 +265,8 @@ Cada caso copia los criterios de aceptación de su historia en el Story Mapping,
 
 **Flujos alternos:**
 
-- Sin resultados: "No se encontraron solicitudes registradas".
+- Sin solicitudes registradas: "No se encontraron solicitudes registradas" (HU-06).
+- Ningún registro cumple los filtros: "No se encontraron solicitudes con los criterios indicados" (HU-07).
 - Solicitud inexistente o eliminada: "La solicitud consultada no está disponible".
 
 **Reglas y fuente:** la consulta responde en menos de 3 segundos y el detalle no permite modificar datos. Los filtros (rango de fechas, producto, marca y estado) están en la tarjeta HU-07 corregida de `STORY_MAPPING_CORREGIDO.md` (S-01); la original repetía los criterios de HU-06. Un rango invertido muestra «La fecha inicial no puede ser posterior a la fecha final.» (PD-10).
