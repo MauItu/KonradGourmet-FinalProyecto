@@ -24,4 +24,9 @@ public class DestinatarioJpaAdapter implements DestinatarioRepositoryPort {
         throw new UnsupportedOperationException("Pendiente de implementar");
     }
 
+    @Override
+    public String nombreSucursal(Long sucursalId) {
+        throw new UnsupportedOperationException("Pendiente de implementar");
+    }
+
 }

@@ -84,6 +84,7 @@ class CorreoYAlarmaTest {
         when(smtp.createMimeMessage()).thenAnswer(i -> new MimeMessage(Session.getInstance(new Properties())));
         when(almacen.obtener("s3://documentos-pdf/ordenes/OC-0012.pdf")).thenReturn(PDF);
         when(destinatarios.jefesDe(1L)).thenReturn(List.of("carlos.mendoza@konradgourmet.com"));
+        when(destinatarios.nombreSucursal(1L)).thenReturn("Sucursal Centro");
         CorreoSmtpAdapter adaptador = new CorreoSmtpAdapter(almacen, smtp, "Konrad Gourmet <notificaciones@konradgourmet.com>");
         NotificacionService servicio = new NotificacionService(
                 new CreadorCorreo(new CorreoCertificadoDecorator(new EstampaCronologicaDecorator(adaptador))),
@@ -132,7 +133,7 @@ class CorreoYAlarmaTest {
         verify(alarmas).empujar("carlos.mendoza@konradgourmet.com", "Res al 23 %: realice una solicitud");
         MimeMessage m = enviado();
         assertEquals("Stock bajo: Res", m.getSubject());
-        assertTrue(m.getContent().toString().contains("Quedan 11,5 kg de Res (23 % del stock de referencia)"), m.getContent().toString());
+        assertTrue(m.getContent().toString().contains("Quedan 11,5 kg de Res (23 % del stock de referencia) en la Sucursal Centro."), m.getContent().toString());
         verify(envios, times(2)).registrar(eq("carlos.mendoza@konradgourmet.com"), eq("inventario.stock-bajo"), any());
     }
 

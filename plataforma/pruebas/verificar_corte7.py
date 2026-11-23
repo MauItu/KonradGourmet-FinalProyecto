@@ -244,6 +244,10 @@ for para, asunto in ((JEFE, 'Stock bajo: Arroz'), (JEFE, f'Solicitud {numero_sol
         if m: break
         time.sleep(1)
     ok(len(m) == 1 and certificado(m[0]['ID']), f'el jefe recibió «{asunto}», certificado', 'ms-notificaciones')
+m = correos(JEFE, 'Stock bajo: Arroz')
+cuerpo = http('GET', f'/api/v1/message/{m[0]["ID"]}', base=MAILPIT)[1].get('Text', '') if m else ''
+ok(re.search(r'Quedan \d+(,\d+)? kg de Arroz \(\d+(,\d+)? % del stock de referencia\) en la Sucursal Centro\.', cuerpo) is not None,
+   'el correo de stock bajo dice la cantidad, la unidad y la sucursal (HU-16, 4; DEC-102)', 'ms-notificaciones')
 for cot, datos in cots.items():
     m = correos(CORREO_PROVEEDOR[datos['proveedor']], f'Solicitud de cotización {cot}')
     nombre, datos_pdf = adjunto(m[0]['ID']) if m else (None, None)

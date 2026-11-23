@@ -39,11 +39,13 @@ public class NotificacionService implements NotificarUseCase {
             // con coma decimal, como lo muestra la aplicación (CD-06: «Pollo al 24,5 %»; DEC-98)
             String porcentaje = e.porcentaje().stripTrailingZeros().toPlainString().replace('.', ',');
             String stock = e.stockActual().stripTrailingZeros().toPlainString().replace('.', ',') + " " + e.unidad();
-            // alarma en la app (V05) y correo a los jefes de la sucursal
+            // alarma en la app (V05) y correo a los jefes de la sucursal, que la nombra (HU-16, 4; DEC-102)
+            String sucursal = destinatarios.nombreSucursal(e.sucursalId());
             for (String jefe : destinatarios.jefesDe(e.sucursalId())) {
                 enviar(creadorAlarma, jefe, evento, e.nombreProducto() + " al " + porcentaje + " %: realice una solicitud");
                 enviar(creadorCorreo, jefe, evento, "Stock bajo: " + e.nombreProducto() + "\nQuedan " + stock + " de "
-                        + e.nombreProducto() + " (" + porcentaje + " % del stock de referencia). Realice una solicitud de alimentos.");
+                        + e.nombreProducto() + " (" + porcentaje + " % del stock de referencia) en la " + sucursal
+                        + ". Realice una solicitud de alimentos.");
             }
         } else if (evento instanceof SolicitudRegistradaEvent e) {
             enviar(creadorCorreo, e.correoSolicitante(), evento, "Solicitud " + e.numero() + " registrada\nSu solicitud "
