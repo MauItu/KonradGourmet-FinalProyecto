@@ -21,11 +21,11 @@ Mauricio revisa los mockups y el Story Mapping por su cuenta (2026-11-08); no en
 
 | Id | Qué hay que mirar | Estado |
 |---|---|---|
-| **M-04** | V03 muestra 4 platos con limonada ($88.000); V04, el reporte y la demo dicen 3 platos y $82.000. Opción 1: quitar la limonada de V03 (recomendada, no cambia nada más). Opción 2: pasar todo a $88.000 (cambia reporte, demo y pruebas) | **Abierto: decide Mauricio** |
-| M-01 · M-02 | V13 y V21 con varias solicitudes por cotización (DEC-05) | Decidido; falta hacerlo en Canva |
-| M-03 | V17 y V19 a V23 con los datos de la demo: COT-018, Proveedor ABC, OC-0012 por $545.000 (DEC-49, arquitecto) | Decidido; falta hacerlo en Canva |
-| M-06 | V05 sin Arroz ni Pollo, tarjeta en «3 Stock bajo» (DEC-50, arquitecto) | Decidido; falta hacerlo en Canva |
-| M-05 · M-07 · M-08 · M-09 | Precio unitario en V18/V19, detalle en V12, pantallas nuevas de HU-15 y HU-19, saludo de V03 | Opcionales |
+| **M-04** | V03 muestra 4 platos con limonada ($88.000); V04, el reporte y la demo dicen 3 platos y $82.000. Opción 1: quitar la limonada de V03 (recomendada, no cambia nada más). Opción 2: pasar todo a $88.000 (cambia reporte, demo y pruebas) | Aplicado (2026-11-23): 3 platos y $82.000 en `mockups_faltantes/` |
+| M-01 · M-02 | V13 y V21 con varias solicitudes por cotización (DEC-05) | Aplicado (2026-11-23) en `mockups_faltantes/` (M-02 según DEC-93) |
+| M-03 | V17 y V19 a V23 con los datos de la demo: COT-018, Proveedor ABC, OC-0012 por $545.000 (DEC-49, arquitecto) | Aplicado (2026-11-23) en `mockups_faltantes/` (V20 y V23 en `mockups_admin/`) |
+| M-06 | V05 sin Arroz ni Pollo, tarjeta en «3 Stock bajo» (DEC-50, arquitecto) | Aplicado (2026-11-18) en `mockups_admin/`: sin Arroz y con el Pollo al 24,5 %, que sí está bajo el umbral (cuatro en stock bajo) |
+| M-05 · M-07 · M-08 · M-09 | Precio unitario en V18/V19, detalle en V12, pantallas nuevas de HU-15 y HU-19, saludo de V03 | M-05 (V18), M-08 y M-09 aplicados; M-07 no se hace (DEC-93). Estado de cada uno en `CAMBIOS_A_DOCUMENTAR.md` |
 | S-01 a S-07 | HU-07 reescrita, «(224)», «25 h», «Ver KPIs» del director comercial, p. 31 con 5 sprints y 10 semanas | Aplicadas en el documento nuevo `STORY_MAPPING_CORREGIDO.md` (2026-11-09), con SM-01 a SM-04; el PDF original queda igual |
 
 ---
