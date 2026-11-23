@@ -137,7 +137,7 @@ function BarrasDiferencia({ puestos }: { puestos: { clave: string; valor: number
           );
         })}
       </ul>
-      <p className="bam-eje"><span /><span className="bam-eje-pista"><span>← Más barato</span><span>Estándar</span><span>Más caro →</span></span><span className="bam-cifra" /></p>
+      <p className="bam-eje"><span /><span className="bam-eje-pista"><span className="izq">← Más barato</span><span className="centro">Estándar</span><span className="der">Más caro →</span></span><span className="bam-cifra" /></p>
     </>
   );
 }
