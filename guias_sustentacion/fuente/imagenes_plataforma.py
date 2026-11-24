@@ -8,6 +8,7 @@ círculos numerados sobre lo que se pulsa o se señala, en la posición que da P
 
 Deja en img/plataforma/ los PNG y datos.json (los números de la historia y la posición de cada círculo), que lee
 generar_guia_plataforma.py. Cambia los datos de kg-demo: al terminar hay que restablecerla con restablecer_demo.sh.
+Con la variable SALIDA deja todo en esa carpeta (la guía 5 repite el ensayo así, DEC-113).
 
 Uso, desde FinalProyecto, con kg-demo recién restablecida y encendida (y ~75 s de espera por Eureka):
     COMPOSE_PROJECT_NAME=kg-demo mockups_nuevos/.venv/bin/python documentos/guias_sustentacion/fuente/imagenes_plataforma.py
@@ -23,7 +24,8 @@ if PROYECTO != 'kg-demo':
     sys.exit('Solo corre sobre la instancia kg-demo (COMPOSE_PROJECT_NAME=kg-demo): cambia sus datos.')
 BASE = 'http://localhost:8080'
 AQUI = Path(__file__).resolve().parent
-OUT = AQUI.parent / 'img' / 'plataforma'
+# SALIDA: otra carpeta para el ensayo (la guía 5 lo repite sin pisar las imágenes de esta guía, DEC-113)
+OUT = Path(os.environ['SALIDA']).resolve() if os.environ.get('SALIDA') else AQUI.parent / 'img' / 'plataforma'
 FALTANTES = AQUI.parent.parent / 'mockups_faltantes'
 CLAVE = 'Konrad2026'
 MESERO, JEFE, AUX, DIRECTORA, COMERCIAL, ADMIN = (f'{u}@konradgourmet.com' for u in (
