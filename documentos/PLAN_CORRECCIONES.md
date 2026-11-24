@@ -220,11 +220,11 @@ Mauricio aprobó la fase 1 y, después de RCU-13, la fase 2; autorizó continuar
 
 ## Continuación después de la sesión 6
 
-La distribución posterior indicada por Mauricio está en [PENDIENTES_POST_SESION6.md](PENDIENTES_POST_SESION6.md): documentos aquí, mockups a cargo de Mauricio, un documento nuevo de Story Mapping, decisiones y supuestos a cargo del `arquitecto-revisor` de Claude y alcance limitado a la demo. Es trabajo por realizar; no reabre la sesión 6 ni marca esos pendientes como terminados.
+La distribución posterior indicada por Mauricio está en [PENDIENTES_POST_SESION6.md](PENDIENTES_POST_SESION6.md): documentos aquí, mockups a cargo de Mauricio, un documento nuevo de Story Mapping, decisiones y supuestos a cargo del `arquitecto-revisor` y alcance limitado a la demo. Es trabajo por realizar; no reabre la sesión 6 ni marca esos pendientes como terminados.
 
 ## Texto para arrancar cada sesión
 
-Copiar en una sesión nueva de Claude Code abierta en `FinalProyecto/`, cambiando el número:
+Copiar en una sesión nueva abierta en `FinalProyecto/`, cambiando el número:
 
 > Continúa las correcciones de Konrad Gourmet. Lee `documentos/PLAN_CORRECCIONES.md`, `documentos/DECISIONES.md` y `documentos/REVISION_2026-11-07.md`, y haz la **Sesión N**. Trabaja en la rama `correcciones-revision` de cada repo, un commit por corrección y todo local. Para al final de cada fase y espera mi OK; al terminar la sesión, pide al `arquitecto-revisor` que valide. Si tienes dudas, pregúntame antes de cambiar.
 

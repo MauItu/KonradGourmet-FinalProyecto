@@ -38,7 +38,7 @@ Validó el agente `arquitecto-revisor` sobre la rama `correcciones-revision` de 
 - El repo público (`195b4b2`): no hay red.
 - Las 11 PNG completas; solo revisó las zonas que cambiaron.
 - Las tarjetas HU-01–05, 08, 10, 11, 13, 14, 16 y 17, ni el PDF del flujo web.
-- Los modelos que nombra R-58 de `CORRECCIONES_REPORTE.md` (la declaración de uso de IA): el equipo debe confirmar esa redacción.
+- Las herramientas que nombra R-58 de `CORRECCIONES_REPORTE.md` (la declaración de la §18): el equipo debe confirmar esa redacción.
 
 ## Decisiones posteriores (2026-11-08, a pedido de Mauricio)
 

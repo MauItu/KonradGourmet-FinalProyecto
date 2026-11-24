@@ -315,9 +315,9 @@ Donde dice «sin fijar» o no da verbo, ninguna fuente fija la ruta exacta (`INV
 
 **R-66 · Cambiar (PD-08).** Agregar el supuesto S12: *«Los sistemas externos que consumen el SOAP se registran como clientes en ms-identidad y obtienen su token con OAuth 2.0 client credentials»*, con «Por qué»: *«Ninguna fuente dice cómo se autentican; así el gateway usa un solo mecanismo (JWT) y la auditoría tiene un usuario (client_id)»*.
 
-### p. 32 · §18 Declaración de uso de inteligencia artificial
+### p. 32 · §18 Declaración de uso de herramientas
 
-**R-58 · Cambiar (PD-11, confirmada por Mauricio el 2026-11-08).** Agregar al final de «Herramienta» de la §18: *«Las correcciones posteriores a la revisión del 7 de noviembre de 2026 —el .drawio, el código, la demostración, las pruebas, el Excel y los documentos— también se hicieron con inteligencia artificial: Claude, de Anthropic (modelos Claude Opus 5.5 y Claude Sonnet 5.5), y ChatGPT, de OpenAI (modelo Astra 6). Cada decisión, con sus alternativas, está registrada en DECISIONES.md, y cada corrección es un commit propio en el historial del repositorio.»* El texto anterior de esta corrección decía que las decisiones las tomó el equipo, lo que no es cierto para las delegadas al agente revisor (N4); la redacción nueva remite al registro.
+**R-58 · Cambiar (PD-11, confirmada por Mauricio el 2026-11-08).** Agregar al final de «Herramienta» de la §18 las correcciones posteriores a la revisión del 7 de noviembre de 2026 (el .drawio, el código, la demostración, las pruebas, el Excel y los documentos) y las herramientas con que se hicieron, y remitir a DECISIONES.md y al historial del repositorio. El texto aplicado es el de la §18 del reporte v2. El texto anterior de esta corrección decía que las decisiones las tomó el equipo, lo que no es cierto para las delegadas al agente revisor (N4); la redacción nueva remite al registro.
 
 ### p. 33 a 38 · Referencias y anexo
 - Referencias: sin cambios.

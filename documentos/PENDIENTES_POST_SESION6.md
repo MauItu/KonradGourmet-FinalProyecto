@@ -9,15 +9,15 @@ Base: sesión 6 publicada en `MauItu/KonradGourmet-FinalProyecto`, `main` `b90a1
 | 1 · Documentos de entrega | Hacerlo aquí | Asistente y Mauricio, con los insumos del equipo | Por realizar |
 | 2 · Mockups | Dejarlos pendientes; Mauricio los hace | Mauricio | Pendiente externo |
 | 3 · Story Mapping | Crear un documento nuevo con todo corregido | Asistente, aquí | Hecho y aprobado por Mauricio el 2026-11-09: `STORY_MAPPING_CORREGIDO.md`; original intacto |
-| 4 · Preguntas de arquitectura y requisitos | Que decida el agente de Claude de arquitectura de software | `arquitecto-revisor` de Claude | Hecho y aprobado por Mauricio: PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`); quedan A1 (DEC-54) y A5 |
-| 5 · Supuestos asumidos | Que decida el mismo agente | `arquitecto-revisor` de Claude | Hecho y aprobado por Mauricio: los siete supuestos confirmados (tres con ajuste) |
+| 4 · Preguntas de arquitectura y requisitos | Que decida el agente de arquitectura de software | `arquitecto-revisor` | Hecho y aprobado por Mauricio: PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`); quedan A1 (DEC-54) y A5 |
+| 5 · Supuestos asumidos | Que decida el mismo agente | `arquitecto-revisor` | Hecho y aprobado por Mauricio: los siete supuestos confirmados (tres con ajuste) |
 | 6 · Implementación | Por ahora, solo la demo; explicar qué contiene | Asistente | Alcance fijado por Mauricio; descripción abajo |
 
 ## Reglas para continuar
 
 - Trabajar en `correcciones-revision` de `documentos/` y `KonradGourmet/`, con un commit por corrección y su id al inicio.
 - Conservar los originales del `.drawio`, reporte PDF, mockups y Story Mapping. El nuevo documento del punto 3 no sustituye el original sin indicación de Mauricio.
-- El perfil del agente solicitado está en `../.claude/agents/arquitecto-revisor.md`. La revisión de los puntos 4 y 5 debe quedar atribuida a quien realmente la ejecute; no presentar una revisión de Codex como una ejecución de Claude.
+- La revisión de los puntos 4 y 5 debe quedar atribuida a quien realmente la ejecute.
 - La delegación autoriza al arquitecto a escoger entre alternativas de diseño y dejar su justificación. No autoriza a inventar hechos del equipo, como quién posee un archivo o una cuenta.
 - Registrar las decisiones del arquitecto en `DECISIONES.md`, distinguir nuevas decisiones de confirmaciones y señalar sus efectos en documentos, diagramas y código. No cambiar silenciosamente una decisión ya confirmada por Mauricio.
 - Mantener el alcance de demo del punto 6. Una recomendación de arquitectura no abre automáticamente la implementación de los 94 cuerpos pendientes.
@@ -78,9 +78,9 @@ No hacer estos cambios desde aquí. La especificación detallada está en [CORRE
 
 **Criterio de terminado:** un documento nuevo que se pueda leer de principio a fin como versión corregida de las historias y la planificación, con la procedencia y las propuestas claramente identificadas.
 
-## 4. Decisiones de arquitectura y requisitos: agente de Claude
+## 4. Decisiones de arquitectura y requisitos: agente arquitecto-revisor
 
-Encargar esta revisión al `arquitecto-revisor` de Claude, con la autorización de Mauricio para escoger las alternativas de diseño. Pedir evidencia, decisión, justificación, consecuencias y pendientes de información.
+Encargar esta revisión al `arquitecto-revisor`, con la autorización de Mauricio para escoger las alternativas de diseño. Pedir evidencia, decisión, justificación, consecuencias y pendientes de información.
 
 | Tema | Resolución que se le solicita |
 |---|---|
@@ -102,16 +102,16 @@ Los siguientes puntos requieren información factual, no una elección de arquit
 - **A3:** identificar al titular de `mari00aa120-eng`; debe confirmarlo alguien del equipo.
 - **Enunciado original:** localizarlo si existe. Sin él, citar las fuentes locales y marcar los requisitos cuya literalidad no pudo verificarse.
 
-- [x] Ejecutar la revisión con el agente solicitado y conservar su informe: la ejecutó el `arquitecto-revisor` de Claude (Claude Opus 5.5) el 2026-11-08, y su informe está en `REVISION_ARQUITECTO_POST_S6.md`.
+- [x] Ejecutar la revisión con el agente solicitado y conservar su informe: la ejecutó el `arquitecto-revisor` el 2026-11-08, y su informe está en `REVISION_ARQUITECTO_POST_S6.md`.
 - [x] Registrar sus resoluciones y las preguntas factuales que continúen abiertas:
   - PD-01 a PD-11 están en `DECISIONES.md`;
   - sus efectos están en el `.drawio` (páginas 1, 2, 3a, 4d, 4e y 5; PNG en `exportes/post_sesion6/`), en los casos de uso, en `CORRECCIONES_REPORTE.md` (R-31, R-49, R-56 a R-58, R-61 y las nuevas R-62 a R-66), en `ESTADO_PROYECTO_Y_C4.md` y en el README del código (N5);
   - A2 queda cerrada por PD-01;
   - A1 queda en manos de Mauricio, y si el script no aparece se rehace el reporte (DEC-54); A3 está descartada; A5 (enunciado) queda para revisar, con prioridad baja; A7 cerrada: HU-20 a HU-22 se omiten del plan (PD-09);
-  - PD-11 (ampliar la declaración de IA) la descartó Mauricio, y R-58 queda sin cambio.
+  - PD-11 (ampliar la declaración de la §18) la descartó Mauricio, y R-58 queda sin cambio.
 - [ ] PD-05 (T-06) está decidida, pero su aplicación (4c, 4e y código) espera la autorización de Mauricio.
 
-## 5. Supuestos: agente de Claude
+## 5. Supuestos: agente arquitecto-revisor
 
 | Decisión | Qué debe revisar o confirmar |
 |---|---|
@@ -178,7 +178,7 @@ Para ejecutar solo la demo: `./ejecutar.sh demo`. En el repositorio público, la
 
 ## Orden de trabajo previsto
 
-1. Obtener las resoluciones del arquitecto de Claude (puntos 4 y 5), porque afectan al reporte y a las propuestas de historias.
+1. Obtener las resoluciones del arquitecto-revisor (puntos 4 y 5), porque afectan al reporte y a las propuestas de historias.
 2. Crear el documento nuevo del Story Mapping (punto 3), avanzando desde las fuentes y decisiones ya confirmadas.
 3. Completar aquí el diagrama de casos de uso y el reporte (punto 1), conservando los originales.
 4. Mauricio corrige los mockups (punto 2) en paralelo.
