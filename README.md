@@ -259,16 +259,27 @@ git log --follow -M30% -- src/co/edu/konradlorenz/notificaciones/adaptadores/sal
 
 ## Plataforma con microservicios
 
-Además de la versión en memoria, el sistema se está pasando al stack del diagrama de contenedores
-(DEC-58) por cortes: API Gateway, Eureka, Kafka, PostgreSQL, Redis, almacén S3 y la SPA en React, con
-Docker Compose, y los microservicios Spring Boot uno a uno (hoy corren ms-identidad, ms-menu, ms-pedidos,
-ms-inventario, ms-solicitudes, ms-integracion, ms-cotizaciones, ms-ordenes, ms-notificaciones, ms-administracion y
-ms-analitica, con las ventanas V01 a V23, los proveedores, las cinco del administrador (parámetros y tema, auditoría, logs de
-errores en Elasticsearch, usuarios y destinatarios), el tablero BAM del director comercial y las promociones sugeridas
-del jefe de cocina (con la API de redes simulada y su correo), el PDF de la cotización y el de la orden en el almacén S3, el precio de referencia
-del Ministerio con su caché en Redis, el endpoint SOAP, los correos certificados con el PDF adjunto (Mailpit) y su
-cola de errores, que se vuelve a procesar sola (DEC-81), la orden marcada como recibida (DEC-80) y la alarma de
-stock bajo en vivo; el avance está en `plataforma/LEEME.md`). Solo necesita Docker:
+Además de la versión en memoria, el sistema corre completo en el stack del diagrama de contenedores
+(DEC-58), con Docker Compose: API Gateway, Eureka, Kafka, PostgreSQL, Redis, almacén S3, Elasticsearch y la SPA
+en React, y los 11 microservicios Spring Boot (ms-identidad, ms-menu, ms-pedidos, ms-inventario, ms-solicitudes,
+ms-integracion, ms-cotizaciones, ms-ordenes, ms-notificaciones, ms-administracion y ms-analitica). Se armó en 7
+cortes, todos aprobados; el detalle de cada uno está en `plataforma/LEEME.md`. Tiene:
+- las ventanas V01 a V23, los proveedores, las cinco del administrador (parámetros y tema, auditoría, logs de errores
+  en Elasticsearch, usuarios y destinatarios), el tablero BAM del director comercial y las promociones sugeridas del
+  jefe de cocina (con la API de redes simulada y su correo), cada una con su mockup (DEC-96);
+- el PDF de la cotización y el de la orden en el almacén S3, el precio de referencia del Ministerio con su caché en
+  Redis, el endpoint SOAP, los correos certificados con el PDF adjunto (Mailpit) y su cola de errores, que se vuelve a
+  procesar sola (DEC-81), la orden marcada como recibida (DEC-80) y la alarma de stock bajo en vivo, cuyo
+  «Solicitar» abre la solicitud con el producto ya escogido (DEC-100);
+- los mensajes de error con los textos de las historias de usuario y de PD-10 (DEC-97), los decimales con coma
+  (DEC-98), la alerta de V05 con la cantidad que queda y el correo de stock bajo con la sucursal (DEC-102), V11 en
+  páginas de 25 (DEC-103) y los platos que se reactivan (DEC-101);
+- lo que la arquitectura promete para no perder ni repetir eventos (DEC-104): cada servicio guarda sus eventos en su
+  tabla *outbox*, en la misma transacción que el cambio, y un relé los publica en Kafka; cada consumidor descarta los
+  eventos repetidos; y el gateway limita la tasa de peticiones por usuario o por IP con Redis (429 pasado el límite).
+  Los detalles están en DEC-105.
+
+Solo necesita Docker:
 
 ```bash
 ./plataforma/levantar.sh     # compila y levanta todo; la aplicación queda en http://localhost:8080
@@ -278,8 +289,34 @@ stock bajo en vivo; el avance está en `plataforma/LEEME.md`). Solo necesita Doc
 Cada servicio de `servicios/` copia al compilar el núcleo de su paquete en `src/` (dominio, eventos,
 puertos y aplicación) y agrega sus adaptadores Spring con los mismos nombres del diagrama (DEC-61). La
 SPA está en `web/`. Las pruebas de los servicios corren al compilar (JUnit, en `servicios/*/src/test`) y las de
-punta a punta están en `plataforma/pruebas/`. El avance por cortes y lo que corre en cada contenedor están en
-`plataforma/LEEME.md`.
+punta a punta están en `plataforma/pruebas/`.
+
+### Probar todo
+
+`plataforma/probar_todo.sh` prueba el proyecto entero y cuenta las comprobaciones (DEC-99): las verificaciones del
+núcleo (`pruebas/`), las pruebas JUnit de los servicios y, sobre una instancia de la plataforma recién creada, los
+recorridos de navegador y los verificadores de los cortes 3 a 7, en orden. Necesita Docker, un Python con Playwright
+(`pip install playwright`) y Chromium en `/usr/bin/chromium`; tarda unos 40 minutos:
+
+```bash
+PYTHON=/ruta/al/venv/bin/python ./plataforma/probar_todo.sh /tmp/pruebas   # registros, capturas y resumen.txt en la carpeta
+```
+
+Usa su propia instancia (`kg-limpio`, u otra con `COMPOSE_PROJECT_NAME`), que borra al empezar y detiene al terminar;
+no corre sobre `konrad-gourmet`, la de todos los días. La última corrida, en una instancia limpia, dio
+**1.254 comprobaciones sin fallas**:
+
+| Parte | Comprobaciones |
+|---|---|
+| Núcleo (`pruebas/`, 8 clases) | 400 |
+| JUnit de los servicios | 91 |
+| Recorridos y verificadores de los cortes 3 a 7 | 763 |
+| **Total** | **1.254** |
+
+El corte 7 cierra con una historia que cruza los 11 servicios y los 6 roles (`recorrido_corte7.py` y
+`verificar_corte7.py`): del plato nuevo del jefe de cocina a la orden de compra recibida, el tablero del director
+comercial y la auditoría de la administradora. También comprueba la outbox, un evento repetido que no cambia el
+inventario, una escritura con Kafka detenido que llega una sola vez cuando Kafka vuelve y el límite de tasa.
 
 ## Interfaz web
 
