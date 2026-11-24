@@ -20,4 +20,4 @@ En las exposiciones de clase se presentaron quince estilos, mecanismos y compone
 | Webhooks | Descartado internamente | Sirven para avisar a terceros por HTTP, pero dentro del sistema Kafka ofrece persistencia, reintentos y varios consumidores. Queda como opción futura para avisar a proveedores. |
 | Balanceador de carga | Apoyo | Par activo-activo de capa 7 delante del gateway, con chequeos de salud cada 5 segundos. |
 | Service Registry | Apoyo | Eureka mantiene la lista de instancias vivas para que el gateway enrute aunque el autoescalado cambie las réplicas. |
-| API Gateway | Apoyo: Facade del sistema | Punto único de entrada: valida el JWT y enruta por prefijo de URL hacia cada servicio, ocultando a la SPA cuántos servicios hay detrás. |
+| API Gateway | Apoyo: Facade del sistema | Punto único de entrada: valida el JWT, limita la tasa de peticiones por usuario y enruta por prefijo de URL hacia cada servicio, ocultando a la SPA cuántos servicios hay detrás. |

@@ -5,7 +5,7 @@ La primera arquitectura define cómo se parte y se despliega el sistema. Vive en
 
 ## 5.1 Esquema
 
-La SPA envía todas las peticiones por HTTPS al balanceador de carga, que las reparte entre tres réplicas del API Gateway. El gateway valida el JWT emitido por ms-identidad, consulta el Service Registry y enruta por prefijo (/api/pedidos/\*\*, /api/cotizaciones/\*\*, entre otros) a una instancia sana del servicio. Cada uno de los once microservicios es un contenedor Spring Boot con su propia base PostgreSQL, que ningún otro servicio lee directamente. En el mapa integrado es la fila de once cajas azules debajo del gateway.
+La SPA envía todas las peticiones por HTTPS al balanceador de carga, que las reparte entre tres réplicas del API Gateway. El gateway valida el JWT emitido por ms-identidad, limita la tasa de peticiones (sección 8.4), consulta el Service Registry y enruta por prefijo (/api/pedidos/\*\*, /api/cotizaciones/\*\*, entre otros) a una instancia sana del servicio. Cada uno de los once microservicios es un contenedor Spring Boot con su propia base PostgreSQL, que ningún otro servicio lee directamente. En el mapa integrado es la fila de once cajas azules debajo del gateway.
 
 ## 5.2 Lineamientos, políticas y reglas
 
