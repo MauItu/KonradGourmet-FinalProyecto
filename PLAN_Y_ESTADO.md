@@ -14,7 +14,7 @@ Resumen único de **qué se planeó, qué se ha hecho y qué falta**. Es un mapa
 | A. Revisión y correcciones (sesiones 1 a 6) | Corregir el `.drawio`, las historias de usuario, los casos de uso y el código base según la revisión del 2026-11-07 | Hecha y aprobada |
 | B. Documentos de entrega (post sesión 6) | Reporte v2, Story Mapping corregido, casos de uso, decisiones de arquitectura (PD-01 a PD-11) | Hecha y aprobada; el reporte se regeneró en el 7d |
 | C. Plataforma real (rama `stack-real`) | La web funcionando completa «tal como está especificada», en Docker Compose, en 7 cortes | Los 7 cortes aprobados (2026-11-23) |
-| D. Cierre y sustentación | Reporte regenerado, pruebas finales, guiones de la sustentación | Reporte y pruebas hechos y aprobados (7b y 7d); guías de la sustentación en curso (1 de 5) |
+| D. Cierre y sustentación | Reporte regenerado, pruebas finales, guiones de la sustentación | Reporte y pruebas hechos y aprobados (7b y 7d); guías de la sustentación en curso (1 de 5 aprobada) |
 
 Reglas de trabajo vigentes: un commit por corrección con su id al inicio; un paso por mensaje y esperar el OK de Mauricio; cada decisión se registra en `DECISIONES.md` con contexto, opciones y la escogida; todo cambio frente a mockups, diagramas o guías se anota en `CAMBIOS_A_DOCUMENTAR.md`; la documentación entregable describe el proyecto completo, sin hablar de límites de la demo (DEC-57); la IA solo se menciona en la §18 del reporte; ningún texto de la entrega dice que los mockups de `mockups_faltantes/` son capturas; sin push hasta que Mauricio lo pida.
 
@@ -69,7 +69,7 @@ El corte 7, paso por paso:
 
 ### Para Mauricio y el equipo
 
-- [ ] Guías de la sustentación (DEC-108 y DEC-109): cinco guías en HTML en `guias_sustentacion/`, una por mensaje: los diagramas (hecha, por aprobar), el código, la plataforma, los microservicios y lo que está fuera de la plataforma; después, la revisión del arquitecto-revisor. Los guiones anteriores quedaron en `FinalProyecto/archivo_desactualizado/` (fuera de git).
+- [ ] Guías de la sustentación (DEC-108 y DEC-109): cinco guías en HTML en `guias_sustentacion/`, una por mensaje: los diagramas (aprobada el 2026-11-24), el código, la plataforma, los microservicios y lo que está fuera de la plataforma; después, la revisión del arquitecto-revisor. Los guiones anteriores quedaron en `FinalProyecto/archivo_desactualizado/` (fuera de git).
 - [ ] Publicar en el repo público lo posterior al 9 de noviembre, cuando Mauricio lo pida.
 - [ ] Opcionales sin aplicar al reporte: R-14, R-19, R-39 y R-53 (Mauricio decide).
 
