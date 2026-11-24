@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class NotificacionListeners implements EventListener<EventoDominio> {
 
-    /** El nombre con que marca los eventos ya notificados; ReprocesoColaErrores usa el mismo. */
+    /** El nombre con que marca los eventos ya notificados (ReprocesoColaErrores no marca: solo reenvía lo que falló). */
     public static final String CONSUMIDOR = "NotificacionListeners";
 
     private final NotificarUseCase casoDeUso;
