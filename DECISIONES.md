@@ -30,6 +30,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-97:** Mauricio pidió el 2026-11-23 «la que incluya menos modificaciones»; Claude comparó las dos y aplicó la de la web.
 - **DEC-98:** la decidió Mauricio el 2026-11-23, durante el 7b, siguiendo la recomendación de Claude. **DEC-99** la asumió Claude el mismo día y la confirmó Mauricio al aprobar el 7b. **DEC-100** la decidió Mauricio el mismo día, siguiendo la recomendación de Claude, y se aplica en el 7c. El lugar de la figura de casos de uso (DEC-95, punto 3) lo confirmó Mauricio el mismo día.
 - **DEC-101 a DEC-104:** las decidió Mauricio el 2026-11-23, al revisar la validación del 7c (DEC-101 a DEC-103 siguiendo la recomendación del revisor o de Claude; en DEC-104 escogió implementar todo, que no era la recomendada). **DEC-105** la asumió Claude el mismo día y la confirmó Mauricio. **DEC-106** la asumió Claude el 2026-11-23, en el 7d, y la confirmó Mauricio el mismo día, con un ajuste en el punto de la tabla 13. **DEC-107** la decidió Mauricio el mismo día, al revisar el reporte del 7d.
+- **DEC-108:** la decidió Mauricio el 2026-11-23, al pedir los guiones de la sustentación (no siguió el plan G1–G5 que propuso Claude). **DEC-109** la asumió Claude el mismo día, por confirmar.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -152,6 +153,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-105 | Detalles del 7c | Outbox: se borra lo publicado, un relé por base con candado de PostgreSQL, despierta al confirmarse la transacción; sin base, publicación directa; los consumidores marcan en su transacción (ms-notificaciones, después de enviar); transacción en las escrituras salvo el inicio de sesión; límite de 100 por segundo y ráfagas de 200 por usuario o IP real; relé por lotes; ms-integracion usa su base; nombre de la sucursal en una copia de ms-notificaciones; 404 para el plato de otra sucursal; «La ventana no existe» | Asumida por Claude y confirmada por Mauricio (2026-11-23) |
 | DEC-106 | Detalles del 7d | Las figuras del reporte se rehacen desde el `.drawio` vigente; las ventanas que no estaban entre las 23 entran al final de la tabla 13, con «—» en la columna V y sin llamarlas nuevas; las pruebas van en prosa en la §13.4; el diagrama de casos de uso es la figura 7 y las demás se renumeran; README y LEEME dicen `PYTHON=/ruta/al/venv/bin/python`, sin una ruta del equipo; los 7 cortes quedan «Aprobado» en el LEEME | Asumida por Claude y confirmada por Mauricio (2026-11-23), con el ajuste de la tabla 13 |
 | DEC-107 | §18 y §1 del reporte (C7-30) | La §18 suma «los mockups» a la lista de lo corregido, sin decir que son nuevos ni capturas; la §1 nombra la plataforma como tercer entregable, porque se muestra en la sustentación | Decidida por Mauricio (2026-11-23) |
+| DEC-108 | Guiones de la sustentación | Tres guías en HTML: los diagramas (numerados, con su imagen, qué es cada parte y un guion sugerido), el código y sus arquitecturas, y la plataforma (con un guion sugerido); después, la revisión del arquitecto-revisor | Decidida por Mauricio (2026-11-23) |
+| DEC-109 | Detalles de las guías | En `documentos/guias_sustentacion/`, con su generador; los números de los diagramas se ponen en una copia temporal del `.drawio` (el original no cambia); la página 6 y los casos de uso usan sus propios números; guion sugerido sin reparto de oradores ni duración fija; una guía por mensaje | Asumida por Claude (2026-11-23), por confirmar |
 
 ---
 
@@ -1862,6 +1865,26 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 - **B. Nombrar la plataforma como tercer entregable.** ✅ **Escogida por Mauricio el 2026-11-23**, porque la plataforma se muestra en la sustentación. La §1 dice: «…y la plataforma que lo ejecuta: los once microservicios Spring Boot con su infraestructura (…) y la SPA en React, que se levantan juntos con Docker Compose (sección 13)».
 
 **Qué implica:** cambian la §1 y la §18 del reporte, que se regenera (70 páginas). Nada más cambia.
+
+## DEC-108 · ¿Qué forma tienen los guiones de la sustentación?
+
+**Contexto.** Con el corte 7 aprobado quedaban los guiones de la sustentación, rehechos desde cero (los del 9 de noviembre están en `FinalProyecto/archivo_desactualizado/`). La sustentación muestra la plataforma corriendo (DEC-107).
+
+**Opciones:**
+- **A. Cinco guiones (G1 a G5)**: guion general con tiempos y oradores, guion de la demo en vivo, recorrido del `.drawio` y del reporte, banco de preguntas y revisión del arquitecto-revisor. Era la propuesta de Claude.
+- **B. Tres guías en HTML y la revisión.** ✅ **Escogida por Mauricio el 2026-11-23.** (1) Los diagramas: cada uno con su imagen y sus partes numeradas, qué es cada parte y, debajo, un guion sugerido para sustentarlo en vivo. (2) El código: las arquitecturas que usa, cómo se distribuye, qué es cada carpeta, la estructura y las clases principales. (3) La plataforma: qué hace, con un guion sugerido para mostrarla en vivo. Después, la revisión del arquitecto-revisor («también me parece bien hacerla»).
+
+**Qué implica:** una guía por mensaje, con el OK de Mauricio entre cada una, y al final la revisión del arquitecto-revisor y sus correcciones. Las preguntas de la propuesta A sobre la duración, los oradores y la instancia de la demo no se respondieron; los detalles que escogió Claude van en DEC-109.
+
+## DEC-109 · Detalles de las guías de sustentación asumidos por Claude
+
+**Contexto.** DEC-108 fijó qué contiene cada guía. Estos detalles los escogió Claude; están por confirmar.
+
+- **Lugar.** Opciones: (a) fuera de git, como la guía del 9 de noviembre; (b) **escogida:** `documentos/guias_sustentacion/`, con un HTML por guía, sus imágenes en `img/` y el generador en `fuente/`, para poder rehacerlas si cambia el `.drawio`.
+- **Los números de los diagramas.** Opciones: (a) dibujarlos sobre la imagen a mano; (b) calcularlos y ponerlos encima con CSS; (c) **escogida:** agregarlos como círculos numerados en una copia temporal del `.drawio` y exportar esa copia con drawio a escala 1, así quedan exactamente sobre cada elemento. El `.drawio` del proyecto no cambia. La página 6 y el diagrama de casos de uso no llevan círculos: se explican con sus propios números (los pasos 1 a 14 y CU-01 a CU-19).
+- **Qué se numera.** En las páginas de contexto, contenedores, componentes, mapa y despliegue, cada elemento que se nombra al sustentar; en las de clases (4a a 4e), el paquete de cada servicio, sus capas (entrada, aplicación, dominio, salida) y las clases con patrón, no las 195 clases una por una.
+- **El guion sugerido.** Opciones: (a) con oradores y minutos, que Mauricio no fijó; (b) **escogida:** en primera persona del plural, en el orden en que conviene mostrar cada parte, con una duración aproximada por diagrama y sin repartir oradores; cada uno se lee en voz alta en uno o dos minutos.
+- **Contenido.** Sale del `.drawio`, del reporte v2 y de los casos de uso vigentes, con las mismas cifras. Las guías siguen las reglas de la entrega: no mencionan la IA, no dicen que los mockups de `mockups_faltantes/` son capturas ni llaman «nuevas» a las ventanas que no estaban entre las 23.
 
 ---
 
