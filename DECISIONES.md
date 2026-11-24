@@ -29,6 +29,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-96:** la decidió Mauricio el 2026-11-23, al aprobar el 7a («no puede quedar nada sin mockup»).
 - **DEC-97:** Mauricio pidió el 2026-11-23 «la que incluya menos modificaciones»; Claude comparó las dos y aplicó la de la web.
 - **DEC-98:** la decidió Mauricio el 2026-11-23, durante el 7b, siguiendo la recomendación de Claude. **DEC-99** la asumió Claude el mismo día y la confirmó Mauricio al aprobar el 7b. **DEC-100** la decidió Mauricio el mismo día, siguiendo la recomendación de Claude, y se aplica en el 7c. El lugar de la figura de casos de uso (DEC-95, punto 3) lo confirmó Mauricio el mismo día.
+- **DEC-101 a DEC-104:** las decidió Mauricio el 2026-11-23, al revisar la validación del 7c (DEC-101 a DEC-103 siguiendo la recomendación del revisor o de Claude; en DEC-104 escogió implementar todo, que no era la recomendada). **DEC-105** la asumió Claude el mismo día y la confirmó Mauricio. **DEC-106** la asumió Claude el 2026-11-23, en el 7d; está por confirmar.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -149,6 +150,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-103 | Paginado de V11 (C7-17) | Páginas de 25 filas, como HU-06 (4) y CU-07; la documentación no cambia | Decidida por Mauricio (2026-11-23) |
 | DEC-104 | Outbox, consumidores idempotentes y límite de tasa (C7-5, C7-6) | Se implementa lo que dice el diagrama: tabla outbox y relé en cada servicio que publica, descarte de eventos repetidos en todos los consumidores y límite de tasa en el gateway | Decidida por Mauricio (2026-11-23) |
 | DEC-105 | Detalles del 7c | Outbox: se borra lo publicado, un relé por base con candado de PostgreSQL, despierta al confirmarse la transacción; sin base, publicación directa; los consumidores marcan en su transacción (ms-notificaciones, después de enviar); transacción en las escrituras salvo el inicio de sesión; límite de 100 por segundo y ráfagas de 200 por usuario o IP real; relé por lotes; ms-integracion usa su base; nombre de la sucursal en una copia de ms-notificaciones; 404 para el plato de otra sucursal; «La ventana no existe» | Asumida por Claude y confirmada por Mauricio (2026-11-23) |
+| DEC-106 | Detalles del 7d | Las figuras del reporte se rehacen desde el `.drawio` vigente; las ventanas nuevas entran a la tabla 13 como filas «Nueva»; las pruebas van en prosa en la §13.4; el diagrama de casos de uso es la figura 7 y las demás se renumeran; README y LEEME dicen `PYTHON=/ruta/al/venv/bin/python`, sin una ruta del equipo; los 7 cortes quedan «Aprobado» en el LEEME | Asumida por Claude (2026-11-23), por confirmar |
 
 ---
 
@@ -1832,6 +1834,18 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 - **C7-1.** Un plato de otra sucursal responde 404 «El plato consultado no está disponible», como si no existiera (igual que una solicitud ajena, HU-08); también la imagen que ve el mesero.
 - **C7-16.** Una dirección que no está en el menú muestra «La ventana no existe» con un enlace a Inicio.
 - **C7-8.** En la página 1, V06 lista «POST /api/platos · …/{id}/imagen» en una sola línea, porque la miniatura de V09 está justo debajo; `GET …/productos?categoria=` queda para la tabla 13 del reporte.
+
+
+## DEC-106 · Detalles del 7d asumidos por Claude
+
+**Contexto.** El 7d (DEC-95) pidió el README y el LEEME finales, el reporte regenerado con 195 clases, los CD pendientes, los números de pruebas y el diagrama de casos de uso, y `PLAN_Y_ESTADO.md` al día. Estos detalles los escogió Claude; no cambian el diseño ni el código.
+
+- **Las figuras del reporte.** Eran las del 9 de noviembre: la página 1 aún tenía el recuadro «Sin mockup» y las páginas 4a a 4e, 191 clases. Opciones: (a) dejarlas; (b) **escogida:** reexportar las páginas que cambiaron (1, 3a, 4a a 4e y 5; la 2, la 3b y la 6 salieron idénticas) a escala 1 y rehacer los recortes en las mismas zonas. El de la figura 9 (Composite y Factory Method, antes la 8) toma ahora el paquete de ms-identidad entero, porque creció con `EmisorTokenPort` y `JwtEmisorAdapter` (DEC-62), y su nota los nombra (CD-72).
+- **Las ventanas nuevas en la tabla 13** (CD-23, CD-33, CD-63). Opciones: (a) una tabla aparte, que obliga a renumerar las tablas 14 a 16; (b) **escogida:** filas al final de la misma tabla, con «Nueva» en la columna V, y el título de la §15 pasa a «Trazabilidad de las ventanas»; (c) dejarlas fuera, como antes. Las rutas que faltaban de V03, V05, V06, V13, V14, V15 y V23 van junto a su ventana. Las columnas se ensancharon para que ninguna palabra se parta (RV-1).
+- **Las pruebas en el reporte.** Opciones: (a) una tabla, que también renumera las siguientes; (b) **escogida:** dos párrafos en una §13.4 nueva, con 400 + 91 + 763 = 1.254 y la historia que cruza los once servicios (CD-73). La §13 puede hablar del código y de las pruebas (DEC-57).
+- **El diagrama de casos de uso** es la figura 7, al comienzo de la §10, en una página vertical; las figuras 7 a 14 pasan a 8 a 15 (tabla 2, §10, §12 y §14) y la §1 dice que es la única figura que no sale del `.drawio` (CD-71).
+- **`PYTHON=…` en el README y el LEEME.** Opciones: (a) la ruta del venv de este equipo (`mockups_nuevos/.venv`), que está fuera del repo; (b) **escogida:** `PYTHON=/ruta/al/venv/bin/python`, con lo que necesita (Playwright y Chromium en `/usr/bin/chromium`).
+- **La tabla de avance del LEEME** dice «Aprobado» en los 7 cortes, como pidió Mauricio para el 7; los cortes 1 a 6a decían «Hecho» aunque ya estaban aprobados.
 
 ---
 
