@@ -14,7 +14,7 @@ Resumen único de **qué se planeó, qué se ha hecho y qué falta**. Es un mapa
 | A. Revisión y correcciones (sesiones 1 a 6) | Corregir el `.drawio`, las historias de usuario, los casos de uso y el código base según la revisión del 2026-11-07 | Hecha y aprobada |
 | B. Documentos de entrega (post sesión 6) | Reporte v2, Story Mapping corregido, casos de uso, decisiones de arquitectura (PD-01 a PD-11) | Hecha y aprobada; el reporte se regeneró en el 7d |
 | C. Plataforma real (rama `stack-real`) | La web funcionando completa «tal como está especificada», en Docker Compose, en 7 cortes | Los 7 cortes aprobados (2026-11-23) |
-| D. Cierre y sustentación | Reporte regenerado, pruebas finales, guiones de la sustentación | Reporte y pruebas hechos y aprobados (7b y 7d); guías de la sustentación en curso (2 de 5 aprobadas) |
+| D. Cierre y sustentación | Reporte regenerado, pruebas finales, guiones de la sustentación | Reporte y pruebas hechos y aprobados (7b y 7d); guías de la sustentación en curso (2 de 5 aprobadas; la 3, hecha y por aprobar) |
 
 Reglas de trabajo vigentes: un commit por corrección con su id al inicio; un paso por mensaje y esperar el OK de Mauricio; cada decisión se registra en `DECISIONES.md` con contexto, opciones y la escogida; todo cambio frente a mockups, diagramas o guías se anota en `CAMBIOS_A_DOCUMENTAR.md`; la documentación entregable describe el proyecto completo, sin hablar de límites de la demo (DEC-57); la IA solo se menciona en la §18 del reporte; ningún texto de la entrega dice que los mockups de `mockups_faltantes/` son capturas; sin push hasta que Mauricio lo pida.
 
@@ -23,7 +23,7 @@ Reglas de trabajo vigentes: un commit por corrección con su id al inicio; un pa
 ### Etapa A · Revisión y correcciones
 
 - Dos repos: `documentos/` (diagramas, reporte, decisiones) y `KonradGourmet/` (código).
-- `REVISION_2026-11-07.md`: 26 hallazgos (H1 a H26); decisiones en `DECISIONES.md` (hoy DEC-01 a DEC-110).
+- `REVISION_2026-11-07.md`: 26 hallazgos (H1 a H26); decisiones en `DECISIONES.md` (hoy DEC-01 a DEC-111).
 - Sesión 1: páginas de clases 4a a 4e del `.drawio` (191 clases, hoy 195) y validación (`VALIDACION_FASE2A.md`).
 - Sesiones 2 a 5: código hexagonal con sus verificaciones, Excel de capacidad, historias de usuario y mockups (`CORRECCIONES_HU_Y_MOCKUPS.md`), `ESTADO_PROYECTO_Y_C4.md`. Cada sesión con su `VALIDACION_SESIONn.md` del arquitecto revisor.
 - Sesión 6: `meseroId` en `Pedido` (DEC-51) y casos de uso corregidos (DEC-52).
@@ -69,7 +69,7 @@ El corte 7, paso por paso:
 
 ### Para Mauricio y el equipo
 
-- [ ] Guías de la sustentación (DEC-108 y DEC-109): cinco guías en HTML en `guias_sustentacion/`, una por mensaje: los diagramas (aprobada el 2026-11-24), el código (aprobada el 2026-11-24), la plataforma, los microservicios y lo que está fuera de la plataforma; después, la revisión del arquitecto-revisor. Los guiones anteriores quedaron en `FinalProyecto/archivo_desactualizado/` (fuera de git).
+- [ ] Guías de la sustentación (DEC-108 y DEC-109): cinco guías en HTML en `guias_sustentacion/`, una por mensaje: los diagramas (aprobada el 2026-11-24), el código (aprobada el 2026-11-24), la plataforma (hecha, por aprobar: `guia_plataforma.html`, con la demo ensayada en la instancia `kg-demo`, DEC-111), los microservicios y lo que está fuera de la plataforma; después, la revisión del arquitecto-revisor. Los guiones anteriores quedaron en `FinalProyecto/archivo_desactualizado/` (fuera de git).
 - [ ] Publicar en el repo público lo posterior al 9 de noviembre, cuando Mauricio lo pida.
 - [ ] Opcionales sin aplicar al reporte: R-14, R-19, R-39 y R-53 (Mauricio decide).
 
@@ -102,6 +102,7 @@ El corte 7, paso por paso:
 | Casos de uso y su diagrama | `documentos/Casos de uso — Konrad Gourmet.md` y `documentos/casos_de_uso.png` |
 | Mockups nuevos | `documentos/mockups_admin/` y `documentos/mockups_faltantes/` |
 | Guías de la sustentación | `documentos/guias_sustentacion/` (HTML; generadores en `fuente/`) |
+| Instancia de la demo en vivo | `kg-demo`, copia de `kg-mockups`: `guias_sustentacion/fuente/restablecer_demo.sh` (DEC-111) |
 | Validaciones del arquitecto revisor | `documentos/VALIDACION_*.md` (la última, `VALIDACION_CORTE7.md`), `REVISION_*.md` |
 | Plataforma, cómo levantarla y probarla | `KonradGourmet/plataforma/LEEME.md` y `KonradGourmet/README.md` |
 | Servicios, SPA y pruebas de punta a punta | `KonradGourmet/servicios/`, `KonradGourmet/web/` y `KonradGourmet/plataforma/pruebas/` |
