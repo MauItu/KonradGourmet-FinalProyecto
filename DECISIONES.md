@@ -29,7 +29,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-96:** la decidió Mauricio el 2026-11-23, al aprobar el 7a («no puede quedar nada sin mockup»).
 - **DEC-97:** Mauricio pidió el 2026-11-23 «la que incluya menos modificaciones»; Claude comparó las dos y aplicó la de la web.
 - **DEC-98:** la decidió Mauricio el 2026-11-23, durante el 7b, siguiendo la recomendación de Claude. **DEC-99** la asumió Claude el mismo día y la confirmó Mauricio al aprobar el 7b. **DEC-100** la decidió Mauricio el mismo día, siguiendo la recomendación de Claude, y se aplica en el 7c. El lugar de la figura de casos de uso (DEC-95, punto 3) lo confirmó Mauricio el mismo día.
-- **DEC-101 a DEC-104:** las decidió Mauricio el 2026-11-23, al revisar la validación del 7c (DEC-101 a DEC-103 siguiendo la recomendación del revisor o de Claude; en DEC-104 escogió implementar todo, que no era la recomendada). **DEC-105** la asumió Claude el mismo día y la confirmó Mauricio. **DEC-106** la asumió Claude el 2026-11-23, en el 7d; está por confirmar.
+- **DEC-101 a DEC-104:** las decidió Mauricio el 2026-11-23, al revisar la validación del 7c (DEC-101 a DEC-103 siguiendo la recomendación del revisor o de Claude; en DEC-104 escogió implementar todo, que no era la recomendada). **DEC-105** la asumió Claude el mismo día y la confirmó Mauricio. **DEC-106** la asumió Claude el 2026-11-23, en el 7d; está por confirmar. **DEC-107** la decidió Mauricio el mismo día, al revisar el reporte del 7d.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -151,6 +151,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-104 | Outbox, consumidores idempotentes y límite de tasa (C7-5, C7-6) | Se implementa lo que dice el diagrama: tabla outbox y relé en cada servicio que publica, descarte de eventos repetidos en todos los consumidores y límite de tasa en el gateway | Decidida por Mauricio (2026-11-23) |
 | DEC-105 | Detalles del 7c | Outbox: se borra lo publicado, un relé por base con candado de PostgreSQL, despierta al confirmarse la transacción; sin base, publicación directa; los consumidores marcan en su transacción (ms-notificaciones, después de enviar); transacción en las escrituras salvo el inicio de sesión; límite de 100 por segundo y ráfagas de 200 por usuario o IP real; relé por lotes; ms-integracion usa su base; nombre de la sucursal en una copia de ms-notificaciones; 404 para el plato de otra sucursal; «La ventana no existe» | Asumida por Claude y confirmada por Mauricio (2026-11-23) |
 | DEC-106 | Detalles del 7d | Las figuras del reporte se rehacen desde el `.drawio` vigente; las ventanas nuevas entran a la tabla 13 como filas «Nueva»; las pruebas van en prosa en la §13.4; el diagrama de casos de uso es la figura 7 y las demás se renumeran; README y LEEME dicen `PYTHON=/ruta/al/venv/bin/python`, sin una ruta del equipo; los 7 cortes quedan «Aprobado» en el LEEME | Asumida por Claude (2026-11-23), por confirmar |
+| DEC-107 | §18 y §1 del reporte (C7-30) | La §18 suma «los mockups» a la lista de lo corregido, sin decir que son nuevos ni capturas; la §1 nombra la plataforma como tercer entregable, porque se muestra en la sustentación | Decidida por Mauricio (2026-11-23) |
 
 ---
 
@@ -1846,6 +1847,21 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 - **El diagrama de casos de uso** es la figura 7, al comienzo de la §10, en una página vertical; las figuras 7 a 14 pasan a 8 a 15 (tabla 2, §10, §12 y §14) y la §1 dice que es la única figura que no sale del `.drawio` (CD-71).
 - **`PYTHON=…` en el README y el LEEME.** Opciones: (a) la ruta del venv de este equipo (`mockups_nuevos/.venv`), que está fuera del repo; (b) **escogida:** `PYTHON=/ruta/al/venv/bin/python`, con lo que necesita (Playwright y Chromium en `/usr/bin/chromium`).
 - **La tabla de avance del LEEME** dice «Aprobado» en los 7 cortes, como pidió Mauricio para el 7; los cortes 1 a 6a decían «Hecho» aunque ya estaban aprobados.
+
+
+## DEC-107 · ¿Qué dicen la §18 y la §1 del reporte después del 7d? (C7-30)
+
+**Contexto.** En la tercera ronda del 7c/7d, el revisor señaló que la §18 (declaración de IA) enumera lo que se corrigió después del 7 de noviembre sin nombrar los mockups (C7-30), y que la §1 dice que el reporte acompaña dos entregables (el `.drawio` y el código Java) aunque la §13 describe la plataforma completa.
+
+**Opciones para la §18:**
+- **A. Agregar los mockups a la lista.** ✅ **Escogida por Mauricio el 2026-11-23**, con dos condiciones: no decir que son nuevos ni que son capturas. La lista queda «el .drawio, el código, la demostración, las pruebas, los mockups, el Excel y los documentos»; no se agrega ninguna frase sobre ellos.
+- **B. Dejar la §18 como estaba.**
+
+**Opciones para la §1:**
+- **A. Dejarla con dos entregables**, por DEC-57 (el reporte es el diseño). Era la recomendada por el revisor.
+- **B. Nombrar la plataforma como tercer entregable.** ✅ **Escogida por Mauricio el 2026-11-23**, porque la plataforma se muestra en la sustentación. La §1 dice: «…y la plataforma que lo ejecuta: los once microservicios Spring Boot con su infraestructura (…) y la SPA en React, que se levantan juntos con Docker Compose (sección 13)».
+
+**Qué implica:** cambian la §1 y la §18 del reporte, que se regenera (70 páginas). Nada más cambia.
 
 ---
 
