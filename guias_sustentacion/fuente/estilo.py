@@ -108,6 +108,25 @@ JS_VISOR = r"""
 })();
 """
 
+CSS += """
+pre{background:var(--codigo);border:1px solid var(--borde);border-radius:8px;padding:12px 14px;overflow:auto;
+font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin:8px 0 14px}
+pre code{background:none;padding:0;font-size:inherit}
+.ruta{font:12.5px ui-monospace,Menlo,Consolas,monospace;color:var(--suave);margin:10px 0 0;overflow-wrap:anywhere}
+.flujo{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px;margin:12px 0}
+.flujo .paso{flex:1 1 130px;background:var(--acento-suave);border:1px solid var(--borde);border-radius:8px;padding:8px 10px;
+font-size:.88rem}
+.flujo .paso b{display:block;font-size:.92rem}
+.flujo .flecha{align-self:center;color:var(--suave);font-weight:700}
+.capas{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.capas div{border:1px solid var(--borde);border-radius:8px;padding:10px 12px;background:var(--papel)}
+.capas div.nucleo{background:#e3f1e3;border-color:#5a9a5a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .capas div.nucleo{background:#1f2f21}}
+.capas h4{margin:0 0 4px;font-size:.98rem}
+.etiqueta{display:inline-block;font-size:.75rem;padding:1px 7px;border-radius:10px;background:var(--acento-suave);
+border:1px solid var(--borde);margin:0 4px 4px 0}
+"""
+
 CSS += "tr.marcada td{background:var(--acento-suave)!important;transition:background .3s}\n"
 
 

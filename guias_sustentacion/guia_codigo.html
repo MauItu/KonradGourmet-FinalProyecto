@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía del código · Konrad Gourmet</title>
+<style>
+:root{--fondo:#f6f4f1;--papel:#ffffff;--texto:#1f2328;--suave:#5b6470;--borde:#e2ddd6;--acento:#F26B21;
+--acento-suave:#fdefe1;--pin:#D81B60;--guion:#eef6ee;--guion-borde:#5a9a5a;--codigo:#f1eee9;--enlace:#b4470f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--fondo:#16181c;--papel:#1f2227;--texto:#e7e9ec;
+--suave:#a3abb5;--borde:#343a42;--acento:#ff8a4c;--acento-suave:#3a2a20;--guion:#1d2a1f;--guion-borde:#6fb46f;
+--codigo:#2a2e35;--enlace:#ffab7a}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--fondo);color:var(--texto);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,
+"Helvetica Neue",Arial,sans-serif}
+a{color:var(--enlace)}
+code{background:var(--codigo);padding:.1em .35em;border-radius:4px;font-size:.92em}
+header.portada{background:var(--papel);border-bottom:4px solid var(--acento);padding:28px 16px 20px}
+header.portada>div,main{max-width:1180px;margin:0 auto}
+header.portada h1{margin:0 0 4px;font-size:1.9rem;line-height:1.2}
+header.portada p{margin:4px 0;color:var(--suave)}
+main{padding:8px 16px 80px}
+nav.indice{background:var(--papel);border:1px solid var(--borde);border-radius:10px;padding:14px 18px;margin:20px 0}
+nav.indice ol{margin:6px 0 0;padding-left:22px;columns:2;column-gap:32px}
+nav.indice li{break-inside:avoid;margin:2px 0}
+nav.indice .min{color:var(--suave);font-size:.88em}
+section.bloque{background:var(--papel);border:1px solid var(--borde);border-radius:12px;padding:20px 22px;margin:28px 0}
+section.bloque>h2{margin:0 0 4px;font-size:1.45rem}
+.meta{color:var(--suave);font-size:.9rem;margin-bottom:12px}
+.meta span{display:inline-block;margin-right:14px}
+h3{font-size:1.08rem;margin:20px 0 8px}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+table{table-layout:fixed}
+th,td{border-bottom:1px solid var(--borde);padding:7px 8px;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+th.c-num{width:52px}th.c-nombre{width:30%}
+@media (max-width:700px){th.c-num{width:40px}th.c-nombre{width:34%}th,td{padding:6px 5px;font-size:.9rem}}
+th{background:var(--acento-suave)}
+tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--acento-suave) 35%,transparent)}
+td.num{width:44px;text-align:center}
+button.pin{all:unset;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;
+border-radius:50%;background:var(--pin);color:#fff;font-weight:700;font-size:.85rem;padding:0 4px}
+button.pin:focus-visible{outline:3px solid var(--acento);outline-offset:2px}
+.guion{background:var(--guion);border-left:5px solid var(--guion-borde);border-radius:8px;padding:12px 16px;margin-top:18px}
+.guion h3{margin-top:0}
+.guion p{margin:8px 0}
+.preguntas dt{font-weight:600;margin-top:10px}
+.preguntas dd{margin:2px 0 0 0;color:var(--texto)}
+.visor{border:1px solid var(--borde);border-radius:10px;overflow:hidden;background:#fff}
+.visor .barra{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:6px 8px;background:var(--codigo);
+border-bottom:1px solid var(--borde);font-size:.85rem;color:var(--suave)}
+.visor .barra button{font:inherit;color:var(--texto);background:var(--papel);border:1px solid var(--borde);border-radius:6px;
+padding:3px 10px;cursor:pointer}
+.visor .barra a{margin-left:auto}
+.visor .marco{overflow:auto;max-height:78vh;cursor:grab;touch-action:pan-x pan-y}
+.visor .marco.arrastrando{cursor:grabbing}
+.visor .lienzo{position:relative}
+.visor .lienzo img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+.visor .zona{position:absolute;transform:translate(-50%,-50%);border-radius:50%;cursor:pointer}
+.visor .zona.destello{box-shadow:0 0 0 6px rgba(242,107,33,.9),0 0 0 14px rgba(242,107,33,.35)}
+.aviso{background:var(--acento-suave);border-radius:8px;padding:10px 14px;margin:12px 0}
+.pie{color:var(--suave);font-size:.85rem;text-align:center;margin-top:40px}
+@media (max-width:700px){nav.indice ol{columns:1}section.bloque{padding:16px 14px}header.portada h1{font-size:1.5rem}
+td.num{width:34px}}
+@media print{.visor .marco{max-height:none;overflow:visible}.visor .barra{display:none}section.bloque{break-inside:avoid-page}}
+
+pre{background:var(--codigo);border:1px solid var(--borde);border-radius:8px;padding:12px 14px;overflow:auto;
+font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin:8px 0 14px}
+pre code{background:none;padding:0;font-size:inherit}
+.ruta{font:12.5px ui-monospace,Menlo,Consolas,monospace;color:var(--suave);margin:10px 0 0;overflow-wrap:anywhere}
+.flujo{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px;margin:12px 0}
+.flujo .paso{flex:1 1 130px;background:var(--acento-suave);border:1px solid var(--borde);border-radius:8px;padding:8px 10px;
+font-size:.88rem}
+.flujo .paso b{display:block;font-size:.92rem}
+.flujo .flecha{align-self:center;color:var(--suave);font-weight:700}
+.capas{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.capas div{border:1px solid var(--borde);border-radius:8px;padding:10px 12px;background:var(--papel)}
+.capas div.nucleo{background:#e3f1e3;border-color:#5a9a5a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .capas div.nucleo{background:#1f2f21}}
+.capas h4{margin:0 0 4px;font-size:.98rem}
+.etiqueta{display:inline-block;font-size:.75rem;padding:1px 7px;border-radius:10px;background:var(--acento-suave);
+border:1px solid var(--borde);margin:0 4px 4px 0}
+tr.marcada td{background:var(--acento-suave)!important;transition:background .3s}
+</style>
+</head>
+<body>
+<header class="portada"><div>
+<h1>Guía del código · Konrad Gourmet</h1>
+<p>Cómo está hecho el código de Konrad Gourmet: las arquitecturas que usa, cómo se reparte en carpetas, la estructura de cada servicio y sus clases principales. Los fragmentos se toman del repositorio <code>KonradGourmet/</code> al generar la guía.</p>
+</div></header>
+<main>
+<nav class="indice"><strong>Contenido</strong><ol><li><a href="#resumen">El código en una página</a></li><li><a href="#arquitecturas">Las arquitecturas y dónde se ven en el código</a></li><li><a href="#carpetas">Qué es cada carpeta</a></li><li><a href="#servicio">Cómo se arma un microservicio</a></li><li><a href="#recorrido">Una petición de punta a punta</a></li><li><a href="#patrones">Los patrones de diseño en el código</a></li><li><a href="#eventos">Eventos confiables: outbox y consumidores idempotentes</a></li><li><a href="#modulos">Clases principales de cada servicio</a></li><li><a href="#spa">La SPA (web/)</a></li><li><a href="#tecnologias">Tecnologías y versiones</a></li><li><a href="#pruebas">Cómo se prueba y se ejecuta</a></li><li><a href="#guion">Si piden ver el código: qué abrir y qué decir</a></li></ol></nav><section class="bloque" id="resumen"><h2>1. El código en una página</h2>
+<p>El código está en el repositorio <code>KonradGourmet/</code> (rama <code>stack-real</code>) y tiene cuatro partes
+que trabajan juntas:</p>
+<table><thead><tr><th style=width:18%>Parte</th><th style=width:26%>Carpeta</th><th>Qué es</th></tr></thead><tbody><tr><td><b>Núcleo</b></td><td><code>src/co/edu/konradlorenz/</code></td><td>Las 195 clases del diagrama de clases (páginas 4a a 4e), en Java 21 puro, sin frameworks: dominio, casos de uso y puertos de cada servicio. Es el «hexágono» de la arquitectura.</td></tr><tr><td><b>Microservicios</b></td><td><code>servicios/</code></td><td>Los 11 microservicios Spring Boot, el API Gateway, el Service Registry (Eureka) y la librería compartido. Cada servicio toma su parte del núcleo y le agrega los adaptadores reales: REST, JPA, Kafka, S3, SOAP, SMTP…</td></tr><tr><td><b>SPA</b></td><td><code>web/</code></td><td>La aplicación web en React y TypeScript: las 33 ventanas, una por ruta, que hablan con el gateway por REST.</td></tr><tr><td><b>Plataforma</b></td><td><code>plataforma/</code></td><td>El Docker Compose que levanta todo junto (servicios, bases, Kafka, Redis, almacén de objetos, Elasticsearch…), los scripts para compilar, levantar, bajar y probar, y las pruebas de punta a punta.</td></tr></tbody></table>
+<p>Además están <code>pruebas/</code> (las 400 verificaciones del núcleo) y la versión en memoria del núcleo
+(<code>src/…/demo/</code>), que recorre la compra completa sin base de datos ni Kafka.</p>
+<div class="aviso"><b>La idea central:</b> la lógica de negocio se escribe una sola vez, en el núcleo, y no conoce
+ninguna tecnología. Cada microservicio <em>copia</em> su parte del núcleo al compilar y la conecta con Spring, la base
+de datos y Kafka a través de los puertos. Por eso los nombres del diagrama de clases, del núcleo y de los servicios
+coinciden uno a uno.</div>
+</section><section class="bloque" id="arquitecturas"><h2>2. Las arquitecturas y dónde se ven en el código</h2>
+<p>El proyecto combina tres arquitecturas principales y varias de apoyo. Esta tabla dice en qué carpeta y en qué
+clases se ve cada una, para poder abrirlas si lo piden.</p>
+<table><thead><tr><th style=width:20%>Arquitectura</th><th style=width:28%>Qué decide</th><th>Dónde se ve en el código</th></tr></thead><tbody><tr><td><b>Microservicios</b></td><td>La estructura: un servicio desplegable por subdominio, cada uno con su base de datos.</td><td>Un módulo Maven por servicio en <code>servicios/</code> (<code>ms-pedidos</code>, <code>ms-cotizaciones</code>…), cada uno con su <code>application.yml</code>, sus migraciones Flyway en <code>db/migration</code> y su imagen Docker; una base PostgreSQL y un usuario por servicio en <code>plataforma/infra/postgres/01-bases.sh</code>.</td></tr><tr><td><b>Orientada a eventos</b></td><td>Cómo se comunican los servicios sin esperarse: publicar y suscribirse en Kafka.</td><td><code>EventoDominio</code> y <code>EventPublisherPort</code> en el núcleo; <code>KafkaEventPublisher</code>, <code>OutboxEventos</code>, <code>ReleOutbox</code> y <code>EventosProcesados</code> en <code>servicios/compartido</code>; los <code>*Listener</code> de cada servicio con <code>@KafkaListener</code>; los 10 tópicos en <code>plataforma/infra/kafka/crear-topicos.sh</code>.</td></tr><tr><td><b>Hexagonal</b> (puertos y adaptadores)</td><td>El interior de cada servicio: el dominio en el centro y la tecnología afuera.</td><td>Las carpetas de cada módulo: <code>dominio/</code>, <code>puertos/entrada</code>, <code>puertos/salida</code>, <code>aplicacion/</code>, <code>adaptadores/entrada</code> y <code>adaptadores/salida</code>. El núcleo no importa Spring ni JPA.</td></tr><tr><td>Cliente-servidor y REST</td><td>La SPA es el cliente; los servicios responden JSON.</td><td><code>web/src/api/cliente.ts</code> y los <code>*RestController</code> de cada servicio.</td></tr><tr><td>SOA / SOAP</td><td>La frontera con el Ministerio y con otros sistemas.</td><td><code>ms-integracion</code>: <code>AbastecimientoSoapEndpoint</code> (Apache CXF, <code>@WebService</code>) y <code>MinisterioSoapClient</code>.</td></tr><tr><td>API Gateway (Facade)</td><td>Un solo punto de entrada.</td><td><code>servicios/api-gateway</code>: rutas por prefijo en <code>application.yml</code>, <code>SeguridadGateway</code> (JWT), <code>LimiteTasaGateway</code> (límite de tasa en Redis) y <code>CorrelacionGateway</code> (X-Correlation-Id).</td></tr><tr><td>Service Registry</td><td>Descubrir instancias vivas.</td><td><code>servicios/service-registry</code> (Eureka); cada servicio se registra solo.</td></tr><tr><td>OAuth 2.0 / JWT</td><td>Quién es el usuario y qué rol tiene.</td><td><code>ms-identidad</code> firma el token con RS256 (<code>JwtEmisorAdapter</code>); el gateway y cada servicio lo validan (<code>SeguridadServicio</code>) y los controladores piden el rol con <code>@PreAuthorize</code>.</td></tr></tbody></table>
+</section><section class="bloque" id="carpetas"><h2>3. Qué es cada carpeta</h2>
+<pre><code>KonradGourmet/
+├── src/co/edu/konradlorenz/      núcleo: las 195 clases del diagrama (+ demo/)
+│   ├── compartido/               EventoDominio, EventPublisherPort, EventListener…
+│   ├── identidad/  pedidos/  menu/  inventario/  solicitudes/  cotizaciones/
+│   ├── ordenes/  notificaciones/  integracion/  administracion/  analitica/
+│   └── demo/                     versión en memoria: DemoArquitectura, Ensamble y adaptadores en memoria
+├── pruebas/                      400 verificaciones del núcleo (8 clases, sin JUnit)
+├── servicios/                    Maven multimódulo (Spring Boot 3.5 · Spring Cloud 2025.0)
+│   ├── pom.xml                   el padre: versiones y la copia del núcleo
+│   ├── Dockerfile                una imagen para cualquier servicio (Java 21)
+│   ├── compartido/               librería: Kafka, outbox, relé, seguridad, logs a Elasticsearch
+│   ├── service-registry/         Eureka
+│   ├── api-gateway/              Spring Cloud Gateway
+│   └── ms-identidad/ … ms-analitica/   los 11 microservicios
+├── web/                          SPA: React 18 + TypeScript + Vite
+│   └── src/  api/ componentes/ paginas/ sesion/ estilos/
+├── plataforma/                   todo junto con Docker Compose
+│   ├── docker-compose.yml
+│   ├── compilar.sh  levantar.sh  bajar.sh  probar_todo.sh
+│   ├── infra/                    postgres/ kafka/ nginx/ s3/ ministerio/ redes/
+│   └── pruebas/                  recorridos de navegador y verificadores (cortes 3 a 7)
+├── ejecutar.sh                   compila el núcleo, corre la demo y las pruebas
+└── README.md                     cómo está hecho y cómo se corre</code></pre>
+<p>Las carpetas <code>out/</code>, <code>target/</code>, <code>web/dist/</code> y <code>web/node_modules/</code> se generan al compilar y git
+las ignora. En la raíz también hay una interfaz web sencilla (<code>index.html</code>, <code>app.html</code>, <code>app.js</code> y
+<code>web.sh</code>) que corre sobre la versión en memoria del núcleo; la que se sustenta es la SPA de <code>web/</code> sobre la
+plataforma.</p>
+<h3>Un módulo del núcleo por dentro</h3>
+<p>Los doce módulos del núcleo tienen siempre las mismas carpetas. La regla es que la dependencia apunta hacia
+adentro: los adaptadores conocen los puertos, nunca al revés.</p>
+<div class="capas">
+<div><h4>adaptadores/entrada</h4>Controladores REST, listeners de Kafka y tareas programadas. <b>Llaman</b> a un puerto de entrada.</div>
+<div><h4>puertos/entrada</h4>Interfaces de los casos de uso (<code>…UseCase</code>): lo que el servicio ofrece.</div>
+<div class="nucleo"><h4>aplicacion</h4>Los servicios (<code>…Service</code>, la fachada) que implementan los casos de uso y orquestan el dominio.</div>
+<div class="nucleo"><h4>dominio</h4>Entidades, objetos de valor y reglas de negocio. No depende de nada externo.</div>
+<div class="nucleo"><h4>eventos</h4>Los eventos que publica el módulo; extienden <code>EventoDominio</code>. Es lo único que otro módulo puede importar.</div>
+<div><h4>puertos/salida</h4>Interfaces de lo que el servicio necesita de afuera: repositorio, PDF, precio, correo…</div>
+<div><h4>adaptadores/salida</h4>Implementan los puertos de salida con una tecnología: JPA, S3, OpenPDF, SOAP, SMTP, Redis.</div>
+</div>
+<p>Las 195 clases del núcleo, por módulo:
+<span class="etiqueta">administracion · 14</span> <span class="etiqueta">analitica · 21</span> <span class="etiqueta">compartido · 5</span> <span class="etiqueta">cotizaciones · 28</span> <span class="etiqueta">identidad · 25</span> <span class="etiqueta">integracion · 9</span> <span class="etiqueta">inventario · 13</span> <span class="etiqueta">menu · 13</span> <span class="etiqueta">notificaciones · 24</span> <span class="etiqueta">ordenes · 16</span> <span class="etiqueta">pedidos · 15</span> <span class="etiqueta">solicitudes · 12</span>
+<span class="etiqueta">demo · 25 (fuera del diagrama)</span></p>
+</section><section class="bloque" id="servicio"><h2>4. Cómo se arma un microservicio</h2>
+<p>Cada carpeta de <code>servicios/</code> es un proyecto Spring Boot. No reescribe la lógica: al compilar, Maven copia su
+parte del núcleo (dominio, eventos, puertos y aplicación, sin los adaptadores del núcleo) y le suma sus adaptadores
+Spring, con los mismos nombres del diagrama. Así un solo modelo sirve para el diagrama, la versión en memoria y la
+plataforma.</p>
+<p class="ruta">KonradGourmet/servicios/ms-cotizaciones/pom.xml</p><pre><code>&lt;id&gt;copiar-nucleo&lt;/id&gt;
+&lt;configuration&gt;
+    &lt;resources combine.self=&quot;override&quot;&gt;
+        &lt;resource&gt;
+            &lt;directory&gt;${nucleo.origen}&lt;/directory&gt;
+            &lt;includes&gt;
+                &lt;include&gt;cotizaciones/**&lt;/include&gt;
+                &lt;include&gt;ordenes/eventos/OrdenGeneradaEvent.java&lt;/include&gt;
+            &lt;/includes&gt;
+            &lt;excludes&gt;
+                &lt;exclude&gt;cotizaciones/adaptadores/**&lt;/exclude&gt;
+            &lt;/excludes&gt;
+        &lt;/resource&gt;
+    &lt;/resources&gt;</code></pre>
+<p>Lo que agrega cada servicio:</p>
+<table><thead><tr><th style=width:20%>Pieza</th><th style=width:38%>Ejemplo en ms-cotizaciones</th><th>Para qué</th></tr></thead><tbody><tr><td>Clase principal</td><td><code>CotizacionesApplication</code></td><td>Arranca Spring Boot.</td></tr><tr><td>Configuración</td><td><code>configuracion/ConfiguracionCotizaciones</code></td><td>Arma los objetos del núcleo con <code>@Bean</code> (la fachada, el servicio, la cadena de reglas) y les pasa los adaptadores por el constructor.</td></tr><tr><td>Adaptadores de entrada</td><td><code>CotizacionRestController</code>, <code>ProveedorRestController</code>, <code>OrdenGeneradaListener</code></td><td>Reciben HTTP o eventos de Kafka y llaman al puerto de entrada.</td></tr><tr><td>Adaptadores de salida</td><td><code>CotizacionJpaAdapter</code>, <code>PdfCotizacionAdapter</code>, <code>AlmacenObjetosAdapter</code>, <code>PrecioSugeridoRestAdapter</code></td><td>Implementan los puertos con JPA, OpenPDF, el cliente S3 y REST.</td></tr><tr><td>Entidades JPA</td><td><code>CotizacionEntidad</code>, <code>ProveedorEntidad</code></td><td>El mapeo a tablas queda en el adaptador; el dominio no tiene anotaciones.</td></tr><tr><td>Migraciones</td><td><code>db/migration/V1__esquema.sql</code>, <code>V2__outbox.sql</code></td><td>Flyway crea las tablas de su base, incluida la outbox.</td></tr><tr><td>application.yml</td><td>puerto, base, Kafka, Eureka, S3</td><td>La configuración, con variables de entorno que pone el compose.</td></tr><tr><td>Pruebas JUnit</td><td><code>src/test/…</code></td><td>Corren al compilar (91 en total).</td></tr></tbody></table>
+<p>La configuración conecta el núcleo con la tecnología:</p>
+<p class="ruta">KonradGourmet/servicios/ms-cotizaciones/src/main/java/co/edu/konradlorenz/cotizaciones/configuracion/ConfiguracionCotizaciones.java</p><pre><code>public ReglaValidacion reglasValidacion() {
+    return ReglaValidacion.cadenaPorDefecto();
+}
+
+@Bean
+public GenerarCotizacionFacade generarCotizacionFacade(CotizacionRepositoryPort repositorio, PrecioSugeridoPort precios,
+                                                       GeneradorPdfPort pdf, AlmacenArchivosPort almacen, EventPublisherPort eventos) {
+    return new GenerarCotizacionFacade(repositorio, precios, pdf, almacen, eventos);
+}
+
+@Bean
+public GestionarCotizacionUseCase gestionarCotizacion(GenerarCotizacionFacade fachada, CotizacionRepositoryPort repositorio,
+                                                      ReglaValidacion reglas, AlmacenArchivosPort almacen, EventPublisherPort eventos) {
+    return new CotizacionService(fachada, repositorio, reglas, almacen, eventos);</code></pre>
+</section><section class="bloque" id="recorrido"><h2>5. Una petición de punta a punta</h2>
+<p>Así atraviesa el código una acción de la directora de compras. Sirve para explicar las tres arquitecturas en un
+solo ejemplo: entra por cliente-servidor, cruza el hexágono de afuera hacia adentro y sale como evento.</p>
+<div class="flujo"><div class="paso"><b>SPA</b>V19: el director pulsa «Validar»</div><span class="flecha">→</span><div class="paso"><b>Nginx</b>sirve la SPA y pasa /api/** al gateway</div><span class="flecha">→</span><div class="paso"><b>API Gateway</b>valida el JWT, limita la tasa, pone la correlación y busca la instancia en Eureka</div><span class="flecha">→</span><div class="paso"><b>CotizacionRestController</b>adaptador de entrada; exige el rol DIRECTOR_COMPRAS</div><span class="flecha">→</span><div class="paso"><b>GestionarCotizacionUseCase</b>puerto de entrada</div><span class="flecha">→</span><div class="paso"><b>CotizacionService</b>aplicación: aplica la cadena de reglas</div><span class="flecha">→</span><div class="paso"><b>ReglaValidacion</b>dominio: +4,81 % → OPCIONADA</div><span class="flecha">→</span><div class="paso"><b>CotizacionJpaAdapter</b>guarda en la BD de cotizaciones</div><span class="flecha">→</span><div class="paso"><b>KafkaEventPublisher</b>escribe cotizacion.validada en la outbox, en la misma transacción</div><span class="flecha">→</span><div class="paso"><b>ReleOutbox → Kafka</b>publica el evento y lo borra de la outbox</div><span class="flecha">→</span><div class="paso"><b>ms-analitica</b>su listener lo descarta si es repetido y suma el KPI del proveedor</div></div>
+<p>El controlador solo traduce HTTP a una llamada al puerto; la regla vive en el dominio; la base y Kafka están detrás
+de puertos de salida. Si mañana se cambia PostgreSQL o Kafka, cambia un adaptador, no el núcleo.</p>
+<p class="ruta">KonradGourmet/servicios/ms-cotizaciones/src/main/java/co/edu/konradlorenz/cotizaciones/adaptadores/entrada/CotizacionRestController.java</p><pre><code>@PostMapping(&quot;/{numero}/validacion&quot;)
+@PreAuthorize(&quot;hasRole(&#x27;DIRECTOR_COMPRAS&#x27;)&quot;)
+@Transactional // el cambio y sus eventos en la outbox, juntos (DEC-104)
+public ResponseEntity&lt;?&gt; validar(@PathVariable String numero) {
+    if (!existe(numero)) {
+        return noExiste(numero);
+    }</code></pre>
+</section><section class="bloque" id="patrones"><h2>6. Los patrones de diseño en el código</h2>
+<p>Los diez patrones de la tabla 11 del reporte, con la clase que hay que abrir para mostrarlos.</p>
+<table><thead><tr><th style=width:20%>Patrón</th><th>Clases</th><th style=width:26%>Carpeta</th></tr></thead><tbody><tr><td>Facade</td><td><code>GenerarCotizacionFacade</code>; a escala de sistema, el API Gateway</td><td><code>cotizaciones/aplicacion</code></td></tr><tr><td>Chain of Responsibility</td><td><code>ReglaValidacion</code> → <code>ReglaRechazada</code> → <code>ReglaSospechosa</code> → <code>ReglaOpcionada</code></td><td><code>cotizaciones/dominio</code></td></tr><tr><td>Composite</td><td><code>ElementoMenu</code>, <code>GrupoMenu</code>, <code>OpcionMenu</code></td><td><code>identidad/dominio</code></td></tr><tr><td>Factory Method</td><td><code>Usuario.construirMenu()</code> en cada rol; <code>CreadorNotificacion</code>, <code>CreadorCorreo</code>, <code>CreadorAlarmaApp</code></td><td><code>identidad/dominio</code>, <code>notificaciones/dominio</code></td></tr><tr><td>Decorator</td><td><code>CorreoDecorator</code>, <code>CorreoCertificadoDecorator</code>, <code>EstampaCronologicaDecorator</code> sobre <code>CorreoSmtpAdapter</code></td><td><code>notificaciones/adaptadores/salida</code></td></tr><tr><td>Adapter</td><td><code>MinisterioComercioAdapter</code> (y todos los <code>*Adapter</code>)</td><td><code>integracion/adaptadores/salida</code></td></tr><tr><td>Proxy</td><td><code>PrecioReferenciaCacheProxy</code></td><td><code>integracion/adaptadores/salida</code></td></tr><tr><td>Publish-Subscribe</td><td><code>EventPublisherPort</code>, <code>KafkaEventPublisher</code>, <code>EventListener</code> y los listeners</td><td><code>compartido</code> y cada servicio</td></tr><tr><td>Singleton</td><td><code>ParametrosSistema.getInstancia()</code></td><td><code>administracion/dominio</code></td></tr><tr><td>Strategy</td><td><code>CalculadorKpi</code> → <code>ProductoMayorDemanda</code>, <code>SucursalMayorDemanda</code>, <code>ProveedorMejoresPrecios</code></td><td><code>analitica/dominio</code></td></tr></tbody></table>
+<h3>Chain of Responsibility: la validación de V19</h3>
+<p>Cada regla decide o pasa a la siguiente; el orden se fija en un solo lugar.</p>
+<p class="ruta">KonradGourmet/src/co/edu/konradlorenz/cotizaciones/dominio/ReglaValidacion.java</p><pre><code>public static ReglaValidacion cadenaPorDefecto() {
+    // el orden importa: primero lo más grave; Opcionada recoge lo que queda dentro del rango
+    ReglaValidacion cabeza = new ReglaRechazada();
+    cabeza.enlazar(new ReglaSospechosa()).enlazar(new ReglaOpcionada());
+    return cabeza;
+}
+
+public ReglaValidacion enlazar(ReglaValidacion siguiente) {
+    this.siguiente = siguiente;
+    return siguiente; // devuelve la siguiente para poder encadenar: a.enlazar(b).enlazar(c)
+}
+
+public EstadoCotizacion evaluar(Cotizacion c) {
+    BigDecimal diferencia = c.diferenciaPorcentual();
+    if (aplica(diferencia)) {
+        return estado();
+    }
+    if (siguiente == null) {
+        throw new IllegalStateException(&quot;Ninguna regla aplica a una diferencia de &quot; + diferencia + &quot; %&quot;);
+    }
+    return siguiente.evaluar(c);</code></pre>
+<h3>Facade: un clic de V13</h3>
+<p>La fachada coordina precio, repositorio, PDF, almacén y evento; si el Ministerio no responde, la cotización no se pierde.</p>
+<p class="ruta">KonradGourmet/src/co/edu/konradlorenz/cotizaciones/aplicacion/GenerarCotizacionFacade.java</p><pre><code>public Cotizacion generarYEnviar(Cotizacion c) {
+    c.validarSolicitudes();
+    // 1. precio estándar de cada producto (el Proxy responde desde la caché o consulta al Ministerio)
+    List&lt;ItemCotizacion&gt; conPrecio = new ArrayList&lt;&gt;();
+    try {
+        for (ItemCotizacion i : c.items()) {
+            conPrecio.add(new ItemCotizacion(i.productoId(), i.cantidad(), i.unidad(),
+                    precios.precioSugerido(i.productoId()), i.precioProveedor()));
+        }
+    } catch (RuntimeException e) {
+        // el Ministerio no responde: se guarda sin perderla, queda en el log y el usuario puede reenviar
+        LOG.log(Level.WARNING, &quot;No se pudo consultar el precio estándar de &quot; + c.numero() + &quot;: &quot; + e.getMessage());
+        c.cambiarEstado(EstadoCotizacion.PENDIENTE_PRECIO);</code></pre>
+<h3>Proxy: la caché de precios del Ministerio</h3>
+<p>Implementa el mismo puerto que el adaptador real y se pone delante; en la plataforma el mapa está en Redis.</p>
+<p class="ruta">KonradGourmet/src/co/edu/konradlorenz/integracion/adaptadores/salida/PrecioReferenciaCacheProxy.java</p><pre><code>public PrecioEstandar precioEstandar(Long productoId) {
+    PrecioEstandar guardado = cache.get(productoId);
+    // cada precio vale un día según consultadoEn (supuesto S3)
+    if (guardado != null &amp;&amp; guardado.consultadoEn().plusDays(1).isAfter(LocalDateTime.now())) {
+        return guardado;
+    }
+    PrecioEstandar nuevo = real.precioEstandar(productoId);
+    cache.put(productoId, nuevo);
+    return nuevo;</code></pre>
+<h3>Factory Method + Composite: el menú de cada rol</h3>
+<p>Cada subclase de <code>Usuario</code> decide qué árbol de menú construir; la SPA solo lo recorre.</p>
+<p class="ruta">KonradGourmet/src/co/edu/konradlorenz/identidad/dominio/DirectorCompras.java</p><pre><code>public ElementoMenu construirMenu() {
+    GrupoMenu raiz = new GrupoMenu(&quot;Menú&quot;, &quot;/&quot;);
+    raiz.agregar(new OpcionMenu(&quot;Inicio&quot;, &quot;/inicio&quot;));
+    GrupoMenu cotizaciones = new GrupoMenu(&quot;Cotizaciones&quot;, &quot;/cotizaciones&quot;);
+    cotizaciones.agregar(new OpcionMenu(&quot;Todas&quot;, &quot;/cotizaciones/todas&quot;));
+    cotizaciones.agregar(new OpcionMenu(&quot;Pendientes de validar&quot;, &quot;/cotizaciones/pendientes&quot;));
+    cotizaciones.agregar(new OpcionMenu(&quot;Opcionadas&quot;, &quot;/cotizaciones/opcionadas&quot;));
+    raiz.agregar(cotizaciones);
+    raiz.agregar(new OpcionMenu(&quot;Órdenes de compra&quot;, &quot;/ordenes-compra&quot;));
+    raiz.agregar(new OpcionMenu(&quot;Mi perfil&quot;, &quot;/perfil&quot;));
+    raiz.agregar(new OpcionMenu(&quot;Cerrar sesión&quot;, &quot;/cerrar-sesion&quot;));
+    return raiz;
+}</code></pre>
+<h3>Singleton y Strategy</h3>
+<p class="ruta">KonradGourmet/src/co/edu/konradlorenz/administracion/dominio/ParametrosSistema.java</p><pre><code>public static synchronized ParametrosSistema getInstancia() {
+    if (instancia == null) {
+        instancia = new ParametrosSistema();
+    }
+    return instancia;
+}</code></pre>
+<p class="ruta">KonradGourmet/src/co/edu/konradlorenz/analitica/dominio/CalculadorKpi.java</p><pre><code>public interface CalculadorKpi {
+
+    String nombre();
+
+    ResultadoKpi calcular(List&lt;HechoNegocio&gt; hechos);</code></pre>
+</section><section class="bloque" id="eventos"><h2>7. Eventos confiables: outbox y consumidores idempotentes</h2>
+<p>Es lo que más se pregunta de la arquitectura orientada a eventos: ¿qué pasa si Kafka falla, o si un evento llega dos
+veces? El código lo resuelve en la librería <code>compartido</code>, igual para los once servicios.</p>
+<table><thead><tr><th style=width:30%>Problema</th><th>Solución</th><th style=width:24%>Clase</th></tr></thead><tbody><tr><td>Se guarda el cambio pero Kafka no está: el evento se perdería.</td><td>Outbox transaccional: el evento se escribe en la tabla outbox de la base del servicio, en la misma transacción que el cambio.</td><td><code>KafkaEventPublisher</code> + <code>OutboxEventos</code></td></tr><tr><td>Alguien tiene que llevar la outbox a Kafka.</td><td>Un relé toma las filas en orden, las publica, espera la confirmación y las borra; con varias réplicas, un candado de PostgreSQL deja publicar a una sola a la vez.</td><td><code>ReleOutbox</code></td></tr><tr><td>Kafka entrega «al menos una vez»: un evento puede llegar repetido.</td><td>Cada consumidor guarda el id del evento en la misma transacción que su cambio y descarta los repetidos.</td><td><code>EventosProcesados</code></td></tr><tr><td>Saber quién hizo qué y seguir un recorrido.</td><td>Cada evento lleva el usuario del JWT y el <code>correlacionId</code> del recorrido.</td><td><code>EventoDominio</code>, <code>ContextoRecorrido</code></td></tr></tbody></table>
+<p class="ruta">KonradGourmet/servicios/compartido/src/main/java/co/edu/konradlorenz/compartido/adaptadores/KafkaEventPublisher.java</p><pre><code>/** Guarda cada evento en la outbox del servicio, en la transacción en curso; el relé lo publica. */
+public KafkaEventPublisher(String prefijoTopico, OutboxEventos outbox, FormatoEventos formato) {
+    this.prefijoTopico = prefijoTopico;
+    this.salida = registro -&gt; outbox.guardar(registro, CABECERA_CLASE);
+    this.formato = formato;
+}</code></pre>
+<p class="ruta">KonradGourmet/servicios/ms-cotizaciones/src/main/java/co/edu/konradlorenz/cotizaciones/adaptadores/entrada/OrdenGeneradaListener.java</p><pre><code>@Transactional
+@KafkaListener(topics = &quot;${konrad.kafka.prefijo-topico:}orden.generada&quot;)
+public void alRecibir(EventoDominio evento) {
+    // un evento repetido se descarta; se marca en la misma transacción que el cambio (DEC-104)
+    if (!procesados.marcar(evento, &quot;OrdenGeneradaListener&quot;)) {
+        return;
+    }</code></pre>
+</section><section class="bloque" id="modulos"><h2>8. Clases principales de cada servicio</h2><table><thead><tr><th style=width:15%>Servicio</th><th style=width:24%>Entrada</th><th>Núcleo (aplicación y dominio)</th><th style=width:26%>Salida</th></tr></thead><tbody><tr><td>ms-identidad</td><td>AuthRestController, UsuarioRestController</td><td>IniciarSesionService, RegistrarUsuarioService, Usuario y sus 6 roles, ElementoMenu, PoliticaContrasena</td><td>UsuarioJpaAdapter, BCryptCifradorAdapter, JwtEmisorAdapter</td></tr><tr><td>ms-pedidos</td><td>PedidoRestController, MenuActualizadoListener</td><td>PedidoService, Pedido ◆ DetallePedido, Mesa, CatalogoPlatos</td><td>PedidoJpaAdapter, CatalogoJpaAdapter</td></tr><tr><td>ms-menu</td><td>PlatoRestController</td><td>PlatoService, Plato, Ingrediente, Producto, Categoria</td><td>PlatoJpaAdapter, AlmacenObjetosAdapter</td></tr><tr><td>ms-inventario</td><td>InventarioRestController, ConsumoDiarioJob, PedidoRegistradoListener, InventarioEventsListener</td><td>InventarioService, Inventario ◇ InsumoInventario, RecetaPlato, UmbralStock</td><td>InventarioJpaAdapter</td></tr><tr><td>ms-solicitudes</td><td>SolicitudRestController, CotizacionEventsListener</td><td>SolicitudService, SolicitudAlimentos ◆ ItemSolicitud, CriteriosConsulta</td><td>SolicitudJpaAdapter</td></tr><tr><td>ms-cotizaciones</td><td>CotizacionRestController, ProveedorRestController, OrdenGeneradaListener</td><td>GenerarCotizacionFacade, CotizacionService, ProveedorService, Cotizacion, ReglaValidacion y sus 3 reglas</td><td>CotizacionJpaAdapter, ProveedorJpaAdapter, PdfCotizacionAdapter, AlmacenObjetosAdapter, PrecioSugeridoRestAdapter</td></tr><tr><td>ms-ordenes</td><td>OrdenCompraRestController</td><td>OrdenCompraService, OrdenCompra ◆ ItemOrden, CotizacionOpcionada</td><td>OrdenJpaAdapter, PdfOrdenAdapter, AlmacenObjetosAdapter, CotizacionRestClient</td></tr><tr><td>ms-notificaciones</td><td>NotificacionListeners, DestinatarioRestController</td><td>NotificacionService, CreadorNotificacion, Notificacion, Mensaje</td><td>CorreoSmtpAdapter y sus decoradores, AlarmaPushAdapter, EnvioJpaAdapter, DestinatarioJpaAdapter</td></tr><tr><td>ms-integracion</td><td>AbastecimientoSoapEndpoint, PrecioRestController</td><td>ConsultarPrecioService, PrecioEstandar</td><td>PrecioReferenciaCacheProxy, MinisterioComercioAdapter, MinisterioSoapClient</td></tr><tr><td>ms-administracion</td><td>AdminRestController, AuditoriaListener</td><td>AdministracionService, ParametrosSistema, Bitacora ◇ RegistroAuditoria, LogError</td><td>AuditoriaJpaAdapter, ParametrosJpaAdapter, ElasticsearchLogsAdapter</td></tr><tr><td>ms-analitica</td><td>TableroRestController, PromocionRestController, NegocioEventsListener, TendenciasJob</td><td>TableroService, CalculadorKpi y sus 3 estrategias, HechoNegocio, SugerenciaPromocion</td><td>KpiJpaAdapter, SugerenciaJpaAdapter, RedesSocialesAdapter</td></tr></tbody></table><p>La guía de los microservicios explica cada uno con sus rutas, sus eventos y sus ventanas.</p></section><section class="bloque" id="spa"><h2>9. La SPA (web/)</h2>
+<table><thead><tr><th style=width:30%>Carpeta</th><th>Qué tiene</th></tr></thead><tbody><tr><td><code>src/main.tsx</code>, <code>App.tsx</code></td><td>El arranque y las rutas: una por ventana, dentro de un armazón con el menú lateral.</td></tr><tr><td><code>src/sesion/</code></td><td>El token JWT, el usuario, el menú del rol (llega en el token) y el tema que pone el administrador.</td></tr><tr><td><code>src/api/</code></td><td><code>cliente.ts</code>: cada llamada lleva <code>Authorization: Bearer …</code>; si el gateway responde 401, vuelve al inicio de sesión. <code>servicios.ts</code>: una función por endpoint.</td></tr><tr><td><code>src/paginas/</code></td><td>Las ventanas, por rol: mesero/, jefe/, auxiliar/, director/, comercial/ y admin/, más Login, Inicio y Perfil.</td></tr><tr><td><code>src/componentes/</code></td><td>Piezas comunes: encabezado, barra lateral, tarjetas, tablas de solicitudes, cotizaciones y órdenes, y la alarma en vivo (WebSocket).</td></tr><tr><td><code>src/estilos/</code></td><td>Los estilos del inicio de sesión y de la aplicación.</td></tr></tbody></table>
+<p>React 18.3.1, TypeScript 5.6.3, Vite 5.4.11 y React Router 6.28. Se compila dentro de Docker y la sirve Nginx.</p>
+</section><section class="bloque" id="tecnologias"><h2>10. Tecnologías y versiones</h2><table><thead><tr><th style=width:28%>Pieza</th><th>Tecnología</th></tr></thead><tbody><tr><td>Lenguaje y núcleo</td><td>Java 21, sin frameworks</td></tr><tr><td>Microservicios</td><td>Spring Boot 3.5.0, Spring Cloud 2025.0.0 (Gateway, Eureka, LoadBalancer), Spring Security, Spring Data JPA, Spring Kafka, Flyway</td></tr><tr><td>Bases de datos</td><td>PostgreSQL 17 (una base y un usuario por servicio)</td></tr><tr><td>Mensajería</td><td>Apache Kafka 3.9.1 (KRaft)</td></tr><tr><td>Caché y tasa</td><td>Redis 7.4</td></tr><tr><td>Almacén de objetos</td><td>S3 compatible (SeaweedFS 3.97), con el SDK de AWS 2.31</td></tr><tr><td>Logs</td><td>Elasticsearch 8.19.4</td></tr><tr><td>SOAP</td><td>Apache CXF 4.1.5</td></tr><tr><td>PDF</td><td>OpenPDF 2.0.3</td></tr><tr><td>Tareas programadas</td><td>Spring Scheduling con ShedLock 6.9.0 (una sola réplica ejecuta cada tarea)</td></tr><tr><td>SPA</td><td>React 18.3.1, TypeScript 5.6.3, Vite 5.4.11, servida con Nginx</td></tr><tr><td>Despliegue local</td><td>Docker Compose; Maven corre dentro de Docker</td></tr></tbody></table></section><section class="bloque" id="pruebas"><h2>11. Cómo se prueba y se ejecuta</h2>
+<table><thead><tr><th style=width:30%>Nivel</th><th>Dónde</th><th style=width:20%>Cuántas</th></tr></thead><tbody><tr><td>Núcleo, sin frameworks</td><td><code>pruebas/</code> (8 clases, mini marco propio)</td><td>400 verificaciones</td></tr><tr><td>Servicios (JUnit)</td><td><code>servicios/*/src/test</code></td><td>91 pruebas</td></tr><tr><td>De punta a punta</td><td><code>plataforma/pruebas/</code>: recorridos con navegador (Playwright) y verificadores de los cortes 3 a 7</td><td>763 comprobaciones</td></tr><tr><td><b>Total</b> (<code>plataforma/probar_todo.sh</code>, instancia limpia)</td><td></td><td><b>1.254, sin fallas</b></td></tr></tbody></table>
+<pre><code>./ejecutar.sh                        # núcleo: compila, corre la demo y las 400 verificaciones
+./plataforma/levantar.sh             # compila y levanta la plataforma: http://localhost:8080
+./plataforma/bajar.sh                # la detiene
+PYTHON=/ruta/al/venv/bin/python ./plataforma/probar_todo.sh /tmp/pruebas   # todo (unos 40 minutos)</code></pre>
+</section><section class="bloque" id="guion"><h2>12. Si piden ver el código: qué abrir y qué decir</h2>
+<div class="guion"><h3>🎤 Guion sugerido (3 a 4 minutos)</h3>
+<p><b>1. La estructura.</b> Abrimos <code>KonradGourmet/</code>. Tiene cuatro partes: el núcleo en <code>src/</code>, con
+las 195 clases del diagrama de clases; los microservicios en <code>servicios/</code>; la SPA en <code>web/</code>, y la
+plataforma en <code>plataforma/</code>, que levanta todo con Docker Compose.</p>
+<p><b>2. La hexagonal.</b> Abrimos <code>src/…/cotizaciones/</code>: siempre las mismas carpetas, dominio, puertos de
+entrada y de salida, aplicación y adaptadores. El dominio no importa Spring ni JPA: abrimos
+<code>ReglaValidacion</code> y se ve que es Java puro, la cadena de responsabilidad de la validación.</p>
+<p><b>3. Los microservicios.</b> Abrimos <code>servicios/ms-cotizaciones/</code>. No repite la lógica: el
+<code>pom.xml</code> copia el núcleo de cotizaciones al compilar, y la clase de configuración lo arma con sus
+adaptadores. El controlador REST solo traduce HTTP a una llamada al puerto y pide el rol con
+<code>@PreAuthorize</code>.</p>
+<p><b>4. Los eventos.</b> Abrimos <code>KafkaEventPublisher</code> en <code>compartido</code>: el evento no va directo
+a Kafka, se guarda en la outbox en la misma transacción y un relé lo publica. Y en <code>OrdenGeneradaListener</code>
+se ve que el consumidor descarta los eventos repetidos.</p>
+<p><b>5. Las pruebas.</b> Cerramos con los números: 400 verificaciones del núcleo, 91 pruebas JUnit y 763
+comprobaciones de punta a punta, 1.254 sin fallas en una instalación limpia.</p>
+</div>
+<h3>Si preguntan…</h3>
+<dl class="preguntas">
+<dt>¿Por qué el núcleo no usa Spring?</dt><dd>Para que la lógica no dependa de la tecnología: es lo que pide la hexagonal. Se puede probar sola (las 400 verificaciones corren sin base ni Kafka) y cambiar un adaptador no toca el dominio.</dd>
+<dt>¿No es duplicar código copiar el núcleo en cada servicio?</dt><dd>No se duplica a mano: Maven lo copia al compilar desde una sola fuente. Cada servicio lleva solo su paquete y los eventos que consume, así que sigue siendo independiente al desplegarse.</dd>
+<dt>¿Qué impide que un servicio lea la base de otro?</dt><dd>Cada servicio tiene su propio usuario de PostgreSQL, que solo puede entrar a su base; entre servicios solo hay REST o eventos.</dd>
+<dt>¿Cómo se asegura que el código coincide con el diagrama?</dt><dd>El núcleo se generó de las páginas 4a a 4e, con los mismos paquetes, clases, métodos y relaciones; los métodos que atienden una ventana llevan el comentario «Atiende la ventana Vxx».</dd>
+</dl>
+</section>
+<p class="pie">Konrad Gourmet · Sistema de Abastecimiento · Arquitectura de Software, Fundación Universitaria Konrad Lorenz, 2026-2</p>
+</main>
+
+</body>
+</html>
