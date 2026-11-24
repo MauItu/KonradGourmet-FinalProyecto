@@ -1,9 +1,9 @@
-<!-- §12. Correcciones: R-35, R-37, R-38 y R-40 (figuras 8 a 10 recapturadas y renumeradas, R-03). R-36 ya es cierto. R-39 es opcional y no se aplica. -->
+<!-- §12. Correcciones: R-35, R-37, R-38 y R-40 (figuras 9 a 11 recapturadas y renumeradas, R-03). R-36 ya es cierto. R-39 es opcional y no se aplica. -->
 !horizontal
 
 # 12. Patrones de diseño en el nivel de código
 
-El profesor pidió que en el nivel 4 del C4 se vea dónde va cada patrón. En las páginas 4a a 4e del .drawio cada clase con patrón lleva su estereotipo en magenta; el esqueleto Java declara las mismas clases, firmas y relaciones, y la demostración ejecuta los patrones. La tabla 11 resume los diez patrones (Gamma et al., 1994), dónde están y qué costo tienen; las figuras 8 a 10 muestran de cerca los tres fragmentos del diagrama de clases donde se concentran.
+El profesor pidió que en el nivel 4 del C4 se vea dónde va cada patrón. En las páginas 4a a 4e del .drawio cada clase con patrón lleva su estereotipo en magenta; el esqueleto Java declara las mismas clases, firmas y relaciones, y la demostración ejecuta los patrones. La tabla 11 resume los diez patrones (Gamma et al., 1994), dónde están y qué costo tienen; las figuras 9 a 11 muestran de cerca los tres fragmentos del diagrama de clases donde se concentran.
 
 !tabla 11 | Patrones de diseño del nivel de código | 3,4.6,3.4,5,5
 | Patrón | Clases | Servicio y ventanas | Por qué aquí | Consecuencia |
@@ -20,8 +20,8 @@ El profesor pidió que en el nivel 4 del C4 se vea dónde va cada patrón. En la
 | Strategy | CalculadorKpi, con ProductoMayorDemanda, SucursalMayorDemanda y ProveedorMejoresPrecios | ms-analitica, tablero BAM | Cada KPI es un algoritmo intercambiable sobre los mismos hechos | Un KPI nuevo es una clase nueva |
 
 
-!figura 8 | figuras/fig08_4a_identidad.png | Composite y Factory Method en ms-identidad | Fragmento de la página 4a. Usuario «abstract» es el creador del Factory Method: cada rol implementa construirMenu() y devuelve un árbol ElementoMenu (Composite) con GrupoMenu y OpcionMenu. A la derecha, IniciarSesionService usa los puertos UsuarioRepositoryPort, CifradorPort y EmisorTokenPort, que implementan UsuarioJpaAdapter, BCryptCifradorAdapter y JwtEmisorAdapter (líneas punteadas de realización). | horizontal
+!figura 9 | figuras/fig08_4a_identidad.png | Composite y Factory Method en ms-identidad | Fragmento de la página 4a. Usuario «abstract» es el creador del Factory Method: cada rol implementa construirMenu() y devuelve un árbol ElementoMenu (Composite) con GrupoMenu y OpcionMenu. A la derecha, IniciarSesionService usa los puertos UsuarioRepositoryPort, CifradorPort y EmisorTokenPort, que implementan UsuarioJpaAdapter, BCryptCifradorAdapter y JwtEmisorAdapter (líneas punteadas de realización). | horizontal
 
-!figura 9 | figuras/fig09_4c_cotizaciones.png | Chain of Responsibility y Facade en ms-cotizaciones | Fragmento de la página 4c. ReglaValidacion enlaza ReglaRechazada, ReglaSospechosa y ReglaOpcionada (herencia con triángulo hueco). GenerarCotizacionFacade depende de los puertos de repositorio, precio sugerido, PDF, almacén y eventos. Cotizacion compone sus ItemCotizacion (rombo lleno) y se asocia al Proveedor y a su EstadoCotizacion. | horizontal
+!figura 10 | figuras/fig09_4c_cotizaciones.png | Chain of Responsibility y Facade en ms-cotizaciones | Fragmento de la página 4c. ReglaValidacion enlaza ReglaRechazada, ReglaSospechosa y ReglaOpcionada (herencia con triángulo hueco). GenerarCotizacionFacade depende de los puertos de repositorio, precio sugerido, PDF, almacén y eventos. Cotizacion compone sus ItemCotizacion (rombo lleno) y se asocia al Proveedor y a su EstadoCotizacion. | horizontal
 
-!figura 10 | figuras/fig10_4d_notificaciones.png | Factory Method y Decorator en ms-notificaciones | Fragmento de la página 4d. CreadorNotificacion «abstract» delega en CreadorCorreo y CreadorAlarmaApp la creación de la Notificacion. CorreoDecorator agrega (rombo vacío) un Correo y sus subclases añaden el certificado y el sello de tiempo; CorreoSmtpAdapter es el componente concreto que habla SMTP con TLS. Notificacion.enviar() y CreadorNotificacion.notificar() reciben la referencia del adjunto (adjuntoUrl).
+!figura 11 | figuras/fig10_4d_notificaciones.png | Factory Method y Decorator en ms-notificaciones | Fragmento de la página 4d. CreadorNotificacion «abstract» delega en CreadorCorreo y CreadorAlarmaApp la creación de la Notificacion. CorreoDecorator agrega (rombo vacío) un Correo y sus subclases añaden el certificado y el sello de tiempo; CorreoSmtpAdapter es el componente concreto que habla SMTP con TLS. Notificacion.enviar() y CreadorNotificacion.notificar() reciben la referencia del adjunto (adjuntoUrl).

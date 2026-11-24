@@ -1,7 +1,13 @@
-<!-- §10. Correcciones: R-29, R-30, R-31, R-32 y R-02 (figura 7, página 6 del .drawio). -->
-!horizontal
+<!-- §10. Correcciones: R-29, R-30, R-31, R-32 y R-02 (figura 8, página 6 del .drawio); en el 7d, el diagrama de casos de uso como figura 7 (DEC-95) y CD-60 en la tabla 8. -->
+!vertical
 
 # 10. Arquitectura por flujo de ventanas
+
+Antes de ver qué arquitectura domina en cada flujo conviene ver quién hace qué. La figura 7 reúne los 19 casos de uso del sistema con los seis roles, que heredan de Usuario y por eso todos inician sesión, y los cinco actores externos: el proveedor, el Ministerio de Comercio, el servidor de correo certificado, las redes sociales y los sistemas externos que consumen el servicio SOAP. El detalle de cada caso está en el documento «Casos de uso — Konrad Gourmet».
+
+!figura 7 | figuras/casos_de_uso.png | Diagrama de casos de uso | Los 19 casos de uso dentro del sistema, los seis roles a la izquierda y abajo a la derecha, y los actores externos a la derecha. Línea simple: asociación; flecha de punta hueca: generalización.
+
+!horizontal
 
 Las tres arquitecturas están presentes en todo el sistema, pero en cada flujo una de ellas pesa más. La tabla 8 indica cuál y por qué, a partir de lo que muestran las ventanas.
 
@@ -42,8 +48,8 @@ El flujo más largo del sistema, de la solicitud del jefe a la orden de compra, 
 | 13 | V23 | Seguimiento de órdenes | Síncrono | GET /api/ordenes-compra |
 | 14 | Todas | Auditoría de cada CRUD | Evento | auditoria.evento de los otros diez servicios hacia ms-administracion |
 
-La figura 7 dibuja el mismo recorrido como diagrama dinámico del C4.
+La figura 8 dibuja el mismo recorrido como diagrama dinámico del C4.
 
 !vertical
 
-!figura 7 | figuras/6.png | Diagrama dinámico del recorrido de compra | Página 6 del archivo Arquitectura_Konrad_Gourmet.drawio. Los 14 pasos de la tabla 9 en forma de secuencia, con cada mensaje numerado (4.1, 4.2 y así sucesivamente) y su protocolo. En cada evento se dibujan todos sus consumidores. El ejemplo es el de los mockups: SOL-031, COT-018 y OC-0012, con los valores de V19.
+!figura 8 | figuras/6.png | Diagrama dinámico del recorrido de compra | Página 6 del archivo Arquitectura_Konrad_Gourmet.drawio. Los 14 pasos de la tabla 9 en forma de secuencia, con cada mensaje numerado (4.1, 4.2 y así sucesivamente) y su protocolo. En cada evento se dibujan todos sus consumidores. El ejemplo es el de los mockups: SOL-031, COT-018 y OC-0012, con los valores de V19.
