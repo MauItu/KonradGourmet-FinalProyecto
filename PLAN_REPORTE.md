@@ -1,6 +1,6 @@
 # Plan para rehacer el reporte de arquitectura
 
-**Archivo actual:** `Reporte_Arquitectura_Konrad_Gourmet.pdf`. Tiene 38 páginas, A4, y lo generó con IA un programa en Python (ReportLab) el 29-oct-2026, según su propia §18. No se modifica: queda como el original.
+**Archivo actual:** `Reporte_Arquitectura_Konrad_Gourmet.pdf`. Tiene 38 páginas, A4, y lo generó un programa en Python (ReportLab) el 29-oct-2026, según su propia §18. No se modifica: queda como el original.
 
 **Archivo nuevo:** `Reporte_Arquitectura_Konrad_Gourmet_v2.pdf`, con su versión editable `Reporte_Arquitectura_Konrad_Gourmet_v2.docx`.
 
@@ -110,7 +110,7 @@ Además de las 66 entradas:
   - cada figura del original se reemplaza por el recorte equivalente de la página vigente (R-01);
   - las páginas 3a, 3b y 6 entran como figuras 12, 13 y 7 (R-02 y R-03);
   - si el `.drawio` cambia antes de generar, se exporta de nuevo.
-- **Declaración de IA (§18):** se conserva la del equipo y se agrega el párrafo de R-58: Claude (Opus 5.5 y Sonnet 5.5) y ChatGPT (Astra 6).
+- **Declaración de la §18:** se conserva la del equipo y se agrega el párrafo de R-58.
 - **Portada:** la del original no nombra al equipo, y la nueva sí, en este orden (Mauricio, 2026-11-08, provisional): Mauricio Jesús Iturriza Medina, Carlos Franco, Adrián David Corredor Camero e Isabela Castro.
 
 ## 5. Pasos

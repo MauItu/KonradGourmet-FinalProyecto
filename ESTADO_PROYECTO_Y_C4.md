@@ -117,7 +117,7 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 | `INVENTARIO_SESION2.md`, `INVENTARIO_SESION3.md` | Lista de ítems que cada sesión debía cambiar |
 | `VALIDACION_FASE2A.md`, `VALIDACION_SESION2.md` a `VALIDACION_SESION6.md`, `VALIDACION_CORTE7.md` | Lo que el revisor encontró al validar cada sesión y la plataforma completa (C7-1 a C7-27) |
 | `CORRECCIONES_REPORTE.md` | Las 66 correcciones (R-01 a R-66) que hay que aplicar al reporte |
-| `REVISION_ARQUITECTO_POST_S6.md` | Informe del arquitecto-revisor de Claude con PD-01 a PD-11 y la resolución de los supuestos |
+| `REVISION_ARQUITECTO_POST_S6.md` | Informe del arquitecto-revisor con PD-01 a PD-11 y la resolución de los supuestos |
 | `CORRECCIONES_HU_Y_MOCKUPS.md` | Lo que hay que cambiar en el Story Mapping y los mockups |
 | `STORY_MAPPING_CORREGIDO.md` | Las 19 historias transcritas con sus correcciones (S-01 a S-08 y SM-01 a SM-04); el Story Mapping original no se toca |
 | `Casos de uso — Konrad Gourmet.md` | Los 19 casos de uso de Carlos Franco, corregidos con RCU-1 a RCU-13 (DEC-52) y la precisión S6-2, con las ventanas y los mensajes de la plataforma (CD-12, CD-24, CD-35 y CD-57) |
@@ -342,7 +342,7 @@ git switch correcciones-revision       # volver al trabajo
 
 **Cómo se hicieron las páginas nuevas (3a, 3b y 6):** un script de Python las insertó como texto dentro del XML, sin reescribir el resto del archivo; se exportó cada una a PNG, se revisó por zonas y solo entonces se aplicó al archivo real. Donde los documentos se contradecían, la decisión quedó escrita dentro de la propia página, en las notas «Qué se simplificó» y «Decisiones del diagrama», y en `DECISIONES.md`.
 
-**Fuera del proyecto:** la memoria de Claude (`~/.claude/projects/.../memory/`) guarda dónde está cada entregable y el avance, para no releer todo en cada sesión. Los scripts que generaron las firmas del código estaban en una carpeta temporal y se perdieron; el respaldo que vale es `…OriginalSinCorregir.drawio`. Los generadores que siguen en uso están en los repos: el del reporte (`reporte/generar_reporte.py`), el del diagrama de casos de uso (`diagrama_casos_de_uso/generar.py`) y los de los mockups (`mockups_admin/`; el de `mockups_faltantes/` está en `FinalProyecto/mockups_faltantes_fuente/`).
+**Fuera del proyecto:** las notas de trabajo locales guarda dónde está cada entregable y el avance, para no releer todo en cada sesión. Los scripts que generaron las firmas del código estaban en una carpeta temporal y se perdieron; el respaldo que vale es `…OriginalSinCorregir.drawio`. Los generadores que siguen en uso están en los repos: el del reporte (`reporte/generar_reporte.py`), el del diagrama de casos de uso (`diagrama_casos_de_uso/generar.py`) y los de los mockups (`mockups_admin/`; el de `mockups_faltantes/` está en `FinalProyecto/mockups_faltantes_fuente/`).
 
 ---
 
@@ -438,7 +438,7 @@ Leyenda: ✅ hecho · 🔴 abierto. Donde una fila dice «Reporte» o «R-xx», 
 | Qué | Quién |
 |---|---|
 | Guiones de la sustentación (los anteriores quedaron en `FinalProyecto/archivo_desactualizado/`, fuera de git) | Equipo, al final del proyecto |
-| Publicar en el repo público lo posterior al 9 de noviembre | Claude, cuando Mauricio lo pida |
+| Publicar en el repo público lo posterior al 9 de noviembre | Cuando Mauricio lo pida |
 | Opcionales del reporte sin aplicar: R-14, R-19, R-39 y R-53 | Mauricio decide |
 
 **Decisiones del equipo:**

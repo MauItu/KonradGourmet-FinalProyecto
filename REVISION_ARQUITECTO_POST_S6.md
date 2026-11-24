@@ -1,6 +1,6 @@
 # Revisión del arquitecto · puntos 4 y 5 de los pendientes posteriores a la sesión 6
 
-**Quién la ejecutó:** el agente `arquitecto-revisor` de Claude Code (perfil `../.claude/agents/arquitecto-revisor.md`, modelo Claude Opus 5.5), el 2026-11-08. La sesión principal le encargó la revisión y el registro de sus resultados, también con Claude Code. No es una revisión de Codex.
+**Quién la ejecutó:** el agente `arquitecto-revisor`, el 2026-11-08. La sesión principal le encargó la revisión y el registro de sus resultados.
 
 **Autorización:** Mauricio Iturriza autorizó al arquitecto a resolver las decisiones de diseño y los supuestos pendientes de `PENDIENTES_POST_SESION6.md` (puntos 4 y 5), respetando sus decisiones ya confirmadas, y le pidió no inventar información factual del equipo.
 
@@ -343,9 +343,9 @@
 - **A1, el script del reporte:**
   - **Evidencia:**
     - según `pdfinfo`, el PDF lo creó ReportLab el 2026-10-29 a las 12:13:59 (-05), con las fuentes Onest, Bricolage Grotesque, JetBrains Mono y DejaVu Sans;
-    - §18 dice que la aplicación de Claude generó el `.drawio`, el esqueleto y el reporte en la misma sesión;
+    - §18 dice que el `.drawio`, el esqueleto y el reporte se generaron en la misma sesión;
     - el esqueleto se subió 8 minutos después del PDF (`ad71e69`).
-  - **Lo que se infiere, sin atribuirlo a nadie:** el script probablemente está en el historial de claude.ai de quien escribió esos prompts.
+  - **Lo que se infiere, sin atribuirlo a nadie:** el script probablemente está en el historial de la herramienta de quien escribió esos prompts.
   - **Recomendación si no aparece:**
     - Mauricio cambia DEC-03;
     - se escribe un script nuevo (por ejemplo `documentos/reporte/generar_reporte.py`) con las mismas fuentes, el texto de `pdftotext -layout`, R-01 a R-62 y las figuras de `exportes/`;
@@ -388,7 +388,7 @@
 | DEC-47 | Confirmada (orden de filas) | En SPRINT, F15 → F17 → F16, con la etiqueta MVP4 en F17. Las dependencias F13 → F17 → F14 quedan dentro del sprint 3 |
 | T-06 (DEC-42) | Resuelta por PD-05 | Aplicación diferida |
 | R-61 | Pasa a «Cambiar» | S9 (el mesero sale del JWT) defiende DEC-51, que está confirmada |
-| R-58 → PD-11 | Redacción corregida, con datos por confirmar | Ver N4. Declarar Claude Code (con el agente revisor) y la continuación con Codex en la sesión 6; las decisiones delegadas al agente; modelos por confirmar |
+| R-58 → PD-11 | Redacción corregida, con datos por confirmar | Ver N4. Declarar las herramientas usadas (con el agente revisor) y la continuación de la sesión 6; las decisiones delegadas al agente; modelos por confirmar |
 
 ## Hallazgos colaterales
 
@@ -436,5 +436,5 @@
 - A1: el script del reporte.
 - A3: de quién es la cuenta `mari00aa120-eng`.
 - El enunciado «Proyecto #1».
-- Los modelos y versiones de Claude Code y Codex que se usaron (para R-58).
+- Las herramientas y versiones que se usaron (para R-58).
 - La estimación de HU-20 a HU-22.

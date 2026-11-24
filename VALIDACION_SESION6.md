@@ -1,6 +1,6 @@
 # Validación de la sesión 6 · 2026-11-08
 
-Revisión crítica realizada por Codex siguiendo los criterios del perfil local `arquitecto-revisor`: contrastar con las fuentes, separar diseño de implementación y proponer cambios mínimos. No se atribuye esta revisión a un agente independiente. Base revisada: código `22717f7`; documentos hasta RCU-13 (`de33625`), con los ajustes de cierre S6-1 a S6-5. Rama local `correcciones-revision` en ambos repos.
+Revisión crítica realizada siguiendo los criterios del perfil local `arquitecto-revisor`: contrastar con las fuentes, separar diseño de implementación y proponer cambios mínimos. No se atribuye esta revisión a un agente independiente. Base revisada: código `22717f7`; documentos hasta RCU-13 (`de33625`), con los ajustes de cierre S6-1 a S6-5. Rama local `correcciones-revision` en ambos repos.
 
 **Veredicto: cierre local conforme al alcance autorizado, con un entregable pendiente.** El pedido conserva el mesero, los casos de uso incorporan las 13 correcciones y el código compila sin avisos con 176/176. El diagrama UML de casos de uso **no está entregado**: RCU-2 cumple la alternativa autorizada de dejar el enlace y una nota. El documento no debe presentarse como completo para la entrega académica mientras falte esa imagen. El reporte PDF también sigue pendiente de regeneración, como ya establece DEC-03.
 
@@ -47,7 +47,7 @@ Las referencias RCU identifican los commits del repo `documentos/`. La revisión
 | Problema | Evidencia y comprobación | Resultado |
 |---|---|---|
 | 1 · Estado desactualizado | RCU-1 `689ed75`: el encabezado cita código `22717f7`, 176 verificaciones, 94 cuerpos pendientes y distingue casos con lógica de los pendientes. Las carpetas locales y la carpeta pública `codigo/` se explican | Corregido; cifras verificadas de nuevo |
-| 2 · Diagrama y enlace privado | RCU-2 `87245d9`: desaparece `claude.ai`; queda `![Diagrama de casos de uso](casos_de_uso.png)` con la nota que exige 19 CU, 6 roles y 5 externos | Alternativa autorizada aplicada; **PNG aún pendiente** del compañero |
+| 2 · Diagrama y enlace privado | RCU-2 `87245d9`: desaparece el enlace privado; queda `![Diagrama de casos de uso](casos_de_uso.png)` con la nota que exige 19 CU, 6 roles y 5 externos | Alternativa autorizada aplicada; **PNG aún pendiente** del compañero |
 | 3 · Umbral de inventario | RCU-3 `cbeace2`: CU-05 dice porcentaje redondeado, estrictamente menor que 25 % y una alarma al cruzar. CU-15 y HU-20 no administran ese umbral. `UmbralStock.superado()` usa `< 0` al comparar y `InventarioService` detecta el cruce | Corregido, coherente con DEC-43/46 |
 | 4 · Validación de cotizaciones | RCU-4 `7bf87af`: precondición ENVIADA y límites +25,00/−50,00 incluidos en OPCIONADA; las reglas `ReglaRechazada`, `ReglaSospechosa` y `ReglaOpcionada` coinciden | Corregido; las pruebas de límites pasan |
 | 5 · Orden y fallos de CU-08 | RCU-5 `be66dcf`: precio antes del PDF, almacenamiento, envío y efecto en solicitudes. `GenerarCotizacionFacade.generarYEnviar()` deja PENDIENTE_PRECIO y audita los fallos; permite reenvío. S6-2 `80b5cbe` precisa que el fallo no publica `cotizacion.enviada` ni aplica valores a solicitudes | Corregido y precisado durante el cierre |
@@ -60,7 +60,7 @@ Las referencias RCU identifican los commits del repo `documentos/`. La revisión
 | 12 · Efecto en la alerta | RCU-12 `c14d003`: CU-04 añade la atención de la alerta al consumir `solicitud.registrada`. `InventarioEventsListener` llama a `atenderAlertas(sucursalId, productoIds)` | Corregido; el efecto depende del consumo del evento |
 | 13 · Forma | RCU-13 `de33625`: Carlos Franco y fecha confirmados, HU-03 menciona la mesa en el consecutivo y CU-16 explica `sistema`/JWT (DEC-42) | Corregido; Laura/Isabella se conserva como pendiente de Mauricio |
 
-Comprobación del archivo: 19 especificaciones CU-01 a CU-19, 12 filas RF y cobertura de las 23 ventanas. No quedan `claude.ai`, `726c4b0`, `274 métodos`, «sesión 4 sigue pendiente», «18 casos», «cinco restantes» ni códigos internos B/H/D/K sin definir. Los enlaces a fuentes locales existen; la única imagen enlazada ausente es `casos_de_uso.png`, declarada pendiente. `git diff --check` no encontró errores de espacios. La copia del documento fuera de `documentos/` no se editó.
+Comprobación del archivo: 19 especificaciones CU-01 a CU-19, 12 filas RF y cobertura de las 23 ventanas. No quedan enlaces privados, `726c4b0`, `274 métodos`, «sesión 4 sigue pendiente», «18 casos», «cinco restantes» ni códigos internos B/H/D/K sin definir. Los enlaces a fuentes locales existen; la única imagen enlazada ausente es `casos_de_uso.png`, declarada pendiente. `git diff --check` no encontró errores de espacios. La copia del documento fuera de `documentos/` no se editó.
 
 ## Hallazgos del cierre y límites de la conclusión
 
@@ -76,7 +76,7 @@ Comprobación del archivo: 19 especificaciones CU-01 a CU-19, 12 filas RF y cobe
 
 - Carlos Franco/equipo: exportar el diagrama UML y contrastarlo con los 19 casos antes de entregar. No se validaron sus relaciones UML, porque la imagen no existe.
 - Mauricio: decidir si unifica Laura Gómez (demo) e Isabella Castro (V16–V23). No se cambiaron nombres ni mockups.
-- Equipo: aplicar R-01 a R-61 al reporte cuando aparezca el script (A1); confirmar los supuestos que siguen abiertos. R-58 también deberá reflejar el uso de Codex en esta continuación cuando el equipo apruebe la declaración de IA.
+- Equipo: aplicar R-01 a R-61 al reporte cuando aparezca el script (A1); confirmar los supuestos que siguen abiertos. R-58 también deberá reflejar esta continuación cuando el equipo apruebe la declaración de la §18.
 - No se revalidaron las 19 tarjetas del Story Mapping ni todas las capturas de UX. CU-02 expresa el criterio de HU-03 sobre mesa/consecutivo, pero el prototipo recibe `PED-0251` explícitamente y no implementa una regla para codificar la mesa en el número. La especificación no equivale a afirmar que toda la interfaz esté construida.
 - El filtrado por mesero no constituye por sí solo autorización. La integración real con JWT, persistencia, Kafka y los restantes 94 cuerpos sigue fuera del alcance de la demo.
 

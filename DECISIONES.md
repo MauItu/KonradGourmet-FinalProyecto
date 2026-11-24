@@ -12,25 +12,25 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-39 a DEC-46:** se propusieron durante la sesión 4. Mauricio confirmó el 2026-11-08 el pedido de $82.000, los precios por unidad, completar las solicitudes parciales y la alarma solo al cruzar el umbral. Escogió `adjuntoUrl` (DEC-42): dos contratos, reflejados en cuatro declaraciones de la 4d. En la segunda ronda confirmó también el redondeo de cotizaciones y stock (DEC-43), y `sistema` con una correlación por evento como límite de la demo (DEC-42); autorizó completar la auditoría de los fallos (DEC-46, S4-13). Las demás partes siguen asumidas, por confirmar, según indica cada decisión.
 - **DEC-49 y DEC-50:** las tomó el arquitecto-revisor el 2026-11-08, a pedido de Mauricio («actúa como el agente de arquitectura que tengo configurado y toma esas decisiones»). Mauricio puede revertirlas.
 - **DEC-47:** la fecha de inicio del sprint 1 y la forma de mostrar «EN SEMANAS» las decidió Mauricio el 2026-11-08, al empezar la sesión 5 (hallazgo H20), y en las dos escogió la opción recomendada. Después pidió que todo diga 5 sprints y 10 semanas, y se quitó la fila de sprints mínimos. El orden de las filas del Excel es asumido, por confirmar.
-- **PD-01 a PD-11 y las confirmaciones de los supuestos (DEC-08, DEC-20, DEC-39 a DEC-41, DEC-44, DEC-45, DEC-47 y DEC-48):** las tomó el agente `arquitecto-revisor` de Claude el 2026-11-08, por delegación expresa de Mauricio (puntos 4 y 5 de `PENDIENTES_POST_SESION6.md`), respetando sus decisiones ya confirmadas. El informe completo, con la evidencia, está en `REVISION_ARQUITECTO_POST_S6.md`. «PD» significa decisión posterior a la sesión 6. Mauricio puede revertir cualquiera.
-- **DEC-63, DEC-68 y DEC-69:** las asumió Claude y las confirmó Mauricio el 2026-11-17, al aprobar el corte 3.
-- **DEC-71 y DEC-72:** las asumió Claude el 2026-11-17 en el corte 4a y las confirmó Mauricio el mismo día, al aprobar el corte 4a.
-- **DEC-73 y DEC-74:** las asumió Claude el 2026-11-17 en el corte 4b y las confirmó Mauricio el mismo día, al aprobar el corte 4b.
-- **DEC-75 a DEC-77:** las decidió Mauricio el 2026-11-17, al empezar el corte 5 (DEC-76 siguiendo la recomendación de Claude; en DEC-75 escogió la opción no recomendada, «Ver PDF», y pidió además la lista de DEC-77).
-- **DEC-79 a DEC-81:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación de Claude, al revisar los pendientes del corte 5.
-- **DEC-85 y DEC-86:** las decidió Mauricio el 2026-11-17, al empezar el corte 6a (en DEC-86 escogió la opción con token, que no era la recomendada). **DEC-87** la asumió Claude el mismo día y la confirmó Mauricio el 2026-11-18, al aprobar el corte 6a.
-- **DEC-82:** la asumió Claude el 2026-11-17, al aplicar DEC-79 a DEC-81.
+- **PD-01 a PD-11 y las confirmaciones de los supuestos (DEC-08, DEC-20, DEC-39 a DEC-41, DEC-44, DEC-45, DEC-47 y DEC-48):** las tomó el agente `arquitecto-revisor` el 2026-11-08, por delegación expresa de Mauricio (puntos 4 y 5 de `PENDIENTES_POST_SESION6.md`), respetando sus decisiones ya confirmadas. El informe completo, con la evidencia, está en `REVISION_ARQUITECTO_POST_S6.md`. «PD» significa decisión posterior a la sesión 6. Mauricio puede revertir cualquiera.
+- **DEC-63, DEC-68 y DEC-69:** se asumieron y las confirmó Mauricio el 2026-11-17, al aprobar el corte 3.
+- **DEC-71 y DEC-72:** se asumieron el 2026-11-17 en el corte 4a y las confirmó Mauricio el mismo día, al aprobar el corte 4a.
+- **DEC-73 y DEC-74:** se asumieron el 2026-11-17 en el corte 4b y las confirmó Mauricio el mismo día, al aprobar el corte 4b.
+- **DEC-75 a DEC-77:** las decidió Mauricio el 2026-11-17, al empezar el corte 5 (DEC-76 siguiendo la recomendación técnica; en DEC-75 escogió la opción no recomendada, «Ver PDF», y pidió además la lista de DEC-77).
+- **DEC-79 a DEC-81:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación técnica, al revisar los pendientes del corte 5.
+- **DEC-85 y DEC-86:** las decidió Mauricio el 2026-11-17, al empezar el corte 6a (en DEC-86 escogió la opción con token, que no era la recomendada). **DEC-87** se asumió el mismo día y la confirmó Mauricio el 2026-11-18, al aprobar el corte 6a.
+- **DEC-82:** se asumió el 2026-11-17, al aplicar DEC-79 a DEC-81.
 - **DEC-78 y DEC-82:** las confirmó Mauricio el 2026-11-17, al aprobar el corte 5.
-- **DEC-83 y DEC-84, y la aplicación de PD-05:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación de Claude, al preparar el corte 6.
-- **DEC-88 a DEC-90:** las decidió Mauricio el 2026-11-18, al empezar el corte 6b, siguiendo la recomendación de Claude. **DEC-91** la asumió Claude el mismo día y Mauricio la confirmó el 2026-11-23.
-- **DEC-92:** la asumió Claude el 2026-11-23, al dibujar el diagrama de casos de uso (fase 1 antes del corte 7); la confirmó Mauricio el mismo día, al aprobar el 7a.
-- **DEC-93:** la decidió Mauricio el 2026-11-23, al revisar qué mostraba la aplicación antes de hacer los mockups que faltaban (fase 2). **DEC-94** la asumió Claude el mismo día y la confirmó Mauricio al aprobar el 7a.
+- **DEC-83 y DEC-84, y la aplicación de PD-05:** las decidió Mauricio el 2026-11-17, siguiendo la recomendación técnica, al preparar el corte 6.
+- **DEC-88 a DEC-90:** las decidió Mauricio el 2026-11-18, al empezar el corte 6b, siguiendo la recomendación técnica. **DEC-91** se asumió el mismo día y Mauricio la confirmó el 2026-11-23.
+- **DEC-92:** se asumió el 2026-11-23, al dibujar el diagrama de casos de uso (fase 1 antes del corte 7); la confirmó Mauricio el mismo día, al aprobar el 7a.
+- **DEC-93:** la decidió Mauricio el 2026-11-23, al revisar qué mostraba la aplicación antes de hacer los mockups que faltaban (fase 2). **DEC-94** se asumió el mismo día y la confirmó Mauricio al aprobar el 7a.
 - **DEC-95:** la decidió Mauricio el 2026-11-23, al aprobar el plan del corte 7.
 - **DEC-96:** la decidió Mauricio el 2026-11-23, al aprobar el 7a («no puede quedar nada sin mockup»).
-- **DEC-97:** Mauricio pidió el 2026-11-23 «la que incluya menos modificaciones»; Claude comparó las dos y aplicó la de la web.
-- **DEC-98:** la decidió Mauricio el 2026-11-23, durante el 7b, siguiendo la recomendación de Claude. **DEC-99** la asumió Claude el mismo día y la confirmó Mauricio al aprobar el 7b. **DEC-100** la decidió Mauricio el mismo día, siguiendo la recomendación de Claude, y se aplica en el 7c. El lugar de la figura de casos de uso (DEC-95, punto 3) lo confirmó Mauricio el mismo día.
-- **DEC-101 a DEC-104:** las decidió Mauricio el 2026-11-23, al revisar la validación del 7c (DEC-101 a DEC-103 siguiendo la recomendación del revisor o de Claude; en DEC-104 escogió implementar todo, que no era la recomendada). **DEC-105** la asumió Claude el mismo día y la confirmó Mauricio. **DEC-106** la asumió Claude el 2026-11-23, en el 7d, y la confirmó Mauricio el mismo día, con un ajuste en el punto de la tabla 13. **DEC-107** la decidió Mauricio el mismo día, al revisar el reporte del 7d.
-- **DEC-108:** la decidió Mauricio el 2026-11-23, al pedir los guiones de la sustentación (no siguió el plan G1–G5 que propuso Claude). **DEC-109** la asumió Claude el mismo día y la confirmó Mauricio el 2026-11-24, al aprobar la guía de los diagramas. **DEC-110** la decidió Mauricio el 2026-11-24 («corrije»), al revisar la guía de los diagramas. **DEC-111** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de la plataforma (las tres recomendaciones de Claude).
+- **DEC-97:** Mauricio pidió el 2026-11-23 «la que incluya menos modificaciones»; se compararon las dos y aplicó la de la web.
+- **DEC-98:** la decidió Mauricio el 2026-11-23, durante el 7b, siguiendo la recomendación técnica. **DEC-99** se asumió el mismo día y la confirmó Mauricio al aprobar el 7b. **DEC-100** la decidió Mauricio el mismo día, siguiendo la recomendación técnica, y se aplica en el 7c. El lugar de la figura de casos de uso (DEC-95, punto 3) lo confirmó Mauricio el mismo día.
+- **DEC-101 a DEC-104:** las decidió Mauricio el 2026-11-23, al revisar la validación del 7c (DEC-101 a DEC-103 siguiendo la recomendación del revisor o de la implementación; en DEC-104 escogió implementar todo, que no era la recomendada). **DEC-105** se asumió el mismo día y la confirmó Mauricio. **DEC-106** se asumió el 2026-11-23, en el 7d, y la confirmó Mauricio el mismo día, con un ajuste en el punto de la tabla 13. **DEC-107** la decidió Mauricio el mismo día, al revisar el reporte del 7d.
+- **DEC-108:** la decidió Mauricio el 2026-11-23, al pedir los guiones de la sustentación (no siguió el plan G1–G5 propuesto en la implementación). **DEC-109** se asumió el mismo día y la confirmó Mauricio el 2026-11-24, al aprobar la guía de los diagramas. **DEC-110** la decidió Mauricio el 2026-11-24 («corrije»), al revisar la guía de los diagramas. **DEC-111** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de la plataforma (las tres recomendaciones).
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -98,63 +98,63 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | PD-08 | Autenticación de los consumidores externos del SOAP | OAuth 2.0 client credentials: JWT de cliente validado por el gateway, solo para `/api/integracion/**`; supuesto S12 | Decidida por el arquitecto-revisor (2026-11-08); efectos en páginas 1, 2 y 3a, CU-18 y §3/§17 del reporte |
 | PD-09 | HU-20 a HU-22 | Propuestas de diseño con ajustes; **Mauricio decide omitirlas del plan**: no se estiman ni entran a los sprints ni al Story Mapping corregido | Ajustada por Mauricio (2026-11-08); quedan solo en los casos de uso como historias para una versión posterior |
 | PD-10 | Mensajes de interfaz por definir | Criterio común y 16 textos propuestos; los mensajes literales de las HU son el contrato de la interfaz | Decidida por el arquitecto-revisor (2026-11-08); efectos en casos de uso y Story Mapping corregido; el código no cambia |
-| PD-11 | Declaración de IA del reporte (R-58) | Ampliar la §18 con las correcciones posteriores: Claude (Opus 5.5 y Sonnet 5.5) y ChatGPT (Astra 6), sin afirmar que el equipo tomó todas las decisiones | Herramientas y modelos **confirmados por Mauricio** (2026-11-08); R-58 vuelve a «Cambiar» |
+| PD-11 | Declaración de la §18 del reporte (R-58) | Ampliar la §18 con las correcciones posteriores y las herramientas usadas, sin afirmar que el equipo tomó todas las decisiones | Herramientas y modelos **confirmados por Mauricio** (2026-11-08); R-58 vuelve a «Cambiar» |
 | DEC-54 | Cómo se corrige el reporte si no aparece el script (A1) | Mauricio pregunta al equipo; si nadie lo tiene, se rehace el reporte con un script nuevo, conservando el PDF original | Decidida por Mauricio (2026-11-08); la reconstrucción va en el punto 1 |
 | DEC-55 | Formato del reporte nuevo | Sobrio, de documento académico: una sola letra (Times New Roman 12 pt), todo en negro, títulos en negrilla del mismo tamaño, tablas con líneas finas, APA 7; `.docx` editable más PDF | Decidida por Mauricio (2026-11-08); detalle en `PLAN_REPORTE.md` |
 | DEC-56 | Color de las tablas del reporte nuevo | Filas alternas blanco y gris claro (`#F2F2F2`); la cabecera en blanco con negrilla y el texto en negro. Primero se escogió el naranja claro de la web (`#FDEFE1`) y Mauricio lo cambió al ver el reporte v2 | Decidida por Mauricio (2026-11-09); aplicada en el reporte v2 |
 | DEC-57 | Qué describe la documentación entregable | El proyecto completo, como diseño previo a la construcción: sin notas sobre límites del prototipo ni de la demo. Se aplica al reporte v2, el `.drawio`, los casos de uso, el Story Mapping corregido y el Excel; quedan fuera los textos que dependen del código (§13, README y pruebas) y los registros internos | Decidida por Mauricio (2026-11-09); cambios PC-01 a PC-21 |
 | DEC-58 | Cómo se construye la aplicación que funciona completa | El stack especificado (11 microservicios Spring Boot, gateway, Eureka, Kafka, PostgreSQL, Redis, almacén S3, SPA en React) con Docker Compose en un solo equipo, por cortes verticales; la versión en memoria queda de respaldo | Decidida por Mauricio (2026-11-16); corte 1 hecho en la rama `stack-real` de KonradGourmet |
 | DEC-59 | Almacén de objetos en local | SeaweedFS (S3 compatible) en lugar de MinIO, cuya imagen ya no se puede descargar | Aceptada por Mauricio (2026-11-16, con su OK al plan); no cambia el `.drawio` ni el reporte |
-| DEC-60 | Tecnología de la SPA | React + TypeScript, como dice la §8 del reporte; la web de Codex (HTML y JS) queda en la versión en memoria | Decidida por Mauricio (2026-11-16); va en el corte 2 |
+| DEC-60 | Tecnología de la SPA | React + TypeScript, como dice la §8 del reporte; la primera web (HTML y JS) queda en la versión en memoria | Decidida por Mauricio (2026-11-16); va en el corte 2 |
 | DEC-61 | Cómo usan los servicios Spring el código de `src/` | Cada servicio copia al compilar el núcleo de su paquete en `src/` (dominio, eventos, puertos y aplicación), sin los adaptadores; sus adaptadores reales con Spring van en `servicios/` con los mismos nombres del diagrama. Una sola copia del dominio; `./ejecutar.sh` sigue compilando solo con `javac` | Decidida por Mauricio (2026-11-16) |
 | DEC-62 | Quién firma el JWT (no estaba en el diagrama) | Puerto nuevo `EmisorTokenPort` (puertos.salida) y `JwtEmisorAdapter` (adaptadores.salida); `IniciarSesionService` lo recibe en el constructor. Página 4a: 2 clases nuevas (191 → 193) | Decidida por Mauricio (2026-11-17); aplicada en el código y en las páginas 4a y 1 |
-| DEC-63 | Nombres del director comercial y del administrador | Andrés Rojas (`andres.rojas@konradgourmet.com`) y Paula Herrera (`paula.herrera@konradgourmet.com`), Sucursal Centro | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-63 | Nombres del director comercial y del administrador | Andrés Rojas (`andres.rojas@konradgourmet.com`) y Paula Herrera (`paula.herrera@konradgourmet.com`), Sucursal Centro | Asumida en la implementación y confirmada por Mauricio (2026-11-17) |
 | DEC-64 | Quién aparece en la auditoría y cómo se une un recorrido en la plataforma | Como lo dicen el reporte y el diagrama: el usuario autenticado (del JWT) y un `correlacionId` que viaja por todo el recorrido. Lo pone el adaptador `KafkaEventPublisher` de `compartido` sin cambiar firmas del núcleo; DEC-42 sigue como límite solo de la versión en memoria | Decidida por Mauricio (2026-11-17); aplicada en el corte 3 |
 | DEC-65 | Cargo que muestra la SPA bajo el nombre | El nombre del rol del proyecto: Mesero, Jefe de cocina, Auxiliar de compras, Director de compras, Director comercial y Administrador, sin variantes por persona | Decidida por Mauricio (2026-11-17); aplicada en el corte 3 |
 | DEC-66 | Categoría de la carta en los platos | `categoria` obligatoria en `Plato`, `MenuActualizadoEvent` y `PlatoCatalogo` (filtro de V03, campo de V06) | Decidida por Mauricio (2026-11-17); aplicada en el código y en la página 4b |
 | DEC-67 | Dónde se guarda la imagen del plato | En el almacén de objetos (S3): `AlmacenArchivosPort` y `AlmacenObjetosAdapter` de ms-menu; 2 clases nuevas (193 → 195) | Decidida por Mauricio (2026-11-17); aplicada en el código y en las páginas 4b, 3a y 1 |
-| DEC-68 | Cierre diario en la demostración | Botón «Cierre del día» en V07 que llama al mismo `ConsumoDiarioJob` (`CierreDiaController`, fuera del diagrama) | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
-| DEC-69 | Detalles del corte 3 | Turno = hoy en Bogotá, número de pedido por secuencia, carta inicial por eventos, productos sin categoría = todos, «Plato N», V03 precargado, «—» en V05 | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-68 | Cierre diario en la demostración | Botón «Cierre del día» en V07 que llama al mismo `ConsumoDiarioJob` (`CierreDiaController`, fuera del diagrama) | Asumida en la implementación y confirmada por Mauricio (2026-11-17) |
+| DEC-69 | Detalles del corte 3 | Turno = hoy en Bogotá, número de pedido por secuencia, carta inicial por eventos, productos sin categoría = todos, «Plato N», V03 precargado, «—» en V05 | Asumida en la implementación y confirmada por Mauricio (2026-11-17) |
 | DEC-70 | Tamaño del corte 4 | Partirlo en 4a (ms-solicitudes V08–V12 y ms-integracion) y 4b (ms-cotizaciones V13–V19, proveedores y PDF), cada uno con su reporte y su OK | Decidida por Mauricio (2026-11-17) |
-| DEC-71 | Cómo se simula en local el Ministerio de Comercio | Un contenedor `ministerio` con WireMock que publica el WSDL y responde por SOAP el precio de cada producto (300 ms) o un SOAP Fault; `MinisterioSoapClient` habla SOAP 1.1 de verdad con el JDK. El diagrama no cambia | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
-| DEC-72 | Detalles del corte 4a | SOL-031 en adelante por secuencia, sin solicitudes iniciales y V08 precargada la primera vez; «Mis solicitudes» filtra por el jefe del token en el controlador; rol por ruta; el auxiliar lee los productos de ms-menu y ve el correo del solicitante; REST interno en `/interno/precios/{id}`; el SOAP con cualquier token válido; caché en Redis con vencimiento de un día; «—» en «Cotizaciones enviadas» hasta el 4b | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
-| DEC-73 | Librería del PDF de la cotización | OpenPDF, la que ya nombra el diagrama en `PdfCotizacionAdapter` («OpenPDF»); el diagrama no cambia | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
-| DEC-74 | Detalles del corte 4b | COT-018 en adelante por secuencia, pedido antes de generar; los 4 proveedores de la demo; copia local del nombre de cada producto en ms-cotizaciones (lo manda la SPA); la SPA suma los productos de las solicitudes; roles por ruta; el PDF sin precio de referencia; V16 con «Órdenes de compra» en «—» hasta el corte 5; listeners de `orden.generada` ya suscritos | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-71 | Cómo se simula en local el Ministerio de Comercio | Un contenedor `ministerio` con WireMock que publica el WSDL y responde por SOAP el precio de cada producto (300 ms) o un SOAP Fault; `MinisterioSoapClient` habla SOAP 1.1 de verdad con el JDK. El diagrama no cambia | Asumida en la implementación y confirmada por Mauricio (2026-11-17) |
+| DEC-72 | Detalles del corte 4a | SOL-031 en adelante por secuencia, sin solicitudes iniciales y V08 precargada la primera vez; «Mis solicitudes» filtra por el jefe del token en el controlador; rol por ruta; el auxiliar lee los productos de ms-menu y ve el correo del solicitante; REST interno en `/interno/precios/{id}`; el SOAP con cualquier token válido; caché en Redis con vencimiento de un día; «—» en «Cotizaciones enviadas» hasta el 4b | Asumida en la implementación y confirmada por Mauricio (2026-11-17) |
+| DEC-73 | Librería del PDF de la cotización | OpenPDF, la que ya nombra el diagrama en `PdfCotizacionAdapter` («OpenPDF»); el diagrama no cambia | Asumida en la implementación y confirmada por Mauricio (2026-11-17) |
+| DEC-74 | Detalles del corte 4b | COT-018 en adelante por secuencia, pedido antes de generar; los 4 proveedores de la demo; copia local del nombre de cada producto en ms-cotizaciones (lo manda la SPA); la SPA suma los productos de las solicitudes; roles por ruta; el PDF sin precio de referencia; V16 con «Órdenes de compra» en «—» hasta el corte 5; listeners de `orden.generada` ya suscritos | Asumida en la implementación y confirmada por Mauricio (2026-11-17) |
 | DEC-75 | «Ver PDF» de la orden en V23 | La directora abre el PDF de la orden desde V23 (`GET /api/ordenes-compra/{id}/pdf`): `pdf(numero)` en `OrdenCompraRestController`, `GenerarOrdenUseCase` y `OrdenCompraService`, y `porNumero(numero)` en `OrdenRepositoryPort` y `OrdenJpaAdapter` | Decidida por Mauricio (2026-11-17); aplicada en el código y en las páginas 4d y 1; el mockup V23 queda por cambiar (CD-01) |
 | DEC-76 | Cómo sabe V14 que el correo salió | Cada envío guarda la correlación del recorrido; `EnviosController` (fuera del diagrama, solo lectura) responde `GET /api/notificaciones/envios?correlacion=…` y V14 espera unos segundos el resultado. La 4d no cambia | Decidida por Mauricio (2026-11-17) |
 | DEC-77 | Dónde se anotan los cambios que la documentación tiene que recoger | En `CAMBIOS_A_DOCUMENTAR.md`: cada cosa que el código agrega, quita o cambia frente a los mockups, el `.drawio`, el reporte o las guías, con el artefacto, el lugar exacto y su estado | Decidida por Mauricio (2026-11-17) |
-| DEC-78 | Detalles del corte 5 | OC-0012 en adelante por secuencia, en una transacción; copia local de los nombres en ms-ordenes; la cotización se lee de ms-cotizaciones por Eureka con el JWT; V20 con número, fecha y orden (HU-17); la orden queda EN_PROCESO; 5 tópicos (tendencia.detectada en el corte 6); decoradores copiados de `src/`; Mailpit sin TLS; el jefe de la demo como destinatario inicial; 2 reintentos y la cola `notificaciones.dlq`; la alarma por Redis y WebSocket con el token en la URL solo en esa ruta | Asumida por Claude y confirmada por Mauricio (2026-11-17), con los reemplazos de DEC-80 y DEC-81 |
+| DEC-78 | Detalles del corte 5 | OC-0012 en adelante por secuencia, en una transacción; copia local de los nombres en ms-ordenes; la cotización se lee de ms-cotizaciones por Eureka con el JWT; V20 con número, fecha y orden (HU-17); la orden queda EN_PROCESO; 5 tópicos (tendencia.detectada en el corte 6); decoradores copiados de `src/`; Mailpit sin TLS; el jefe de la demo como destinatario inicial; 2 reintentos y la cola `notificaciones.dlq`; la alarma por Redis y WebSocket con el token en la URL solo en esa ruta | Asumida en la implementación y confirmada por Mauricio (2026-11-17), con los reemplazos de DEC-80 y DEC-81 |
 | DEC-79 | Cómo se documentan las clases que no están en el diagrama | Como notas «Infraestructura que no se dibuja» en las páginas 4a, 4c y 4d, sin cajas nuevas; la cuenta del §13 sigue en 195; lo que es solo de la demostración (`CierreDiaController`, `DatosIniciales`) no se documenta | Decidida por Mauricio (2026-11-17); aplicada en el `.drawio` (páginas 1, 3a, 4a, 4c, 4d y 5); la frase del §13 queda para el corte 7 (CD-15) |
 | DEC-80 | Cómo pasa la orden a FINALIZADA | `finalizar()` en `OrdenCompra` y `finalizar(numero)` ‹V23› en `GenerarOrdenUseCase`, `OrdenCompraService` y `OrdenCompraRestController`; `PATCH /api/ordenes-compra/{id}/finalizar` (directora de compras) y el botón «Marcar como recibida» en V23 | Decidida por Mauricio (2026-11-17); aplicada en el código, la SPA y las páginas 4d y 1; el mockup V23 y el reporte, por cambiar (CD-11 y CD-12) |
 | DEC-81 | Quién vuelve a procesar la cola `notificaciones.dlq` | `ReprocesoColaErrores` en ms-notificaciones (fuera del diagrama): un listener que espera 5 min por registro y lo vuelve a notificar, hasta 3 rondas; HU-12 sigue igual | Decidida por Mauricio (2026-11-17); aplicada en el código y en `n_fallos` de la 4d; el reporte, por cambiar (CD-14) |
-| DEC-82 | Detalles de DEC-79 a DEC-81 | ‹V23› solo en el controlador; una nota de infraestructura por microservicio; V14 sube 8 px en la página 1; textos de la confirmación de V23; grupo, cabecera y fallos del reproceso de la cola; la cola vieja se reprocesa una vez | Asumida por Claude y confirmada por Mauricio (2026-11-17) |
+| DEC-82 | Detalles de DEC-79 a DEC-81 | ‹V23› solo en el controlador; una nota de infraestructura por microservicio; V14 sube 8 px en la página 1; textos de la confirmación de V23; grupo, cabecera y fallos del reproceso de la cola; la cola vieja se reprocesa una vez | Asumida en la implementación y confirmada por Mauricio (2026-11-17) |
 | DEC-83 | Tamaño del corte 6 | Partirlo en 6a (ms-administracion) y 6b (ms-analitica), cada uno con su reporte y su OK | Decidida por Mauricio (2026-11-17) |
 | DEC-84 | Logs de errores en local | Elasticsearch real en el compose (un nodo); cada servicio envía sus errores con un appender de logback en `compartido` y `ElasticsearchLogsAdapter` los consulta | Decidida por Mauricio (2026-11-17) |
 | DEC-85 | Cómo ve el administrador los parámetros generales | `+ parametros(): Map<String, String>` en `AdministracionUseCase`, `AdministracionService` y `AdminRestController` (`GET /api/admin/parametros`, solo el administrador) | Decidida por Mauricio (2026-11-17); aplicada en el código, la SPA y la página 4e |
 | DEC-86 | Quién lee el tema | Cualquier usuario con sesión (`GET /api/admin/parametros/tema` con token); la pantalla de inicio de sesión conserva el logo y el color de siempre | Decidida por Mauricio (2026-11-17); aplicada en el código, la SPA y la nota `n_parametros` de la 4e |
-| DEC-87 | Detalles del corte 6a | Elasticsearch 8.19.4 de un nodo; appender propio por lotes; la bitácora guarda la correlación y no repite eventos; las acciones propias a nombre de quien inició sesión; claves, color y logo validados; refresco cada minuto; menú del administrador en un grupo; la auditoría de los destinatarios; mensajes de PD-10 en el código; ventanas sin mockup | Asumida por Claude (2026-11-17) y confirmada por Mauricio (2026-11-18), al aprobar el corte 6a |
+| DEC-87 | Detalles del corte 6a | Elasticsearch 8.19.4 de un nodo; appender propio por lotes; la bitácora guarda la correlación y no repite eventos; las acciones propias a nombre de quien inició sesión; claves, color y logo validados; refresco cada minuto; menú del administrador en un grupo; la auditoría de los destinatarios; mensajes de PD-10 en el código; ventanas sin mockup | Asumida en la implementación (2026-11-17) y confirmada por Mauricio (2026-11-18), al aprobar el corte 6a |
 | DEC-88 | Gráfica y periodo de cada indicador del tablero BAM | `ResultadoKpi` gana `- ranking: Map<String, BigDecimal>` (los 5 primeros) y `- desde` / `- hasta: LocalDate` (el periodo que aplicó `TableroService`); la SPA dibuja las barras con el ganador resaltado | Decidida por Mauricio (2026-11-18); aplicada en el código, la SPA y la página 4e |
 | DEC-89 | Nombre del proveedor en el tablero | `CotizacionValidadaEvent` gana `- proveedor: String`, junto con lo de PD-05 (`estado: String` y `+ diferenciaPorcentual`) | Decidida por Mauricio (2026-11-18); aplicada en el código y en la página 4c |
 | DEC-90 | Nombre de los platos en el tablero | Copia local en ms-analitica con `menu.actualizado` (`NombresNegocio`, fuera del diagrama, como el catálogo de ms-pedidos); `NegocioEventsListener` sigue con sus 5 tópicos | Decidida por Mauricio (2026-11-18); aplicada en el código y en las páginas 4e (nota) y 3a (consume `menu.actualizado`) |
-| DEC-91 | Detalles del corte 6b | API de redes simulada con WireMock y token; job semanal (cada 30 s en local) con ShedLock; reglas de las sugerencias (7 días anteriores, motivos, vigencia, sin repetir el mismo día, una notificación por día); sugerencias de toda la empresa; correo a todos los jefes; hechos de los 5 tópicos sin repetir eventos; rango completo o nada; histórico de la demostración; ventanas sin mockup | Asumida por Claude (2026-11-18) y confirmada por Mauricio (2026-11-23) |
-| DEC-92 | Cómo se dibuja el diagrama UML de casos de uso | Actor abstracto *Usuario* con generalización desde los seis roles (CU-01); todas las asociaciones del catálogo, también las del servidor de correo con CU-04 y CU-05; el diagrama se genera desde el texto | Asumida por Claude y confirmada por Mauricio (2026-11-23); aplicada en `casos_de_uso.png` |
+| DEC-91 | Detalles del corte 6b | API de redes simulada con WireMock y token; job semanal (cada 30 s en local) con ShedLock; reglas de las sugerencias (7 días anteriores, motivos, vigencia, sin repetir el mismo día, una notificación por día); sugerencias de toda la empresa; correo a todos los jefes; hechos de los 5 tópicos sin repetir eventos; rango completo o nada; histórico de la demostración; ventanas sin mockup | Asumida en la implementación (2026-11-18) y confirmada por Mauricio (2026-11-23) |
+| DEC-92 | Cómo se dibuja el diagrama UML de casos de uso | Actor abstracto *Usuario* con generalización desde los seis roles (CU-01); todas las asociaciones del catálogo, también las del servidor de correo con CU-04 y CU-05; el diagrama se genera desde el texto | Asumida en la implementación y confirmada por Mauricio (2026-11-23); aplicada en `casos_de_uso.png` |
 | DEC-93 | M-02, M-05 y M-07 frente a la aplicación | V21 dice «Solicitud» o «Solicitudes» según cuántas tenga la cotización (la web no cambia); M-05 se cumple en V18 y V19 se deja con sus totales; M-07 no se hace | Decidida por Mauricio (2026-11-23); aplicada en `mockups_faltantes/` |
-| DEC-94 | Datos y forma de los mockups faltantes | Una carpeta por ventana con sus estados; las cuatro cotizaciones de la demo sobre SOL-031; SOL-032 (Norte) y SOL-033 para mostrar varias solicitudes en V13; V19 y V21 sobre el fondo de V17 y V20 | Asumida por Claude y confirmada por Mauricio (2026-11-23) |
+| DEC-94 | Datos y forma de los mockups faltantes | Una carpeta por ventana con sus estados; las cuatro cotizaciones de la demo sobre SOL-031; SOL-032 (Norte) y SOL-033 para mostrar varias solicitudes en V13; V19 y V21 sobre el fondo de V17 y V20 | Asumida en la implementación y confirmada por Mauricio (2026-11-23) |
 | DEC-95 | Plan del corte 7 | Pasos 7a (documentación pendiente), 7b (pruebas de punta a punta y clon limpio), 7c (arquitecto-revisor) y 7d (README, LEEME, reporte y plan); la leyenda del eje del proveedor se corrige en la SPA; CD-51 no aplica; el diagrama de casos de uso entra al reporte en el 7d | Decidida por Mauricio (2026-11-23) |
 | DEC-96 | Ventanas «sin mockup» | Ninguna queda sin mockup: la página 1 cambia el recuadro «Sin mockup» por «Ventanas nuevas», con la miniatura de cada una como V01–V23; se hacen los dos que faltaban (editar y desactivar un plato, reenviar una cotización); la 3a, la nota de platos de la 4b, el Story Mapping corregido y el reporte (7d) dejan de decir «sin mockup» | Decidida por Mauricio (2026-11-23) |
-| DEC-97 | Mensajes de la aplicación frente a los documentados | La aplicación muestra los textos de las historias y de PD-10 (12 mensajes: cantidad, plato y NIT repetidos, correo del proveedor, valor unitario, cotización ya validada o sin valores, solicitud no disponible, sin resultados en V11, Ministerio sin responder en V14, sin permiso y el SOAP Fault de CU-18); la documentación no cambia | Criterio de Mauricio («la que incluya menos modificaciones»), aplicado por Claude (2026-11-23) |
+| DEC-97 | Mensajes de la aplicación frente a los documentados | La aplicación muestra los textos de las historias y de PD-10 (12 mensajes: cantidad, plato y NIT repetidos, correo del proveedor, valor unitario, cotización ya validada o sin valores, solicitud no disponible, sin resultados en V11, Ministerio sin responder en V14, sin permiso y el SOAP Fault de CU-18); la documentación no cambia | Criterio de Mauricio («la que incluya menos modificaciones»), aplicado en la implementación (2026-11-23) |
 | DEC-98 | Coma decimal en la alarma y el correo de stock bajo | La alarma en vivo y el correo dicen «Arroz al 17,33 %» y «Quedan 10,4 kg», con coma, como CD-06 y la SPA; antes salían con punto | Decidida por Mauricio (2026-11-23) |
-| DEC-99 | Historia del corte 7 y `probar_todo.sh` | La historia va del plato nuevo (Arroz con verduras) a la orden recibida (Proveedor C) por los 11 servicios y los 6 roles; `probar_todo.sh` cuenta el núcleo, los JUnit y los recorridos sobre una instancia limpia (`kg-limpio` por omisión; no acepta `konrad-gourmet`) y la detiene al final | Asumida por Claude y confirmada por Mauricio (2026-11-23, al aprobar el 7b) |
+| DEC-99 | Historia del corte 7 y `probar_todo.sh` | La historia va del plato nuevo (Arroz con verduras) a la orden recibida (Proveedor C) por los 11 servicios y los 6 roles; `probar_todo.sh` cuenta el núcleo, los JUnit y los recorridos sobre una instancia limpia (`kg-limpio` por omisión; no acepta `konrad-gourmet`) y la detiene al final | Asumida en la implementación y confirmada por Mauricio (2026-11-23, al aprobar el 7b) |
 | DEC-100 | «Solicitar» de la alarma en vivo | Abre V08 con el producto de la alarma ya escogido, como desde V05 y V07 | Decidida por Mauricio (2026-11-23); aplicada en el 7c (código 9aaf10b) |
 | DEC-101 | `reactivar()` de los platos (C7-4) | Se lleva al diagrama: `reactivar()` en `Plato`, `RegistrarPlatoUseCase`, `PlatoService` y `PlatoRestController` (4b), la ruta en la página 1 y CU-03; el código y el mockup no cambian | Decidida por Mauricio (2026-11-23) |
 | DEC-102 | Datos de la alerta de stock bajo (C7-7) | La fila de V05 muestra la cantidad restante con su unidad y el porcentaje; el correo nombra la sucursal; CU-05 aclara que la alarma en vivo es el aviso que lleva a la alerta; la alarma no cambia | Decidida por Mauricio (2026-11-23) |
 | DEC-103 | Paginado de V11 (C7-17) | Páginas de 25 filas, como HU-06 (4) y CU-07; la documentación no cambia | Decidida por Mauricio (2026-11-23) |
 | DEC-104 | Outbox, consumidores idempotentes y límite de tasa (C7-5, C7-6) | Se implementa lo que dice el diagrama: tabla outbox y relé en cada servicio que publica, descarte de eventos repetidos en todos los consumidores y límite de tasa en el gateway | Decidida por Mauricio (2026-11-23) |
-| DEC-105 | Detalles del 7c | Outbox: se borra lo publicado, un relé por base con candado de PostgreSQL, despierta al confirmarse la transacción; sin base, publicación directa; los consumidores marcan en su transacción (ms-notificaciones, después de enviar); transacción en las escrituras salvo el inicio de sesión; límite de 100 por segundo y ráfagas de 200 por usuario o IP real; relé por lotes; ms-integracion usa su base; nombre de la sucursal en una copia de ms-notificaciones; 404 para el plato de otra sucursal; «La ventana no existe» | Asumida por Claude y confirmada por Mauricio (2026-11-23) |
-| DEC-106 | Detalles del 7d | Las figuras del reporte se rehacen desde el `.drawio` vigente; las ventanas que no estaban entre las 23 entran al final de la tabla 13, con «—» en la columna V y sin llamarlas nuevas; las pruebas van en prosa en la §13.4; el diagrama de casos de uso es la figura 7 y las demás se renumeran; README y LEEME dicen `PYTHON=/ruta/al/venv/bin/python`, sin una ruta del equipo; los 7 cortes quedan «Aprobado» en el LEEME | Asumida por Claude y confirmada por Mauricio (2026-11-23), con el ajuste de la tabla 13 |
+| DEC-105 | Detalles del 7c | Outbox: se borra lo publicado, un relé por base con candado de PostgreSQL, despierta al confirmarse la transacción; sin base, publicación directa; los consumidores marcan en su transacción (ms-notificaciones, después de enviar); transacción en las escrituras salvo el inicio de sesión; límite de 100 por segundo y ráfagas de 200 por usuario o IP real; relé por lotes; ms-integracion usa su base; nombre de la sucursal en una copia de ms-notificaciones; 404 para el plato de otra sucursal; «La ventana no existe» | Asumida en la implementación y confirmada por Mauricio (2026-11-23) |
+| DEC-106 | Detalles del 7d | Las figuras del reporte se rehacen desde el `.drawio` vigente; las ventanas que no estaban entre las 23 entran al final de la tabla 13, con «—» en la columna V y sin llamarlas nuevas; las pruebas van en prosa en la §13.4; el diagrama de casos de uso es la figura 7 y las demás se renumeran; README y LEEME dicen `PYTHON=/ruta/al/venv/bin/python`, sin una ruta del equipo; los 7 cortes quedan «Aprobado» en el LEEME | Asumida en la implementación y confirmada por Mauricio (2026-11-23), con el ajuste de la tabla 13 |
 | DEC-107 | §18 y §1 del reporte (C7-30) | La §18 suma «los mockups» a la lista de lo corregido, sin decir que son nuevos ni capturas; la §1 nombra la plataforma como tercer entregable, porque se muestra en la sustentación | Decidida por Mauricio (2026-11-23) |
 | DEC-108 | Guiones de la sustentación | Cinco guías en HTML: los diagramas (numerados, con su imagen, qué es cada parte y un guion sugerido), el código y sus arquitecturas, la plataforma (con un guion sugerido), los microservicios y lo que está fuera de la plataforma (correo y similares); después, la revisión del arquitecto-revisor | Decidida por Mauricio (2026-11-23) |
-| DEC-109 | Detalles de las guías | En `documentos/guias_sustentacion/`, con su generador; los números de los diagramas se ponen en una copia temporal del `.drawio` (el original no cambia); la página 6 y los casos de uso usan sus propios números; guion sugerido sin reparto de oradores ni duración fija; una guía por mensaje | Asumida por Claude (2026-11-23) y confirmada por Mauricio (2026-11-24) |
+| DEC-109 | Detalles de las guías | En `documentos/guias_sustentacion/`, con su generador; los números de los diagramas se ponen en una copia temporal del `.drawio` (el original no cambia); la página 6 y los casos de uso usan sus propios números; guion sugerido sin reparto de oradores ni duración fija; una guía por mensaje | Asumida en la implementación (2026-11-23) y confirmada por Mauricio (2026-11-24) |
 | DEC-110 | «Ventanas nuevas» y «23 ventanas» | La página 1 dice «Otras ventanas»; la 3a y el reporte (§4 y §12) dicen 33 ventanas donde hablan de todas; las figuras y el reporte se regeneran | Decidida por Mauricio (2026-11-24) |
 | DEC-111 | Imágenes e instancia de la guía de la plataforma | Las imágenes salen de la aplicación con los datos de la demo; la demo corre en `kg-demo`, copia de los volúmenes de `kg-mockups`, que se restablece copiándolos otra vez; el recorrido empieza en el pedido (el plato de V06 es opcional) | Decidida por Mauricio (2026-11-24) |
 
@@ -984,9 +984,9 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Opciones:**
 - **A. Se lo pasa Mauricio a su compañero**, que aplica las correcciones.
-- **B. Lo corrige Claude directamente sobre el archivo.** ✅ **Escogida por Mauricio el 2026-11-08.**
+- **B. Se corrige directamente sobre el archivo.** ✅ **Escogida por Mauricio el 2026-11-08.**
 
-**Aplicación:** RCU-1 a RCU-13 en `Casos de uso — Konrad Gourmet.md`, con un commit por problema (`689ed75` a `de33625`), más S6-2 (`80b5cbe`) que precisa la postcondición de CU-08 ante fallos. Mauricio aprobó la fase 2 y confirmó que el autor es Carlos Franco. La continuación RCU-11 a RCU-13 y el cierre se hicieron con Codex; la autorización de corrección directa y su alcance se mantienen. El diagrama UML sigue en poder del compañero: queda el enlace a `casos_de_uso.png` y la nota de exportación pendiente; no se presenta como entregado.
+**Aplicación:** RCU-1 a RCU-13 en `Casos de uso — Konrad Gourmet.md`, con un commit por problema (`689ed75` a `de33625`), más S6-2 (`80b5cbe`) que precisa la postcondición de CU-08 ante fallos. Mauricio aprobó la fase 2 y confirmó que el autor es Carlos Franco. La continuación RCU-11 a RCU-13 y el cierre se hicieron en otra sesión; la autorización de corrección directa y su alcance se mantienen. El diagrama UML sigue en poder del compañero: queda el enlace a `casos_de_uso.png` y la nota de exportación pendiente; no se presenta como entregado.
 
 ## DEC-53 · ¿Cómo llega el `meseroId` al pedido?
 
@@ -1070,7 +1070,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Qué implica:** T-06 queda decidida. Mientras no se aplique, A sigue siendo el límite declarado de la demo. Aplicarla cambia a la vez la 4c, la 4e y el código (los dos eventos, la llamada en `CotizacionService.validar()` y la rama T-06 de `NotificacionService`); son unas 10 líneas y cabe en la demo, pero no hace falta: **solo se aplica si Mauricio lo autoriza**, porque el alcance actual es solo la demo (DEC-39). Se pierde el tipado fuerte del estado en el consumidor.
 
-**Autorización (2026-11-17).** Mauricio autorizó aplicarla en el corte 6 (6a o 6b, donde la necesite el primer consumidor), siguiendo la recomendación de Claude: ms-analitica necesita `diferenciaPorcentual` para el KPI del proveedor (PD-03) y ms-notificaciones deja de copiar clases del dominio de ms-analitica (DEC-78).
+**Autorización (2026-11-17).** Mauricio autorizó aplicarla en el corte 6 (6a o 6b, donde la necesite el primer consumidor), siguiendo la recomendación técnica: ms-analitica necesita `diferenciaPorcentual` para el KPI del proveedor (PD-03) y ms-notificaciones deja de copiar clases del dominio de ms-analitica (DEC-78).
 
 ## PD-06 · ¿Quién administra roles y permisos, y con qué alcance?
 
@@ -1171,7 +1171,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Qué implica:** se aplican en los casos de uso, en HU-20 a HU-22 y en la tarjeta HU-07 del Story Mapping corregido. El código no cambia ahora.
 
-## PD-11 · ¿Qué dice la declaración de uso de IA del reporte? (R-58)
+## PD-11 · ¿Qué dice la declaración de la §18 del reporte? (R-58)
 
 **Por qué hubo que decidir.** R-58 proponía decir que «las decisiones de diseño las tomó el equipo», lo que es falso para las decisiones delegadas al agente (DEC-23, DEC-24, DEC-49, DEC-50 y PD-01 a PD-11). Es el hallazgo N4, de severidad alta.
 
@@ -1179,11 +1179,11 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 - **A. Mantener el texto de R-58.** Sería una afirmación falsa en la entrega.
 - **B. Una declaración fiel, con los datos que falten marcados para que el equipo los confirme.** ✅ **Escogida por el arquitecto-revisor.**
 
-**Texto propuesto:** «Las correcciones posteriores al 7-nov-2026 se hicieron con IA en seis sesiones: Claude Code (Anthropic, [modelos]) para el .drawio, el código, la demo, las pruebas, el Excel y los documentos, con un agente revisor de Claude que validó cada sesión; Codex (OpenAI, [modelo]) continuó la sesión 6 (RCU-11 a RCU-13 y su validación). Las instrucciones y cada decisión con sus alternativas están en DECISIONES.md y en el historial (un commit por corrección). Mauricio Iturriza tomó la mayoría de las decisiones; DEC-23, DEC-24, DEC-49, DEC-50 y PD-01 a PD-11 las tomó el agente revisor por delegación expresa suya.»
+**Texto propuesto:** agregar a la §18 las correcciones posteriores al 7-nov-2026 (el .drawio, el código, la demo, las pruebas, el Excel y los documentos), con las herramientas usadas, y remitir a DECISIONES.md y al historial (un commit por corrección); decir que Mauricio Iturriza tomó la mayoría de las decisiones y que DEC-23, DEC-24, DEC-49, DEC-50 y PD-01 a PD-11 las tomó el agente revisor por delegación expresa suya.
 
 **Qué implica:** se reescribía R-58 en `CORRECCIONES_REPORTE.md`.
 
-**Decisión de Mauricio (2026-11-08):** primero pidió no ampliarla; después la confirmó con las herramientas y los modelos que usó el equipo: Claude (Opus 5.5 y Sonnet 5.5) y ChatGPT (Astra 6). La redacción final no dice quién tomó cada decisión, sino que remite a `DECISIONES.md`, donde está; así no repite la afirmación falsa del texto anterior (N4). La pregunta A6 queda resuelta.
+**Decisión de Mauricio (2026-11-08):** primero pidió no ampliarla; después la confirmó con las herramientas y los modelos que usó el equipo, que nombra la §18 del reporte. La redacción final no dice quién tomó cada decisión, sino que remite a `DECISIONES.md`, donde está; así no repite la afirmación falsa del texto anterior (N4). La pregunta A6 queda resuelta.
 
 ## DEC-54 · ¿Qué se hace con el reporte si no aparece el script? (A1)
 
@@ -1198,7 +1198,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 ## DEC-55 · ¿Con qué formato se rehace el reporte?
 
-**Por qué hubo que decidir.** El reporte original lo generó una IA y se nota en el formato: tres familias de letra, tamaños distintos, títulos y cajas de color, una portada con un dibujo y separadores «·». Mauricio pidió un documento de aspecto profesional: el mismo tamaño de letra, negrilla permitida y todo en negro.
+**Por qué hubo que decidir.** El reporte original tiene un formato irregular: tres familias de letra, tamaños distintos, títulos y cajas de color, una portada con un dibujo y separadores «·». Mauricio pidió un documento de aspecto profesional: el mismo tamaño de letra, negrilla permitida y todo en negro.
 
 **Opciones:**
 - **A. Conservar el diseño del original** y solo corregir el contenido.
@@ -1236,14 +1236,14 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 ## DEC-58 · ¿La aplicación completa corre con todos los microservicios, o con una versión distinta para local?
 
-**Por qué hubo que decidir.** Para la entrega final (23 o 28 de noviembre de 2026), Mauricio pidió que la web de Konrad Gourmet funcione completa, «tal como lo tenemos especificado». Hasta ahí el código era un solo programa Java en memoria, sin Spring, Kafka ni bases de datos (DEC-25), y la web de Codex usaba rutas propias, no las del reporte.
+**Por qué hubo que decidir.** Para la entrega final (23 o 28 de noviembre de 2026), Mauricio pidió que la web de Konrad Gourmet funcione completa, «tal como lo tenemos especificado». Hasta ahí el código era un solo programa Java en memoria, sin Spring, Kafka ni bases de datos (DEC-25), y la primera web usaba rutas propias, no las del reporte.
 
 **Prueba hecha el 2026-11-16 en el equipo de Mauricio** (31 GB de RAM, 12 núcleos, Docker 29): PostgreSQL con las 11 bases, Kafka con los 10 tópicos, Redis, almacén S3 y Mailpit respondieron; un microservicio Spring Boot de prueba arrancó en 2,9 s con unos 200 MB, guardó un pedido en su base y publicó y recibió el evento por Kafka. Estimado de todo el sistema: 5–6 GB.
 
 **Opciones:**
 - **A. Solo funcionalidad, en memoria:** completar la web y la lógica sobre el programa actual. Rápido, pero no es la arquitectura del reporte.
 - **B. Por etapas:** primero toda la funcionalidad en memoria y después el stack real. La SPA se haría dos veces contra rutas distintas.
-- **C. El stack real directo, por cortes verticales** (cada corte con su pantalla, su servicio, su base y sus eventos, funcionando de punta a punta); la versión en memoria queda de respaldo. ✅ **Recomendada por Claude y aceptada por Mauricio el 2026-11-16.**
+- **C. El stack real directo, por cortes verticales** (cada corte con su pantalla, su servicio, su base y sus eventos, funcionando de punta a punta); la versión en memoria queda de respaldo. ✅ **Recomendada en la implementación y aceptada por Mauricio el 2026-11-16.**
 
 **Qué cambia frente a la página 5 (despliegue):** una réplica por servicio, un broker de Kafka, un PostgreSQL con once bases y once usuarios separados (cada usuario solo puede conectarse a su base), sistemas externos simulados (Ministerio, correo certificado con Mailpit, redes sociales) y sin CDN, WAF, zonas, centro alterno, MirrorMaker, mTLS ni ELK. La funcionalidad y la arquitectura de software no cambian.
 
@@ -1254,7 +1254,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Por qué hubo que decidir.** El reporte y el diagrama nombran MinIO como ejemplo del almacén de objetos S3 compatible, pero el 2026-11-16 su imagen ya no se podía descargar (Docker Hub: «pull access denied»; Quay: 401).
 
 **Opciones:**
-- **A. SeaweedFS** (`chrislusf/seaweedfs:3.97`), S3 compatible; probado con el cliente oficial de AWS: crea el bucket, sube y baja archivos y rechaza credenciales falsas. ✅ **Propuesta por Claude y aceptada por Mauricio el 2026-11-16** (su OK al mensaje que la proponía).
+- **A. SeaweedFS** (`chrislusf/seaweedfs:3.97`), S3 compatible; probado con el cliente oficial de AWS: crea el bucket, sube y baja archivos y rechaza credenciales falsas. ✅ **Propuesta en la implementación y aceptada por Mauricio el 2026-11-16** (su OK al mensaje que la proponía).
 - **B. Compilar MinIO desde el código fuente.** Más lento de armar y de mantener.
 - **C. Guardar los PDF en disco.** Deja de ser un almacén de objetos.
 
@@ -1262,13 +1262,13 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 ## DEC-60 · ¿En qué tecnología va la SPA?
 
-**Por qué hubo que decidir.** La §8 del reporte dice que la SPA está hecha con React y TypeScript y la sirve Nginx, pero la web que dejó Codex es HTML y JavaScript sin framework.
+**Por qué hubo que decidir.** La §8 del reporte dice que la SPA está hecha con React y TypeScript y la sirve Nginx, pero la primera web es HTML y JavaScript sin framework.
 
 **Opciones:**
-- **A. Migrar a React + TypeScript,** aprovechando los estilos y las pantallas de Codex. ✅ **Escogida por Mauricio el 2026-11-16.**
+- **A. Migrar a React + TypeScript,** aprovechando los estilos y las pantallas de la primera web. ✅ **Escogida por Mauricio el 2026-11-16.**
 - **B. Mantener HTML y JS** y anotar la diferencia con el reporte.
 
-**Qué implica:** la SPA nueva consume las rutas de la tabla 5 a través del gateway. La web de Codex queda en la versión en memoria (`./web.sh`).
+**Qué implica:** la SPA nueva consume las rutas de la tabla 5 a través del gateway. La primera web queda en la versión en memoria (`./web.sh`).
 
 
 ## DEC-61 · ¿Cómo usan los servicios Spring el código que ya existe en `src/`?
@@ -1278,7 +1278,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Restricciones:** una sola copia del dominio, los puertos y la aplicación; los nombres siguen el diagrama; `./ejecutar.sh` sigue compilando con `javac` y pasando sus pruebas.
 
 **Opciones:**
-- **A. Cada servicio copia al compilar el núcleo de su paquete desde `src/`** (dominio, eventos, puertos y aplicación, sin `adaptadores/`) y tiene en `servicios/<ms>/` sus adaptadores Spring con los mismos nombres y paquetes. Los adaptadores de `src/` quedan como referencia de la versión en memoria. ✅ **Recomendada por Claude y aceptada por Mauricio el 2026-11-16** («si»).
+- **A. Cada servicio copia al compilar el núcleo de su paquete desde `src/`** (dominio, eventos, puertos y aplicación, sin `adaptadores/`) y tiene en `servicios/<ms>/` sus adaptadores Spring con los mismos nombres y paquetes. Los adaptadores de `src/` quedan como referencia de la versión en memoria. ✅ **Recomendada en la implementación y aceptada por Mauricio el 2026-11-16** («si»).
 - **B. Mover el código a los módulos Maven** y poner las anotaciones en las clases de `src/`. Rompe `./ejecutar.sh`, la demo y el historial de `git log --follow`.
 - **C. Copiar el núcleo a mano en cada servicio.** Dos copias del dominio que se desincronizan.
 
@@ -1289,7 +1289,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Por qué hubo que decidir.** La §8.3 del reporte dice que ms-identidad «emite un JWT», y `IniciarSesionService.iniciarSesion()` devuelve `TokenAcceso` con el `jwt`, pero el servicio solo recibe `UsuarioRepositoryPort`, `CifradorPort` y `EventPublisherPort`: ningún puerto del diagrama firma el token.
 
 **Opciones:**
-- **A. Puerto nuevo `EmisorTokenPort`** (puertos.salida, `emitir(u: Usuario): String`) con su adaptador `JwtEmisorAdapter` (adaptadores.salida); `IniciarSesionService` lo recibe en el constructor. El núcleo no conoce la librería de JWT. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **A. Puerto nuevo `EmisorTokenPort`** (puertos.salida, `emitir(u: Usuario): String`) con su adaptador `JwtEmisorAdapter` (adaptadores.salida); `IniciarSesionService` lo recibe en el constructor. El núcleo no conoce la librería de JWT. ✅ **Recomendada en la implementación y escogida por Mauricio el 2026-11-17.**
 - **B. Que lo firme `AuthRestController`.** El diagrama no cambia, pero la seguridad queda en un adaptador de entrada.
 
 **Qué implica:** la página 4a gana 2 clases (191 → 193), un atributo en `IniciarSesionService` y dos relaciones, y la caja «Cifrado · JWT» de la página 1 suma `JwtEmisorAdapter` (aplicado el 2026-11-17; en la pregunta a Mauricio se dijo «4b» por error: `identidad` está en la 4a). La §13 del reporte dice «191 clases»: pasa a 193 cuando se regenere el reporte (corte 7). El token se firma con RS256; el gateway valida la firma con la llave pública que publica ms-identidad (JWKS), así que nadie más tiene la llave privada. La llave se guarda en la base de ms-identidad para que reiniciar el servicio no cierre las sesiones.
@@ -1298,7 +1298,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Por qué hubo que decidir.** Los mockups no tienen pantallas de estos dos roles, y el login necesita un usuario de cada uno.
 
-**Supuesto:** Andrés Rojas, director comercial (`andres.rojas@konradgourmet.com`), y Paula Herrera, administradora (`paula.herrera@konradgourmet.com`), los dos de la Sucursal Centro. Asumido por Claude el 2026-11-17 y **confirmado por Mauricio el mismo día**, al aprobar el corte 3; cambiarlos solo toca los datos iniciales de ms-identidad.
+**Supuesto:** Andrés Rojas, director comercial (`andres.rojas@konradgourmet.com`), y Paula Herrera, administradora (`paula.herrera@konradgourmet.com`), los dos de la Sucursal Centro. Asumido en la implementación el 2026-11-17 y **confirmado por Mauricio el mismo día**, al aprobar el corte 3; cambiarlos solo toca los datos iniciales de ms-identidad.
 
 ## DEC-64 · ¿Quién aparece en la auditoría de la plataforma, y cómo se une un recorrido?
 
@@ -1307,7 +1307,7 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 **Opciones:**
 - **A. Dejar «sistema»** en la plataforma, como en la demo.
 - **B. Pasar el usuario y la correlación por parámetro** en todos los casos de uso: cambia firmas y el diagrama 4a–4e.
-- **C. Lo que dicen la documentación y el diagrama, resuelto en la infraestructura:** el adaptador `KafkaEventPublisher` de `compartido` completa el evento antes de publicarlo: si dice «sistema» y hay un usuario autenticado, pone su correo; y pone el `correlacionId` del recorrido (el de la cabecera `X-Correlation-Id` de la petición, o el del evento que la originó cuando la escritura viene de un listener de Kafka; si no hay, uno nuevo). Un filtro de `compartido` guarda ese contexto por petición, y el gateway crea la cabecera si no viene. El núcleo y sus firmas no cambian. ✅ **Escogida por Mauricio el 2026-11-17** («como lo definimos en la documentación y diagramas, aplicado a local»); la forma concreta la propuso Claude.
+- **C. Lo que dicen la documentación y el diagrama, resuelto en la infraestructura:** el adaptador `KafkaEventPublisher` de `compartido` completa el evento antes de publicarlo: si dice «sistema» y hay un usuario autenticado, pone su correo; y pone el `correlacionId` del recorrido (el de la cabecera `X-Correlation-Id` de la petición, o el del evento que la originó cuando la escritura viene de un listener de Kafka; si no hay, uno nuevo). Un filtro de `compartido` guarda ese contexto por petición, y el gateway crea la cabecera si no viene. El núcleo y sus firmas no cambian. ✅ **Escogida por Mauricio el 2026-11-17** («como lo definimos en la documentación y diagramas, aplicado a local»); la forma concreta se propuso en la implementación.
 
 **Qué implica:** DEC-42 queda como límite solo de la versión en memoria (`./ejecutar.sh`). Los procesos sin usuario (jobs programados, como `ConsumoDiarioJob`) siguen publicando «sistema», que es correcto. Se aplica al empezar el corte 3, con pruebas: el alta de un usuario queda a nombre de quien la hizo y los eventos de un mismo recorrido comparten `correlacionId`.
 
@@ -1326,10 +1326,10 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 ## DEC-66 · ¿Los platos tienen categoría de la carta?
 
-**Por qué hubo que decidir.** V03 filtra la carta por categoría (Fuertes, Entradas, Sopas, Bebidas, Postres) y V06 pide la categoría del plato, pero `Plato`, `PlatoCatalogo` y `MenuActualizadoEvent` no la tienen en el diagrama; la interfaz en memoria de Codex la guardaba aparte, solo en `ServidorWeb`.
+**Por qué hubo que decidir.** V03 filtra la carta por categoría (Fuertes, Entradas, Sopas, Bebidas, Postres) y V06 pide la categoría del plato, pero `Plato`, `PlatoCatalogo` y `MenuActualizadoEvent` no la tienen en el diagrama; la interfaz en memoria la guardaba aparte, solo en `ServidorWeb`.
 
 **Opciones:**
-- **A. Agregarla al diseño:** `categoria: String` en `Plato` (obligatoria en `validar()`), `MenuActualizadoEvent` y `PlatoCatalogo`. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **A. Agregarla al diseño:** `categoria: String` en `Plato` (obligatoria en `validar()`), `MenuActualizadoEvent` y `PlatoCatalogo`. ✅ **Recomendada en la implementación y escogida por Mauricio el 2026-11-17.**
 - **B. No usarla:** el diagrama no cambia; V03 queda sin filtro y V06 sin el campo.
 
 **Qué implica:** cambian los constructores de las tres clases y la página 4b (aplicado el 2026-11-17). La categoría de la carta no es la `Categoria` de productos (Proteína, Cereal…), que sigue igual.
@@ -1340,31 +1340,31 @@ Para el tablero, la demo carga un histórico del mes (Bandeja paisa 22 + 18 = 40
 
 **Opciones:**
 - **A. Sin imagen por ahora:** el plato se muestra con un ícono; el diagrama no cambia.
-- **B. En el almacén de objetos (S3):** ms-menu sube la imagen a un bucket propio y el plato guarda su `imagenUrl`. ✅ **Escogida por Mauricio el 2026-11-17** (Claude había recomendado A).
+- **B. En el almacén de objetos (S3):** ms-menu sube la imagen a un bucket propio y el plato guarda su `imagenUrl`. ✅ **Escogida por Mauricio el 2026-11-17** (la recomendada era A).
 
 **Qué implica:** en la 4b, `Plato` gana `imagenUrl` y `asignarImagen(url)`; `RegistrarPlatoUseCase` y `PlatoService` ganan `guardarImagen(id, contenido, tipo)` e `imagen(id)`; `PlatoService` recibe un `AlmacenArchivosPort` propio de ms-menu, y aparece `AlmacenObjetosAdapter` en ms-menu (2 clases nuevas: 193 → 195, la §13 del reporte cambia al regenerarlo en el corte 7). La página 3a suma la flecha de ms-menu al almacén de objetos y la página 1 el adaptador «S3» de ms-menu. Rutas: `PUT` y `GET /api/platos/{id}/imagen` (PNG, JPEG o WebP, hasta 1 MB). `menu.actualizado` no lleva la imagen. El mesero también puede verla (V03); como un `<img>` no manda el JWT, la SPA la pide con `fetch` y la muestra desde la memoria del navegador.
 
 ## DEC-68 · ¿Cómo se ve el cierre diario en la demostración?
 
-**Por qué hubo que decidir.** El inventario solo se descuenta en el cierre de las 23:59 (`ConsumoDiarioJob`), así que en una demostración la alerta de stock bajo de V05 no aparecería. La interfaz de Codex tenía un botón «Cierre del día (23:59)».
+**Por qué hubo que decidir.** El inventario solo se descuenta en el cierre de las 23:59 (`ConsumoDiarioJob`), así que en una demostración la alerta de stock bajo de V05 no aparecería. La primera interfaz web tenía un botón «Cierre del día (23:59)».
 
 **Opciones:**
-- **A. Un botón en V07 que llama al mismo job** (`POST /api/inventario/cierre`, solo el jefe de cocina, en una clase `CierreDiaController` fuera del diagrama, como `JwksController`). El job conserva su `@Scheduled` y su ShedLock. ✅ **Asumida por Claude el 2026-11-17 y confirmada por Mauricio el mismo día**, al aprobar el corte 3.
+- **A. Un botón en V07 que llama al mismo job** (`POST /api/inventario/cierre`, solo el jefe de cocina, en una clase `CierreDiaController` fuera del diagrama, como `JwksController`). El job conserva su `@Scheduled` y su ShedLock. ✅ **Asumida en la implementación el 2026-11-17 y confirmada por Mauricio el mismo día**, al aprobar el corte 3.
 - **B. Cambiar la hora del job por configuración** (por ejemplo, cada minuto) solo para la demostración.
 - **C. Sin atajo:** la alerta aparece solo después de las 23:59.
 
 **Qué implica:** el diagrama no cambia; el LEEME lista `CierreDiaController` entre las clases que no están en el diagrama.
 
-## DEC-69 · Detalles del corte 3 asumidos por Claude
+## DEC-69 · Detalles del corte 3 asumidos en la implementación
 
-Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los confirmó Mauricio el mismo día**, al aprobar el corte 3:
+Ninguno cambia firmas ni el diagrama. Se asumieron el 2026-11-17 y **los confirmó Mauricio el mismo día**, al aprobar el corte 3:
 
 - **Turno del mesero.** `GET /api/pedidos?turno=actual` devuelve los pedidos del mesero desde las 00:00 de hoy, hora de Bogotá (los servicios corren con esa zona horaria). Otra opción era guardar turnos con hora de inicio y fin, que el diseño no tiene.
 - **Número del pedido.** El controlador arma el `Pedido` sin número y `PedidoJpaAdapter.guardar()` le asigna el siguiente de una secuencia de PostgreSQL (PED-0251 en adelante, como la demo). Otras opciones: que lo eligiera la SPA (choques entre meseros) o un puerto nuevo para numerar (cambia el diagrama).
 - **Carta inicial.** ms-menu crea los 8 platos de la demo con `PlatoService` la primera vez que arranca; ms-pedidos y ms-inventario los reciben por `menu.actualizado` (leen el tópico desde el principio). Otra opción era cargarlos con SQL en las tres bases, saltándose el evento.
 - **Productos de V06.** `productosPorCategoria(null)` devuelve todos los productos, para armar el selector de categoría y producto; la categoría de cada insumo en V07 se toma de esos productos. Otra opción era un método nuevo para listar categorías (cambia el diagrama).
 - **Platos que salieron del menú en pedidos viejos.** El detalle de un pedido muestra el nombre que da el catálogo vigente; si el plato ya se desactivó, se muestra «Plato N». Guardar el nombre en el detalle del pedido cambiaría `DetallePedido`.
-- **Pedido precargado.** Como en la interfaz de Codex, la primera vez del turno V03 trae 2 bandejas paisas («Sin arepa») y 1 ajiaco en la mesa 5.
+- **Pedido precargado.** Como en la primera interfaz web, la primera vez del turno V03 trae 2 bandejas paisas («Sin arepa») y 1 ajiaco en la mesa 5.
 - **Inicio del jefe (V05).** Los indicadores de solicitudes muestran «—» y la tabla de solicitudes dice que llegan en el corte 4 (ms-solicitudes). Desde el corte 4a muestran las solicitudes del jefe (DEC-72).
 
 ## DEC-70 · ¿El corte 4 va en un solo mensaje o en dos?
@@ -1373,7 +1373,7 @@ Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los c
 
 **Opciones:**
 - **A. Un solo corte,** como estaba en el plan.
-- **B. Partirlo en dos, cada uno con su reporte y su OK:** 4a, ms-solicitudes (V08–V12) y ms-integracion (precio de referencia del Ministerio, con su caché y el endpoint SOAP); 4b, ms-cotizaciones (V13–V19, proveedores y PDF en el almacén de objetos), que une el recorrido solicitud → cotización. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **B. Partirlo en dos, cada uno con su reporte y su OK:** 4a, ms-solicitudes (V08–V12) y ms-integracion (precio de referencia del Ministerio, con su caché y el endpoint SOAP); 4b, ms-cotizaciones (V13–V19, proveedores y PDF en el almacén de objetos), que une el recorrido solicitud → cotización. ✅ **Recomendada en la implementación y escogida por Mauricio el 2026-11-17.**
 
 **Qué implica:** el plan pasa a 8 entregas (1, 2, 3, 4a, 4b, 5, 6 y 7); la fecha de entrega (23 o 28 de noviembre) no cambia. En 4a, las solicitudes no reciben todavía los eventos de cotizaciones (`CotizacionEventsListener` se prueba en 4b).
 
@@ -1382,17 +1382,17 @@ Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los c
 **Por qué hubo que decidir.** ms-integracion consulta el precio estándar al Ministerio de Comercio por SOAP (`MinisterioComercioAdapter` sobre `MinisterioSoapClient`, página 4e), pero el Ministerio es un sistema externo (página 2) y en local no hay un servicio real al que llamar. `MinisterioSoapClient` estaba pendiente y la demo en memoria usa `MinisterioSoapSimulado`, una subclase que no sale del proceso.
 
 **Opciones:**
-- **A. Un contenedor `ministerio` con WireMock** (`wiremock/wiremock:3.13.1`), fuera del sistema como Mailpit: publica el WSDL (`plataforma/infra/ministerio/precios.wsdl`) y responde `consultarPrecioEstandar` con el precio por kilo de la demo (res $20.000, arroz $8.000, papa $3.500 y pollo $14.000) en 300 ms, o un SOAP Fault si no conoce el producto. `MinisterioSoapClient` se implementa en `src/` con el JDK (sobre SOAP 1.1 por `HttpClient` y lectura con DOM, sin XXE), así lo usan igual la versión en memoria y ms-integracion, que lo copia de `src/` porque no lleva Spring. WireMock cuenta las llamadas, y eso prueba cuándo respondió el Ministerio y cuándo Redis. ✅ **Asumida por Claude el 2026-11-17 y confirmada por Mauricio el mismo día**, al aprobar el corte 4a.
+- **A. Un contenedor `ministerio` con WireMock** (`wiremock/wiremock:3.13.1`), fuera del sistema como Mailpit: publica el WSDL (`plataforma/infra/ministerio/precios.wsdl`) y responde `consultarPrecioEstandar` con el precio por kilo de la demo (res $20.000, arroz $8.000, papa $3.500 y pollo $14.000) en 300 ms, o un SOAP Fault si no conoce el producto. `MinisterioSoapClient` se implementa en `src/` con el JDK (sobre SOAP 1.1 por `HttpClient` y lectura con DOM, sin XXE), así lo usan igual la versión en memoria y ms-integracion, que lo copia de `src/` porque no lleva Spring. WireMock cuenta las llamadas, y eso prueba cuándo respondió el Ministerio y cuándo Redis. ✅ **Asumida en la implementación el 2026-11-17 y confirmada por Mauricio el mismo día**, al aprobar el corte 4a.
 - **B. Un microservicio Spring propio que haga de Ministerio** (con CXF). Más código y otra imagen que compilar para algo que está fuera del sistema.
 - **C. Un `MinisterioSoapClient` falso dentro de ms-integracion** (como `MinisterioSoapSimulado`). No pasa nada por la red ni por SOAP: la prueba de la caché quedaría en el mismo proceso.
 
 **Qué implica:** el diagrama no cambia (el Ministerio ya es la caja gris externa de las páginas 2 y 3a y `MinisterioSoapClient` conserva su atributo y su método). El README pasa de 73 a 72 métodos pendientes. El LEEME de la plataforma lista el contenedor entre los sistemas externos simulados (DEC-58).
 
-## DEC-72 · Detalles del corte 4a asumidos por Claude
+## DEC-72 · Detalles del corte 4a asumidos en la implementación
 
-Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los confirmó Mauricio el mismo día**, al aprobar el corte 4a:
+Ninguno cambia firmas ni el diagrama. Se asumieron el 2026-11-17 y **los confirmó Mauricio el mismo día**, al aprobar el corte 4a:
 
-- **Numeración y datos iniciales.** `SolicitudJpaAdapter.guardar()` numera con una secuencia de PostgreSQL desde SOL-031, como la demo (30 solicitudes anteriores), igual que los pedidos (DEC-69). La demo no tiene solicitudes guardadas, así que la base empieza vacía; como en la interfaz de Codex, la primera vez V08 trae precargada la solicitud de la demo (res 20 kg «Marca X» y arroz 15 kg). Otra opción era insertar solicitudes de ejemplo con SQL, saltándose `solicitud.registrada`.
+- **Numeración y datos iniciales.** `SolicitudJpaAdapter.guardar()` numera con una secuencia de PostgreSQL desde SOL-031, como la demo (30 solicitudes anteriores), igual que los pedidos (DEC-69). La demo no tiene solicitudes guardadas, así que la base empieza vacía; como en la primera interfaz web, la primera vez V08 trae precargada la solicitud de la demo (res 20 kg «Marca X» y arroz 15 kg). Otra opción era insertar solicitudes de ejemplo con SQL, saltándose `solicitud.registrada`.
 - **Rearmar la solicitud.** `SolicitudAlimentos` gana un constructor con fecha, estado, valor sugerido, cotizaciones aplicadas y productos, para leerla de la base (los diagramas omiten los constructores, como el de `Pedido` en el corte 3).
 - **«Mis solicitudes» (V10).** `CriteriosConsulta` no tiene solicitante, así que `misSolicitudes()` atiende `GET /api/solicitudes?solicitante=yo`, consulta con los demás criterios y deja solo las del jefe del token. Otra opción era agregar `solicitanteId` a `CriteriosConsulta` (cambia la 4c).
 - **Roles.** Registrar y «Mis solicitudes»: jefe de cocina. Consultar (V11–V12): auxiliar de compras, de todas las sucursales. Detalle: el auxiliar, y el jefe solo de las suyas (las de otro responden 404). El director de compras entra en el 4b, si lo necesita.
@@ -1407,21 +1407,21 @@ Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los c
 **Por qué hubo que decidir.** `PdfCotizacionAdapter` estaba pendiente (la demo usa `PdfSimulado`, que escribe texto) y en la plataforma el proveedor tiene que recibir un PDF de verdad, que abra y que no esté dañado.
 
 **Opciones:**
-- **A. OpenPDF** (`com.github.librepdf:openpdf` 2.0.3, licencia LGPL/MPL), la que ya dice el diagrama: la 4c rotula `PdfCotizacionAdapter` con «OpenPDF». ✅ **Asumida por Claude el 2026-11-17 y confirmada por Mauricio el mismo día.**
+- **A. OpenPDF** (`com.github.librepdf:openpdf` 2.0.3, licencia LGPL/MPL), la que ya dice el diagrama: la 4c rotula `PdfCotizacionAdapter` con «OpenPDF». ✅ **Asumida en la implementación el 2026-11-17 y confirmada por Mauricio el mismo día.**
 - **B. Apache PDFBox.** También libre y madura, pero de más bajo nivel para armar tablas, y el rótulo del diagrama cambiaría a «PDFBox».
 - **C. Plantilla HTML convertida a PDF** (por ejemplo, OpenHTMLtoPDF). Más fácil de diseñar, pero suma un motor de plantillas y otra librería que el diagrama no tiene.
 
 **Qué implica:** el diagrama no cambia. El PDF tiene una página carta con la marca, el número, el proveedor (razón social, NIT, correo, teléfono y dirección), las solicitudes de origen, la fecha límite y la tabla de productos con una columna vacía para el precio por unidad. No lleva el precio de referencia del Ministerio: ese lo compara la directora al validar. `PdfOrdenAdapter` (corte 5) puede usar la misma librería.
 
-## DEC-74 · Detalles del corte 4b asumidos por Claude
+## DEC-74 · Detalles del corte 4b asumidos en la implementación
 
-Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los confirmó Mauricio el mismo día** (incluida la copia local de los nombres de productos):
+Ninguno cambia firmas ni el diagrama. Se asumieron el 2026-11-17 y **los confirmó Mauricio el mismo día** (incluida la copia local de los nombres de productos):
 
 - **Numeración.** Una secuencia de PostgreSQL empieza en COT-018, la primera cotización de la demo (como SOL-031 en DEC-72). A diferencia de pedidos y solicitudes, el número se pide antes de generar (`NumeracionCotizaciones`, fuera del diagrama), porque la fachada crea el PDF, que ya lo lleva, antes de guardar la cotización. Si faltan las solicitudes o los productos, no se gasta número. Otra opción era un método nuevo `siguienteNumero()` en `CotizacionRepositoryPort` (cambia la 4c).
 - **Datos iniciales.** Los 4 proveedores de la demo (Proveedor ABC, B, C y D, con su NIT, correo, teléfono, dirección y categorías), cargados con Flyway. No hay cotizaciones iniciales.
 - **Nombres de los productos.** ms-cotizaciones guarda el id de cada producto. Para que el PDF diga «Res» y no «Producto 1», y para que la directora (que no lee ms-menu, DEC-72) vea los nombres, la SPA manda el nombre de cada producto al generar y ms-cotizaciones guarda una copia local (`producto_nombre`, `NombresProductos`, fuera del diagrama), como una orden guarda el nombre que tenía el producto al comprarlo. Otras opciones: que ms-cotizaciones le pregunte a ms-menu al generar el PDF (una dependencia nueva en la página 3a) o agregar el nombre a `ItemCotizacion` (cambia la 4c).
 - **Productos de V13.** La SPA suma las cantidades de cada producto de las solicitudes marcadas (las mismas que lee de ms-solicitudes) y el auxiliar puede quitar alguno; ms-cotizaciones no consulta ms-solicitudes (su base es otra). Un producto que no queda en la cotización deja su solicitud sin cotizar completa, y la solicitud no pasa a EN TRÁMITE.
-- **Proveedor y fecha.** Solo los proveedores activos salen en V13 y reciben cotizaciones (409 si está inactivo). La fecha máxima es obligatoria y no puede ser anterior a hoy; por omisión, dentro de 7 días, como la interfaz de Codex.
+- **Proveedor y fecha.** Solo los proveedores activos salen en V13 y reciben cotizaciones (409 si está inactivo). La fecha máxima es obligatoria y no puede ser anterior a hoy; por omisión, dentro de 7 días, como la primera interfaz web.
 - **Roles.** Generar y reenviar: auxiliar de compras. Pendientes, registrar valores y validar: directora de compras. Lista, detalle y PDF: las dos. Proveedores: el auxiliar registra, edita e inactiva; la directora los lee (filtro de V17).
 - **Precio de referencia.** `PrecioSugeridoRestAdapter` llama al REST interno de ms-integracion por Eureka (balanceador) con el JWT del usuario y su `X-Correlation-Id`, con 5 s de espera; si falla, la fachada guarda la cotización PENDIENTE_PRECIO, como dice el diagrama, y se reenvía desde V15.
 - **V14 y V16.** El tiquete de V14 marca «PDF generado»; «Correo enviado» queda sin marca hasta el corte 5, cuando ms-notificaciones envíe el correo al recibir `cotizacion.enviada` (el evento ya lleva el `pdfUrl` y el correo del proveedor). En V16, «Órdenes de compra» muestra «—» hasta el corte 5.
@@ -1433,7 +1433,7 @@ Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los c
 **Por qué hubo que decidir.** HU-14 pide generar el PDF de la orden y enviarlo por correo certificado al proveedor; el mockup V23 (p. 30) muestra la lista y el detalle de la orden, sin un botón para ver el PDF. En la página 4d, ms-ordenes guarda el PDF en el almacén, pero ningún método lo devuelve: solo le llega al proveedor por correo (claim check).
 
 **Opciones:**
-- **A. No, como el mockup.** La 4d no cambia; el PDF se comprueba en el almacén y en el adjunto del correo. (Recomendada por Claude.)
+- **A. No, como el mockup.** La 4d no cambia; el PDF se comprueba en el almacén y en el adjunto del correo. (Recomendada en la implementación.)
 - **B. «Ver PDF» en el detalle de V23.** `GET /api/ordenes-compra/{id}/pdf`: `pdf(numero: String): byte[]` en `OrdenCompraRestController` ‹V23›, `GenerarOrdenUseCase` y `OrdenCompraService` (lee la orden con `porNumero()` y el PDF del almacén con `obtener()`), y `porNumero(numero: String): OrdenCompra` en `OrdenRepositoryPort` y `OrdenJpaAdapter`. ✅ **Escogida por Mauricio el 2026-11-17** («agrégale algo como ver PDF»).
 
 **Qué implica:** cambian cinco declaraciones de la 4d (no hay clases nuevas: la cuenta del reporte sigue igual) y la fila de V23 de la página 1 suma `GET …/{id}/pdf` (aplicado el 2026-11-17). En `src/`, `OrdenJpaAdapter.porNumero()` queda pendiente como los demás métodos de ese adaptador (el real está en `servicios/ms-ordenes`): los pendientes pasan de 72 a 73. Quedan por cambiar el mockup V23 y la tabla de rutas del reporte (CD-01 y CD-02 en `CAMBIOS_A_DOCUMENTAR.md`). Solo la directora de compras abre el PDF; una orden que no existe responde 404.
@@ -1443,7 +1443,7 @@ Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los c
 **Por qué hubo que decidir.** V14 tiene dos marcas: «PDF generado» y «Correo enviado». El correo no lo envía ms-cotizaciones: lo envía ms-notificaciones después, al recibir `cotizacion.enviada`, y en la página 4d `EnvioRepositoryPort` solo registra los envíos (`registrar()` y `registrarFallo()`); no hay cómo consultarlos.
 
 **Opciones:**
-- **A. Una clase fuera del diagrama.** `EnvioJpaAdapter` guarda en cada envío la correlación del recorrido (DEC-64), sin cambiar su firma, y `EnviosController` (fuera del diagrama, como `CierreDiaController`) responde `GET /api/notificaciones/envios?correlacion=…`, solo lectura, al auxiliar y al director de compras y al administrador. V14 lee la correlación de la respuesta al generar, espera hasta unos 15 s y marca «Correo enviado» o «Correo no enviado». La 4d no cambia. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **A. Una clase fuera del diagrama.** `EnvioJpaAdapter` guarda en cada envío la correlación del recorrido (DEC-64), sin cambiar su firma, y `EnviosController` (fuera del diagrama, como `CierreDiaController`) responde `GET /api/notificaciones/envios?correlacion=…`, solo lectura, al auxiliar y al director de compras y al administrador. V14 lee la correlación de la respuesta al generar, espera hasta unos 15 s y marca «Correo enviado» o «Correo no enviado». La 4d no cambia. ✅ **Recomendada en la implementación y escogida por Mauricio el 2026-11-17.**
 - **B. Agregarlo a la 4d:** `envios(correlacion)` en `NotificarUseCase`, `NotificacionService`, `EnvioRepositoryPort` y un controlador. Cambian tres o cuatro declaraciones.
 - **C. Marcarlo sin confirmar** apenas la cotización queda ENVIADA. No comprueba que el correo haya salido.
 
@@ -1457,9 +1457,9 @@ Ninguno cambia firmas ni el diagrama. Los asumió Claude el 2026-11-17 y **los c
 
 **Qué implica:** la lista vive en `CAMBIOS_A_DOCUMENTAR.md`, con un número CD-xx por cambio, el artefacto, el lugar exacto, la decisión que lo origina y su estado (pendiente o aplicado). Los cambios de los mockups los hace Mauricio en Canva, como M-01 a M-09 de `CORRECCIONES_HU_Y_MOCKUPS.md`; los del `.drawio` y del reporte se aplican en el corte 7, salvo los que ya se aplicaron al decidirlos. La lista también recoge lo de los cortes 1 a 4b que no estaba anotado.
 
-## DEC-78 · Detalles del corte 5 asumidos por Claude
+## DEC-78 · Detalles del corte 5 asumidos en la implementación
 
-Ninguno cambia firmas ni el diagrama (el único que los cambia es DEC-75, que decidió Mauricio). Los asumió Claude el 2026-11-17; **los confirmó Mauricio el mismo día**, al aprobar el corte 5. Lo que la documentación tiene que recoger está en `CAMBIOS_A_DOCUMENTAR.md` (CD-05 a CD-10).
+Ninguno cambia firmas ni el diagrama (el único que los cambia es DEC-75, que decidió Mauricio). Se asumieron el 2026-11-17; **los confirmó Mauricio el mismo día**, al aprobar el corte 5. Lo que la documentación tiene que recoger está en `CAMBIOS_A_DOCUMENTAR.md` (CD-05 a CD-10).
 
 - **Número de la orden.** `OrdenJpaAdapter.guardar()` le da a la orden nueva el siguiente número de una secuencia de PostgreSQL, OC-0012 en adelante, como la demo (igual que pedidos y solicitudes, DEC-69 y DEC-72); el núcleo genera el PDF después de numerar. Otra opción era pedirlo antes, como las cotizaciones (DEC-74), pero aquí no hace falta: `OrdenCompraService.generar()` ya guarda dos veces.
 - **Rearmar la orden.** `OrdenCompra` gana un constructor con todos sus campos para leerla de la base (los diagramas omiten los constructores, como el de `SolicitudAlimentos` en DEC-72).
@@ -1483,7 +1483,7 @@ Ninguno cambia firmas ni el diagrama (el único que los cambia es DEC-75, que de
 **Por qué hubo que decidir.** Los servicios Spring tienen piezas de infraestructura que las páginas 4a–4e no dibujan: `EnviosController` (DEC-76), `CanalAlarmas` y `ConfiguracionWebSocket` (DEC-78), `NombresProductos` y `NumeracionCotizaciones` (DEC-74 y DEC-78), y lo compartido de seguridad y trazas (DEC-62, DEC-64). `CAMBIOS_A_DOCUMENTAR.md` las tenía como «dibujar en el `.drawio` o nombrar en el reporte» (CD-03, CD-07, CD-08, CD-09, CD-52, CD-53 y CD-54). La regla de DEC-61 es «un solo modelo»: lo que está en el diagrama tiene su clase en `src/`.
 
 **Opciones:**
-- **A. Notas, sin cajas nuevas.** Una nota «Infraestructura que no se dibuja» en la página del servicio, con el estilo de `n_fallos` y `n_alarmapush`, que nombra cada clase y lo que hace; las rutas nuevas van en la fila de su ventana en la página 1. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **A. Notas, sin cajas nuevas.** Una nota «Infraestructura que no se dibuja» en la página del servicio, con el estilo de `n_fallos` y `n_alarmapush`, que nombra cada clase y lo que hace; las rutas nuevas van en la fila de su ventana en la página 1. ✅ **Recomendada en la implementación y escogida por Mauricio el 2026-11-17.**
 - **B. Cajas en la 4x.** Cada caja obliga a crear su clase en `src/` («un solo modelo») y mostraría controladores que se saltan el núcleo (no pasan por un caso de uso).
 - **C. Dejarlo solo en el reporte.** El diagrama quedaría sin decir que esas piezas existen.
 
@@ -1502,7 +1502,7 @@ Ninguno cambia firmas ni el diagrama (el único que los cambia es DEC-75, que de
 **Por qué hubo que decidir.** `EstadoOrden` tiene EN_PROCESO y FINALIZADA, y el filtro de V23 (p. 30) ofrece los dos, pero en la página 4d ningún método pasa la orden a FINALIZADA: en la plataforma toda orden quedaba EN_PROCESO (DEC-78).
 
 **Opciones:**
-- **A. Un método para finalizarla.** `+ finalizar(): void` en `OrdenCompra` (solo de EN_PROCESO a FINALIZADA; si ya lo está: «La orden OC-0012 ya está finalizada») y `+ finalizar(numero: String): OrdenCompra ‹V23›` en `GenerarOrdenUseCase`, `OrdenCompraService` y `OrdenCompraRestController`. Reutiliza `guardar()` del repositorio. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **A. Un método para finalizarla.** `+ finalizar(): void` en `OrdenCompra` (solo de EN_PROCESO a FINALIZADA; si ya lo está: «La orden OC-0012 ya está finalizada») y `+ finalizar(numero: String): OrdenCompra ‹V23›` en `GenerarOrdenUseCase`, `OrdenCompraService` y `OrdenCompraRestController`. Reutiliza `guardar()` del repositorio. ✅ **Recomendada en la implementación y escogida por Mauricio el 2026-11-17.**
 - **B. Dejarla EN_PROCESO y anotarlo.** El filtro de V23 tendría un estado que nunca aparece.
 
 **Qué implica:**
@@ -1518,7 +1518,7 @@ Ninguno cambia firmas ni el diagrama (el único que los cambia es DEC-75, que de
 **Por qué hubo que decidir.** Con DEC-78, un evento cuyo correo falla tres veces pasa a `notificaciones.dlq` y ahí se queda: «se vuelve a procesar a mano», pero nada lo hace. HU-12 solo cubre el reenvío de una cotización; los avisos de `orden.generada`, de stock bajo y de las solicitudes no tienen reenvío.
 
 **Opciones:**
-- **A. Un listener con espera larga.** `ReprocesoColaErrores` en ms-notificaciones, fuera del diagrama como `CanalAlarmas`, lee la cola con su propio grupo de consumo y acuse manual; espera a que cada registro lleve la espera en la cola (con `nack(Duration)`, sin bloquear el hilo) y vuelve a llamar a `notificarEvento()`; si falla, lo publica otra vez en la cola con un contador en una cabecera, y después de 3 rondas lo deja ahí, con cada fallo en la traza. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **A. Un listener con espera larga.** `ReprocesoColaErrores` en ms-notificaciones, fuera del diagrama como `CanalAlarmas`, lee la cola con su propio grupo de consumo y acuse manual; espera a que cada registro lleve la espera en la cola (con `nack(Duration)`, sin bloquear el hilo) y vuelve a llamar a `notificarEvento()`; si falla, lo publica otra vez en la cola con un contador en una cabecera, y después de 3 rondas lo deja ahí, con cada fallo en la traza. ✅ **Recomendada en la implementación y escogida por Mauricio el 2026-11-17.**
 - **B. Un endpoint del administrador** para reprocesar la cola a mano. Necesita una ventana que no existe.
 - **C. Solo el reenvío de HU-12.** No cubre `orden.generada`, el stock bajo ni las solicitudes.
 
@@ -1532,9 +1532,9 @@ Ninguno cambia firmas ni el diagrama (el único que los cambia es DEC-75, que de
 - La clase va en la lista de clases fuera del diagrama del LEEME y en `CAMBIOS_A_DOCUMENTAR.md`.
 
 
-## DEC-82 · Detalles de DEC-79 a DEC-81 asumidos por Claude
+## DEC-82 · Detalles de DEC-79 a DEC-81 asumidos en la implementación
 
-Ninguno cambia firmas ni agrega cajas al diagrama. Los asumió Claude el 2026-11-17, al aplicar DEC-79 a DEC-81; **los confirmó Mauricio el mismo día**, al aprobar el corte 5.
+Ninguno cambia firmas ni agrega cajas al diagrama. Se asumieron el 2026-11-17, al aplicar DEC-79 a DEC-81; **los confirmó Mauricio el mismo día**, al aprobar el corte 5.
 
 - **‹V23› solo en el controlador.** `finalizar(numero)` lleva la marca de la ventana en `OrdenCompraRestController`, no en `GenerarOrdenUseCase` ni en `OrdenCompraService`: así está `pdf()` de DEC-75 y así marca la leyenda las ventanas (el método que las atiende). Las cajas crecen una línea; `OrdenCompraService` baja 14 px para no pegarse al caso de uso.
 - **Una nota de infraestructura por microservicio.** En la 4a van dos (en `compartido`, junto a `AuditoriaEvent`, y en ms-identidad, junto a `JwtEmisorAdapter`) y en la 4d otras dos (en ms-ordenes, junto a `CotizacionRestClient`, y en ms-notificaciones, unida a `EnvioRepositoryPort`); en la 4c, una, unida a `CotizacionService`. Una sola nota por página habría cruzado el marco de otro microservicio. El gateway no tiene página: `CorrelacionGateway` va en la nota de `compartido` (con lo de DEC-64) y `SeguridadGateway` en la de ms-identidad (con el JWKS que usa).
@@ -1551,7 +1551,7 @@ Ninguno cambia firmas ni agrega cajas al diagrama. Los asumió Claude el 2026-11
 **Por qué hubo que decidir.** El corte 6 trae dos servicios sin relación directa: ms-administracion (auditoría, parámetros y tema, logs de errores, alta de usuarios y libreta de destinatarios) y ms-analitica (tablero BAM del director comercial y promociones de HU-19 con `tendencia.detectada`).
 
 **Opciones:**
-- **A. Partirlo en 6a (ms-administracion) y 6b (ms-analitica)**, cada uno con su reporte, sus pruebas y su OK, como DEC-70. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **A. Partirlo en 6a (ms-administracion) y 6b (ms-analitica)**, cada uno con su reporte, sus pruebas y su OK, como DEC-70. ✅ **Recomendada en la implementación y escogida por Mauricio el 2026-11-17.**
 - **B. Un solo corte 6**, más largo y más difícil de revisar.
 
 ## DEC-84 · ¿Cómo se ven los logs de errores en local?
@@ -1559,7 +1559,7 @@ Ninguno cambia firmas ni agrega cajas al diagrama. Los asumió Claude el 2026-11
 **Por qué hubo que decidir.** La ventana de logs del administrador usa `LogsPort` y `ElasticsearchLogsAdapter` («ELK · Elasticsearch · HTTPS», 4e), y la plataforma local no tenía ELK (DEC-58).
 
 **Opciones:**
-- **A. Elasticsearch real.** Un nodo en el compose (≈512 MB de memoria); cada servicio envía sus errores con un appender de logback en `compartido`, y el adaptador los consulta de verdad. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **A. Elasticsearch real.** Un nodo en el compose (≈512 MB de memoria); cada servicio envía sus errores con un appender de logback en `compartido`, y el adaptador los consulta de verdad. ✅ **Recomendada en la implementación y escogida por Mauricio el 2026-11-17.**
 - **B. Simulado** con WireMock, con errores de ejemplo: más liviano, pero los logs no son reales.
 - **C. Dejarlo pendiente** y anotarlo en el LEEME.
 
@@ -1570,7 +1570,7 @@ Ninguno cambia firmas ni agrega cajas al diagrama. Los asumió Claude el 2026-11
 **Por qué hubo que decidir.** HU-20 (1) pide consultar y cambiar los parámetros generales y la imagen corporativa. En la página 4e, `AdminRestController` solo tiene `tema()`, que devuelve las claves `tema.*`: ningún método lista todos los parámetros, así que la ventana no podía mostrar los generales.
 
 **Opciones:**
-- **A. Agregar `parametros()`.** `+ parametros(): Map<String, String>` en `AdministracionUseCase`, `AdministracionService` y `AdminRestController` (`GET /api/admin/parametros`, solo el administrador). Tres líneas en la 4e, sin clases nuevas, como DEC-75. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-17.**
+- **A. Agregar `parametros()`.** `+ parametros(): Map<String, String>` en `AdministracionUseCase`, `AdministracionService` y `AdminRestController` (`GET /api/admin/parametros`, solo el administrador). Tres líneas en la 4e, sin clases nuevas, como DEC-75. ✅ **Recomendada en la implementación y escogida por Mauricio el 2026-11-17.**
 - **B. Solo el tema.** La 4e no cambia; la ventana muestra y edita solo `tema.nombre`, `tema.color-primario` y `tema.logo` con `tema()`. Los parámetros generales de HU-20 (1) quedan fuera.
 
 **Qué implica:**
@@ -1584,7 +1584,7 @@ Ninguno cambia firmas ni agrega cajas al diagrama. Los asumió Claude el 2026-11
 **Por qué hubo que decidir.** La nota `n_parametros` de la 4e dice que la SPA lee el tema «al iniciar» con `GET /api/admin/parametros/tema`. Si eso incluye la pantalla de inicio de sesión, la ruta tendría que pasar sin token, y hoy el gateway solo deja pasar sin token `/api/auth/**`.
 
 **Opciones:**
-- **A. Lectura pública.** Solo esa ruta pasa sin token, en el gateway y en el servicio, y devuelve solo las claves `tema.*`, que no son sensibles. La pantalla de inicio de sesión también toma el tema. Era la recomendada por Claude.
+- **A. Lectura pública.** Solo esa ruta pasa sin token, en el gateway y en el servicio, y devuelve solo las claves `tema.*`, que no son sensibles. La pantalla de inicio de sesión también toma el tema. Era la recomendada.
 - **B. Solo con sesión.** Cualquier rol con token lo lee al iniciar sesión. La regla de seguridad no cambia; la pantalla de inicio de sesión conserva el logo y el color de siempre. ✅ **Escogida por Mauricio el 2026-11-17** («lo ideal sería con token»).
 
 **Qué implica:**
@@ -1592,9 +1592,9 @@ Ninguno cambia firmas ni agrega cajas al diagrama. Los asumió Claude el 2026-11
 - La SPA lo pide en cuanto alguien inicia sesión (y al recargar con la sesión abierta) y aplica el nombre, el color y el logo; al cerrar sesión vuelve al tema de siempre.
 - La nota `n_parametros` de la 4e dice ahora «al iniciar sesión».
 
-## DEC-87 · Detalles del corte 6a asumidos por Claude
+## DEC-87 · Detalles del corte 6a asumidos en la implementación
 
-Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-85 y DEC-86, que decidió Mauricio). Los asumió Claude el 2026-11-17; **los confirmó Mauricio el 2026-11-18**, al aprobar el corte 6a. Lo que la documentación tiene que recoger está en `CAMBIOS_A_DOCUMENTAR.md` (CD-16 a CD-26).
+Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-85 y DEC-86, que decidió Mauricio). Se asumieron el 2026-11-17; **los confirmó Mauricio el 2026-11-18**, al aprobar el corte 6a. Lo que la documentación tiene que recoger está en `CAMBIOS_A_DOCUMENTAR.md` (CD-16 a CD-26).
 
 - **Elasticsearch (DEC-84).** La imagen oficial `docker.elastic.co/elasticsearch/elasticsearch:8.19.4`, un nodo (`discovery.type=single-node`), 512 MB de heap y 1,5 GB de límite, sin TLS ni usuarios (en local no hay TLS, DEC-58) y sin publicar puerto: solo lo ven los servicios. Sin Logstash ni Kibana: los servicios escriben directo y ms-administracion consulta. El índice es `logs-errores`, sin réplicas (un solo nodo), con `servicio`, `nivel`, `logger`, `hilo`, `correlacionId` y `usuario` como keyword, `mensaje` como texto, `fechaHora` como fecha y la traza sin indexar. Lo crea el primer servicio que tenga un error. Los servicios no dependen de Elasticsearch para arrancar (si no está, sus errores siguen en el registro del contenedor); `web` sí lo espera, para que `levantar.sh` termine con todo arriba.
 - **Cómo se envían los errores.** Un appender propio, `AppenderElasticsearch` en `compartido` (unas 200 líneas), en vez de una librería de terceros: logstash-logback-encoder envía a Logstash, que aquí no está. Toma los eventos de nivel ERROR de cualquier logger, con el mensaje, la causa más profunda, la traza (hasta 8.000 caracteres) y la correlación y el usuario del recorrido (DEC-64). Los envía por lotes de hasta 100 a `_bulk`, desde un hilo propio y con una cola de 1.000: el servicio nunca espera a Elasticsearch. Si Elasticsearch no responde, el lote se intenta 3 veces (5, 10 y 15 s) y se descarta. `RegistroLogsElasticsearch` lo engancha al logger raíz justo después de que Spring Boot configura logback, así que también llegan los errores del arranque; se activa con `KONRAD_LOGS_ELASTICSEARCH` (las pruebas JUnit no la tienen). El gateway y Eureka no envían: no usan `compartido`.
@@ -1617,7 +1617,7 @@ Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-8
 **Por qué hubo que decidir.** HU-18 (4) pide cada indicador «con su valor numérico y una representación gráfica», y PD-03 dice que la pantalla muestra el periodo aplicado. En la página 4e, `ResultadoKpi` solo tiene `kpi`, `ganador` y `valor`: la gráfica solo podría dibujar al ganador, sin contra qué compararlo, y la SPA tendría que repetir la regla de los 30 y 365 días para decir el periodo.
 
 **Opciones:**
-- **A. Ranking y periodo.** `ResultadoKpi` gana `- ranking: Map<String, BigDecimal>` (los 5 primeros, el ganador primero) y `- desde: LocalDate` / `- hasta: LocalDate` (el periodo que aplicó `TableroService`). Tres atributos en la 4e, ninguna firma de método. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-18.**
+- **A. Ranking y periodo.** `ResultadoKpi` gana `- ranking: Map<String, BigDecimal>` (los 5 primeros, el ganador primero) y `- desde: LocalDate` / `- hasta: LocalDate` (el periodo que aplicó `TableroService`). Tres atributos en la 4e, ninguna firma de método. ✅ **Recomendada en la implementación y escogida por Mauricio el 2026-11-18.**
 - **B. Solo el ranking.** La SPA deduce el periodo con la misma regla (repetida en dos lugares).
 - **C. Sin cambios.** La gráfica es una sola barra o un medidor del ganador; cumple a medias HU-18 (4).
 
@@ -1631,7 +1631,7 @@ Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-8
 **Por qué hubo que decidir.** El indicador «proveedor con mejores precios» sale de `cotizacion.validada`, que trae `proveedorId` pero no el nombre. ms-analitica no tiene de dónde sacarlo: no hay un tópico de proveedores y el listener no tiene un JWT para pedirlo por REST a ms-cotizaciones. PD-05 ya cambiaba ese evento (`estado: String` y `+ diferenciaPorcentual`).
 
 **Opciones:**
-- **A. `+ proveedor: String` en `CotizacionValidadaEvent`**, junto con lo de PD-05: un atributo más en la 4c y en el constructor. El tablero dice «Proveedor B», como la demo en memoria. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-18.**
+- **A. `+ proveedor: String` en `CotizacionValidadaEvent`**, junto con lo de PD-05: un atributo más en la 4c y en el constructor. El tablero dice «Proveedor B», como la demo en memoria. ✅ **Recomendada en la implementación y escogida por Mauricio el 2026-11-18.**
 - **B. Solo el id.** El tablero mostraría «Proveedor 2».
 - **C. El nombre desde `orden.generada`.** Sin tocar la 4c, pero los proveedores sin orden saldrían como «Proveedor 2».
 
@@ -1642,14 +1642,14 @@ Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-8
 **Por qué hubo que decidir.** El producto con mayor demanda son los platos vendidos (como el histórico de la demo en memoria, DEC-40), pero `pedido.registrado` solo trae el id de cada plato (`lineas: Map<Long, Integer>`) y el de la sucursal.
 
 **Opciones:**
-- **A. Copia local con `menu.actualizado`.** Como ms-pedidos con su catálogo: una pieza de infraestructura (fuera del diagrama, nombrada en la nota de la 4e) guarda id → nombre al escuchar `menu.actualizado`. Ninguna firma cambia; `NegocioEventsListener` sigue con sus 5 tópicos, pero en la 3a ms-analitica consume además `menu.actualizado`. ✅ **Recomendada por Claude y escogida por Mauricio el 2026-11-18.**
+- **A. Copia local con `menu.actualizado`.** Como ms-pedidos con su catálogo: una pieza de infraestructura (fuera del diagrama, nombrada en la nota de la 4e) guarda id → nombre al escuchar `menu.actualizado`. Ninguna firma cambia; `NegocioEventsListener` sigue con sus 5 tópicos, pero en la 3a ms-analitica consume además `menu.actualizado`. ✅ **Recomendada en la implementación y escogida por Mauricio el 2026-11-18.**
 - **B. El nombre en el evento.** `PedidoRegistradoEvent` gana los nombres de los platos: cambia la 4b y el contrato que también lee ms-inventario.
 
 **Qué implica:** `NombresNegocio` (ms-analitica) guarda los nombres de los platos (tabla `plato_nombre`) y los de las sucursales, que vienen de la carga inicial (supuesto S10, tabla `sucursal`). Los dos tópicos se leen en paralelo: si un pedido llega antes que su plato, espera hasta 10 s y, si no, usa «Plato N». Cambian la nota de infraestructura de ms-analitica (4e) y el texto de la flecha de ms-analitica en la 3a.
 
-## DEC-91 · Detalles del corte 6b asumidos por Claude
+## DEC-91 · Detalles del corte 6b asumidos en la implementación
 
-Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-88 a DEC-90, que decidió Mauricio). Los asumió Claude el 2026-11-18; Mauricio las confirmó el 2026-11-23 tras probarlas en la aplicación. Lo que la documentación tiene que recoger está en `CAMBIOS_A_DOCUMENTAR.md` (CD-27 en adelante).
+Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-88 a DEC-90, que decidió Mauricio). Se asumieron el 2026-11-18; Mauricio las confirmó el 2026-11-23 tras probarlas en la aplicación. Lo que la documentación tiene que recoger está en `CAMBIOS_A_DOCUMENTAR.md` (CD-27 en adelante).
 
 - **Las redes sociales en local.** Un contenedor `redes` con WireMock (como el Ministerio, DEC-71), que solo ve ms-analitica. El contrato que sigue `RedesSocialesAdapter`: `GET {url}?pais=CO&categoria=gastronomia&periodo=semana` con `Authorization: Bearer {token}` responde `{"tendencias": [{"producto": "Ajiaco", "menciones": 1840}, …]}`, de más a menos menciones; sin token, 401. La URL y el token son variables (`REDES_URL`, `REDES_TOKEN`). En local, las tendencias son el Ajiaco y la Limonada natural. `RedesSocialesAdapter` es Java puro (HttpClient del JDK, lee los productos sin librería de JSON) y ms-analitica copia el de `src/`, como `MinisterioSoapClient`. Si la API no responde o responde un error, lanza `IllegalStateException`.
 - **`TendenciasJob`.** Los lunes a las 6:00 de Bogotá; en el compose, cada 30 s (`TENDENCIAS`), para verlo trabajar. `@SchedulerLock` (ShedLock) como el cierre de ms-inventario. Corre en un recorrido propio (usuario «sistema» y una correlación que comparten la auditoría y `tendencia.detectada`, DEC-64). Si el análisis falla, registra «Falló el análisis de tendencias de promociones: …» en nivel ERROR (llega a Elasticsearch y a «Logs de errores», DEC-84), no guarda nada esa vez —tampoco lo de los pedidos— y la próxima ejecución lo vuelve a intentar.
@@ -1702,7 +1702,7 @@ Ninguno cambia firmas ni agrega cajas al diagrama (los que las cambian son DEC-8
 
 ## DEC-94 · Datos y forma de los mockups faltantes
 
-Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno cambia el diseño ni el código.
+Se asumieron el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno cambia el diseño ni el código.
 
 - **Datos.** Los de M-03 en todas las ventanas: COT-018 (Proveedor ABC, $545.000, +4,81 %), COT-019 (Proveedor C, $700.000, RECHAZADA), COT-020 (Proveedor D, $200.000, SOSPECHOSA) y COT-021 (Proveedor B, $560.000, OPCIONADA), las cuatro de SOL-031 (res 20 kg y arroz 15 kg, estándar $520.000), y OC-0012 sobre COT-018. Para que V13 muestre varias solicitudes (M-01) hay además SOL-032, de Sofía Ramírez, jefa de la Sucursal Norte (res 10 kg y papa 8 kg), y SOL-033 (papa 12 kg); en «varias solicitudes» están marcadas SOL-031 y SOL-032 y la res suma 30 kg. El pedido de M-04 es PED-0251, el número que ya cita el reporte, así que el reporte no cambia.
 - **Fondos.** V19 aparece sobre V17 (todas las cotizaciones), para que el fondo muestre las cuatro de la demo (M-03 pide corregir la lista del fondo); V21 y V22, sobre V20.
@@ -1712,7 +1712,7 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 
 ## DEC-95 · Plan del corte 7
 
-**Contexto.** Antes de empezar el corte 7, Claude presentó el plan y tres decisiones; Mauricio lo aprobó el 2026-11-23.
+**Contexto.** Antes de empezar el corte 7, se presentó el plan y tres decisiones; Mauricio lo aprobó el 2026-11-23.
 
 - **Pasos.** 7a: lo que `CAMBIOS_A_DOCUMENTAR.md` aún marca pendiente fuera del reporte (casos de uso CD-12, CD-24 y CD-35; `.drawio` CD-26; la fila de DEC-56; `ESTADO_PROYECTO_Y_C4.md`). 7b: `recorrido_corte7.py` y `verificar_corte7.py` (una historia que cruza los 11 servicios y los 6 roles), `probar_todo.sh` (instancia limpia, cortes 3 a 7 en orden, total de comprobaciones) y el clon limpio (`kg-limpio`). 7c: validación del arquitecto-revisor en `VALIDACION_CORTE7.md`. 7d: README y LEEME finales, el reporte regenerado y `PLAN_Y_ESTADO.md`. Un reporte y un OK por paso.
 - **1. La leyenda del eje del proveedor** («← Más barato · Estándar · Más caro →») se parte en dos líneas. Opciones: (a) dejarla; (b) **escogida:** corregirla en la SPA (CSS) y regenerar los cinco estados de `mockups_faltantes/tablero_bam/`.
@@ -1725,7 +1725,7 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 
 **Opciones:**
 - **A.** Dejar «Sin mockup», entendido como «no está entre V01 y V23 de Canva».
-- **B.** Cambiar el rótulo a «Ventanas nuevas (mockups aparte)», sin imágenes. Era la recomendada por Claude.
+- **B.** Cambiar el rótulo a «Ventanas nuevas (mockups aparte)», sin imágenes. Era la recomendada.
 - **C. Poner los mockups.** ✅ **Escogida por Mauricio el 2026-11-23** («pues coloca los mockups, no puede quedar nada sin mockup»).
 
 **Qué implica:**
@@ -1739,7 +1739,7 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 **Contexto.** Al hacer los mockups de DEC-96 se vio que la aplicación muestra, en algunos errores, un texto distinto al de las historias de usuario (criterios literales de las tarjetas) o al de la tabla de PD-10 de los casos de uso: por ejemplo, «Ya existe un proveedor con el NIT 900123456-1» en vez de «Ya existe un proveedor registrado con ese número de identificación» (HU-15), o «Quedó pendiente del precio estándar del Ministerio: reenvíala desde Cotizaciones enviadas.» en vez del mensaje de PD-10. La nota de PD-10 ya lo anticipaba: el adaptador traduce los mensajes internos a estos textos, pero el código no lo hacía. Mauricio pidió aplicar la opción con menos modificaciones.
 
 **Opciones:**
-- **A. Cambiar la aplicación.** Unos 12 textos en el núcleo (`src/`), en dos adaptadores (ms-solicitudes y el SOAP de ms-integracion) y en la SPA, y las pruebas que comprueban los textos viejos (unos 6 archivos). La documentación no cambia. ✅ **Escogida** (Claude, con el criterio de Mauricio).
+- **A. Cambiar la aplicación.** Unos 12 textos en el núcleo (`src/`), en dos adaptadores (ms-solicitudes y el SOAP de ms-integracion) y en la SPA, y las pruebas que comprueban los textos viejos (unos 6 archivos). La documentación no cambia. ✅ **Escogida** (con el criterio de Mauricio).
 - **B. Cambiar la documentación.** Los textos son literales de las tarjetas HU del Story Mapping, que no se modifica: habría que cambiar el Story Mapping corregido, los casos de uso, PD-10 y el reporte, y aun así contradirían las tarjetas originales.
 - **C. Dejar la diferencia anotada.**
 
@@ -1757,15 +1757,15 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 **Contexto.** En el recorrido del corte 7, la alarma en vivo dijo «Arroz al 17.33 %: realice una solicitud» y el correo «Quedan 10.4 kg de Arroz (17.33 % …)». CD-06 y el mockup de V05 y V07 la escriben con coma («Pollo al 24,5 %»), como el resto de la SPA. El texto lo arma `NotificacionService` (núcleo) con `toPlainString()`.
 
 **Opciones:**
-- **A. Coma en la alarma y en el correo.** ✅ **Escogida por Mauricio el 2026-11-23** (era la recomendada por Claude).
+- **A. Coma en la alarma y en el correo.** ✅ **Escogida por Mauricio el 2026-11-23** (era la recomendada).
 - **B. Solo la alarma con coma**; el correo con punto.
 - **C. Dejarlo** y anotar en CAMBIOS_A_DOCUMENTAR que CD-06 diría punto.
 
 **Qué implica:** `NotificacionService` cambia el punto por la coma en el porcentaje y en la cantidad restante. `CorreoYAlarmaTest` comprueba «Quedan 11,5 kg de Res (23 % …)»; pruebas/ suma una verificación del correo (399); `recorrido_corte5.py` y `recorrido_corte7.py` leen el porcentaje con coma. La documentación no cambia (ya decía coma).
 
-## DEC-99 · Detalles del 7b asumidos por Claude
+## DEC-99 · Detalles del 7b asumidos en la implementación
 
-**Contexto.** DEC-95 pidió para el 7b una historia que cruzara los 11 servicios y los 6 roles, `probar_todo.sh` con el total de comprobaciones y el clon limpio. Estos detalles los escogió Claude.
+**Contexto.** DEC-95 pidió para el 7b una historia que cruzara los 11 servicios y los 6 roles, `probar_todo.sh` con el total de comprobaciones y el clon limpio. Estos detalles se escogieron en la implementación.
 
 - **La historia** (`recorrido_corte7.py` y `verificar_corte7.py`). Opciones: (a) repetir pasos de los cortes anteriores con los mismos datos; (b) **escogida:** una historia nueva que arranca de un plato nuevo, para que cada servicio tenga algo propio que hacer. El jefe crea el «Arroz con verduras» (Fuertes, $22.000, 250 g de arroz, con imagen); el mesero lo pide para un evento, con las unidades que hacen falta para que el arroz baje del 25 % (96 en una instalación limpia); el cierre del día dispara la alarma en vivo; desde «Solicitar», el jefe pide 40 kg de arroz; la auxiliar cotiza con el Proveedor ABC y el Proveedor C, sin la caché del precio (el Ministerio responde una sola vez para las dos); la directora valida las dos (+3,75 % y −1,25 %), compra al Proveedor C (OC-0013, $316.000) y la marca recibida; el director comercial ve el plato y el Proveedor C en el tablero de hoy; la administradora ve los 11 servicios activos, la auditoría y los destinatarios. A 390 px, cada rol abre su ventana con el resultado. El arroz es el único insumo de la demostración que no había cruzado el umbral y que el Ministerio simulado conoce.
 - **El cierre del día** corre como el job de las 23:59 (V07 solo lo adelanta, CD-52): publica a nombre de «sistema» y con su propia correlación, no la de la petición del navegador, como ya comprobaba el corte 3. El verificador lo revisa así; el código no cambia.
@@ -1777,7 +1777,7 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 **Contexto.** En el recorrido del corte 7 se vio que «Solicitar» de la alarma en vivo (`Alarmas.tsx`) abre V08 vacía: el jefe tiene que volver a escoger la categoría y el producto. Desde V05 y V07 el botón abre `/solicitudes/nueva?producto=…` con el producto escogido. HU-16 (criterio 5) solo pide «acceder directamente al formulario de solicitud de alimentos desde la alerta», así que se cumplía.
 
 **Opciones:**
-- **A. Que traiga el producto**, como V05 y V07. ✅ **Escogida por Mauricio el 2026-11-23** (era la recomendada por Claude).
+- **A. Que traiga el producto**, como V05 y V07. ✅ **Escogida por Mauricio el 2026-11-23** (era la recomendada).
 - **B. Dejarlo así**, porque cumple HU-16, y que el revisor lo anote.
 - **C. Dejar que lo decida el arquitecto-revisor en el 7c.**
 
@@ -1787,7 +1787,7 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 
 ## DEC-101 · ¿Qué se hace con `reactivar()` de los platos? (C7-4)
 
-**Contexto.** La validación del 7c (`VALIDACION_CORTE7.md`, C7-4) encontró que `reactivar()` está en el núcleo (`Plato`, `RegistrarPlatoUseCase`, `PlatoService`), en ms-menu (`PATCH /api/platos/{id}/reactivar`), en la SPA (botón «Activar» de V06) y en el mockup `mockups_faltantes/editar_desactivar_plato/plato_desactivado` (CD-58), pero no en la página 4b, en la fila de la ventana en la página 1, en CU-03 ni en `CAMBIOS_A_DOCUMENTAR.md`. Viene de la base de la web (Codex, HU-04/05). Rompe «un solo modelo» (DEC-61): las 195 clases coinciden por nombre, pero esa firma no.
+**Contexto.** La validación del 7c (`VALIDACION_CORTE7.md`, C7-4) encontró que `reactivar()` está en el núcleo (`Plato`, `RegistrarPlatoUseCase`, `PlatoService`), en ms-menu (`PATCH /api/platos/{id}/reactivar`), en la SPA (botón «Activar» de V06) y en el mockup `mockups_faltantes/editar_desactivar_plato/plato_desactivado` (CD-58), pero no en la página 4b, en la fila de la ventana en la página 1, en CU-03 ni en `CAMBIOS_A_DOCUMENTAR.md`. Viene de la base de la web (HU-04/05). Rompe «un solo modelo» (DEC-61): las 195 clases coinciden por nombre, pero esa firma no.
 
 **Opciones:**
 - **A. Llevarlo al diagrama.** `+ reactivar(): void` en `Plato` y `+ reactivar(id: Long): void` en las otras tres cajas, la ruta en el estereotipo del controlador y en la fila `vn01` de la página 1, «reactivar» en CU-03 y un CD nuevo. ✅ **Escogida por Mauricio el 2026-11-23** (era la recomendada por el revisor).
@@ -1811,7 +1811,7 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 **Contexto.** V11 (solicitudes del auxiliar) pagina cada 6 filas; HU-06 (4) y CU-07 dicen «paginado cuando existan más de 25 registros».
 
 **Opciones:**
-- **A. Páginas de 25 filas.** La SPA cumple la historia tal cual y la documentación no cambia. ✅ **Escogida por Mauricio el 2026-11-23** (recomendada por Claude).
+- **A. Páginas de 25 filas.** La SPA cumple la historia tal cual y la documentación no cambia. ✅ **Escogida por Mauricio el 2026-11-23** (la recomendada).
 - **B. Dejar 6** y precisar en CU-07 y en el Story Mapping corregido «páginas de 6», con un CD nuevo.
 
 **Qué implica:** `SolicitudesAuxiliar.tsx` pagina de a 25; si algún recorrido cuenta páginas de V11, se ajusta. Los mockups de V11 no muestran más de 25 filas, así que no cambian.
@@ -1822,14 +1822,14 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 
 **Opciones:**
 - **A. Implementar todo**: outbox y relé en el módulo compartido (una tabla `outbox` con Flyway en cada servicio que publica; el relé toma las filas con `FOR UPDATE SKIP LOCKED` para que varias réplicas no publiquen lo mismo), descarte de repetidos en todos los consumidores y `RequestRateLimiter` con Redis en el gateway. ✅ **Escogida por Mauricio el 2026-11-23.**
-- **B. Corregir solo la idempotencia de ms-inventario** (el único consumidor que suma) y anotar el outbox y el límite de tasa en «Diferencias con el despliegue» del LEEME. Era la recomendada por Claude.
+- **B. Corregir solo la idempotencia de ms-inventario** (el único consumidor que suma) y anotar el outbox y el límite de tasa en «Diferencias con el despliegue» del LEEME. Era la recomendada.
 - **C. Como B, más el límite de tasa** del gateway; solo el outbox queda como diferencia.
 
-**Qué implica:** cambia el módulo `compartido` (el publicador escribe en la outbox dentro de la transacción en curso y un relé publica) y cada servicio que publica suma su migración; los consumidores que aún no descartan repetidos guardan los id procesados en la misma transacción que su cambio; el gateway limita la tasa por usuario o por IP con Redis. El diagrama no cambia (ya lo dice); los detalles que escoja Claude van en DEC-105. Se vuelve a correr `probar_todo.sh`.
+**Qué implica:** cambia el módulo `compartido` (el publicador escribe en la outbox dentro de la transacción en curso y un relé publica) y cada servicio que publica suma su migración; los consumidores que aún no descartan repetidos guardan los id procesados en la misma transacción que su cambio; el gateway limita la tasa por usuario o por IP con Redis. El diagrama no cambia (ya lo dice); los detalles que se escojan van en DEC-105. Se vuelve a correr `probar_todo.sh`.
 
-## DEC-105 · Detalles del 7c asumidos por Claude
+## DEC-105 · Detalles del 7c asumidos en la implementación
 
-**Contexto.** Al aplicar la validación del 7c (`VALIDACION_CORTE7.md`) y DEC-100 a DEC-104 hubo que escoger varios detalles que no cambian lo decidido. Los escogió Claude y Mauricio los confirmó el 2026-11-23.
+**Contexto.** Al aplicar la validación del 7c (`VALIDACION_CORTE7.md`) y DEC-100 a DEC-104 hubo que escoger varios detalles que no cambian lo decidido. Se escogieron en la implementación y Mauricio los confirmó el 2026-11-23.
 
 - **Outbox (DEC-104).** Opciones para lo ya publicado: (a) marcarlo con la fecha; (b) **escogida:** borrarlo, porque la tabla solo guarda lo pendiente y el historial ya está en Kafka y en la auditoría. El relé toma un lote en el orden de la secuencia, lo envía entero, espera todas las confirmaciones y lo borra (C7-21); el productor idempotente de Kafka conserva el orden por partición, así que los eventos de una misma clave llegan en orden. Con varias réplicas, un candado de PostgreSQL (`pg_try_advisory_xact_lock`) deja publicar a una sola a la vez, para que dos réplicas no mezclen el orden de una clave, y `FOR UPDATE SKIP LOCKED` evita tomar dos veces las mismas filas. El relé se despierta al confirmarse la transacción que guardó eventos y, si no, revisa la tabla cada segundo; si Kafka no responde, el productor falla en 10 s y el relé reintenta con una espera que crece hasta 10 s. PostgreSQL admite 200 conexiones, porque ahora son 11 servicios con base. Un servicio sin base (solo pasa en las pruebas de un controlador aislado) publica directo. Cada servicio tiene su tabla `outbox` en su propia migración; ms-integracion usa por fin su base `ms_integracion`, solo para la outbox (la página 3a ya la dibujaba).
 - **Transacciones.** El cambio y sus eventos van en una transacción: `@Transactional` en cada endpoint que escribe y una `TransactionTemplate` dentro del candado de los dos jobs (`ConsumoDiarioJob`, C7-9, y `TendenciasJob`). El inicio de sesión queda sin transacción, para que el intento fallido siga en la auditoría aunque la respuesta sea un error.
@@ -1842,12 +1842,12 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 - **C7-8.** En la página 1, V06 lista «POST /api/platos · …/{id}/imagen» en una sola línea, porque la miniatura de V09 está justo debajo; `GET …/productos?categoria=` queda para la tabla 13 del reporte.
 
 
-## DEC-106 · Detalles del 7d asumidos por Claude
+## DEC-106 · Detalles del 7d asumidos en la implementación
 
-**Contexto.** El 7d (DEC-95) pidió el README y el LEEME finales, el reporte regenerado con 195 clases, los CD pendientes, los números de pruebas y el diagrama de casos de uso, y `PLAN_Y_ESTADO.md` al día. Estos detalles los escogió Claude; no cambian el diseño ni el código. Mauricio los confirmó el 2026-11-23, punto por punto, con un ajuste en la tabla 13 (abajo).
+**Contexto.** El 7d (DEC-95) pidió el README y el LEEME finales, el reporte regenerado con 195 clases, los CD pendientes, los números de pruebas y el diagrama de casos de uso, y `PLAN_Y_ESTADO.md` al día. Estos detalles se escogieron en la implementación; no cambian el diseño ni el código. Mauricio los confirmó el 2026-11-23, punto por punto, con un ajuste en la tabla 13 (abajo).
 
 - **Las figuras del reporte.** Eran las del 9 de noviembre: la página 1 aún tenía el recuadro «Sin mockup» y las páginas 4a a 4e, 191 clases. Opciones: (a) dejarlas; (b) **escogida:** reexportar las páginas que cambiaron (1, 3a, 4a a 4e y 5; la 2, la 3b y la 6 salieron idénticas) a escala 1 y rehacer los recortes en las mismas zonas. El de la figura 9 (Composite y Factory Method, antes la 8) toma ahora el paquete de ms-identidad entero, porque creció con `EmisorTokenPort` y `JwtEmisorAdapter` (DEC-62), y su nota los nombra (CD-72).
-- **Las ventanas que no estaban entre las 23, en la tabla 13** (CD-23, CD-33, CD-63). Opciones: (a) una tabla aparte, que obliga a renumerar las tablas 14 a 16; (b) **escogida:** filas al final de la misma tabla, y el título de la §15 pasa a «Trazabilidad de las ventanas»; (c) dejarlas fuera, como antes. Claude las había marcado «Nueva» en la columna V; **Mauricio pidió no decir que son nuevas**: van con «—», después de las 23 numeradas, y la §15, S5, la §9 y las notas de las figuras 1 y 2 tampoco las llaman nuevas. Las rutas que faltaban de V03, V05, V06, V13, V14, V15 y V23 van junto a su ventana. Las columnas se ensancharon para que ninguna palabra se parta (RV-1).
+- **Las ventanas que no estaban entre las 23, en la tabla 13** (CD-23, CD-33, CD-63). Opciones: (a) una tabla aparte, que obliga a renumerar las tablas 14 a 16; (b) **escogida:** filas al final de la misma tabla, y el título de la §15 pasa a «Trazabilidad de las ventanas»; (c) dejarlas fuera, como antes. Se habían marcado «Nueva» en la columna V; **Mauricio pidió no decir que son nuevas**: van con «—», después de las 23 numeradas, y la §15, S5, la §9 y las notas de las figuras 1 y 2 tampoco las llaman nuevas. Las rutas que faltaban de V03, V05, V06, V13, V14, V15 y V23 van junto a su ventana. Las columnas se ensancharon para que ninguna palabra se parta (RV-1).
 - **Las pruebas en el reporte.** Opciones: (a) una tabla, que también renumera las siguientes; (b) **escogida:** dos párrafos en una §13.4 nueva, con 400 + 91 + 763 = 1.254 y la historia que cruza los once servicios (CD-73). La §13 puede hablar del código y de las pruebas (DEC-57).
 - **El diagrama de casos de uso** es la figura 7, al comienzo de la §10, en una página vertical; las figuras 7 a 14 pasan a 8 a 15 (tabla 2, §10, §12 y §14) y la §1 dice que es la única figura que no sale del `.drawio` (CD-71).
 - **`PYTHON=…` en el README y el LEEME.** Opciones: (a) la ruta del venv de este equipo (`mockups_nuevos/.venv`), que está fuera del repo; (b) **escogida:** `PYTHON=/ruta/al/venv/bin/python`, con lo que necesita (Playwright y Chromium en `/usr/bin/chromium`).
@@ -1856,7 +1856,7 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 
 ## DEC-107 · ¿Qué dicen la §18 y la §1 del reporte después del 7d? (C7-30)
 
-**Contexto.** En la tercera ronda del 7c/7d, el revisor señaló que la §18 (declaración de IA) enumera lo que se corrigió después del 7 de noviembre sin nombrar los mockups (C7-30), y que la §1 dice que el reporte acompaña dos entregables (el `.drawio` y el código Java) aunque la §13 describe la plataforma completa.
+**Contexto.** En la tercera ronda del 7c/7d, el revisor señaló que la §18 enumera lo que se corrigió después del 7 de noviembre sin nombrar los mockups (C7-30), y que la §1 dice que el reporte acompaña dos entregables (el `.drawio` y el código Java) aunque la §13 describe la plataforma completa.
 
 **Opciones para la §18:**
 - **A. Agregar los mockups a la lista.** ✅ **Escogida por Mauricio el 2026-11-23**, con dos condiciones: no decir que son nuevos ni que son capturas. La lista queda «el .drawio, el código, la demostración, las pruebas, los mockups, el Excel y los documentos»; no se agrega ninguna frase sobre ellos.
@@ -1873,21 +1873,21 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 **Contexto.** Con el corte 7 aprobado quedaban los guiones de la sustentación, rehechos desde cero (los del 9 de noviembre están en `FinalProyecto/archivo_desactualizado/`). La sustentación muestra la plataforma corriendo (DEC-107).
 
 **Opciones:**
-- **A. Cinco guiones (G1 a G5)**: guion general con tiempos y oradores, guion de la demo en vivo, recorrido del `.drawio` y del reporte, banco de preguntas y revisión del arquitecto-revisor. Era la propuesta de Claude.
+- **A. Cinco guiones (G1 a G5)**: guion general con tiempos y oradores, guion de la demo en vivo, recorrido del `.drawio` y del reporte, banco de preguntas y revisión del arquitecto-revisor. Era la propuesta inicial.
 - **B. Tres guías en HTML y la revisión.** ✅ **Escogida por Mauricio el 2026-11-23.** (1) Los diagramas: cada uno con su imagen y sus partes numeradas, qué es cada parte y, debajo, un guion sugerido para sustentarlo en vivo. (2) El código: las arquitecturas que usa, cómo se distribuye, qué es cada carpeta, la estructura y las clases principales. (3) La plataforma: qué hace, con un guion sugerido para mostrarla en vivo. Después, la revisión del arquitecto-revisor («también me parece bien hacerla»). Mientras se armaba la primera, Mauricio sumó dos más: (4) los microservicios, y (5) lo que está fuera de la plataforma, como el servidor de correo, «y si hay otro similar también».
 
-**Qué implica:** cinco guías, una por mensaje, con el OK de Mauricio entre cada una, y al final la revisión del arquitecto-revisor y sus correcciones. Las preguntas de la propuesta A sobre la duración, los oradores y la instancia de la demo no se respondieron; los detalles que escogió Claude van en DEC-109.
+**Qué implica:** cinco guías, una por mensaje, con el OK de Mauricio entre cada una, y al final la revisión del arquitecto-revisor y sus correcciones. Las preguntas de la propuesta A sobre la duración, los oradores y la instancia de la demo no se respondieron; los detalles escogidos en la implementación van en DEC-109.
 
-## DEC-109 · Detalles de las guías de sustentación asumidos por Claude
+## DEC-109 · Detalles de las guías de sustentación asumidos en la implementación
 
-**Contexto.** DEC-108 fijó qué contiene cada guía. Estos detalles los escogió Claude; Mauricio los confirmó el 2026-11-24.
+**Contexto.** DEC-108 fijó qué contiene cada guía. Estos detalles se escogieron en la implementación; Mauricio los confirmó el 2026-11-24.
 
 - **Lugar.** Opciones: (a) fuera de git, como la guía del 9 de noviembre; (b) **escogida:** `documentos/guias_sustentacion/`, con un HTML por guía, sus imágenes en `img/` y el generador en `fuente/`, para poder rehacerlas si cambia el `.drawio`.
 - **Los números de los diagramas.** Opciones: (a) dibujarlos sobre la imagen a mano; (b) calcularlos y ponerlos encima con CSS; (c) **escogida:** agregarlos como círculos numerados en una copia temporal del `.drawio` y exportar esa copia con drawio a escala 1, así quedan exactamente sobre cada elemento. El `.drawio` del proyecto no cambia. La página 6 y el diagrama de casos de uso no llevan círculos: se explican con sus propios números (los pasos 1 a 14 y CU-01 a CU-19).
 - **Qué se numera.** En las páginas de contexto, contenedores, componentes, mapa y despliegue, cada elemento que se nombra al sustentar; en las de clases (4a a 4e), el paquete de cada servicio, sus capas (entrada, aplicación, dominio, salida) y las clases con patrón, no las 195 clases una por una.
 - **El guion sugerido.** Opciones: (a) con oradores y minutos, que Mauricio no fijó; (b) **escogida:** en primera persona del plural, en el orden en que conviene mostrar cada parte, con una duración aproximada por diagrama y sin repartir oradores; cada uno se lee en voz alta en uno o dos minutos.
 - **La guía de lo que está fuera de la plataforma** cubre lo que en el equipo reemplaza a un sistema externo (Mailpit por el servidor de correo certificado, WireMock por el Ministerio de Comercio y por las redes sociales) y las consolas de apoyo que se pueden abrir en la sustentación (Eureka, `/plataforma/`, el almacén de objetos, Elasticsearch). Opciones: (a) no decir que son simulados, por DEC-57; (b) **escogida:** decirlo en la guía, porque las cinco guías son material del equipo para preparar la sustentación, no documentación entregable, y en pantalla se ve Mailpit; el guion sugerido lo presenta como el entorno local que reemplaza al sistema real, sin hablar de límites.
-- **Contenido.** Sale del `.drawio`, del reporte v2 y de los casos de uso vigentes, con las mismas cifras. Las guías siguen las reglas de la entrega: no mencionan la IA, no dicen que los mockups de `mockups_faltantes/` son capturas ni llaman «nuevas» a las ventanas que no estaban entre las 23.
+- **Contenido.** Sale del `.drawio`, del reporte v2 y de los casos de uso vigentes, con las mismas cifras. Las guías siguen las reglas de la entrega: no dicen que los mockups de `mockups_faltantes/` son capturas ni llaman «nuevas» a las ventanas que no estaban entre las 23.
 
 ## DEC-110 · «Ventanas nuevas» y «23 ventanas» en el `.drawio` (guía de los diagramas)
 
@@ -1896,7 +1896,7 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 **Opciones:**
 - **A. Dejarlo** y que la guía lo rodee.
 - **B. Corregir solo el `.drawio`.**
-- **C. Corregir el `.drawio` y los textos que dicen 23 donde son 33.** ✅ **Escogida por Mauricio el 2026-11-24** («corrije»; el alcance de C lo propuso Claude al aplicarla).
+- **C. Corregir el `.drawio` y los textos que dicen 23 donde son 33.** ✅ **Escogida por Mauricio el 2026-11-24** («corrije»; el alcance de C se propuso al aplicarla).
 
 **Qué implica:** la página 1 dice «Otras ventanas · jefe de cocina, compras, director comercial y administrador»; la 3a, «Las 33 ventanas, responsive para web y móvil»; el reporte, «las 33 ventanas» en la §4 y en la tabla 11. Donde el reporte habla del prototipo («las 23 ventanas del prototipo», S5, §13) no cambia, porque ahí 23 es correcto. Se reexportan las figuras que salen de esas páginas (1, 2 y 13), se regenera el reporte y la guía de los diagramas, y se anota en `CAMBIOS_A_DOCUMENTAR.md` (CD-74 y CD-75).
 

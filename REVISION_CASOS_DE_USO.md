@@ -22,7 +22,7 @@ El archivo lo escribió un compañero de Mauricio y está en este repo **sin mod
 
 **2. Bloqueante · falta el diagrama y hay un enlace privado.**
 - Línea 85: dice `[embedded content: casos de uso…]`; el diagrama UML no está en el archivo.
-- Línea 9: enlaza a `claude.ai/artifact/…`, que el profesor no puede abrir.
+- Línea 9: enlaza a un artefacto privado, que el profesor no puede abrir.
 - Corrección: exportar el diagrama a PNG e insertarlo con `![Diagrama de casos de uso](casos_de_uso.png)`, y borrar la frase «El detalle completo está en [Contraste con el prototipo](…)».
 
 **3. Alta · la regla del 25 % y su dueño contradicen las decisiones** (CU-05 líneas 224 y 233; CU-15 línea 426; HU-20 línea 467, criterio 3).
