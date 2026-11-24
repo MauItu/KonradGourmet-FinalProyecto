@@ -3,7 +3,6 @@ package co.edu.konradlorenz.administracion.adaptadores.salida;
 import co.edu.konradlorenz.administracion.dominio.RegistroAuditoria;
 import co.edu.konradlorenz.administracion.puertos.salida.AuditoriaRepositoryPort;
 import co.edu.konradlorenz.compartido.infraestructura.ContextoRecorrido;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,11 +43,9 @@ public class AuditoriaJpaAdapter implements AuditoriaRepositoryPort {
         if (auditoria.existsByFechaAndHoraAndUsuarioAndAccionAndCorrelacionId(e.fecha, e.hora, e.usuario, e.accion, e.correlacionId)) {
             return;
         }
-        try {
-            auditoria.saveAndFlush(e);
-        } catch (DataIntegrityViolationException repetido) {
-            // otra réplica lo guardó al mismo tiempo (índice auditoria_unica)
-        }
+        // si otra réplica lo guarda al mismo tiempo, el índice auditoria_unica rechaza este, la transacción del
+        // listener se deshace y Kafka lo vuelve a entregar: la segunda vez existsBy… lo encuentra (C7-22)
+        auditoria.saveAndFlush(e);
     }
 
     @Override
