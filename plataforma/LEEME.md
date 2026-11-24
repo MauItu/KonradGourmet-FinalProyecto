@@ -22,11 +22,11 @@ Solo necesita Docker: los servicios Java se compilan dentro de un contenedor de 
 | Contenedor | Imagen | Papel en la arquitectura |
 |---|---|---|
 | `web` | nginx 1.28 | Sirve la SPA en React + TypeScript (se compila desde `web/`); única entrada desde el navegador |
-| `api-gateway` | Spring Cloud Gateway | Facade: valida el JWT y enruta los 13 prefijos a los 11 servicios |
+| `api-gateway` | Spring Cloud Gateway | Facade: valida el JWT, limita la tasa (DEC-104) y enruta los 13 prefijos a los 11 servicios |
 | `service-registry` | Eureka | Registro de instancias vivas |
-| `postgres` | PostgreSQL 17 | Una base y un usuario por servicio (`ms_pedidos`, `ms_cotizaciones`…); un usuario no puede conectarse a la base de otro |
+| `postgres` | PostgreSQL 17 | Una base y un usuario por servicio (`ms_pedidos`, `ms_cotizaciones`…, 11 en total); un usuario no puede conectarse a la base de otro. Admite 200 conexiones: 11 servicios con un pool de hasta 10 cada uno pasaban las 100 por omisión |
 | `kafka` | Kafka 3.9 (KRaft) | Broker de eventos con los 10 tópicos y la cola de errores de ms-notificaciones (`notificaciones.dlq`); la creación automática de tópicos está apagada |
-| `redis` | Redis 7.4 | Caché de precios del Ministerio y canal de alarmas (`alarmas:stock-bajo`, PD-01) |
+| `redis` | Redis 7.4 | Caché de precios del Ministerio, canal de alarmas (`alarmas:stock-bajo`, PD-01) y baldes del límite de tasa del gateway |
 | `s3` | SeaweedFS 3.97 | Almacén de objetos S3 compatible: buckets `documentos-pdf` e `imagenes-platos` (DEC-67) |
 | `correo` | Mailpit 1.24 | Servidor de correo certificado simulado (SMTP en el puerto 1025) |
 | `elasticsearch` | Elasticsearch 8.19 | Logs de error de los servicios (índice `logs-errores`, DEC-84): un nodo, sin TLS ni usuarios, solo dentro de la red |
@@ -37,8 +37,8 @@ Solo necesita Docker: los servicios Java se compilan dentro de un contenedor de 
 | `ms-solicitudes` | Spring Boot | V08–V12: el jefe de cocina registra y consulta sus solicitudes; el auxiliar de compras las consulta todas (filtros de HU-07); publica `solicitud.registrada`; con `cotizacion.enviada` pasa a EN TRÁMITE las que quedan cotizadas y publica `solicitud.en-tramite` |
 | `ms-cotizaciones` | Spring Boot + OpenPDF | V13–V20 y proveedores (HU-15): el auxiliar arma la cotización de una o varias solicitudes y la envía con su PDF (bucket `documentos-pdf`) y el precio de referencia de ms-integracion; la directora registra los valores del proveedor y valida con la cadena de reglas; publica `cotizacion.enviada` y `cotizacion.validada`, escucha `orden.generada` |
 | `ms-ordenes` | Spring Boot + OpenPDF | V21–V23: la directora genera la orden de compra de una cotización OPCIONADA (OC-0012 en adelante), que lee de ms-cotizaciones con su JWT; el PDF de la orden va al bucket `documentos-pdf` y se puede abrir desde V23 (DEC-75); cuando el pedido llega, la directora la marca como recibida y pasa a FINALIZADA (DEC-80); publica `orden.generada`, con la que ms-cotizaciones pasa la cotización a CON_ORDEN y ms-solicitudes completa sus solicitudes |
-| `ms-notificaciones` | Spring Boot + Jakarta Mail | Correos certificados (huella SHA-256 y estampa cronológica) por `inventario.stock-bajo`, `solicitud.registrada`, `solicitud.en-tramite`, `cotizacion.enviada`, `orden.generada` y `tendencia.detectada` (las promociones, a los jefes de todas las sucursales), con el PDF del almacén adjunto; la alarma de stock bajo al jefe de cocina por Redis y WebSocket (PD-01); libreta de destinatarios; traza de envíos que V14 consulta (DEC-76); reintentos y cola de errores, que se vuelve a procesar sola (DEC-81) |
-| `ms-integracion` | Spring Boot + Apache CXF | Frontera SOA: precio estándar del Ministerio por SOAP con la caché en Redis (Proxy) y el endpoint SOAP `/api/integracion/abastecimiento` (WSDL en `?wsdl`) |
+| `ms-notificaciones` | Spring Boot + Jakarta Mail | Correos certificados (huella SHA-256 y estampa cronológica) por `inventario.stock-bajo` (con la cantidad que queda y la sucursal, DEC-102), `solicitud.registrada`, `solicitud.en-tramite`, `cotizacion.enviada`, `orden.generada` y `tendencia.detectada` (las promociones, a los jefes de todas las sucursales), con el PDF del almacén adjunto; la alarma de stock bajo al jefe de cocina por Redis y WebSocket (PD-01); libreta de destinatarios; traza de envíos que V14 consulta (DEC-76); reintentos y cola de errores, que se vuelve a procesar sola (DEC-81) |
+| `ms-integracion` | Spring Boot + Apache CXF | Frontera SOA: precio estándar del Ministerio por SOAP con la caché en Redis (Proxy) y el endpoint SOAP `/api/integracion/abastecimiento` (WSDL en `?wsdl`); su base `ms_integracion` guarda la outbox de sus eventos de auditoría |
 | `ms-administracion` | Spring Boot | Ventanas del administrador: parámetros y tema (el Singleton `ParametrosSistema`, que cada réplica refresca de la base), la auditoría de todos los servicios (escucha `auditoria.evento`; sus propias acciones van directo a su bitácora) y los logs de errores que consulta en Elasticsearch |
 | `ms-analitica` | Spring Boot | Tablero BAM del director comercial (los tres indicadores con su ranking y su periodo) y promociones sugeridas al jefe de cocina, sobre su propio almacén de hechos: escucha `pedido.registrado`, `cotizacion.validada`, `inventario.stock-bajo`, `solicitud.registrada` y `orden.generada` (y `menu.actualizado`, para los nombres de los platos); `TendenciasJob` con ShedLock consulta la API de redes y publica `tendencia.detectada` |
 | `ministerio` | WireMock 3.13 | Servicio web SOAP de precios del Ministerio de Comercio, simulado (DEC-71); solo lo ve ms-integracion |
@@ -67,6 +67,11 @@ Todos con la clave `Konrad2026` (la pantalla de inicio de sesión tiene un botó
 - Auditoría y trazas (DEC-64): el gateway pone `X-Correlation-Id` si no viene; los eventos salen con el
   correo de quien hizo la operación y el `correlacionId` del recorrido (los listeners heredan el del evento
   que reciben; el cierre diario publica «sistema»). El servicio devuelve la cabecera en la respuesta.
+- Límite de tasa (DEC-104, DEC-105): el gateway (`RequestRateLimiter`, con la clave de `LimiteTasaGateway`) da a cada
+  usuario con sesión su propio balde, por el usuario del JWT, y sin sesión (el inicio de sesión) uno por la IP real del
+  cliente (`X-Real-IP`, que Nginx reemplaza siempre; no `X-Forwarded-For`, que el cliente puede inventar). Son 100
+  peticiones por segundo con ráfagas de 200 (variables `LIMITE_TASA` y `LIMITE_RAFAGA` del gateway); pasado el límite
+  responde 429. Los baldes viven en Redis, así que el límite vale igual con varias réplicas del gateway.
 - Los servicios corren en hora de Bogotá: el turno del mesero y el cierre de las 23:59 se cuentan así.
 - El endpoint SOAP de ms-integracion también pasa por el gateway, así que pide un token válido (de cualquier
   rol, DEC-72). El REST interno de precios (`/interno/precios/{id}`) no se publica en el gateway: solo se
@@ -95,6 +100,30 @@ Todos con la clave `Konrad2026` (la pantalla de inicio de sesión tiene un botó
   JWT en `?access_token=` (y Nginx no la escribe en su registro). El gateway acepta la conexión antes de
   conectarse con el servicio, así que un rol sin permiso ve que se abre y se cierra enseguida.
 
+## Eventos: outbox y consumidores idempotentes (DEC-104)
+
+Como dicen la nota `n_outbox` de la página 4a y las páginas 3a y 3b:
+
+- **Outbox.** `KafkaEventPublisher` no publica directo: guarda cada evento en la tabla `outbox` de su servicio, en la
+  misma transacción que el cambio (`OutboxEventos`). Cada endpoint que escribe y los dos jobs (`ConsumoDiarioJob` y
+  `TendenciasJob`, dentro de su candado de ShedLock) corren en una transacción, así que el cambio y sus eventos se
+  guardan juntos o no se guarda ninguno. El inicio de sesión es la excepción: sin transacción, para que el intento
+  fallido quede en la auditoría aunque la respuesta sea un error.
+- **Relé.** `ReleOutbox` toma los eventos pendientes en orden, los publica en Kafka en un lote, espera las
+  confirmaciones del broker y los borra (lo publicado ya queda en Kafka y en la auditoría). Se despierta cuando se
+  confirma una transacción con eventos y, si no, revisa la tabla cada segundo. Con varias réplicas, un candado de
+  PostgreSQL deja publicar a una sola a la vez, para no mezclar el orden de una misma clave, y `FOR UPDATE SKIP
+  LOCKED` evita tomar dos veces las mismas filas. Si Kafka no responde, la escritura igual se confirma enseguida, el
+  evento espera en la tabla y el relé reintenta (el productor se rinde a los 10 s y la espera crece hasta 10 s).
+- **Consumidores idempotentes.** Kafka entrega al menos una vez y el relé puede publicar dos veces un lote que falló a
+  medias. Cada consumidor marca el id del evento en la tabla `evento_procesado` de su servicio (`EventosProcesados`,
+  con el id y el nombre del consumidor como clave), en la misma transacción que su cambio, y descarta lo que ya
+  procesó: un `pedido.registrado` repetido no se descuenta dos veces del inventario. ms-notificaciones marca después
+  de enviar, sin transacción alrededor, para que la traza del fallo y la cola de errores sigan igual;
+  `ReprocesoColaErrores` no marca, porque solo vuelve a procesar lo que falló.
+
+Los 11 servicios tienen su tabla `outbox` en su migración de Flyway; ms-integracion usa su base solo para eso.
+
 ## Clases que no están en el diagrama de clases
 
 Cada servicio Spring tiene, además de las clases del diagrama (páginas 4a–4e), piezas de infraestructura
@@ -107,8 +136,9 @@ que el diagrama omite a propósito, como omite los constructores:
   `DatosIniciales` (los usuarios de demostración);
 - en `compartido`, `FormatoEventos`, `ConfiguracionCompartida`, `SeguridadServicio`, `ManejoErrores`, `Sesion`
   (usuario y sucursal del JWT), y lo de DEC-64: `ContextoRecorrido`, `FiltroContexto`, `InterceptorCorrelacion`
-  y `ConvertidorEventos` (arma el evento que recibe un `@KafkaListener`);
-- en el gateway, `SeguridadGateway` y `CorrelacionGateway`;
+  y `ConvertidorEventos` (arma el evento que recibe un `@KafkaListener`), y lo de DEC-104: `OutboxEventos`,
+  `ReleOutbox` y `EventosProcesados` (sección anterior);
+- en el gateway, `SeguridadGateway`, `CorrelacionGateway` y `LimiteTasaGateway` (la clave del límite de tasa);
 - en ms-menu, `DatosIniciales` (la carta de la demo, creada con `PlatoService` para que viaje por el evento);
 - en ms-inventario, `CierreDiaController` (`POST /api/inventario/cierre`, el botón «Cierre del día» de V07,
   solo para la demostración, DEC-68);
@@ -126,17 +156,20 @@ que el diagrama omite a propósito, como omite los constructores:
   10 s en el compose, con `REFRESCO_PARAMETROS`). La bitácora guarda además la correlación del recorrido (columna
   `correlacion_id`) y no repite un evento entregado dos veces;
 - en ms-analitica, `NombresNegocio` (la copia local de los nombres de los platos, de `menu.actualizado`, y de las sucursales,
-  DEC-90) y `EventosProcesados` (no cuenta dos veces un evento que Kafka entregue de nuevo); cada hecho guarda además la
-  correlación del evento. `RedesSocialesAdapter` no tiene versión Spring: es Java puro y ms-analitica copia el de `src/`.
+  DEC-90); cada hecho guarda además la correlación del evento y, como todos los consumidores, no cuenta dos veces un evento
+  que Kafka entregue de nuevo (`EventosProcesados`, que desde DEC-104 está en `compartido`). `RedesSocialesAdapter` no tiene versión Spring: es Java puro y ms-analitica copia el de `src/`.
   El histórico de la demostración (migración `V2__historico_demo.sql`: 400 días de demanda de las tres sucursales y las
   cotizaciones OPCIONADAS del último año) es solo de la demostración;
 - en ms-notificaciones, `CanalAlarmas` y `ConfiguracionWebSocket` (las conexiones WebSocket de V05 en cada réplica,
   que escuchan el canal de Redis donde publica `AlarmaPushAdapter`, PD-01) y `EnviosController` (la consulta de
-  envíos de V14, DEC-76) y `ReprocesoColaErrores` (vuelve a procesar `notificaciones.dlq`, DEC-81). Los decoradores del correo (`CorreoDecorator`, `CorreoCertificadoDecorator`,
+  envíos de V14, DEC-76) y `ReprocesoColaErrores` (vuelve a procesar `notificaciones.dlq`, DEC-81). La tabla `sucursal`
+  (copia de la carga inicial, como en ms-identidad y ms-analitica) da el nombre de la sucursal del correo de stock bajo
+  (`DestinatarioJpaAdapter.nombreSucursal()`, DEC-102). Los decoradores del correo (`CorreoDecorator`, `CorreoCertificadoDecorator`,
   `EstampaCronologicaDecorator`) no tienen versión Spring: son Java puro y ms-notificaciones copia los de `src/`.
 
 El `.drawio` las nombra sin caja, en notas «Infraestructura que no se dibuja» de las páginas 4a, 4c, 4d y 4e y en
-`n_alarmapush` y `n_fallos` de la 4d (DEC-79); `ReprocesoColaErrores` solo aparece en el texto de `n_fallos`. Lo que
+`n_alarmapush` y `n_fallos` de la 4d (DEC-79); `OutboxEventos`, `ReleOutbox` y `EventosProcesados` están en la de
+`compartido` (4a) y `ReprocesoColaErrores`, en la de ms-notificaciones (4d, C7-12). Lo que
 es solo de la demostración (`CierreDiaController`, los `DatosIniciales` y el histórico de ms-analitica) no se documenta (DEC-57).
 
 Lo que todavía no está en la documentación (mockups, `.drawio` o reporte) está anotado en
@@ -156,7 +189,7 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
   Logstash, y sin Kibana (los logs se ven en la ventana del administrador);
 - los sistemas externos son simulados: el Ministerio de Comercio con WireMock (DEC-71), el servidor de correo
   certificado con Mailpit (SMTP sin TLS) y la API de tendencias de las redes sociales con WireMock, sin TLS (DEC-91);
-- un solo Redis sin usuarios separados para la caché de precios y el canal de alarmas;
+- un solo Redis sin usuarios separados para la caché de precios, el canal de alarmas y el límite de tasa;
 - el almacén de objetos es SeaweedFS y no MinIO (DEC-59): la imagen de MinIO ya no se puede descargar
   y los dos hablan la misma API S3, así que el adaptador no cambia.
 
