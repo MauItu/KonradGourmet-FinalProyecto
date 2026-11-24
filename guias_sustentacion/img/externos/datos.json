@@ -1,0 +1,338 @@
+{
+ "imagenes": {
+  "e01_cabeceras": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     370,
+     702
+    ],
+    [
+     2,
+     370,
+     748
+    ],
+    [
+     3,
+     1312,
+     72
+    ]
+   ],
+   "diametro": 34
+  },
+  "e02_promociones": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     370,
+     266
+    ]
+   ],
+   "diametro": 34
+  },
+  "e03_logs_error": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     442,
+     364
+    ],
+    [
+     2,
+     592,
+     364
+    ]
+   ],
+   "diametro": 34
+  },
+  "e04_mailpit_reenvio": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     248,
+     64
+    ]
+   ],
+   "diametro": 34
+  }
+ },
+ "salidas": {
+  "r_alarma": {
+   "comando": "kg exec redis redis-cli SUBSCRIBE alarmas:stock-bajo",
+   "salida": "subscribe\nalarmas:stock-bajo\n1\nmessage\nalarmas:stock-bajo\n{\"destino\":\"carlos.mendoza@konradgourmet.com\",\"contenido\":\"Res al 22 %: realice una solicitud\",\"fechaHora\":\"2026-11-24T16:20:12\"}"
+  },
+  "m_cuenta": {
+   "comando": "kg exec ministerio curl -s -X POST localhost:8080/__admin/requests/count -d '{\"method\":\"POST\",\"url\":\"/precios\"}'",
+   "salida": "{\n  \"count\" : 1,\n  \"requestJournalDisabled\" : false\n}"
+  },
+  "m_wsdl": {
+   "comando": "kg exec ministerio curl -s 'localhost:8080/precios?wsdl'",
+   "salida": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!--\n  Servicio web de precios estándar del Ministerio de Comercio, SIMULADO para la plataforma local (DEC-71).\n  Lo sirve el contenedor ministerio (WireMock); MinisterioSoapClient sigue este contrato:\n  consultarPrecioEstandar(codigoProducto: string) → precio: double (por unidad del producto).\n-->\n<definitions xmlns=\"http://schemas.xmlsoap.org/wsdl/\"\n             xmlns:soap=\"http://schemas.xmlsoap.org/wsdl/soap/\"\n             xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"\n             xmlns:tns=\"http://precios.ministerio-comercio.simulado/\"\n             targetNamespace=\"http://precios.ministerio-comercio.simulado/\"\n             name=\"PreciosEstandarService\">\n  <types>\n    <xs:schema targetNamespace=\"http://precios.ministerio-comercio.simulado/\" elementFormDefault=\"unqualified\">\n      <xs:element name=\"consultarPrecioEstandar\">\n        <xs:complexType><xs:sequence><xs:element name=\"codigoProducto\" type=\"xs:string\"/></xs:sequence></xs:complexType>\n      </xs:element>\n      <xs:element name=\"consultarPrecioEstandarResponse\">\n        <xs:complexType><xs:sequence><xs:element name=\"precio\" type=\"xs:double\"/></xs:sequence></xs:complexType>\n      </xs:element>\n    </xs:schema>\n  </types>\n  <message name=\"consultarPrecioEstandar\"><part name=\"parameters\" element=\"tns:consultarPrecioEstandar\"/></message>\n  <message name=\"consultarPrecioEstandarResponse\"><part name=\"parameters\" element=\"tns:consultarPrecioEstandarResponse\"/></message>\n  <portType name=\"PreciosEstandar\">\n    <operation name=\"consultarPrecioEstandar\">\n      <input message=\"tns:consultarPrecioEstandar\"/>\n      <output message=\"tns:consultarPrecioEstandarResponse\"/>\n    </operation>\n  </portType>\n  <binding name=\"PreciosEstandarBinding\" type=\"tns:PreciosEstandar\">\n    <soap:binding transport=\"http://schemas.xmlsoap.org/soap/http\" style=\"document\"/>\n    <operation name=\"consultarPrecioEstandar\">\n      <soap:operation soapAction=\"http://precios.ministerio-comercio.simulado/consultarPrecioEstandar\"/>\n      <input><soap:body use=\"literal\"/></input>\n      <output><soap:body use=\"literal\"/></output>\n    </operation>\n  </binding>\n  <service name=\"PreciosEstandarService\">\n    <port name=\"PreciosEstandarPort\" binding=\"tns:PreciosEstandarBinding\">\n      <soap:address location=\"http://ministerio:8080/precios\"/>\n    </port>\n  </service>\n</definitions>"
+  },
+  "m_precio": {
+   "comando": "kg exec ministerio curl -s -w '\\n%{http_code} en %{time_total} s\\n' -H 'Content-Type: text/xml' localhost:8080/precios -d '<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:min=\"http://precios.ministerio-comercio.simulado/\"><soap:Body><min:consultarPrecioEstandar><codigoProducto>1</codigoProducto></min:consultarPrecioEstandar></soap:Body></soap:Envelope>'",
+   "salida": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><min:consultarPrecioEstandarResponse xmlns:min=\"http://precios.ministerio-comercio.simulado/\"><precio>20000.0</precio></min:consultarPrecioEstandarResponse></soap:Body></soap:Envelope>\n200 en 0.305221 s"
+  },
+  "m_fault": {
+   "comando": "kg exec ministerio curl -s -w '\\n%{http_code} en %{time_total} s\\n' -H 'Content-Type: text/xml' localhost:8080/precios -d '<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:min=\"http://precios.ministerio-comercio.simulado/\"><soap:Body><min:consultarPrecioEstandar><codigoProducto>99</codigoProducto></min:consultarPrecioEstandar></soap:Body></soap:Envelope>'",
+   "salida": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>El Ministerio no tiene precio para el producto 99</faultstring></soap:Fault></soap:Body></soap:Envelope>\n500 en 0.351820 s"
+  },
+  "r_llaves": {
+   "comando": "kg exec redis redis-cli --scan --pattern 'precio-referencia:*'",
+   "salida": "precio-referencia:1"
+  },
+  "r_get": {
+   "comando": "kg exec redis redis-cli GET precio-referencia:1",
+   "salida": "{\"productoId\":1,\"valor\":\"20000.0\",\"consultadoEn\":\"2026-11-24T16:20:23.172804749\"}"
+  },
+  "r_ttl": {
+   "comando": "kg exec redis redis-cli TTL precio-referencia:1",
+   "salida": "86322"
+  },
+  "r_limite": {
+   "comando": "kg exec redis redis-cli --scan --pattern 'request_rate_limiter*'",
+   "salida": "request_rate_limiter.{identidad-auth.ip:172.23.0.1}.timestamp\nrequest_rate_limiter.{analitica-bam.usuario:5}.timestamp\nrequest_rate_limiter.{identidad-auth.ip:172.23.0.1}.tokens\nrequest_rate_limiter.{solicitudes-solicitudes.usuario:2}.timestamp\nrequest_rate_limiter.{solicitudes-solicitudes.usuario:2}.tokens\nrequest_rate_limiter.{administracion-admin.usuario:5}.timestamp\nrequest_rate_limiter.{analitica-bam.usuario:5}.tokens\nrequest_rate_limiter.{administracion-admin.usuario:5}.tokens"
+  },
+  "n_cuenta": {
+   "comando": "kg exec redes curl -s -X POST localhost:8080/__admin/requests/count -d '{\"method\":\"GET\",\"urlPath\":\"/v1/tendencias\"}'",
+   "salida": "{\n  \"count\" : 7,\n  \"requestJournalDisabled\" : false\n}"
+  },
+  "n_cuenta2": {
+   "comando": "kg exec redes curl -s -X POST localhost:8080/__admin/requests/count -d '{\"method\":\"GET\",\"urlPath\":\"/v1/tendencias\"}'",
+   "salida": "{\n  \"count\" : 8,\n  \"requestJournalDisabled\" : false\n}"
+  },
+  "n_tendencias": {
+   "comando": "kg exec redes curl -s -w '\\n%{http_code} en %{time_total} s\\n' -H 'Authorization: Bearer konrad-redes-local' 'localhost:8080/v1/tendencias?pais=CO&categoria=gastronomia&periodo=semana'",
+   "salida": "{\"pais\":\"CO\",\"categoria\":\"gastronomia\",\"periodo\":\"semana\",\"tendencias\":[{\"producto\":\"Ajiaco\",\"menciones\":1840},{\"producto\":\"Limonada natural\",\"menciones\":960}]}\n200 en 0.203463 s"
+  },
+  "n_401": {
+   "comando": "kg exec redes curl -s -w '\\n%{http_code}\\n' 'localhost:8080/v1/tendencias?pais=CO&categoria=gastronomia&periodo=semana'",
+   "salida": "{\"error\":\"token de acceso inválido\"}\n401"
+  },
+  "s_401": {
+   "comando": "curl -s -o /dev/null -w '%{http_code}\\n' 'localhost:8080/api/integracion/abastecimiento?wsdl'",
+   "salida": "401"
+  },
+  "s_wsdl": {
+   "comando": "T=$(curl -s localhost:8080/api/auth/token -H 'Content-Type: application/json' -d '{\"correo\":\"isabella.castro@konradgourmet.com\",\"clave\":\"Konrad2026\"}' | python3 -c 'import sys,json; print(json.load(sys.stdin)[\"jwt\"])')\ncurl -s -H \"Authorization: Bearer $T\" 'localhost:8080/api/integracion/abastecimiento?wsdl'",
+   "salida": "<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:wsdl=\"http://schemas.xmlsoap.org/wsdl/\" xmlns:tns=\"http://abastecimiento.konradgourmet.com/\" xmlns:soap=\"http://schemas.xmlsoap.org/wsdl/soap/\" xmlns:ns1=\"http://schemas.xmlsoap.org/soap/http\" name=\"AbastecimientoService\" targetNamespace=\"http://abastecimiento.konradgourmet.com/\">\n  <wsdl:types>\n<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:tns=\"http://abastecimiento.konradgourmet.com/\" elementFormDefault=\"unqualified\" targetNamespace=\"http://abastecimiento.konradgourmet.com/\" version=\"1.0\">\n\n  <xs:element name=\"consultarPrecioSugerido\" type=\"tns:consultarPrecioSugerido\"/>\n\n  <xs:element name=\"consultarPrecioSugeridoResponse\" type=\"tns:consultarPrecioSugeridoResponse\"/>\n\n  <xs:complexType name=\"consultarPrecioSugerido\">\n    <xs:sequence>\n      <xs:element minOccurs=\"0\" name=\"productoId\" type=\"xs:long\"/>\n    </xs:sequence>\n  </xs:complexType>\n\n  <xs:complexType name=\"consultarPrecioSugeridoResponse\">\n    <xs:sequence>\n      <xs:element minOccurs=\"0\" name=\"precioSugerido\" type=\"xs:decimal\"/>\n    </xs:sequence>\n  </xs:complexType>\n\n</xs:schema>\n  </wsdl:types>\n  <wsdl:message name=\"consultarPrecioSugeridoResponse\">\n    <wsdl:part element=\"tns:consultarPrecioSugeridoResponse\" name=\"parameters\">\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"consultarPrecioSugerido\">\n    <wsdl:part element=\"tns:consultarPrecioSugerido\" name=\"parameters\">\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:portType name=\"AbastecimientoSoapEndpoint\">\n    <wsdl:operation name=\"consultarPrecioSugerido\">\n      <wsdl:input message=\"tns:consultarPrecioSugerido\" name=\"consultarPrecioSugerido\">\n    </wsdl:input>\n      <wsdl:output message=\"tns:consultarPrecioSugeridoResponse\" name=\"consultarPrecioSugeridoResponse\">\n    </wsdl:output>\n    </wsdl:operation>\n  </wsdl:portType>\n  <wsdl:binding name=\"AbastecimientoServiceSoapBinding\" type=\"tns:AbastecimientoSoapEndpoint\">\n    <soap:binding style=\"document\" transport=\"http://schemas.xmlsoap.org/soap/http\"/>\n    <wsdl:operation name=\"consultarPrecioSugerido\">\n      <soap:operation soapAction=\"\" style=\"document\"/>\n      <wsdl:input name=\"consultarPrecioSugerido\">\n        <soap:body use=\"literal\"/>\n      </wsdl:input>\n      <wsdl:output name=\"consultarPrecioSugeridoResponse\">\n        <soap:body use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n  </wsdl:binding>\n  <wsdl:service name=\"AbastecimientoService\">\n    <wsdl:port binding=\"tns:AbastecimientoServiceSoapBinding\" name=\"AbastecimientoPort\">\n      <soap:address location=\"http://localhost:8080/api/integracion/abastecimiento\"/>\n    </wsdl:port>\n  </wsdl:service>\n</wsdl:definitions>"
+  },
+  "s_precio": {
+   "comando": "T=$(curl -s localhost:8080/api/auth/token -H 'Content-Type: application/json' -d '{\"correo\":\"isabella.castro@konradgourmet.com\",\"clave\":\"Konrad2026\"}' | python3 -c 'import sys,json; print(json.load(sys.stdin)[\"jwt\"])')\ncurl -s -H \"Authorization: Bearer $T\" -H 'Content-Type: text/xml' localhost:8080/api/integracion/abastecimiento -d '<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><a:consultarPrecioSugerido xmlns:a=\"http://abastecimiento.konradgourmet.com/\"><productoId>1</productoId></a:consultarPrecioSugerido></soap:Body></soap:Envelope>'",
+   "salida": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><ns2:consultarPrecioSugeridoResponse xmlns:ns2=\"http://abastecimiento.konradgourmet.com/\"><precioSugerido>20000.0</precioSugerido></ns2:consultarPrecioSugeridoResponse></soap:Body></soap:Envelope>"
+  },
+  "o_buckets": {
+   "comando": "kgs3 s3 ls",
+   "salida": "2026-11-23 19:55:51 documentos-pdf\n2026-11-23 19:55:52 imagenes-platos"
+  },
+  "o_pdf": {
+   "comando": "kgs3 s3 ls --recursive s3://documentos-pdf",
+   "salida": "2026-11-23 19:57:59       2338 cotizaciones/COT-018.pdf\n2026-11-23 19:58:00       2329 cotizaciones/COT-019.pdf\n2026-11-23 19:58:00       2329 cotizaciones/COT-020.pdf\n2026-11-23 19:58:01       2332 cotizaciones/COT-021.pdf\n2026-11-23 19:58:37       2226 cotizaciones/COT-022.pdf\n2026-11-24 21:20:23       2232 cotizaciones/COT-023.pdf\n2026-11-24 21:20:25       2226 cotizaciones/COT-024.pdf\n2026-11-23 19:58:05       2308 ordenes/OC-0012.pdf\n2026-11-24 21:20:34       2183 ordenes/OC-0013.pdf"
+  },
+  "o_img": {
+   "comando": "kgs3 s3 ls --recursive s3://imagenes-platos",
+   "salida": ""
+  },
+  "k_topicos": {
+   "comando": "kg exec kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list",
+   "salida": "__consumer_offsets\nauditoria.evento\ncotizacion.enviada\ncotizacion.validada\ninventario.stock-bajo\nmenu.actualizado\nnotificaciones.dlq\norden.generada\npedido.registrado\nsolicitud.en-tramite\nsolicitud.registrada\ntendencia.detectada"
+  },
+  "k_atraso": {
+   "comando": "kg exec kafka /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group ms-notificaciones | awk 'NF {print $2, $3, $6}'",
+   "salida": "TOPIC PARTITION LAG\norden.generada 1 -\norden.generada 2 -\norden.generada 0 0\nsolicitud.registrada 2 -\nsolicitud.registrada 0 0\nsolicitud.registrada 1 -\ncotizacion.enviada 2 0\ncotizacion.enviada 1 0\ncotizacion.enviada 0 -\ntendencia.detectada 2 -\ninventario.stock-bajo 2 -\ninventario.stock-bajo 0 0\ninventario.stock-bajo 1 -\nsolicitud.en-tramite 2 -\nsolicitud.en-tramite 1 -\ntendencia.detectada 1 0\nsolicitud.en-tramite 0 0\ntendencia.detectada 0 -"
+  },
+  "k_evento": {
+   "comando": "kg exec kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic orden.generada --from-beginning --timeout-ms 8000",
+   "salida": "{\"usuario\":\"laura.gomez@konradgourmet.com\",\"numero\":\"OC-0013\",\"cotizacionNumero\":\"COT-023\",\"solicitudNumeros\":[\"SOL-034\"],\"proveedor\":\"Proveedor ABC\",\"correoProveedor\":\"ventas@proveedorabc.com\",\"pdfUrl\":\"s3://documentos-pdf/ordenes/OC-0013.pdf\",\"total\":8.4E+5,\"id\":\"9a2038f8-efc3-4c0f-b75e-28a413c55ff8\",\"correlacionId\":\"9b7ab6f8-9b2b-4126-8095-a7c0968c2fb2\",\"ocurridoEn\":\"2026-11-24T16:20:34.414213694\"}"
+  },
+  "k_dlq": {
+   "comando": "kg exec kafka /opt/kafka/bin/kafka-get-offsets.sh --bootstrap-server localhost:9092 --topic notificaciones.dlq",
+   "salida": "notificaciones.dlq:0:0\nnotificaciones.dlq:1:0\nnotificaciones.dlq:2:0"
+  },
+  "p_bases": {
+   "comando": "kg exec postgres psql -U postgres -Atc \"select datname from pg_database where datname like 'ms\\_%' order by 1\"",
+   "salida": "ms_administracion\nms_analitica\nms_cotizaciones\nms_identidad\nms_integracion\nms_inventario\nms_menu\nms_notificaciones\nms_ordenes\nms_pedidos\nms_solicitudes"
+  },
+  "p_orden": {
+   "comando": "kg exec postgres psql -U postgres -d ms_ordenes -c \"select numero, cotizacion_numero, proveedor, pdf_url, estado from orden_compra order by numero\"",
+   "salida": " numero  | cotizacion_numero |   proveedor   |                 pdf_url                 |   estado   \n---------+-------------------+---------------+-----------------------------------------+------------\n OC-0012 | COT-018           | Proveedor ABC | s3://documentos-pdf/ordenes/OC-0012.pdf | EN_PROCESO\n OC-0013 | COT-023           | Proveedor ABC | s3://documentos-pdf/ordenes/OC-0013.pdf | FINALIZADA\n(2 rows)"
+  },
+  "p_outbox": {
+   "comando": "kg exec postgres psql -U postgres -d ms_ordenes -Atc \"select count(*) from outbox\"",
+   "salida": "0"
+  },
+  "p_ajena": {
+   "comando": "kg exec postgres psql -U ms_pedidos -d ms_ordenes -c 'select 1'",
+   "salida": "psql: error: connection to server on socket \"/var/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  permission denied for database \"ms_ordenes\"\nDETAIL:  User does not have CONNECT privilege."
+  },
+  "e_indices0": {
+   "comando": "kg exec elasticsearch curl -s 'localhost:9200/_cat/indices?v'",
+   "salida": "health status index uuid pri rep docs.count docs.deleted store.size pri.store.size dataset.size"
+  },
+  "c_huella": {
+   "comando": "printf '%s\\n%s' 'ventas@proveedorabc.com' 'Por favor cotice los productos del PDF adjunto.' | sha256sum | cut -c1-16",
+   "salida": "8c11bad11e6ec426"
+  },
+  "x_pausa": {
+   "comando": "kg pause correo",
+   "salida": ""
+  },
+  "e_error": {
+   "comando": "kg exec elasticsearch curl -s 'localhost:9200/logs-errores/_search?pretty&size=1&sort=fechaHora:desc&filter_path=hits.hits._source&_source_excludes=traza,hilo,logger'",
+   "salida": "{\n  \"hits\" : {\n    \"hits\" : [\n      {\n        \"_source\" : {\n          \"servicio\" : \"ms-notificaciones\",\n          \"nivel\" : \"ERROR\",\n          \"mensaje\" : \"No se pudo notificar un evento de solicitud.registrada después de 3 intentos; pasa a la cola de errores notificaciones.dlq · java.net.SocketTimeoutException: Read timed out\",\n          \"fechaHora\" : \"2026-11-24T16:22:57.94142154-05:00\",\n          \"correlacionId\" : \"ce6f14c3-e04a-4e24-b5a9-8a378b8da9ef\"\n        }\n      }\n    ]\n  }\n}"
+  },
+  "e_indices1": {
+   "comando": "kg exec elasticsearch curl -s 'localhost:9200/_cat/indices?v'",
+   "salida": "health status index        uuid                   pri rep docs.count docs.deleted store.size pri.store.size dataset.size\ngreen  open   logs-errores VAQo870BSnGqf6EPMFg73g   1   0          1            0     10.8kb         10.8kb       10.8kb"
+  },
+  "k_dlq2": {
+   "comando": "kg exec kafka /opt/kafka/bin/kafka-get-offsets.sh --bootstrap-server localhost:9092 --topic notificaciones.dlq",
+   "salida": "notificaciones.dlq:0:0\nnotificaciones.dlq:1:1\nnotificaciones.dlq:2:0"
+  },
+  "x_reanuda": {
+   "comando": "kg unpause correo",
+   "salida": ""
+  }
+ },
+ "hechos": {
+  "historia": {
+   "pedido": "PED-0252",
+   "solicitud": "SOL-034",
+   "cotizaciones": [
+    {
+     "numero": "COT-023",
+     "proveedor": "Proveedor ABC",
+     "precio": 21000,
+     "estado": "OPCIONADA",
+     "diferencia": "Diferencia +5,00 %"
+    },
+    {
+     "numero": "COT-024",
+     "proveedor": "Proveedor C",
+     "precio": 26000,
+     "estado": "RECHAZADA",
+     "diferencia": "Diferencia +30,00 %"
+    }
+   ],
+   "orden": "OC-0013",
+   "orden_total": 840000,
+   "alarma": "Res al 22 %: realice una solicitud",
+   "correos": [
+    {
+     "asunto": "Orden de compra OC-0013",
+     "para": "ventas@proveedorabc.com",
+     "adjuntos": 1
+    },
+    {
+     "asunto": "Solicitud de cotización COT-024",
+     "para": "ventas@proveedorc.com",
+     "adjuntos": 1
+    },
+    {
+     "asunto": "Solicitud SOL-034 en trámite",
+     "para": "carlos.mendoza@konradgourmet.com",
+     "adjuntos": 0
+    },
+    {
+     "asunto": "Solicitud de cotización COT-023",
+     "para": "ventas@proveedorabc.com",
+     "adjuntos": 1
+    },
+    {
+     "asunto": "Solicitud SOL-034 registrada",
+     "para": "carlos.mendoza@konradgourmet.com",
+     "adjuntos": 0
+    },
+    {
+     "asunto": "Stock bajo: Res",
+     "para": "carlos.mendoza@konradgourmet.com",
+     "adjuntos": 0
+    },
+    {
+     "asunto": "Promociones sugeridas",
+     "para": "carlos.mendoza@konradgourmet.com",
+     "adjuntos": 0
+    }
+   ]
+  },
+  "ministerio_llamadas": 1,
+  "redes_llamadas": [
+   7,
+   8
+  ],
+  "promociones": "El análisis de la semana sugiere:\r\n• Ajiaco · Tendencia en redes y entre los 3 más pedidos de la semana · del 24/11/2026 al 30/11/2026\r\n• Limonada natural · Tendencia en redes · del 24/11/2026 al 30/11/2026\r\n• Bandeja paisa · Entre los 3 más pedidos de la semana · del 24/11/2026 al 30/11/2026\r\n• Pechuga a la plancha · Entre los 3 más pedidos de la semana · del 24/11/2026 al 30/11/2026\r\nRevíselas en Promociones sugeridas para aceptarlas o descartarlas.\r\n",
+  "dlq_antes": 0,
+  "cotizacion_correo": {
+   "para": "ventas@proveedorabc.com",
+   "cuerpo": "Por favor cotice los productos del PDF adjunto.",
+   "certificado": "SHA-256:8c11bad11e6ec426",
+   "sello": "2026-11-24T16:20:23-05:00",
+   "adjuntos": [
+    "COT-023.pdf"
+   ]
+  },
+  "correos": [
+   {
+    "asunto": "Orden de compra OC-0013",
+    "para": "ventas@proveedorabc.com",
+    "adjuntos": [
+     "OC-0013.pdf"
+    ],
+    "cuerpo": "Orden OC-0013 sobre la cotización COT-023, total 840000. El PDF va adjunto."
+   },
+   {
+    "asunto": "Solicitud de cotización COT-024",
+    "para": "ventas@proveedorc.com",
+    "adjuntos": [
+     "COT-024.pdf"
+    ],
+    "cuerpo": "Por favor cotice los productos del PDF adjunto."
+   },
+   {
+    "asunto": "Solicitud SOL-034 en trámite",
+    "para": "carlos.mendoza@konradgourmet.com",
+    "adjuntos": [],
+    "cuerpo": "Su solicitud SOL-034 ya tiene cotización y pasó a EN TRÁMITE.\r\n"
+   },
+   {
+    "asunto": "Solicitud de cotización COT-023",
+    "para": "ventas@proveedorabc.com",
+    "adjuntos": [
+     "COT-023.pdf"
+    ],
+    "cuerpo": "Por favor cotice los productos del PDF adjunto."
+   },
+   {
+    "asunto": "Solicitud SOL-034 registrada",
+    "para": "carlos.mendoza@konradgourmet.com",
+    "adjuntos": [],
+    "cuerpo": "Su solicitud SOL-034 quedó PENDIENTE.\r\n"
+   },
+   {
+    "asunto": "Stock bajo: Res",
+    "para": "carlos.mendoza@konradgourmet.com",
+    "adjuntos": [],
+    "cuerpo": "Quedan 11 kg de Res (22 % del stock de referencia) en la Sucursal Centro. Realice una solicitud de alimentos.\r\n"
+   },
+   {
+    "asunto": "Promociones sugeridas",
+    "para": "carlos.mendoza@konradgourmet.com",
+    "adjuntos": [],
+    "cuerpo": "El análisis de la semana sugiere:\r\n• Ajiaco · Tendencia en redes y entre los 3 más pedidos de la semana · del 24/11/2026 al 30/11/2026\r\n• Limonada natural · Tendencia en redes · del 24/11/2026 al 30/11/2026\r\n• Bandeja paisa · Entre los 3 más pedidos de la semana · del 24/11/2026 al 30/11/2026\r\n• Pechuga a la plancha · Entre los 3 más pedidos de la semana · del 24/11/2026 al 30/11/2026\r\nRevíselas en Promociones sugeridas para aceptarlas o descartarlas.\r\n"
+   }
+  ],
+  "error_solicitud": "SOL-035",
+  "error_segundos": 21,
+  "dlq_despues": 1,
+  "reenvio_segundos": 24,
+  "correos_al_final": 8
+ }
+}

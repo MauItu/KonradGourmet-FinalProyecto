@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía de lo que está fuera de la plataforma · Konrad Gourmet</title>
+<style>
+:root{--fondo:#f6f4f1;--papel:#ffffff;--texto:#1f2328;--suave:#5b6470;--borde:#e2ddd6;--acento:#F26B21;
+--acento-suave:#fdefe1;--pin:#D81B60;--guion:#eef6ee;--guion-borde:#5a9a5a;--codigo:#f1eee9;--enlace:#b4470f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--fondo:#16181c;--papel:#1f2227;--texto:#e7e9ec;
+--suave:#a3abb5;--borde:#343a42;--acento:#ff8a4c;--acento-suave:#3a2a20;--guion:#1d2a1f;--guion-borde:#6fb46f;
+--codigo:#2a2e35;--enlace:#ffab7a}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--fondo);color:var(--texto);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,
+"Helvetica Neue",Arial,sans-serif}
+a{color:var(--enlace)}
+code{background:var(--codigo);padding:.1em .35em;border-radius:4px;font-size:.92em}
+header.portada{background:var(--papel);border-bottom:4px solid var(--acento);padding:28px 16px 20px}
+header.portada>div,main{max-width:1180px;margin:0 auto}
+header.portada h1{margin:0 0 4px;font-size:1.9rem;line-height:1.2}
+header.portada p{margin:4px 0;color:var(--suave)}
+main{padding:8px 16px 80px}
+nav.indice{background:var(--papel);border:1px solid var(--borde);border-radius:10px;padding:14px 18px;margin:20px 0}
+nav.indice ol{margin:6px 0 0;padding-left:22px;columns:2;column-gap:32px}
+nav.indice li{break-inside:avoid;margin:2px 0}
+nav.indice .min{color:var(--suave);font-size:.88em}
+section.bloque{background:var(--papel);border:1px solid var(--borde);border-radius:12px;padding:20px 22px;margin:28px 0}
+section.bloque>h2{margin:0 0 4px;font-size:1.45rem}
+.meta{color:var(--suave);font-size:.9rem;margin-bottom:12px}
+.meta span{display:inline-block;margin-right:14px}
+h3{font-size:1.08rem;margin:20px 0 8px}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+table{table-layout:fixed}
+th,td{border-bottom:1px solid var(--borde);padding:7px 8px;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+th.c-num{width:52px}th.c-nombre{width:30%}
+@media (max-width:700px){th.c-num{width:40px}th.c-nombre{width:34%}th,td{padding:6px 5px;font-size:.9rem}}
+th{background:var(--acento-suave)}
+tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--acento-suave) 35%,transparent)}
+td.num{width:44px;text-align:center}
+button.pin{all:unset;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;
+border-radius:50%;background:var(--pin);color:#fff;font-weight:700;font-size:.85rem;padding:0 4px}
+button.pin:focus-visible{outline:3px solid var(--acento);outline-offset:2px}
+.guion{background:var(--guion);border-left:5px solid var(--guion-borde);border-radius:8px;padding:12px 16px;margin-top:18px}
+.guion h3{margin-top:0}
+.guion p{margin:8px 0}
+.preguntas dt{font-weight:600;margin-top:10px}
+.preguntas dd{margin:2px 0 0 0;color:var(--texto)}
+.visor{border:1px solid var(--borde);border-radius:10px;overflow:hidden;background:#fff}
+.visor .barra{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:6px 8px;background:var(--codigo);
+border-bottom:1px solid var(--borde);font-size:.85rem;color:var(--suave)}
+.visor .barra button{font:inherit;color:var(--texto);background:var(--papel);border:1px solid var(--borde);border-radius:6px;
+padding:3px 10px;cursor:pointer}
+.visor .barra a{margin-left:auto}
+.visor .marco{overflow:auto;max-height:78vh;cursor:grab;touch-action:pan-x pan-y}
+.visor .marco.arrastrando{cursor:grabbing}
+.visor .lienzo{position:relative}
+.visor .lienzo img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+.visor .zona{position:absolute;transform:translate(-50%,-50%);border-radius:50%;cursor:pointer}
+.visor .zona.destello{box-shadow:0 0 0 6px rgba(242,107,33,.9),0 0 0 14px rgba(242,107,33,.35)}
+.aviso{background:var(--acento-suave);border-radius:8px;padding:10px 14px;margin:12px 0}
+.pie{color:var(--suave);font-size:.85rem;text-align:center;margin-top:40px}
+@media (max-width:700px){nav.indice ol{columns:1}section.bloque{padding:16px 14px}header.portada h1{font-size:1.5rem}
+td.num{width:34px}}
+@media print{.visor .marco{max-height:none;overflow:visible}.visor .barra{display:none}section.bloque{break-inside:avoid-page}}
+
+pre{background:var(--codigo);border:1px solid var(--borde);border-radius:8px;padding:12px 14px;overflow:auto;
+font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin:8px 0 14px}
+pre code{background:none;padding:0;font-size:inherit}
+.ruta{font:12.5px ui-monospace,Menlo,Consolas,monospace;color:var(--suave);margin:10px 0 0;overflow-wrap:anywhere}
+.flujo{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px;margin:12px 0}
+.flujo .paso{flex:1 1 130px;background:var(--acento-suave);border:1px solid var(--borde);border-radius:8px;padding:8px 10px;
+font-size:.88rem}
+.flujo .paso b{display:block;font-size:.92rem}
+.flujo .flecha{align-self:center;color:var(--suave);font-weight:700}
+.capas{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.capas div{border:1px solid var(--borde);border-radius:8px;padding:10px 12px;background:var(--papel)}
+.capas div.nucleo{background:#e3f1e3;border-color:#5a9a5a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .capas div.nucleo{background:#1f2f21}}
+.capas h4{margin:0 0 4px;font-size:.98rem}
+.etiqueta{display:inline-block;font-size:.75rem;padding:1px 7px;border-radius:10px;background:var(--acento-suave);
+border:1px solid var(--borde);margin:0 4px 4px 0}
+tr.marcada td{background:var(--acento-suave)!important;transition:background .3s}
+</style>
+</head>
+<body>
+<header class="portada"><div>
+<h1>Guía de lo que está fuera de la plataforma · Konrad Gourmet</h1>
+<p>Lo que en el equipo hace las veces del servidor de correo certificado, del Ministerio de Comercio y de las redes sociales, nuestro servicio SOAP y las consolas de apoyo (almacén de objetos, Elasticsearch, Kafka, Redis, PostgreSQL y Eureka): qué reemplaza cada uno, dónde está en los diagramas, quién lo usa, cómo se abre y qué mostrar.</p>
+</div></header>
+<main>
+<style>
+dl.ficha{display:grid;grid-template-columns:max-content 1fr;gap:6px 14px;margin:12px 0;font-size:.95rem}
+dl.ficha dt{color:var(--suave);font-weight:600}
+dl.ficha dd{margin:0;overflow-wrap:anywhere}
+.suave{color:var(--suave)}
+p.suave{font-size:.88rem}
+.term{margin:10px 0 16px}
+.term .cmd{background:#1f2328;color:#e7e9ec;border-radius:8px 8px 0 0;padding:8px 12px;
+font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.term .cmd span{color:#7ee787;user-select:none}
+.term pre.sal{margin:0;border-radius:0 0 8px 8px;border-top:0;max-height:420px}
+.term p.nota{font-size:.88rem;color:var(--suave);margin:4px 2px 0}
+pre{white-space:pre-wrap;overflow-wrap:anywhere}
+pre.atajos{background:#1f2328;color:#e7e9ec}
+table.pines{margin:8px 0 14px}
+table.mapa{font-size:.88rem}
+table.mapa th:nth-child(1){width:15%}table.mapa th:nth-child(3){width:16%}
+figure.vent{margin:0}
+figure.vent img{display:block;width:100%;height:auto;border:1px solid var(--borde);border-radius:6px}
+figure.vent figcaption{font-size:.82rem;color:var(--suave);margin-top:4px}
+.par{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+.dir{background:var(--codigo);border-radius:8px;padding:8px 12px;margin:14px 0}
+ol.pasos>li{margin:10px 0}
+.lista-control li{margin:4px 0}
+p code,li code,dd code,td code,figcaption code{overflow-wrap:anywhere;word-break:break-word}
+@media (max-width:700px){.par{grid-template-columns:1fr}dl.ficha{grid-template-columns:1fr;gap:2px}dl.ficha dd{margin-bottom:8px}
+table.mapa thead,table.correos thead{display:none}table.correos tr{display:block;border-bottom:1px solid var(--borde);padding:6px 0}
+table.correos td{display:block;border:0;padding:1px 4px;background:none!important}table.correos td:first-child{display:none}table.correos td:nth-child(2){font-weight:700}
+table.mapa tr{display:block;border-bottom:1px solid var(--borde);padding:6px 0}
+table.mapa td{display:block;border:0;padding:1px 4px;background:none!important}table.mapa td:first-child{font-weight:700}}
+</style><div class="aviso"><strong>Cómo usar esta guía.</strong> Es material del equipo para preparar la sustentación (DEC-109): dice qué pieza del entorno local reemplaza a cada sistema externo. El guion sugerido, en cambio, lo presenta como el entorno local, sin hablar de límites. Cada sección tiene la misma ficha (qué es, dónde está en los diagramas, quién lo usa y cómo se abre), las consultas con lo que respondieron en <code>kg-demo</code> después del ensayo de la guía de la plataforma, y qué mostrar.</div><nav class="indice"><strong>Contenido</strong><ol><li><a href="#mapa">El mapa: qué reemplaza a qué y dónde está en los diagramas</a></li><li><a href="#abrir">Cómo se abre lo que no se publica</a></li><li><a href="#correo">Mailpit · el servidor de correo certificado</a></li><li><a href="#ministerio">WireMock · el Ministerio de Comercio</a></li><li><a href="#redes">WireMock · las redes sociales</a></li><li><a href="#soap">Nuestro servicio SOAP · los sistemas externos que lo consumen</a></li><li><a href="#almacen">El almacén de objetos (SeaweedFS)</a></li><li><a href="#elastic">Elasticsearch · los logs de error</a></li><li><a href="#kafka">Kafka · el broker de eventos</a></li><li><a href="#redis">Redis · caché, alarmas y límite de tasa</a></li><li><a href="#postgres">PostgreSQL · una base por servicio</a></li><li><a href="#eureka">Eureka y la página de servicios activos</a></li><li><a href="#error">Paso opcional: un error de verdad</a></li><li><a href="#guion">Guion sugerido</a></li><li><a href="#preguntas">Preguntas probables</a></li><li><a href="#antes">Antes de entrar</a></li></ol></nav><section class="bloque" id="mapa"><h2>1. El mapa: qué reemplaza a qué y dónde está en los diagramas</h2>
+<p>En la arquitectura (página 2) el sistema habla con cuatro sistemas externos: el Ministerio de Comercio, el servidor
+de correo certificado, las redes sociales y los sistemas que consumen nuestro servicio SOAP. En el equipo, los tres
+primeros los reemplazan contenedores que responden con el mismo contrato, y el cuarto es nuestro propio endpoint. Además
+están las piezas de apoyo de la página 3a (almacén de objetos, Elasticsearch, Kafka, Redis, PostgreSQL y Eureka). Los
+números son los de la guía de los diagramas.</p>
+<table class="mapa"><thead><tr><th>En el equipo</th><th>Qué es en la arquitectura</th><th>Dónde está (guía 1)</th><th>Quién lo usa</th><th>Cómo se abre</th></tr></thead><tbody><tr><td>Mailpit · <code>correo</code></td><td>Servidor de correo certificado (SMTP/TLS)</td><td>p. 2 · n.º 9; p. 3a · n.º 18; p. 5 · n.º 13</td><td>ms-notificaciones: <code>CorreoSmtpAdapter</code> envuelto por los decoradores</td><td>Navegador: <code>localhost:8025</code></td></tr><tr><td>WireMock · <code>ministerio</code></td><td>Ministerio de Comercio, servicio web SOAP de precios</td><td>p. 2 · n.º 8; p. 3a · n.º 17</td><td>ms-integracion: <code>MinisterioComercioAdapter</code> y <code>MinisterioSoapClient</code>, detrás de <code>PrecioReferenciaCacheProxy</code></td><td><code>kg exec ministerio curl …</code></td></tr><tr><td>WireMock · <code>redes</code></td><td>Redes sociales, API de tendencias (HTTPS/REST)</td><td>p. 2 · n.º 10; p. 3a · n.º 19</td><td>ms-analitica: <code>TendenciasJob</code> con <code>RedesSocialesAdapter</code></td><td><code>kg exec redes curl …</code></td></tr><tr><td>Nuestro servicio SOAP</td><td>Lo consumen otros sistemas (no se reemplaza)</td><td>p. 2 · n.º 11; p. 3a · n.º 16</td><td>ms-integracion: <code>AbastecimientoSoapEndpoint</code> (Apache CXF), por el gateway</td><td><code>curl localhost:8080/api/integracion/abastecimiento?wsdl</code> con token</td></tr><tr><td>SeaweedFS · <code>s3</code></td><td>Almacén de objetos S3</td><td>p. 3a · n.º 11; p. 5 · n.º 18</td><td>Escriben ms-cotizaciones, ms-ordenes y ms-menu; lee ms-notificaciones para adjuntar</td><td>PDF en V14 y V23 · <code>kgs3 s3 ls</code></td></tr><tr><td>Elasticsearch</td><td>Logs de error (ELK)</td><td>p. 3a · n.º 8; p. 5 · n.º 12</td><td>Escriben los once (<code>AppenderElasticsearch</code>); lee ms-administracion (<code>ElasticsearchLogsAdapter</code>)</td><td>Ventana «Logs de errores» · <code>kg exec elasticsearch curl …</code></td></tr><tr><td>Kafka</td><td>Broker de eventos</td><td>p. 3a · n.º 15</td><td>Los once publican por la outbox y consumen</td><td><code>kg exec kafka /opt/kafka/bin/…</code></td></tr><tr><td>Redis</td><td>Caché, canal de alarmas y límite de tasa</td><td>p. 3a · n.º 13; p. 5 · n.º 17</td><td>ms-integracion, ms-notificaciones y el gateway</td><td><code>kg exec redis redis-cli …</code></td></tr><tr><td>PostgreSQL</td><td>Una base por servicio</td><td>p. 5 · n.º 16</td><td>Cada servicio, solo la suya</td><td><code>kg exec postgres psql …</code></td></tr><tr><td>Eureka y <code>/plataforma/</code></td><td>Service Registry</td><td>p. 3a · n.º 7; p. 5 · n.º 8</td><td>El gateway y los once servicios</td><td>Navegador: <code>localhost:8761</code> y <code>localhost:8080/plataforma/</code></td></tr></tbody></table>
+<p class="suave">Imágenes de los contenedores: <code>correo</code> axllent/mailpit:v1.24, <code>ministerio</code> wiremock/wiremock:3.13.1, <code>redes</code> wiremock/wiremock:3.13.1, <code>s3</code> chrislusf/seaweedfs:3.97, <code>elasticsearch</code> docker.elastic.co/elasticsearch/elasticsearch:8.19.4, <code>kafka</code> apache/kafka:3.9.1, <code>redis</code> redis:7.4.12-alpine, <code>postgres</code> postgres:17.12-alpine.</p>
+<h3>Página 2 · el contexto</h3>
+<div class="visor" id="v-pagina2" data-w="1990" data-h="550"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/externos/pagina2.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/externos/pagina2.png" alt="Página 2 del .drawio" width="1990" height="550" loading="lazy"><span class="zona" data-n="1" title="1" style="left:1.859%;top:9.091%;width:1.709%;aspect-ratio:1"></span><span class="zona" data-n="8" title="8" style="left:5.879%;top:70.909%;width:1.709%;aspect-ratio:1"></span><span class="zona" data-n="9" title="9" style="left:27.990%;top:70.909%;width:1.709%;aspect-ratio:1"></span><span class="zona" data-n="10" title="10" style="left:50.101%;top:70.909%;width:1.709%;aspect-ratio:1"></span><span class="zona" data-n="11" title="11" style="left:72.211%;top:70.909%;width:1.709%;aspect-ratio:1"></span><span class="zona" data-n="12" title="12" style="left:96.633%;top:81.455%;width:1.709%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué es y qué lo hace en el equipo</th></tr></thead><tbody><tr id="v-pagina2-n1"><td class="num"><button class="pin" data-visor="v-pagina2" data-n="1">1</button></td><td><b>Sistema de Abastecimiento Konrad Gourmet</b>. Todo lo que corre en <code>kg-demo</code>: la SPA, el gateway, Eureka y los once servicios con sus datos.</td></tr><tr id="v-pagina2-n8"><td class="num"><button class="pin" data-visor="v-pagina2" data-n="8">8</button></td><td><b>Ministerio de Comercio</b>. El contenedor <code>ministerio</code> (WireMock) responde el servicio web SOAP con el mismo WSDL. Solo lo llama ms-integracion.</td></tr><tr id="v-pagina2-n9"><td class="num"><button class="pin" data-visor="v-pagina2" data-n="9">9</button></td><td><b>Servidor de correo certificado</b>. El contenedor <code>correo</code> (Mailpit) recibe por SMTP lo que envía ms-notificaciones y lo muestra en <code>localhost:8025</code>.</td></tr><tr id="v-pagina2-n10"><td class="num"><button class="pin" data-visor="v-pagina2" data-n="10">10</button></td><td><b>Redes sociales</b>. El contenedor <code>redes</code> (WireMock) responde la API de tendencias con token. Solo la llama ms-analitica.</td></tr><tr id="v-pagina2-n11"><td class="num"><button class="pin" data-visor="v-pagina2" data-n="11">11</button></td><td><b>Sistemas externos</b>. No se reemplaza: nuestro servicio SOAP corre de verdad en ms-integracion y se alcanza por el gateway en <code>localhost:8080/api/integracion/abastecimiento</code>, con token.</td></tr><tr id="v-pagina2-n12"><td class="num"><button class="pin" data-visor="v-pagina2" data-n="12">12</button></td><td><b>Proveedor</b>. Es la dirección de correo del proveedor: su correo llega a la bandeja de Mailpit (<code>ventas@proveedorabc.com</code>).</td></tr></tbody></table>
+<h3>Página 3a · los contenedores</h3>
+<p class="suave">La página completa: los números que interesan aquí están a los dos lados (los sistemas externos) y
+abajo (Kafka, Redis y el almacén). Toca un número de la tabla para ir a él.</p>
+<div class="visor" id="v-3a" data-w="4919" data-h="1740"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/diagramas/3a.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/diagramas/3a.png" alt="Página 3a del .drawio" width="4919" height="1740" loading="lazy"><span class="zona" data-n="7" title="7" style="left:13.682%;top:29.310%;width:1.342%;aspect-ratio:1"></span><span class="zona" data-n="8" title="8" style="left:70.604%;top:28.851%;width:1.342%;aspect-ratio:1"></span><span class="zona" data-n="11" title="11" style="left:31.673%;top:64.080%;width:1.342%;aspect-ratio:1"></span><span class="zona" data-n="12" title="12" style="left:18.764%;top:48.276%;width:1.342%;aspect-ratio:1"></span><span class="zona" data-n="13" title="13" style="left:13.885%;top:63.218%;width:1.342%;aspect-ratio:1"></span><span class="zona" data-n="15" title="15" style="left:12.868%;top:73.563%;width:1.342%;aspect-ratio:1"></span><span class="zona" data-n="16" title="16" style="left:1.484%;top:29.885%;width:1.342%;aspect-ratio:1"></span><span class="zona" data-n="17" title="17" style="left:1.484%;top:47.701%;width:1.342%;aspect-ratio:1"></span><span class="zona" data-n="18" title="18" style="left:92.559%;top:29.310%;width:1.342%;aspect-ratio:1"></span><span class="zona" data-n="19" title="19" style="left:92.559%;top:51.149%;width:1.342%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué es y qué lo hace en el equipo</th></tr></thead><tbody><tr id="v-3a-n7"><td class="num"><button class="pin" data-visor="v-3a" data-n="7">7</button></td><td><b>Service Registry (Eureka)</b>. Eureka, publicado en <code>localhost:8761</code> (sección 12).</td></tr><tr id="v-3a-n8"><td class="num"><button class="pin" data-visor="v-3a" data-n="8">8</button></td><td><b>Logs de error (Elasticsearch)</b>. Elasticsearch, solo dentro de la red: la ventana «Logs de errores» o <code>kg exec elasticsearch curl</code> (sección 8).</td></tr><tr id="v-3a-n11"><td class="num"><button class="pin" data-visor="v-3a" data-n="11">11</button></td><td><b>Almacén de objetos [S3]</b>. SeaweedFS, solo dentro de la red: el PDF de V14 y V23 o <code>kgs3 s3 ls</code> (sección 7).</td></tr><tr id="v-3a-n12"><td class="num"><button class="pin" data-visor="v-3a" data-n="12">12</button></td><td><b>ms-integracion</b>. La frontera: el único que habla SOAP hacia afuera y hacia adentro.</td></tr><tr id="v-3a-n13"><td class="num"><button class="pin" data-visor="v-3a" data-n="13">13</button></td><td><b>Redis</b>. Redis, solo dentro de la red: <code>kg exec redis redis-cli</code> (sección 10).</td></tr><tr id="v-3a-n15"><td class="num"><button class="pin" data-visor="v-3a" data-n="15">15</button></td><td><b>Broker de eventos (Kafka)</b>. Kafka, solo dentro de la red: <code>kg exec kafka …</code> (sección 9).</td></tr><tr id="v-3a-n16"><td class="num"><button class="pin" data-visor="v-3a" data-n="16">16</button></td><td><b>Sistemas externos</b>. Se prueba con <code>curl</code> contra el WSDL por el gateway (sección 6).</td></tr><tr id="v-3a-n17"><td class="num"><button class="pin" data-visor="v-3a" data-n="17">17</button></td><td><b>Ministerio de Comercio</b>. WireMock <code>ministerio</code> (sección 4).</td></tr><tr id="v-3a-n18"><td class="num"><button class="pin" data-visor="v-3a" data-n="18">18</button></td><td><b>Servidor de correo certificado</b>. Mailpit (sección 3).</td></tr><tr id="v-3a-n19"><td class="num"><button class="pin" data-visor="v-3a" data-n="19">19</button></td><td><b>Redes sociales</b>. WireMock <code>redes</code> (sección 5).</td></tr></tbody></table>
+<h3>Página 5 · el despliegue</h3>
+<div class="visor" id="v-pagina5" data-w="1480" data-h="970"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/externos/pagina5.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/externos/pagina5.png" alt="Página 5 del .drawio" width="1480" height="970" loading="lazy"><span class="zona" data-n="8" title="8" style="left:1.216%;top:30.928%;width:2.365%;aspect-ratio:1"></span><span class="zona" data-n="12" title="12" style="left:29.595%;top:53.608%;width:2.365%;aspect-ratio:1"></span><span class="zona" data-n="13" title="13" style="left:68.784%;top:4.124%;width:2.365%;aspect-ratio:1"></span><span class="zona" data-n="16" title="16" style="left:3.919%;top:79.897%;width:2.365%;aspect-ratio:1"></span><span class="zona" data-n="17" title="17" style="left:20.811%;top:79.897%;width:2.365%;aspect-ratio:1"></span><span class="zona" data-n="18" title="18" style="left:36.351%;top:79.897%;width:2.365%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué es y qué lo hace en el equipo</th></tr></thead><tbody><tr id="v-pagina5-n8"><td class="num"><button class="pin" data-visor="v-pagina5" data-n="8">8</button></td><td><b>Service Registry ×2</b>. Una sola instancia de Eureka en <code>localhost:8761</code>.</td></tr><tr id="v-pagina5-n12"><td class="num"><button class="pin" data-visor="v-pagina5" data-n="12">12</button></td><td><b>Observabilidad</b>. De la observabilidad, en el equipo está Elasticsearch con el índice <code>logs-errores</code>.</td></tr><tr id="v-pagina5-n13"><td class="num"><button class="pin" data-visor="v-pagina5" data-n="13">13</button></td><td><b>Salida controlada</b>. Por aquí salen las llamadas al Ministerio, al correo y a las redes: en el equipo van a los contenedores <code>ministerio</code>, <code>correo</code> y <code>redes</code>.</td></tr><tr id="v-pagina5-n16"><td class="num"><button class="pin" data-visor="v-pagina5" data-n="16">16</button></td><td><b>PostgreSQL ×11</b>. Un PostgreSQL con once bases separadas, una por servicio (sección 11).</td></tr><tr id="v-pagina5-n17"><td class="num"><button class="pin" data-visor="v-pagina5" data-n="17">17</button></td><td><b>Redis primario + réplica</b>. Un Redis con la caché de precios, el canal de alarmas y el límite de tasa.</td></tr><tr id="v-pagina5-n18"><td class="num"><button class="pin" data-visor="v-pagina5" data-n="18">18</button></td><td><b>Almacén de objetos</b>. SeaweedFS con los buckets <code>documentos-pdf</code> e <code>imagenes-platos</code>.</td></tr></tbody></table>
+</section><section class="bloque" id="abrir"><h2>2. Cómo se abre lo que no se publica</h2>
+<p>El compose solo publica tres puertos en el equipo; todo lo demás vive dentro de la red de Docker y no se le cambia
+nada para la sustentación (DEC-113).</p>
+<table><thead><tr><th>Puerto</th><th>Qué es</th></tr></thead><tbody><tr><td><code>localhost:8025</code></td><td>Mailpit</td></tr><tr><td><code>localhost:8761</code></td><td>Eureka</td></tr><tr><td><code>localhost:8080</code></td><td>la aplicación (Nginx) y, por el gateway, nuestro SOAP</td></tr></tbody></table>
+<p>Para lo que no se publica hay dos caminos:</p>
+<ol>
+<li><b>Las ventanas de la aplicación</b>, que ya lo usan: el PDF de V14 y de V23 sale del almacén de objetos; «Logs de
+errores» lee Elasticsearch; la diferencia frente al precio estándar de V18 y V19 viene del Ministerio; la traza de envíos de
+V14 dice si el correo salió.</li>
+<li><b>La terminal</b>, con <code>docker compose exec</code> y la herramienta que ya trae cada contenedor (<code>curl</code>
+en WireMock y Elasticsearch, <code>redis-cli</code>, <code>psql</code>, los scripts de Kafka) y, para el almacén,
+<code>docker compose run</code> del contenedor que crea los buckets, que trae <code>aws</code> y las credenciales.</li>
+</ol>
+<p>Antes de entrar, en una terminal abierta en <code>FinalProyecto/</code>, se pegan estos dos atajos (duran lo que dure
+la terminal):</p>
+<pre class="atajos">kg() { COMPOSE_PROJECT_NAME=kg-demo docker compose -f KonradGourmet/plataforma/docker-compose.yml &quot;$@&quot;; }
+kgs3() { kg run --rm --no-deps --entrypoint aws s3-bucket --endpoint-url http://s3:8333 &quot;$@&quot;; }</pre>
+<p class="suave">Todos los comandos de esta guía se corrieron así en <code>kg-demo</code> después del ensayo de la guía de la
+plataforma, y lo que se ve debajo de cada uno es lo que respondieron. Las horas y los identificadores cambian en cada
+ensayo; los números de la historia (<code>SOL-034</code>, <code>COT-023</code>, <code>COT-024</code>, <code>OC-0013</code>) no.</p>
+</section><section class="bloque" id="correo"><h2>3. Mailpit · el servidor de correo certificado</h2>
+<dl class="ficha">
+<dt>Reemplaza a</dt><dd>El servidor de correo certificado (SMTP/TLS): p. 2 · n.º 9; p. 3a · n.º 18.</dd>
+<dt>Quién lo usa</dt><dd>Solo ms-notificaciones, que escucha seis tópicos y manda un correo por cada evento. El remitente es
+<code>Konrad Gourmet &lt;notificaciones@konradgourmet.com&gt;</code>.</dd>
+<dt>Cómo se abre</dt><dd><code>http://localhost:8025</code> en el navegador: la bandeja, cada correo con sus pestañas
+<i>Text</i>, <i>Headers</i> y <i>Raw</i>, y los adjuntos.</dd>
+<dt>Patrones</dt><dd><span class="etiqueta">Decorator</span><span class="etiqueta">Factory Method (CreadorCorreo)</span><span class="etiqueta">Claim check</span><span class="etiqueta">Eventos</span><span class="etiqueta">Hexagonal</span></dd>
+</dl>
+<h3>Qué correos llegan y de qué evento sale cada uno</h3>
+<p>Después del ensayo de la guía de la plataforma la bandeja tiene estos 7 correos, del más reciente al más antiguo:</p>
+<table class="correos"><thead><tr><th class=c-num>N.º</th><th>Asunto</th><th>Para</th><th>Evento (tópico)</th><th>Adjunto</th></tr></thead><tbody><tr><td>1</td><td>Orden de compra OC-0013</td><td>ventas@proveedorabc.com</td><td><code>orden.generada</code></td><td>OC-0013.pdf</td></tr><tr><td>2</td><td>Solicitud de cotización COT-024</td><td>ventas@proveedorc.com</td><td><code>cotizacion.enviada</code></td><td>COT-024.pdf</td></tr><tr><td>3</td><td>Solicitud SOL-034 en trámite</td><td>carlos.mendoza@konradgourmet.com</td><td><code>solicitud.en-tramite</code></td><td>—</td></tr><tr><td>4</td><td>Solicitud de cotización COT-023</td><td>ventas@proveedorabc.com</td><td><code>cotizacion.enviada</code></td><td>COT-023.pdf</td></tr><tr><td>5</td><td>Solicitud SOL-034 registrada</td><td>carlos.mendoza@konradgourmet.com</td><td><code>solicitud.registrada</code></td><td>—</td></tr><tr><td>6</td><td>Stock bajo: Res</td><td>carlos.mendoza@konradgourmet.com</td><td><code>inventario.stock-bajo</code></td><td>—</td></tr><tr><td>7</td><td>Promociones sugeridas</td><td>carlos.mendoza@konradgourmet.com</td><td><code>tendencia.detectada</code></td><td>—</td></tr></tbody></table>
+<div class="visor" id="v-d24x" data-w="1440" data-h="900"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/plataforma/d24_mailpit.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/plataforma/d24_mailpit.png" alt="Bandeja de Mailpit" width="1440" height="900" loading="lazy"><span class="zona" data-n="1" title="1" style="left:17.222%;top:7.111%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="2" title="2" style="left:17.222%;top:13.333%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="3" title="3" style="left:17.222%;top:19.667%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="4" title="4" style="left:17.222%;top:25.889%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="5" title="5" style="left:17.222%;top:32.222%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="6" title="6" style="left:17.222%;top:38.444%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="7" title="7" style="left:17.222%;top:44.667%;width:2.361%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Correo</th></tr></thead><tbody><tr id="v-d24x-n1"><td class="num"><button class="pin" data-visor="v-d24x" data-n="1">1</button></td><td>«Orden de compra OC-0013» → ventas@proveedorabc.com · con PDF adjunto. <i>orden.generada: la orden con su PDF, al proveedor</i></td></tr><tr id="v-d24x-n2"><td class="num"><button class="pin" data-visor="v-d24x" data-n="2">2</button></td><td>«Solicitud de cotización COT-024» → ventas@proveedorc.com · con PDF adjunto. <i>cotizacion.enviada: la cotización con su PDF, al proveedor</i></td></tr><tr id="v-d24x-n3"><td class="num"><button class="pin" data-visor="v-d24x" data-n="3">3</button></td><td>«Solicitud SOL-034 en trámite» → carlos.mendoza@konradgourmet.com. <i>solicitud.en-tramite: aviso al jefe de cocina</i></td></tr><tr id="v-d24x-n4"><td class="num"><button class="pin" data-visor="v-d24x" data-n="4">4</button></td><td>«Solicitud de cotización COT-023» → ventas@proveedorabc.com · con PDF adjunto. <i>cotizacion.enviada: la cotización con su PDF, al proveedor</i></td></tr><tr id="v-d24x-n5"><td class="num"><button class="pin" data-visor="v-d24x" data-n="5">5</button></td><td>«Solicitud SOL-034 registrada» → carlos.mendoza@konradgourmet.com. <i>solicitud.registrada: confirmación al jefe de cocina</i></td></tr><tr id="v-d24x-n6"><td class="num"><button class="pin" data-visor="v-d24x" data-n="6">6</button></td><td>«Stock bajo: Res» → carlos.mendoza@konradgourmet.com. <i>inventario.stock-bajo: la alerta al jefe de cocina</i></td></tr><tr id="v-d24x-n7"><td class="num"><button class="pin" data-visor="v-d24x" data-n="7">7</button></td><td>«Promociones sugeridas» → carlos.mendoza@konradgourmet.com. <i>tendencia.detectada: las promociones de la semana (llega al encender la plataforma)</i></td></tr></tbody></table>
+<h3>El certificado y el sello de tiempo: la cadena de decoradores</h3>
+<div class="flujo">
+<div class="paso"><b>NotificacionService</b>recibe el evento y arma el mensaje</div><span class="flecha">→</span>
+<div class="paso"><b>CorreoCertificadoDecorator</b>pone <code>X-Certificado</code></div><span class="flecha">→</span>
+<div class="paso"><b>EstampaCronologicaDecorator</b>pone <code>X-Sello-Tiempo</code></div><span class="flecha">→</span>
+<div class="paso"><b>CorreoSmtpAdapter</b>descarga el PDF del almacén, lo adjunta y envía por SMTP</div><span class="flecha">→</span>
+<div class="paso"><b>Mailpit</b>lo recibe</div>
+</div>
+<p>Los decoradores se arman en <code>ConfiguracionNotificaciones</code>:
+<code>new CorreoCertificadoDecorator(new EstampaCronologicaDecorator(smtp))</code>. Cada uno agrega su cabecera y pasa el
+mensaje al siguiente; el adaptador SMTP no sabe que existen. Agregar otra garantía (por ejemplo, una firma) es agregar
+otro decorador.</p>
+<div class="visor" id="v-e01_cabeceras" data-w="1440" data-h="900"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/externos/e01_cabeceras.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/externos/e01_cabeceras.png" alt="Cabeceras del correo de COT-023 en Mailpit" width="1440" height="900" loading="lazy"><span class="zona" data-n="1" title="1" style="left:25.694%;top:78.000%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="2" title="2" style="left:25.694%;top:83.111%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="3" title="3" style="left:91.111%;top:8.000%;width:2.361%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué señalar</th></tr></thead><tbody><tr id="v-e01_cabeceras-n1"><td class="num"><button class="pin" data-visor="v-e01_cabeceras" data-n="1">1</button></td><td><code>X-Certificado: SHA-256:8c11bad11e6ec426</code>: los primeros 8 bytes (16 caracteres) de la huella SHA-256 del destinatario y el cuerpo. Si alguien cambia el texto o el destinatario, la huella ya no coincide.</td></tr><tr id="v-e01_cabeceras-n2"><td class="num"><button class="pin" data-visor="v-e01_cabeceras" data-n="2">2</button></td><td><code>X-Sello-Tiempo: 2026-11-24T16:20:23-05:00</code>: la fecha y hora de Bogotá en que salió, con su zona horaria.</td></tr><tr id="v-e01_cabeceras-n3"><td class="num"><button class="pin" data-visor="v-e01_cabeceras" data-n="3">3</button></td><td>El adjunto COT-023.pdf: el PDF que ms-cotizaciones guardó en el almacén; el evento solo llevaba su dirección.</td></tr></tbody></table>
+<p>La huella se puede comprobar en vivo con el destinatario y el cuerpo del correo (pestaña <i>Text</i>):</p>
+<div class="term"><div class="cmd"><span>$</span> printf &#x27;%s\n%s&#x27; &#x27;ventas@proveedorabc.com&#x27; &#x27;Por favor cotice los productos del PDF adjunto.&#x27; | sha256sum | cut -c1-16</div><pre class="sal">8c11bad11e6ec426</pre><p class=nota>Da lo mismo que la cabecera <code>X-Certificado</code>.</p></div>
+<h3>El correo de la orden y su PDF</h3>
+<div class="par">
+<div><div class="visor" id="v-d25_mailpit_orden" data-w="1440" data-h="900"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/plataforma/d25_mailpit_orden.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/plataforma/d25_mailpit_orden.png" alt="Correo de la orden en Mailpit" width="1440" height="900" loading="lazy"><span class="zona" data-n="1" title="1" style="left:25.694%;top:13.333%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="2" title="2" style="left:25.764%;top:50.556%;width:2.361%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué señalar</th></tr></thead><tbody><tr id="v-d25_mailpit_orden-n1"><td class="num"><button class="pin" data-visor="v-d25_mailpit_orden" data-n="1">1</button></td><td>El asunto, con OC-0013.</td></tr><tr id="v-d25_mailpit_orden-n2"><td class="num"><button class="pin" data-visor="v-d25_mailpit_orden" data-n="2">2</button></td><td>El adjunto OC-0013.pdf.</td></tr></tbody></table></div>
+<div><figure class="vent"><a href="img/plataforma/d21_pdf_orden.png" target="_blank" rel="noopener"><img src="img/plataforma/d21_pdf_orden.png" alt="PDF de la orden" width="935" height="1210" loading="lazy"></a><figcaption>El PDF de OC-0013: el mismo que abre V23 y que va adjunto.</figcaption></figure></div>
+</div>
+<p class="suave">El cuerpo del correo de la orden dice «total 840000» sin formato de pesos (observado, sin
+corregir).</p>
+<div class="dir"><b>Qué mostrar:</b> la bandeja, el correo de <code>COT-023</code> con la pestaña <i>Headers</i> (las dos
+cabeceras) y su adjunto; si hay tiempo, la huella con <code>sha256sum</code>.</div>
+</section><section class="bloque" id="ministerio"><h2>4. WireMock · el Ministerio de Comercio</h2>
+<dl class="ficha">
+<dt>Reemplaza a</dt><dd>El servicio web SOAP del Ministerio de Comercio, que publica el precio estándar de cada producto:
+p. 2 · n.º 8; p. 3a · n.º 17.</dd>
+<dt>Quién lo usa</dt><dd>Solo ms-integracion. ms-cotizaciones le pide el precio de referencia al generar la cotización
+(V13) y con él calcula la diferencia que ve la directora en V18 y V19.</dd>
+<dt>Cómo se abre</dt><dd>No se publica: <code>kg exec ministerio curl …</code> contra <code>localhost:8080</code> dentro del contenedor.</dd>
+<dt>Patrones</dt><dd><span class="etiqueta">Adapter</span><span class="etiqueta">Proxy (caché en Redis)</span><span class="etiqueta">SOA / SOAP</span><span class="etiqueta">Hexagonal</span></dd>
+</dl>
+<div class="flujo">
+<div class="paso"><b>V13</b>el auxiliar genera la cotización</div><span class="flecha">→</span>
+<div class="paso"><b>ms-cotizaciones</b>REST interno, por Eureka</div><span class="flecha">→</span>
+<div class="paso"><b>PrecioReferenciaCacheProxy</b>¿está en Redis y tiene menos de un día?</div><span class="flecha">→</span>
+<div class="paso"><b>MinisterioComercioAdapter</b>traduce al puerto</div><span class="flecha">→</span>
+<div class="paso"><b>MinisterioSoapClient</b>SOAP</div><span class="flecha">→</span>
+<div class="paso"><b>ministerio</b>WireMock</div>
+</div>
+<h3>Qué responde y con qué demora</h3>
+<p>Un mapping por producto de la demo (<code>infra/ministerio/mappings/</code>), con 300 ms de demora para
+que se note cuándo responde la caché:</p>
+<table><thead><tr><th>Producto</th><th>Nombre</th><th>Precio por kilo</th><th>Demora</th></tr></thead><tbody><tr><td>1</td><td>Res</td><td>$20.000</td><td>300 ms</td></tr><tr><td>2</td><td>Arroz</td><td>$8.000</td><td>300 ms</td></tr><tr><td>3</td><td>Papa</td><td>$3.500</td><td>300 ms</td></tr><tr><td>4</td><td>Pollo</td><td>$14.000</td><td>300 ms</td></tr><tr><td>cualquier otro</td><td>—</td><td>SOAP Fault (500)</td><td>300 ms</td></tr></tbody></table>
+<div class="term"><div class="cmd"><span>$</span> kg exec ministerio curl -s &#x27;localhost:8080/precios?wsdl&#x27;</div><pre class="sal">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!--
+  Servicio web de precios estándar del Ministerio de Comercio, SIMULADO para la plataforma local (DEC-71).
+  Lo sirve el contenedor ministerio (WireMock); MinisterioSoapClient sigue este contrato:
+  consultarPrecioEstandar(codigoProducto: string) → precio: double (por unidad del producto).
+--&gt;
+&lt;definitions xmlns=&quot;http://schemas.xmlsoap.org/wsdl/&quot;
+             xmlns:soap=&quot;http://schemas.xmlsoap.org/wsdl/soap/&quot;
+             xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;
+             xmlns:tns=&quot;http://precios.ministerio-comercio.simulado/&quot;
+             targetNamespace=&quot;http://precios.ministerio-comercio.simulado/&quot;
+             name=&quot;PreciosEstandarService&quot;&gt;
+… (32 líneas más)</pre><p class=nota>El contrato que sigue <code>MinisterioSoapClient</code>: <code>consultarPrecioEstandar(codigoProducto)</code> → <code>precio</code>. Su comentario dice que lo sirve el contenedor del entorno local: si se muestra en vivo, basta con la respuesta de la res.</p></div>
+<div class="term"><div class="cmd"><span>$</span> kg exec ministerio curl -s -w &#x27;\n%{http_code} en %{time_total} s\n&#x27; -H &#x27;Content-Type: text/xml&#x27; localhost:8080/precios -d &#x27;&lt;soap:Envelope xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:min=&quot;http://precios.ministerio-comercio.simulado/&quot;&gt;&lt;soap:Body&gt;&lt;min:consultarPrecioEstandar&gt;&lt;codigoProducto&gt;1&lt;/codigoProducto&gt;&lt;/min:consultarPrecioEstandar&gt;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;&#x27;</div><pre class="sal">&lt;soap:Envelope xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&lt;soap:Body&gt;&lt;min:consultarPrecioEstandarResponse xmlns:min=&quot;http://precios.ministerio-comercio.simulado/&quot;&gt;&lt;precio&gt;20000.0&lt;/precio&gt;&lt;/min:consultarPrecioEstandarResponse&gt;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;
+200 en 0.305221 s</pre><p class=nota>La res: 20000.0, en unos 300 ms.</p></div>
+<div class="term"><div class="cmd"><span>$</span> kg exec ministerio curl -s -w &#x27;\n%{http_code} en %{time_total} s\n&#x27; -H &#x27;Content-Type: text/xml&#x27; localhost:8080/precios -d &#x27;&lt;soap:Envelope xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:min=&quot;http://precios.ministerio-comercio.simulado/&quot;&gt;&lt;soap:Body&gt;&lt;min:consultarPrecioEstandar&gt;&lt;codigoProducto&gt;99&lt;/codigoProducto&gt;&lt;/min:consultarPrecioEstandar&gt;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;&#x27;</div><pre class="sal">&lt;soap:Envelope xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&lt;soap:Body&gt;&lt;soap:Fault&gt;&lt;faultcode&gt;soap:Client&lt;/faultcode&gt;&lt;faultstring&gt;El Ministerio no tiene precio para el producto 99&lt;/faultstring&gt;&lt;/soap:Fault&gt;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;
+500 en 0.351820 s</pre><p class=nota>Un producto sin precio: SOAP Fault con el código 500. ms-integracion lo convierte en un error del puerto y la cotización queda PENDIENTE DE PRECIO.</p></div>
+<h3>La cuenta de llamadas: la caché de Redis</h3>
+<p>En el ensayo se generaron dos cotizaciones de res (<code>COT-023</code> y <code>COT-024</code>). WireMock lleva la cuenta
+de lo que recibe, y antes de las consultas a mano de arriba tenía una sola llamada: la primera cotización le preguntó al
+Ministerio y la segunda la respondió el Proxy desde Redis.</p>
+<div class="term"><div class="cmd"><span>$</span> kg exec ministerio curl -s -X POST localhost:8080/__admin/requests/count -d &#x27;{&quot;method&quot;:&quot;POST&quot;,&quot;url&quot;:&quot;/precios&quot;}&#x27;</div><pre class="sal">{
+  &quot;count&quot; : 1,
+  &quot;requestJournalDisabled&quot; : false
+}</pre><p class=nota>Ojo: las consultas a mano con <code>curl</code> también cuentan; para mostrar la caché, contar antes de probar.</p></div>
+<div class="term"><div class="cmd"><span>$</span> kg exec redis redis-cli GET precio-referencia:1</div><pre class="sal">{&quot;productoId&quot;:1,&quot;valor&quot;:&quot;20000.0&quot;,&quot;consultadoEn&quot;:&quot;2026-11-24T16:20:23.172804749&quot;}</pre></div>
+<div class="term"><div class="cmd"><span>$</span> kg exec redis redis-cli TTL precio-referencia:1</div><pre class="sal">86322</pre><p class=nota>Segundos que le quedan: la llave vence en un día (supuesto S3), el mismo plazo con que el Proxy da por vencido un precio.</p></div>
+<h3>Si el Ministerio no responde</h3>
+<div class="par">
+<div><figure class="vent"><a href="img/plataforma/reenviar.png" target="_blank" rel="noopener"><img src="img/plataforma/reenviar.png" alt="Cotización pendiente de precio" width="1440" height="900" loading="lazy"></a><figcaption>«Reenviar una cotización»: la cotización quedó PENDIENTE DE PRECIO y se reenvía cuando el Ministerio vuelve.</figcaption></figure></div>
+<div><p>Con <code>kg stop ministerio</code> y una cotización de un producto que no esté en la caché, la cotización se guarda
+PENDIENTE DE PRECIO y no se envía al proveedor. Con <code>kg start ministerio</code> el auxiliar la reenvía desde «Cotizaciones
+enviadas». Los productos que ya estaban en la caché siguen saliendo con su precio aunque el Ministerio esté caído.</p>
+<p class="suave">No hace falta mostrarlo en vivo: la imagen basta.</p></div>
+</div>
+<div class="dir"><b>Qué mostrar:</b> la cuenta (1), la llave de Redis con su vencimiento y, si preguntan por el contrato,
+el WSDL y la respuesta de la res.</div>
+</section><section class="bloque" id="redes"><h2>5. WireMock · las redes sociales</h2>
+<dl class="ficha">
+<dt>Reemplaza a</dt><dd>La API pública de tendencias de una red social (la red concreta no la fija el enunciado, supuesto S11):
+p. 2 · n.º 10; p. 3a · n.º 19.</dd>
+<dt>Quién lo usa</dt><dd>Solo ms-analitica: <code>TendenciasJob</code> (con ShedLock) llama a <code>RedesSocialesAdapter</code>,
+cruza las tendencias con la carta y publica <code>tendencia.detectada</code>; ms-notificaciones manda el correo
+«Promociones sugeridas» a los jefes de cocina, que las aceptan o descartan en «Promociones sugeridas».</dd>
+<dt>Cuándo</dt><dd>Cada semana, el lunes a las 6:00; en el equipo, <code>*/30 * * * * *</code> (cada 30 s), para verlo trabajar.
+Se publica a lo sumo un evento por día.</dd>
+<dt>Cómo se abre</dt><dd>No se publica: <code>kg exec redes curl …</code>.</dd>
+<dt>Patrones</dt><dd><span class="etiqueta">Adapter</span><span class="etiqueta">Eventos</span><span class="etiqueta">Hexagonal</span></dd>
+</dl>
+<h3>Qué responde</h3>
+<p>Con el token <code>Bearer konrad-redes-local</code> y la consulta <code>?pais=CO&amp;categoria=gastronomia&amp;periodo=semana</code>, los productos
+en tendencia de la semana, de más a menos menciones, con 200 ms de demora; sin token, 401.</p>
+<table><thead><tr><th>Producto</th><th>Menciones</th></tr></thead><tbody><tr><td>Ajiaco</td><td>1.840</td></tr><tr><td>Limonada natural</td><td>960</td></tr></tbody></table>
+<div class="term"><div class="cmd"><span>$</span> kg exec redes curl -s -w &#x27;\n%{http_code} en %{time_total} s\n&#x27; -H &#x27;Authorization: Bearer konrad-redes-local&#x27; &#x27;localhost:8080/v1/tendencias?pais=CO&amp;categoria=gastronomia&amp;periodo=semana&#x27;</div><pre class="sal">{&quot;pais&quot;:&quot;CO&quot;,&quot;categoria&quot;:&quot;gastronomia&quot;,&quot;periodo&quot;:&quot;semana&quot;,&quot;tendencias&quot;:[{&quot;producto&quot;:&quot;Ajiaco&quot;,&quot;menciones&quot;:1840},{&quot;producto&quot;:&quot;Limonada natural&quot;,&quot;menciones&quot;:960}]}
+200 en 0.203463 s</pre></div>
+<div class="term"><div class="cmd"><span>$</span> kg exec redes curl -s -w &#x27;\n%{http_code}\n&#x27; &#x27;localhost:8080/v1/tendencias?pais=CO&amp;categoria=gastronomia&amp;periodo=semana&#x27;</div><pre class="sal">{&quot;error&quot;:&quot;token de acceso inválido&quot;}
+401</pre></div>
+<h3>La cuenta sube sola</h3>
+<div class="term"><div class="cmd"><span>$</span> kg exec redes curl -s -X POST localhost:8080/__admin/requests/count -d &#x27;{&quot;method&quot;:&quot;GET&quot;,&quot;urlPath&quot;:&quot;/v1/tendencias&quot;}&#x27;</div><pre class="sal">{
+  &quot;count&quot; : 7,
+  &quot;requestJournalDisabled&quot; : false
+}</pre></div>
+<div class="term"><div class="cmd"><span>$</span> kg exec redes curl -s -X POST localhost:8080/__admin/requests/count -d &#x27;{&quot;method&quot;:&quot;GET&quot;,&quot;urlPath&quot;:&quot;/v1/tendencias&quot;}&#x27;</div><pre class="sal">{
+  &quot;count&quot; : 8,
+  &quot;requestJournalDisabled&quot; : false
+}</pre><p class=nota>31 segundos después: 7 → 8. Es <code>TendenciasJob</code>, no nosotros.</p></div>
+<div class="visor" id="v-e02_promociones" data-w="1440" data-h="900"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/externos/e02_promociones.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/externos/e02_promociones.png" alt="Correo de promociones en Mailpit" width="1440" height="900" loading="lazy"><span class="zona" data-n="1" title="1" style="left:25.694%;top:29.556%;width:2.361%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué señalar</th></tr></thead><tbody><tr id="v-e02_promociones-n1"><td class="num"><button class="pin" data-visor="v-e02_promociones" data-n="1">1</button></td><td>El correo que sale de <code>tendencia.detectada</code>: una línea por plato de la carta que está en tendencia.</td></tr></tbody></table>
+<div class="dir"><b>Qué mostrar:</b> la respuesta con el token, el 401 sin él y la cuenta antes y después de 30 segundos;
+luego el correo de promociones en Mailpit.</div>
+</section><section class="bloque" id="soap"><h2>6. Nuestro servicio SOAP · los sistemas externos que lo consumen</h2>
+<dl class="ficha">
+<dt>Qué es</dt><dd>Los «sistemas externos» que consumen los servicios del restaurante (p. 2 · n.º 11; p. 3a · n.º 16).
+No se reemplazan: nuestro endpoint SOAP corre de verdad en ms-integracion (<code>AbastecimientoSoapEndpoint</code>, con
+Apache CXF) y entra por el gateway, que pide un token válido como a cualquier petición (DEC-72).</dd>
+<dt>Cómo se abre</dt><dd>Desde el equipo, por <code>localhost:8080</code>: es lo único de esta guía que pasa por el gateway.</dd>
+<dt>Patrones</dt><dd><span class="etiqueta">SOA / SOAP</span><span class="etiqueta">Facade (gateway)</span><span class="etiqueta">OAuth 2.0 / JWT</span></dd>
+</dl>
+<div class="term"><div class="cmd"><span>$</span> curl -s -o /dev/null -w &#x27;%{http_code}\n&#x27; &#x27;localhost:8080/api/integracion/abastecimiento?wsdl&#x27;</div><pre class="sal">401</pre><p class=nota>Sin token, el gateway no deja pasar.</p></div>
+<div class="term"><div class="cmd"><span>$</span> T=$(curl -s localhost:8080/api/auth/token -H &#x27;Content-Type: application/json&#x27; -d &#x27;{&quot;correo&quot;:&quot;isabella.castro@konradgourmet.com&quot;,&quot;clave&quot;:&quot;Konrad2026&quot;}&#x27; | python3 -c &#x27;import sys,json; print(json.load(sys.stdin)[&quot;jwt&quot;])&#x27;)
+curl -s -H &quot;Authorization: Bearer $T&quot; &#x27;localhost:8080/api/integracion/abastecimiento?wsdl&#x27;</div><pre class="sal">&lt;?xml version=&#x27;1.0&#x27; encoding=&#x27;UTF-8&#x27;?&gt;&lt;wsdl:definitions xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:wsdl=&quot;http://schemas.xmlsoap.org/wsdl/&quot; xmlns:tns=&quot;http://abastecimiento.konradgourmet.com/&quot; xmlns:soap=&quot;http://schemas.xmlsoap.org/wsdl/soap/&quot; xmlns:ns1=&quot;http://schemas.xmlsoap.org/soap/http&quot; name=&quot;AbastecimientoService&quot; targetNamespace=&quot;http://abastecimiento.konradgourmet.com/&quot;&gt;
+  &lt;wsdl:types&gt;
+&lt;xs:schema xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns=&quot;http://abastecimiento.konradgourmet.com/&quot; elementFormDefault=&quot;unqualified&quot; targetNamespace=&quot;http://abastecimiento.konradgourmet.com/&quot; version=&quot;1.0&quot;&gt;
+
+  &lt;xs:element name=&quot;consultarPrecioSugerido&quot; type=&quot;tns:consultarPrecioSugerido&quot;/&gt;
+
+  &lt;xs:element name=&quot;consultarPrecioSugeridoResponse&quot; type=&quot;tns:consultarPrecioSugeridoResponse&quot;/&gt;
+
+  &lt;xs:complexType name=&quot;consultarPrecioSugerido&quot;&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element minOccurs=&quot;0&quot; name=&quot;productoId&quot; type=&quot;xs:long&quot;/&gt;
+    &lt;/xs:sequence&gt;
+  &lt;/xs:complexType&gt;
+
+… (42 líneas más)</pre></div>
+<div class="term"><div class="cmd"><span>$</span> T=$(curl -s localhost:8080/api/auth/token -H &#x27;Content-Type: application/json&#x27; -d &#x27;{&quot;correo&quot;:&quot;isabella.castro@konradgourmet.com&quot;,&quot;clave&quot;:&quot;Konrad2026&quot;}&#x27; | python3 -c &#x27;import sys,json; print(json.load(sys.stdin)[&quot;jwt&quot;])&#x27;)
+curl -s -H &quot;Authorization: Bearer $T&quot; -H &#x27;Content-Type: text/xml&#x27; localhost:8080/api/integracion/abastecimiento -d &#x27;&lt;soap:Envelope xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&lt;soap:Body&gt;&lt;a:consultarPrecioSugerido xmlns:a=&quot;http://abastecimiento.konradgourmet.com/&quot;&gt;&lt;productoId&gt;1&lt;/productoId&gt;&lt;/a:consultarPrecioSugerido&gt;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;&#x27;</div><pre class="sal">&lt;soap:Envelope xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&lt;soap:Body&gt;&lt;ns2:consultarPrecioSugeridoResponse xmlns:ns2=&quot;http://abastecimiento.konradgourmet.com/&quot;&gt;&lt;precioSugerido&gt;20000.0&lt;/precioSugerido&gt;&lt;/ns2:consultarPrecioSugeridoResponse&gt;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;</pre><p class=nota>El precio sugerido de la res. Sale del mismo Proxy: estaba en Redis, así que el Ministerio no recibió otra llamada.</p></div>
+<div class="dir"><b>Qué mostrar:</b> el 401, el WSDL y la respuesta. Sirve para cerrar la integración: consumimos SOAP del
+Ministerio y exponemos SOAP a otros sistemas, los dos en el mismo servicio de frontera.</div>
+</section><section class="bloque" id="almacen"><h2>7. El almacén de objetos (SeaweedFS)</h2>
+<dl class="ficha">
+<dt>Qué es</dt><dd>El almacén de objetos S3 de la página 3a y la 5 (p. 3a · n.º 11; p. 5 · n.º 18). En el
+equipo es SeaweedFS, que habla la misma API S3 (DEC-59).</dd>
+<dt>Quién lo usa</dt><dd>ms-cotizaciones guarda el PDF de la cotización (<code>cotizaciones/</code>) y ms-ordenes el de la orden
+(<code>ordenes/</code>), en <code>documentos-pdf</code>; ms-menu guarda las imágenes de los platos en <code>imagenes-platos</code>;
+ms-notificaciones descarga el PDF para adjuntarlo.</dd>
+<dt>Cómo se abre</dt><dd>Por la aplicación: «Ver PDF» en V14 y en V23. En la terminal: <code>kgs3 s3 ls …</code>.</dd>
+<dt>Patrones</dt><dd><span class="etiqueta">Claim check</span><span class="etiqueta">Adapter (AlmacenObjetosAdapter)</span><span class="etiqueta">Hexagonal</span></dd>
+</dl>
+<div class="term"><div class="cmd"><span>$</span> kgs3 s3 ls</div><pre class="sal">2026-11-23 19:55:51 documentos-pdf
+2026-11-23 19:55:52 imagenes-platos</pre></div>
+<div class="term"><div class="cmd"><span>$</span> kgs3 s3 ls --recursive s3://documentos-pdf</div><pre class="sal">2026-11-23 19:57:59       2338 cotizaciones/COT-018.pdf
+2026-11-23 19:58:00       2329 cotizaciones/COT-019.pdf
+2026-11-23 19:58:00       2329 cotizaciones/COT-020.pdf
+2026-11-23 19:58:01       2332 cotizaciones/COT-021.pdf
+2026-11-23 19:58:37       2226 cotizaciones/COT-022.pdf
+2026-11-24 21:20:23       2232 cotizaciones/COT-023.pdf
+2026-11-24 21:20:25       2226 cotizaciones/COT-024.pdf
+2026-11-23 19:58:05       2308 ordenes/OC-0012.pdf
+2026-11-24 21:20:34       2183 ordenes/OC-0013.pdf</pre><p class=nota>COT-023, COT-024 y OC-0013 son los del ensayo; los anteriores vienen con los datos de la demo.</p></div>
+<div class="term"><div class="cmd"><span>$</span> kgs3 s3 ls --recursive s3://imagenes-platos</div><pre class="sal">(no imprime nada)</pre></div>
+<div class="par">
+<div><figure class="vent"><a href="img/plataforma/d12_pdf_cotizacion.png" target="_blank" rel="noopener"><img src="img/plataforma/d12_pdf_cotizacion.png" alt="PDF de la cotización" width="935" height="1210" loading="lazy"></a><figcaption>El PDF de COT-023 (V14): sale de <code>documentos-pdf/cotizaciones/</code>.</figcaption></figure></div>
+<div><figure class="vent"><a href="img/plataforma/d21_pdf_orden.png" target="_blank" rel="noopener"><img src="img/plataforma/d21_pdf_orden.png" alt="PDF de la orden" width="935" height="1210" loading="lazy"></a><figcaption>El PDF de OC-0013 (V23): sale de <code>documentos-pdf/ordenes/</code>.</figcaption></figure></div>
+</div>
+<p><b>Claim check:</b> Kafka no transporta archivos. El evento lleva solo la dirección del PDF; quien lo necesita lo pide al
+almacén. Se ve en el evento <code>orden.generada</code> (sección 9).</p>
+</section><section class="bloque" id="elastic"><h2>8. Elasticsearch · los logs de error</h2>
+<dl class="ficha">
+<dt>Qué es</dt><dd>Los logs de error de la página 3a (p. 3a · n.º 8; p. 5 · n.º 12): el índice <code>logs-errores</code>.</dd>
+<dt>Quién lo usa</dt><dd>Escriben los once servicios: <code>AppenderElasticsearch</code> (de <code>compartido</code>) manda
+cada error con el servicio, el mensaje, la hora, la correlación y el usuario, por lotes y sin hacer esperar al servicio.
+Lee solo ms-administracion (<code>ElasticsearchLogsAdapter</code>) para la ventana «Logs de errores» del administrador.</dd>
+<dt>Cómo se abre</dt><dd>Por la aplicación: «Logs de errores». En la terminal: <code>kg exec elasticsearch curl …</code>.</dd>
+</dl>
+<div class="term"><div class="cmd"><span>$</span> kg exec elasticsearch curl -s &#x27;localhost:9200/_cat/indices?v&#x27;</div><pre class="sal">health status index uuid pri rep docs.count docs.deleted store.size pri.store.size dataset.size</pre><p class=nota>Con la demo recién hecha no hay índice: ningún servicio ha fallado. El índice se crea con el primer error.</p></div>
+<figure class="vent"><a href="img/plataforma/d28_logs.png" target="_blank" rel="noopener"><img src="img/plataforma/d28_logs.png" alt="Logs de errores vacío" width="1440" height="900" loading="lazy"></a><figcaption>«Logs de errores» sin errores, después del ensayo.</figcaption></figure>
+<p>Para ver un error de verdad, el paso opcional de la sección 13 detiene el correo un momento: el error aparece aquí con
+su servicio, su mensaje y la correlación del recorrido.</p>
+</section><section class="bloque" id="kafka"><h2>9. Kafka · el broker de eventos</h2>
+<dl class="ficha">
+<dt>Qué es</dt><dd>El broker de eventos (p. 3a · n.º 15): los 10 tópicos y la cola de errores de ms-notificaciones,
+con la creación automática de tópicos apagada.</dd>
+<dt>Cómo se abre</dt><dd><code>kg exec kafka /opt/kafka/bin/…</code>, con los scripts que trae la imagen.</dd>
+</dl>
+<div class="term"><div class="cmd"><span>$</span> kg exec kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list</div><pre class="sal">__consumer_offsets
+auditoria.evento
+cotizacion.enviada
+cotizacion.validada
+inventario.stock-bajo
+menu.actualizado
+notificaciones.dlq
+orden.generada
+pedido.registrado
+solicitud.en-tramite
+solicitud.registrada
+tendencia.detectada</pre><p class=nota>Los 10 tópicos de la sección 6 del reporte y <code>notificaciones.dlq</code>; los que empiezan por <code>__</code> son internos de Kafka.</p></div>
+<div class="term"><div class="cmd"><span>$</span> kg exec kafka /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group ms-notificaciones | awk &#x27;NF {print $2, $3, $6}&#x27;</div><pre class="sal">TOPIC PARTITION LAG
+orden.generada 1 -
+orden.generada 2 -
+orden.generada 0 0
+solicitud.registrada 2 -
+solicitud.registrada 0 0
+solicitud.registrada 1 -
+cotizacion.enviada 2 0
+cotizacion.enviada 1 0
+cotizacion.enviada 0 -
+tendencia.detectada 2 -
+inventario.stock-bajo 2 -
+inventario.stock-bajo 0 0
+inventario.stock-bajo 1 -
+solicitud.en-tramite 2 -
+solicitud.en-tramite 1 -
+tendencia.detectada 1 0
+solicitud.en-tramite 0 0
+tendencia.detectada 0 -</pre><p class=nota>Tópico, partición y atraso (LAG) del grupo de ms-notificaciones: 0 es que ya procesó todo; «-», una partición que todavía no ha recibido eventos (cada tópico tiene tres).</p></div>
+<div class="term"><div class="cmd"><span>$</span> kg exec kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic orden.generada --from-beginning --timeout-ms 8000</div><pre class="sal">{&quot;usuario&quot;:&quot;laura.gomez@konradgourmet.com&quot;,&quot;numero&quot;:&quot;OC-0013&quot;,&quot;cotizacionNumero&quot;:&quot;COT-023&quot;,&quot;solicitudNumeros&quot;:[&quot;SOL-034&quot;],&quot;proveedor&quot;:&quot;Proveedor ABC&quot;,&quot;correoProveedor&quot;:&quot;ventas@proveedorabc.com&quot;,&quot;pdfUrl&quot;:&quot;s3://documentos-pdf/ordenes/OC-0013.pdf&quot;,&quot;total&quot;:8.4E+5,&quot;id&quot;:&quot;9a2038f8-efc3-4c0f-b75e-28a413c55ff8&quot;,&quot;correlacionId&quot;:&quot;9b7ab6f8-9b2b-4126-8095-a7c0968c2fb2&quot;,&quot;ocurridoEn&quot;:&quot;2026-11-24T16:20:34.414213694&quot;}</pre><p class=nota>El evento <code>orden.generada</code> de OC-0013 lleva <code>pdfUrl</code> (la dirección en el almacén), el correo de quien lo hizo y la correlación del recorrido.</p></div>
+</section><section class="bloque" id="redis"><h2>10. Redis · caché, alarmas y límite de tasa</h2>
+<dl class="ficha">
+<dt>Qué es</dt><dd>p. 3a · n.º 13; p. 5 · n.º 17. Tres usos separados: la caché de precios del
+Ministerio (llaves <code>precio-referencia:{producto}</code>), el canal <code>alarmas:stock-bajo</code> de las alarmas en vivo y los baldes del
+límite de tasa del gateway.</dd>
+<dt>Cómo se abre</dt><dd><code>kg exec redis redis-cli …</code>.</dd>
+</dl>
+<div class="term"><div class="cmd"><span>$</span> kg exec redis redis-cli --scan --pattern &#x27;precio-referencia:*&#x27;</div><pre class="sal">precio-referencia:1</pre></div>
+<h3>El canal de las alarmas</h3>
+<p>Con una terminal suscrita al canal antes del cierre del día (paso 2 de la guía de la plataforma), la alarma de la res
+pasa por aquí: <code>AlarmaPushAdapter</code> la publica y cada réplica de ms-notificaciones la entrega por WebSocket a los
+jefes conectados (PD-01). Se corta con Ctrl+C.</p>
+<div class="term"><div class="cmd"><span>$</span> kg exec redis redis-cli SUBSCRIBE alarmas:stock-bajo</div><pre class="sal">subscribe
+alarmas:stock-bajo
+1
+message
+alarmas:stock-bajo
+{&quot;destino&quot;:&quot;carlos.mendoza@konradgourmet.com&quot;,&quot;contenido&quot;:&quot;Res al 22 %: realice una solicitud&quot;,&quot;fechaHora&quot;:&quot;2026-11-24T16:20:12&quot;}</pre></div>
+<h3>El límite de tasa</h3>
+<div class="term"><div class="cmd"><span>$</span> kg exec redis redis-cli --scan --pattern &#x27;request_rate_limiter*&#x27;</div><pre class="sal">request_rate_limiter.{identidad-auth.ip:172.23.0.1}.timestamp
+request_rate_limiter.{analitica-bam.usuario:5}.timestamp
+request_rate_limiter.{identidad-auth.ip:172.23.0.1}.tokens
+request_rate_limiter.{solicitudes-solicitudes.usuario:2}.timestamp
+request_rate_limiter.{solicitudes-solicitudes.usuario:2}.tokens
+request_rate_limiter.{administracion-admin.usuario:5}.timestamp
+request_rate_limiter.{analitica-bam.usuario:5}.tokens
+request_rate_limiter.{administracion-admin.usuario:5}.tokens</pre><p class=nota>Un balde por usuario con sesión (<code>usuario:2</code> es el jefe de cocina) y otro por IP para el inicio de sesión. Duran unos segundos, así que hay que consultarlos justo después de usar la aplicación.</p></div>
+</section><section class="bloque" id="postgres"><h2>11. PostgreSQL · una base por servicio</h2>
+<dl class="ficha">
+<dt>Qué es</dt><dd>p. 5 · n.º 16: una base por servicio, cada una con su usuario, que no puede entrar a las demás.</dd>
+<dt>Cómo se abre</dt><dd><code>kg exec postgres psql -U postgres …</code>.</dd>
+</dl>
+<div class="term"><div class="cmd"><span>$</span> kg exec postgres psql -U postgres -Atc &quot;select datname from pg_database where datname like &#x27;ms\_%&#x27; order by 1&quot;</div><pre class="sal">ms_administracion
+ms_analitica
+ms_cotizaciones
+ms_identidad
+ms_integracion
+ms_inventario
+ms_menu
+ms_notificaciones
+ms_ordenes
+ms_pedidos
+ms_solicitudes</pre></div>
+<div class="term"><div class="cmd"><span>$</span> kg exec postgres psql -U postgres -d ms_ordenes -c &quot;select numero, cotizacion_numero, proveedor, pdf_url, estado from orden_compra order by numero&quot;</div><pre class="sal"> numero  | cotizacion_numero |   proveedor   |                 pdf_url                 |   estado   
+---------+-------------------+---------------+-----------------------------------------+------------
+ OC-0012 | COT-018           | Proveedor ABC | s3://documentos-pdf/ordenes/OC-0012.pdf | EN_PROCESO
+ OC-0013 | COT-023           | Proveedor ABC | s3://documentos-pdf/ordenes/OC-0013.pdf | FINALIZADA
+(2 rows)</pre><p class=nota>OC-0013 sobre COT-023, con la dirección de su PDF; FINALIZADA porque el ensayo la marcó como recibida.</p></div>
+<div class="term"><div class="cmd"><span>$</span> kg exec postgres psql -U postgres -d ms_ordenes -Atc &quot;select count(*) from outbox&quot;</div><pre class="sal">0</pre><p class=nota>La outbox de ms-ordenes está vacía: el relé ya publicó y borró todos sus eventos.</p></div>
+<div class="term"><div class="cmd"><span>$</span> kg exec postgres psql -U ms_pedidos -d ms_ordenes -c &#x27;select 1&#x27;</div><pre class="sal">psql: error: connection to server on socket &quot;/var/run/postgresql/.s.PGSQL.5432&quot; failed: FATAL:  permission denied for database &quot;ms_ordenes&quot;
+DETAIL:  User does not have CONNECT privilege.</pre><p class=nota>El usuario de ms-pedidos no puede conectarse a la base de ms-ordenes: los servicios se hablan por REST o por eventos, nunca por la base del otro.</p></div>
+</section><section class="bloque" id="eureka"><h2>12. Eureka y la página de servicios activos</h2>
+<p>Las dos consolas publicadas que no son correo: <code>localhost:8761</code> (Eureka, p. 3a · n.º 7; p. 5 · n.º 8)
+y <code>localhost:8080/plataforma/</code>, una página que muestra los once servicios activos en Eureka con su prefijo en el gateway.</p>
+<div class="par">
+<div><div class="visor" id="v-d29_plataforma" data-w="1440" data-h="900"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/plataforma/d29_plataforma.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/plataforma/d29_plataforma.png" alt="Servicios activos" width="1440" height="900" loading="lazy"><span class="zona" data-n="1" title="1" style="left:19.306%;top:23.333%;width:2.361%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué señalar</th></tr></thead><tbody><tr id="v-d29_plataforma-n1"><td class="num"><button class="pin" data-visor="v-d29_plataforma" data-n="1">1</button></td><td>Los 11 servicios, activos, con su prefijo en el gateway.</td></tr></tbody></table></div>
+<div><div class="visor" id="v-d30_eureka" data-w="1440" data-h="900"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/plataforma/d30_eureka.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/plataforma/d30_eureka.png" alt="Eureka" width="1440" height="900" loading="lazy"><span class="zona" data-n="1" title="1" style="left:1.319%;top:58.778%;width:2.361%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué señalar</th></tr></thead><tbody><tr id="v-d30_eureka-n1"><td class="num"><button class="pin" data-visor="v-d30_eureka" data-n="1">1</button></td><td>Las instancias registradas: el gateway y los once servicios.</td></tr></tbody></table></div>
+</div>
+<p>Si al empezar un clic responde 503, es que Eureka todavía no propagó: abrir <code>/plataforma/</code> y esperar a que
+estén los once.</p>
+</section><section class="bloque" id="error"><h2>13. Paso opcional: un error de verdad</h2>
+<div class="aviso"><b>Opcional y al final.</b> Usa <code>pause</code>, no <code>stop</code>: Mailpit guarda los correos en
+un archivo temporal que borra al detenerse, así que con <code>stop</code> la bandeja queda vacía. Con <code>pause</code> el contenedor se congela y conserva todo.</div>
+<ol class="pasos">
+<li><b>Pausar el correo.</b><div class="term"><div class="cmd"><span>$</span> kg pause correo</div><pre class="sal">(no imprime nada)</pre></div></li>
+<li><b>El jefe de cocina registra una solicitud</b> en «Solicitudes» → «Nueva solicitud» (en el ensayo, <code>SOL-035</code>:
+5 kg de arroz). ms-notificaciones intenta el correo: el servidor no contesta, lo reintenta 2 veces cada
+2 s y lo pasa a la cola de errores. En el ensayo tardó unos 21 s.</li>
+<li><b>El error en Elasticsearch</b>, con su correlación:<div class="term"><div class="cmd"><span>$</span> kg exec elasticsearch curl -s &#x27;localhost:9200/logs-errores/_search?pretty&amp;size=1&amp;sort=fechaHora:desc&amp;filter_path=hits.hits._source&amp;_source_excludes=traza,hilo,logger&#x27;</div><pre class="sal">{
+  &quot;hits&quot; : {
+    &quot;hits&quot; : [
+      {
+        &quot;_source&quot; : {
+          &quot;servicio&quot; : &quot;ms-notificaciones&quot;,
+          &quot;nivel&quot; : &quot;ERROR&quot;,
+          &quot;mensaje&quot; : &quot;No se pudo notificar un evento de solicitud.registrada después de 3 intentos; pasa a la cola de errores notificaciones.dlq · java.net.SocketTimeoutException: Read timed out&quot;,
+          &quot;fechaHora&quot; : &quot;2026-11-24T16:22:57.94142154-05:00&quot;,
+          &quot;correlacionId&quot; : &quot;ce6f14c3-e04a-4e24-b5a9-8a378b8da9ef&quot;
+        }
+      }
+    ]
+  }
+}</pre></div><div class="term"><div class="cmd"><span>$</span> kg exec elasticsearch curl -s &#x27;localhost:9200/_cat/indices?v&#x27;</div><pre class="sal">health status index        uuid                   pri rep docs.count docs.deleted store.size pri.store.size dataset.size
+green  open   logs-errores VAQo870BSnGqf6EPMFg73g   1   0          1            0     10.8kb         10.8kb       10.8kb</pre></div>
+<div class="visor" id="v-e03_logs_error" data-w="1440" data-h="900"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/externos/e03_logs_error.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/externos/e03_logs_error.png" alt="Logs de errores con el error" width="1440" height="900" loading="lazy"><span class="zona" data-n="1" title="1" style="left:30.694%;top:40.444%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="2" title="2" style="left:41.111%;top:40.444%;width:2.361%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué señalar</th></tr></thead><tbody><tr id="v-e03_logs_error-n1"><td class="num"><button class="pin" data-visor="v-e03_logs_error" data-n="1">1</button></td><td>El servicio que falló: ms-notificaciones.</td></tr><tr id="v-e03_logs_error-n2"><td class="num"><button class="pin" data-visor="v-e03_logs_error" data-n="2">2</button></td><td>El mensaje: qué evento no se pudo notificar, después de cuántos intentos, que pasó a la cola de errores y por qué (el servidor no respondió).</td></tr></tbody></table>
+<div class="term"><div class="cmd"><span>$</span> kg exec kafka /opt/kafka/bin/kafka-get-offsets.sh --bootstrap-server localhost:9092 --topic notificaciones.dlq</div><pre class="sal">notificaciones.dlq:0:0
+notificaciones.dlq:1:1
+notificaciones.dlq:2:0</pre><p class=nota>La cola de errores tiene un evento más (0 → 1).</p></div></li>
+<li><b>Reanudar el correo.</b><div class="term"><div class="cmd"><span>$</span> kg unpause correo</div><pre class="sal">(no imprime nada)</pre></div> <code>ReprocesoColaErrores</code> vuelve a procesar la cola cada
+30 s en el equipo (5 min por defecto); en el ensayo el correo llegó a los 24 s.
+<div class="visor" id="v-e04_mailpit_reenvio" data-w="1440" data-h="900"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/externos/e04_mailpit_reenvio.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/externos/e04_mailpit_reenvio.png" alt="Mailpit con el correo reenviado" width="1440" height="900" loading="lazy"><span class="zona" data-n="1" title="1" style="left:17.222%;top:7.111%;width:2.361%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué señalar</th></tr></thead><tbody><tr id="v-e04_mailpit_reenvio-n1"><td class="num"><button class="pin" data-visor="v-e04_mailpit_reenvio" data-n="1">1</button></td><td>«Solicitud SOL-035 registrada»: llegó una sola vez, sin repetir los anteriores.</td></tr></tbody></table></li>
+</ol>
+<div class="dir"><b>Qué decir:</b> «Si el servidor de correo no responde, la solicitud igual queda registrada; el correo se
+reintenta, el error queda en los logs con la correlación para rastrearlo y, cuando el servidor vuelve, la cola de errores lo
+entrega sola.»</div>
+</section><section class="bloque" id="guion"><h2>14. Guion sugerido</h2><p class="suave">≈ 7 min (≈ 5½ sin el paso opcional). En primera persona del plural; cada bloque se lee en voz alta mientras se muestra lo de su sección.</p><div class="guion"><h3>Introducción · 30 s</h3><p>«Además de la aplicación, podemos mostrar lo que la rodea. En el diagrama de contexto el sistema habla con cuatro sistemas externos: el Ministerio de Comercio, el servidor de correo certificado, las redes sociales y los sistemas que consumen nuestro servicio SOAP. En el entorno local cada uno tiene su equivalente con el mismo contrato: Mailpit recibe los correos y dos servicios WireMock responden como el Ministerio y como la API de tendencias. Así vemos qué sale del sistema y qué le responden.»</p><h3>El correo certificado · 1½ min</h3><p>«Esta es la bandeja del servidor de correo. Cada correo sale de un evento: la alerta de stock bajo, la solicitud registrada y en trámite, las dos cotizaciones con su PDF y la orden OC-0013. Si abrimos las cabeceras de la cotización COT-023 vemos dos que pone el sistema: X-Certificado, la huella SHA-256 del destinatario y el contenido, y X-Sello-Tiempo, la hora de envío. Las ponen dos decoradores apilados sobre el adaptador SMTP, que no sabe que existen. El PDF adjunto no viajó por Kafka: el evento llevaba su dirección y ms-notificaciones lo descargó del almacén.»</p><h3>El Ministerio y la caché · 1½ min</h3><p>«El precio estándar lo da el servicio SOAP del Ministerio, y solo ms-integracion habla con él. En la demo generamos dos cotizaciones de res, COT-023 y COT-024, pero el Ministerio recibió una sola llamada: la segunda la respondió el Proxy desde Redis, donde el precio vale un día. Si el Ministerio no responde, la cotización queda pendiente de precio y se reenvía cuando vuelve.»</p><h3>Las redes sociales · 1 min</h3><p>«ms-analitica consulta cada semana la API de tendencias con su token; sin token responde 401. Aquí lo corre cada 30 segundos, y la cuenta de llamadas sube sola. Cuando un plato de la carta está en tendencia, publica un evento y el jefe de cocina recibe el correo de promociones sugeridas.»</p><h3>Los datos detrás · 1½ min</h3><p>«El PDF de la orden está en el almacén de objetos, en el bucket documentos-pdf. En Kafka están los diez tópicos y la cola de errores, y el evento orden.generada de OC-0013 lleva solo la dirección del PDF. Cada servicio tiene su base: el usuario de pedidos no puede entrar a la base de órdenes. Y nuestro propio servicio SOAP responde por el gateway, con token, el mismo precio que ya estaba en la caché.»</p><h3>Opcional: el error real · 1½ min</h3><p>«Pausamos el servidor de correo y el jefe de cocina registra una solicitud. La solicitud queda registrada igual; el correo se reintenta, pasa a la cola de errores y el error aparece en «Logs de errores» con el servicio y la correlación. Reanudamos el correo y, sin hacer nada más, la cola lo vuelve a procesar y el correo llega.»</p><h3>Cierre · 30 s</h3><p>«Por último, Eureka: los once servicios y el gateway registrados. El gateway solo enruta a instancias vivas, y si una réplica se cae, deja de aparecer aquí.»</p></div></section><section class="bloque" id="preguntas"><h2>15. Preguntas probables</h2><dl class="preguntas"><dt>¿Por qué no se conectan al Ministerio de verdad?</dt><dd>El servicio del Ministerio no está disponible para el proyecto. WireMock responde con el mismo WSDL que sigue MinisterioSoapClient; conectarse al real es cambiar la variable MINISTERIO_URL, sin tocar el adaptador.</dd><dt>¿Qué cambia en producción para cada sistema externo?</dt><dd>Solo la configuración: MINISTERIO_URL, el servidor SMTP (con TLS) en SMTP_HOST, REDES_URL y REDES_TOKEN, y S3_URL para el almacén. Los puertos de la arquitectura hexagonal no cambian; por eso se pudieron reemplazar en el entorno local.</dd><dt>¿Qué garantiza el certificado del correo?</dt><dd>Que el contenido y el destinatario no cambiaron: la cabecera lleva la huella SHA-256 de los dos. Se publican los primeros 8 bytes porque bastan para comparar en la cabecera. El sello de tiempo dice cuándo salió, con zona horaria.</dd><dt>¿Por qué decoradores y no un método que lo haga todo?</dt><dd>Cada garantía es una responsabilidad separada que se apila sobre el envío; agregar una (una firma, un acuse) es agregar un decorador, sin tocar el adaptador SMTP ni los demás.</dd><dt>¿Cuánto dura la caché de precios y quién la comparte?</dt><dd>Un día (supuesto S3). Vive en Redis, así que la comparten todas las réplicas de ms-integracion; la llave vence sola.</dd><dt>¿Qué pasa si el correo falla?</dt><dd>Se reintenta dos veces, el error queda en Elasticsearch con su correlación, el evento pasa a notificaciones.dlq y ReprocesoColaErrores lo vuelve a procesar más tarde. La operación del usuario no se pierde ni se bloquea.</dd><dt>¿Por qué el PDF no va dentro del evento?</dt><dd>Es el patrón claim check: Kafka está hecho para mensajes pequeños; el archivo va al almacén de objetos y el evento lleva su dirección. Así el PDF se guarda una vez, crece por separado (requisito del 200 %) y se respalda con el almacén.</dd><dt>¿Quién puede ver Elasticsearch, Kafka o las bases?</dt><dd>Ningún usuario directamente: no se publican fuera de la red. Los logs los ve el administrador en su ventana, a través de ms-administracion; cada base solo la abre su servicio.</dd><dt>¿Cómo se protege la API de redes y nuestro SOAP?</dt><dd>La API de redes pide un token Bearer (sin él responde 401) e irá por HTTPS. Nuestro SOAP entra por el gateway, que valida el JWT; los sistemas externos lo obtienen con OAuth 2.0 client credentials.</dd><dt>¿Por qué SeaweedFS y no MinIO?</dt><dd>La imagen de MinIO ya no se puede descargar y los dos hablan la misma API S3, así que el adaptador no cambia (DEC-59). En producción es un almacén de objetos administrado, versionado y multizona.</dd><dt>¿Cada cuánto se buscan tendencias?</dt><dd>Cada semana, el lunes a las 6:00, con ShedLock para que corra en una sola réplica; en el entorno local cada 30 segundos para poder verlo. Se publica a lo sumo un evento por día.</dd></dl></section><section class="bloque" id="antes"><h2>16. Antes de entrar</h2>
+<ul class="lista-control">
+<li>kg-demo restablecida y encendida: <code>documentos/guias_sustentacion/fuente/restablecer_demo.sh</code> y
+<code>COMPOSE_PROJECT_NAME=kg-demo KonradGourmet/plataforma/levantar.sh --sin-compilar</code>; esperar ~75 s. El
+restablecimiento también vacía Redis y Kafka: la primera cotización le pregunta al Ministerio y los tópicos solo tienen
+los eventos de esta demo.</li>
+<li>Hecha la demo de la guía de la plataforma (sin ella no están <code>SOL-034</code>, <code>COT-023</code>, <code>OC-0013</code> ni los correos).</li>
+<li>Una terminal en <code>FinalProyecto/</code> con los atajos <code>kg</code> y <code>kgs3</code> pegados, y la letra grande.</li>
+<li>Pestañas abiertas: <code>localhost:8025</code> (Mailpit), <code>localhost:8761</code> (Eureka) y <code>localhost:8080/plataforma/</code>.</li>
+<li>Si se va a mostrar el canal de alarmas: una segunda terminal con <code>kg exec redis redis-cli SUBSCRIBE alarmas:stock-bajo</code>
+abierta antes del cierre del día.</li>
+<li>Contar las llamadas al Ministerio antes de probarlo con <code>curl</code>.</li>
+<li>El paso del error, si se hace, al final y con <code>pause</code>.</li>
+<li>Al terminar: <code>restablecer_demo.sh</code>, que la deja restablecida y detenida.</li>
+</ul>
+</section>
+<p class="pie">Konrad Gourmet · Sistema de Abastecimiento · Arquitectura de Software, Fundación Universitaria Konrad Lorenz, 2026-2</p>
+</main>
+<script>
+(function(){
+  document.querySelectorAll('.visor').forEach(function(v){
+    var marco=v.querySelector('.marco'), lienzo=v.querySelector('.lienzo'), w=+v.dataset.w, escala=0;
+    function ajustar(){ return marco.clientWidth / w; }
+    function poner(e, cx, cy){
+      var a=ajustar(); e=Math.max(a, Math.min(1.2, e));
+      var px = cx===undefined ? (marco.scrollLeft+marco.clientWidth/2)/(w*escala) : cx;
+      var py = cy===undefined ? (marco.scrollTop+marco.clientHeight/2)/(lienzo.offsetHeight||1) : cy;
+      escala=e; lienzo.style.width=(w*e)+'px';
+      marco.scrollLeft=px*w*e-marco.clientWidth/2;
+      marco.scrollTop=py*lienzo.offsetHeight-marco.clientHeight/2;
+    }
+    function encajar(){ escala=ajustar(); lienzo.style.width='100%'; marco.scrollLeft=0; marco.scrollTop=0; }
+    v.querySelector('[data-a=ajustar]').onclick=encajar;
+    v.querySelector('[data-a=mas]').onclick=function(){ poner((escala||ajustar())*1.5); };
+    v.querySelector('[data-a=menos]').onclick=function(){ var e=(escala||ajustar())/1.5; if(e<=ajustar()) encajar(); else poner(e); };
+    v.querySelector('[data-a=real]').onclick=function(){ poner(1); };
+    v.irA=function(n){
+      var z=v.querySelector('.zona[data-n="'+n+'"]'); if(!z) return;
+      var cx=parseFloat(z.style.left)/100, cy=parseFloat(z.style.top)/100;
+      poner(Math.max(ajustar(), 0.8), cx, cy);
+      v.scrollIntoView({behavior:'smooth', block:'nearest'});
+      z.classList.add('destello'); setTimeout(function(){ z.classList.remove('destello'); }, 1600);
+    };
+    v.querySelectorAll('.zona').forEach(function(z){
+      z.onclick=function(ev){ ev.stopPropagation(); var f=document.getElementById(v.id+'-n'+z.dataset.n);
+        if(f){ f.scrollIntoView({behavior:'smooth', block:'center'}); f.classList.add('marcada');
+        setTimeout(function(){ f.classList.remove('marcada'); }, 1600);} };
+    });
+    var x0, y0, sl, st, mov=false;
+    marco.addEventListener('pointerdown', function(e){ if(e.pointerType!=='mouse') return; mov=true; x0=e.clientX; y0=e.clientY;
+      sl=marco.scrollLeft; st=marco.scrollTop; marco.classList.add('arrastrando'); });
+    window.addEventListener('pointermove', function(e){ if(!mov) return; marco.scrollLeft=sl-(e.clientX-x0); marco.scrollTop=st-(e.clientY-y0); });
+    window.addEventListener('pointerup', function(){ mov=false; marco.classList.remove('arrastrando'); });
+    window.addEventListener('resize', function(){ if(!lienzo.style.width || lienzo.style.width==='100%') escala=ajustar(); });
+    escala=ajustar();
+  });
+  document.querySelectorAll('button.pin[data-visor]').forEach(function(b){
+    b.onclick=function(){ var v=document.getElementById(b.dataset.visor); if(v&&v.irA) v.irA(b.dataset.n); };
+  });
+})();
+</script>
+</body>
+</html>
