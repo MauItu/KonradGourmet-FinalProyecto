@@ -367,6 +367,21 @@ cuenta = Counter(codigos)
 time.sleep(3)
 ok(cuenta[429] > 0 and set(cuenta) <= {200, 429} and http('GET', '/api/platos/productos', tok=jefe)[0] == 200,
    f'el gateway limita la tasa: de 600 peticiones seguidas, {cuenta[200]} pasan y {cuenta[429]} reciben 429; a los 3 s vuelve a responder')
+# sin sesión el balde es por la IP real (X-Real-IP de Nginx): cambiar X-Forwarded-For en cada petición no lo salta (C7-19)
+def login_falso(i):
+    pedido = urllib.request.Request(BASE + '/api/auth/token', data=json.dumps({'correo': f'nadie{i}@ejemplo.com', 'clave': 'x'}).encode(),
+                                    method='POST', headers={'Content-Type': 'application/json', 'X-Forwarded-For': f'10.9.{i // 250}.{i % 250}'})
+    try:
+        with urllib.request.urlopen(pedido, timeout=30) as r:
+            return r.status
+    except urllib.error.HTTPError as e:
+        return e.code
+time.sleep(3)
+with ThreadPoolExecutor(60) as hilos:
+    codigos = Counter(hilos.map(login_falso, range(600)))
+time.sleep(3)
+ok(codigos[429] > 0 and set(codigos) <= {400, 401, 429},
+   f'sin sesión, 600 inicios de sesión con un X-Forwarded-For distinto cada uno también reciben 429 ({dict(codigos)})')
 
 print('== Los 11 servicios y los 6 roles')
 for s in SERVICIOS:

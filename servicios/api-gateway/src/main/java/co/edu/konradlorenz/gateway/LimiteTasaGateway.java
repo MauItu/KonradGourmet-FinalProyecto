@@ -12,7 +12,8 @@ import java.security.Principal;
 /**
  * El límite de tasa del gateway (página 3a: «valida el JWT, limita la tasa y enruta»; DEC-104). Cada usuario
  * con sesión tiene su propio balde (el subject del JWT); sin sesión (el inicio de sesión), cuenta la IP del
- * cliente, la primera de X-Forwarded-For que pone Nginx. Los baldes viven en Redis, así que el límite es el
+ * cliente que ve Nginx (X-Real-IP, que Nginx reemplaza siempre; no la primera de X-Forwarded-For, que la puede
+ * escribir el cliente para saltarse el límite, C7-19). Los baldes viven en Redis, así que el límite es el
  * mismo con varias réplicas del gateway.
  */
 @Configuration(proxyBeanMethods = false)
@@ -26,9 +27,9 @@ public class LimiteTasaGateway {
     }
 
     static String ip(ServerWebExchange intercambio) {
-        String reenviada = intercambio.getRequest().getHeaders().getFirst("X-Forwarded-For");
-        if (reenviada != null && !reenviada.isBlank()) {
-            return reenviada.split(",")[0].trim();
+        String real = intercambio.getRequest().getHeaders().getFirst("X-Real-IP");
+        if (real != null && !real.isBlank()) {
+            return real.trim();
         }
         InetSocketAddress remota = intercambio.getRequest().getRemoteAddress();
         return remota == null || remota.getAddress() == null ? "desconocida" : remota.getAddress().getHostAddress();
