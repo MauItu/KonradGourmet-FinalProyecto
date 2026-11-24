@@ -13,4 +13,7 @@ public interface OrdenRepositoryPort {
 
     boolean existePorCotizacion(String numero);
 
+    /** La orden con ese número, o null si no existe. */
+    OrdenCompra porNumero(String numero);
+
 }

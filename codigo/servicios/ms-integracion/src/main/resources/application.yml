@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ms-integracion
+  # Su base solo guarda la outbox de los eventos (DEC-104): el precio vive en la caché de Redis.
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:postgres}:5432/ms_integracion
+    username: ms_integracion
+    password: ms_integracion
+  data:
+    redis:
+      host: ${REDIS_HOST:redis}
+      port: 6379
+  kafka:
+    bootstrap-servers: ${KAFKA:kafka:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # el relé de la outbox espera cada lote: si Kafka no responde, falla en 10 s y lo reintenta (DEC-104, C7-21)
+      properties:
+        max.block.ms: 10000
+        request.timeout.ms: 5000
+        delivery.timeout.ms: 10000
+
+# El servlet de Apache CXF atiende el SOAP bajo el mismo prefijo que el gateway publica (tabla 5).
+cxf:
+  path: /api/integracion
+
+konrad:
+  ministerio:
+    # El servicio web de precios del Ministerio de Comercio; en local, el simulado (contenedor ministerio).
+    endpoint: ${MINISTERIO_URL:http://ministerio:8080/precios}
+  integracion:
+    # La dirección que el WSDL anuncia: la del gateway, no la de la réplica.
+    url-publica: ${URL_PUBLICA:http://localhost:8080/api/integracion}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://service-registry:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

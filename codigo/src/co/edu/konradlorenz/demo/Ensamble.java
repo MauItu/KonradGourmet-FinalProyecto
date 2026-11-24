@@ -7,7 +7,6 @@ import co.edu.konradlorenz.administracion.aplicacion.AdministracionService;
 import co.edu.konradlorenz.administracion.dominio.Bitacora;
 import co.edu.konradlorenz.analitica.adaptadores.entrada.TableroRestController;
 import co.edu.konradlorenz.analitica.adaptadores.salida.KpiJpaAdapter;
-import co.edu.konradlorenz.analitica.adaptadores.salida.RedesSocialesAdapter;
 import co.edu.konradlorenz.analitica.adaptadores.salida.SugerenciaJpaAdapter;
 import co.edu.konradlorenz.analitica.aplicacion.TableroService;
 import co.edu.konradlorenz.analitica.dominio.CalculadorKpi;
@@ -35,6 +34,8 @@ import co.edu.konradlorenz.inventario.adaptadores.entrada.InventarioRestControll
 import co.edu.konradlorenz.inventario.adaptadores.entrada.PedidoRegistradoListener;
 import co.edu.konradlorenz.inventario.aplicacion.InventarioService;
 import co.edu.konradlorenz.inventario.dominio.UmbralStock;
+import co.edu.konradlorenz.menu.adaptadores.entrada.PlatoRestController;
+import co.edu.konradlorenz.menu.aplicacion.PlatoService;
 import co.edu.konradlorenz.notificaciones.adaptadores.entrada.DestinatarioRestController;
 import co.edu.konradlorenz.notificaciones.adaptadores.entrada.NotificacionListeners;
 import co.edu.konradlorenz.notificaciones.adaptadores.salida.CorreoCertificadoDecorator;
@@ -81,6 +82,7 @@ public class Ensamble {
 
     // ---- puntos de entrada (controladores y job) ----
     public final PrecioRestController precios;
+    public final PlatoRestController platos;
     public final PedidoRestController pedidos;
     public final InventarioRestController inventario;
     public final ConsumoDiarioJob consumoDiario;
@@ -106,6 +108,9 @@ public class Ensamble {
                 new CreadorCorreo(correo), new CreadorAlarmaApp(alarmas), envios, destinatarios, bus);
         destinatariosRest = new DestinatarioRestController(notificaciones);
         NotificacionListeners alNotificar = new NotificacionListeners(notificaciones);
+
+        // ms-menu: cada cambio de un plato publica menu.actualizado
+        platos = new PlatoRestController(new PlatoService(new PlatoEnMemoria(), almacen, bus));
 
         // ms-pedidos
         PedidoService pedidoService = new PedidoService(repositorioPedidos, new CatalogoEnMemoria(), bus);
@@ -136,10 +141,10 @@ public class Ensamble {
         ordenes = new OrdenCompraRestController(new OrdenCompraService(
                 new OrdenEnMemoria(ultimaOrden), new CotizacionConsultaLocal(cotizacionService), new PdfSimulado(), almacen, bus));
 
-        // ms-analitica: las tres estrategias del Strategy
+        // ms-analitica: las tres estrategias del Strategy (la demo no consulta las redes sociales ni sugiere promociones)
         List<CalculadorKpi> estrategias = List.of(new ProductoMayorDemanda(), new SucursalMayorDemanda(), new ProveedorMejoresPrecios());
         tablero = new TableroRestController(new TableroService(
-                estrategias, new KpiJpaAdapter(hechos), new RedesSocialesAdapter(), bus, new SugerenciaJpaAdapter()));
+                estrategias, new KpiJpaAdapter(hechos), () -> List.of(), bus, new SugerenciaJpaAdapter()));
 
         // ms-administracion
         AdministracionService administracion = new AdministracionService(
@@ -159,6 +164,7 @@ public class Ensamble {
         bus.suscribir("orden.generada", new OrdenGeneradaListener(cotizacionService));
         bus.suscribir("orden.generada", alNotificar);
         bus.suscribir("inventario.stock-bajo", alNotificar);
+        bus.suscribir("tendencia.detectada", alNotificar);
         bus.suscribir("auditoria.evento", new AuditoriaListener(administracion));
     }
 

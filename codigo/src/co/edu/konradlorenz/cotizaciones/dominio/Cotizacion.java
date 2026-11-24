@@ -33,6 +33,19 @@ public class Cotizacion {
         this.items = new ArrayList<>(items);
     }
 
+    /** Una cotización leída de la base, con su estado, su PDF y sus precios. */
+    public Cotizacion(String numero, List<String> solicitudNumeros, Proveedor proveedor, LocalDate fechaEnvio, LocalDate fechaLimite,
+                      String pdfUrl, EstadoCotizacion estado, List<ItemCotizacion> items) {
+        this.numero = numero;
+        this.solicitudNumeros = solicitudNumeros;
+        this.proveedor = proveedor;
+        this.fechaEnvio = fechaEnvio;
+        this.fechaLimite = fechaLimite;
+        this.pdfUrl = pdfUrl;
+        this.estado = estado;
+        this.items = new ArrayList<>(items);
+    }
+
     /** La misma cotización, con el PDF ya guardado en el almacén. */
     public Cotizacion(Cotizacion base, String pdfUrl) {
         this.numero = base.numero;
@@ -126,7 +139,7 @@ public class Cotizacion {
     /** Guarda el precio del proveedor para un producto de la cotización. */
     public void registrarValor(Long productoId, BigDecimal precio) {
         if (precio == null || precio.signum() <= 0) {
-            throw new IllegalArgumentException("El precio del proveedor debe ser mayor que cero");
+            throw new IllegalArgumentException("El valor unitario debe ser un número mayor a cero.");
         }
         for (int k = 0; k < items.size(); k++) {
             ItemCotizacion i = items.get(k);

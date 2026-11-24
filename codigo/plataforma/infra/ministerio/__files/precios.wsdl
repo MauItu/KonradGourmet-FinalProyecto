@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Servicio web de precios estándar del Ministerio de Comercio, SIMULADO para la plataforma local (DEC-71).
+  Lo sirve el contenedor ministerio (WireMock); MinisterioSoapClient sigue este contrato:
+  consultarPrecioEstandar(codigoProducto: string) → precio: double (por unidad del producto).
+-->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema"
+             xmlns:tns="http://precios.ministerio-comercio.simulado/"
+             targetNamespace="http://precios.ministerio-comercio.simulado/"
+             name="PreciosEstandarService">
+  <types>
+    <xs:schema targetNamespace="http://precios.ministerio-comercio.simulado/" elementFormDefault="unqualified">
+      <xs:element name="consultarPrecioEstandar">
+        <xs:complexType><xs:sequence><xs:element name="codigoProducto" type="xs:string"/></xs:sequence></xs:complexType>
+      </xs:element>
+      <xs:element name="consultarPrecioEstandarResponse">
+        <xs:complexType><xs:sequence><xs:element name="precio" type="xs:double"/></xs:sequence></xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </types>
+  <message name="consultarPrecioEstandar"><part name="parameters" element="tns:consultarPrecioEstandar"/></message>
+  <message name="consultarPrecioEstandarResponse"><part name="parameters" element="tns:consultarPrecioEstandarResponse"/></message>
+  <portType name="PreciosEstandar">
+    <operation name="consultarPrecioEstandar">
+      <input message="tns:consultarPrecioEstandar"/>
+      <output message="tns:consultarPrecioEstandarResponse"/>
+    </operation>
+  </portType>
+  <binding name="PreciosEstandarBinding" type="tns:PreciosEstandar">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="consultarPrecioEstandar">
+      <soap:operation soapAction="http://precios.ministerio-comercio.simulado/consultarPrecioEstandar"/>
+      <input><soap:body use="literal"/></input>
+      <output><soap:body use="literal"/></output>
+    </operation>
+  </binding>
+  <service name="PreciosEstandarService">
+    <port name="PreciosEstandarPort" binding="tns:PreciosEstandarBinding">
+      <soap:address location="http://ministerio:8080/precios"/>
+    </port>
+  </service>
+</definitions>

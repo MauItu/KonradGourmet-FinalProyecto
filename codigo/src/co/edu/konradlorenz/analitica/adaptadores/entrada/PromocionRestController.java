@@ -24,16 +24,19 @@ public class PromocionRestController {
         this.casoDeUso = casoDeUso;
     }
 
+    // GET /api/bam/promociones?desde&hasta (sin rango, todo el histórico)
     public List<SugerenciaPromocion> sugerencias(LocalDate desde, LocalDate hasta) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.sugerencias(desde, hasta);
     }
 
+    // PATCH /api/bam/promociones/{id}/aceptar
     public void aceptar(Long id) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        casoDeUso.aceptarSugerencia(id);
     }
 
+    // PATCH /api/bam/promociones/{id}/descartar
     public void descartar(Long id) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        casoDeUso.descartarSugerencia(id);
     }
 
 }

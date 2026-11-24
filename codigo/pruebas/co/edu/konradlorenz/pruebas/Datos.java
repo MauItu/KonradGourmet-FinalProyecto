@@ -35,8 +35,8 @@ final class Datos {
                 new InsumoInventario(2L, "Arroz", new BigDecimal("40"), new BigDecimal("60"), "kg"),
                 new InsumoInventario(3L, "Papa", new BigDecimal("30"), new BigDecimal("40"), "kg"),
                 new InsumoInventario(4L, "Pollo", new BigDecimal("25"), new BigDecimal("40"), "kg"))));
-        s.bus.publicar(new MenuActualizadoEvent("test", 1L, 1L, "Bandeja paisa", new BigDecimal("32000"), true, receta(1L, "0.5", 2L, "0.1")));
-        s.bus.publicar(new MenuActualizadoEvent("test", 2L, 1L, "Ajiaco", new BigDecimal("18000"), true, receta(4L, "0.2", 3L, "0.3")));
+        s.bus.publicar(new MenuActualizadoEvent("test", 1L, 1L, "Bandeja paisa", "Fuertes", new BigDecimal("32000"), true, receta(1L, "0.5", 2L, "0.1")));
+        s.bus.publicar(new MenuActualizadoEvent("test", 2L, 1L, "Ajiaco", "Sopas", new BigDecimal("18000"), true, receta(4L, "0.2", 3L, "0.3")));
         s.proveedores.registrar(new Proveedor(1L, "Proveedor ABC", "900123456-1", "ventas@proveedorabc.com", "601", "Cra 7", List.of()));
         s.proveedores.registrar(new Proveedor(2L, "Proveedor B", "900234567-2", "ventas@proveedorb.com", "601", "Cll 26", List.of()));
         return s;

@@ -39,7 +39,7 @@ import java.util.Map;
  * Cuenta un día en la sucursal Centro con adaptadores en memoria: el director de compras entra, un
  * mesero registra un pedido, el inventario se queda corto, el jefe de cocina pide alimentos, el auxiliar
  * cotiza con tres proveedores y el director genera la orden de compra. Cada sección dice qué patrón
- * muestra; las secciones numeradas del 1 al 7 son las 7 salidas del reporte (§13, p. 26).
+ * muestra; las secciones numeradas del 1 al 7 son las 7 salidas del reporte (§13.3, tabla 12).
  */
 public class DemoArquitectura {
 
@@ -88,9 +88,9 @@ public class DemoArquitectura {
                 new InsumoInventario(3L, "Papa", new BigDecimal("30"), new BigDecimal("40"), "kg"),
                 new InsumoInventario(4L, "Pollo", new BigDecimal("25"), new BigDecimal("40"), "kg"))));
         // ms-menu publica menu.actualizado por cada plato: ms-pedidos arma su catálogo y ms-inventario guarda la receta
-        sistema.bus.publicar(new MenuActualizadoEvent("jefe.cocina", 1L, 1L, "Bandeja paisa", new BigDecimal("32000"), true,
+        sistema.bus.publicar(new MenuActualizadoEvent("jefe.cocina", 1L, 1L, "Bandeja paisa", "Fuertes", new BigDecimal("32000"), true,
                 receta(1L, "0.5", 2L, "0.1")));
-        sistema.bus.publicar(new MenuActualizadoEvent("jefe.cocina", 2L, 1L, "Ajiaco", new BigDecimal("18000"), true,
+        sistema.bus.publicar(new MenuActualizadoEvent("jefe.cocina", 2L, 1L, "Ajiaco", "Sopas", new BigDecimal("18000"), true,
                 receta(4L, "0.2", 3L, "0.3")));
         sistema.proveedores.registrar(new Proveedor(1L, "Proveedor ABC", "900123456-1", "ventas@proveedorabc.com", "6011234567", "Cra 7 # 10-20", List.of("Carnes", "Granos")));
         sistema.proveedores.registrar(new Proveedor(2L, "Proveedor B", "900234567-2", "ventas@proveedorb.com", "6012345678", "Cll 26 # 30-15", List.of("Carnes", "Granos")));

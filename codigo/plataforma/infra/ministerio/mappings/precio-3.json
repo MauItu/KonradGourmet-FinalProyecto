@@ -1,0 +1,21 @@
+{
+  "name": "Precio estándar: Papa (producto 3)",
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/precios",
+    "bodyPatterns": [
+      {
+        "matchesXPath": "//*[local-name()='codigoProducto' and normalize-space(text())='3']"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "fixedDelayMilliseconds": 300,
+    "headers": {
+      "Content-Type": "text/xml; charset=utf-8"
+    },
+    "body": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><min:consultarPrecioEstandarResponse xmlns:min=\"http://precios.ministerio-comercio.simulado/\"><precio>3500.0</precio></min:consultarPrecioEstandarResponse></soap:Body></soap:Envelope>"
+  }
+}

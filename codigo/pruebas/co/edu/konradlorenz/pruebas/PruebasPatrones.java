@@ -77,7 +77,8 @@ final class PruebasPatrones {
                 () -> grupo.hijos().add(new OpcionMenu("Dos", "/g/2")));
         Mesero mesero = new Mesero(1L, "Isabella", "i@kg.co", centro);
         Prueba.igual("el rol del Mesero", "MESERO", mesero.rol());
-        Prueba.lanza("el menú del Mesero todavía está pendiente", UnsupportedOperationException.class, "Pendiente de implementar", mesero::construirMenu);
+        Prueba.igual("el menú del Mesero (V02–V04)", List.of("Inicio", "Pedidos del turno", "Nuevo pedido", "Mi perfil", "Cerrar sesión"),
+                mesero.construirMenu().hijos().stream().map(ElementoMenu::titulo).toList());
     }
 
     private static void factoryMethod() {

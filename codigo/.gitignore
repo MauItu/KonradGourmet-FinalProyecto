@@ -16,3 +16,6 @@ desktop.ini
 
 # Resultado de compilar (ejecutar.sh)
 out/
+
+# Servicios Spring Boot (plataforma/compilar.sh)
+servicios/*/target/

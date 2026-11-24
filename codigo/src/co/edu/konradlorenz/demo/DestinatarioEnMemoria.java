@@ -11,6 +11,7 @@ import java.util.Map;
 public class DestinatarioEnMemoria implements DestinatarioRepositoryPort {
 
     private final Map<Long, List<String>> porSucursal = new LinkedHashMap<>();
+    private static final Map<Long, String> SUCURSALES = Map.of(1L, "Sucursal Centro", 2L, "Sucursal Norte", 3L, "Sucursal Chapinero");
 
     @Override
     public List<String> jefesDe(Long sucursalId) {
@@ -28,6 +29,11 @@ public class DestinatarioEnMemoria implements DestinatarioRepositoryPort {
         if (!jefes.contains(correo)) {
             jefes.add(correo);
         }
+    }
+
+    @Override
+    public String nombreSucursal(Long sucursalId) {
+        return SUCURSALES.getOrDefault(sucursalId, "Sucursal " + sucursalId);
     }
 
 }

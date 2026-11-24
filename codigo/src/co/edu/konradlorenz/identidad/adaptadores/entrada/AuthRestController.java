@@ -19,7 +19,7 @@ public class AuthRestController {
     // Atiende la ventana V01 de los mockups
     // POST /api/auth/token
     public TokenAcceso iniciarSesion(String correo, String clave) {
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return casoDeUso.iniciarSesion(correo, clave);
     }
 
 }

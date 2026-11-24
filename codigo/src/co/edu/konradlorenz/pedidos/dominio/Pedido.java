@@ -26,6 +26,13 @@ public class Pedido {
         this.estado = EstadoPedido.EN_PREPARACION;
     }
 
+    /** Rearma un pedido guardado, con su fecha y su estado (lo usa el repositorio al leerlo). */
+    public Pedido(String numero, Mesa mesa, Long meseroId, LocalDateTime fecha, EstadoPedido estado) {
+        this(numero, mesa, meseroId);
+        this.fecha = fecha;
+        this.estado = estado;
+    }
+
     public String numero() {
         return numero;
     }
@@ -52,7 +59,7 @@ public class Pedido {
 
     public void agregarPlato(Long platoId, int cantidad, String nota, BigDecimal precio) {
         if (cantidad <= 0) {
-            throw new IllegalArgumentException("La cantidad debe ser mayor que cero");
+            throw new IllegalArgumentException("La cantidad debe ser un número entero mayor a cero");
         }
         detalles.add(new DetallePedido(platoId, cantidad, nota, precio));
     }

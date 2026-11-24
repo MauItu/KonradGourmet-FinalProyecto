@@ -478,3 +478,45 @@ body {
     transition-duration: .01ms !important;
   }
 }
+
+/* ---------- Accesos de demostración (demo local) ---------- */
+
+.login-error {
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  color: #C0392B;
+}
+
+.demo-access {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--borde);
+}
+
+.demo-access__title {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 11.5px;
+  color: var(--texto-suave);
+}
+
+.demo-access__roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.demo-access__roles button {
+  border: 1px solid #F6D7B5;
+  background: #FFF6EC;
+  color: var(--naranja-oscuro);
+  border-radius: 999px;
+  padding: 6px 11px;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+.demo-access__roles button:hover { background: #FFE8CF; }

@@ -36,13 +36,16 @@ public class NotificacionService implements NotificarUseCase {
     @Override
     public void notificarEvento(EventoDominio evento) {
         if (evento instanceof StockBajoEvent e) {
-            String porcentaje = e.porcentaje().stripTrailingZeros().toPlainString();
-            String stock = e.stockActual().stripTrailingZeros().toPlainString() + " " + e.unidad();
-            // alarma en la app (V05) y correo a los jefes de la sucursal
+            // con coma decimal, como lo muestra la aplicación (CD-06: «Pollo al 24,5 %»; DEC-98)
+            String porcentaje = e.porcentaje().stripTrailingZeros().toPlainString().replace('.', ',');
+            String stock = e.stockActual().stripTrailingZeros().toPlainString().replace('.', ',') + " " + e.unidad();
+            // alarma en la app (V05) y correo a los jefes de la sucursal, que la nombra (HU-16, 4; DEC-102)
+            String sucursal = destinatarios.nombreSucursal(e.sucursalId());
             for (String jefe : destinatarios.jefesDe(e.sucursalId())) {
                 enviar(creadorAlarma, jefe, evento, e.nombreProducto() + " al " + porcentaje + " %: realice una solicitud");
                 enviar(creadorCorreo, jefe, evento, "Stock bajo: " + e.nombreProducto() + "\nQuedan " + stock + " de "
-                        + e.nombreProducto() + " (" + porcentaje + " % del stock de referencia). Realice una solicitud de alimentos.");
+                        + e.nombreProducto() + " (" + porcentaje + " % del stock de referencia) en la " + sucursal
+                        + ". Realice una solicitud de alimentos.");
             }
         } else if (evento instanceof SolicitudRegistradaEvent e) {
             enviar(creadorCorreo, e.correoSolicitante(), evento, "Solicitud " + e.numero() + " registrada\nSu solicitud "
@@ -58,9 +61,17 @@ public class NotificacionService implements NotificarUseCase {
             enviar(creadorCorreo, e.correoProveedor(), evento, "Orden de compra " + e.numero() + "\nOrden " + e.numero()
                     + " sobre la cotización " + e.cotizacionNumero() + ", total " + e.total().toPlainString()
                     + ". El PDF va adjunto.", e.pdfUrl());
-        } else if (evento instanceof TendenciaDetectadaEvent) {
-            // el evento trae SugerenciaPromocion, del dominio de ms-analitica, y DEC-29 no deja importarlo (T-06)
-            throw new UnsupportedOperationException("Pendiente de implementar: tendencia.detectada (T-06)");
+        } else if (evento instanceof TendenciaDetectadaEvent e) {
+            // HU-19: correo de promociones a los jefes de cocina de todas las sucursales (la libreta, DEC-13); las
+            // sugerencias llegan como líneas de texto (PD-05) y ms-analitica publica a lo sumo un evento por día
+            StringBuilder cuerpo = new StringBuilder("Promociones sugeridas\nEl análisis de la semana sugiere:");
+            for (String linea : e.sugerencias()) {
+                cuerpo.append("\n• ").append(linea);
+            }
+            cuerpo.append("\nRevíselas en Promociones sugeridas para aceptarlas o descartarlas.");
+            for (String jefe : destinatarios.jefes()) {
+                enviar(creadorCorreo, jefe, evento, cuerpo.toString());
+            }
         } else {
             throw new IllegalArgumentException("ms-notificaciones no atiende el evento " + evento.tipo());
         }
@@ -68,10 +79,15 @@ public class NotificacionService implements NotificarUseCase {
 
     @Override
     public void registrarDestinatario(Long sucursalId, String correo) {
+        if (sucursalId == null) {
+            throw new IllegalArgumentException("La sucursal es obligatoria.");
+        }
         if (correo == null || !correo.matches("[^@\\s]+@[^@\\s]+\\.[^@\\s]+")) {
-            throw new IllegalArgumentException("El correo del destinatario no es válido");
+            throw new IllegalArgumentException("El formato del correo electrónico no es válido.");
         }
         destinatarios.guardar(sucursalId, correo);
+        // CU-15: el registro de destinatarios también se audita (el adaptador pone quién lo hizo, DEC-64)
+        eventos.publicar(new AuditoriaEvent("sistema", "Destinatario registrado: " + correo + " (sucursal " + sucursalId + ")"));
     }
 
     @Override

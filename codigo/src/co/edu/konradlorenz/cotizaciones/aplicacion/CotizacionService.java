@@ -20,6 +20,10 @@ import java.util.Map;
 
 public class CotizacionService implements GestionarCotizacionUseCase {
 
+    /** Los estados a los que llega una cotización al validarla (o al generar su orden): sus valores ya no cambian. */
+    private static final java.util.Set<EstadoCotizacion> YA_VALIDADA = java.util.EnumSet.of(
+            EstadoCotizacion.OPCIONADA, EstadoCotizacion.RECHAZADA, EstadoCotizacion.SOSPECHOSA, EstadoCotizacion.CON_ORDEN);
+
     private final GenerarCotizacionFacade fachada;
     private final CotizacionRepositoryPort repositorio;
     private final ReglaValidacion reglas;
@@ -45,6 +49,9 @@ public class CotizacionService implements GestionarCotizacionUseCase {
     @Override
     public Cotizacion registrarValores(String numero, Map<Long, BigDecimal> precios) {
         Cotizacion c = detalle(numero);
+        if (YA_VALIDADA.contains(c.estado())) {
+            throw new IllegalStateException("La cotización ya fue validada; sus valores no se pueden modificar.");  // HU-11, PD-10
+        }
         if (c.estado() != EstadoCotizacion.ENVIADA) {
             throw new IllegalStateException("Solo se registran valores en una cotización enviada (estado actual: " + c.estado() + ")");
         }
@@ -60,11 +67,16 @@ public class CotizacionService implements GestionarCotizacionUseCase {
         if (c.estado() != EstadoCotizacion.ENVIADA) {
             throw new IllegalStateException("Solo se valida una cotización enviada (estado actual: " + c.estado() + ")");
         }
+        if (c.items().stream().allMatch(i -> i.precioProveedor() == null)) {
+            throw new IllegalStateException("La cotización no tiene valores registrados para validar");  // HU-13
+        }
         // la cadena de reglas decide: Rechazada → Sospechosa → Opcionada
         c.cambiarEstado(reglas.evaluar(c));
         Cotizacion validada = repositorio.guardar(c);
+        // PD-05: tipos simples en el contrato; DEC-89: el nombre del proveedor para el tablero BAM
         eventos.publicar(new CotizacionValidadaEvent("sistema", validada.numero(), validada.proveedor().id(),
-                validada.estado(), validada.valorCotizadoTotal()));
+                validada.proveedor().razonSocial(), validada.estado().name(), validada.valorCotizadoTotal(),
+                validada.diferenciaPorcentual()));
         eventos.publicar(new AuditoriaEvent("sistema", "Cotización " + numero + " validada: " + validada.estado()));
         return validada;
     }

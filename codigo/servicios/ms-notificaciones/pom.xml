@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ms-notificaciones: correos certificados y alarmas en la aplicación (página 4d). Escucha inventario.stock-bajo, solicitud.registrada, solicitud.en-tramite, cotizacion.enviada y orden.generada; adjunta el PDF del almacén de objetos (claim check), envía por SMTP y empuja la alarma de stock bajo por WebSocket con Redis pub/sub (PD-01). -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>co.edu.konradlorenz</groupId>
+        <artifactId>konrad-gourmet</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <artifactId>ms-notificaciones</artifactId>
+    <name>ms-notificaciones</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>co.edu.konradlorenz</groupId>
+            <artifactId>compartido</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- La alarma de V05 llega por WebSocket (AlarmaPushAdapter «WebSocket → V05»). -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+        </dependency>
+        <!-- CorreoSmtpAdapter «SMTP/TLS»: Jakarta Mail con el JavaMailSender de Spring. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <!-- El canal de alarmas entre réplicas (PD-01). -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copiar-nucleo</id>
+                        <configuration>
+                            <resources combine.self="override">
+                                <resource>
+                                    <directory>${nucleo.origen}</directory>
+                                    <includes>
+                                        <include>notificaciones/**</include>
+                                        <!-- Los contratos de los tópicos que escucha (el paquete eventos de cada servicio). -->
+                                        <include>inventario/eventos/StockBajoEvent.java</include>
+                                        <include>solicitudes/eventos/SolicitudRegistradaEvent.java</include>
+                                        <include>solicitudes/eventos/SolicitudEnTramiteEvent.java</include>
+                                        <include>cotizaciones/eventos/CotizacionEnviadaEvent.java</include>
+                                        <include>ordenes/eventos/OrdenGeneradaEvent.java</include>
+                                        <!-- tendencia.detectada lleva las sugerencias como texto (PD-05): ya no se copia nada del
+                                             dominio de ms-analitica. -->
+                                        <include>analitica/eventos/TendenciaDetectadaEvent.java</include>
+                                    </includes>
+                                    <excludes>
+                                        <!-- Los decoradores del correo son Java puro y se copian tal cual, como
+                                             MinisterioSoapClient en ms-integracion (DEC-71); los demás adaptadores
+                                             tienen su versión Spring en este módulo. -->
+                                        <exclude>notificaciones/adaptadores/entrada/**</exclude>
+                                        <exclude>notificaciones/adaptadores/salida/AlarmaPushAdapter.java</exclude>
+                                        <exclude>notificaciones/adaptadores/salida/AlmacenObjetosAdapter.java</exclude>
+                                        <exclude>notificaciones/adaptadores/salida/CorreoSmtpAdapter.java</exclude>
+                                        <exclude>notificaciones/adaptadores/salida/DestinatarioJpaAdapter.java</exclude>
+                                        <exclude>notificaciones/adaptadores/salida/EnvioJpaAdapter.java</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

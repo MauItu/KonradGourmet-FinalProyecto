@@ -1,0 +1,19 @@
+{
+  "name": "Producto sin precio en el Ministerio",
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "urlPath": "/precios"
+  },
+  "response": {
+    "status": 500,
+    "fixedDelayMilliseconds": 300,
+    "headers": {
+      "Content-Type": "text/xml; charset=utf-8"
+    },
+    "transformers": [
+      "response-template"
+    ],
+    "body": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>El Ministerio no tiene precio para el producto {{xPath request.body '//*[local-name()=\"codigoProducto\"]/text()'}}</faultstring></soap:Fault></soap:Body></soap:Envelope>"
+  }
+}

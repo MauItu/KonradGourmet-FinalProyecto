@@ -26,4 +26,9 @@ public class OrdenJpaAdapter implements OrdenRepositoryPort {
         throw new UnsupportedOperationException("Pendiente de implementar");
     }
 
+    @Override
+    public OrdenCompra porNumero(String numero) {
+        throw new UnsupportedOperationException("Pendiente de implementar");
+    }
+
 }

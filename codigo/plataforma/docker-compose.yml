@@ -1,0 +1,445 @@
+# Konrad Gourmet: el diagrama de contenedores (página 3a del .drawio) en una sola máquina.
+# Lo que cambia frente al despliegue de la página 5 está en DEC-58: una réplica por servicio,
+# un broker de Kafka, un PostgreSQL con una base por servicio y los sistemas externos simulados (el Ministerio,
+# el correo certificado y las redes sociales).
+#
+#   ./plataforma/levantar.sh     compila los servicios y levanta todo
+#   ./plataforma/bajar.sh        apaga todo (agrega --borrar para borrar los datos)
+#
+# Puertos en el equipo: 8080 la aplicación (Nginx), 8761 Eureka, 8025 los correos (Mailpit).
+# Elasticsearch (logs de error, DEC-84) no se publica: solo lo ve ms-administracion, dentro de la red.
+name: konrad-gourmet
+
+x-servicio-java: &servicio-java
+  restart: unless-stopped
+  environment: &entorno-java
+    EUREKA_URL: http://service-registry:8761/eureka/
+    # DEC-84: cada servicio envía sus errores a Elasticsearch (AppenderElasticsearch de compartido).
+    KONRAD_LOGS_ELASTICSEARCH: http://elasticsearch:9200
+  mem_limit: 512m
+
+services:
+
+  # ── Capa de datos ────────────────────────────────────────────────────────────────
+
+  postgres:
+    image: postgres:17.12-alpine
+    restart: unless-stopped
+    # 11 bases con un pool de hasta 10 conexiones cada servicio (ms-integracion usa la suya desde DEC-104), más
+    # psql y las pruebas: las 100 conexiones que trae PostgreSQL por omisión no alcanzan
+    command: ["postgres", "-c", "max_connections=200"]
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: konrad
+    volumes:
+      - ./infra/postgres:/docker-entrypoint-initdb.d:ro
+      - datos-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d ms_analitica"]
+      interval: 5s
+      retries: 20
+
+  kafka:
+    image: apache/kafka:3.9.1
+    restart: unless-stopped
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_HEAP_OPTS: "-Xmx512m -Xms256m"
+    volumes:
+      - datos-kafka:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 >/dev/null 2>&1"]
+      interval: 10s
+      retries: 20
+
+  # Crea los 10 tópicos y la cola de errores de ms-notificaciones, y termina.
+  kafka-topicos:
+    image: apache/kafka:3.9.1
+    depends_on:
+      kafka:
+        condition: service_healthy
+    volumes:
+      - ./infra/kafka/crear-topicos.sh:/crear-topicos.sh:ro
+    entrypoint: ["/bin/bash", "/crear-topicos.sh"]
+    restart: "no"
+
+  # Caché de precios del Ministerio (Proxy) y canal de alarmas entre réplicas de ms-notificaciones.
+  redis:
+    image: redis:7.4.12-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 20
+
+  # Almacén de objetos S3 compatible (SeaweedFS en lugar de MinIO, DEC-59).
+  s3:
+    image: chrislusf/seaweedfs:3.97
+    restart: unless-stopped
+    command: server -dir=/data -s3 -s3.config=/etc/seaweedfs/s3.json
+    volumes:
+      - ./infra/s3/s3.json:/etc/seaweedfs/s3.json:ro
+      - datos-s3:/data
+
+  # Crea el bucket documentos-pdf y termina.
+  s3-bucket:
+    image: amazon/aws-cli:2.27.0
+    depends_on: [s3]
+    environment:
+      AWS_ACCESS_KEY_ID: konrad
+      AWS_SECRET_ACCESS_KEY: konrad-secreto
+      AWS_DEFAULT_REGION: us-east-1
+    volumes:
+      - ./infra/s3/crear-bucket.sh:/crear-bucket.sh:ro
+    entrypoint: ["/bin/bash", "/crear-bucket.sh"]
+    restart: "no"
+
+  # Logs de error de los 11 servicios (DEC-84; «Logs de error [Elasticsearch · ELK]» de la página 3a): un nodo,
+  # sin TLS ni usuarios en local (DEC-58). Los servicios no dependen de él: si no está, sus errores siguen en
+  # el registro de cada contenedor. Solo lo consulta ms-administracion.
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.19.4
+    restart: unless-stopped
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      xpack.ml.enabled: "false"
+      cluster.routing.allocation.disk.threshold_enabled: "false"
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+    # 512 MB de heap; el resto es memoria fuera del heap y caché de Lucene.
+    mem_limit: 1536m
+    volumes:
+      - datos-elasticsearch:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs 'http://127.0.0.1:9200/_cluster/health?wait_for_status=yellow&timeout=5s' >/dev/null"]
+      interval: 10s
+      start_period: 40s
+      retries: 30
+
+  # ── Sistemas externos simulados ──────────────────────────────────────────────────
+
+  # Servidor de correo certificado: Mailpit recibe por SMTP (1025) y muestra los correos en :8025.
+  correo:
+    image: axllent/mailpit:v1.24
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+
+  # Servicio web SOAP de precios estándar del Ministerio de Comercio, simulado con WireMock (DEC-71):
+  # el WSDL y un precio por producto (infra/ministerio). Solo lo ve ms-integracion, dentro de la red.
+  ministerio:
+    image: wiremock/wiremock:3.13.1
+    restart: unless-stopped
+    command: ["--disable-banner"]
+    volumes:
+      - ./infra/ministerio:/home/wiremock:ro
+    mem_limit: 384m
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://127.0.0.1:8080/__admin/health >/dev/null"]
+      interval: 5s
+      retries: 20
+
+  # API de tendencias de una red social (supuesto S11), simulada con WireMock (infra/redes, DEC-91): los productos en
+  # tendencia de la semana, con token. Solo la ve ms-analitica, dentro de la red.
+  redes:
+    image: wiremock/wiremock:3.13.1
+    restart: unless-stopped
+    command: ["--disable-banner"]
+    volumes:
+      - ./infra/redes:/home/wiremock:ro
+    mem_limit: 384m
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://127.0.0.1:8080/__admin/health >/dev/null"]
+      interval: 5s
+      retries: 20
+
+  # ── Infraestructura de servicios ─────────────────────────────────────────────────
+
+  service-registry:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: service-registry }
+    image: konrad-gourmet/service-registry
+    ports:
+      - "8761:8761"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8761/actuator/health | grep -q UP"]
+      interval: 5s
+      start_period: 20s
+      retries: 30
+
+  api-gateway:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: api-gateway }
+    image: konrad-gourmet/api-gateway
+    depends_on:
+      service-registry:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/actuator/health | grep -q UP"]
+      interval: 5s
+      start_period: 20s
+      retries: 30
+
+  # ── Microservicios ───────────────────────────────────────────────────────────────
+
+  ms-identidad:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-identidad }
+    image: konrad-gourmet/ms-identidad
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/actuator/health | grep -q UP"]
+      interval: 5s
+      start_period: 30s
+      retries: 30
+
+  ms-menu:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-menu }
+    image: konrad-gourmet/ms-menu
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      s3-bucket:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+    healthcheck: &salud-servicio
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/actuator/health | grep -q UP"]
+      interval: 5s
+      start_period: 30s
+      retries: 30
+
+  ms-pedidos:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-pedidos }
+    image: konrad-gourmet/ms-pedidos
+    depends_on: &depende-de-datos
+      postgres:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+    healthcheck: *salud-servicio
+
+  ms-inventario:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-inventario }
+    image: konrad-gourmet/ms-inventario
+    depends_on: *depende-de-datos
+    healthcheck: *salud-servicio
+
+  ms-solicitudes:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-solicitudes }
+    image: konrad-gourmet/ms-solicitudes
+    depends_on: *depende-de-datos
+    healthcheck: *salud-servicio
+
+  # Proveedores y cotizaciones: el PDF va al almacén de objetos y el precio de referencia lo pide a ms-integracion.
+  ms-cotizaciones:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-cotizaciones }
+    image: konrad-gourmet/ms-cotizaciones
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      s3-bucket:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+    healthcheck: *salud-servicio
+
+  # La frontera SOA: precio estándar del Ministerio con la caché en Redis y el endpoint SOAP (/api/integracion/**).
+  ms-integracion:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-integracion }
+    image: konrad-gourmet/ms-integracion
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      ministerio:
+        condition: service_healthy
+    healthcheck: *salud-servicio
+
+  # Órdenes de compra (V21–V23): lee la cotización de ms-cotizaciones y guarda el PDF de la orden en el almacén.
+  ms-ordenes:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-ordenes }
+    image: konrad-gourmet/ms-ordenes
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      s3-bucket:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+    healthcheck: *salud-servicio
+
+  # Correos certificados (Mailpit) con el PDF del almacén y la alarma de stock bajo por WebSocket con Redis (PD-01).
+  ms-notificaciones:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-notificaciones }
+    image: konrad-gourmet/ms-notificaciones
+    environment:
+      <<: *entorno-java
+      # DEC-81: en local, la cola de errores se vuelve a procesar a los 30 s (5 min por defecto).
+      ESPERA_COLA_ERRORES: 30s
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      s3-bucket:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      correo:
+        condition: service_started
+    healthcheck: *salud-servicio
+
+  # Parámetros y tema, auditoría de todos los servicios (escucha auditoria.evento) y logs de errores en Elasticsearch.
+  ms-administracion:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-administracion }
+    image: konrad-gourmet/ms-administracion
+    environment:
+      <<: *entorno-java
+      # Nota n_parametros: cada réplica refresca la caché de parámetros cada minuto; en local, cada 10 s.
+      REFRESCO_PARAMETROS: PT10S
+    depends_on: *depende-de-datos
+    healthcheck: *salud-servicio
+
+  # Tablero BAM del director comercial y promociones sugeridas al jefe de cocina, con su almacén de hechos armado con
+  # los eventos de negocio; consulta la API de tendencias de las redes (redes) y publica tendencia.detectada.
+  ms-analitica:
+    <<: *servicio-java
+    build:
+      context: ../servicios
+      args: { MODULO: ms-analitica }
+    image: konrad-gourmet/ms-analitica
+    environment:
+      <<: *entorno-java
+      # TendenciasJob corre cada semana (lunes 6:00); en local, cada 30 s, para verlo trabajar.
+      TENDENCIAS: "*/30 * * * * *"
+      REDES_URL: http://redes:8080/v1/tendencias
+      REDES_TOKEN: konrad-redes-local
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      service-registry:
+        condition: service_healthy
+      redes:
+        condition: service_healthy
+    healthcheck: *salud-servicio
+
+  # Servidor web de la SPA en React (imagen construida desde web/). Única entrada desde el navegador: http://localhost:8080
+  web:
+    build:
+      context: ../web
+    image: konrad-gourmet/web
+    restart: unless-stopped
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+      ms-identidad:
+        condition: service_healthy
+      ms-menu:
+        condition: service_healthy
+      ms-pedidos:
+        condition: service_healthy
+      ms-inventario:
+        condition: service_healthy
+      ms-solicitudes:
+        condition: service_healthy
+      ms-integracion:
+        condition: service_healthy
+      ms-cotizaciones:
+        condition: service_healthy
+      ms-ordenes:
+        condition: service_healthy
+      ms-notificaciones:
+        condition: service_healthy
+      ms-administracion:
+        condition: service_healthy
+      ms-analitica:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      kafka-topicos:
+        condition: service_completed_successfully
+      s3-bucket:
+        condition: service_completed_successfully
+    ports:
+      - "8080:80"
+    volumes:
+      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/ >/dev/null"]
+      interval: 5s
+      retries: 20
+
+volumes:
+  datos-postgres:
+  datos-kafka:
+  datos-s3:
+  datos-elasticsearch:

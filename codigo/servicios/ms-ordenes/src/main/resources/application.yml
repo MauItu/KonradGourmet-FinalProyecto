@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ms-ordenes
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:postgres}:5432/ms_ordenes
+    username: ms_ordenes
+    password: ms_ordenes
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  kafka:
+    bootstrap-servers: ${KAFKA:kafka:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # el relé de la outbox espera cada lote: si Kafka no responde, falla en 10 s y lo reintenta (DEC-104, C7-21)
+      properties:
+        max.block.ms: 10000
+        request.timeout.ms: 5000
+        delivery.timeout.ms: 10000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://service-registry:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+konrad:
+  # Almacén de objetos S3 compatible (SeaweedFS en local, DEC-59): el PDF de cada orden, en documentos-pdf/ordenes/.
+  s3:
+    endpoint: ${S3_URL:http://s3:8333}
+    usuario: konrad
+    clave: konrad-secreto
+    bucket-documentos: documentos-pdf
+  # CotizacionRestClient lee la cotización de ms-cotizaciones dentro de la red (no por el gateway). El nombre
+  # es el de Eureka: el balanceador escoge la instancia.
+  cotizaciones:
+    url: http://ms-cotizaciones
+    espera-ms: 5000

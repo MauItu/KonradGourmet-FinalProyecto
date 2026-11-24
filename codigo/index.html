@@ -40,7 +40,7 @@
       <p class="welcome__sub">Inicia sesión para continuar</p>
 
       <!-- Formulario -->
-      <form class="form" action="#" method="post" autocomplete="on">
+      <form class="form" action="app.html" method="get" autocomplete="on" id="login-form">
 
         <div class="field">
           <label class="field__label" for="email">Correo electrónico</label>
@@ -102,6 +102,18 @@
           </svg>
         </button>
 
+        <p class="login-error" id="login-error" role="alert" hidden></p>
+
+        <div class="demo-access" aria-label="Accesos de demostración">
+          <span class="demo-access__title">Accesos de demostración</span>
+          <div class="demo-access__roles">
+            <button type="button" data-demo="isabella.torres@konradgourmet.com">Mesero</button>
+            <button type="button" data-demo="carlos.mendoza@konradgourmet.com">Jefe de cocina</button>
+            <button type="button" data-demo="isabella.castro@konradgourmet.com">Auxiliar</button>
+            <button type="button" data-demo="laura.gomez@konradgourmet.com">Director</button>
+          </div>
+        </div>
+
       </form>
     </main>
   </div>
@@ -116,6 +128,35 @@
       btn.classList.toggle('is-visible', !shown);
       btn.setAttribute('aria-label', shown ? 'Mostrar contraseña' : 'Ocultar contraseña');
     });
+  });
+  // Demo local: el correo decide el rol (V02 mesero, V05 jefe de cocina, V11 auxiliar, V16 director).
+  // ms-identidad todavía no autentica (IniciarSesionService está pendiente): no se valida la contraseña.
+  var USUARIOS = {
+    'isabella.torres@konradgourmet.com': 'mesero',
+    'carlos.mendoza@konradgourmet.com': 'jefe',
+    'isabella.castro@konradgourmet.com': 'auxiliar',
+    'laura.gomez@konradgourmet.com': 'director'
+  };
+  var form = document.getElementById('login-form');
+  var error = document.getElementById('login-error');
+  document.querySelectorAll('[data-demo]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.getElementById('email').value = b.dataset.demo;
+      document.getElementById('password').value = 'demo';
+      error.hidden = true;
+      form.requestSubmit();
+    });
+  });
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    var rol = USUARIOS[document.getElementById('email').value.trim().toLowerCase()];
+    if (!rol) {
+      error.textContent = 'Este correo no está registrado en la demo. Usa uno de los accesos de demostración.';
+      error.hidden = false;
+      return;
+    }
+    try { sessionStorage.setItem('kg-rol', rol); } catch (e) {}
+    window.location.href = 'app.html#' + rol;
   });
 </script>
 </body>

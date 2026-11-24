@@ -17,6 +17,11 @@ public final class EjecutarPruebas {
         PruebasCotizacion.ejecutar();
         PruebasPatrones.ejecutar();
         PruebasFlujoDeCompra.ejecutar();
+        PruebasPlatos.ejecutar();
+        PruebasIdentidad.ejecutar();
+        PruebasIntegracion.ejecutar();
+        PruebasAdministracion.ejecutar();
+        PruebasAnalitica.ejecutar();
         System.exit(Prueba.resumen());
     }
 

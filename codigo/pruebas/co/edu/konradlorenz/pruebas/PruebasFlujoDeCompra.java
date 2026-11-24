@@ -13,8 +13,11 @@ import co.edu.konradlorenz.cotizaciones.dominio.Cotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.EstadoCotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.ItemCotizacion;
 import co.edu.konradlorenz.cotizaciones.dominio.Proveedor;
+import co.edu.konradlorenz.cotizaciones.eventos.CotizacionValidadaEvent;
 import co.edu.konradlorenz.demo.Ensamble;
 import co.edu.konradlorenz.notificaciones.dominio.Mensaje;
+import co.edu.konradlorenz.ordenes.dominio.EstadoOrden;
+import co.edu.konradlorenz.ordenes.dominio.ItemOrden;
 import co.edu.konradlorenz.ordenes.dominio.OrdenCompra;
 import co.edu.konradlorenz.pedidos.dominio.Mesa;
 import co.edu.konradlorenz.pedidos.dominio.Pedido;
@@ -71,7 +74,7 @@ final class PruebasFlujoDeCompra {
         Pedido otroPrecio = new Pedido("PED-0255", new Mesa(5, 1L, 4, true), 3L);
         otroPrecio.agregarPlato(1L, 1, null, new BigDecimal("30000"));
         Prueba.lanza("un precio distinto al del catálogo se rechaza", IllegalArgumentException.class, "no coincide", () -> s.pedidos.registrar(otroPrecio));
-        Prueba.lanza("la cantidad debe ser mayor que cero", IllegalArgumentException.class, "mayor que cero",
+        Prueba.lanza("la cantidad debe ser mayor que cero (HU-02)", IllegalArgumentException.class, "La cantidad debe ser un número entero mayor a cero",
                 () -> new Pedido("PED-0256", new Mesa(5, 1L, 4, true), 3L).agregarPlato(1L, 0, null, BigDecimal.TEN));
     }
 
@@ -90,6 +93,8 @@ final class PruebasFlujoDeCompra {
                 s.alarmas.alarmas().get(0));
         Mensaje correo = s.correos.enviados().get(0);
         Prueba.igual("el correo va al jefe de la sucursal", "jefe.centro@konradgourmet.com", correo.para());
+        Prueba.verificar("el correo dice «Quedan 11,5 kg de Res», con coma decimal (DEC-98)", correo.cuerpo().contains("Quedan 11,5 kg de Res (23 %"));
+        Prueba.verificar("y nombra la sucursal (HU-16, 4; DEC-102)", correo.cuerpo().contains("en la Sucursal Centro."));
         Prueba.verificar("el correo lleva X-Certificado", correo.cabeceras().containsKey("X-Certificado"));
         Prueba.verificar("el correo lleva X-Sello-Tiempo", correo.cabeceras().containsKey("X-Sello-Tiempo"));
 
@@ -164,16 +169,21 @@ final class PruebasFlujoDeCompra {
         Prueba.igualValor("pero SOL-031 no suma dos veces la misma cotización", "520000", s.solicitudes.detalle("SOL-031").valorSugeridoTotal());
         Prueba.igual("ni vuelve a avisar que está en trámite", 1L, s.bus.cuantos("solicitud.en-tramite"));
 
-        Prueba.lanza("no se valida una cotización con los valores sin registrar", IllegalStateException.class, "Falta el precio del proveedor",
+        Prueba.lanza("no se valida una cotización con los valores sin registrar (HU-13)", IllegalStateException.class, "La cotización no tiene valores registrados para validar",
                 () -> s.cotizaciones.validar("COT-018"));
         s.cotizaciones.registrarValores("COT-018", Datos.precios("21250", "8000"));
         Cotizacion validada = s.cotizaciones.validar("COT-018");
         Prueba.igual("COT-018 queda OPCIONADA", EstadoCotizacion.OPCIONADA, validada.estado());
         Prueba.igualValor("con +4,81 %", "4.81", validada.diferenciaPorcentual());
         Prueba.igual("se publicó cotizacion.validada", 1L, s.bus.cuantos("cotizacion.validada"));
+        CotizacionValidadaEvent evento = (CotizacionValidadaEvent) s.bus.publicados().stream()
+                .filter(e -> e instanceof CotizacionValidadaEvent).findFirst().orElseThrow();
+        Prueba.igual("con tipos simples (PD-05): el estado como texto", "OPCIONADA", evento.estado());
+        Prueba.igualValor("la diferencia contra el precio estándar, para el tablero (PD-03)", "4.81", evento.diferenciaPorcentual());
+        Prueba.igual("y el nombre del proveedor (DEC-89)", "Proveedor ABC", evento.proveedor());
         Prueba.lanza("no se vuelve a validar una cotización ya validada", IllegalStateException.class, "Solo se valida una cotización enviada",
                 () -> s.cotizaciones.validar("COT-018"));
-        Prueba.lanza("no se registran valores en una cotización ya validada", IllegalStateException.class, "Solo se registran valores",
+        Prueba.lanza("no se registran valores en una cotización ya validada (HU-11)", IllegalStateException.class, "La cotización ya fue validada; sus valores no se pueden modificar.",
                 () -> s.cotizaciones.registrarValores("COT-018", Datos.precios("21250", "8000")));
 
         s.cotizaciones.generar(Datos.cotizacionNueva(s, "COT-019", 2L));
@@ -211,6 +221,41 @@ final class PruebasFlujoDeCompra {
                 () -> s.ordenes.generar("COT-018"));
         Prueba.igual("sigue habiendo una sola orden", 1, s.ordenes.consultar(null).size());
         Prueba.igual("y una sola orden.generada", 1L, s.bus.cuantos("orden.generada"));
+
+        // Corte 5 (DEC-75): la directora abre el PDF de la orden desde V23
+        Prueba.verificar("el PDF de OC-0012 sale del almacén (V23)",
+                java.util.Arrays.equals(s.almacen.obtener(orden.pdfUrl()), s.ordenes.pdf("OC-0012")));
+        Prueba.lanza("el PDF de una orden que no existe", IllegalArgumentException.class, "No existe la orden de compra OC-9999",
+                () -> s.ordenes.pdf("OC-9999"));
+
+        // DEC-80: la directora marca la orden como recibida desde V23
+        long auditoriasAntes = s.bus.cuantos("auditoria.evento");
+        OrdenCompra finalizada = s.ordenes.finalizar("OC-0012");
+        Prueba.igual("OC-0012 pasa a FINALIZADA", EstadoOrden.FINALIZADA, finalizada.estado());
+        Prueba.igual("y queda guardada así", List.of("OC-0012"),
+                s.ordenes.consultar(EstadoOrden.FINALIZADA).stream().map(OrdenCompra::numero).toList());
+        Prueba.igual("ya no sale entre las EN_PROCESO", 0, s.ordenes.consultar(EstadoOrden.EN_PROCESO).size());
+        Prueba.verificar("finalizarla deja auditoría",
+                s.bus.cuantos("auditoria.evento") == auditoriasAntes + 1 && s.bus.publicados().stream()
+                        .anyMatch(e -> e instanceof AuditoriaEvent a && a.accion().equals("Orden OC-0012 finalizada")));
+        Prueba.igual("y no publica otra orden.generada", 1L, s.bus.cuantos("orden.generada"));
+        Prueba.lanza("finalizarla dos veces se rechaza", IllegalStateException.class, "La orden OC-0012 ya está finalizada",
+                () -> s.ordenes.finalizar("OC-0012"));
+        Prueba.igual("la segunda vez no deja auditoría", auditoriasAntes + 1, s.bus.cuantos("auditoria.evento"));
+        Prueba.lanza("finalizar una orden que no existe", IllegalArgumentException.class, "No existe la orden de compra OC-9999",
+                () -> s.ordenes.finalizar("OC-9999"));
+
+        // Corte 5: OrdenJpaAdapter rearma la orden desde la base
+        Prueba.grupo("Orden leída de la base (corte 5)");
+        OrdenCompra leida = new OrdenCompra("OC-0012", LocalDate.of(2026, 11, 17), "COT-018", List.of("SOL-031"), "Proveedor ABC",
+                "ventas@proveedorabc.com", "s3://documentos-pdf/ordenes/OC-0012.pdf", EstadoOrden.EN_PROCESO,
+                List.of(new ItemOrden(1L, new BigDecimal("20"), "kg", new BigDecimal("21250")),
+                        new ItemOrden(2L, new BigDecimal("15"), "kg", new BigDecimal("8000"))));
+        Prueba.igual("conserva el número", "OC-0012", leida.numero());
+        Prueba.igual("y la fecha guardada, no la de hoy", LocalDate.of(2026, 11, 17), leida.fecha());
+        Prueba.igual("y el estado", EstadoOrden.EN_PROCESO, leida.estado());
+        Prueba.igual("y el PDF", "s3://documentos-pdf/ordenes/OC-0012.pdf", leida.pdfUrl());
+        Prueba.igualValor("y el total se calcula igual: $545.000", "545000", leida.total());
     }
 
     private static void precioFaltante() {
@@ -282,9 +327,9 @@ final class PruebasFlujoDeCompra {
     private static void proveedores() {
         Prueba.grupo("Proveedores (HU-15)");
         Ensamble s = Datos.sistema();
-        Prueba.lanza("un NIT repetido se rechaza", IllegalStateException.class, "Ya existe un proveedor con el NIT",
+        Prueba.lanza("un NIT repetido se rechaza (HU-15)", IllegalStateException.class, "Ya existe un proveedor registrado con ese número de identificación",
                 () -> s.proveedores.registrar(new Proveedor(9L, "Otro", "900123456-1", "otro@correo.co", "1", "d", List.of())));
-        Prueba.lanza("un correo inválido se rechaza", IllegalStateException.class, "correo del proveedor no es válido",
+        Prueba.lanza("un correo inválido se rechaza (HU-15)", IllegalStateException.class, "El formato del correo electrónico no es válido",
                 () -> s.proveedores.registrar(new Proveedor(9L, "Otro", "900999999-9", "correo-sin-arroba", "1", "d", List.of())));
         Prueba.lanza("el NIT es obligatorio", IllegalStateException.class, "NIT es obligatorio",
                 () -> s.proveedores.registrar(new Proveedor(9L, "Otro", " ", "otro@correo.co", "1", "d", List.of())));

@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ms-administracion
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:postgres}:5432/ms_administracion
+    username: ms_administracion
+    password: ms_administracion
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  kafka:
+    bootstrap-servers: ${KAFKA:kafka:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # el relé de la outbox espera cada lote: si Kafka no responde, falla en 10 s y lo reintenta (DEC-104, C7-21)
+      properties:
+        max.block.ms: 10000
+        request.timeout.ms: 5000
+        delivery.timeout.ms: 10000
+    consumer:
+      # La primera vez lee auditoria.evento desde el principio: la auditoría de todos los servicios desde el corte 3.
+      group-id: ms-administracion
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://service-registry:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+konrad:
+  administracion:
+    # Nota n_parametros: cada réplica refresca de la base la caché ParametrosSistema (1 min; 10 s en el compose local).
+    refresco-parametros: ${REFRESCO_PARAMETROS:PT1M}
+    # Cuántos errores muestra la ventana de logs (los más recientes).
+    maximo-logs: 200

@@ -72,7 +72,7 @@ final class PruebasCotizacion {
                         List.of(new ItemCotizacion(1L, BigDecimal.ONE, "kg"))).validarSolicitudes());
         Prueba.lanza("registrarValor() de un producto que no está en la cotización", IllegalArgumentException.class, "no está en la cotización",
                 () -> c18.registrarValor(99L, BigDecimal.TEN));
-        Prueba.lanza("el precio del proveedor debe ser mayor que cero", IllegalArgumentException.class, "mayor que cero",
+        Prueba.lanza("el valor unitario debe ser mayor que cero (HU-11)", IllegalArgumentException.class, "El valor unitario debe ser un número mayor a cero.",
                 () -> c18.registrarValor(1L, BigDecimal.ZERO));
         Prueba.lanza("sin el precio del proveedor no hay valor cotizado", IllegalStateException.class, "Falta el precio del proveedor",
                 () -> new Cotizacion("COT-X", List.of("SOL-031"), proveedor(), LocalDate.now(),
@@ -84,6 +84,20 @@ final class PruebasCotizacion {
         enviada.cambiarEstado(EstadoCotizacion.OPCIONADA);
         enviada.cambiarEstado(EstadoCotizacion.CON_ORDEN);
         Prueba.igual("desde OPCIONADA sí pasa a CON_ORDEN", EstadoCotizacion.CON_ORDEN, enviada.estado());
+
+        // Corte 4b: CotizacionJpaAdapter y ProveedorJpaAdapter rearman la cotización y el proveedor desde la base
+        Prueba.grupo("Cotización y proveedor leídos de la base (corte 4b)");
+        Cotizacion leida = new Cotizacion("COT-018", List.of("SOL-031", "SOL-032"), proveedor(), LocalDate.of(2026, 11, 17),
+                LocalDate.of(2026, 11, 24), "s3://documentos-pdf/cotizaciones/COT-018.pdf", EstadoCotizacion.ENVIADA,
+                List.of(new ItemCotizacion(1L, new BigDecimal("20"), "kg", new BigDecimal("20000"), null)));
+        Prueba.igual("conserva el estado guardado (no nace PENDIENTE_PRECIO)", EstadoCotizacion.ENVIADA, leida.estado());
+        Prueba.igual("y la fecha de envío guardada, no la de hoy", LocalDate.of(2026, 11, 17), leida.fechaEnvio());
+        Prueba.igual("y el PDF", "s3://documentos-pdf/cotizaciones/COT-018.pdf", leida.pdfUrl());
+        leida.registrarValor(1L, new BigDecimal("21250"));
+        Prueba.igualValor("y sus ítems siguen aceptando el precio del proveedor (V18)", "21250", leida.items().get(0).precioProveedor());
+        Proveedor inactivo = new Proveedor(5L, "Frutas del Valle", "901555666-7", "ventas@frutasdelvalle.com", null, null, List.of("Frutas"), false);
+        Prueba.verificar("un proveedor inactivo se lee inactivo", !inactivo.activo());
+        Prueba.verificar("y uno activo, activo", new Proveedor(1L, "Proveedor ABC", "900123456-1", "ventas@proveedorabc.com", null, null, List.of(), true).activo());
     }
 
 }
