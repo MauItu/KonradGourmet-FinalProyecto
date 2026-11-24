@@ -1,6 +1,6 @@
 # Plan y estado del proyecto · Konrad Gourmet
 
-Resumen único de **qué se planeó, qué se ha hecho y qué falta**. Es un mapa: el detalle de cada punto está en los documentos que se nombran. Estado a 2026-11-23, al terminar el paso 7d del corte 7.
+Resumen único de **qué se planeó, qué se ha hecho y qué falta**. Es un mapa: el detalle de cada punto está en los documentos que se nombran. Estado a 2026-11-23, con el corte 7 aprobado.
 
 - **Proyecto:** Sistema de Abastecimiento Konrad Gourmet, proyecto final de Arquitectura de Software (Fundación Universitaria Konrad Lorenz, semestre 2026-2, profesor Carlos Andrés López).
 - **Equipo:** Mauricio Iturriza, Isabella Castro, Carlos Franco y Adrián Corredor.
@@ -13,8 +13,8 @@ Resumen único de **qué se planeó, qué se ha hecho y qué falta**. Es un mapa
 |---|---|---|
 | A. Revisión y correcciones (sesiones 1 a 6) | Corregir el `.drawio`, las historias de usuario, los casos de uso y el código base según la revisión del 2026-11-07 | Hecha y aprobada |
 | B. Documentos de entrega (post sesión 6) | Reporte v2, Story Mapping corregido, casos de uso, decisiones de arquitectura (PD-01 a PD-11) | Hecha y aprobada; el reporte se regeneró en el 7d |
-| C. Plataforma real (rama `stack-real`) | La web funcionando completa «tal como está especificada», en Docker Compose, en 7 cortes | Cortes 1 a 6b aprobados; del corte 7, 7a a 7c aprobados y el 7d hecho, esperando el OK |
-| D. Cierre y sustentación | Reporte regenerado, pruebas finales, guiones de la sustentación | Reporte y pruebas hechos (7b y 7d); faltan los guiones |
+| C. Plataforma real (rama `stack-real`) | La web funcionando completa «tal como está especificada», en Docker Compose, en 7 cortes | Los 7 cortes aprobados (2026-11-23) |
+| D. Cierre y sustentación | Reporte regenerado, pruebas finales, guiones de la sustentación | Reporte y pruebas hechos y aprobados (7b y 7d); faltan los guiones |
 
 Reglas de trabajo vigentes: un commit por corrección con su id al inicio; un paso por mensaje y esperar el OK de Mauricio; cada decisión se registra en `DECISIONES.md` con contexto, opciones y la escogida; todo cambio frente a mockups, diagramas o guías se anota en `CAMBIOS_A_DOCUMENTAR.md`; la documentación entregable describe el proyecto completo, sin hablar de límites de la demo (DEC-57); la IA solo se menciona en la §18 del reporte; ningún texto de la entrega dice que los mockups de `mockups_faltantes/` son capturas; sin push hasta que Mauricio lo pida.
 
@@ -23,7 +23,7 @@ Reglas de trabajo vigentes: un commit por corrección con su id al inicio; un pa
 ### Etapa A · Revisión y correcciones
 
 - Dos repos: `documentos/` (diagramas, reporte, decisiones) y `KonradGourmet/` (código).
-- `REVISION_2026-11-07.md`: 26 hallazgos (H1 a H26); decisiones en `DECISIONES.md` (hoy DEC-01 a DEC-106).
+- `REVISION_2026-11-07.md`: 26 hallazgos (H1 a H26); decisiones en `DECISIONES.md` (hoy DEC-01 a DEC-107).
 - Sesión 1: páginas de clases 4a a 4e del `.drawio` (191 clases, hoy 195) y validación (`VALIDACION_FASE2A.md`).
 - Sesiones 2 a 5: código hexagonal con sus verificaciones, Excel de capacidad, historias de usuario y mockups (`CORRECCIONES_HU_Y_MOCKUPS.md`), `ESTADO_PROYECTO_Y_C4.md`. Cada sesión con su `VALIDACION_SESIONn.md` del arquitecto revisor.
 - Sesión 6: `meseroId` en `Pedido` (DEC-51) y casos de uso corregidos (DEC-52).
@@ -52,7 +52,7 @@ Stack: Docker Compose con 11 microservicios Spring Boot 3.5 y Spring Cloud 2025.
 | 5 | ms-ordenes y ms-notificaciones (V20 a V23, correos con PDF, alarma en vivo, reproceso de la cola de errores) | Aprobado |
 | 6a | ms-administracion (auditoría, parámetros y tema, logs con Elasticsearch, usuarios, destinatarios) | Aprobado |
 | 6b | ms-analitica (tablero BAM, promociones sugeridas, `tendencia.detectada`, PD-05) | Aprobado |
-| 7 | Plan (DEC-95) en cuatro pasos, uno por mensaje | 7a, 7b y 7c aprobados; 7d hecho, esperando el OK |
+| 7 | Plan (DEC-95) en cuatro pasos, uno por mensaje | Aprobado (los cuatro pasos) |
 
 El corte 7, paso por paso:
 
@@ -61,15 +61,11 @@ El corte 7, paso por paso:
 | 7a | Documentación pendiente fuera del reporte (casos de uso, `.drawio`, `ESTADO_PROYECTO_Y_C4.md`), mockups de todo lo que faltaba (DEC-96) y mensajes de las historias en la aplicación (DEC-97) | Aprobado |
 | 7b | Coma decimal (DEC-98); historia de punta a punta (`recorrido_corte7.py` y `verificar_corte7.py`) y `probar_todo.sh` (DEC-99); clon limpio | Aprobado |
 | 7c | Revisión del arquitecto revisor (`VALIDACION_CORTE7.md`, C7-1 a C7-27) y sus correcciones: DEC-100 a DEC-105 (Solicitar con el producto, `reactivar()` en el diagrama, V05 y el correo con la sucursal, V11 de a 25, outbox con relé, consumidores idempotentes y límite de tasa) | Aprobado |
-| 7d | README y LEEME finales (C7-18, C7-25, DEC-96 a DEC-105, `probar_todo.sh`), `ESTADO_PROYECTO_Y_C4.md` (C7-18), el reporte regenerado y este documento (DEC-106) | Hecho, esperando el OK |
+| 7d | README y LEEME finales (C7-18, C7-25, DEC-96 a DEC-105, `probar_todo.sh`), `ESTADO_PROYECTO_Y_C4.md` (C7-18), el reporte regenerado y este documento (DEC-106 y DEC-107) | Aprobado |
 
 **Pruebas** (`plataforma/probar_todo.sh`, sobre una instancia limpia): **1.254 comprobaciones sin fallas** = 400 verificaciones del núcleo (`pruebas/`, 8 clases) + 91 pruebas JUnit de los servicios + 763 de los recorridos de navegador y los verificadores de los cortes 3 a 7.
 
 ## 3. Lo que falta
-
-### Para cerrar el corte 7
-
-- [ ] OK de Mauricio al 7d y confirmación de DEC-106 (detalles del 7d).
 
 ### Para Mauricio y el equipo
 
@@ -79,6 +75,7 @@ El corte 7, paso por paso:
 
 ### Ya cerrado desde el corte 6b
 
+- [x] Corte 7 aprobado, con DEC-106 confirmada y DEC-107 (la §1 nombra la plataforma, que se muestra en la sustentación; la §18 nombra los mockups) (2026-11-23).
 - [x] Corte 6b aprobado y DEC-91 confirmada (2026-11-23).
 - [x] DEC-78 y DEC-82 confirmadas al aprobar el corte 5.
 - [x] La leyenda del eje del proveedor del tablero BAM, en una sola línea (7a).
@@ -93,7 +90,7 @@ El corte 7, paso por paso:
 
 | Qué | Dónde |
 |---|---|
-| Decisiones (DEC-01 a DEC-106) y su historia | `documentos/DECISIONES.md` |
+| Decisiones (DEC-01 a DEC-107) y su historia | `documentos/DECISIONES.md` |
 | Plan de las sesiones 1 a 6 con su avance | `documentos/PLAN_CORRECCIONES.md` |
 | Pendientes después de la sesión 6 | `documentos/PENDIENTES_POST_SESION6.md` |
 | Cambios de la plataforma frente a la documentación (CD-01 a CD-73) | `documentos/CAMBIOS_A_DOCUMENTAR.md` |

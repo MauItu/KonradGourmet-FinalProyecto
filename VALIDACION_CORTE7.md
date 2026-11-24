@@ -77,11 +77,11 @@ Observación sin hallazgo: `deLaSucursal()` de ms-menu lee los platos de la sucu
 | C7-32 | Baja | La tabla 13 nombra `EnviosController` y el canal de alarmas, que no están entre las 195 clases | Señalarlos como infraestructura que no se dibuja | Corregido (df3154f) |
 | C7-33 | Baja | La tabla 8 no cubría Proveedores ni Promociones sugeridas | «V11 a V15 y Proveedores»; fila «Analítica: BAM y promociones» | Corregido (bf049c0) |
 | C7-34 | Baja | La tabla «Módulos» del README no nombraba las ventanas nuevas | Copiar las de la tabla 5 del reporte | Corregido (código a28386f) |
-| C7-35 | Baja | README y LEEME dicen «aprobado» para el corte 7; PLAN y ESTADO, «esperando el OK» | Se resuelve con el OK de Mauricio al 7d (DEC-106) | Espera el OK |
+| C7-35 | Baja | README y LEEME dicen «aprobado» para el corte 7; PLAN y ESTADO, «esperando el OK» | Se resuelve con el OK de Mauricio al 7d (DEC-106) | Resuelto: Mauricio aprobó el 7d y confirmó DEC-106 (2026-11-23) |
 | C7-36 | Baja | «inventario.stock-bajo» y «/api/ordenes-compra» se partían en el guion | `generar_reporte.py` une el guion de los nombres en minúscula (U+2060) | Corregido (b06ef8d; reporte 8d1e142, 70 páginas) |
 | C7-37 | Baja | El comentario de `PlatoRestController.consultar()` decía `?sucursal={id}` | `GET /api/platos (la sucursal sale del JWT)` | Corregido (código d933c7f) |
 
-Preguntas que dejó: C7-30 y si la §1 nombra la plataforma como tercer entregable; Mauricio las decidió en DEC-107 (la §1 la nombra, porque se muestra en la sustentación). Queda DEC-106.
+Preguntas que dejó: C7-30 y si la §1 nombra la plataforma como tercer entregable; Mauricio las decidió en DEC-107 (la §1 la nombra, porque se muestra en la sustentación). DEC-106 la confirmó al aprobar el 7d.
 
 ## Pruebas
 

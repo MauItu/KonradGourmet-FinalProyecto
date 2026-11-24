@@ -1,6 +1,6 @@
 # Konrad Gourmet · Contexto, estado y diagramas C4
 
-> Documento de trabajo del equipo. Estado revisado el **23 de noviembre de 2026**, con los cortes 1 a 7 de la plataforma hechos (el 7d, README, LEEME y reporte regenerado, espera el OK de Mauricio).
+> Documento de trabajo del equipo. Estado revisado el **23 de noviembre de 2026**, con los 7 cortes de la plataforma aprobados.
 > Resume el proyecto, dónde está cada archivo, lo que se hizo en las seis sesiones de correcciones, en los documentos de entrega y en la plataforma, el estado de cada hallazgo y todo lo relacionado con el modelo C4 del archivo `Arquitectura_Konrad_Gourmet.drawio`.
 > El resumen corto de qué se planeó, qué se hizo y qué falta está en `PLAN_Y_ESTADO.md`; este documento da el detalle.
 
@@ -112,7 +112,7 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 | `PLAN_Y_ESTADO.md` | Resumen único de qué se planeó, qué se hizo y qué falta |
 | `PLAN_CORRECCIONES.md` | El plan de las 5 sesiones originales y la sesión 6, con su tabla de avance |
 | `CAMBIOS_A_DOCUMENTAR.md` | Lo que la plataforma agrega o cambia frente a los mockups, el `.drawio`, el reporte y los casos de uso (CD-01 en adelante, DEC-77), con su estado |
-| `DECISIONES.md` | DEC-01 a DEC-106 con su contexto y opciones, y las preguntas abiertas |
+| `DECISIONES.md` | DEC-01 a DEC-107 con su contexto y opciones, y las preguntas abiertas |
 | `REVISION_2026-11-07.md` | Los hallazgos H1–H26 del arquitecto-revisor |
 | `INVENTARIO_SESION2.md`, `INVENTARIO_SESION3.md` | Lista de ítems que cada sesión debía cambiar |
 | `VALIDACION_FASE2A.md`, `VALIDACION_SESION2.md` a `VALIDACION_SESION6.md`, `VALIDACION_CORTE7.md` | Lo que el revisor encontró al validar cada sesión y la plataforma completa (C7-1 a C7-27) |
@@ -166,7 +166,7 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 | Casos de uso | **Texto y diagrama al día** | 19 CU, 12 RF y las ventanas de cada uno, con los mensajes de PD-10 y de la plataforma; `casos_de_uso.png` con los 19 casos, los 6 roles y los 5 actores externos (DEC-92). El enunciado original no está disponible |
 
 **Riesgos que siguen abiertos**
-- **Supuestos:** DEC-106 (detalles del 7d) está por confirmar por Mauricio; los demás quedaron confirmados al aprobar cada paso.
+- **Supuestos:** todos confirmados; DEC-106 (detalles del 7d) al aprobar el corte 7.
 - **Pendientes del equipo:** los guiones de la sustentación (se rehacen al final) y la publicación en el repo público, cuando Mauricio la pida.
 
 ---
@@ -327,7 +327,7 @@ El plan completo está en `PLAN_CORRECCIONES.md`. Cada corrección es un commit 
 | Post sesión 6 | PD-01 a PD-11 del arquitecto-revisor (`REVISION_ARQUITECTO_POST_S6.md`), `STORY_MAPPING_CORREGIDO.md` y el reporte v2 (DEC-54 a DEC-57, PC-01 a PC-22) | Aprobada por Mauricio el 9-nov |
 | Plataforma, cortes 1 a 6b | El stack especificado en Docker Compose y la SPA en React (DEC-58 a DEC-91), un corte por servicio o grupo de servicios, con sus pruebas de punta a punta | Aprobados por Mauricio entre el 17 y el 23-nov |
 | Antes del corte 7 | Diagrama de casos de uso (DEC-92) y mockups faltantes (DEC-93 y DEC-94) | Aprobadas por Mauricio el 23-nov |
-| Corte 7 | 7a documentación pendiente; 7b pruebas de punta a punta y clon limpio; 7c revisión del arquitecto (C7-1 a C7-27, DEC-100 a DEC-105); 7d README, LEEME y reporte regenerado (DEC-95, DEC-106) | 7a a 7c aprobados por Mauricio el 23-nov; 7d hecho, esperando su OK |
+| Corte 7 | 7a documentación pendiente; 7b pruebas de punta a punta y clon limpio; 7c revisión del arquitecto (C7-1 a C7-27, DEC-100 a DEC-105); 7d README, LEEME y reporte regenerado (DEC-95, DEC-106, DEC-107; C7-28 a C7-37) | Aprobado por Mauricio el 23-nov |
 
 **Lo que no se tocó, a propósito:** `Arquitectura_Konrad_GourmetOriginalSinCorregir.drawio`, el reporte PDF original, el PDF de UX/UI, el de flujo y el Story Mapping. Lo que había que cambiar en ellos está en los archivos `CORRECCIONES_*.md` y se aplicó en el reporte v2, `STORY_MAPPING_CORREGIDO.md` y los mockups nuevos.
 
@@ -424,14 +424,14 @@ Leyenda: ✅ hecho · 🔴 abierto. Donde una fila dice «Reporte» o «R-xx», 
 
 ## 6. Qué falta y quién lo hace
 
-**Al 23 de noviembre:** las sesiones 1 a 6, los documentos de entrega, los cortes 1 a 6b de la plataforma, el diagrama de casos de uso, los mockups faltantes y los pasos 7a a 7c del corte 7 están aprobados por Mauricio. El 7d está hecho y espera su OK:
+**Al 23 de noviembre:** las sesiones 1 a 6, los documentos de entrega, los cortes 1 a 6b de la plataforma, el diagrama de casos de uso, los mockups faltantes y los cuatro pasos del corte 7 están aprobados por Mauricio:
 
 | Paso | Qué | Estado |
 |---|---|---|
 | 7a | Documentación pendiente fuera del reporte: casos de uso (CD-12, CD-24, CD-35 y CD-57), la nota `n_altausuarios` (CD-26), la fila de DEC-56, este documento, y la leyenda del eje del proveedor del tablero BAM con sus mockups | Aprobado |
 | 7b | Pruebas de punta a punta: una historia que cruza los 11 servicios y los 6 roles, todos los cortes en orden en una instalación limpia, los JUnit, las verificaciones de `pruebas/` y un clon limpio | Aprobado (1.254 comprobaciones con las correcciones del 7c) |
 | 7c | Validación del arquitecto-revisor sobre la plataforma completa (`VALIDACION_CORTE7.md`) y sus correcciones | Aprobado |
-| 7d | README y LEEME finales; el reporte regenerado con 195 clases, los CD pendientes, los números reales de pruebas y el diagrama de casos de uso; `PLAN_Y_ESTADO.md` al día | Hecho, esperando el OK |
+| 7d | README y LEEME finales; el reporte regenerado con 195 clases, los CD pendientes, los números reales de pruebas y el diagrama de casos de uso; `PLAN_Y_ESTADO.md` al día | Aprobado |
 
 **Después del corte 7:**
 
@@ -452,9 +452,9 @@ Leyenda: ✅ hecho · 🔴 abierto. Donde una fila dice «Reporte» o «R-xx», 
 | **A5** | Abierta, prioridad baja: el enunciado original no está en ninguna carpeta |
 | Nombres de los usuarios | Cerrado por Mauricio el 23-nov: los de la plataforma; el director comercial es Andrés Rojas (DEC-63) |
 | DEC-92 y DEC-94 | Confirmadas por Mauricio el 23-nov |
-| DEC-106 | Por confirmar por Mauricio (detalles del 7d) |
+| DEC-106 | Confirmada por Mauricio el 23-nov (con el ajuste de la tabla 13) |
 
-**Supuestos:** DEC-08, DEC-20, DEC-39, DEC-40, DEC-41, DEC-44, DEC-45, DEC-47 (orden de filas) y DEC-48 los resolvió el arquitecto-revisor el 2026-11-08 por delegación de Mauricio (confirmados; DEC-08, DEC-41, DEC-44 y DEC-48 con ajuste). También tomó PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`). Los supuestos de la plataforma (DEC-63, DEC-68, DEC-69, DEC-71 a DEC-74, DEC-78, DEC-82, DEC-87, DEC-91, DEC-92, DEC-94, DEC-99 y DEC-105) los confirmó Mauricio al aprobar cada corte; DEC-106 está por confirmar. HU-20 a HU-22 se omiten del plan de sprints (PD-09).
+**Supuestos:** DEC-08, DEC-20, DEC-39, DEC-40, DEC-41, DEC-44, DEC-45, DEC-47 (orden de filas) y DEC-48 los resolvió el arquitecto-revisor el 2026-11-08 por delegación de Mauricio (confirmados; DEC-08, DEC-41, DEC-44 y DEC-48 con ajuste). También tomó PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`). Los supuestos de la plataforma (DEC-63, DEC-68, DEC-69, DEC-71 a DEC-74, DEC-78, DEC-82, DEC-87, DEC-91, DEC-92, DEC-94, DEC-99, DEC-105 y DEC-106) los confirmó Mauricio al aprobar cada corte. HU-20 a HU-22 se omiten del plan de sprints (PD-09).
 
 ---
 
