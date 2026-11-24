@@ -187,7 +187,7 @@ El C4 describe una arquitectura con zoom progresivo. Cada nivel abre una caja de
 | Complemento · Dinámico | ¿En qué orden ocurren los mensajes en un caso real? | **6** |
 | Complemento · Ecosistema | Varios sistemas de la empresa juntos | No se hizo: nunca se pidió y, con un solo sistema, repetiría el contexto |
 
-**Por qué hacían falta las páginas 3a, 3b y 6:** el propio reporte (pág. 4) dice que *«el modelo C4 es obligatorio en sus cuatro niveles —contexto, contenedores, componentes y código—»* y que *«los diagramas dinámico y de despliegue son complementarios»*. El original tenía los niveles 1 y 4 y el despliegue; los niveles 2 y 3 estaban mezclados dentro del mapa integrado y el dinámico no existía.
+**Por qué hacían falta las páginas 3a, 3b y 6:** el propio reporte (§2.2) dice que *«el modelo C4 es obligatorio en sus cuatro niveles, contexto, contenedores, componentes y código»* y que *«los diagramas dinámico y de despliegue son complementarios»*. El original tenía los niveles 1 y 4 y el despliegue; los niveles 2 y 3 estaban mezclados dentro del mapa integrado y el dinámico no existía.
 
 ### 3.2 Inventario de páginas
 
