@@ -25,6 +25,9 @@ services:
   postgres:
     image: postgres:17.12-alpine
     restart: unless-stopped
+    # 11 bases con un pool de hasta 10 conexiones cada servicio (ms-integracion usa la suya desde DEC-104), más
+    # psql y las pruebas: las 100 conexiones que trae PostgreSQL por omisión no alcanzan
+    command: ["postgres", "-c", "max_connections=200"]
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: konrad
