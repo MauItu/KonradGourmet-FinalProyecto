@@ -5,7 +5,7 @@
 
 Cada ventana está asignada a un servicio, a un método de su controlador REST y a un endpoint (tabla 13): primero las 23 del prototipo y después las ventanas nuevas del recuadro del mismo nombre en el mapa (proveedores, tablero BAM, promociones sugeridas y las del administrador). La columna de servicio es la misma que aparece bajo cada miniatura en el mapa, y cada método marcado ‹Vxx› lleva el comentario de la ventana que atiende. Algunas ventanas usan más de un método: por ejemplo, la 03 carga el catálogo y las mesas antes de registrar el pedido.
 
-!tabla 13 | Trazabilidad de las ventanas a servicios, métodos y endpoints | 1.1,2.2,3.2,3.4,7.5,7.0
+!tabla 13 | Trazabilidad de las ventanas a servicios, métodos y endpoints | 1.5,2.8,3.0,3.8,7.0,6.3
 | V | Rol | Ventana | Servicio | Controlador y método | Endpoint |
 |---|---|---|---|---|---|
 | 01 | Acceso | Inicio de sesión | ms-identidad | AuthRestController.iniciarSesion() | POST /api/auth/token |
