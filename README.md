@@ -63,17 +63,17 @@ clases, atributos, métodos y relaciones `extends`/`implements`.
 | Módulo | Microservicio | Ventanas | Responsabilidad |
 |---|---|---|---|
 | `compartido` | — | — | Librería común: publicación de eventos y auditoría |
-| `identidad` | ms-identidad | V01 | Usuarios, roles, sucursales y autenticación |
+| `identidad` | ms-identidad | V01, Usuarios | Usuarios, roles, sucursales y autenticación |
 | `pedidos` | ms-pedidos | V02–V04 | Registro y seguimiento de pedidos |
-| `menu` | ms-menu | V06 | Platos, ingredientes y categorías |
+| `menu` | ms-menu | V06 (con editar, desactivar y activar) | Platos, ingredientes y categorías |
 | `inventario` | ms-inventario | V05, V07 | Stock, umbrales y consumo diario |
 | `solicitudes` | ms-solicitudes | V08–V12 | Solicitudes de alimentos |
-| `cotizaciones` | ms-cotizaciones | V13–V20 | Cotizaciones, proveedores y reglas de validación |
+| `cotizaciones` | ms-cotizaciones | V13–V20, Proveedores | Cotizaciones, proveedores y reglas de validación |
 | `ordenes` | ms-ordenes | V21–V23 | Órdenes de compra |
-| `notificaciones` | ms-notificaciones | — | Correos y alarmas en la aplicación |
+| `notificaciones` | ms-notificaciones | Destinatarios de alertas; la alarma de V05 | Correos y alarmas en la aplicación |
 | `integracion` | ms-integracion | — | Frontera SOAP con el Ministerio de Comercio |
-| `administracion` | ms-administracion | — | Parámetros del sistema y auditoría |
-| `analitica` | ms-analitica | — | Tablero BAM e indicadores; promociones sugeridas y tendencias |
+| `administracion` | ms-administracion | Parámetros y tema, Auditoría, Logs de errores | Parámetros del sistema y auditoría |
+| `analitica` | ms-analitica | Tablero BAM, Promociones sugeridas | Tablero BAM e indicadores; promociones sugeridas y tendencias |
 | `demo` | — | — | `DemoArquitectura` recorre el flujo de compra; las otras 24 clases son los adaptadores en memoria, el `Ensamble` que los conecta y el `ServidorWeb` de la interfaz local |
 
 ## Patrones de diseño
@@ -141,7 +141,7 @@ los `:` del classpath por `;`.
 
 `DemoArquitectura` cuenta un día en la sucursal Centro, con adaptadores en memoria (sin base de datos, sin
 Kafka y sin frameworks). Las secciones numeradas del 1 al 7 son las 7 salidas que promete el reporte
-(§13, p. 26); las demás son los pasos que las conectan:
+(§13.3, tabla 12); las demás son los pasos que las conectan:
 
 | Sección | Patrón | Qué se ve |
 |---|---|---|

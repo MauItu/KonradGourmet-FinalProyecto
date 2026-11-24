@@ -39,7 +39,7 @@ import java.util.Map;
  * Cuenta un día en la sucursal Centro con adaptadores en memoria: el director de compras entra, un
  * mesero registra un pedido, el inventario se queda corto, el jefe de cocina pide alimentos, el auxiliar
  * cotiza con tres proveedores y el director genera la orden de compra. Cada sección dice qué patrón
- * muestra; las secciones numeradas del 1 al 7 son las 7 salidas del reporte (§13, p. 26).
+ * muestra; las secciones numeradas del 1 al 7 son las 7 salidas del reporte (§13.3, tabla 12).
  */
 public class DemoArquitectura {
 
