@@ -22,6 +22,20 @@ Lo que la plataforma (rama `stack-real` de KonradGourmet, DEC-58) agrega, quita 
 | M-08 | Nuevas | Proveedores (HU-15) y promociones sugeridas (HU-19) | DEC-07, DEC-96 | Aplicado: `mockups_faltantes/proveedores/` (rehecho desde la aplicación el 2026-11-23; reemplaza a `mockups_nuevos/07_proveedores`, que no coincidía con la demostración) y `mockups_faltantes/promociones_sugeridas/` (CD-28) |
 | M-09 | V03 | El saludo del mesero: «Isabella Torres · Mesero · Sucursal Centro» | — | Aplicado (2026-11-23): `mockups_faltantes/V03_nuevo_pedido/` |
 
+## Corte 7c (validación del arquitecto revisor, `VALIDACION_CORTE7.md`)
+
+| # | Artefacto | Dónde | Cambio | Origen | Estado |
+|---|---|---|---|---|---|
+| CD-62 | `.drawio`, casos de uso y reporte | Página 4b (`Plato`, `RegistrarPlatoUseCase`, `PlatoService`, `PlatoRestController` y nota `n_platos`), página 1 (`vn01`), CU-03 y tabla 13 del reporte | `reactivar()` en las cuatro clases y `PATCH /api/platos/{id}/reactivar` (jefe de cocina, botón «Activar» del plato desactivado, ya en el mockup de CD-58); cada jefe gestiona solo los platos de su sucursal (C7-1: un plato de otra sucursal responde 404 «El plato consultado no está disponible») | DEC-101, C7-1 | `.drawio` y CU-03: aplicado (2026-11-23); reporte: pendiente (7d) |
+| CD-63 | Reporte y `.drawio` | Tabla 13 (§15) y página 1 (`v8`, `v13`) | Rutas que faltaban: `GET /api/platos/productos?categoria=` (V06, V08 y V11–V12; la tabla 13 decía «ruta sin fijar»), `PUT` y `GET /api/platos/{id}/imagen` (V06; el mesero la ve en V03), `PATCH …/{id}/reactivar` (CD-62), proveedores (`POST /api/proveedores`, `GET` y `PUT …/{id}`, `PATCH …/{id}/inactivar`), `POST /api/cotizaciones/{id}/reenvio`, `GET` y `POST /api/notificaciones/destinatarios` y `POST /api/usuarios` | C7-8 | Página 1: aplicado (2026-11-23; V03 con la imagen, V06 con «POST /api/platos · …/{id}/imagen» en una línea porque la miniatura de V09 está debajo); reporte: pendiente (7d) |
+| CD-64 | Mockup | V01 | Los «Accesos de demostración» del inicio de sesión (los seis usuarios con su clave) | DEC-63 | No aplica (DEC-57): son solo de la demostración, como CD-51 |
+| CD-65 | Mockup | V05 (`mockups_admin/V05_stock_bajo`) | La fila de cada alerta muestra cuánto queda, con su unidad, junto al porcentaje («9,8 kg · 24,5 %»; HU-16, 4) | DEC-102 | Pendiente: los mockups de `mockups_admin/` los hizo Mauricio |
+| CD-66 | `.drawio` y casos de uso | Página 4d (`DestinatarioRepositoryPort` y `DestinatarioJpaAdapter`) y CU-05 | `nombreSucursal(sucursalId: Long): String`, con la que el correo de stock bajo nombra la sucursal («… en la Sucursal Centro.»); CU-05 dice dónde va cada dato de la alerta y que la alarma en vivo es el aviso que lleva a ella | DEC-102 | Aplicado (2026-11-23) |
+| CD-67 | Casos de uso | CU-07 (flujos alternos), CU-05 (reglas) y la línea de la versión | CU-07 separa «No se encontraron solicitudes registradas» (HU-06) de «No se encontraron solicitudes con los criterios indicados» (HU-07); CU-05 ya no cita «el código del 8 de noviembre» (DEC-57); HU-20 a HU-22 ya no mencionan al revisor; la versión es la del 23 de noviembre | C7-2, C7-13, C7-14 | Aplicado (2026-11-23) |
+| CD-68 | `.drawio` | Página 4a (`n_infra_compartido`), 4d (`n_infra_notif`), 3a (`c3a_e31e`) y 5 (`v26`, `e47`) | `OutboxEventos`, `ReleOutbox` y `EventosProcesados` (DEC-104) y `ReprocesoColaErrores` en las notas de infraestructura; la flecha de ms-notificaciones a Redis deja de repetir el id `c3a_e31d`; el almacén de objetos de la página 5 nombra las imágenes de los platos | DEC-104, C7-10, C7-11, C7-12 | Aplicado (2026-11-23) |
+
+La outbox transaccional, los consumidores que descartan repetidos y el límite de tasa del gateway (DEC-104) ya estaban en el diseño (nota `n_outbox` de la 4a, 3a y 3b): la plataforma ahora los cumple y la documentación no cambia, salvo las notas de CD-68.
+
 ## Corte 7 (nada sin mockup, DEC-96)
 
 | # | Artefacto | Dónde | Cambio | Origen | Estado |
