@@ -23,7 +23,7 @@ Reglas de trabajo vigentes: un commit por corrección con su id al inicio; un pa
 ### Etapa A · Revisión y correcciones
 
 - Dos repos: `documentos/` (diagramas, reporte, decisiones) y `KonradGourmet/` (código).
-- `REVISION_2026-11-07.md`: 26 hallazgos (H1 a H26); decisiones en `DECISIONES.md` (hoy DEC-01 a DEC-111).
+- `REVISION_2026-11-07.md`: 26 hallazgos (H1 a H26); decisiones en `DECISIONES.md` (hoy DEC-01 a DEC-112).
 - Sesión 1: páginas de clases 4a a 4e del `.drawio` (191 clases, hoy 195) y validación (`VALIDACION_FASE2A.md`).
 - Sesiones 2 a 5: código hexagonal con sus verificaciones, Excel de capacidad, historias de usuario y mockups (`CORRECCIONES_HU_Y_MOCKUPS.md`), `ESTADO_PROYECTO_Y_C4.md`. Cada sesión con su `VALIDACION_SESIONn.md` del arquitecto revisor.
 - Sesión 6: `meseroId` en `Pedido` (DEC-51) y casos de uso corregidos (DEC-52).
@@ -69,7 +69,7 @@ El corte 7, paso por paso:
 
 ### Para Mauricio y el equipo
 
-- [ ] Guías de la sustentación (DEC-108 y DEC-109): cinco guías en HTML en `guias_sustentacion/`, una por mensaje: los diagramas (aprobada el 2026-11-24), el código (aprobada el 2026-11-24), la plataforma (aprobada el 2026-11-24: `guia_plataforma.html`, con la demo ensayada en la instancia `kg-demo`, DEC-111), los microservicios y lo que está fuera de la plataforma; después, la revisión del arquitecto-revisor. Los guiones anteriores quedaron en `FinalProyecto/archivo_desactualizado/` (fuera de git).
+- [ ] Guías de la sustentación (DEC-108 y DEC-109): cinco guías en HTML en `guias_sustentacion/`, una por mensaje: los diagramas (aprobada el 2026-11-24), el código (aprobada el 2026-11-24), la plataforma (aprobada el 2026-11-24: `guia_plataforma.html`, con la demo ensayada en la instancia `kg-demo`, DEC-111), los microservicios (hecha, por aprobar: `guia_microservicios.html`, con un recorte del paquete de cada servicio y los datos leídos del código al generar, DEC-112) y lo que está fuera de la plataforma; después, la revisión del arquitecto-revisor. Los guiones anteriores quedaron en `FinalProyecto/archivo_desactualizado/` (fuera de git).
 - [ ] Publicar en el repo público lo posterior al 9 de noviembre, cuando Mauricio lo pida.
 - [ ] Opcionales sin aplicar al reporte: R-14, R-19, R-39 y R-53 (Mauricio decide).
 
@@ -91,7 +91,7 @@ El corte 7, paso por paso:
 
 | Qué | Dónde |
 |---|---|
-| Decisiones (DEC-01 a DEC-110) y su historia | `documentos/DECISIONES.md` |
+| Decisiones (DEC-01 a DEC-112) y su historia | `documentos/DECISIONES.md` |
 | Plan de las sesiones 1 a 6 con su avance | `documentos/PLAN_CORRECCIONES.md` |
 | Pendientes después de la sesión 6 | `documentos/PENDIENTES_POST_SESION6.md` |
 | Cambios de la plataforma frente a la documentación (CD-01 a CD-75) | `documentos/CAMBIOS_A_DOCUMENTAR.md` |
