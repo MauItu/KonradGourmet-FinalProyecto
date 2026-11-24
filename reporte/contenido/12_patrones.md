@@ -20,7 +20,7 @@ El profesor pidió que en el nivel 4 del C4 se vea dónde va cada patrón. En la
 | Strategy | CalculadorKpi, con ProductoMayorDemanda, SucursalMayorDemanda y ProveedorMejoresPrecios | ms-analitica, tablero BAM | Cada KPI es un algoritmo intercambiable sobre los mismos hechos | Un KPI nuevo es una clase nueva |
 
 
-!figura 8 | figuras/fig08_4a_identidad.png | Composite y Factory Method en ms-identidad | Fragmento de la página 4a. Usuario «abstract» es el creador del Factory Method: cada rol implementa construirMenu() y devuelve un árbol ElementoMenu (Composite) con GrupoMenu y OpcionMenu. A la derecha, IniciarSesionService usa los puertos UsuarioRepositoryPort y CifradorPort, que implementan UsuarioJpaAdapter y BCryptCifradorAdapter (líneas punteadas de realización). | horizontal
+!figura 8 | figuras/fig08_4a_identidad.png | Composite y Factory Method en ms-identidad | Fragmento de la página 4a. Usuario «abstract» es el creador del Factory Method: cada rol implementa construirMenu() y devuelve un árbol ElementoMenu (Composite) con GrupoMenu y OpcionMenu. A la derecha, IniciarSesionService usa los puertos UsuarioRepositoryPort, CifradorPort y EmisorTokenPort, que implementan UsuarioJpaAdapter, BCryptCifradorAdapter y JwtEmisorAdapter (líneas punteadas de realización). | horizontal
 
 !figura 9 | figuras/fig09_4c_cotizaciones.png | Chain of Responsibility y Facade en ms-cotizaciones | Fragmento de la página 4c. ReglaValidacion enlaza ReglaRechazada, ReglaSospechosa y ReglaOpcionada (herencia con triángulo hueco). GenerarCotizacionFacade depende de los puertos de repositorio, precio sugerido, PDF, almacén y eventos. Cotizacion compone sus ItemCotizacion (rombo lleno) y se asocia al Proveedor y a su EstadoCotizacion. | horizontal
 
