@@ -3,7 +3,10 @@ import { Encabezado } from '../componentes/Encabezado';
 import { Icono } from '../componentes/Icono';
 import { Tarjeta } from '../componentes/Tarjeta';
 
-/** Una ruta que no está en el menú (por ejemplo, una dirección escrita a mano). */
+/**
+ * Una ruta del menú que no tiene página. No debería verse: Armazon manda cualquier dirección que no esté en el
+ * menú del rol (escrita a mano, por ejemplo) a la primera opción del menú (C7-16).
+ */
 export function NoExiste() {
   return (
     <>

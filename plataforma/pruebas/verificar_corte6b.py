@@ -141,7 +141,7 @@ for nombre, tipo, valor in (('inventario.stock-bajo', 'STOCK_BAJO', lambda e: (s
     bien = [e for e in evs if [(f[1], f[2], dec(f[3])) for f in hechos_de(e['correlacionId']) if f[0] == tipo].count(valor(e)) >= 1]
     ok(evs and len(bien) == len(evs), f'{nombre} → {tipo} ({len(bien)} de {len(evs)})')
 total_eventos = len({e['id'] for t in ('pedido.registrado', 'cotizacion.validada', 'inventario.stock-bajo', 'solicitud.registrada', 'orden.generada') for e in topico(t)})
-procesados = int(sql('ms_analitica', 'SELECT count(*) FROM evento_procesado')[0][0])
+procesados = int(sql('ms_analitica', "SELECT count(*) FROM evento_procesado WHERE consumidor = 'NegocioEventsListener'")[0][0])  # DEC-104: la clave es evento + consumidor
 ok(procesados == total_eventos, f'evento_procesado tiene cada evento de los 5 tópicos una vez ({procesados} de {total_eventos})')
 original = next(p for p in pedidos if p['numero'] == 'PED-0251') if any(p['numero'] == 'PED-0251' for p in pedidos) else pedidos[0]
 antes = len(hechos_de(original['correlacionId']))
