@@ -72,7 +72,7 @@ Observación sin hallazgo: `deLaSucursal()` de ms-menu lee los platos de la sucu
 |---|---|---|---|---|
 | C7-28 | Alta | La cifra de 1.254 sumaba dos corridas: la última usó `--sin-compilar` (JUnit 0) | Correr `probar_todo.sh` completo sobre HEAD | Corregido: corrida completa con compilación, 1.254 sin fallas (tabla de abajo); ningún texto cambia |
 | C7-29 | Media | §16 y §6.2 decían que la idempotencia evita correos repetidos; ms-notificaciones marca después de enviar | La fila de §16 y §6.2 dicen que el correo se marca justo después de enviarlo y que puede repetirse | Corregido (7f2ae84) |
-| C7-30 | Media | La §18 no nombra los mockups de las ventanas nuevas entre lo hecho con IA | Agregar «los mockups de las ventanas nuevas» (sin decir «capturas») | Pregunta para Mauricio |
+| C7-30 | Media | La §18 no nombra los mockups de las ventanas nuevas entre lo hecho con IA | Agregar los mockups a la lista (sin decir «capturas») | Corregido: DEC-107 (Mauricio): «los mockups», sin decir que son nuevos ni capturas |
 | C7-31 | Baja | README, `DemoArquitectura` y ESTADO citaban páginas del reporte original | Citar por sección | Corregido (código a28386f; documentos 4e317e4) |
 | C7-32 | Baja | La tabla 13 nombra `EnviosController` y el canal de alarmas, que no están entre las 195 clases | Señalarlos como infraestructura que no se dibuja | Corregido (df3154f) |
 | C7-33 | Baja | La tabla 8 no cubría Proveedores ni Promociones sugeridas | «V11 a V15 y Proveedores»; fila «Analítica: BAM y promociones» | Corregido (bf049c0) |
@@ -81,7 +81,7 @@ Observación sin hallazgo: `deLaSucursal()` de ms-menu lee los platos de la sucu
 | C7-36 | Baja | «inventario.stock-bajo» y «/api/ordenes-compra» se partían en el guion | `generar_reporte.py` une el guion de los nombres en minúscula (U+2060) | Corregido (b06ef8d; reporte 8d1e142, 70 páginas) |
 | C7-37 | Baja | El comentario de `PlatoRestController.consultar()` decía `?sucursal={id}` | `GET /api/platos (la sucursal sale del JWT)` | Corregido (código d933c7f) |
 
-Preguntas que deja: C7-30 (la §18 y los mockups), si la §1 nombra la plataforma como tercer entregable (el revisor recomienda dejarlo, por DEC-57) y DEC-106.
+Preguntas que dejó: C7-30 y si la §1 nombra la plataforma como tercer entregable; Mauricio las decidió en DEC-107 (la §1 la nombra, porque se muestra en la sustentación). Queda DEC-106.
 
 ## Pruebas
 
