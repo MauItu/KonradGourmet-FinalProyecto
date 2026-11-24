@@ -158,7 +158,7 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 | Diseño de arquitectura | **Sólido** | Microservicios + eventos + hexagonal, justificados contra los requerimientos no funcionales. Trazabilidad de las 23 ventanas y de las ocho que se agregaron (tablero BAM, promociones, proveedores y las cinco del administrador) |
 | Diagramas C4 y de clases | **Corregidos y al día con la plataforma** | 11 páginas; 195 clases en 4a–4e. Las sesiones 1 a 3 aplicaron los hallazgos del revisor; los cortes de la plataforma agregaron 4 clases (DEC-62 y DEC-67), los métodos de DEC-75, DEC-80 y DEC-85, los atributos de DEC-88 y DEC-89 y las notas «Infraestructura que no se dibuja» (DEC-79) |
 | Código Java (`src/`) | **Núcleo con lógica** | 195 clases con sus firmas y relaciones, que compilan con `javac --release 21 -Xlint:all`; los servicios Spring copian este núcleo al compilar (DEC-61). 400 verificaciones en 8 clases; 61 cuerpos «Pendiente de implementar», que en la plataforma resuelven los adaptadores reales de `servicios/` |
-| Plataforma (`stack-real`) | **Los 7 cortes hechos** | Los 11 microservicios con gateway, Eureka, Kafka, PostgreSQL (una base por servicio), Redis, almacén S3, Elasticsearch, correo y Nginx en Docker Compose, y la SPA en React con todas las ventanas; outbox con relé, consumidores idempotentes y límite de tasa en el gateway (DEC-104). `probar_todo.sh`: 1.254 comprobaciones sin fallas (400 del núcleo, 91 JUnit y 763 de los recorridos y verificadores de los cortes 3 a 7), también en un clon limpio |
+| Plataforma (`stack-real`) | **Los 7 cortes hechos** | Los 11 microservicios con gateway, Eureka, Kafka, PostgreSQL (una base por servicio), Redis, almacén S3, Elasticsearch, correo y Nginx en Docker Compose, y la SPA en React con todas las ventanas; outbox con relé, consumidores idempotentes y límite de tasa en el gateway (DEC-104). `probar_todo.sh`: 1.254 comprobaciones sin fallas (400 del núcleo, 91 JUnit y 763 de los recorridos y verificadores de los cortes 3 a 7), en una instancia limpia; la corrida del 7b, antes de las correcciones del 7c, pasó también en un clon limpio |
 | Versión en memoria | **Funciona** | `DemoArquitectura` recorre pedido, alarma de stock, SOL-031, COT-018/019/020 y OC-0012, y cubre las 7 salidas que promete el reporte (DEC-31). Reproduce +4,81 % → OPCIONADA |
 | Reporte | **v2 regenerado en el 7d** | `Reporte_Arquitectura_Konrad_Gourmet_v2` (69 págs.) con las correcciones de `CORRECCIONES_REPORTE.md` salvo las opcionales R-14, R-19, R-39 y R-53, sin hablar de límites de la demo (DEC-57), con 195 clases, todos los CD que lo tocan, la outbox, la idempotencia y el límite de tasa, las 1.254 comprobaciones, el diagrama de casos de uso (figura 7) y las figuras del `.drawio` vigente |
 | Historias de usuario y mockups | **Corregidos** | `STORY_MAPPING_CORREGIDO.md` (HU-07 reescrita, etiquetas, 5 sprints). Los mockups que faltaban o había que cambiar (M-01 a M-09, CD-01 a CD-28) están en `mockups_admin/` y `mockups_faltantes/`; M-07 no aplica (DEC-93) |
@@ -195,16 +195,16 @@ Cuentas del archivo actual (último cambio del `.drawio`: CD-26, 23-nov), en el 
 
 | # | Página | id | Origen | Cajas / flechas |
 |---|---|---|---|---|
-| 1 | 1 · Mapa integrado | p1 | Original, corregida en la sesión 2 y en los cortes de la plataforma | 324 / 163 |
+| 1 | 1 · Mapa integrado | p1 | Original, corregida en la sesión 2 y en los cortes de la plataforma (en el 7a, «Ventanas nuevas» con sus diez miniaturas) | 336 / 163 |
 | 2 | 2 · C4 Contexto | p2 | Original, corregida en la sesión 2 | 24 / 14 |
-| 3 | **3a · C4 Contenedores** | p9 | Nueva (6-nov), corregida en la sesión 2 y en los cortes | 61 / 52 |
+| 3 | **3a · C4 Contenedores** | p9 | Nueva (6-nov), corregida en la sesión 2 y en los cortes (en el 7c, el gateway con Redis para el límite de tasa) | 61 / 53 |
 | 4 | **3b · C4 Componentes · ms-cotizaciones** | p10 | Nueva (6-nov), corregida en la sesión 2 | 45 / 29 |
-| 5 | 4a · Código · compartido e identidad | p3 | Original, corregida en la fase 2a, la sesión 5 y los cortes 2, 5, 6a y 7a | 66 / 41 · 30 clases |
-| 6 | 4b · Código · pedidos, menú e inventario | p4 | Original, corregida en la fase 2a, la sesión 6 y el corte 3 | 90 / 50 · 41 clases |
+| 5 | 4a · Código · compartido e identidad | p3 | Original, corregida en la fase 2a, la sesión 5 y los cortes 2, 5, 6a, 7a y 7c | 66 / 41 · 30 clases |
+| 6 | 4b · Código · pedidos, menú e inventario | p4 | Original, corregida en la fase 2a, la sesión 6 y los cortes 3, 7a y 7c (`reactivar()`) | 90 / 50 · 41 clases |
 | 7 | 4c · Código · solicitudes y cotizaciones | p5 | Original, corregida en la fase 2a y los cortes 5 y 6b | 88 / 51 · 40 clases |
-| 8 | 4d · Código · órdenes y notificaciones | p6 | Original, corregida en la fase 2a, la sesión 5 y el corte 5 | 86 / 55 · 40 clases |
+| 8 | 4d · Código · órdenes y notificaciones | p6 | Original, corregida en la fase 2a, la sesión 5 y los cortes 5 y 7c (`nombreSucursal()`) | 86 / 55 · 40 clases |
 | 9 | 4e · Código · integración, administración y analítica | p7 | Original, corregida en la fase 2a, la sesión 3 y los cortes 6a y 6b | 91 / 55 · 44 clases |
-| 10 | 5 · Despliegue | p8 | Original, corregida en la sesión 2 y el corte 5 | 49 / 23 |
+| 10 | 5 · Despliegue | p8 | Original, corregida en la sesión 2 y los cortes 5 y 7c | 49 / 23 |
 | 11 | **6 · C4 Dinámico · recorrido de compra** | p11 | Nueva (7-nov), corregida en la sesión 2 | 89 / 105 |
 
 Las clases de 4a–4e suman **195**: las 191 de la sesión 1 más `EmisorTokenPort` y `JwtEmisorAdapter` (4a, DEC-62) y `AlmacenArchivosPort` y `AlmacenObjetosAdapter` de ms-menu (4b, DEC-67). Las ocho páginas originales ya **no** son idénticas a `…OriginalSinCorregir.drawio`: ese archivo es el punto de comparación para ver qué cambió.
