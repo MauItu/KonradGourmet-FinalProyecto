@@ -1933,7 +1933,7 @@ Se asumieron el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno cambi
 - **El estado de la demo.** Opciones: (a) **escogida:** repetir en kg-demo el ensayo de la guía 3 (`imagenes_plataforma.py`) con la carpeta de salida en la variable `SALIDA`, para no pisar las imágenes de la guía 3, y comprobar que los números coincidan con los suyos (PED-0252 a OC-0013); (b) ensayarlo otra vez desde el script de la guía 5, duplicando el recorrido; (c) regenerar las imágenes de la guía 3.
 - **Nombre:** `guia_externos.html`.
 
-**Qué implica:** `guias_sustentacion/fuente/imagenes_externos.py` (solo en kg-demo; al terminar se restablece con `restablecer_demo.sh`) deja en `img/externos/` las imágenes y la salida real de cada consulta, y `fuente/generar_guia_externos.py` arma la guía leyendo además la configuración (mappings de WireMock, compose, adaptadores) y se niega a generar si algo no cuadra. El código de la plataforma y el compose no cambian.
+**Qué implica:** `guias_sustentacion/fuente/imagenes_externos.py` (solo en kg-demo; al terminar se restablece con `restablecer_demo.sh`) deja en `img/externos/` las imágenes y la salida real de cada consulta, y `fuente/generar_guia_externos.py` arma la guía leyendo además la configuración (mappings de WireMock, compose, adaptadores) y se niega a generar si algo no cuadra. El código de la plataforma y el compose no cambian. Al preparar la guía se vio que `restablecer_demo.sh` no vaciaba Redis (la imagen guarda `/data` en un volumen anónimo que sobrevive a `stop`), así que la caché de precios de un ensayo seguía en el siguiente y la primera cotización no siempre consultaba al Ministerio; desde aquí el script quita el contenedor de Redis con ese volumen y `levantar.sh` lo vuelve a crear vacío.
 
 ---
 
