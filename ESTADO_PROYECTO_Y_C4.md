@@ -155,7 +155,7 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 
 | Área | Estado | Detalle |
 |---|---|---|
-| Diseño de arquitectura | **Sólido** | Microservicios + eventos + hexagonal, justificados contra los requerimientos no funcionales. Trazabilidad de las 23 ventanas y de las ocho que se agregaron (tablero BAM, promociones, proveedores y las cinco del administrador) |
+| Diseño de arquitectura | **Sólido** | Microservicios + eventos + hexagonal, justificados contra los requerimientos no funcionales. Trazabilidad de las 23 ventanas y de las otras diez (tablero BAM, promociones sugeridas, proveedores, editar y desactivar plato, reenviar cotización y las cinco del administrador) |
 | Diagramas C4 y de clases | **Corregidos y al día con la plataforma** | 11 páginas; 195 clases en 4a–4e. Las sesiones 1 a 3 aplicaron los hallazgos del revisor; los cortes de la plataforma agregaron 4 clases (DEC-62 y DEC-67), los métodos de DEC-75, DEC-80 y DEC-85, los atributos de DEC-88 y DEC-89 y las notas «Infraestructura que no se dibuja» (DEC-79) |
 | Código Java (`src/`) | **Núcleo con lógica** | 195 clases con sus firmas y relaciones, que compilan con `javac --release 21 -Xlint:all`; los servicios Spring copian este núcleo al compilar (DEC-61). 400 verificaciones en 8 clases; 61 cuerpos «Pendiente de implementar», que en la plataforma resuelven los adaptadores reales de `servicios/` |
 | Plataforma (`stack-real`) | **Los 7 cortes hechos** | Los 11 microservicios con gateway, Eureka, Kafka, PostgreSQL (una base por servicio), Redis, almacén S3, Elasticsearch, correo y Nginx en Docker Compose, y la SPA en React con todas las ventanas; outbox con relé, consumidores idempotentes y límite de tasa en el gateway (DEC-104). `probar_todo.sh`: 1.254 comprobaciones sin fallas (400 del núcleo, 91 JUnit y 763 de los recorridos y verificadores de los cortes 3 a 7), en una instancia limpia; la corrida del 7b, antes de las correcciones del 7c, pasó también en un clon limpio |
@@ -195,9 +195,9 @@ Cuentas del archivo actual (último cambio del `.drawio`: CD-26, 23-nov), en el 
 
 | # | Página | id | Origen | Cajas / flechas |
 |---|---|---|---|---|
-| 1 | 1 · Mapa integrado | p1 | Original, corregida en la sesión 2 y en los cortes de la plataforma (en el 7a, «Ventanas nuevas» con sus diez miniaturas) | 336 / 163 |
+| 1 | 1 · Mapa integrado | p1 | Original, corregida en la sesión 2 y en los cortes de la plataforma (en el 7a, el recuadro de las otras diez ventanas con sus miniaturas, titulado «Otras ventanas» desde DEC-110) | 336 / 163 |
 | 2 | 2 · C4 Contexto | p2 | Original, corregida en la sesión 2 | 24 / 14 |
-| 3 | **3a · C4 Contenedores** | p9 | Nueva (6-nov), corregida en la sesión 2 y en los cortes (en el 7c, el gateway con Redis para el límite de tasa) | 61 / 53 |
+| 3 | **3a · C4 Contenedores** | p9 | Nueva (6-nov), corregida en la sesión 2 y en los cortes (en el 7c, el gateway con Redis para el límite de tasa; con DEC-110, «Las 33 ventanas» en la SPA) | 61 / 53 |
 | 4 | **3b · C4 Componentes · ms-cotizaciones** | p10 | Nueva (6-nov), corregida en la sesión 2 | 45 / 29 |
 | 5 | 4a · Código · compartido e identidad | p3 | Original, corregida en la fase 2a, la sesión 5 y los cortes 2, 5, 6a, 7a y 7c | 66 / 41 · 30 clases |
 | 6 | 4b · Código · pedidos, menú e inventario | p4 | Original, corregida en la fase 2a, la sesión 6 y los cortes 3, 7a y 7c (`reactivar()`) | 90 / 50 · 41 clases |
