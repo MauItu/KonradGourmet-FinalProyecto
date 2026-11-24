@@ -1,4 +1,4 @@
-// Formatos de la interfaz en memoria de Codex (app.js), para que las cifras se vean igual.
+// Formatos de la interfaz en memoria (app.js), para que las cifras se vean igual.
 const NUM0 = new Intl.NumberFormat('es-CO', { maximumFractionDigits: 0 });
 const NUM2 = new Intl.NumberFormat('es-CO', { maximumFractionDigits: 2 });
 

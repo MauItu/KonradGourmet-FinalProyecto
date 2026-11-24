@@ -4,7 +4,7 @@ import { ESTADOS, fecha, hoyISO, money, num, pct } from './formato';
 import { Icono } from './Icono';
 import { Cerrar, Insignia, Modal, Tabla, VacioDetalle } from './Piezas';
 
-// Piezas de las cotizaciones (ms-cotizaciones), con el marcado de app.js para que valgan los estilos de Codex.
+// Piezas de las cotizaciones (ms-cotizaciones), con el marcado de app.js para que valgan los estilos de la primera interfaz.
 
 /** ENVIADA sin todos los precios del proveedor: falta registrar valores (V16 «por registrar»). */
 export const sinPrecios = (c: Cotizacion) => c.items.some((i) => i.precioProveedor == null);

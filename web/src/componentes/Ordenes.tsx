@@ -5,7 +5,7 @@ import { fecha, money, num } from './formato';
 import { Icono } from './Icono';
 import { Cerrar, Insignia, Modal, Tabla, VacioDetalle } from './Piezas';
 
-// Piezas de las órdenes de compra (ms-ordenes), con el marcado de app.js para que valgan los estilos de Codex.
+// Piezas de las órdenes de compra (ms-ordenes), con el marcado de app.js para que valgan los estilos de la primera interfaz.
 
 /** «Ver PDF» o «Descargar» de V23 (DEC-75): el PDF de la orden sale del almacén de objetos, pedido con el token. */
 export function abrirPdfOrden(numero: string, descargar: boolean, avisar: (m: string, error?: boolean) => void) {
