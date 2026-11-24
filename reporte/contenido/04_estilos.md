@@ -12,7 +12,7 @@ En las exposiciones de clase se presentaron quince estilos, mecanismos y compone
 | Limpia (Clean Architecture) | Absorbida en la hexagonal | Persigue lo mismo: dependencias hacia el dominio (Martin, 2017). Aplicar ambas duplicaría capas; se conserva su regla de dependencia y la separación entre casos de uso y entidades. |
 | Capas (monolito) | Descartada como estilo global | Un solo despliegue obliga a escalar todo para atender el pico de pedidos, y una falla detiene a los cuatro roles. La idea de capas sigue viva dentro de cada hexágono. |
 | Cliente-servidor | Apoyo | La SPA es el cliente y el API Gateway el servidor; es la relación natural de una aplicación web responsive. |
-| REST | Apoyo | Contrato síncrono para las 23 ventanas y para las dos consultas entre servicios que necesitan respuesta inmediata. |
+| REST | Apoyo | Contrato síncrono para las 33 ventanas y para las dos consultas entre servicios que necesitan respuesta inmediata. |
 | SOA con SOAP | Apoyo en la frontera | El requerimiento de integración obliga a exponer servicios por SOAP y el Ministerio publica un servicio web. Se limita a ms-integracion para que el resto del sistema no dependa de SOAP. |
 | ESB central | Descartado | Un bus de integración central orquestaría a todos los servicios y se volvería cuello de botella y punto único de falla, riesgo que señaló el propio grupo expositor (Hohpe y Woolf, 2003). Kafka da el desacople sin lógica central. |
 | Peer-to-peer (P2P) | Descartado | No hay pares equivalentes: pedidos, inventario y compras deben estar centralizados, auditados y protegidos por roles. |
