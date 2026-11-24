@@ -30,7 +30,7 @@ public class PlatoRestController {
         return casoDeUso.registrar(p);
     }
 
-    // GET /api/platos?sucursal={id}: también los desactivados
+    // GET /api/platos (la sucursal sale del JWT): también los desactivados
     public List<Plato> consultar(Long sucursalId) {
         return casoDeUso.consultar(sucursalId);
     }
