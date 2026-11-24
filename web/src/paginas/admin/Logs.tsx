@@ -7,7 +7,7 @@ import { Tarjeta } from '../../componentes/Tarjeta';
 import { fecha, plural, SERVICIOS } from '../../componentes/formato';
 
 /**
- * Logs de errores (HU-22, sin mockup): los errores que los servicios envían a Elasticsearch (DEC-84), con servicio,
+ * Logs de errores (HU-22; mockup en mockups_admin/04_logs_errores): los errores que los servicios envían a Elasticsearch (DEC-84), con servicio,
  * mensaje, fecha y hora, los más recientes primero (GET /api/admin/logs, ms-administracion). El servicio es
  * opcional: sin él salen todos. Es de solo lectura y solo la ve el administrador.
  */

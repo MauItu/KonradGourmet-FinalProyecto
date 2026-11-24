@@ -14,7 +14,7 @@ const LECTURA = [
 ];
 
 /**
- * Tablero BAM (HU-18, sin mockup; CU-14): los tres indicadores del director comercial con su valor y su gráfica
+ * Tablero BAM (HU-18, CU-14; mockup en mockups_faltantes/tablero_bam): los tres indicadores del director comercial con su valor y su gráfica
  * (GET /api/bam/kpis, ms-analitica). Sin fechas, la demanda es del último mes y el proveedor del último año; con
  * fechas, los tres usan el rango; la sucursal filtra solo la demanda (PD-03). Cada tarjeta dice el periodo aplicado.
  */

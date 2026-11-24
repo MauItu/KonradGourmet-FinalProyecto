@@ -7,7 +7,7 @@ import { Tarjeta } from '../../componentes/Tarjeta';
 import { fecha, hoyISO, plural } from '../../componentes/formato';
 
 /**
- * Promociones sugeridas (HU-19, sin mockup; CU-06): el histórico de lo que el análisis semanal sugiere al jefe de
+ * Promociones sugeridas (HU-19, CU-06; mockup en mockups_faltantes/promociones_sugeridas): el histórico de lo que el análisis semanal sugiere al jefe de
  * cocina —tendencias en redes y los 3 platos más pedidos de la semana (PD-04)—, con producto, motivo y vigencia, y
  * «Aceptar» o «Descartar» mientras esté sugerida (GET y PATCH /api/bam/promociones, ms-analitica). Sin fechas, todo
  * el histórico; con fechas, las sugerencias vigentes en algún día del rango.

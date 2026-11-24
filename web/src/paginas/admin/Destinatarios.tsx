@@ -7,7 +7,7 @@ import { Tarjeta } from '../../componentes/Tarjeta';
 import { SUCURSALES } from '../../componentes/formato';
 
 /**
- * Destinatarios de alertas (HU-20 (2), DEC-13, sin mockup): los correos de los jefes de cocina de cada sucursal, que
+ * Destinatarios de alertas (HU-20 (2), DEC-13; mockup en mockups_admin/06_destinatarios): los correos de los jefes de cocina de cada sucursal, que
  * reciben la alarma y el correo de stock bajo (y las promociones). Se consultan por sucursal y se agregan (GET y
  * POST /api/notificaciones/destinatarios, ms-notificaciones); cada registro queda en la auditoría.
  */

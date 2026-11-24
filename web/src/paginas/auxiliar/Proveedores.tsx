@@ -19,7 +19,7 @@ const datos = (f: Formulario): DatosProveedor => ({
 });
 
 /**
- * Proveedores (HU-15, sin mockup; con las piezas de V12): la lista con su estado y, al lado, el formulario
+ * Proveedores (HU-15, con las piezas de V12; mockup en mockups_faltantes/proveedores): la lista con su estado y, al lado, el formulario
  * para registrar uno nuevo o editar el escogido (POST y PUT /api/proveedores, ms-cotizaciones). Inactivar
  * no borra: el proveedor deja de salir en el desplegable de V13, y sus cotizaciones viejas lo siguen
  * nombrando. El NIT no se puede repetir y el correo debe tener forma de correo (las reglas son del núcleo).

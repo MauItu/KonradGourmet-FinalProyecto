@@ -11,7 +11,7 @@ const VACIO = { nombre: '', correo: '', rol: 'MESERO' as Rol, sucursalId: 1, cla
 type Registrado = { id: number; nombre: string; correo: string; rol: Rol; sucursalId: number };
 
 /**
- * Usuarios (CU-19, sin mockup): el administrador registra un usuario con un rol y una sucursal (POST /api/usuarios,
+ * Usuarios (CU-19; mockup en mockups_admin/05_usuarios): el administrador registra un usuario con un rol y una sucursal (POST /api/usuarios,
  * ms-identidad). El servicio crea la subclase del rol, aplica la política de contraseña, guarda solo el hash y deja
  * la auditoría. Los seis roles son fijos (PD-06). Al lado, los usuarios registrados en esta visita.
  */

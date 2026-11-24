@@ -18,7 +18,7 @@ const leerArchivo = (archivo: File) => new Promise<string>((listo, falla) => {
 });
 
 /**
- * Parámetros y tema (HU-20, sin mockup): a la izquierda la imagen corporativa (nombre, color principal y logo, con
+ * Parámetros y tema (HU-20; mockup en mockups_admin/02_parametros_tema): a la izquierda la imagen corporativa (nombre, color principal y logo, con
  * su vista previa); a la derecha los parámetros generales, que se crean o se cambian uno a uno (PUT
  * /api/admin/parametros/{clave}, ms-administracion). Cada cambio queda en la auditoría a nombre del administrador y
  * la SPA lo toma al iniciar sesión, sin redesplegar. Las listas maestras no se mantienen aquí (supuesto S10).

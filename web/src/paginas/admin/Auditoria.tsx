@@ -7,7 +7,7 @@ import { Tarjeta } from '../../componentes/Tarjeta';
 import { fecha, hoyISO, plural } from '../../componentes/formato';
 
 /**
- * Auditoría (HU-21, sin mockup): los movimientos de todos los servicios con acción, usuario, fecha y hora, en un
+ * Auditoría (HU-21; mockup en mockups_admin/03_auditoria): los movimientos de todos los servicios con acción, usuario, fecha y hora, en un
  * rango de fechas obligatorio (PD-07; GET /api/admin/auditoria, ms-administracion). Abre con los últimos 7 días.
  * Es de solo lectura y solo la ve el administrador.
  */
