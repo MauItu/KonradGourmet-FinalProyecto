@@ -207,11 +207,12 @@ Límites que conviene conocer:
   (DEC-46). Una alerta atendida por una solicitud sigue atendida aunque el stock siga bajando.
 - La diferencia porcentual se redondea a 2 decimales antes de compararla con los límites: +25,004 % se ve y se
   trata como +25,00 % (OPCIONADA).
-- Los consumidores no descartan los eventos repetidos (la nota de `EventoDominio` habla de guardar los id
-  procesados): un `orden.generada` que llega dos veces manda otro correo al proveedor.
+- En la versión en memoria, el bus entrega cada evento una sola vez, así que los listeners no guardan los id
+  procesados. En la plataforma, Kafka puede entregar un evento dos veces y cada consumidor descarta los repetidos
+  con `EventosProcesados`, como dice la nota de `EventoDominio` (DEC-104).
 - «Mesa activa» se valida con la `Mesa` que llega en el pedido, no con la del repositorio.
-- `NotificacionService.registrarDestinatario()` guarda el correo del jefe de cocina, pero todavía no publica
-  `auditoria.evento`; en el sistema real ese registro también se audita (CU-15, hallazgo N5).
+- `NotificacionService.registrarDestinatario()` guarda el correo del jefe de cocina y publica `auditoria.evento`
+  (CU-15, hallazgo N5); `PruebasAdministracion` lo comprueba.
 - `completar()` acepta una solicitud PENDIENTE: una orden sobre una cotización que cubrió solo parte de los
   productos de una solicitud completa igual a todas las de la cotización (DEC-46).
 
