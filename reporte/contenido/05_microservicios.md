@@ -1,4 +1,4 @@
-<!-- §5. Correcciones: R-15, R-16, R-17 y R-20. R-18 ya es cierto. R-19 es opcional y no se aplica. -->
+<!-- §5. Correcciones: R-15, R-16, R-17 y R-20; en el 7d, CD-60 (ventanas nuevas en la tabla 5) y el límite de tasa (DEC-104). R-18 ya es cierto. R-19 es opcional y no se aplica. -->
 # 5. Microservicios
 
 La primera arquitectura define cómo se parte y se despliega el sistema. Vive en el nivel 2 del modelo C4 (contenedores) y responde a los requerimientos de desempeño, disponibilidad y almacenamiento (Newman, 2021).
@@ -20,16 +20,16 @@ El gateway enruta 13 prefijos a los once servicios: ms-identidad y ms-cotizacion
 !tabla 5 | Los once microservicios | 3.5,4.2,2.9,3.6
 | Servicio | Responsabilidad | Ventanas | Ruta en el gateway |
 |---|---|---|---|
-| ms-identidad | OAuth 2.0 / OIDC, usuarios, roles, permisos y menú por rol; alta de usuarios por el administrador | V01 | /api/auth/\*\* y /api/usuarios/\*\* |
+| ms-identidad | OAuth 2.0 / OIDC, usuarios, roles, permisos y menú por rol; alta de usuarios por el administrador | V01 y Usuarios | /api/auth/\*\* y /api/usuarios/\*\* |
 | ms-pedidos | Pedidos por mesa; escala horizontal en horas pico | V02 a V04 | /api/pedidos/\*\* |
-| ms-menu | Platos, recetas, categorías y productos | V06 | /api/platos/\*\* |
+| ms-menu | Platos, recetas, categorías, productos e imágenes de los platos | V06 (con editar, desactivar y activar) | /api/platos/\*\* |
 | ms-inventario | Existencias por sucursal, descuento diario y umbral del 25 % | V05 y V07 | /api/inventario/\*\* |
 | ms-solicitudes | Solicitudes de alimentos y sus estados | V08 a V12 | /api/solicitudes/\*\* |
-| ms-cotizaciones | Solicitud de cotización, PDF, registro de valores y validación; proveedores (HU-15) | V13 a V20 | /api/cotizaciones/\*\* y /api/proveedores/\*\* |
+| ms-cotizaciones | Solicitud de cotización, PDF, registro de valores y validación; proveedores (HU-15) | V13 a V20 y Proveedores | /api/cotizaciones/\*\* y /api/proveedores/\*\* |
 | ms-ordenes | Órdenes de compra desde cotizaciones OPCIONADAS, y su PDF | V21 a V23 | /api/ordenes-compra/\*\* |
-| ms-administracion | Parametrización, imagen corporativa, auditoría y logs | Parametrización y auditoría (sin mockup) | /api/admin/\*\* |
-| ms-analitica | Tablero BAM (KPI), detección de tendencias y promociones sugeridas (HU-19) | Tablero BAM (sin mockup) | /api/bam/\*\* |
-| ms-notificaciones | Correos certificados con sello de tiempo y alarmas en la app | Correos de V09, V14 y V22; alarma de V05 | /api/notificaciones/\*\* |
+| ms-administracion | Parametrización, imagen corporativa, auditoría y logs | Parámetros y tema, Auditoría y Logs de errores | /api/admin/\*\* |
+| ms-analitica | Tablero BAM (KPI), detección de tendencias y promociones sugeridas (HU-19) | Tablero BAM y Promociones sugeridas | /api/bam/\*\* |
+| ms-notificaciones | Correos certificados con sello de tiempo y alarmas en la app | Correos de V09, V14 y V22; alarma de V05; Destinatarios de alertas | /api/notificaciones/\*\* |
 | ms-integracion | Frontera SOA: consume el servicio web del Ministerio y expone servicios SOAP | Precio estándar en V13 | /api/integracion/\*\* |
 
 ## 5.4 Ventajas

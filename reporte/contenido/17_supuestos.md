@@ -1,4 +1,4 @@
-<!-- §17. Correcciones: R-57 (S5), R-61 (S9), R-64 (S10), R-65 (S11) y R-66 (S12). -->
+<!-- §17. Correcciones: R-57 (S5), R-61 (S9), R-64 (S10), R-65 (S11) y R-66 (S12); en el 7d, CD-60 (S5) y CD-34 (S11). -->
 # 17. Supuestos
 
 El enunciado pide declarar y sustentar los supuestos. La tabla 15 reúne los que tomó el diseño.
@@ -10,7 +10,7 @@ El enunciado pide declarar y sustentar los supuestos. La tabla 15 reúne los que
 | S2 | El proveedor responde la cotización por correo, fuera del sistema, y el director digita los valores | Lo dice el enunciado y lo muestra la ventana 18 |
 | S3 | El precio estándar del Ministerio cambia como mucho una vez al día | Permite la caché del Proxy sin afectar la validación |
 | S4 | El descuento de inventario se consolida una vez al día, aunque el consumo se acumula en línea con pedido.registrado | El enunciado pide una verificación diaria; acumular en línea evita recalcular todo al cierre |
-| S5 | El director comercial y el administrador no tienen mockup; sus servicios y rutas quedan diseñados, incluida el alta de usuarios por el administrador (POST /api/usuarios). Tampoco tienen mockup el registro de proveedores (HU-15, /api/proveedores) ni el histórico de promociones sugeridas (HU-19, /api/bam/promociones), ni la edición y desactivación de platos, el reenvío de una cotización y los destinatarios de las alertas, que también aparecen en el recuadro «Sin mockup» del mapa. Los seis roles son fijos y el administrador asigna uno al registrar cada usuario | Sus funciones están en el enunciado pero no en el prototipo entregado |
+| S5 | Las funciones que el prototipo de 23 ventanas no dibujaba tienen ventanas nuevas, con su mockup en el mismo estilo: el tablero BAM del director comercial; parámetros y tema, auditoría, logs de errores, usuarios (el alta de usuarios, POST /api/usuarios) y destinatarios de alertas, del administrador; proveedores (HU-15); promociones sugeridas (HU-19); editar, desactivar y activar un plato, y reenviar una cotización. Están en el recuadro «Ventanas nuevas» del mapa y en la tabla 13. Los seis roles son fijos y el administrador asigna uno al registrar cada usuario | Sus funciones están en el enunciado y en las historias de usuario, pero no en el prototipo original |
 | S6 | El despliegue es en nube con Kubernetes administrado; el proveedor de nube se decide después | Decidir la tecnología lo más tarde posible, como pidió el profesor |
 | S7 | La certificación y el sello de tiempo los presta un servicio externo de correo certificado | El sistema agrega los encabezados y el sello con el Decorator, pero la certificación legal la da un tercero |
 | S8 | Las réplicas mínimas y máximas del despliegue son valores iniciales | Deben validarse con pruebas de carga dentro del plan de pruebas |
