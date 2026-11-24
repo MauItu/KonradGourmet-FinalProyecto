@@ -30,7 +30,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-97:** Mauricio pidió el 2026-11-23 «la que incluya menos modificaciones»; Claude comparó las dos y aplicó la de la web.
 - **DEC-98:** la decidió Mauricio el 2026-11-23, durante el 7b, siguiendo la recomendación de Claude. **DEC-99** la asumió Claude el mismo día y la confirmó Mauricio al aprobar el 7b. **DEC-100** la decidió Mauricio el mismo día, siguiendo la recomendación de Claude, y se aplica en el 7c. El lugar de la figura de casos de uso (DEC-95, punto 3) lo confirmó Mauricio el mismo día.
 - **DEC-101 a DEC-104:** las decidió Mauricio el 2026-11-23, al revisar la validación del 7c (DEC-101 a DEC-103 siguiendo la recomendación del revisor o de Claude; en DEC-104 escogió implementar todo, que no era la recomendada). **DEC-105** la asumió Claude el mismo día y la confirmó Mauricio. **DEC-106** la asumió Claude el 2026-11-23, en el 7d, y la confirmó Mauricio el mismo día, con un ajuste en el punto de la tabla 13. **DEC-107** la decidió Mauricio el mismo día, al revisar el reporte del 7d.
-- **DEC-108:** la decidió Mauricio el 2026-11-23, al pedir los guiones de la sustentación (no siguió el plan G1–G5 que propuso Claude). **DEC-109** la asumió Claude el mismo día, por confirmar.
+- **DEC-108:** la decidió Mauricio el 2026-11-23, al pedir los guiones de la sustentación (no siguió el plan G1–G5 que propuso Claude). **DEC-109** la asumió Claude el mismo día, por confirmar. **DEC-110** la decidió Mauricio el 2026-11-24 («corrije»), al revisar la guía de los diagramas.
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -155,6 +155,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-107 | §18 y §1 del reporte (C7-30) | La §18 suma «los mockups» a la lista de lo corregido, sin decir que son nuevos ni capturas; la §1 nombra la plataforma como tercer entregable, porque se muestra en la sustentación | Decidida por Mauricio (2026-11-23) |
 | DEC-108 | Guiones de la sustentación | Cinco guías en HTML: los diagramas (numerados, con su imagen, qué es cada parte y un guion sugerido), el código y sus arquitecturas, la plataforma (con un guion sugerido), los microservicios y lo que está fuera de la plataforma (correo y similares); después, la revisión del arquitecto-revisor | Decidida por Mauricio (2026-11-23) |
 | DEC-109 | Detalles de las guías | En `documentos/guias_sustentacion/`, con su generador; los números de los diagramas se ponen en una copia temporal del `.drawio` (el original no cambia); la página 6 y los casos de uso usan sus propios números; guion sugerido sin reparto de oradores ni duración fija; una guía por mensaje | Asumida por Claude (2026-11-23), por confirmar |
+| DEC-110 | «Ventanas nuevas» y «23 ventanas» | La página 1 dice «Otras ventanas»; la 3a y el reporte (§4 y §12) dicen 33 ventanas donde hablan de todas; las figuras y el reporte se regeneran | Decidida por Mauricio (2026-11-24) |
 
 ---
 
@@ -1886,6 +1887,17 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 - **El guion sugerido.** Opciones: (a) con oradores y minutos, que Mauricio no fijó; (b) **escogida:** en primera persona del plural, en el orden en que conviene mostrar cada parte, con una duración aproximada por diagrama y sin repartir oradores; cada uno se lee en voz alta en uno o dos minutos.
 - **La guía de lo que está fuera de la plataforma** cubre lo que en el equipo reemplaza a un sistema externo (Mailpit por el servidor de correo certificado, WireMock por el Ministerio de Comercio y por las redes sociales) y las consolas de apoyo que se pueden abrir en la sustentación (Eureka, `/plataforma/`, el almacén de objetos, Elasticsearch). Opciones: (a) no decir que son simulados, por DEC-57; (b) **escogida:** decirlo en la guía, porque las cinco guías son material del equipo para preparar la sustentación, no documentación entregable, y en pantalla se ve Mailpit; el guion sugerido lo presenta como el entorno local que reemplaza al sistema real, sin hablar de límites.
 - **Contenido.** Sale del `.drawio`, del reporte v2 y de los casos de uso vigentes, con las mismas cifras. Las guías siguen las reglas de la entrega: no mencionan la IA, no dicen que los mockups de `mockups_faltantes/` son capturas ni llaman «nuevas» a las ventanas que no estaban entre las 23.
+
+## DEC-110 · «Ventanas nuevas» y «23 ventanas» en el `.drawio` (guía de los diagramas)
+
+**Contexto.** Al armar la guía de los diagramas (G-01) se vio que el `.drawio` contradice dos reglas o cifras vigentes: el recuadro de la página 1 se titula «Ventanas nuevas» (DEC-106 pidió no llamarlas nuevas), y la caja de la SPA de la página 3a dice «Las 23 ventanas», aunque la SPA tiene 33 (las 23 del prototipo y otras diez). Revisando el resto, el reporte dice «las 23 ventanas» en dos tablas donde se refiere a todas (§4, REST; §12, tabla 11, Composite), y `ESTADO_PROYECTO_Y_C4.md` dice que se agregaron ocho ventanas (son diez).
+
+**Opciones:**
+- **A. Dejarlo** y que la guía lo rodee.
+- **B. Corregir solo el `.drawio`.**
+- **C. Corregir el `.drawio` y los textos que dicen 23 donde son 33.** ✅ **Escogida por Mauricio el 2026-11-24** («corrije»; el alcance de C lo propuso Claude al aplicarla).
+
+**Qué implica:** la página 1 dice «Otras ventanas · jefe de cocina, compras, director comercial y administrador»; la 3a, «Las 33 ventanas, responsive para web y móvil»; el reporte, «las 33 ventanas» en la §4 y en la tabla 11. Donde el reporte habla del prototipo («las 23 ventanas del prototipo», S5, §13) no cambia, porque ahí 23 es correcto. Se reexportan las figuras que salen de esas páginas (1, 2 y 13), se regenera el reporte y la guía de los diagramas, y se anota en `CAMBIOS_A_DOCUMENTAR.md` (CD-74 y CD-75).
 
 ---
 
