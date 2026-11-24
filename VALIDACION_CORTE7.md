@@ -27,7 +27,7 @@ Mauricio decidió los cuatro hallazgos que lo pedían (DEC-101 a DEC-104); los d
 | C7-15 | Baja | DEC-100: si el nombre del producto no está en el catálogo y el jefe no tiene solicitudes, V08 precarga la solicitud de ejemplo | No precargar cuando viene `nombreProducto` | Corregido (código 5c250f5) |
 | C7-16 | Baja | Con una URL desconocida, la SPA muestra «se construye en el corte undefined»; `pantallas.ts` aún dice «sin mockup» | «La ventana no existe» con un enlace a Inicio; quitar los datos viejos de `pantallas.ts` | Corregido (código 1eb658e y c96c8ff: una dirección fuera del menú lleva a la primera opción del rol) |
 | C7-17 | Baja | V11 pagina cada 6 filas; HU-06 (4) y CU-07 dicen 25 | **DEC-103 (Mauricio):** páginas de 25 | Corregido: DEC-103 (código 4408638) |
-| C7-18 | Baja | `README.md` dice 398 verificaciones (son 399); `ESTADO_PROYECTO_Y_C4.md` dice «falta el corte 7» y D5 «Sin mockup» | Se corrigen en el 7d | Para el 7d |
+| C7-18 | Baja | `README.md` dice 398 verificaciones (son 399); `ESTADO_PROYECTO_Y_C4.md` dice «falta el corte 7» y D5 «Sin mockup» | Se corrigen en el 7d | Corregido en el 7d (código 4eaff2c: 400 verificaciones; documentos 72e6da1) |
 
 Sin hallazgo: las claves de las bases y de S3 fijas en `application.yml` y en el compose (se aceptan en local) y `/plataforma/registro` y `/plataforma/rutas` sin token (solo en local).
 
@@ -37,7 +37,7 @@ Sin hallazgo: las claves de las bases y de S3 fijas en `application.yml` y en el
 
 ## CD pendientes
 
-- Para el 7d (reporte): CD-02, 08, 10, 12, 14, 15, 23, 33, 34, 50, 55 y 60. Ninguno quedó pendiente fuera del reporte.
+- Para el 7d (reporte): CD-02, 08, 10, 12, 14, 15, 23, 33, 34, 50, 55 y 60. Ninguno quedó pendiente fuera del reporte. Aplicados al regenerar el reporte en el 7d, con CD-62 y CD-63 (tabla 13) y CD-70 a CD-73.
 - Nuevos por esta revisión: `reactivar()` (C7-4), las rutas de C7-8, el «No aplica» de los accesos de V01 y lo que cambien DEC-102 y DEC-104.
 
 ## Reglas de la entrega
@@ -58,7 +58,7 @@ Sin hallazgo: las claves de las bases y de S3 fijas en `application.yml` y en el
 | C7-22 | Baja | `AuditoriaJpaAdapter` atrapaba la violación del índice dentro de la transacción | Se quita el `catch`: la transacción se deshace y Kafka reintenta | Corregido (código 94774ec) |
 | C7-23 | Baja | El comentario de `NotificacionListeners.CONSUMIDOR` decía que `ReprocesoColaErrores` usa el mismo nombre | Comentario corregido | Corregido (código 13d7719) |
 | C7-24 | Baja | Comentarios de la SPA con «sin mockup» | Nombran la carpeta de su mockup | Corregido (código 287db28) |
-| C7-25 | Baja | `README.md` dice que los consumidores no descartan repetidos y que `registrarDestinatario()` no audita | Se corrige con C7-18 | Para el 7d |
+| C7-25 | Baja | `README.md` dice que los consumidores no descartan repetidos y que `registrarDestinatario()` no audita | Se corrige con C7-18 | Corregido en el 7d (código 668f587) |
 | C7-26 | Baja | La copia vieja de los casos de uso en la raíz de `FinalProyecto/` cita «el código del 8 de noviembre» y enlaza a claude.ai | Moverla a `archivo_desactualizado/` (recomendado) o dejarla y avisar al equipo | Movida a `FinalProyecto/archivo_desactualizado/` (Mauricio, 2026-11-23; fuera de git) |
 | C7-27 | Baja | La transacción de `generar` (cotizaciones) abarca las llamadas remotas; si se deshace, el PDF queda huérfano en S3 | Aceptarlo (recomendado) o partir la fachada, que cambia la 4c | Aceptado (Mauricio, 2026-11-23): no cambia nada |
 
