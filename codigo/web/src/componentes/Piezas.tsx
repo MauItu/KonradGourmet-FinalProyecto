@@ -3,7 +3,7 @@ import { platos } from '../api/servicios';
 import { Icono } from './Icono';
 import { EMOJI, ESTADOS } from './formato';
 
-// Piezas de las ventanas, con el mismo marcado de app.js para que valgan los estilos de Codex.
+// Piezas de las ventanas, con el mismo marcado de app.js para que valgan los estilos de la primera interfaz.
 
 export function Kpi({ icono, valor, etiqueta, tono = '' }: { icono: string; valor: ReactNode; etiqueta: string; tono?: string }) {
   return (
@@ -92,7 +92,7 @@ function urlImagen(id: number): Promise<string | null> {
 
 /**
  * La miniatura de un plato o insumo: la foto si el plato tiene (DEC-67) y si no el emoji, como en la
- * interfaz de Codex. Con platoId sin «tiene», pregunta al servicio (el mesero no sabe cuál tiene foto).
+ * primera interfaz web. Con platoId sin «tiene», pregunta al servicio (el mesero no sabe cuál tiene foto).
  */
 export function Miniatura({ nombre, clase = '', platoId, tiene, version = 0 }: { nombre: string; clase?: string; platoId?: number; tiene?: boolean; version?: number }) {
   const [url, setUrl] = useState<string | null>(null);

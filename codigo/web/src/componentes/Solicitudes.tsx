@@ -50,7 +50,7 @@ export function DetalleSolicitud({ s, solicitante, sucursal, nombre, categoria }
 /**
  * V08 · Nueva solicitud de alimentos. La sucursal y el solicitante son los del token (no editables); el
  * servicio los vuelve a tomar del JWT. La primera solicitud trae la de la demo (res 20 kg «Marca X» y
- * arroz 15 kg), como la interfaz de Codex; si se abre desde una alerta, trae preseleccionado ese producto.
+ * arroz 15 kg), como la primera interfaz web; si se abre desde una alerta, trae preseleccionado ese producto.
  */
 export function VentanaSolicitud({ usuario, productos, unidades, productoInicial, precargar, alCerrar, alRegistrar }: {
   usuario: Usuario; productos: Producto[]; unidades: Map<number, string>; productoInicial: number | null; precargar: boolean;
