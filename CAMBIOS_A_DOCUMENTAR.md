@@ -22,6 +22,13 @@ Lo que la plataforma (rama `stack-real` de KonradGourmet, DEC-58) agrega, quita 
 | M-08 | Nuevas | Proveedores (HU-15) y promociones sugeridas (HU-19) | DEC-07, DEC-96 | Aplicado: `mockups_faltantes/proveedores/` (rehecho desde la aplicación el 2026-11-23; reemplaza a `mockups_nuevos/07_proveedores`, que no coincidía con la demostración) y `mockups_faltantes/promociones_sugeridas/` (CD-28) |
 | M-09 | V03 | El saludo del mesero: «Isabella Torres · Mesero · Sucursal Centro» | — | Aplicado (2026-11-23): `mockups_faltantes/V03_nuevo_pedido/` |
 
+## Guías de la sustentación (DEC-110)
+
+| # | Artefacto | Dónde | Cambio | Origen | Estado |
+|---|---|---|---|---|---|
+| CD-74 | `.drawio` | Página 1, recuadro `v36`; página 3a, caja de la SPA (`c3a_spa`) | El recuadro se titula «Otras ventanas · jefe de cocina, compras, director comercial y administrador» (decía «Ventanas nuevas», que DEC-106 pidió no decir); la SPA dice «Las 33 ventanas» (decía 23). Las figuras 1, 2 y 13 del reporte se reexportaron | DEC-106, DEC-110 | Aplicado (2026-11-24) |
+| CD-75 | Reporte | §4 (tabla de estilos, fila REST) y §12 (tabla 11, fila Composite) | «las 33 ventanas» donde se habla de todas las ventanas de la SPA (decía 23); donde se habla del prototipo sigue 23. Reporte regenerado (70 páginas) | DEC-110 | Aplicado (2026-11-24) |
+
 ## Corte 7d (reporte regenerado)
 
 | # | Artefacto | Dónde | Cambio | Origen | Estado |
