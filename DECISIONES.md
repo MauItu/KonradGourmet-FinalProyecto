@@ -30,7 +30,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-97:** Mauricio pidió el 2026-11-23 «la que incluya menos modificaciones»; Claude comparó las dos y aplicó la de la web.
 - **DEC-98:** la decidió Mauricio el 2026-11-23, durante el 7b, siguiendo la recomendación de Claude. **DEC-99** la asumió Claude el mismo día y la confirmó Mauricio al aprobar el 7b. **DEC-100** la decidió Mauricio el mismo día, siguiendo la recomendación de Claude, y se aplica en el 7c. El lugar de la figura de casos de uso (DEC-95, punto 3) lo confirmó Mauricio el mismo día.
 - **DEC-101 a DEC-104:** las decidió Mauricio el 2026-11-23, al revisar la validación del 7c (DEC-101 a DEC-103 siguiendo la recomendación del revisor o de Claude; en DEC-104 escogió implementar todo, que no era la recomendada). **DEC-105** la asumió Claude el mismo día y la confirmó Mauricio. **DEC-106** la asumió Claude el 2026-11-23, en el 7d, y la confirmó Mauricio el mismo día, con un ajuste en el punto de la tabla 13. **DEC-107** la decidió Mauricio el mismo día, al revisar el reporte del 7d.
-- **DEC-108:** la decidió Mauricio el 2026-11-23, al pedir los guiones de la sustentación (no siguió el plan G1–G5 que propuso Claude). **DEC-109** la asumió Claude el mismo día y la confirmó Mauricio el 2026-11-24, al aprobar la guía de los diagramas. **DEC-110** la decidió Mauricio el 2026-11-24 («corrije»), al revisar la guía de los diagramas.
+- **DEC-108:** la decidió Mauricio el 2026-11-23, al pedir los guiones de la sustentación (no siguió el plan G1–G5 que propuso Claude). **DEC-109** la asumió Claude el mismo día y la confirmó Mauricio el 2026-11-24, al aprobar la guía de los diagramas. **DEC-110** la decidió Mauricio el 2026-11-24 («corrije»), al revisar la guía de los diagramas. **DEC-111** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de la plataforma (las tres recomendaciones de Claude).
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -156,6 +156,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-108 | Guiones de la sustentación | Cinco guías en HTML: los diagramas (numerados, con su imagen, qué es cada parte y un guion sugerido), el código y sus arquitecturas, la plataforma (con un guion sugerido), los microservicios y lo que está fuera de la plataforma (correo y similares); después, la revisión del arquitecto-revisor | Decidida por Mauricio (2026-11-23) |
 | DEC-109 | Detalles de las guías | En `documentos/guias_sustentacion/`, con su generador; los números de los diagramas se ponen en una copia temporal del `.drawio` (el original no cambia); la página 6 y los casos de uso usan sus propios números; guion sugerido sin reparto de oradores ni duración fija; una guía por mensaje | Asumida por Claude (2026-11-23) y confirmada por Mauricio (2026-11-24) |
 | DEC-110 | «Ventanas nuevas» y «23 ventanas» | La página 1 dice «Otras ventanas»; la 3a y el reporte (§4 y §12) dicen 33 ventanas donde hablan de todas; las figuras y el reporte se regeneran | Decidida por Mauricio (2026-11-24) |
+| DEC-111 | Imágenes e instancia de la guía de la plataforma | Las imágenes salen de la aplicación con los datos de la demo; la demo corre en `kg-demo`, copia de los volúmenes de `kg-mockups`, que se restablece copiándolos otra vez; el recorrido empieza en el pedido (el plato de V06 es opcional) | Decidida por Mauricio (2026-11-24) |
 
 ---
 
@@ -1898,6 +1899,16 @@ Los asumió Claude el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno
 - **C. Corregir el `.drawio` y los textos que dicen 23 donde son 33.** ✅ **Escogida por Mauricio el 2026-11-24** («corrije»; el alcance de C lo propuso Claude al aplicarla).
 
 **Qué implica:** la página 1 dice «Otras ventanas · jefe de cocina, compras, director comercial y administrador»; la 3a, «Las 33 ventanas, responsive para web y móvil»; el reporte, «las 33 ventanas» en la §4 y en la tabla 11. Donde el reporte habla del prototipo («las 23 ventanas del prototipo», S5, §13) no cambia, porque ahí 23 es correcto. Se reexportan las figuras que salen de esas páginas (1, 2 y 13), se regenera el reporte y la guía de los diagramas, y se anota en `CAMBIOS_A_DOCUMENTAR.md` (CD-74 y CD-75).
+
+## DEC-111 · Imágenes e instancia de la guía de la plataforma (G-03)
+
+**Contexto.** La guía 3 (DEC-108) explica las 33 ventanas y el recorrido de la demo en vivo. Hacía falta escoger de dónde salen sus imágenes, en qué instancia se ensaya y se hace la demo, y dónde empieza el recorrido.
+
+- **Imágenes.** Opciones: (a) **escogida:** todas salen de la aplicación corriendo con los datos de la demo (escritorio 1440×900 y algunas a 390×844), con un script en `guias_sustentacion/fuente/`; en los pasos de la demo, círculos numerados sobre el botón o el dato, puestos con Pillow en la posición que da Playwright; (b) reutilizar `mockups_faltantes/` y `mockups_admin/` y generar solo las que faltan (las de `mockups_admin/` son HTML hecho a mano y no muestran lo mismo que la aplicación en vivo).
+- **Instancia.** Opciones: (a) **escogida:** `kg-demo`, copia de los volúmenes de `kg-mockups` (con las dos detenidas; ninguna se borra), que arranca con COT-018 a COT-022 y OC-0012; se ensaya la demo en ella para fijar los números y sacar las imágenes, y después se restablece copiando otra vez, que es el mismo procedimiento para el día de la sustentación; (b) hacerla sobre `kg-mockups`, que perdería el estado de los mockups; (c) sobre `konrad-gourmet`, con datos de pruebas manuales que no son predecibles.
+- **Inicio del recorrido.** Opciones: (a) crear un plato en V06, como el recorrido del corte 7; (b) **escogida:** empezar en el pedido del mesero con un plato que ya existe; el plato de V06 queda como paso opcional.
+
+**Qué implica:** `kg-mockups`, `kg-limpio` y `konrad-gourmet` no se tocan; `kg-demo` se detiene al terminar.
 
 ---
 
