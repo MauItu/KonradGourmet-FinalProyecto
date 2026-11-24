@@ -1,0 +1,850 @@
+{
+ "imagenes": {
+  "d01_login": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     97,
+     696
+    ],
+    [
+     2,
+     144,
+     375
+    ],
+    [
+     3,
+     97,
+     584
+    ]
+   ],
+   "diametro": 34
+  },
+  "d02_V03_pedido": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     689,
+     506
+    ],
+    [
+     2,
+     492,
+     857
+    ],
+    [
+     3,
+     1166,
+     186
+    ],
+    [
+     4,
+     1119,
+     489
+    ],
+    [
+     5,
+     1119,
+     645
+    ]
+   ],
+   "diametro": 34
+  },
+  "d03_V04_registrado": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     660,
+     391
+    ]
+   ],
+   "diametro": 34
+  },
+  "d04_V07_antes": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     283,
+     544
+    ],
+    [
+     2,
+     1220,
+     268
+    ]
+   ],
+   "diametro": 34
+  },
+  "d05_V07_alarma": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     1046,
+     19
+    ],
+    [
+     2,
+     1097,
+     81
+    ],
+    [
+     3,
+     283,
+     544
+    ]
+   ],
+   "diametro": 34
+  },
+  "d06_V08_solicitud": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     552,
+     418
+    ],
+    [
+     2,
+     680,
+     418
+    ],
+    [
+     3,
+     423,
+     466
+    ],
+    [
+     4,
+     423,
+     612
+    ],
+    [
+     5,
+     899,
+     694
+    ]
+   ],
+   "diametro": 34
+  },
+  "d07_V09_registrada": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     632,
+     430
+    ],
+    [
+     2,
+     650,
+     502
+    ]
+   ],
+   "diametro": 34
+  },
+  "d08_V05_atendida": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     262,
+     245
+    ],
+    [
+     2,
+     849,
+     245
+    ]
+   ],
+   "diametro": 34
+  },
+  "d09_V12_detalle": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     283,
+     413
+    ],
+    [
+     2,
+     849,
+     251
+    ],
+    [
+     3,
+     870,
+     623
+    ]
+   ],
+   "diametro": 34
+  },
+  "d10_V13_generar": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     440,
+     296
+    ],
+    [
+     2,
+     440,
+     498
+    ],
+    [
+     3,
+     406,
+     578
+    ],
+    [
+     4,
+     795,
+     782
+    ]
+   ],
+   "diametro": 34
+  },
+  "d11_V14_enviada": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     630,
+     280
+    ],
+    [
+     2,
+     551,
+     616
+    ],
+    [
+     3,
+     727,
+     616
+    ],
+    [
+     4,
+     675,
+     676
+    ]
+   ],
+   "diametro": 34
+  },
+  "d12_pdf_cotizacion": {
+   "ancho": 935,
+   "alto": 1210,
+   "pines": [],
+   "diametro": 34
+  },
+  "d13_V10_en_tramite": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     1315,
+     280
+    ]
+   ],
+   "diametro": 34
+  },
+  "d14_V18_valores": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     623,
+     423
+    ],
+    [
+     2,
+     848,
+     436
+    ],
+    [
+     3,
+     406,
+     514
+    ],
+    [
+     4,
+     727,
+     604
+    ]
+   ],
+   "diametro": 34
+  },
+  "d15_V19_opcionada": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     551,
+     365
+    ],
+    [
+     2,
+     565,
+     429
+    ],
+    [
+     3,
+     639,
+     487
+    ]
+   ],
+   "diametro": 34
+  },
+  "d16_V19_rechazada": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     551,
+     365
+    ],
+    [
+     2,
+     565,
+     429
+    ],
+    [
+     3,
+     639,
+     487
+    ]
+   ],
+   "diametro": 34
+  },
+  "d17_V20_opcionadas": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     283,
+     178
+    ],
+    [
+     2,
+     283,
+     355
+    ],
+    [
+     3,
+     1001,
+     617
+    ]
+   ],
+   "diametro": 34
+  },
+  "d18_V21_generar": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     633,
+     354
+    ],
+    [
+     2,
+     406,
+     518
+    ],
+    [
+     3,
+     814,
+     590
+    ]
+   ],
+   "diametro": 34
+  },
+  "d19_V22_orden": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     632,
+     343
+    ],
+    [
+     2,
+     551,
+     577
+    ]
+   ],
+   "diametro": 34
+  },
+  "d20_V23_orden": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     1001,
+     208
+    ],
+    [
+     2,
+     1203,
+     725
+    ],
+    [
+     3,
+     1001,
+     767
+    ]
+   ],
+   "diametro": 34
+  },
+  "d21_pdf_orden": {
+   "ancho": 935,
+   "alto": 1210,
+   "pines": [],
+   "diametro": 34
+  },
+  "d22_V23_finalizada": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     1001,
+     208
+    ]
+   ],
+   "diametro": 34
+  },
+  "d23_V10_completada": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     1304,
+     280
+    ]
+   ],
+   "diametro": 34
+  },
+  "d24_mailpit": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     248,
+     64
+    ],
+    [
+     2,
+     248,
+     120
+    ],
+    [
+     3,
+     248,
+     177
+    ],
+    [
+     4,
+     248,
+     233
+    ],
+    [
+     5,
+     248,
+     290
+    ],
+    [
+     6,
+     248,
+     346
+    ],
+    [
+     7,
+     248,
+     402
+    ]
+   ],
+   "diametro": 34
+  },
+  "d25_mailpit_orden": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     370,
+     120
+    ],
+    [
+     2,
+     371,
+     455
+    ]
+   ],
+   "diametro": 34
+  },
+  "d26_bam": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     283,
+     178
+    ],
+    [
+     2,
+     283,
+     318
+    ],
+    [
+     3,
+     674,
+     318
+    ],
+    [
+     4,
+     1066,
+     318
+    ]
+   ],
+   "diametro": 34
+  },
+  "d27_auditoria": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     1324,
+     180
+    ],
+    [
+     2,
+     283,
+     365
+    ]
+   ],
+   "diametro": 34
+  },
+  "d28_logs": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "d29_plataforma": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     278,
+     210
+    ]
+   ],
+   "diametro": 34
+  },
+  "d30_eureka": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [
+    [
+     1,
+     19,
+     529
+    ]
+   ],
+   "diametro": 34
+  },
+  "v01": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "v02": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "v05": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "v07": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "v10": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "v11": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "v12": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "v15": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "v16": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "v17": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "v23": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "promociones": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "proveedores": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "bam": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "parametros": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "auditoria": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "logs": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "usuarios": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "destinatarios": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "inicio_admin": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "v06": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "platos": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "v20": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "reenviar": {
+   "ancho": 1440,
+   "alto": 900,
+   "pines": [],
+   "diametro": 34
+  },
+  "m_v03": {
+   "ancho": 390,
+   "alto": 844,
+   "pines": [],
+   "diametro": 34
+  },
+  "m_v07": {
+   "ancho": 390,
+   "alto": 844,
+   "pines": [],
+   "diametro": 34
+  },
+  "m_bam": {
+   "ancho": 390,
+   "alto": 844,
+   "pines": [],
+   "diametro": 34
+  }
+ },
+ "historia": {
+  "pedido": "PED-0252",
+  "pedido_total": 38000,
+  "res_antes": [
+   "🥩",
+   "Res",
+   "Proteína",
+   "12,5",
+   "kg",
+   "12,5",
+   "Normal",
+   "\nSolicitar"
+  ],
+  "alarma": "Res al 22 %: realice una solicitud",
+  "res_despues": [
+   "🥩",
+   "Res",
+   "Proteína",
+   "11",
+   "kg",
+   "12,5",
+   "Stock bajo",
+   "\nSolicitar"
+  ],
+  "solicitud": "SOL-034",
+  "cotizaciones": [
+   {
+    "numero": "COT-023",
+    "proveedor": "Proveedor ABC",
+    "precio": 21000,
+    "estado": "OPCIONADA",
+    "diferencia": "Diferencia +5,00 %"
+   },
+   {
+    "numero": "COT-024",
+    "proveedor": "Proveedor C",
+    "precio": 26000,
+    "estado": "RECHAZADA",
+    "diferencia": "Diferencia +30,00 %"
+   }
+  ],
+  "cache": [
+   "precio-referencia:1"
+  ],
+  "orden": "OC-0013",
+  "orden_total": 840000,
+  "correos": [
+   {
+    "asunto": "Orden de compra OC-0013",
+    "para": "ventas@proveedorabc.com",
+    "adjuntos": 1
+   },
+   {
+    "asunto": "Solicitud de cotización COT-024",
+    "para": "ventas@proveedorc.com",
+    "adjuntos": 1
+   },
+   {
+    "asunto": "Solicitud SOL-034 en trámite",
+    "para": "carlos.mendoza@konradgourmet.com",
+    "adjuntos": 0
+   },
+   {
+    "asunto": "Solicitud de cotización COT-023",
+    "para": "ventas@proveedorabc.com",
+    "adjuntos": 1
+   },
+   {
+    "asunto": "Solicitud SOL-034 registrada",
+    "para": "carlos.mendoza@konradgourmet.com",
+    "adjuntos": 0
+   },
+   {
+    "asunto": "Stock bajo: Res",
+    "para": "carlos.mendoza@konradgourmet.com",
+    "adjuntos": 0
+   },
+   {
+    "asunto": "Promociones sugeridas",
+    "para": "carlos.mendoza@konradgourmet.com",
+    "adjuntos": 0
+   }
+  ],
+  "bam": [
+   "Producto con mayor demanda: Bandeja paisa 689 platos vendidos",
+   "Sucursal con mayor demanda: Sucursal Centro 1.405 platos vendidos",
+   "Proveedor con mejores precios: Proveedor B −0,14 % frente al precio estándar, en promedio"
+  ],
+  "auditoria": [
+   "24/11/2026\t11:15:39\tpaula.herrera@konradgourmet.com\tInicio de sesión (ADMINISTRADOR)",
+   "24/11/2026\t11:15:35\tandres.rojas@konradgourmet.com\tInicio de sesión (DIRECTOR_COMERCIAL)",
+   "24/11/2026\t11:15:25\tlaura.gomez@konradgourmet.com\tOrden OC-0013 finalizada",
+   "24/11/2026\t11:15:25\tlaura.gomez@konradgourmet.com\tInicio de sesión (DIRECTOR_COMPRAS)",
+   "24/11/2026\t11:15:24\tsistema\tNotificación orden.generada enviada a ventas@proveedorabc.com",
+   "24/11/2026\t11:15:24\tsistema\tCotización COT-023 pasó a CON_ORDEN",
+   "24/11/2026\t11:15:24\tsistema\tSolicitud SOL-034 completada",
+   "24/11/2026\t11:15:23\tlaura.gomez@konradgourmet.com\tOrden OC-0013 generada sobre COT-023",
+   "24/11/2026\t11:15:20\tlaura.gomez@konradgourmet.com\tCotización COT-024 validada: RECHAZADA",
+   "24/11/2026\t11:15:20\tlaura.gomez@konradgourmet.com\tValores del proveedor registrados en COT-024"
+  ],
+  "logs": "Logs de errores\n\nErrores registrados por los servicios del sistema\n\nMartes, 24 de noviembre de 2026\n11:15 a. m.\nServicio\nTodos\nms-identidad\nms-pedidos\nms-menu\nms-inventario\nms-solicitudes\nms-cotizaciones\nms-ordenes\nms-notificaciones\nms-integracion\nms-analitica\nms-administracion\nActualizar\nErrores registrados\n\n0 errores · todos los servicios · los más recientes primero\n\nFECHA\tHORA\tSERVICIO\tMENSAJE\nNo hay errores registrados para el servicio seleccionado.\nMostrando 0 - 0 de 0\n1"
+ }
+}

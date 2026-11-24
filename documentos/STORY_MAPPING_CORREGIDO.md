@@ -493,16 +493,16 @@ Informativa (S-08). Reúne para cada historia lo que el original reparte en vari
 | HU-12 Generar solicitud de cotización a proveedores | 3 | Medio | 2 | 2 | CU-08 | V14, V15 |
 | HU-13 Validar cotizaciones recibidas | 3 | Medio | 2 | 3 | CU-11 | V16, V17, V19 |
 | HU-14 Generar orden de compra | 3 | Medio | 1 | 3 | CU-13 | V21, V22, V23 |
-| HU-15 Registrar datos de proveedor | 3 | Medio | 1 | 3 | CU-09 | Sin mockup |
+| HU-15 Registrar datos de proveedor | 3 | Medio | 1 | 3 | CU-09 | Proveedores |
 | HU-16 Recibir alertas automáticas de inventario bajo | 4 | Alto | 5 | 4 | CU-05 | V05, V07 |
 | HU-17 Consultar cotizaciones opcionadas | 4 | Alto | 2 | 3 | CU-12 | V20 |
-| HU-18 Ver KPIs y tablero de control | 4 | Alto | 3 | 4 | CU-14 | Sin mockup |
-| HU-19 Revisar promociones sugeridas | 4 | Alto | 5 | 5 | CU-06 | Sin mockup |
+| HU-18 Ver KPIs y tablero de control | 4 | Alto | 3 | 4 | CU-14 | Tablero BAM |
+| HU-19 Revisar promociones sugeridas | 4 | Alto | 5 | 5 | CU-06 | Promociones sugeridas |
 
 ## 10. Lo que este documento no incluye
 
 - **HU-20 a HU-22**, las historias propuestas para el administrador (parametrizar el sistema, consultar la auditoría y consultar los logs). Por decisión de Mauricio quedan fuera del Story Mapping y del plan de sprints (PD-09); solo están en el documento de casos de uso, como historias para una versión posterior.
-- **Los mockups.** Las correcciones de las ventanas (M-01 a M-09 en `CORRECCIONES_HU_Y_MOCKUPS.md`) las hace Mauricio en Canva. Cuando estén, hay que contrastarlas con este documento, en especial V11 (los filtros de HU-07) y V05 (la regla del umbral de HU-16).
+- **Los mockups.** Las correcciones de las ventanas (M-01 a M-09 en `CORRECCIONES_HU_Y_MOCKUPS.md`) y las ventanas que no están entre V01 y V23 (proveedores, tablero BAM, promociones sugeridas y las del administrador) tienen sus mockups en `mockups_admin/` y `mockups_faltantes/`; ninguna ventana queda sin mockup (DEC-96).
 - **El diseño gráfico del original.** Este documento conserva el contenido; la presentación visual sigue siendo la del PDF.
 
 ## 11. Registro de correcciones

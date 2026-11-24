@@ -1,4 +1,4 @@
-<!-- §6. Correcciones: R-21, R-22, R-23 y R-24. -->
+<!-- §6. Correcciones: R-21, R-22, R-23 y R-24; en el 7d, la outbox con su relé y los consumidores idempotentes (DEC-104). -->
 # 6. Arquitectura orientada a eventos
 
 La segunda arquitectura define cómo se avisan los servicios entre sí sin esperarse. Vive entre los contenedores y responde a los requerimientos de correo certificado, alarma de inventario, auditoría y disponibilidad (Fowler, 2017).
@@ -9,7 +9,7 @@ Apache Kafka con tres brokers y diez tópicos. Cada servicio publica hechos de n
 
 ## 6.2 Lineamientos, políticas y reglas
 
-El lineamiento es el desacoplamiento temporal: el productor no sabe quién consume ni espera respuesta. Las políticas son eventos inmutables con identificador, tipo, fecha y usuario; entrega al menos una vez; consumidores idempotentes que recuerdan los identificadores ya procesados; orden garantizado por clave (número de solicitud o de cotización) dentro de una partición; y una cola de errores (DLQ) para los mensajes que fallan varias veces (Kleppmann, 2017). El usuario sale del JWT de quien hizo la acción.
+El lineamiento es el desacoplamiento temporal: el productor no sabe quién consume ni espera respuesta. Las políticas son eventos inmutables con identificador, tipo, fecha y usuario; publicación con outbox transaccional, es decir, cada servicio guarda el evento en su tabla outbox en la misma transacción que el cambio y un relé lo publica en Kafka y lo borra cuando el broker lo confirma, de modo que no hay cambio confirmado sin su evento ni evento sin su cambio; entrega al menos una vez; consumidores idempotentes que guardan, en la misma transacción que su propio cambio, el identificador de cada evento procesado y descartan los repetidos (el correo, que no cabe en una transacción, se marca justo después de enviarlo); orden garantizado por clave (número de solicitud o de cotización) dentro de una partición, que el relé respeta publicando desde una sola réplica a la vez; y una cola de errores (DLQ) para los mensajes que fallan varias veces (Kleppmann, 2017). El usuario sale del JWT de quien hizo la acción.
 
 Las reglas son un tópico por hecho de negocio con el nombre entidad.verbo-en-pasado, ningún evento lleva contraseñas, la retención es de siete días y el esquema de cada evento se versiona.
 
@@ -19,11 +19,11 @@ El enunciado describe muchos efectos que ocurren después de la acción del usua
 
 ## 6.4 Ventajas
 
-El usuario recibe respuesta inmediata porque los efectos secundarios ocurren en segundo plano. Un servicio caído no arrastra a los demás: sus eventos esperan en Kafka hasta que vuelve. Agregar un consumidor nuevo, como ms-analitica, no obliga a tocar al productor. Y el propio flujo de eventos es una bitácora que facilita la auditoría pedida por el enunciado.
+El usuario recibe respuesta inmediata porque los efectos secundarios ocurren en segundo plano. Un servicio caído no arrastra a los demás: sus eventos esperan en Kafka hasta que vuelve, y si el que no responde es Kafka, cada servicio sigue atendiendo y sus eventos esperan en la outbox. Agregar un consumidor nuevo, como ms-analitica, no obliga a tocar al productor. Y el propio flujo de eventos es una bitácora que facilita la auditoría pedida por el enunciado.
 
 ## 6.5 Desventajas y cómo se mitigan
 
-La consistencia es eventual: el jefe puede ver PENDIENTE durante unos segundos después de que el auxiliar envió la cotización; por eso la ventana 10 muestra la fecha de la última actualización. Puede haber mensajes duplicados, que se neutralizan con idempotencia. La depuración es más difícil, así que cada evento lleva un identificador de correlación y se traza con OpenTelemetry. Ese identificador pasa de un evento al siguiente, de modo que una traza reúne todo el recorrido de una compra. Kafka es una pieza más que debe estar disponible, y por eso corre con tres brokers y factor de réplica 3.
+La consistencia es eventual: el jefe puede ver PENDIENTE durante unos segundos después de que el auxiliar envió la cotización; por eso la ventana 10 muestra la fecha de la última actualización. Puede haber mensajes duplicados, porque Kafka y el relé entregan al menos una vez; se neutralizan con idempotencia: un pedido repetido no se descuenta dos veces del inventario. La depuración es más difícil, así que cada evento lleva un identificador de correlación y se traza con OpenTelemetry. Ese identificador pasa de un evento al siguiente, de modo que una traza reúne todo el recorrido de una compra. Kafka es una pieza más que debe estar disponible, y por eso corre con tres brokers y factor de réplica 3.
 
 ## 6.6 Ejemplo en las ventanas
 

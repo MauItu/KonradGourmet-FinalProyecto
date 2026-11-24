@@ -1,7 +1,13 @@
-<!-- §10. Correcciones: R-29, R-30, R-31, R-32 y R-02 (figura 7, página 6 del .drawio). -->
-!horizontal
+<!-- §10. Correcciones: R-29, R-30, R-31, R-32 y R-02 (figura 8, página 6 del .drawio); en el 7d, el diagrama de casos de uso como figura 7 (DEC-95) y CD-60 en la tabla 8. -->
+!vertical
 
 # 10. Arquitectura por flujo de ventanas
+
+Antes de ver qué arquitectura domina en cada flujo conviene ver quién hace qué. La figura 7 reúne los 19 casos de uso del sistema con los seis roles, que heredan de Usuario y por eso todos inician sesión, y los cinco actores externos: el proveedor, el Ministerio de Comercio, el servidor de correo certificado, las redes sociales y los sistemas externos que consumen el servicio SOAP. El detalle de cada caso está en el documento «Casos de uso — Konrad Gourmet».
+
+!figura 7 | figuras/casos_de_uso.png | Diagrama de casos de uso | Los 19 casos de uso dentro del sistema, los seis roles a la izquierda y abajo a la derecha, y los actores externos a la derecha. Línea simple: asociación; flecha de punta hueca: generalización.
+
+!horizontal
 
 Las tres arquitecturas están presentes en todo el sistema, pero en cada flujo una de ellas pesa más. La tabla 8 indica cuál y por qué, a partir de lo que muestran las ventanas.
 
@@ -13,11 +19,11 @@ Las tres arquitecturas están presentes en todo el sistema, pero en cada flujo u
 | Jefe: platos | V06 | ms-menu | Hexagonal y eventos | CRUD con reglas de receta (categoría, producto, cantidad, unidad). menu.actualizado refresca el catálogo del mesero sin acoplar servicios. |
 | Jefe: inventario y alarmas | V05 y V07 | ms-inventario, ms-notificaciones | Eventos | La tarea diaria descuenta el consumo, evalúa el umbral del 25 % y publica inventario.stock-bajo cuando un insumo baja de ese umbral, que se convierte en alarma en la app (WebSocket) y en correo. La alerta queda atendida cuando el jefe registra una solicitud (solicitud.registrada). |
 | Jefe: solicitudes | V08 a V10 | ms-solicitudes | Hexagonal y eventos | La validación de formato vive en el dominio. El paso de PENDIENTE a EN TRÁMITE no lo hace el jefe sino un evento de ms-cotizaciones. |
-| Auxiliar: cotizaciones | V11 a V15 | ms-solicitudes, ms-cotizaciones, ms-integracion, ms-notificaciones | Eventos, hexagonal y SOA | Un clic (Facade) dispara precio del Ministerio por SOAP, PDF, correo al proveedor y cambio de estado de la solicitud, sin bloquear al auxiliar. |
+| Auxiliar: cotizaciones | V11 a V15 y Proveedores | ms-solicitudes, ms-cotizaciones, ms-integracion, ms-notificaciones | Eventos, hexagonal y SOA | Un clic (Facade) dispara precio del Ministerio por SOAP, PDF, correo al proveedor y cambio de estado de la solicitud, sin bloquear al auxiliar. |
 | Director: validación | V16 a V20 | ms-cotizaciones | Hexagonal | La validación es una regla de negocio pura y comprobable: más de 25 % por encima, RECHAZADA; más de 50 % por debajo, SOSPECHOSA; el resto, OPCIONADA, incluidos +25,00 % y −50,00 % (Chain of Responsibility). La diferencia se redondea a 2 decimales antes de comparar. |
 | Director: órdenes | V21 a V23 | ms-ordenes | Microservicios y REST | El director espera el número de orden, así que la consulta a ms-cotizaciones es síncrona; la propagación (solicitud, proveedor, KPI) es asíncrona con orden.generada. |
-| Director comercial: BAM | Sin mockup | ms-analitica | Eventos y Strategy | Los KPI se calculan sobre un almacén propio alimentado por eventos, sin consultar las bases de otros servicios. Sin filtro, la demanda se mide sobre el último mes y el proveedor con mejores precios sobre el último año; si el director elige un rango de fechas, los tres indicadores usan ese rango, y la sucursal filtra la demanda (HU-18). El proveedor se mide con la diferencia promedio de sus cotizaciones OPCIONADAS frente al precio estándar. |
-| Administrador | Sin mockup | ms-administracion | Eventos y Singleton | La auditoría de cada CRUD llega por auditoria.evento; los parámetros y la imagen corporativa viven en ParametrosSistema. |
+| Analítica: BAM y promociones | Tablero BAM (director comercial) y Promociones sugeridas (jefe de cocina) | ms-analitica | Eventos y Strategy | Los KPI se calculan sobre un almacén propio alimentado por eventos, sin consultar las bases de otros servicios. Sin filtro, la demanda se mide sobre el último mes y el proveedor con mejores precios sobre el último año; si el director elige un rango de fechas, los tres indicadores usan ese rango, y la sucursal filtra la demanda (HU-18). El proveedor se mide con la diferencia promedio de sus cotizaciones OPCIONADAS frente al precio estándar. Las promociones salen de un análisis semanal que cruza las tendencias de las redes sociales con los platos más pedidos y se avisan a los jefes con tendencia.detectada. |
+| Administrador | Parámetros y tema, Auditoría, Logs de errores, Usuarios y Destinatarios de alertas | ms-administracion, ms-identidad, ms-notificaciones | Eventos y Singleton | La auditoría de cada CRUD llega por auditoria.evento; los parámetros y la imagen corporativa viven en ParametrosSistema, y la SPA aplica el tema al iniciar sesión. |
 | Sistemas externos | Ninguna | ms-integracion | SOA, Proxy y Adapter | Cumple el requerimiento de integración y aísla al resto del sistema de SOAP. |
 
 ## 10.1 Recorrido completo de una compra
@@ -42,8 +48,8 @@ El flujo más largo del sistema, de la solicitud del jefe a la orden de compra, 
 | 13 | V23 | Seguimiento de órdenes | Síncrono | GET /api/ordenes-compra |
 | 14 | Todas | Auditoría de cada CRUD | Evento | auditoria.evento de los otros diez servicios hacia ms-administracion |
 
-La figura 7 dibuja el mismo recorrido como diagrama dinámico del C4.
+La figura 8 dibuja el mismo recorrido como diagrama dinámico del C4.
 
 !vertical
 
-!figura 7 | figuras/6.png | Diagrama dinámico del recorrido de compra | Página 6 del archivo Arquitectura_Konrad_Gourmet.drawio. Los 14 pasos de la tabla 9 en forma de secuencia, con cada mensaje numerado (4.1, 4.2 y así sucesivamente) y su protocolo. En cada evento se dibujan todos sus consumidores. El ejemplo es el de los mockups: SOL-031, COT-018 y OC-0012, con los valores de V19.
+!figura 8 | figuras/6.png | Diagrama dinámico del recorrido de compra | Página 6 del archivo Arquitectura_Konrad_Gourmet.drawio. Los 14 pasos de la tabla 9 en forma de secuencia, con cada mensaje numerado (4.1, 4.2 y así sucesivamente) y su protocolo. En cada evento se dibujan todos sus consumidores. El ejemplo es el de los mockups: SOL-031, COT-018 y OC-0012, con los valores de V19.

@@ -185,8 +185,9 @@ def texto(p, contenido, negrilla=False, cursiva=False):
         elif trozo.startswith("*") and trozo.endswith("*") and len(trozo) > 1:
             i, t = True, trozo[1:-1]
         t = t.replace("\x00", "*")
-        # «ms-pedidos» y similares no se parten al final de la línea: unión de palabras (U+2060) tras el guion.
-        run = p.add_run(re.sub(r"\bms-", "ms-\u2060", t))
+        # «ms-pedidos», «inventario.stock-bajo», «/api/ordenes-compra» y similares no se parten al final de la
+        # línea: unión de palabras (U+2060) tras el guion de los nombres en minúscula (C7-36).
+        run = p.add_run(re.sub(r"(?<=[a-z])-(?=[a-z])", "-\u2060", t))
         run.bold = b or None
         run.italic = i or None
     return p
