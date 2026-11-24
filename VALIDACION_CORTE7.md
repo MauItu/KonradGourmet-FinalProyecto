@@ -64,6 +64,25 @@ Sin hallazgo: las claves de las bases y de S3 fijas en `application.yml` y en el
 
 Observación sin hallazgo: `deLaSucursal()` de ms-menu lee los platos de la sucursal en cada llamada; un `detalle(id)` lo evitaría, pero cambia la 4b.
 
+## Tercera ronda (7d: README, LEEME y reporte regenerado)
+
+**Veredicto: lista con correcciones.** Lo pedido para el 7d está hecho: README y LEEME finales, los CD del reporte, la figura 7 y la renumeración, DEC-104 en el texto. Las figuras de página son idénticas al píxel a una exportación nueva del `.drawio`, y las cifras (195 clases, 61 pendientes, 24 clases de apoyo, 400, 91, 763) se cumplen.
+
+| # | Sev. | Hallazgo | Corrección | Estado |
+|---|---|---|---|---|
+| C7-28 | Alta | La cifra de 1.254 sumaba dos corridas: la última usó `--sin-compilar` (JUnit 0) | Correr `probar_todo.sh` completo sobre HEAD | Corregido: corrida completa con compilación, 1.254 sin fallas (tabla de abajo); ningún texto cambia |
+| C7-29 | Media | §16 y §6.2 decían que la idempotencia evita correos repetidos; ms-notificaciones marca después de enviar | La fila de §16 y §6.2 dicen que el correo se marca justo después de enviarlo y que puede repetirse | Corregido (7f2ae84) |
+| C7-30 | Media | La §18 no nombra los mockups de las ventanas nuevas entre lo hecho con IA | Agregar «los mockups de las ventanas nuevas» (sin decir «capturas») | Pregunta para Mauricio |
+| C7-31 | Baja | README, `DemoArquitectura` y ESTADO citaban páginas del reporte original | Citar por sección | Corregido (código a28386f; documentos con el mismo id) |
+| C7-32 | Baja | La tabla 13 nombra `EnviosController` y el canal de alarmas, que no están entre las 195 clases | Señalarlos como infraestructura que no se dibuja | Corregido (df3154f) |
+| C7-33 | Baja | La tabla 8 no cubría Proveedores ni Promociones sugeridas | «V11 a V15 y Proveedores»; fila «Analítica: BAM y promociones» | Corregido (bf049c0) |
+| C7-34 | Baja | La tabla «Módulos» del README no nombraba las ventanas nuevas | Copiar las de la tabla 5 del reporte | Corregido (código a28386f) |
+| C7-35 | Baja | README y LEEME dicen «aprobado» para el corte 7; PLAN y ESTADO, «esperando el OK» | Se resuelve con el OK de Mauricio al 7d (DEC-106) | Espera el OK |
+| C7-36 | Baja | «inventario.stock-bajo» y «/api/ordenes-compra» se partían en el guion | `generar_reporte.py` une el guion de los nombres en minúscula (U+2060) | Corregido (b06ef8d; reporte 25d3573, 70 páginas) |
+| C7-37 | Baja | El comentario de `PlatoRestController.consultar()` decía `?sucursal={id}` | `GET /api/platos (la sucursal sale del JWT)` | Corregido (código d933c7f) |
+
+Preguntas que deja: C7-30 (la §18 y los mockups), si la §1 nombra la plataforma como tercer entregable (el revisor recomienda dejarlo, por DEC-57) y DEC-106.
+
 ## Pruebas
 
 `probar_todo.sh` sobre una instancia limpia (`kg-limpio`):
@@ -72,6 +91,7 @@ Observación sin hallazgo: `deLaSucursal()` de ms-menu lee los platos de la sucu
 |---|---|---|---|---|---|
 | Con DEC-100, antes de las correcciones (código 9aaf10b) | 399 | 86 | 750 | 1.235 | Sin fallas |
 | Con todas las correcciones (código aa5af5b) | 400 | 91 | 763 | 1.254 | Sin fallas |
+| Final del 7d, completa (con compilación; código d933c7f) | 400 | 91 | 763 | 1.254 | Sin fallas |
 
 En la segunda fila, los JUnit son los de la corrida que compiló el mismo código (287db28); después solo cambió el compose (PostgreSQL con 200 conexiones, aa5af5b), y la corrida final usó `--sin-compilar`. Dos corridas intermedias fallaron: la primera, por dos pruebas que había que ajustar (`verificar_corte6b` contaba también las marcas de `NombresNegocio`, y una dirección fuera del menú lleva a la primera opción del rol, no a «La ventana no existe»; c96c8ff); la segunda no alcanzó a levantar porque, con ms-integracion usando su base, 11 servicios con 10 conexiones cada uno pasaban las 100 de PostgreSQL (aa5af5b).
 
