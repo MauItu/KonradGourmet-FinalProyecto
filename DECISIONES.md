@@ -30,7 +30,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-97:** Mauricio pidió el 2026-11-23 «la que incluya menos modificaciones»; se compararon las dos y aplicó la de la web.
 - **DEC-98:** la decidió Mauricio el 2026-11-23, durante el 7b, siguiendo la recomendación técnica. **DEC-99** se asumió el mismo día y la confirmó Mauricio al aprobar el 7b. **DEC-100** la decidió Mauricio el mismo día, siguiendo la recomendación técnica, y se aplica en el 7c. El lugar de la figura de casos de uso (DEC-95, punto 3) lo confirmó Mauricio el mismo día.
 - **DEC-101 a DEC-104:** las decidió Mauricio el 2026-11-23, al revisar la validación del 7c (DEC-101 a DEC-103 siguiendo la recomendación del revisor o de la implementación; en DEC-104 escogió implementar todo, que no era la recomendada). **DEC-105** se asumió el mismo día y la confirmó Mauricio. **DEC-106** se asumió el 2026-11-23, en el 7d, y la confirmó Mauricio el mismo día, con un ajuste en el punto de la tabla 13. **DEC-107** la decidió Mauricio el mismo día, al revisar el reporte del 7d.
-- **DEC-108:** la decidió Mauricio el 2026-11-23, al pedir los guiones de la sustentación (no siguió el plan G1–G5 propuesto en la implementación). **DEC-109** se asumió el mismo día y la confirmó Mauricio el 2026-11-24, al aprobar la guía de los diagramas. **DEC-110** la decidió Mauricio el 2026-11-24 («corrije»), al revisar la guía de los diagramas. **DEC-111** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de la plataforma (las tres recomendaciones).
+- **DEC-108:** la decidió Mauricio el 2026-11-23, al pedir los guiones de la sustentación (no siguió el plan G1–G5 propuesto en la implementación). **DEC-109** se asumió el mismo día y la confirmó Mauricio el 2026-11-24, al aprobar la guía de los diagramas. **DEC-110** la decidió Mauricio el 2026-11-24 («corrije»), al revisar la guía de los diagramas. **DEC-111** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de la plataforma (las tres recomendaciones). **DEC-112** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de los microservicios («ok»: recortes por servicio).
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -157,6 +157,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-109 | Detalles de las guías | En `documentos/guias_sustentacion/`, con su generador; los números de los diagramas se ponen en una copia temporal del `.drawio` (el original no cambia); la página 6 y los casos de uso usan sus propios números; guion sugerido sin reparto de oradores ni duración fija; una guía por mensaje | Asumida en la implementación (2026-11-23) y confirmada por Mauricio (2026-11-24) |
 | DEC-110 | «Ventanas nuevas» y «23 ventanas» | La página 1 dice «Otras ventanas»; la 3a y el reporte (§4 y §12) dicen 33 ventanas donde hablan de todas; las figuras y el reporte se regeneran | Decidida por Mauricio (2026-11-24) |
 | DEC-111 | Imágenes e instancia de la guía de la plataforma | Las imágenes salen de la aplicación con los datos de la demo; la demo corre en `kg-demo`, copia de los volúmenes de `kg-mockups`, que se restablece copiándolos otra vez; el recorrido empieza en el pedido (el plato de V06 es opcional) | Decidida por Mauricio (2026-11-24) |
+| DEC-112 | Imágenes, orden y fuente de datos de la guía de los microservicios | Un recorte del paquete de cada servicio sacado de las imágenes de la guía 1 (con sus números); miniaturas de las ventanas de la guía 3; orden del flujo; endpoints, tópicos, tablas, clases, prefijos y réplicas leídos del código y del `.drawio` al generar | Decidida por Mauricio (2026-11-24) |
 
 ---
 
@@ -1909,6 +1910,18 @@ Se asumieron el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno cambi
 - **Inicio del recorrido.** Opciones: (a) crear un plato en V06, como el recorrido del corte 7; (b) **escogida:** empezar en el pedido del mesero con un plato que ya existe; el plato de V06 queda como paso opcional.
 
 **Qué implica:** `kg-mockups`, `kg-limpio` y `konrad-gourmet` no se tocan; `kg-demo` se detiene al terminar.
+
+
+## DEC-112 · Imágenes, orden y fuente de datos de la guía de los microservicios (G-04)
+
+**Contexto.** La guía 4 (DEC-108) explica los 11 microservicios, el gateway y Eureka, con una ficha igual para cada uno. Hacía falta escoger qué imagen acompaña a cada servicio, en qué orden van y de dónde salen los datos, para que no se contradigan con el código ni con las otras guías.
+
+- **Imagen de cada servicio.** Opciones: (a) **escogida:** un recorte del paquete del servicio sacado de las imágenes de la guía de los diagramas (páginas 4a a 4e y, para el gateway y Eureka, la 3a), con la posición del paquete en el `.drawio`, que está a la misma escala; conserva los números de la guía 1, así se pueden citar; (b) la página de clases completa con el visor, sin recortes; (c) imágenes nuevas de la aplicación, que obligarían a encender la plataforma.
+- **Ventanas.** Opciones: (a) **escogida:** miniaturas de las imágenes de la guía de la plataforma (`img/plataforma/`), y la lista de qué ventana atiende cada servicio se importa del generador de esa guía para que coincidan; (b) solo los códigos de las ventanas, sin imagen.
+- **Orden.** Opciones: (a) **escogida:** el del flujo (identidad, pedidos, menú, inventario, solicitudes, cotizaciones, órdenes, notificaciones, integración, administración y analítica), precedido de la vista general (matriz servicios × tópicos, los 13 prefijos y las llamadas síncronas) y del gateway con Eureka; (b) alfabético; (c) el de la tabla 5 del reporte.
+- **Fuente de los datos.** Opciones: (a) **escogida:** como la guía del código, el generador lee del código al generar los endpoints (anotaciones de Spring), los tópicos que consume (`@KafkaListener`) y publica (el `tipo()` de cada evento y el módulo que lo crea), las tablas de Flyway, las clases del núcleo y los adaptadores Spring, los prefijos del gateway y las réplicas de la página 5, y se niega a generar si algo no cuadra (13 prefijos, 33 ventanas, ms-administracion sin publicar `auditoria.evento`, `evento_procesado` solo en los que consumen, un «para qué» por cada entrada); (b) escribir las tablas a mano. Los textos de responsabilidad, patrones y caídas se escriben a mano a partir del LEEME, el README, las tablas 5, 10, 11 y 13 del reporte y el comportamiento del código.
+
+**Qué implica:** `guias_sustentacion/fuente/generar_guia_microservicios.py` (los recortes necesitan Pillow: `mockups_nuevos/.venv/bin/python`) deja `guia_microservicios.html` y `img/microservicios/` (13 recortes). No hace falta encender la plataforma; ninguna instancia se toca.
 
 ---
 
