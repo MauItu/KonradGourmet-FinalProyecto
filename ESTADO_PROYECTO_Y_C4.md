@@ -1,6 +1,6 @@
 # Konrad Gourmet · Contexto, estado y diagramas C4
 
-> Documento de trabajo del equipo. Estado revisado el **23 de noviembre de 2026**, con los cortes 1 a 6b de la plataforma aprobados y el corte 7 (pruebas finales, revisión y reporte regenerado) en curso.
+> Documento de trabajo del equipo. Estado revisado el **23 de noviembre de 2026**, con los cortes 1 a 7 de la plataforma hechos (el 7d, README, LEEME y reporte regenerado, espera el OK de Mauricio).
 > Resume el proyecto, dónde está cada archivo, lo que se hizo en las seis sesiones de correcciones, en los documentos de entrega y en la plataforma, el estado de cada hallazgo y todo lo relacionado con el modelo C4 del archivo `Arquitectura_Konrad_Gourmet.drawio`.
 > El resumen corto de qué se planeó, qué se hizo y qué falta está en `PLAN_Y_ESTADO.md`; este documento da el detalle.
 
@@ -105,17 +105,17 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 | `Arquitectura_Konrad_Gourmet.drawio` | Los diagramas: **11 páginas**, con una celda por línea para poder revertir cambios sueltos |
 | `Arquitectura_Konrad_GourmetOriginalSinCorregir.drawio` | Copia intacta del original, con 8 páginas. **No modificar** |
 | `Reporte_Arquitectura_Konrad_Gourmet.pdf` | Reporte de arquitectura original (38 págs.). Se conserva sin cambios |
-| `Reporte_Arquitectura_Konrad_Gourmet_v2.pdf` y `.docx` | El reporte rehecho (DEC-54 y DEC-55) con las correcciones de `CORRECCIONES_REPORTE.md` y DEC-57; se genera con `reporte/generar_reporte.py` desde `reporte/contenido/` (un `.md` por sección). Se regenera en el corte 7 |
+| `Reporte_Arquitectura_Konrad_Gourmet_v2.pdf` y `.docx` | El reporte rehecho (DEC-54 y DEC-55) con las correcciones de `CORRECCIONES_REPORTE.md` y DEC-57; se genera con `reporte/generar_reporte.py` desde `reporte/contenido/` (un `.md` por sección). Regenerado en el 7d (69 págs.) |
 | `Copia de ARQUITECTURA-Supuestos de Capacidad  del equipo.xlsx` | Capacidad del equipo y sprints, ya corregido (DEC-47) |
 | `DISEÑO UXUI.pdf`, `flujo-web-konrad-gourmet (1).pdf` | Mockups de las 23 ventanas (Canva) y flujo web. No se modifican |
 | `mockups_admin/`, `mockups_faltantes/` | Los mockups que faltaban: las ventanas del administrador y los cambios a V05, V07, V14, V20 y V23 (`mockups_admin/`); el tablero BAM, las promociones sugeridas y M-01 a M-09 (`mockups_faltantes/`), en escritorio y a 390 px |
 | `PLAN_Y_ESTADO.md` | Resumen único de qué se planeó, qué se hizo y qué falta |
 | `PLAN_CORRECCIONES.md` | El plan de las 5 sesiones originales y la sesión 6, con su tabla de avance |
 | `CAMBIOS_A_DOCUMENTAR.md` | Lo que la plataforma agrega o cambia frente a los mockups, el `.drawio`, el reporte y los casos de uso (CD-01 en adelante, DEC-77), con su estado |
-| `DECISIONES.md` | DEC-01 a DEC-95 con su contexto y opciones, y las preguntas abiertas |
+| `DECISIONES.md` | DEC-01 a DEC-106 con su contexto y opciones, y las preguntas abiertas |
 | `REVISION_2026-11-07.md` | Los hallazgos H1–H26 del arquitecto-revisor |
 | `INVENTARIO_SESION2.md`, `INVENTARIO_SESION3.md` | Lista de ítems que cada sesión debía cambiar |
-| `VALIDACION_FASE2A.md`, `VALIDACION_SESION2.md` a `VALIDACION_SESION6.md` | Lo que el revisor encontró al validar cada sesión |
+| `VALIDACION_FASE2A.md`, `VALIDACION_SESION2.md` a `VALIDACION_SESION6.md`, `VALIDACION_CORTE7.md` | Lo que el revisor encontró al validar cada sesión y la plataforma completa (C7-1 a C7-27) |
 | `CORRECCIONES_REPORTE.md` | Las 66 correcciones (R-01 a R-66) que hay que aplicar al reporte |
 | `REVISION_ARQUITECTO_POST_S6.md` | Informe del arquitecto-revisor de Claude con PD-01 a PD-11 y la resolución de los supuestos |
 | `CORRECCIONES_HU_Y_MOCKUPS.md` | Lo que hay que cambiar en el Story Mapping y los mockups |
@@ -130,16 +130,16 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 | Carpeta o archivo | Qué es |
 |---|---|
 | `src/` | 195 clases del modelo en 12 paquetes de servicio, más el paquete `demo`: el núcleo (dominio, eventos, puertos y aplicación) que copian los servicios al compilar (DEC-61) |
-| `pruebas/` | 398 verificaciones en 8 clases, sin JUnit (DEC-44) |
+| `pruebas/` | 400 verificaciones en 8 clases, sin JUnit (DEC-44) |
 | `ejecutar.sh` | Compila, ejecuta la versión en memoria y corre las pruebas. Solo necesita un JDK 21 |
-| `servicios/` | Los 11 microservicios Spring Boot 3.5 y el gateway, con sus adaptadores reales y sus pruebas JUnit (86 al corte 6b) |
+| `servicios/` | Los 11 microservicios Spring Boot 3.5 y el gateway, con sus adaptadores reales y sus 91 pruebas JUnit |
 | `web/` | La SPA en React + TypeScript |
-| `plataforma/` | Docker Compose (`levantar.sh`, `bajar.sh`, `compilar.sh`), la infraestructura simulada (Ministerio y redes sociales) y las pruebas de punta a punta (`pruebas/recorrido_corteN.py` y `verificar_corteN.py`); su `LEEME.md` dice cómo levantarla y probarla |
+| `plataforma/` | Docker Compose (`levantar.sh`, `bajar.sh`, `compilar.sh`), la infraestructura simulada (Ministerio y redes sociales) las pruebas de punta a punta (`pruebas/recorrido_corteN.py` y `verificar_corteN.py`, cortes 3 a 7) y `probar_todo.sh`, que corre todas las pruebas sobre una instancia limpia; su `LEEME.md` dice cómo levantarla y probarla |
 | `README.md` | Capas, módulos, patrones, qué métodos tienen lógica y la plataforma |
 
 **`FinalProyecto/exportes/`**: PNG de las páginas del `.drawio` a escala 1 (a escala mayor salen en blanco), una carpeta por etapa (`sesion5/`, `sesion6/`, `post_sesion6/`, `sustentacion/`, `corte7/`…). El reporte v2 toma sus figuras de `documentos/reporte/figuras/`.
 
-**Repo público:** `github.com/MauItu/KonradGourmet-FinalProyecto`, rama `main`. Junta `documentos/` y `KonradGourmet/` (que allí se llama `codigo/`) con la historia de ambos, para que un compañero lo clone. Se actualiza solo cuando Mauricio lo pide: clon temporal, `git merge -X subtree=…` de cada rama y push por HTTPS. La última publicación fue la del reporte v2 (9-nov-2026, `main` en `cf4ddda`); la plataforma (`stack-real`) y lo posterior se publican al cerrar el corte 7, cuando Mauricio lo pida. Los PNG de `exportes/` permanecen fuera de ambos repos locales.
+**Repo público:** `github.com/MauItu/KonradGourmet-FinalProyecto`, rama `main`. Junta `documentos/` y `KonradGourmet/` (que allí se llama `codigo/`) con la historia de ambos, para que un compañero lo clone. Se actualiza solo cuando Mauricio lo pide: clon temporal, `git merge -X subtree=…` de cada rama y push por HTTPS. La última publicación fue la del reporte v2 (9-nov-2026, `main` en `cf4ddda`); la plataforma (`stack-real`) y lo posterior se publican cuando Mauricio lo pida, después del corte 7. Los PNG de `exportes/` permanecen fuera de ambos repos locales.
 
 **Fuera de `FinalProyecto/`, en `../proyecto/`:**
 
@@ -157,18 +157,17 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 |---|---|---|
 | Diseño de arquitectura | **Sólido** | Microservicios + eventos + hexagonal, justificados contra los requerimientos no funcionales. Trazabilidad de las 23 ventanas y de las ocho que se agregaron (tablero BAM, promociones, proveedores y las cinco del administrador) |
 | Diagramas C4 y de clases | **Corregidos y al día con la plataforma** | 11 páginas; 195 clases en 4a–4e. Las sesiones 1 a 3 aplicaron los hallazgos del revisor; los cortes de la plataforma agregaron 4 clases (DEC-62 y DEC-67), los métodos de DEC-75, DEC-80 y DEC-85, los atributos de DEC-88 y DEC-89 y las notas «Infraestructura que no se dibuja» (DEC-79) |
-| Código Java (`src/`) | **Núcleo con lógica** | 195 clases con sus firmas y relaciones, que compilan con `javac --release 21 -Xlint:all`; los servicios Spring copian este núcleo al compilar (DEC-61). 398 verificaciones en 8 clases; 60 cuerpos «Pendiente de implementar», que en la plataforma resuelven los adaptadores reales de `servicios/` |
-| Plataforma (`stack-real`) | **Los 7 cortes hechos** | Los 11 microservicios con gateway, Eureka, Kafka, PostgreSQL (una base por servicio), Redis, almacén S3, Elasticsearch, correo y Nginx en Docker Compose, y la SPA en React con todas las ventanas. 86 pruebas JUnit y los recorridos de navegador de cada corte, que también pasan en un clon limpio |
+| Código Java (`src/`) | **Núcleo con lógica** | 195 clases con sus firmas y relaciones, que compilan con `javac --release 21 -Xlint:all`; los servicios Spring copian este núcleo al compilar (DEC-61). 400 verificaciones en 8 clases; 61 cuerpos «Pendiente de implementar», que en la plataforma resuelven los adaptadores reales de `servicios/` |
+| Plataforma (`stack-real`) | **Los 7 cortes hechos** | Los 11 microservicios con gateway, Eureka, Kafka, PostgreSQL (una base por servicio), Redis, almacén S3, Elasticsearch, correo y Nginx en Docker Compose, y la SPA en React con todas las ventanas; outbox con relé, consumidores idempotentes y límite de tasa en el gateway (DEC-104). `probar_todo.sh`: 1.254 comprobaciones sin fallas (400 del núcleo, 91 JUnit y 763 de los recorridos y verificadores de los cortes 3 a 7), también en un clon limpio |
 | Versión en memoria | **Funciona** | `DemoArquitectura` recorre pedido, alarma de stock, SOL-031, COT-018/019/020 y OC-0012, y cubre las 7 salidas que promete el reporte (DEC-31). Reproduce +4,81 % → OPCIONADA |
-| Reporte | **v2 rehecho; se regenera en el corte 7** | `Reporte_Arquitectura_Konrad_Gourmet_v2` (61 págs.) con las correcciones de `CORRECCIONES_REPORTE.md` salvo las opcionales R-14, R-19, R-39 y R-53, y sin hablar de límites de la demo (DEC-57). Al regenerarlo entran 195 clases, los CD pendientes, los números de pruebas y el diagrama de casos de uso |
+| Reporte | **v2 regenerado en el 7d** | `Reporte_Arquitectura_Konrad_Gourmet_v2` (69 págs.) con las correcciones de `CORRECCIONES_REPORTE.md` salvo las opcionales R-14, R-19, R-39 y R-53, sin hablar de límites de la demo (DEC-57), con 195 clases, todos los CD que lo tocan, la outbox, la idempotencia y el límite de tasa, las 1.254 comprobaciones, el diagrama de casos de uso (figura 7) y las figuras del `.drawio` vigente |
 | Historias de usuario y mockups | **Corregidos** | `STORY_MAPPING_CORREGIDO.md` (HU-07 reescrita, etiquetas, 5 sprints). Los mockups que faltaban o había que cambiar (M-01 a M-09, CD-01 a CD-28) están en `mockups_admin/` y `mockups_faltantes/`; M-07 no aplica (DEC-93) |
 | Planeación (Excel) | **Corregido** | 1 PHU = 25 h, 9 PHU por sprint, HU-14 = 1 (total 35), HU-17 en el sprint 3. **5 sprints, 10 semanas, 35 PHU y fechas del 03/08 al 11/10/2026**, todo con fórmulas (DEC-47) |
 | Casos de uso | **Texto y diagrama al día** | 19 CU, 12 RF y las ventanas de cada uno, con los mensajes de PD-10 y de la plataforma; `casos_de_uso.png` con los 19 casos, los 6 roles y los 5 actores externos (DEC-92). El enunciado original no está disponible |
 
 **Riesgos que siguen abiertos**
-- **Reporte:** la versión v2 todavía dice 191 clases y le faltan las rutas, los eventos y los supuestos de la plataforma (CD-02, CD-08, CD-10, CD-12, CD-14, CD-15, CD-23, CD-33, CD-34, CD-50 y CD-55). Se resuelve al regenerarlo en el corte 7.
-- **Pruebas finales:** falta la historia que cruza los 11 servicios y los 6 roles, la corrida de todos los cortes en orden y el clon limpio (corte 7).
-- **Supuestos:** DEC-92 y DEC-94 (diagrama de casos de uso y datos de los mockups) están por confirmar por Mauricio; los demás supuestos de la plataforma quedaron confirmados al aprobar cada corte.
+- **Supuestos:** DEC-106 (detalles del 7d) está por confirmar por Mauricio; los demás quedaron confirmados al aprobar cada paso.
+- **Pendientes del equipo:** los guiones de la sustentación (se rehacen al final) y la publicación en el repo público, cuando Mauricio la pida.
 
 ---
 
@@ -328,7 +327,7 @@ El plan completo está en `PLAN_CORRECCIONES.md`. Cada corrección es un commit 
 | Post sesión 6 | PD-01 a PD-11 del arquitecto-revisor (`REVISION_ARQUITECTO_POST_S6.md`), `STORY_MAPPING_CORREGIDO.md` y el reporte v2 (DEC-54 a DEC-57, PC-01 a PC-22) | Aprobada por Mauricio el 9-nov |
 | Plataforma, cortes 1 a 6b | El stack especificado en Docker Compose y la SPA en React (DEC-58 a DEC-91), un corte por servicio o grupo de servicios, con sus pruebas de punta a punta | Aprobados por Mauricio entre el 17 y el 23-nov |
 | Antes del corte 7 | Diagrama de casos de uso (DEC-92) y mockups faltantes (DEC-93 y DEC-94) | Aprobadas por Mauricio el 23-nov |
-| Corte 7 | 7a documentación pendiente; 7b pruebas de punta a punta y clon limpio; 7c revisión del arquitecto; 7d README, LEEME y reporte regenerado (DEC-95) | En curso |
+| Corte 7 | 7a documentación pendiente; 7b pruebas de punta a punta y clon limpio; 7c revisión del arquitecto (C7-1 a C7-27, DEC-100 a DEC-105); 7d README, LEEME y reporte regenerado (DEC-95, DEC-106) | 7a a 7c aprobados por Mauricio el 23-nov; 7d hecho, esperando su OK |
 
 **Lo que no se tocó, a propósito:** `Arquitectura_Konrad_GourmetOriginalSinCorregir.drawio`, el reporte PDF original, el PDF de UX/UI, el de flujo y el Story Mapping. Lo que había que cambiar en ellos está en los archivos `CORRECCIONES_*.md` y se aplicó en el reporte v2, `STORY_MAPPING_CORREGIDO.md` y los mockups nuevos.
 
@@ -425,14 +424,14 @@ Leyenda: ✅ hecho · 🔴 abierto. Donde una fila dice «Reporte» o «R-xx», 
 
 ## 6. Qué falta y quién lo hace
 
-**Al 23 de noviembre:** las sesiones 1 a 6, los documentos de entrega, los cortes 1 a 6b de la plataforma, el diagrama de casos de uso y los mockups faltantes están aprobados por Mauricio. Queda el corte 7 (DEC-95), un paso por mensaje con su OK:
+**Al 23 de noviembre:** las sesiones 1 a 6, los documentos de entrega, los cortes 1 a 6b de la plataforma, el diagrama de casos de uso, los mockups faltantes y los pasos 7a a 7c del corte 7 están aprobados por Mauricio. El 7d está hecho y espera su OK:
 
-| Paso | Qué | Dónde |
+| Paso | Qué | Estado |
 |---|---|---|
-| 7a | Documentación pendiente fuera del reporte: casos de uso (CD-12, CD-24, CD-35 y CD-57), la nota `n_altausuarios` (CD-26), la fila de DEC-56, este documento, y la leyenda del eje del proveedor del tablero BAM con sus mockups | `documentos/` y `KonradGourmet/web/` |
-| 7b | Pruebas de punta a punta: una historia que cruza los 11 servicios y los 6 roles, todos los cortes en orden en una instalación limpia, los JUnit, las verificaciones de `pruebas/` y un clon limpio | `KonradGourmet/plataforma/pruebas/` |
-| 7c | Validación del arquitecto-revisor sobre la plataforma completa | `documentos/VALIDACION_CORTE7.md` |
-| 7d | README y LEEME finales; el reporte regenerado con 195 clases, los CD pendientes, los números reales de pruebas y el diagrama de casos de uso; `PLAN_Y_ESTADO.md` al día | `KonradGourmet/`, `documentos/reporte/` |
+| 7a | Documentación pendiente fuera del reporte: casos de uso (CD-12, CD-24, CD-35 y CD-57), la nota `n_altausuarios` (CD-26), la fila de DEC-56, este documento, y la leyenda del eje del proveedor del tablero BAM con sus mockups | Aprobado |
+| 7b | Pruebas de punta a punta: una historia que cruza los 11 servicios y los 6 roles, todos los cortes en orden en una instalación limpia, los JUnit, las verificaciones de `pruebas/` y un clon limpio | Aprobado (1.254 comprobaciones con las correcciones del 7c) |
+| 7c | Validación del arquitecto-revisor sobre la plataforma completa (`VALIDACION_CORTE7.md`) y sus correcciones | Aprobado |
+| 7d | README y LEEME finales; el reporte regenerado con 195 clases, los CD pendientes, los números reales de pruebas y el diagrama de casos de uso; `PLAN_Y_ESTADO.md` al día | Hecho, esperando el OK |
 
 **Después del corte 7:**
 
@@ -452,9 +451,10 @@ Leyenda: ✅ hecho · 🔴 abierto. Donde una fila dice «Reporte» o «R-xx», 
 | **A4** | Resuelta por DEC-51 y DEC-53 |
 | **A5** | Abierta, prioridad baja: el enunciado original no está en ninguna carpeta |
 | Nombres de los usuarios | Cerrado por Mauricio el 23-nov: los de la plataforma; el director comercial es Andrés Rojas (DEC-63) |
-| DEC-92 y DEC-94 | Por confirmar por Mauricio (diagrama de casos de uso y datos de los mockups faltantes) |
+| DEC-92 y DEC-94 | Confirmadas por Mauricio el 23-nov |
+| DEC-106 | Por confirmar por Mauricio (detalles del 7d) |
 
-**Supuestos:** DEC-08, DEC-20, DEC-39, DEC-40, DEC-41, DEC-44, DEC-45, DEC-47 (orden de filas) y DEC-48 los resolvió el arquitecto-revisor el 2026-11-08 por delegación de Mauricio (confirmados; DEC-08, DEC-41, DEC-44 y DEC-48 con ajuste). También tomó PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`). Los supuestos de la plataforma (DEC-63, DEC-68, DEC-69, DEC-71 a DEC-74, DEC-78, DEC-82, DEC-87 y DEC-91) los confirmó Mauricio al aprobar cada corte. HU-20 a HU-22 se omiten del plan de sprints (PD-09).
+**Supuestos:** DEC-08, DEC-20, DEC-39, DEC-40, DEC-41, DEC-44, DEC-45, DEC-47 (orden de filas) y DEC-48 los resolvió el arquitecto-revisor el 2026-11-08 por delegación de Mauricio (confirmados; DEC-08, DEC-41, DEC-44 y DEC-48 con ajuste). También tomó PD-01 a PD-11 (`REVISION_ARQUITECTO_POST_S6.md`). Los supuestos de la plataforma (DEC-63, DEC-68, DEC-69, DEC-71 a DEC-74, DEC-78, DEC-82, DEC-87, DEC-91, DEC-92, DEC-94, DEC-99 y DEC-105) los confirmó Mauricio al aprobar cada corte; DEC-106 está por confirmar. HU-20 a HU-22 se omiten del plan de sprints (PD-09).
 
 ---
 
@@ -464,12 +464,12 @@ Leyenda: ✅ hecho · 🔴 abierto. Donde una fila dice «Reporte» o «R-xx», 
 |---|---|
 | **Contenedor (C4)** | Algo que se despliega o se ejecuta por separado: una aplicación, un servicio o una base de datos. No es lo mismo que un contenedor Docker |
 | **Componente (C4)** | Una agrupación de clases dentro de un contenedor, con una responsabilidad clara |
-| **API Gateway** | La única puerta de entrada desde afuera. Valida el JWT y envía cada ruta `/api/…` a su microservicio |
+| **API Gateway** | La única puerta de entrada desde afuera. Valida el JWT, limita la tasa de peticiones por usuario o IP y envía cada ruta `/api/…` a su microservicio |
 | **Ruta del gateway** | Un prefijo como `/api/pedidos/**` que indica a qué servicio va la petición. Un servicio sin ruta no es alcanzable desde afuera |
 | **Kafka / tópico / evento** | Kafka es el buzón compartido. Un tópico es un canal temático, como `orden.generada`. Un evento es un mensaje corto que avisa que algo pasó, sin esperar respuesta |
 | **Publish-Subscribe** | Quien publica no sabe quién lee. Es lo que hace Kafka; el Observer clásico, en cambio, guarda la lista de observadores |
 | **Hexagonal / puerto / adaptador** | El dominio queda en el centro. Un puerto es la interfaz con la que el dominio pide algo afuera; un adaptador es la implementación concreta (JPA, Kafka, REST, OpenPDF) |
-| **Outbox** | El evento se guarda en la misma transacción que el cambio y un proceso lo publica después, para no perderlo |
+| **Outbox** | El evento se guarda en la misma transacción que el cambio y un relé lo publica después, para no perderlo; cada consumidor descarta los eventos que ya procesó (idempotencia) |
 | **Claim check** | Guardar el archivo pesado aparte y enviar en el mensaje solo la referencia de dónde está |
 | **JDBC** | El conector de Java para bases de datos relacionales (SQL). No sirve para Redis |
 | **Redis** | Una caché en memoria, de tipo clave-valor. Aquí guarda los precios del Ministerio para no consultarlo cada vez (patrón Proxy) |
