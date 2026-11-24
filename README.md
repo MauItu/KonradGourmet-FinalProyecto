@@ -217,14 +217,15 @@ Límites que conviene conocer:
 
 ### Pruebas
 
-`pruebas/` tiene 398 verificaciones en 8 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
+`pruebas/` tiene 400 verificaciones en 8 clases de prueba, sobre un mini marco (`Prueba`) que no usa JUnit:
 - `PruebasCotizacion`: los valores de V19 y los límites de la cadena de reglas (+25,00 % y −50,00 % siguen
   OPCIONADA; +25,01 % y −50,01 % no), y la cotización y el proveedor rearmados desde la base;
 - `PruebasPatrones`: los 8 patrones, uno por uno;
 - `PruebasPlatos`: ms-menu (HU-04): crear, nombre repetido, editar, desactivar y reactivar; cada cambio publica
   `menu.actualizado` y el catálogo del mesero (con la categoría de la carta, DEC-66) y la receta del inventario se
   actualizan por el bus; la imagen del plato en el almacén (DEC-67) y el pedido rearmado con su fecha y estado;
-- `PruebasFlujoDeCompra`: pedido (con su mesero), inventario (incluido el cierre del día siguiente), solicitud, cotización,
+- `PruebasFlujoDeCompra`: pedido (con su mesero), inventario (incluido el cierre del día siguiente y el correo de stock
+  bajo con los decimales con coma y la sucursal, DEC-98 y DEC-102), solicitud, cotización,
   orden OC-0012 con su PDF (DEC-75), finalizada una sola vez (DEC-80) y rearmada desde la base, una cotización con 2 solicitudes (DEC-05), proveedores y el
   caso PENDIENTE_PRECIO (H18);
 - `PruebasIdentidad`: la política de contraseña (DEC-10), el alta de los 6 roles (Factory Method), el correo único
