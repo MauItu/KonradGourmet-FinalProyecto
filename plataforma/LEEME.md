@@ -197,19 +197,48 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
 
 | Corte | Contenido | Estado |
 |---|---|---|
-| 1 | Infraestructura, Eureka, gateway con los 13 prefijos, Nginx | Hecho |
-| 2 | ms-identidad (login con JWT y BCrypt, menú por rol) y la SPA en React + TypeScript | Hecho |
-| 3 | ms-pedidos, ms-menu y ms-inventario (V02–V07), DEC-64 y DEC-65 | Hecho |
-| 4a | ms-solicitudes (V08–V12) y ms-integracion (precio de referencia con caché en Redis, SOAP), DEC-70 a DEC-72 | Hecho |
-| 4b | ms-cotizaciones (V13–V19, proveedores y PDF con OpenPDF) y ms-solicitudes con `cotizacion.enviada`, DEC-73 y DEC-74 | Hecho |
-| 5 | ms-ordenes y ms-notificaciones (V20–V23, correos con el PDF, alarma en vivo, orden recibida, reproceso de la cola de errores), DEC-75 a DEC-82 | Hecho |
-| 6a | ms-administracion (auditoría, parámetros y tema, logs de errores con Elasticsearch, usuarios y destinatarios), DEC-83 a DEC-87 | Hecho |
-| 6b | ms-analitica (tablero BAM del director comercial, promociones de HU-19 con la API de redes simulada y `tendencia.detectada`, PD-05), DEC-88 a DEC-91 | Hecho y aprobado |
-| 7 | Pruebas de punta a punta, README y revisión | Pendiente |
+| 1 | Infraestructura, Eureka, gateway con los 13 prefijos, Nginx | Aprobado |
+| 2 | ms-identidad (login con JWT y BCrypt, menú por rol) y la SPA en React + TypeScript | Aprobado |
+| 3 | ms-pedidos, ms-menu y ms-inventario (V02–V07), DEC-64 y DEC-65 | Aprobado |
+| 4a | ms-solicitudes (V08–V12) y ms-integracion (precio de referencia con caché en Redis, SOAP), DEC-70 a DEC-72 | Aprobado |
+| 4b | ms-cotizaciones (V13–V19, proveedores y PDF con OpenPDF) y ms-solicitudes con `cotizacion.enviada`, DEC-73 y DEC-74 | Aprobado |
+| 5 | ms-ordenes y ms-notificaciones (V20–V23, correos con el PDF, alarma en vivo, orden recibida, reproceso de la cola de errores), DEC-75 a DEC-82 | Aprobado |
+| 6a | ms-administracion (auditoría, parámetros y tema, logs de errores con Elasticsearch, usuarios y destinatarios), DEC-83 a DEC-87 | Aprobado |
+| 6b | ms-analitica (tablero BAM del director comercial, promociones de HU-19 con la API de redes simulada y `tendencia.detectada`, PD-05), DEC-88 a DEC-91 | Aprobado |
+| 7 | Mockups que faltaban (DEC-96); mensajes de las historias (DEC-97) y coma decimal (DEC-98); historia de punta a punta y `probar_todo.sh` (DEC-99); revisión de la plataforma completa (`documentos/VALIDACION_CORTE7.md`) y sus correcciones: «Solicitar» con el producto (DEC-100), `reactivar()` en el diagrama (DEC-101), V05 y el correo con la sucursal (DEC-102), V11 de a 25 (DEC-103), outbox, consumidores idempotentes y límite de tasa (DEC-104 y DEC-105); README y LEEME finales y el reporte regenerado | Aprobado |
 
 ## Probar de punta a punta
 
-Con la plataforma arriba (mejor recién levantada con `./plataforma/bajar.sh --borrar` y `levantar.sh`):
+**Todo de una vez** (DEC-99): `probar_todo.sh` corre las verificaciones del núcleo, las pruebas JUnit de los servicios
+y, sobre una instancia recién creada, el recorrido y el verificador de cada corte, del 3 al 7, en orden (cada corte
+sigue con los datos que dejó el anterior). Necesita un Python con Playwright y Chromium en `/usr/bin/chromium`; tarda
+unos 40 minutos.
+
+```bash
+PYTHON=/ruta/al/venv/bin/python ./plataforma/probar_todo.sh /tmp/pruebas                # todo
+PYTHON=/ruta/al/venv/bin/python ./plataforma/probar_todo.sh --sin-compilar /tmp/pruebas # sin compilar ni JUnit
+```
+
+Usa su propia instancia, `kg-limpio` (otra con `COMPOSE_PROJECT_NAME`): la borra al empezar (`docker compose down -v`),
+espera 75 s después de `levantar.sh` a que Eureka propague las instancias entre los servicios y la detiene al terminar
+(`--conservar` la deja corriendo). No acepta `konrad-gourmet`, la instancia de todos los días, para no borrar sus datos.
+`CORTES="3 4a"` corre solo los primeros. En la carpeta quedan los registros, las capturas y `resumen.txt`:
+
+| Parte | Comprobaciones |
+|---|---|
+| `pruebas/` (núcleo, 8 clases) | 400 |
+| JUnit (servicios) | 91 |
+| Corte 3: recorrido · verificador | 23 · 22 |
+| Corte 4a | 41 · 33 |
+| Corte 4b | 66 · 72 |
+| Corte 5 | 57 · 83 |
+| Corte 6a | 59 · 57 |
+| Corte 6b | 40 · 60 |
+| Corte 7 | 56 · 94 |
+| **Total** | **1.254** (400 + 91 + 763), sin fallas, en una instancia limpia |
+
+**Corte por corte**, con la plataforma arriba (mejor recién levantada con `./plataforma/bajar.sh --borrar` y
+`levantar.sh`, y en el orden de abajo):
 
 ```bash
 python plataforma/pruebas/recorrido_corte3.py /tmp/capturas    # navegador: mesero, jefe, cierre, alerta (necesita Playwright y Chromium)
@@ -224,6 +253,8 @@ python plataforma/pruebas/recorrido_corte6a.py /tmp/capturas   # navegador: las 
 python plataforma/pruebas/verificar_corte6a.py /tmp/capturas   # la bitácora contra Kafka, el tema y su caché, Elasticsearch, usuarios y destinatarios
 python plataforma/pruebas/recorrido_corte6b.py /tmp/capturas   # navegador: el tablero BAM del director comercial y las promociones del jefe (después del 6a)
 python plataforma/pruebas/verificar_corte6b.py /tmp/capturas   # los hechos contra Kafka, el tablero contra SQL, el job, tendencia.detectada, el correo y los roles
+python plataforma/pruebas/recorrido_corte7.py /tmp/capturas    # navegador: una historia con los 11 servicios y los 6 roles (después del 6b)
+python plataforma/pruebas/verificar_corte7.py /tmp/capturas    # el rastro de la historia en cada servicio, la outbox, los repetidos, Kafka detenido y el límite de tasa
 ```
 
 El recorrido registra un pedido de $82.000 (2 bandejas paisas y 1 ajiaco), crea un plato con imagen, lo edita
@@ -303,6 +334,21 @@ anteriores, `tendencia.detectada` (una vez hoy, con su correlación), el correo 
 jefe) con esa correlación en la traza de envíos; con una tendencia nueva en la API, el job la sugiere sin otro correo; con la
 API caída, el error llega a «Logs de errores» y lo demás sigue; y aceptar y descartar (409, 404, la auditoría) y los roles,
 también directo al servicio.
+
+El del corte 7 es una historia nueva que cruza los 11 servicios y los 6 roles (DEC-99). El jefe de cocina crea en V06 el
+«Arroz con verduras» (Fuertes, $22.000, 250 g de arroz, con imagen) y `menu.actualizado` lo lleva al catálogo del mesero,
+a las recetas y a ms-analitica. El mesero lo pide para un evento, con las unidades que hacen falta para que el arroz baje
+del 25 %. El jefe ejecuta el cierre del día: la alarma del arroz llega en vivo y su «Solicitar» abre V08 con el arroz ya
+escogido (DEC-100); el jefe pide 40 kg. La auxiliar cotiza con el Proveedor ABC y el Proveedor C, sin la caché del precio
+(el Ministerio responde una sola vez para las dos), y V14 marca «Correo enviado». La directora registra los valores y
+valida las dos (+3,75 % y −1,25 %, OPCIONADAS), compra al Proveedor C (OC-0013, $316.000) y la marca recibida; el jefe ve
+la solicitud COMPLETADA. El director comercial ve el plato y el Proveedor C en el tablero de hoy, y la administradora, los
+11 servicios activos, la historia en «Auditoría» y los destinatarios. A 390 px, cada rol abre su ventana con el
+resultado. El verificador busca el rastro de la historia en cada servicio (bases, Kafka, Redis, el almacén, Mailpit, el
+tablero contra SQL y la bitácora en el orden en que pasó) y prueba lo de DEC-104: las 11 outbox vacías al terminar, un
+`pedido.registrado` repetido (el mismo id, otra vez en el tópico) que no cambia el consumo pendiente ni el tablero, una
+escritura con Kafka detenido que responde enseguida, espera en la outbox y llega una sola vez a la bitácora cuando Kafka
+vuelve, y el 429 del gateway con sesión y sin ella, aunque cada petición traiga otro `X-Forwarded-For`.
 
 **ms-analitica en una instalación con datos.** El grupo de consumo `ms-analitica` empieza por el principio de sus tópicos:
 la primera vez que arranca en una instalación que ya tenía eventos (por ejemplo, la de los volúmenes `konrad-gourmet_*`),
