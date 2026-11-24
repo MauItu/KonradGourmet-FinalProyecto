@@ -59,8 +59,8 @@ Sin hallazgo: las claves de las bases y de S3 fijas en `application.yml` y en el
 | C7-23 | Baja | El comentario de `NotificacionListeners.CONSUMIDOR` decía que `ReprocesoColaErrores` usa el mismo nombre | Comentario corregido | Corregido (código 13d7719) |
 | C7-24 | Baja | Comentarios de la SPA con «sin mockup» | Nombran la carpeta de su mockup | Corregido (código 287db28) |
 | C7-25 | Baja | `README.md` dice que los consumidores no descartan repetidos y que `registrarDestinatario()` no audita | Se corrige con C7-18 | Para el 7d |
-| C7-26 | Baja | La copia vieja de los casos de uso en la raíz de `FinalProyecto/` cita «el código del 8 de noviembre» y enlaza a claude.ai | Moverla a `archivo_desactualizado/` (recomendado) o dejarla y avisar al equipo | Por decidir (Mauricio) |
-| C7-27 | Baja | La transacción de `generar` (cotizaciones) abarca las llamadas remotas; si se deshace, el PDF queda huérfano en S3 | Aceptarlo (recomendado) o partir la fachada, que cambia la 4c | Por decidir (Mauricio) |
+| C7-26 | Baja | La copia vieja de los casos de uso en la raíz de `FinalProyecto/` cita «el código del 8 de noviembre» y enlaza a claude.ai | Moverla a `archivo_desactualizado/` (recomendado) o dejarla y avisar al equipo | Movida a `FinalProyecto/archivo_desactualizado/` (Mauricio, 2026-11-23; fuera de git) |
+| C7-27 | Baja | La transacción de `generar` (cotizaciones) abarca las llamadas remotas; si se deshace, el PDF queda huérfano en S3 | Aceptarlo (recomendado) o partir la fachada, que cambia la 4c | Aceptado (Mauricio, 2026-11-23): no cambia nada |
 
 Observación sin hallazgo: `deLaSucursal()` de ms-menu lee los platos de la sucursal en cada llamada; un `detalle(id)` lo evitaría, pero cambia la 4b.
 
