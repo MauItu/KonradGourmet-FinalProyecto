@@ -10,19 +10,24 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 /**
- * El proceso relé de la outbox (nota n_outbox de la 4a, DEC-104): lee los eventos guardados en orden, los
- * publica en Kafka esperando la confirmación del broker y solo entonces los borra, todo en una transacción.
+ * El proceso relé de la outbox (nota n_outbox de la 4a, DEC-104): lee un lote de eventos guardados, en el orden de
+ * su secuencia, los envía todos a Kafka, espera la confirmación del broker de cada uno y solo entonces los borra,
+ * todo en una transacción. El productor idempotente de Kafka conserva el orden dentro de cada partición, así que
+ * los eventos de una misma clave (la misma entidad) llegan en orden (C7-21).
  * Si Kafka no responde, la transacción se deshace, los eventos quedan en la tabla y se vuelven a intentar;
  * un evento puede salir dos veces, y por eso los consumidores descartan los repetidos (EventosProcesados).
  *
  * Con varias réplicas, un candado de PostgreSQL (pg_try_advisory_xact_lock) deja publicar a una sola a la
- * vez, así los eventos salen en el orden en que se guardaron; FOR UPDATE SKIP LOCKED evita que dos lotes
- * tomen las mismas filas. Despierta apenas se confirma una transacción con eventos (OutboxEventos) y, si
+ * vez, para que dos réplicas no mezclen el orden de una misma clave; FOR UPDATE SKIP LOCKED evita que dos lotes
+ * tomen las mismas filas. Si un envío falla, se deshace todo el lote y se vuelve a enviar entero: los
+ * consumidores descartan lo repetido. Despierta apenas se confirma una transacción con eventos (OutboxEventos) y, si
  * no, revisa la tabla cada segundo.
  */
 public class ReleOutbox implements SmartLifecycle {
@@ -71,21 +76,29 @@ public class ReleOutbox implements SmartLifecycle {
         }
         List<Fila> filas = jdbc.query("SELECT secuencia, topico, clave, valor, clase FROM outbox ORDER BY secuencia LIMIT ? FOR UPDATE SKIP LOCKED",
                 (r, i) -> new Fila(r.getLong(1), r.getString(2), r.getString(3), r.getString(4), r.getString(5)), LOTE);
+        if (filas.isEmpty()) {
+            return 0;
+        }
+        // se envía el lote entero sin esperar evento por evento, y luego se esperan todas las confirmaciones
+        List<CompletableFuture<?>> envios = new ArrayList<>();
         for (Fila f : filas) {
             ProducerRecord<String, String> registro = new ProducerRecord<>(f.topico(), f.clave(), f.valor());
             if (f.clase() != null) {
                 registro.headers().add(claseHeader, f.clase().getBytes(StandardCharsets.UTF_8));
             }
-            try {
-                kafka.send(registro).get(10, TimeUnit.SECONDS);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new IllegalStateException("Se interrumpió la publicación de la outbox", e);
-            } catch (Exception e) {
-                throw new IllegalStateException("Kafka no confirmó el evento " + f.secuencia() + " de " + f.topico(), e);
-            }
-            jdbc.update("DELETE FROM outbox WHERE secuencia = ?", f.secuencia());
+            envios.add(kafka.send(registro));
         }
+        kafka.flush();
+        try {
+            CompletableFuture.allOf(envios.toArray(CompletableFuture[]::new)).get(15, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Se interrumpió la publicación de la outbox", e);
+        } catch (Exception e) {
+            throw new IllegalStateException("Kafka no confirmó un lote de " + filas.size() + " eventos", e);
+        }
+        Long[] secuencias = filas.stream().map(Fila::secuencia).toArray(Long[]::new);
+        jdbc.update("DELETE FROM outbox WHERE secuencia = ANY(?)", (Object) secuencias);
         return filas.size();
     }
 

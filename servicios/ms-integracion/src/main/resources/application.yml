@@ -18,6 +18,11 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # el relé de la outbox espera cada lote: si Kafka no responde, falla en 10 s y lo reintenta (DEC-104, C7-21)
+      properties:
+        max.block.ms: 10000
+        request.timeout.ms: 5000
+        delivery.timeout.ms: 10000
 
 # El servlet de Apache CXF atiende el SOAP bajo el mismo prefijo que el gateway publica (tabla 5).
 cxf:
