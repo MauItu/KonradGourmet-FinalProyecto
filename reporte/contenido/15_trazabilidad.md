@@ -16,7 +16,7 @@ Cada ventana está asignada a un servicio, a un método de su controlador REST y
 | 03 | Mesero | Nuevo pedido | ms-menu | PlatoRestController.imagen(id): la foto de cada plato | GET /api/platos/{id}/imagen |
 | 04 | Mesero | Pedido registrado | ms-pedidos | PedidoRestController.registrar(), respuesta 201 | 201 Created, PED-0251 |
 | 05 | Jefe de cocina | Inicio del jefe | ms-inventario | InventarioRestController.alertas() | GET /api/inventario/alertas |
-| 05 | Jefe de cocina | Inicio del jefe | ms-notificaciones | AlarmaPushAdapter publica la alarma de stock bajo en Redis y cada réplica la entrega en vivo | WebSocket /api/notificaciones/alarmas (solo el jefe de cocina) |
+| 05 | Jefe de cocina | Inicio del jefe | ms-notificaciones | AlarmaPushAdapter publica la alarma de stock bajo en Redis y cada réplica la entrega en vivo (CanalAlarmas, infraestructura que no se dibuja, nota de la página 4d) | WebSocket /api/notificaciones/alarmas (solo el jefe de cocina) |
 | 06 | Jefe de cocina | Nuevo plato | ms-menu | PlatoRestController.crear() | POST /api/platos |
 | 06 | Jefe de cocina | Nuevo plato | ms-menu | PlatoRestController.productosPorCategoria(categoriaId) | GET /api/platos/productos?categoria={id} (también para V08 y los filtros de V12) |
 | 06 | Jefe de cocina | Platos de la sucursal | ms-menu | PlatoRestController.consultar(sucursalId), con los desactivados | GET /api/platos |
@@ -32,7 +32,7 @@ Cada ventana está asignada a un servicio, a un método de su controlador REST y
 | 13 | Auxiliar de compras | Generar solicitud de cotización | ms-cotizaciones | ProveedorRestController.consultar(soloActivos): el desplegable de proveedores activos | GET /api/proveedores |
 | 13 | Auxiliar de compras | Generar solicitud de cotización | ms-integracion | PrecioRestController.precioSugerido(productoId): el precio estándar que pide ms-cotizaciones | GET /interno/precios/{productoId} (interno, fuera del gateway, con el JWT de quien cotiza) |
 | 14 | Auxiliar de compras | Cotización enviada | ms-cotizaciones | CotizacionRestController.pdf() | GET /api/cotizaciones/{id}/pdf |
-| 14 | Auxiliar de compras | Cotización enviada | ms-notificaciones | EnviosController.porCorrelacion(): si el correo al proveedor ya salió | GET /api/notificaciones/envios?correlacion=… |
+| 14 | Auxiliar de compras | Cotización enviada | ms-notificaciones | EnviosController.porCorrelacion(): si el correo al proveedor ya salió (infraestructura que no se dibuja, nota de la página 4d) | GET /api/notificaciones/envios?correlacion=… |
 | 15 | Auxiliar de compras | Cotizaciones | ms-cotizaciones | CotizacionRestController.consultar() | GET /api/cotizaciones |
 | 15 | Auxiliar de compras | Reenviar una cotización pendiente de precio | ms-cotizaciones | CotizacionRestController.reenviar(numero) | POST /api/cotizaciones/{id}/reenvio |
 | 16 | Director de compras | Inicio del director | ms-cotizaciones | CotizacionRestController.pendientesDeAtencion() | GET /api/cotizaciones/pendientes |
