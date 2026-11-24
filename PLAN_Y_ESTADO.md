@@ -31,7 +31,7 @@ Reglas de trabajo vigentes: un commit por corrección con su id al inicio; un pa
 
 ### Etapa B · Documentos de entrega
 
-- Reporte v2 (`Reporte_Arquitectura_Konrad_Gourmet_v2.pdf` y `.docx`, 69 páginas), generado con `reporte/generar_reporte.py` desde `reporte/contenido/`; el original se conserva intacto. Regenerado en el 7d con 195 clases, todos los CD que lo tocan, la outbox, la idempotencia y el límite de tasa (DEC-104), las 1.254 comprobaciones, el diagrama de casos de uso como figura 7 y las figuras del `.drawio` vigente (DEC-106).
+- Reporte v2 (`Reporte_Arquitectura_Konrad_Gourmet_v2.pdf` y `.docx`, 70 páginas), generado con `reporte/generar_reporte.py` desde `reporte/contenido/`; el original se conserva intacto. Regenerado en el 7d con 195 clases, todos los CD que lo tocan, la outbox, la idempotencia y el límite de tasa (DEC-104), las 1.254 comprobaciones, el diagrama de casos de uso como figura 7 y las figuras del `.drawio` vigente (DEC-106).
 - `STORY_MAPPING_CORREGIDO.md` aprobado por Mauricio (2026-11-09); el original no se toca.
 - `Casos de uso — Konrad Gourmet.md` corregido (RCU-1 a RCU-13 y los CD del corte 7) y su diagrama `casos_de_uso.png` (DEC-92), generado con `diagrama_casos_de_uso/generar.py`.
 - Decisiones de arquitectura PD-01 a PD-11 y siete supuestos confirmados (`REVISION_ARQUITECTO_POST_S6.md`).
