@@ -55,6 +55,9 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
       KAFKA_HEAP_OPTS: "-Xmx512m -Xms256m"
+      # Sin esta línea la imagen guarda los datos en /tmp/kafka-logs, dentro del contenedor, y el volumen queda vacío.
+      # Así los tópicos, sus eventos y lo que ya leyó cada grupo quedan en datos-kafka y sobreviven a «down» (DEC-114).
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
     volumes:
       - datos-kafka:/var/lib/kafka/data
     healthcheck:
