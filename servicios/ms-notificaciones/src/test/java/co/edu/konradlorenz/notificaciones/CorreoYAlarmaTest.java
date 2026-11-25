@@ -93,6 +93,21 @@ class CorreoYAlarmaTest {
         listeners = new NotificacionListeners(servicio, org.mockito.Mockito.mock(EventosProcesados.class));
     }
 
+    /** El texto del correo, sin los adjuntos, aunque venga dentro de varias partes. */
+    private static String texto(Part p) throws Exception {
+        Object contenido = p.getContent();
+        if (!(contenido instanceof Multipart mp)) {
+            return contenido.toString();
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < mp.getCount(); i++) {
+            if (!Part.ATTACHMENT.equalsIgnoreCase(mp.getBodyPart(i).getDisposition())) {
+                sb.append(texto(mp.getBodyPart(i)));
+            }
+        }
+        return sb.toString();
+    }
+
     private MimeMessage enviado() {
         ArgumentCaptor<MimeMessage> correo = ArgumentCaptor.forClass(MimeMessage.class);
         verify(smtp).send(correo.capture());
@@ -110,6 +125,9 @@ class CorreoYAlarmaTest {
         assertTrue(m.getHeader("X-Certificado")[0].startsWith("SHA-256:"), "lleva la huella del correo certificado");
         assertNotNull(m.getHeader("X-Sello-Tiempo"), "y la estampa cronológica");
         Multipart partes = (Multipart) m.getContent();
+        String texto = texto(m);
+        assertTrue(texto.contains("Orden OC-0012 sobre la cotización COT-018, total $545.000."),
+                "el total va en pesos, como en la aplicación (DEC-115): " + texto);
         Part adjunto = null;
         for (int i = 0; i < partes.getCount(); i++) {
             if (Part.ATTACHMENT.equalsIgnoreCase(partes.getBodyPart(i).getDisposition())) {

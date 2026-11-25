@@ -197,6 +197,10 @@ if m:
     ok(cab.get('X-Certificado', [''])[0].startswith('SHA-256:'), f'correo certificado: X-Certificado {cab.get("X-Certificado")}')
     ok(re.match(r'^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d-05:00$', cab.get('X-Sello-Tiempo', [''])[0] or '') is not None,
        f'con estampa cronológica en hora de Bogotá: X-Sello-Tiempo {cab.get("X-Sello-Tiempo")}')
+    _, cuerpo = http('GET', f'/api/v1/message/{m[0]["ID"]}', base=MAILPIT)
+    texto = json.loads(cuerpo).get('Text', '')
+    ok('Orden OC-0012 sobre la cotización COT-018, total $545.000.' in texto,
+       f'el cuerpo dice el total en pesos, como la aplicación (DEC-115): {texto.strip()[:120]!r}')
 for asunto in ('Solicitud SOL-031 registrada', 'Solicitud SOL-032 registrada', 'Solicitud SOL-031 en trámite', 'Solicitud SOL-032 en trámite',
                'Stock bajo: Res', 'Stock bajo: Pollo', 'Stock bajo: Papa'):
     ok(len(correo_de(JEFE, asunto)) >= 1, f'el jefe recibió «{asunto}»')
