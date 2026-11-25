@@ -1,10 +1,27 @@
 # Plataforma local de Konrad Gourmet
 
 El diagrama de contenedores (página 3a del `.drawio`) corriendo en un solo equipo con Docker Compose.
-Solo necesita Docker: los servicios Java se compilan dentro de un contenedor de Maven.
+
+## Requisitos
+
+| Qué | Detalle |
+|---|---|
+| Docker con Compose v2 | El comando `docker compose`. En Windows y macOS, Docker Desktop. Se probó en Linux con Docker 29 y Compose 5.8 |
+| Bash y `curl` | Los scripts de `plataforma/` son de Bash y `levantar.sh` usa `curl` para saber cuándo está lista. En Windows, desde WSL 2 |
+| Memoria | La plataforma completa usa unos 6 GB de RAM (22 contenedores): un equipo de 16 GB va holgado; con 8 GB, cerrando lo demás |
+| Disco | Unos 11 GB para las imágenes y 0,6 GB para las dependencias de Maven |
+| Puertos libres | 8080 (la aplicación), 8025 (Mailpit) y 8761 (Eureka) |
+| Internet, la primera vez | Para bajar las imágenes y las dependencias de Maven y de la SPA; después arranca sin conexión |
+
+No hace falta instalar Java, Maven ni Node: los servicios se compilan dentro de un contenedor de Maven y la SPA
+dentro de uno de Node. Solo para las pruebas de punta a punta (`probar_todo.sh`, más abajo) hace falta además un
+Python 3 con Playwright, Chromium en `/usr/bin/chromium` y `pdftotext`/`pdfinfo` (poppler-utils). La versión en
+memoria del núcleo (`./ejecutar.sh`) no usa Docker: necesita un JDK 21.
+
+## Uso
 
 ```bash
-./plataforma/levantar.sh                # compila los servicios y levanta todo (≈ 1 min la primera vez)
+./plataforma/levantar.sh                # compila los servicios y levanta todo (la primera vez baja las imágenes: tarda más)
 ./plataforma/levantar.sh --sin-compilar # levanta con lo último compilado
 ./plataforma/bajar.sh                   # apaga todo y conserva los datos
 ./plataforma/bajar.sh --borrar          # apaga todo y borra bases, tópicos y PDF
