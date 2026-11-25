@@ -734,7 +734,7 @@ PREGUNTAS = [
 
 
 def seccion_guion():
-    total = "≈ 7 min (≈ 5½ sin el paso opcional)"
+    total = "≈ 8 min (≈ 6½ sin el paso opcional)"
     return (f'<p class="suave">{total}. En primera persona del plural; cada bloque se lee en voz alta mientras se muestra lo '
             'de su sección.</p><div class="guion">' +
             "".join(f"<h3>{E(t)}</h3><p>«{E(x)}»</p>" for t, x in GUION) + "</div>")
