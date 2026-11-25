@@ -692,7 +692,8 @@ def seccion_general(datos):
 <p>La plataforma tiene <b>13 piezas propias</b>: los 11 microservicios, el API Gateway y el Service Registry (Eureka).
 Cada microservicio es un subdominio con su base PostgreSQL (una base y un usuario por servicio: ninguno lee la base de
 otro), su parte del núcleo y sus adaptadores Spring. Se hablan de dos formas: por <b>eventos en Kafka</b> casi siempre,
-y por <b>REST síncrono</b> solo en dos casos.</p>
+y por <b>REST síncrono</b> solo en dos casos de negocio; además, el gateway y cada servicio leen la llave pública de
+ms-identidad para validar el JWT y la guardan.</p>
 {tabla(["Componente", "Qué es", "Prefijo en el gateway", "Clases del núcleo", "Réplicas (página 5)"], filas,
        ["c-nombre", None, None, None, None])}
 <p class="suave">Las réplicas son las mínimas y máximas del diagrama de despliegue (página 5), con autoescalado al 65 % de
@@ -721,7 +722,7 @@ prefijos cada uno; por eso son 13 para 11 servicios.</p>
     ["ms-cotizaciones", "ms-integracion, <code>GET /interno/precios/{id}</code>", "El precio de referencia del Ministerio (V13)", "La cotización queda PENDIENTE DE PRECIO y se reenvía después"],
     ["ms-ordenes", "ms-cotizaciones, <code>GET /api/cotizaciones/{numero}</code>", "Leer la cotización OPCIONADA (V21)", "503 «No se pudo leer la cotización…»; se reintenta"],
 ], ["c-nombre", None, None, None])}
-<p>Las dos llamadas entre servicios van por Eureka y el balanceador del cliente (no por el gateway), con el JWT de quien
+<p>Las dos llamadas de negocio entre servicios van por Eureka y el balanceador del cliente (no por el gateway), con el JWT de quien
 hace la operación y su <code>X-Correlation-Id</code>; en producción, además, mTLS. Las salidas a sistemas que no son
 servicios: el Ministerio (SOAP, ms-integracion), el servidor de correo (ms-notificaciones), la API de redes sociales
 (ms-analitica), Elasticsearch (ms-administracion y los logs de todos), Redis y el almacén de objetos.</p>
@@ -797,7 +798,8 @@ ventana de ese servicio, no el trabajo de los otros. Los eventos que el servicio
 porque ya estaban en su tabla <code>outbox</code>; los que debía recibir esperan en el broker y, al volver, los procesa una
 sola vez (<code>evento_procesado</code>).</p>
 {tabla(["Servicio", "Qué deja de funcionar y qué sigue"], filas, ["c-nombre", None])}
-<div class="aviso">Solo hay dos dependencias síncronas entre servicios y las dos tienen salida: sin ms-integracion la
+<div class="aviso">Solo hay dos dependencias síncronas de negocio entre servicios y las dos tienen salida (la llave pública
+de ms-identidad ya está guardada en cada uno): sin ms-integracion la
 cotización queda PENDIENTE DE PRECIO y se reenvía; sin ms-cotizaciones, ms-ordenes responde 503 y la directora
 reintenta. Si se cae Kafka, las escrituras se confirman igual y los eventos esperan en la outbox hasta que vuelva.</div>
 """
@@ -842,7 +844,7 @@ son transversales: ms-identidad emite el token y el menú de cada rol; ms-notifi
 certificados y la alarma; ms-integracion habla SOAP con el Ministerio; ms-administracion guarda los parámetros y la
 auditoría; y ms-analitica arma el tablero y las promociones. Delante están el gateway, que es la única puerta, y
 Eureka, que sabe dónde está cada instancia. Entre ellos se hablan por diez tópicos de Kafka, y solo hay dos llamadas
-directas.»</p></div>
+directas de negocio; además, cada servicio lee la llave pública de ms-identidad para validar el token.»</p></div>
 """
 
 
@@ -859,9 +861,11 @@ PREGUNTAS = [
      "y ms-ordenes los guarda al leerla por REST. En PostgreSQL cada servicio tiene "
      "su usuario y no puede conectarse a la base de otro."),
     ("¿Por qué hay llamadas síncronas si la arquitectura es de eventos?",
-     "Solo dos, y en las dos el usuario necesita la respuesta en ese momento: el precio de referencia para armar la cotización "
+     "Solo dos de negocio, y en las dos el usuario necesita la respuesta en ese momento: el precio de referencia para armar la cotización "
      "y los datos de la cotización para armar la orden. Las dos tienen salida si el otro no responde (PENDIENTE DE PRECIO y el "
-     "503 con reintento). Todo lo que puede pasar después, como el correo, la auditoría o el inventario, va por eventos."),
+     "503 con reintento). Todo lo que puede pasar después, como el correo, la auditoría o el inventario, va por eventos. "
+     "Aparte está la llave pública de ms-identidad: el gateway y cada servicio la leen por REST para validar el JWT y la "
+     "guardan, así que no es una llamada por cada petición."),
     ("¿Qué pasa si Kafka entrega un evento dos veces?",
      "No se procesa dos veces. Cada consumidor guarda el id del evento en su tabla evento_procesado, en la misma transacción "
      "que su cambio, y descarta el que ya vio: un pedido.registrado repetido no se descuenta dos veces del inventario."),
