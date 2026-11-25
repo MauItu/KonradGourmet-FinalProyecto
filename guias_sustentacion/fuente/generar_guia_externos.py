@@ -349,9 +349,12 @@ números son los de la guía de los diagramas.</p>
 {visor_pagina(rec["pagina2"], textos("pagina2"))}
 <h3>Página 3a · los contenedores</h3>
 <p class="suave">La página completa: los números que interesan aquí están a los dos lados (los sistemas externos) y
-abajo (Kafka, Redis y el almacén). Toca un número de la tabla para ir a él.</p>
+abajo (Kafka, Redis y el almacén). Toca un número de la tabla para ir a él. Los demás números de la imagen son los
+de la guía de los diagramas y se explican allí.</p>
 {visor_pagina(rec["pagina3a"], textos("pagina3a"))}
 <h3>Página 5 · el despliegue</h3>
+<p class="suave">Solo se explican los números de lo que está fuera de la plataforma; los demás son los de la guía de los
+diagramas y se explican allí.</p>
 {visor_pagina(rec["pagina5"], textos("pagina5"))}
 """
 
