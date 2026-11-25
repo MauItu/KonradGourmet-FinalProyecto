@@ -72,7 +72,7 @@ Usuarios de demostración, todos con la clave `Konrad2026` (la pantalla de inici
 | Administradora | paula.herrera@konradgourmet.com |
 
 **Pruebas.** `./plataforma/probar_todo.sh` (≈ 40 minutos; necesita además Python 3 con Playwright, Chromium y
-poppler-utils) levanta una instancia limpia y corre 1.255 comprobaciones: 400 verificaciones del núcleo, 91 pruebas JUnit de los servicios y 764 comprobaciones de los recorridos en el navegador y de los verificadores, entre ellas una compra completa que cruza los 11 servicios y los 6 roles. Los detalles (qué corre en cada contenedor, seguridad, outbox, avance por cortes) están en `codigo/plataforma/LEEME.md`.
+poppler-utils) levanta una instancia limpia y corre 1.255 comprobaciones: 400 verificaciones del núcleo, 91 pruebas JUnit de los servicios y 764 comprobaciones de los recorridos en el navegador y de los verificadores, entre ellas una compra completa que cruza los 11 servicios y los 6 roles. Los detalles (qué corre en cada contenedor, seguridad, outbox, avance por cortes) están en `codigo/plataforma/README.md`.
 
 ## Páginas del diagrama
 
@@ -124,13 +124,13 @@ Abrir `documentos/Arquitectura_Konrad_Gourmet.drawio` en [draw.io](https://app.d
 | `web/` | La SPA en React + TypeScript |
 | `plataforma/` | Docker Compose, los scripts para levantarla y probarla, y los recorridos de prueba |
 
-Hay tres archivos de presentación, cada uno para un nivel:
+Hay tres README, cada uno para un nivel:
 
 | Archivo | Para qué |
 |---|---|
 | `README.md` (este) | De qué va el proyecto, los entregables y cómo ejecutar la plataforma |
 | `codigo/README.md` | El código: el núcleo hexagonal, sus módulos y los patrones de diseño, clase por clase |
-| `codigo/plataforma/LEEME.md` | La plataforma en detalle: qué corre en cada contenedor, la seguridad, la outbox, las clases que no están en el diagrama, el avance por cortes y cada prueba. «LEEME» es «README» en español; está en la carpeta que describe |
+| `codigo/plataforma/README.md` | La plataforma en detalle: qué corre en cada contenedor, la seguridad, la outbox, las clases que no están en el diagrama, el avance por cortes y cada prueba |
 
 ## Historial de la revisión
 
