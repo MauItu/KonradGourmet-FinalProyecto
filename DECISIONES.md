@@ -31,6 +31,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-98:** la decidió Mauricio el 2026-11-23, durante el 7b, siguiendo la recomendación técnica. **DEC-99** se asumió el mismo día y la confirmó Mauricio al aprobar el 7b. **DEC-100** la decidió Mauricio el mismo día, siguiendo la recomendación técnica, y se aplica en el 7c. El lugar de la figura de casos de uso (DEC-95, punto 3) lo confirmó Mauricio el mismo día.
 - **DEC-101 a DEC-104:** las decidió Mauricio el 2026-11-23, al revisar la validación del 7c (DEC-101 a DEC-103 siguiendo la recomendación del revisor o de la implementación; en DEC-104 escogió implementar todo, que no era la recomendada). **DEC-105** se asumió el mismo día y la confirmó Mauricio. **DEC-106** se asumió el 2026-11-23, en el 7d, y la confirmó Mauricio el mismo día, con un ajuste en el punto de la tabla 13. **DEC-107** la decidió Mauricio el mismo día, al revisar el reporte del 7d.
 - **DEC-108:** la decidió Mauricio el 2026-11-23, al pedir los guiones de la sustentación (no siguió el plan G1–G5 propuesto en la implementación). **DEC-109** se asumió el mismo día y la confirmó Mauricio el 2026-11-24, al aprobar la guía de los diagramas. **DEC-110** la decidió Mauricio el 2026-11-24 («corrije»), al revisar la guía de los diagramas. **DEC-111** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de la plataforma (las tres recomendaciones). **DEC-112** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de los microservicios («ok»: recortes por servicio). **DEC-113** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de lo que está fuera de la plataforma (las cuatro recomendaciones: «1 a, 2 si, 3 esta bien, 4 esta bien»).
+- **DEC-115 y DEC-116:** las decidió Mauricio el 2026-11-24, antes de la revisión de las guías, siguiendo la recomendación técnica (DEC-114 queda para el volumen de Kafka, ya pedido).
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -159,6 +160,8 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-111 | Imágenes e instancia de la guía de la plataforma | Las imágenes salen de la aplicación con los datos de la demo; la demo corre en `kg-demo`, copia de los volúmenes de `kg-mockups`, que se restablece copiándolos otra vez; el recorrido empieza en el pedido (el plato de V06 es opcional) | Decidida por Mauricio (2026-11-24) |
 | DEC-112 | Imágenes, orden y fuente de datos de la guía de los microservicios | Un recorte del paquete de cada servicio sacado de las imágenes de la guía 1 (con sus números); miniaturas de las ventanas de la guía 3; orden del flujo; endpoints, tópicos, tablas, clases, prefijos y réplicas leídos del código y del `.drawio` al generar | Decidida por Mauricio (2026-11-24) |
 | DEC-113 | Cómo se muestra lo que está fuera de la plataforma (guía 5) | Lo que no se publica se ve por las ventanas de la aplicación y con `docker compose exec`/`run` sobre kg-demo, sin tocar el compose; la guía trae un paso opcional con un error real (Mailpit detenido); el ensayo de la guía 3 se repite en otra carpeta (`SALIDA`); se llama `guia_externos.html` | Decidida por Mauricio (2026-11-24) |
+| DEC-115 | Total del correo de la orden de compra | El cuerpo dice «total $840.000», con el mismo formato de pesos que la aplicación y el PDF; antes, «total 840000» | Decidida por Mauricio (2026-11-24) |
+| DEC-116 | Correcciones opcionales del reporte | Se aplican R-14 (los logs se consultan en Elasticsearch por `LogsPort`), R-19 (con la lista completa de estados del código) y R-39 (la fachada también coordina el almacén de objetos); R-53 se descarta | Decidida por Mauricio (2026-11-24) |
 
 ---
 
@@ -1934,6 +1937,30 @@ Se asumieron el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno cambi
 - **Nombre:** `guia_externos.html`.
 
 **Qué implica:** `guias_sustentacion/fuente/imagenes_externos.py` (solo en kg-demo; al terminar se restablece con `restablecer_demo.sh`) deja en `img/externos/` las imágenes y la salida real de cada consulta, y `fuente/generar_guia_externos.py` arma la guía leyendo además la configuración (mappings de WireMock, compose, adaptadores) y se niega a generar si algo no cuadra. El código de la plataforma y el compose no cambian. Al preparar la guía se vio que `restablecer_demo.sh` no vaciaba Redis (la imagen guarda `/data` en un volumen anónimo que sobrevive a `stop`), así que la caché de precios de un ensayo seguía en el siguiente y la primera cotización no siempre consultaba al Ministerio; desde aquí el script quita el contenedor de Redis con ese volumen y `levantar.sh` lo vuelve a crear vacío. Lo mismo pasaba con Kafka: la imagen `apache/kafka` guarda los datos en `/tmp/kafka-logs`, dentro del contenedor, y no en `/var/lib/kafka/data`, donde el compose monta el volumen `datos-kafka` (que queda vacío en todas las instancias), así que los tópicos de kg-demo acumulaban los eventos de cada ensayo (cinco `orden.generada` de OC-0013); el script quita también el contenedor de Kafka y `levantar.sh` vuelve a crear los tópicos. El compose no se cambió: el volumen de Kafka quedó anotado como observación para que Mauricio decida.
+
+## DEC-115 · ¿Lleva formato de pesos el total del correo de la orden de compra?
+
+**Contexto.** Al ensayar la guía 3 se vio que el correo de la orden al proveedor dice «Orden OC-0013 sobre la cotización COT-023, total 840000. El PDF va adjunto.»: `NotificacionService` escribe el total con `toPlainString()`. La aplicación (V21 a V23) y el PDF de la orden dicen $840.000. La guía 5 lo dejó anotado como observado, sin corregir.
+
+**Opciones:**
+- **A. Formato de pesos, «total $840.000»**, como la aplicación y el PDF (punto de miles, sin decimales). ✅ **Escogida por Mauricio el 2026-11-24** (la recomendada).
+- **B. Dejarlo** como está.
+
+**Qué implica:** un cambio de código en ms-notificaciones, con su commit; se prueba con `probar_todo.sh` en la misma corrida del volumen de Kafka (DEC-114). La imagen del correo en Mailpit de la guía 5 se vuelve a sacar en kg-demo y se quita la nota «observado, sin corregir».
+
+## DEC-116 · ¿Qué se hace con las correcciones opcionales R-14, R-19, R-39 y R-53 del reporte?
+
+**Contexto.** Las cuatro quedaron como opcionales desde el 2026-11-09 (`CORRECCIONES_REPORTE.md`, `PLAN_REPORTE.md` §7). Revisadas contra el código vigente: `LogsPort` existe en ms-administracion (R-14); los estados del código son PENDIENTE, EN_TRAMITE y COMPLETADA en la solicitud y PENDIENTE_PRECIO, ENVIADA, RECHAZADA, SOSPECHOSA, OPCIONADA y CON_ORDEN en la cotización, así que al texto de R-19 le faltan RECHAZADA y SOSPECHOSA (R-19); `GenerarCotizacionFacade` guarda el PDF por `AlmacenArchivosPort` (R-39); y la tabla de R-53 («métodos de controlador que no atienden una ventana») ya no es cierta, porque desde DEC-96 todas esas rutas tienen ventana y mockup.
+
+**Opciones** (por cada una, aplicarla o descartarla):
+- **R-14 (§3, fila «Registro de cada error en un log»):** sumar «ms-administracion los consulta en Elasticsearch por el puerto LogsPort». ✅ **Se aplica.**
+- **R-19 (§5, desventajas):** la lista de estados, completa como en el código. ✅ **Se aplica** con la lista completa.
+- **R-39 (§12, fila «Facade»):** «precio sugerido, repositorio, PDF, almacén de objetos y evento». ✅ **Se aplica.**
+- **R-53 (§15):** la tabla de métodos sin ventana. ❌ **Se descarta.**
+
+Escogidas por Mauricio el 2026-11-24 (la recomendación técnica: aplicar las tres frases y descartar la tabla).
+
+**Qué implica:** un commit por corrección en `reporte/contenido/` y el reporte regenerado (PDF y `.docx`) antes de la revisión de las guías.
 
 ---
 
