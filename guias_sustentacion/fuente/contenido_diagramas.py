@@ -52,7 +52,9 @@ DIAGRAMAS["casos_de_uso"] = dict(
         "Antes de la arquitectura, mostramos quién usa el sistema. Son seis roles: mesero, jefe de cocina, auxiliar de "
         "compras, director de compras, director comercial y administrador. Todos heredan de un actor abstracto, Usuario, "
         "y por eso todos inician sesión con el mismo caso de uso, el CU-01.",
-        "Los 19 casos de uso cubren las 19 historias de usuario. El flujo principal es el de abastecimiento: el jefe de "
+        "Las 19 historias de usuario quedan cubiertas por trece casos de uso (CU-02 a CU-14); los otros seis salen de los "
+        "requisitos de seguridad (iniciar sesión), de administración (parámetros, auditoría, logs y usuarios) y de "
+        "integración (el SOAP). El flujo principal es el de abastecimiento: el jefe de "
         "cocina pide alimentos, el auxiliar envía la solicitud de cotización al proveedor con el precio del Ministerio, "
         "y el director de compras valida y genera la orden. Alrededor están el pedido del mesero, la alerta de inventario, "
         "el tablero BAM y las funciones del administrador.",
