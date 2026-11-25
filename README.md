@@ -46,7 +46,7 @@ Usuarios de demostración, todos con la clave `Konrad2026` (la pantalla de inici
 | Director comercial | andres.rojas@konradgourmet.com |
 | Administradora | paula.herrera@konradgourmet.com |
 
-**Pruebas.** `./plataforma/probar_todo.sh` levanta una instancia limpia y corre 1.254 comprobaciones: 400 verificaciones del núcleo, 91 pruebas JUnit de los servicios y 763 comprobaciones de los recorridos en el navegador y de los verificadores, entre ellas una compra completa que cruza los 11 servicios y los 6 roles. Los detalles (qué corre en cada contenedor, seguridad, outbox, avance por cortes) están en `codigo/plataforma/LEEME.md`.
+**Pruebas.** `./plataforma/probar_todo.sh` levanta una instancia limpia y corre 1.255 comprobaciones: 400 verificaciones del núcleo, 91 pruebas JUnit de los servicios y 764 comprobaciones de los recorridos en el navegador y de los verificadores, entre ellas una compra completa que cruza los 11 servicios y los 6 roles. Los detalles (qué corre en cada contenedor, seguridad, outbox, avance por cortes) están en `codigo/plataforma/LEEME.md`.
 
 ## Páginas del diagrama
 
