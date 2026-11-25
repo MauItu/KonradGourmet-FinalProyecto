@@ -272,8 +272,8 @@ veces? El código lo resuelve en la librería {c('compartido')}, igual para los 
 {tabla(["Nivel", "Dónde", "Cuántas"], [
     ["Núcleo, sin frameworks", c("pruebas/") + " (8 clases, mini marco propio)", "400 verificaciones"],
     ["Servicios (JUnit)", c("servicios/*/src/test"), "91 pruebas"],
-    ["De punta a punta", c("plataforma/pruebas/") + ": recorridos con navegador (Playwright) y verificadores de los cortes 3 a 7", "763 comprobaciones"],
-    ["<b>Total</b> (" + c("plataforma/probar_todo.sh") + ", instancia limpia)", "", "<b>1.254, sin fallas</b>"],
+    ["De punta a punta", c("plataforma/pruebas/") + ": recorridos con navegador (Playwright) y verificadores de los cortes 3 a 7", "764 comprobaciones"],
+    ["<b>Total</b> (" + c("plataforma/probar_todo.sh") + ", instancia limpia)", "", "<b>1.255, sin fallas</b>"],
 ], ["30%", None, "20%"])}
 <pre><code>./ejecutar.sh                        # núcleo: compila, corre la demo y las 400 verificaciones
 ./plataforma/levantar.sh             # compila y levanta la plataforma: http://localhost:8080
@@ -297,8 +297,8 @@ adaptadores. El controlador REST solo traduce HTTP a una llamada al puerto y pid
 <p><b>4. Los eventos.</b> Abrimos <code>KafkaEventPublisher</code> en <code>compartido</code>: el evento no va directo
 a Kafka, se guarda en la outbox en la misma transacción y un relé lo publica. Y en <code>OrdenGeneradaListener</code>
 se ve que el consumidor descarta los eventos repetidos.</p>
-<p><b>5. Las pruebas.</b> Cerramos con los números: 400 verificaciones del núcleo, 91 pruebas JUnit y 763
-comprobaciones de punta a punta, 1.254 sin fallas en una instalación limpia.</p>
+<p><b>5. Las pruebas.</b> Cerramos con los números: 400 verificaciones del núcleo, 91 pruebas JUnit y 764
+comprobaciones de punta a punta, 1.255 sin fallas en una instalación limpia.</p>
 </div>
 <h3>Si preguntan…</h3>
 <dl class="preguntas">
