@@ -568,7 +568,7 @@ en «Todas las solicitudes», <b>4</b> directora en «Inicio», <b>5</b> Mailpit
 <li>Zoom del navegador al 100 % o 110 %, pantalla completa, notificaciones del sistema silenciadas, equipo conectado
 a la corriente.</li>
 <li>Esta guía abierta en otro dispositivo o en otra ventana, por si hay que pasar al plan B.</li>
-<li>Al terminar, apagar <code>kg-demo</code> con <code>stop</code>.</li>
+<li>Al terminar: <code>restablecer_demo.sh</code>, que detiene <code>kg-demo</code> (con <code>stop</code>) y la deja restablecida para el siguiente ensayo.</li>
 </ol>
 """))
 
