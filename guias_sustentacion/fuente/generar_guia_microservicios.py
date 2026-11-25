@@ -854,8 +854,9 @@ PREGUNTAS = [
      "analítica) sirven a todos."),
     ("¿Por qué una base por servicio? ¿No es duplicar datos?",
      "Para que ningún servicio dependa del esquema de otro: cada uno cambia su base sin romper a nadie. Lo que se duplica "
-     "son copias pequeñas y de solo lectura que llegan por eventos: el catálogo en ms-pedidos, las recetas en ms-inventario, "
-     "los nombres de productos en ms-cotizaciones y ms-ordenes, los hechos en ms-analitica. En PostgreSQL cada servicio tiene "
+     "son copias pequeñas y de solo lectura: el catálogo en ms-pedidos, las recetas en ms-inventario y los hechos en "
+     "ms-analitica llegan por eventos; los nombres de productos de ms-cotizaciones los manda la SPA al generar la cotización, "
+     "y ms-ordenes los guarda al leerla por REST. En PostgreSQL cada servicio tiene "
      "su usuario y no puede conectarse a la base de otro."),
     ("¿Por qué hay llamadas síncronas si la arquitectura es de eventos?",
      "Solo dos, y en las dos el usuario necesita la respuesta en ese momento: el precio de referencia para armar la cotización "
