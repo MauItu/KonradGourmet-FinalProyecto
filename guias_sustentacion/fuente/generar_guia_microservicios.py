@@ -330,7 +330,7 @@ SERVICIOS = {
         principales=["Plato", "Ingrediente", "Producto", "Categoria", "PlatoService", "MenuActualizadoEvent",
                      "PlatoJpaAdapter", "AlmacenObjetosAdapter"],
         sincrono="Ninguno con otros servicios; guarda las imágenes en el almacén de objetos (bucket <code>imagenes-platos</code>).",
-        caida="El jefe de cocina no puede crear ni editar platos, las fotos del catálogo de V03 no cargan y V08 no puede "
+        caida="El jefe de cocina no puede crear ni editar platos, las fotos de los platos que la tienen no cargan en V03 (se ve su ícono) y V08 no puede "
         "listar los productos para registrar una solicitud. Los pedidos siguen, porque ms-pedidos tiene su copia del catálogo, "
         "y ms-inventario conserva sus recetas.",
         notas="Tres servicios escuchan sus eventos: ms-pedidos (catálogo), ms-inventario (recetas) y ms-analitica (nombres "

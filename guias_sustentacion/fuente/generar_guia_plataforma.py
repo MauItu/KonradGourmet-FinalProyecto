@@ -95,7 +95,7 @@ VENTANAS = {
         ("V02", "Inicio del mesero", "v02", "Resumen del turno: los pedidos que registró hoy y un acceso a «Nuevo pedido».",
          "ms-pedidos", "GET /api/pedidos?turno=actual", "—", et("Microservicios", "REST")),
         ("V03", "Nuevo pedido", "d02_V03_pedido",
-         "Catálogo de platos con su foto y precio, cantidades, mesa y total. El catálogo es una copia local que ms-pedidos arma con los eventos de ms-menu.",
+         "Catálogo de platos con su foto si la tiene (si no, su ícono) y precio, cantidades, mesa y total. El catálogo es una copia local que ms-pedidos arma con los eventos de ms-menu.",
          "ms-pedidos (la foto, de ms-menu)", "GET /api/pedidos/catalogo, GET /api/pedidos/mesas, POST /api/pedidos",
          "consume menu.actualizado", et("Microservicios", "Eventos", "Hexagonal")),
         ("V04", "Pedido registrado", "d03_V04_registrado",

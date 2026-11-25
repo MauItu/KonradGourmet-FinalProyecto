@@ -548,7 +548,7 @@ ms-notificaciones descarga el PDF para adjuntarlo.</dd>
 </dl>
 {terminal("o_buckets")}
 {terminal("o_pdf", nota=f"{COT1['numero']}, {COT2['numero']} y {OC} son los del ensayo; los anteriores vienen con los datos de la demo.")}
-{terminal("o_img", recorte=10)}
+{terminal("o_img", recorte=10, nota="Vacío en la demo: los platos de la carta inicial no tienen foto (V03 muestra su ícono). El bucket se llena cuando el jefe de cocina sube la foto de un plato en V06.")}
 <div class="par">
 <div>{figura("plataforma", DP, "d12_pdf_cotizacion", "PDF de la cotización", f"El PDF de {COT1['numero']} (V14): sale de {c('documentos-pdf/cotizaciones/')}.")}</div>
 <div>{figura("plataforma", DP, "d21_pdf_orden", "PDF de la orden", f"El PDF de {OC} (V23): sale de {c('documentos-pdf/ordenes/')}.")}</div>
