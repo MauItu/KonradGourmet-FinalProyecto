@@ -23,7 +23,7 @@ Reglas de trabajo vigentes: un commit por corrección con su id al inicio; un pa
 ### Etapa A · Revisión y correcciones
 
 - Dos repos: `documentos/` (diagramas, reporte, decisiones) y `KonradGourmet/` (código).
-- `REVISION_2026-11-07.md`: 26 hallazgos (H1 a H26); decisiones en `DECISIONES.md` (hoy DEC-01 a DEC-112).
+- `REVISION_2026-11-07.md`: 26 hallazgos (H1 a H26); decisiones en `DECISIONES.md` (hoy DEC-01 a DEC-116).
 - Sesión 1: páginas de clases 4a a 4e del `.drawio` (191 clases, hoy 195) y validación (`VALIDACION_FASE2A.md`).
 - Sesiones 2 a 5: código hexagonal con sus verificaciones, Excel de capacidad, historias de usuario y mockups (`CORRECCIONES_HU_Y_MOCKUPS.md`), `ESTADO_PROYECTO_Y_C4.md`. Cada sesión con su `VALIDACION_SESIONn.md` del arquitecto revisor.
 - Sesión 6: `meseroId` en `Pedido` (DEC-51) y casos de uso corregidos (DEC-52).
@@ -71,10 +71,10 @@ El corte 7, paso por paso:
 
 - [ ] Guías de la sustentación (DEC-108 y DEC-109): cinco guías en HTML en `guias_sustentacion/`, una por mensaje: los diagramas (aprobada el 2026-11-24), el código (aprobada el 2026-11-24), la plataforma (aprobada el 2026-11-24: `guia_plataforma.html`, con la demo ensayada en la instancia `kg-demo`, DEC-111), los microservicios (aprobada el 2026-11-24: `guia_microservicios.html`, con un recorte del paquete de cada servicio y los datos leídos del código al generar, DEC-112) y lo que está fuera de la plataforma (aprobada el 2026-11-24: `guia_externos.html`, con las salidas reales de las consultas en `kg-demo`, lo que no se publica visto por las ventanas de la aplicación y con `docker compose exec`/`run` sin tocar el compose, y un paso opcional con un error real, DEC-113); después, la revisión del arquitecto-revisor. Mauricio pidió corregir (2026-11-24, por aplicar en el código con `probar_todo.sh`): el compose monta `datos-kafka` en `/var/lib/kafka/data`, pero la imagen de Kafka guarda los datos en `/tmp/kafka-logs` dentro del contenedor, así que ese volumen queda vacío y los eventos se pierden con `down` y se conservan con `stop`. Los guiones anteriores quedaron en `FinalProyecto/archivo_desactualizado/` (fuera de git).
 - [ ] Publicar en el repo público lo posterior al 9 de noviembre: Mauricio lo pidió el 2026-11-24, después de la revisión y sus correcciones.
-- [ ] Opcionales sin aplicar al reporte: R-14, R-19, R-39 y R-53 (Mauricio decide).
 
 ### Ya cerrado desde el corte 6b
 
+- [x] DEC-116 (2026-11-24): los opcionales R-14, R-19 y R-39 aplicados al reporte (regenerado, 70 páginas); R-53 descartado. DEC-115: el total del correo de la orden lleva formato de pesos (se aplica con el volumen de Kafka).
 - [x] DEC-110 (2026-11-24): la página 1 dice «Otras ventanas» y la 3a y el reporte, 33 ventanas (CD-74 y CD-75); figuras 1, 2 y 13 y reporte regenerados (70 páginas).
 - [x] Corte 7 aprobado, con DEC-106 confirmada y DEC-107 (la §1 nombra la plataforma, que se muestra en la sustentación; la §18 nombra los mockups) (2026-11-23).
 - [x] Corte 6b aprobado y DEC-91 confirmada (2026-11-23).
@@ -91,7 +91,7 @@ El corte 7, paso por paso:
 
 | Qué | Dónde |
 |---|---|
-| Decisiones (DEC-01 a DEC-112) y su historia | `documentos/DECISIONES.md` |
+| Decisiones (DEC-01 a DEC-116) y su historia | `documentos/DECISIONES.md` |
 | Plan de las sesiones 1 a 6 con su avance | `documentos/PLAN_CORRECCIONES.md` |
 | Pendientes después de la sesión 6 | `documentos/PENDIENTES_POST_SESION6.md` |
 | Cambios de la plataforma frente a la documentación (CD-01 a CD-75) | `documentos/CAMBIOS_A_DOCUMENTAR.md` |
