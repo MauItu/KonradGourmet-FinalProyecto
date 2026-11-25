@@ -276,8 +276,8 @@
     ],
     [
      2,
-     848,
-     436
+     801,
+     451
     ],
     [
      3,
@@ -834,17 +834,17 @@
    "Proveedor con mejores precios: Proveedor B −0,14 % frente al precio estándar, en promedio"
   ],
   "auditoria": [
-   "24/11/2026\t11:15:39\tpaula.herrera@konradgourmet.com\tInicio de sesión (ADMINISTRADOR)",
-   "24/11/2026\t11:15:35\tandres.rojas@konradgourmet.com\tInicio de sesión (DIRECTOR_COMERCIAL)",
-   "24/11/2026\t11:15:25\tlaura.gomez@konradgourmet.com\tOrden OC-0013 finalizada",
-   "24/11/2026\t11:15:25\tlaura.gomez@konradgourmet.com\tInicio de sesión (DIRECTOR_COMPRAS)",
-   "24/11/2026\t11:15:24\tsistema\tNotificación orden.generada enviada a ventas@proveedorabc.com",
-   "24/11/2026\t11:15:24\tsistema\tCotización COT-023 pasó a CON_ORDEN",
-   "24/11/2026\t11:15:24\tsistema\tSolicitud SOL-034 completada",
-   "24/11/2026\t11:15:23\tlaura.gomez@konradgourmet.com\tOrden OC-0013 generada sobre COT-023",
-   "24/11/2026\t11:15:20\tlaura.gomez@konradgourmet.com\tCotización COT-024 validada: RECHAZADA",
-   "24/11/2026\t11:15:20\tlaura.gomez@konradgourmet.com\tValores del proveedor registrados en COT-024"
+   "24/11/2026\t21:47:46\tpaula.herrera@konradgourmet.com\tInicio de sesión (ADMINISTRADOR)",
+   "24/11/2026\t21:47:42\tandres.rojas@konradgourmet.com\tInicio de sesión (DIRECTOR_COMERCIAL)",
+   "24/11/2026\t21:47:31\tlaura.gomez@konradgourmet.com\tOrden OC-0013 finalizada",
+   "24/11/2026\t21:47:31\tlaura.gomez@konradgourmet.com\tInicio de sesión (DIRECTOR_COMPRAS)",
+   "24/11/2026\t21:47:30\tsistema\tNotificación orden.generada enviada a ventas@proveedorabc.com",
+   "24/11/2026\t21:47:30\tsistema\tCotización COT-023 pasó a CON_ORDEN",
+   "24/11/2026\t21:47:30\tsistema\tSolicitud SOL-034 completada",
+   "24/11/2026\t21:47:29\tlaura.gomez@konradgourmet.com\tOrden OC-0013 generada sobre COT-023",
+   "24/11/2026\t21:47:27\tlaura.gomez@konradgourmet.com\tCotización COT-024 validada: RECHAZADA",
+   "24/11/2026\t21:47:27\tlaura.gomez@konradgourmet.com\tValores del proveedor registrados en COT-024"
   ],
-  "logs": "Logs de errores\n\nErrores registrados por los servicios del sistema\n\nMartes, 24 de noviembre de 2026\n11:15 a. m.\nServicio\nTodos\nms-identidad\nms-pedidos\nms-menu\nms-inventario\nms-solicitudes\nms-cotizaciones\nms-ordenes\nms-notificaciones\nms-integracion\nms-analitica\nms-administracion\nActualizar\nErrores registrados\n\n0 errores · todos los servicios · los más recientes primero\n\nFECHA\tHORA\tSERVICIO\tMENSAJE\nNo hay errores registrados para el servicio seleccionado.\nMostrando 0 - 0 de 0\n1"
+  "logs": "Logs de errores\n\nErrores registrados por los servicios del sistema\n\nMartes, 24 de noviembre de 2026\n9:47 p. m.\nServicio\nTodos\nms-identidad\nms-pedidos\nms-menu\nms-inventario\nms-solicitudes\nms-cotizaciones\nms-ordenes\nms-notificaciones\nms-integracion\nms-analitica\nms-administracion\nActualizar\nErrores registrados\n\n0 errores · todos los servicios · los más recientes primero\n\nFECHA\tHORA\tSERVICIO\tMENSAJE\nNo hay errores registrados para el servicio seleccionado.\nMostrando 0 - 0 de 0\n1"
  }
 }
