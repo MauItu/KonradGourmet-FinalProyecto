@@ -285,7 +285,7 @@ el consumo del día, y analítica, para los indicadores.»</p>"""))
             f"La res ya descontada: {E(res_desp[3])} kg, «{E(res_desp[6])}»."])
         + f'<p class="debe"><b>Debe verse:</b> la alarma roja «{E(alarma)}» arriba a la derecha y, en Mailpit, el correo «Stock bajo: Res».</p>',
         et("Eventos", "inventario.stock-bajo", "Tarea programada con ShedLock", "PD-01: Redis pub/sub y WebSocket", "Factory Method"),
-        f"""<p>«Ahora el jefe de cocina. En el sistema real, a las 23:59 una tarea programada descuenta lo que se vendió en el
+        f"""<p>«Ahora el jefe de cocina. Cada noche, a las 23:59, una tarea programada descuenta lo que se vendió en el
 día; con ShedLock la ejecuta una sola réplica. Aquí la adelantamos con este botón.»</p>
 <p>«La res estaba en el 25 % y con lo vendido queda por debajo. ms-inventario publica <i>inventario.stock-bajo</i>;
 ms-notificaciones lo recibe, lo publica en Redis y la réplica que tiene abierta la sesión del jefe le entrega la
