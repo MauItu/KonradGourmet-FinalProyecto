@@ -23,7 +23,7 @@ Reglas de trabajo vigentes: un commit por corrección con su id al inicio; un pa
 ### Etapa A · Revisión y correcciones
 
 - Dos repos: `documentos/` (diagramas, reporte, decisiones) y `KonradGourmet/` (código).
-- `REVISION_2026-11-07.md`: 26 hallazgos (H1 a H26); decisiones en `DECISIONES.md` (hoy DEC-01 a DEC-117).
+- `REVISION_2026-11-07.md`: 26 hallazgos (H1 a H26); decisiones en `DECISIONES.md` (hoy DEC-01 a DEC-118).
 - Sesión 1: páginas de clases 4a a 4e del `.drawio` (191 clases, hoy 195) y validación (`VALIDACION_FASE2A.md`).
 - Sesiones 2 a 5: código hexagonal con sus verificaciones, Excel de capacidad, historias de usuario y mockups (`CORRECCIONES_HU_Y_MOCKUPS.md`), `ESTADO_PROYECTO_Y_C4.md`. Cada sesión con su `VALIDACION_SESIONn.md` del arquitecto revisor.
 - Sesión 6: `meseroId` en `Pedido` (DEC-51) y casos de uso corregidos (DEC-52).
@@ -40,7 +40,7 @@ Reglas de trabajo vigentes: un commit por corrección con su id al inicio; un pa
 
 ### Etapa C · Plataforma real (`stack-real`)
 
-Stack: Docker Compose con 11 microservicios Spring Boot 3.5 y Spring Cloud 2025.0, gateway, Eureka, Kafka KRaft, PostgreSQL (una base y un usuario por servicio), Redis, SeaweedFS (S3), Elasticsearch, Mailpit y Nginx; SPA en React + TypeScript. Detalle en `plataforma/LEEME.md` y `README.md` de `KonradGourmet/`.
+Stack: Docker Compose con 11 microservicios Spring Boot 3.5 y Spring Cloud 2025.0, gateway, Eureka, Kafka KRaft, PostgreSQL (una base y un usuario por servicio), Redis, SeaweedFS (S3), Elasticsearch, Mailpit y Nginx; SPA en React + TypeScript. Detalle en `plataforma/README.md` y `README.md` de `KonradGourmet/`.
 
 | Corte | Contenido | Estado |
 |---|---|---|
@@ -92,7 +92,7 @@ El corte 7, paso por paso:
 
 | Qué | Dónde |
 |---|---|
-| Decisiones (DEC-01 a DEC-117) y su historia | `documentos/DECISIONES.md` |
+| Decisiones (DEC-01 a DEC-118) y su historia | `documentos/DECISIONES.md` |
 | Plan de las sesiones 1 a 6 con su avance | `documentos/PLAN_CORRECCIONES.md` |
 | Pendientes después de la sesión 6 | `documentos/PENDIENTES_POST_SESION6.md` |
 | Cambios de la plataforma frente a la documentación (CD-01 a CD-75) | `documentos/CAMBIOS_A_DOCUMENTAR.md` |
@@ -105,7 +105,7 @@ El corte 7, paso por paso:
 | Guías de la sustentación | `documentos/guias_sustentacion/` (HTML; generadores en `fuente/`) |
 | Instancia de la demo en vivo | `kg-demo`, copia de `kg-mockups`: `guias_sustentacion/fuente/restablecer_demo.sh` (DEC-111) |
 | Validaciones del arquitecto revisor | `documentos/VALIDACION_*.md` (la última, `VALIDACION_CORTE7.md`), `REVISION_*.md` |
-| Plataforma, cómo levantarla y probarla | `KonradGourmet/plataforma/LEEME.md` y `KonradGourmet/README.md` |
+| Plataforma, cómo levantarla y probarla | `KonradGourmet/plataforma/README.md` y `KonradGourmet/README.md` |
 | Servicios, SPA y pruebas de punta a punta | `KonradGourmet/servicios/`, `KonradGourmet/web/` y `KonradGourmet/plataforma/pruebas/` |
 
 ## 5. Estado de los repos

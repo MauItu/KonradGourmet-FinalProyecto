@@ -134,7 +134,7 @@ Desde el 7 de noviembre (DEC-01) hay **dos repositorios git locales**, uno al la
 | `ejecutar.sh` | Compila, ejecuta la versión en memoria y corre las pruebas. Solo necesita un JDK 21 |
 | `servicios/` | Los 11 microservicios Spring Boot 3.5 y el gateway, con sus adaptadores reales y sus 91 pruebas JUnit |
 | `web/` | La SPA en React + TypeScript |
-| `plataforma/` | Docker Compose (`levantar.sh`, `bajar.sh`, `compilar.sh`), la infraestructura simulada (Ministerio y redes sociales) las pruebas de punta a punta (`pruebas/recorrido_corteN.py` y `verificar_corteN.py`, cortes 3 a 7) y `probar_todo.sh`, que corre todas las pruebas sobre una instancia limpia; su `LEEME.md` dice cómo levantarla y probarla |
+| `plataforma/` | Docker Compose (`levantar.sh`, `bajar.sh`, `compilar.sh`), la infraestructura simulada (Ministerio y redes sociales) las pruebas de punta a punta (`pruebas/recorrido_corteN.py` y `verificar_corteN.py`, cortes 3 a 7) y `probar_todo.sh`, que corre todas las pruebas sobre una instancia limpia; su `README.md` dice cómo levantarla y probarla |
 | `README.md` | Capas, módulos, patrones, qué métodos tienen lógica y la plataforma |
 
 **`FinalProyecto/exportes/`**: PNG de las páginas del `.drawio` a escala 1 (a escala mayor salen en blanco), una carpeta por etapa (`sesion5/`, `sesion6/`, `post_sesion6/`, `sustentacion/`, `corte7/`…). El reporte v2 toma sus figuras de `documentos/reporte/figuras/`.

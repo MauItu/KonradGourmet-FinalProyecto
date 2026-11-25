@@ -112,7 +112,7 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere}
 22 contenedores, de los cuales 11 son los microservicios en Spring Boot y uno es la SPA en React. No es una maqueta:
 cada ventana llama a su servicio por el gateway, los servicios se hablan por Kafka y cada uno tiene su base en
 PostgreSQL. El código está en <code>KonradGourmet/</code> (rama <code>stack-real</code>, guía del código) y lo que hace
-cada contenedor, en <code>KonradGourmet/plataforma/LEEME.md</code>.</p>
+cada contenedor, en <code>KonradGourmet/plataforma/README.md</code>.</p>
 <table><thead><tr><th>Dirección</th><th>Qué es</th></tr></thead><tbody><tr><td><code>http://localhost:8080</code></td><td>La aplicación: Nginx sirve la SPA y pasa /api/** al gateway</td></tr><tr><td><code>http://localhost:8080/plataforma/</code></td><td>Los 11 servicios en Eureka y su prefijo en el gateway</td></tr><tr><td><code>http://localhost:8761</code></td><td>Eureka: las instancias registradas</td></tr><tr><td><code>http://localhost:8025</code></td><td>Mailpit: los correos que envía ms-notificaciones, con sus adjuntos y cabeceras</td></tr></tbody></table>
 <h3>Cómo viaja una petición</h3>
 <div class="flujo">
