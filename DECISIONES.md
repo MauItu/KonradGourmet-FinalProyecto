@@ -31,7 +31,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-98:** la decidió Mauricio el 2026-11-23, durante el 7b, siguiendo la recomendación técnica. **DEC-99** se asumió el mismo día y la confirmó Mauricio al aprobar el 7b. **DEC-100** la decidió Mauricio el mismo día, siguiendo la recomendación técnica, y se aplica en el 7c. El lugar de la figura de casos de uso (DEC-95, punto 3) lo confirmó Mauricio el mismo día.
 - **DEC-101 a DEC-104:** las decidió Mauricio el 2026-11-23, al revisar la validación del 7c (DEC-101 a DEC-103 siguiendo la recomendación del revisor o de la implementación; en DEC-104 escogió implementar todo, que no era la recomendada). **DEC-105** se asumió el mismo día y la confirmó Mauricio. **DEC-106** se asumió el 2026-11-23, en el 7d, y la confirmó Mauricio el mismo día, con un ajuste en el punto de la tabla 13. **DEC-107** la decidió Mauricio el mismo día, al revisar el reporte del 7d.
 - **DEC-108:** la decidió Mauricio el 2026-11-23, al pedir los guiones de la sustentación (no siguió el plan G1–G5 propuesto en la implementación). **DEC-109** se asumió el mismo día y la confirmó Mauricio el 2026-11-24, al aprobar la guía de los diagramas. **DEC-110** la decidió Mauricio el 2026-11-24 («corrije»), al revisar la guía de los diagramas. **DEC-111** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de la plataforma (las tres recomendaciones). **DEC-112** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de los microservicios («ok»: recortes por servicio). **DEC-113** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de lo que está fuera de la plataforma (las cuatro recomendaciones: «1 a, 2 si, 3 esta bien, 4 esta bien»).
-- **DEC-114:** Mauricio pidió la corrección el 2026-11-24 (al aprobar la guía 5, «corrijelo») y aprobó el paso; la forma (opción A) se escogió en la implementación, por confirmar.
+- **DEC-114:** Mauricio pidió la corrección el 2026-11-24 (al aprobar la guía 5, «corrijelo»); la forma (opción A) se escogió en la implementación y Mauricio la confirmó el mismo día («apruebo lo recomendado»). **DEC-117** la decidió Mauricio el mismo día, siguiendo la recomendación técnica.
 - **DEC-115 y DEC-116:** las decidió Mauricio el 2026-11-24, antes de la revisión de las guías, siguiendo la recomendación técnica (DEC-114 queda para el volumen de Kafka, ya pedido).
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
@@ -161,9 +161,10 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-111 | Imágenes e instancia de la guía de la plataforma | Las imágenes salen de la aplicación con los datos de la demo; la demo corre en `kg-demo`, copia de los volúmenes de `kg-mockups`, que se restablece copiándolos otra vez; el recorrido empieza en el pedido (el plato de V06 es opcional) | Decidida por Mauricio (2026-11-24) |
 | DEC-112 | Imágenes, orden y fuente de datos de la guía de los microservicios | Un recorte del paquete de cada servicio sacado de las imágenes de la guía 1 (con sus números); miniaturas de las ventanas de la guía 3; orden del flujo; endpoints, tópicos, tablas, clases, prefijos y réplicas leídos del código y del `.drawio` al generar | Decidida por Mauricio (2026-11-24) |
 | DEC-113 | Cómo se muestra lo que está fuera de la plataforma (guía 5) | Lo que no se publica se ve por las ventanas de la aplicación y con `docker compose exec`/`run` sobre kg-demo, sin tocar el compose; la guía trae un paso opcional con un error real (Mailpit detenido); el ensayo de la guía 3 se repite en otra carpeta (`SALIDA`); se llama `guia_externos.html` | Decidida por Mauricio (2026-11-24) |
-| DEC-114 | Volumen de Kafka en el compose | `KAFKA_LOG_DIRS=/var/lib/kafka/data`: Kafka guarda los tópicos en el volumen `datos-kafka`, que ya estaba montado ahí, y sobreviven a `down`; `restablecer_demo.sh` vacía ese volumen en kg-demo en lugar de copiarlo | Pedida por Mauricio (2026-11-24); forma asumida en la implementación, por confirmar |
+| DEC-114 | Volumen de Kafka en el compose | `KAFKA_LOG_DIRS=/var/lib/kafka/data`: Kafka guarda los tópicos en el volumen `datos-kafka`, que ya estaba montado ahí, y sobreviven a `down`; `restablecer_demo.sh` vacía ese volumen en kg-demo en lugar de copiarlo | Pedida por Mauricio (2026-11-24); forma asumida en la implementación y confirmada por Mauricio (2026-11-24) |
 | DEC-115 | Total del correo de la orden de compra | El cuerpo dice «total $840.000», con el mismo formato de pesos que la aplicación y el PDF; antes, «total 840000» | Decidida por Mauricio (2026-11-24) |
 | DEC-116 | Correcciones opcionales del reporte | Se aplican R-14 (los logs se consultan en Elasticsearch por `LogsPort`), R-19 (con la lista completa de estados del código) y R-39 (la fachada también coordina el almacén de objetos); R-53 se descarta | Decidida por Mauricio (2026-11-24) |
+| DEC-117 | Cifra de pruebas después de DEC-115 | Los documentos vigentes dicen 1.255 comprobaciones (400 + 91 + 764); los registros de cortes ya aprobados conservan 1.254 | Decidida por Mauricio (2026-11-24) |
 
 ---
 
@@ -1945,7 +1946,7 @@ Se asumieron el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno cambi
 **Contexto.** Al preparar la guía 5 (DEC-113) se vio que el compose monta el volumen `datos-kafka` en `/var/lib/kafka/data`, pero la imagen `apache/kafka:3.9.1`, configurada por variables de entorno, no fija `log.dirs` y Kafka usa su valor por omisión, `/tmp/kafka-logs`, dentro del contenedor. El volumen quedaba vacío en todas las instancias: los tópicos y sus eventos (y lo que ya leyó cada grupo) se conservaban con `stop` y se perdían con `down`, aunque el LEEME dice que `bajar.sh` «apaga todo y conserva los datos». Mauricio pidió corregirlo el 2026-11-24.
 
 **Opciones:**
-- **A. `KAFKA_LOG_DIRS=/var/lib/kafka/data` en el servicio `kafka`.** ✅ **Escogida en la implementación** (por confirmar). Una línea; el volumen y su punto de montaje no cambian; `/var/lib/kafka/data` ya existe en la imagen y es del usuario con que corre Kafka (1000).
+- **A. `KAFKA_LOG_DIRS=/var/lib/kafka/data` en el servicio `kafka`.** ✅ **Escogida en la implementación y confirmada por Mauricio el 2026-11-24.** Una línea; el volumen y su punto de montaje no cambian; `/var/lib/kafka/data` ya existe en la imagen y es del usuario con que corre Kafka (1000).
 - **B. Montar el volumen en `/tmp/kafka-logs`.** También funciona, pero depende de un valor por omisión de la imagen que puede cambiar entre versiones, y deja los datos en una carpeta temporal.
 - **C. Quitar el volumen** y aceptar que Kafka no conserva nada: el LEEME tendría que decir que `down` borra los tópicos.
 
@@ -1978,6 +1979,16 @@ Se asumieron el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno cambi
 Escogidas por Mauricio el 2026-11-24 (la recomendación técnica: aplicar las tres frases y descartar la tabla).
 
 **Qué implica:** un commit por corrección en `reporte/contenido/` y el reporte regenerado (PDF y `.docx`) antes de la revisión de las guías.
+
+## DEC-117 · ¿Qué cifra de pruebas dicen los documentos después de DEC-115?
+
+**Contexto.** DEC-115 sumó una comprobación a `verificar_corte5.py` (el texto del correo de la orden en Mailpit), así que `probar_todo.sh` dio 1.255 comprobaciones sin fallas (400 + 91 + 764). El reporte (§13.4), el README, el LEEME, las guías del código y de la plataforma, `ESTADO_PROYECTO_Y_C4.md` y `PLAN_Y_ESTADO.md` decían 1.254.
+
+**Opciones:**
+- **A. Pasar a 1.255 todo lo que describe el estado actual** y regenerar el reporte y las dos guías. ✅ **Escogida por Mauricio el 2026-11-24** (la recomendada).
+- **B. Quitar la comprobación nueva del verificador** y dejar 1.254; el JUnit seguiría comprobando el correo.
+
+**Qué implica:** cambian el reporte (§13.4, regenerado), el README y el LEEME de `KonradGourmet/`, `generar_guia_codigo.py` y `generar_guia_plataforma.py` (guías regeneradas), `ESTADO_PROYECTO_Y_C4.md` (estado de la plataforma y del reporte) y `PLAN_Y_ESTADO.md`. Lo que registra un corte ya aprobado (el 7b en `ESTADO_PROYECTO_Y_C4.md`, `VALIDACION_CORTE7.md`, `CAMBIOS_A_DOCUMENTAR.md`, las decisiones anteriores) conserva 1.254, porque fue la cifra de ese momento.
 
 ---
 
