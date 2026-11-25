@@ -1,4 +1,4 @@
-<!-- §5. Correcciones: R-15, R-16, R-17 y R-20; en el 7d, CD-60 (ventanas nuevas en la tabla 5) y el límite de tasa (DEC-104). R-18 ya es cierto. R-19 es opcional y no se aplica. -->
+<!-- §5. Correcciones: R-15, R-16, R-17 y R-20; en el 7d, CD-60 (ventanas nuevas en la tabla 5) y el límite de tasa (DEC-104). R-18 ya es cierto. R-19, opcional, se aplica con la lista completa de estados del código (DEC-116). -->
 # 5. Microservicios
 
 La primera arquitectura define cómo se parte y se despliega el sistema. Vive en el nivel 2 del modelo C4 (contenedores) y responde a los requerimientos de desempeño, disponibilidad y almacenamiento (Newman, 2021).
@@ -38,7 +38,7 @@ Escalado selectivo de los servicios con más carga; aislamiento de fallas (si ms
 
 ## 5.5 Desventajas y cómo se mitigan
 
-La operación se vuelve más compleja (once despliegues), lo que se mitiga con Kubernetes, infraestructura como código y observabilidad centralizada. Aparece la consistencia eventual entre servicios, que se maneja con estados explícitos (PENDIENTE, EN TRÁMITE, ENVIADA, OPCIONADA) y eventos idempotentes. La red añade latencia, pero ninguna ventana necesita más de una llamada síncrona entre servicios. Las consultas que cruzan datos de varios servicios, como los KPI, no leen bases ajenas: ms-analitica arma su propio almacén con los eventos.
+La operación se vuelve más compleja (once despliegues), lo que se mitiga con Kubernetes, infraestructura como código y observabilidad centralizada. Aparece la consistencia eventual entre servicios, que se maneja con estados explícitos (PENDIENTE, EN TRÁMITE y COMPLETADA en la solicitud; PENDIENTE DE PRECIO, ENVIADA, RECHAZADA, SOSPECHOSA, OPCIONADA y CON ORDEN en la cotización) y eventos idempotentes. La red añade latencia, pero ninguna ventana necesita más de una llamada síncrona entre servicios. Las consultas que cruzan datos de varios servicios, como los KPI, no leen bases ajenas: ms-analitica arma su propio almacén con los eventos.
 
 ## 5.6 Ejemplo en las ventanas
 
