@@ -36,7 +36,7 @@ Reglas de trabajo vigentes: un commit por corrección con su id al inicio; un pa
 - `Casos de uso — Konrad Gourmet.md` corregido (RCU-1 a RCU-13 y los CD del corte 7) y su diagrama `casos_de_uso.png` (DEC-92), generado con `diagrama_casos_de_uso/generar.py`.
 - Decisiones de arquitectura PD-01 a PD-11 y siete supuestos confirmados (`REVISION_ARQUITECTO_POST_S6.md`).
 - Mockups: los del administrador y los cambios a V05, V07, V14, V20 y V23 en `mockups_admin/`; el tablero BAM, las promociones, proveedores, editar y desactivar platos, reenviar cotización y M-01 a M-09 en `mockups_faltantes/` (DEC-93, DEC-94 y DEC-96). Ninguna ventana queda sin mockup.
-- Repo público con README de entregables: `github.com/MauItu/KonradGourmet-FinalProyecto` (última publicación el 9 de noviembre).
+- Repo público con README de entregables: `github.com/MauItu/KonradGourmet-FinalProyecto` (última publicación el 2026-11-24, `main` b2abca7).
 
 ### Etapa C · Plataforma real (`stack-real`)
 
@@ -70,10 +70,10 @@ El corte 7, paso por paso:
 ### Para Mauricio y el equipo
 
 - [ ] Guías de la sustentación (DEC-108 y DEC-109): cinco guías en HTML en `guias_sustentacion/`, una por mensaje: los diagramas (aprobada el 2026-11-24), el código (aprobada el 2026-11-24), la plataforma (aprobada el 2026-11-24: `guia_plataforma.html`, con la demo ensayada en la instancia `kg-demo`, DEC-111), los microservicios (aprobada el 2026-11-24: `guia_microservicios.html`, con un recorte del paquete de cada servicio y los datos leídos del código al generar, DEC-112) y lo que está fuera de la plataforma (aprobada el 2026-11-24: `guia_externos.html`, con las salidas reales de las consultas en `kg-demo`, lo que no se publica visto por las ventanas de la aplicación y con `docker compose exec`/`run` sin tocar el compose, y un paso opcional con un error real, DEC-113); después, la revisión del arquitecto-revisor (2026-11-24: 22 hallazgos, GR-1 a GR-22, más GR-23 propuesto en la implementación; Mauricio aprobó todos y están aplicados con un commit cada uno, salvo GR-14 y la imagen d14 de GR-20, que van con el volumen de Kafka). El volumen de Kafka del compose quedó corregido (DEC-114: `KAFKA_LOG_DIRS=/var/lib/kafka/data`; los tópicos sobreviven a `down`; `restablecer_demo.sh` vacía ese volumen en kg-demo), y el correo de la orden dice el total en pesos (DEC-115); `probar_todo.sh` dio 1.255 comprobaciones sin fallas (2026-11-24), una más por la comprobación nueva del correo. Los guiones anteriores quedaron en `FinalProyecto/archivo_desactualizado/` (fuera de git).
-- [ ] Publicar en el repo público lo posterior al 9 de noviembre: Mauricio lo pidió el 2026-11-24, después de la revisión y sus correcciones.
 
 ### Ya cerrado desde el corte 6b
 
+- [x] Publicado en el repo público (2026-11-24): `main` b2abca7, con `documentos/` hasta aaef0b5 y `codigo/` hasta 7bab40a (las guías, GR-1 a GR-23, DEC-114 a DEC-117).
 - [x] DEC-116 (2026-11-24): los opcionales R-14, R-19 y R-39 aplicados al reporte (regenerado, 70 páginas); R-53 descartado. DEC-115: el total del correo de la orden lleva formato de pesos (se aplica con el volumen de Kafka).
 - [x] DEC-110 (2026-11-24): la página 1 dice «Otras ventanas» y la 3a y el reporte, 33 ventanas (CD-74 y CD-75); figuras 1, 2 y 13 y reporte regenerados (70 páginas).
 - [x] Corte 7 aprobado, con DEC-106 confirmada y DEC-107 (la §1 nombra la plataforma, que se muestra en la sustentación; la §18 nombra los mockups) (2026-11-23).
@@ -111,4 +111,4 @@ El corte 7, paso por paso:
 
 - `documentos/`: rama `correcciones-revision` (sin remoto propio; se publica en el repo público como `documentos/`).
 - `KonradGourmet/`: rama `stack-real` (sale de `correcciones-revision`); el remoto de `iCastro117` tiene el push desactivado a propósito.
-- Repo público: `MauItu/KonradGourmet-FinalProyecto`, rama `main`, que une las dos carpetas (`documentos/` y `codigo/`) con la historia de ambos. No tiene nada de la plataforma todavía.
+- Repo público: `MauItu/KonradGourmet-FinalProyecto`, rama `main`, que une las dos carpetas (`documentos/` y `codigo/`) con la historia de ambos; al día con las dos ramas locales el 2026-11-24 (`main` b2abca7).
