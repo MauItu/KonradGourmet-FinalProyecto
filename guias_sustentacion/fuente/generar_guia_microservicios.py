@@ -961,7 +961,7 @@ def main():
     assert set(datos["cons"]) <= set(TOPICOS) and set(datos["pub"]) <= set(TOPICOS), "tópico desconocido"
     clases_total = sum(len(v) for m in nucleo.values() for v in m.values())
 
-    s = [("general", "Vista general: 11 servicios, 11 tópicos y 13 prefijos", seccion_general(datos)),
+    s = [("general", "Vista general: 11 servicios, 10 tópicos (más la cola de errores) y 13 prefijos", seccion_general(datos)),
          ("gateway", "El API Gateway y el Service Registry", seccion_gateway(datos))]
     for i, srv in enumerate(ORDEN):
         s.append((f"ms-{srv}", SERVICIOS[srv]["titulo"], seccion_servicio(i + 3, srv, datos)))
