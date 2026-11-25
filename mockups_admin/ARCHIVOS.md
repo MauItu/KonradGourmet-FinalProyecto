@@ -65,7 +65,7 @@ Todas las rutas son relativas a `mockups_admin/`.
 - [06_destinatarios/movil_completa.png](06_destinatarios/movil_completa.png)
 - [06_destinatarios/vacio.png](06_destinatarios/vacio.png)
 - [06_destinatarios/vacio_movil.png](06_destinatarios/vacio_movil.png)
-- [LEEME.md](LEEME.md)
+- [README.md](README.md)
 - [V05_stock_bajo/captura.png](V05_stock_bajo/captura.png)
 - [V05_stock_bajo/index.html](V05_stock_bajo/index.html)
 - [V05_stock_bajo/movil.png](V05_stock_bajo/movil.png)

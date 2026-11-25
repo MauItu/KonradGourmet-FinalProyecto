@@ -31,7 +31,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-98:** la decidió Mauricio el 2026-11-23, durante el 7b, siguiendo la recomendación técnica. **DEC-99** se asumió el mismo día y la confirmó Mauricio al aprobar el 7b. **DEC-100** la decidió Mauricio el mismo día, siguiendo la recomendación técnica, y se aplica en el 7c. El lugar de la figura de casos de uso (DEC-95, punto 3) lo confirmó Mauricio el mismo día.
 - **DEC-101 a DEC-104:** las decidió Mauricio el 2026-11-23, al revisar la validación del 7c (DEC-101 a DEC-103 siguiendo la recomendación del revisor o de la implementación; en DEC-104 escogió implementar todo, que no era la recomendada). **DEC-105** se asumió el mismo día y la confirmó Mauricio. **DEC-106** se asumió el 2026-11-23, en el 7d, y la confirmó Mauricio el mismo día, con un ajuste en el punto de la tabla 13. **DEC-107** la decidió Mauricio el mismo día, al revisar el reporte del 7d.
 - **DEC-108:** la decidió Mauricio el 2026-11-23, al pedir los guiones de la sustentación (no siguió el plan G1–G5 propuesto en la implementación). **DEC-109** se asumió el mismo día y la confirmó Mauricio el 2026-11-24, al aprobar la guía de los diagramas. **DEC-110** la decidió Mauricio el 2026-11-24 («corrije»), al revisar la guía de los diagramas. **DEC-111** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de la plataforma (las tres recomendaciones). **DEC-112** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de los microservicios («ok»: recortes por servicio). **DEC-113** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de lo que está fuera de la plataforma (las cuatro recomendaciones: «1 a, 2 si, 3 esta bien, 4 esta bien»).
-- **DEC-114:** Mauricio pidió la corrección el 2026-11-24 (al aprobar la guía 5, «corrijelo»); la forma (opción A) se escogió en la implementación y Mauricio la confirmó el mismo día («apruebo lo recomendado»). **DEC-117** la decidió Mauricio el mismo día, siguiendo la recomendación técnica.
+- **DEC-114:** Mauricio pidió la corrección el 2026-11-24 (al aprobar la guía 5, «corrijelo»); la forma (opción A) se escogió en la implementación y Mauricio la confirmó el mismo día («apruebo lo recomendado»). **DEC-117** la decidió Mauricio el mismo día, siguiendo la recomendación técnica. **DEC-118** la pidió Mauricio el mismo día («el léeme, renómbralo a readme»); el alcance (los cinco archivos) se escogió en la implementación.
 - **DEC-115 y DEC-116:** las decidió Mauricio el 2026-11-24, antes de la revisión de las guías, siguiendo la recomendación técnica (DEC-114 queda para el volumen de Kafka, ya pedido).
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
@@ -165,6 +165,7 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-115 | Total del correo de la orden de compra | El cuerpo dice «total $840.000», con el mismo formato de pesos que la aplicación y el PDF; antes, «total 840000» | Decidida por Mauricio (2026-11-24) |
 | DEC-116 | Correcciones opcionales del reporte | Se aplican R-14 (los logs se consultan en Elasticsearch por `LogsPort`), R-19 (con la lista completa de estados del código) y R-39 (la fachada también coordina el almacén de objetos); R-53 se descarta | Decidida por Mauricio (2026-11-24) |
 | DEC-117 | Cifra de pruebas después de DEC-115 | Los documentos vigentes dicen 1.255 comprobaciones (400 + 91 + 764); los registros de cortes ya aprobados conservan 1.254 | Decidida por Mauricio (2026-11-24) |
+| DEC-118 | LEEME.md frente a README.md | Los cinco `LEEME.md` pasan a `README.md` (la plataforma, los dos WireMock y las dos carpetas de mockups), para que GitHub los muestre al abrir cada carpeta; los registros históricos conservan el nombre viejo | Pedida por Mauricio (2026-11-24); alcance escogido en la implementación |
 
 ---
 
@@ -1989,6 +1990,17 @@ Escogidas por Mauricio el 2026-11-24 (la recomendación técnica: aplicar las tr
 - **B. Quitar la comprobación nueva del verificador** y dejar 1.254; el JUnit seguiría comprobando el correo.
 
 **Qué implica:** cambian el reporte (§13.4, regenerado), el README y el LEEME de `KonradGourmet/`, `generar_guia_codigo.py` y `generar_guia_plataforma.py` (guías regeneradas), `ESTADO_PROYECTO_Y_C4.md` (estado de la plataforma y del reporte) y `PLAN_Y_ESTADO.md`. Lo que registra un corte ya aprobado (el 7b en `ESTADO_PROYECTO_Y_C4.md`, `VALIDACION_CORTE7.md`, `CAMBIOS_A_DOCUMENTAR.md`, las decisiones anteriores) conserva 1.254, porque fue la cifra de ese momento.
+
+## DEC-118 · ¿LEEME.md o README.md?
+
+**Contexto.** Al revisar el repo público, Mauricio preguntó por qué había un README y un LEEME. «LEEME» es «README» en español; el de la plataforma (`KonradGourmet/plataforma/LEEME.md`) es su documentación detallada. GitHub muestra solo un `README.md` al abrir una carpeta, no un `LEEME.md`. Había cinco: la plataforma, los dos WireMock (`plataforma/infra/redes/` y `plataforma/infra/ministerio/`) y las carpetas `mockups_admin/` y `mockups_faltantes/`.
+
+**Opciones:**
+- **A. Renombrar solo el de la plataforma**, que es el que Mauricio nombró.
+- **B. Renombrar los cinco.** ✅ **Escogida en la implementación**: el repo queda con un solo nombre para lo mismo, y cada carpeta muestra su descripción en GitHub.
+- **C. Dejarlos** y explicarlo en el README de la raíz.
+
+**Qué implica:** se actualizan las referencias vigentes (el README de `KonradGourmet/`, el de la raíz del repo público, `PLAN_Y_ESTADO.md`, `ESTADO_PROYECTO_Y_C4.md`, `mockups_admin/ARCHIVOS.md` y la guía de la plataforma). Los registros de lo que ya pasó (`DECISIONES.md`, `CAMBIOS_A_DOCUMENTAR.md`, `VALIDACION_*`, los planes de cortes anteriores) conservan el nombre viejo. No cambia código; ningún script lee esos archivos.
 
 ---
 
