@@ -264,12 +264,63 @@ def recortes():
         y0 = min(b[1] for b in cajas) - ay - d - extra
         x1 = max(b[0] + b[2] for b in cajas) - ax + d + extra
         y1 = max(b[1] + b[3] for b in cajas) - ay + d + extra
+        # Sin medios círculos (GR-13): un número cuyo centro queda fuera del paquete (otro elemento, la leyenda) se deja
+        # fuera acercando ese lado al paquete; uno de dentro se deja entero, ampliando el recorte. Los números del paquete
+        # van en su esquina superior izquierda, por eso arriba y a la izquierda solo se acerca si no los corta.
+        bx0, by0 = x0 + d + extra, y0 + d + extra
+        bx1, by1 = x1 - d - extra, y1 - d - extra
+        r = d / 2 + 2
+        for _ in range(3):
+            for n, nom, cx, cy in cent:
+                px, py = cx - ax, cy - ay
+                if px + r <= x0 or px - r >= x1 or py + r <= y0 or py - r >= y1:
+                    continue          # no se ve
+                entero = x0 <= px - r and px + r <= x1 and y0 <= py - r and py + r <= y1
+                if entero and px <= bx1 and py <= by1:
+                    continue          # se ve entero y es del paquete
+                if px > bx1:
+                    x1 = max(bx1 + 2, px - r)
+                elif px < bx0 and px + r < bx0 + 4:
+                    x0 = min(bx0 - 2, px + r)
+                elif py > by1:
+                    y1 = max(by1 + 2, py - r)
+                elif py < by0 and py + r < by0 + 4:
+                    y0 = min(by0 - 2, py + r)
+                else:
+                    x0, y0 = min(x0, px - r), min(y0, py - r)
+                    x1, y1 = max(x1, px + r), max(y1, py + r)
+        x0, y0, x1, y1 = (round(v) for v in (x0, y0, x1, y1))
+        # lo que aún asoma de un número que no se explica (la leyenda pisa el borde del paquete) se tapa copiando la fila
+        # o la columna vecina, que es el borde o el fondo
+        asoman = []
+        for n, nom, cx, cy in cent:
+            px, py = cx - ax, cy - ay
+            if px + r <= x0 or px - r >= x1 or py + r <= y0 or py - r >= y1:
+                continue
+            if not (px <= bx1 and py <= by1):
+                asoman.append((px - x0, py - y0, py > by1))
         destino = IMG_M / f"{nombre}.png"
         if Image is not None:
             with Image.open(IMG_D / f"{clave}.png") as im:
                 x0, y0 = max(0, x0), max(0, y0)
                 x1, y1 = min(im.size[0], x1), min(im.size[1], y1)
-                im.crop((x0, y0, x1, y1)).save(destino, optimize=True)
+                rec = im.crop((x0, y0, x1, y1)).convert("RGB")
+                W, H = rec.size
+                pix = rec.load()
+                for qx, qy, abajo in asoman:
+                    xa, xb = max(0, int(qx - r - 2)), min(W, int(qx + r + 3))
+                    ya, yb = max(0, int(qy - r - 2)), min(H, int(qy + r + 3))
+                    for yy in range(ya, yb):
+                        for xx in range(xa, xb):
+                            if not abajo:
+                                pix[xx, yy] = pix[xx, max(0, ya - 3)]
+                            elif abs(xx - (bx0 - x0)) <= 1:      # el borde izquierdo del paquete sigue hasta la esquina
+                                pix[xx, yy] = pix[xx, max(0, ya - 3)] if yy <= by1 - y0 + 1 else pix[0, yy]
+                            elif xx < bx0 - x0:                  # fuera del paquete: el fondo de la página
+                                pix[xx, yy] = pix[0, yy]
+                            else:                                # dentro: el fondo y el borde de abajo del paquete
+                                pix[xx, yy] = pix[min(W - 1, xb + 2), yy]
+                rec.save(destino, optimize=True)
         elif not destino.exists():
             sys.exit("Falta Pillow para recortar los diagramas: usa mockups_nuevos/.venv/bin/python")
         else:
@@ -279,7 +330,7 @@ def recortes():
                 ancho, alto = int.from_bytes(f.read(4), "big"), int.from_bytes(f.read(4), "big")
             x1, y1 = x0 + ancho, y0 + alto
         dentro = [(n, nom, round(cx - ax - x0), round(cy - ay - y0)) for n, nom, cx, cy in cent
-                  if x0 <= cx - ax <= x1 and y0 <= cy - ay <= y1]
+                  if x0 <= cx - ax - d / 2 and cx - ax + d / 2 <= x1 and y0 <= cy - ay - d / 2 and cy - ay + d / 2 <= y1]
         if nombre == "gateway":   # en la 3a solo interesan el servidor web, la SPA, el gateway y el registro
             dentro = [p for p in dentro if p[1] in ("Servidor web (Nginx)", "SPA Konrad Gourmet", "API Gateway «Facade»",
                                                      "Service Registry (Eureka)")]
