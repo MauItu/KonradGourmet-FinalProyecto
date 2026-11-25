@@ -130,7 +130,7 @@ VENTANAS = {
         ("V11", "Inicio del auxiliar", "v11", "Solicitudes pendientes de todas las sucursales y accesos a cotizaciones y proveedores.",
          "ms-solicitudes", "GET /api/solicitudes?estado=PENDIENTE", "—", et("Microservicios")),
         ("V12", "Solicitudes, con «Generar cotización»", "v12",
-         "Filtros de HU-07 (estado, sucursal, fechas, producto) y el detalle de la solicitud con quién la pidió y el botón para cotizarla.",
+         "Filtros de HU-07 (fechas, producto, marca y estado) y el detalle de la solicitud con quién la pidió y el botón para cotizarla.",
          "ms-solicitudes", "GET /api/solicitudes, GET /api/solicitudes/{id}", "—", et("Microservicios", "REST")),
         ("V13", "Generar solicitud de cotización", "d10_V13_generar",
          "Una o varias solicitudes, los productos a cotizar, el proveedor y la fecha límite. Un clic pide el precio del Ministerio, guarda el PDF y lo envía por correo.",
