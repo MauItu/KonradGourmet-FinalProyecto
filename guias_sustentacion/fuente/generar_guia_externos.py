@@ -326,7 +326,7 @@ def seccion_mapa(cfg, rec):
         ["Elasticsearch", "Logs de error (ELK)", donde(("3a", "c3a_elk"), ("5", "v19")),
          "Escriben los once (<code>AppenderElasticsearch</code>); lee ms-administracion (<code>ElasticsearchLogsAdapter</code>)",
          "Ventana «Logs de errores» · <code>kg exec elasticsearch curl …</code>"],
-        ["Kafka", "Broker de eventos", donde(("3a", "c3a_bus")), "Los once publican por la outbox y consumen", "<code>kg exec kafka /opt/kafka/bin/…</code>"],
+        ["Kafka", "Broker de eventos", donde(("3a", "c3a_bus")), "Los otros diez publican por la outbox (ms-administracion no publica); consumen siete", "<code>kg exec kafka /opt/kafka/bin/…</code>"],
         ["Redis", "Caché, canal de alarmas y límite de tasa", donde(("3a", "c3a_db_integracion"), ("5", "v25")),
          "ms-integracion, ms-notificaciones y el gateway", "<code>kg exec redis redis-cli …</code>"],
         ["PostgreSQL", "Una base por servicio", donde(("5", "v24")), "Cada servicio, solo la suya", "<code>kg exec postgres psql …</code>"],
