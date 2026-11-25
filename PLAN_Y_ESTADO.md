@@ -23,7 +23,7 @@ Reglas de trabajo vigentes: un commit por corrección con su id al inicio; un pa
 ### Etapa A · Revisión y correcciones
 
 - Dos repos: `documentos/` (diagramas, reporte, decisiones) y `KonradGourmet/` (código).
-- `REVISION_2026-11-07.md`: 26 hallazgos (H1 a H26); decisiones en `DECISIONES.md` (hoy DEC-01 a DEC-116).
+- `REVISION_2026-11-07.md`: 26 hallazgos (H1 a H26); decisiones en `DECISIONES.md` (hoy DEC-01 a DEC-117).
 - Sesión 1: páginas de clases 4a a 4e del `.drawio` (191 clases, hoy 195) y validación (`VALIDACION_FASE2A.md`).
 - Sesiones 2 a 5: código hexagonal con sus verificaciones, Excel de capacidad, historias de usuario y mockups (`CORRECCIONES_HU_Y_MOCKUPS.md`), `ESTADO_PROYECTO_Y_C4.md`. Cada sesión con su `VALIDACION_SESIONn.md` del arquitecto revisor.
 - Sesión 6: `meseroId` en `Pedido` (DEC-51) y casos de uso corregidos (DEC-52).
@@ -31,7 +31,7 @@ Reglas de trabajo vigentes: un commit por corrección con su id al inicio; un pa
 
 ### Etapa B · Documentos de entrega
 
-- Reporte v2 (`Reporte_Arquitectura_Konrad_Gourmet_v2.pdf` y `.docx`, 70 páginas), generado con `reporte/generar_reporte.py` desde `reporte/contenido/`; el original se conserva intacto. Regenerado en el 7d con 195 clases, todos los CD que lo tocan, la outbox, la idempotencia y el límite de tasa (DEC-104), las 1.254 comprobaciones, el diagrama de casos de uso como figura 7 y las figuras del `.drawio` vigente (DEC-106).
+- Reporte v2 (`Reporte_Arquitectura_Konrad_Gourmet_v2.pdf` y `.docx`, 70 páginas), generado con `reporte/generar_reporte.py` desde `reporte/contenido/`; el original se conserva intacto. Regenerado en el 7d con 195 clases, todos los CD que lo tocan, la outbox, la idempotencia y el límite de tasa (DEC-104), las 1.254 comprobaciones (hoy 1.255, DEC-117), el diagrama de casos de uso como figura 7 y las figuras del `.drawio` vigente (DEC-106).
 - `STORY_MAPPING_CORREGIDO.md` aprobado por Mauricio (2026-11-09); el original no se toca.
 - `Casos de uso — Konrad Gourmet.md` corregido (RCU-1 a RCU-13 y los CD del corte 7) y su diagrama `casos_de_uso.png` (DEC-92), generado con `diagrama_casos_de_uso/generar.py`.
 - Decisiones de arquitectura PD-01 a PD-11 y siete supuestos confirmados (`REVISION_ARQUITECTO_POST_S6.md`).
@@ -63,7 +63,7 @@ El corte 7, paso por paso:
 | 7c | Revisión del arquitecto revisor (`VALIDACION_CORTE7.md`, C7-1 a C7-27) y sus correcciones: DEC-100 a DEC-105 (Solicitar con el producto, `reactivar()` en el diagrama, V05 y el correo con la sucursal, V11 de a 25, outbox con relé, consumidores idempotentes y límite de tasa) | Aprobado |
 | 7d | README y LEEME finales (C7-18, C7-25, DEC-96 a DEC-105, `probar_todo.sh`), `ESTADO_PROYECTO_Y_C4.md` (C7-18), el reporte regenerado y este documento (DEC-106 y DEC-107) | Aprobado |
 
-**Pruebas** (`plataforma/probar_todo.sh`, sobre una instancia limpia): **1.254 comprobaciones sin fallas** = 400 verificaciones del núcleo (`pruebas/`, 8 clases) + 91 pruebas JUnit de los servicios + 763 de los recorridos de navegador y los verificadores de los cortes 3 a 7.
+**Pruebas** (`plataforma/probar_todo.sh`, sobre una instancia limpia): **1.255 comprobaciones sin fallas** (2026-11-24, DEC-117) = 400 verificaciones del núcleo (`pruebas/`, 8 clases) + 91 pruebas JUnit de los servicios + 764 de los recorridos de navegador y los verificadores de los cortes 3 a 7.
 
 ## 3. Lo que falta
 
@@ -91,7 +91,7 @@ El corte 7, paso por paso:
 
 | Qué | Dónde |
 |---|---|
-| Decisiones (DEC-01 a DEC-116) y su historia | `documentos/DECISIONES.md` |
+| Decisiones (DEC-01 a DEC-117) y su historia | `documentos/DECISIONES.md` |
 | Plan de las sesiones 1 a 6 con su avance | `documentos/PLAN_CORRECCIONES.md` |
 | Pendientes después de la sesión 6 | `documentos/PENDIENTES_POST_SESION6.md` |
 | Cambios de la plataforma frente a la documentación (CD-01 a CD-75) | `documentos/CAMBIOS_A_DOCUMENTAR.md` |
