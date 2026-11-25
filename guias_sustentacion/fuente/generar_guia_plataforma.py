@@ -212,7 +212,8 @@ def seccion_ventanas():
     partes = ["""<p>La SPA tiene <b>33 ventanas</b>: las 23 del prototipo (V01 a V23) y otras diez para funciones que el
 prototipo no dibujaba. Cada rol ve solo las suyas: el menú lateral llega dentro del JWT, armado por ms-identidad. Las
 imágenes son de la aplicación con los datos de la demo; al tocarlas se abren en tamaño real. Las de V03, V04, V08,
-V09, V13, V14, V18, V19, V21 y V22 aparecen solo después de una acción, así que son las del recorrido de la demo.</p>"""]
+V09, V13, V14, V18, V19, V21 y V22 son las del recorrido de la demo (V04, V09, V14, V18, V19, V21 y V22 se abren
+después de una acción).</p>"""]
     for rol, lista in VENTANAS.items():
         partes.append(f"<h3>{E(rol)}</h3><div class=\"ventanas\">" + "".join(tarjeta_ventana(*v) for v in lista) + "</div>")
     partes.append("<h3>Las otras diez ventanas</h3><div class=\"ventanas\">" + "".join(
