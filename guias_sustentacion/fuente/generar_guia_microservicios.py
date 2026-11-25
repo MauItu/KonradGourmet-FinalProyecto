@@ -229,7 +229,8 @@ def _ancla(diag, clave):
     cent = []
     for n, (cid, pos, nombre, _) in enumerate(CD.DIAGRAMAS[clave]["elementos"], 1):
         x, y, w, h = absoluta(cid)
-        cx, cy = {"si": (x, y), "sd": (x + w, y), "ii": (x, y + h), "id": (x + w, y + h), "c": (x + w / 2, y + h / 2)}[pos or "si"]
+        cx, cy = {"si": (x, y), "sd": (x + w, y), "ii": (x, y + h), "id": (x + w, y + h), "c": (x + w / 2, y + h / 2),
+                  "fi": (x - d / 2 - 6, y + h / 2), "fd": (x + w + d / 2 + 6, y + h / 2)}[pos or "si"]
         cent.append((n, nombre, cx, cy))
     ax = round(min(min(xs), min(c[2] for c in cent) - d / 2) - 40)
     ay = round(min(min(ys), min(c[3] for c in cent) - d / 2) - 40)
