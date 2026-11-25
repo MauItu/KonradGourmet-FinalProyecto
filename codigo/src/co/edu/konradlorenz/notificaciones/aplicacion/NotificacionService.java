@@ -14,8 +14,12 @@ import co.edu.konradlorenz.ordenes.eventos.OrdenGeneradaEvent;
 import co.edu.konradlorenz.solicitudes.eventos.SolicitudEnTramiteEvent;
 import co.edu.konradlorenz.solicitudes.eventos.SolicitudRegistradaEvent;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 
 public class NotificacionService implements NotificarUseCase {
 
@@ -59,7 +63,7 @@ public class NotificacionService implements NotificarUseCase {
                     + "\nPor favor cotice los productos del PDF adjunto.", e.pdfUrl());
         } else if (evento instanceof OrdenGeneradaEvent e) {
             enviar(creadorCorreo, e.correoProveedor(), evento, "Orden de compra " + e.numero() + "\nOrden " + e.numero()
-                    + " sobre la cotización " + e.cotizacionNumero() + ", total " + e.total().toPlainString()
+                    + " sobre la cotización " + e.cotizacionNumero() + ", total " + pesos(e.total())
                     + ". El PDF va adjunto.", e.pdfUrl());
         } else if (evento instanceof TendenciaDetectadaEvent e) {
             // HU-19: correo de promociones a los jefes de cocina de todas las sucursales (la libreta, DEC-13); las
@@ -109,6 +113,11 @@ public class NotificacionService implements NotificarUseCase {
             envios.registrarFallo(destino, evento.tipo(), e.getMessage());
             throw e;
         }
+    }
+
+    /** El total en pesos como en la aplicación y en el PDF de la orden: «$840.000» (DEC-115). */
+    private static String pesos(BigDecimal v) {
+        return "$" + new DecimalFormat("#,##0", DecimalFormatSymbols.getInstance(Locale.forLanguageTag("es-CO"))).format(v);
     }
 
 }
