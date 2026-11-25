@@ -129,7 +129,7 @@ VENTANAS = {
     "Auxiliar de compras (Isabella Castro)": [
         ("V11", "Inicio del auxiliar", "v11", "Solicitudes pendientes de todas las sucursales y accesos a cotizaciones y proveedores.",
          "ms-solicitudes", "GET /api/solicitudes?estado=PENDIENTE", "—", et("Microservicios")),
-        ("V12", "Solicitudes, con «Generar cotización»", "v12",
+        ("V12", "Inicio con «Generar cotización»", "v12",
          "Filtros de HU-07 (fechas, producto, marca y estado) y el detalle de la solicitud con quién la pidió y el botón para cotizarla.",
          "ms-solicitudes", "GET /api/solicitudes, GET /api/solicitudes/{id}", "—", et("Microservicios", "REST")),
         ("V13", "Generar solicitud de cotización", "d10_V13_generar",
@@ -143,8 +143,8 @@ VENTANAS = {
         ("V15", "Cotizaciones enviadas", "v15", "Las cotizaciones del auxiliar con su estado y su detalle.",
          "ms-cotizaciones", "GET /api/cotizaciones", "consume orden.generada (CON ORDEN)", et("Microservicios")),
     ],
-    "Directora de compras (Laura Gómez)": [
-        ("V16", "Inicio de la directora", "v16", "Cotizaciones pendientes de atención y accesos a validar, opcionadas y órdenes.",
+    "Director de compras (Laura Gómez)": [
+        ("V16", "Inicio del director", "v16", "Cotizaciones pendientes de atención y accesos a validar, opcionadas y órdenes.",
          "ms-cotizaciones", "GET /api/cotizaciones/pendientes", "—", et("Microservicios")),
         ("V17", "Todas las cotizaciones", "v17", "Todas las cotizaciones, con filtros y el detalle de cada una (estado y diferencia).",
          "ms-cotizaciones", "GET /api/cotizaciones", "—", et("Microservicios")),
@@ -334,7 +334,7 @@ Ministerio.»</p>
 <p>«ms-cotizaciones publica <i>cotizacion.enviada</i>: notificaciones envía el PDF al proveedor por correo certificado
 y solicitudes pasa la solicitud del jefe a EN TRÁMITE. Si cambiamos a la pestaña del jefe, ya lo ve.»</p>"""))
 
-    pasos.append(paso(5, "La directora registra los valores y valida", f"Directora de compras · {c('laura.gomez@konradgourmet.com')}", "≈ 1½ min",
+    pasos.append(paso(5, "La directora registra los valores y valida", f"Director de compras · {c('laura.gomez@konradgourmet.com')}", "≈ 1½ min",
         con_pines("d14_V18_valores", "V18 con el precio del proveedor", [
             "El estándar del Ministerio: $20.000 por kilo.",
             f"El precio que respondió el {COT1['proveedor']}: {pesos(COT1['precio'])} por kilo.",
@@ -357,7 +357,7 @@ opcionada.»</p>
 {E(COT2['diferencia'].replace('Diferencia ', ''))}: rechazada. Cada validación publica <i>cotizacion.validada</i> para el
 indicador de proveedores.»</p>"""))
 
-    pasos.append(paso(6, "La orden de compra", "Directora de compras (la misma pestaña)", "≈ 1½ min",
+    pasos.append(paso(6, "La orden de compra", "Director de compras (la misma pestaña)", "≈ 1½ min",
         con_pines("d17_V20_opcionadas", "V20 con la comparación", [
             f"La solicitud: {SOL}.", f"{COT1['numero']}, la única opcionada de {SOL}.", "«Seleccionar para compra»."])
         + con_pines("d18_V21_generar", "V21", [f"La solicitud de origen: {SOL}.", f"El total: {pesos(H['orden_total'])}.",
@@ -520,7 +520,7 @@ como un árbol de grupos y opciones (Composite) y viaja dentro del JWT. La sesi�
 <tr><td>Mesero</td><td><code>isabella.torres@konradgourmet.com</code></td><td>Inicio (V02), Pedidos del turno, Nuevo pedido (V03)</td></tr>
 <tr><td>Jefe de cocina</td><td><code>carlos.mendoza@konradgourmet.com</code></td><td>Inicio (V05), Platos (V06 y editar), Inventario (V07), Solicitudes (V08 y V10), Promociones</td></tr>
 <tr><td>Auxiliar de compras</td><td><code>isabella.castro@konradgourmet.com</code></td><td>Inicio (V11), Todas las solicitudes (V12), Generar cotización (V13), Cotizaciones enviadas (V15), Proveedores</td></tr>
-<tr><td>Directora de compras</td><td><code>laura.gomez@konradgourmet.com</code></td><td>Inicio (V16), Todas (V17), Pendientes de validar (V18), Opcionadas (V20), Órdenes de compra (V23)</td></tr>
+<tr><td>Director de compras</td><td><code>laura.gomez@konradgourmet.com</code></td><td>Inicio (V16), Todas (V17), Pendientes de validar (V18), Opcionadas (V20), Órdenes de compra (V23)</td></tr>
 <tr><td>Director comercial</td><td><code>andres.rojas@konradgourmet.com</code></td><td>Tablero BAM (entra directo a él)</td></tr>
 <tr><td>Administradora</td><td><code>paula.herrera@konradgourmet.com</code></td><td>Inicio, Parámetros y tema, Auditoría, Logs de errores, Usuarios, Destinatarios</td></tr>
 </tbody></table>
