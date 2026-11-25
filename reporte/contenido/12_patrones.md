@@ -1,4 +1,4 @@
-<!-- §12. Correcciones: R-35, R-37, R-38 y R-40 (figuras 9 a 11 recapturadas y renumeradas, R-03). R-36 ya es cierto. R-39 es opcional y no se aplica. -->
+<!-- §12. Correcciones: R-35, R-37, R-38 y R-40 (figuras 9 a 11 recapturadas y renumeradas, R-03). R-36 ya es cierto. R-39, opcional, se aplica (DEC-116). -->
 !horizontal
 
 # 12. Patrones de diseño en el nivel de código
@@ -8,7 +8,7 @@ El profesor pidió que en el nivel 4 del C4 se vea dónde va cada patrón. En la
 !tabla 11 | Patrones de diseño del nivel de código | 3,4.6,3.4,5,5
 | Patrón | Clases | Servicio y ventanas | Por qué aquí | Consecuencia |
 |---|---|---|---|---|
-| Facade | GenerarCotizacionFacade; a escala de sistema, el API Gateway | ms-cotizaciones, V13 y V14 | Un clic coordina precio sugerido, repositorio, PDF y evento | El controlador hace una sola llamada; la fachada solo coordina, no decide |
+| Facade | GenerarCotizacionFacade; a escala de sistema, el API Gateway | ms-cotizaciones, V13 y V14 | Un clic coordina precio sugerido, repositorio, PDF, almacén de objetos y evento | El controlador hace una sola llamada; la fachada solo coordina, no decide |
 | Chain of Responsibility | ReglaValidacion, ReglaRechazada, ReglaSospechosa y ReglaOpcionada | ms-cotizaciones, V19 | Tres reglas excluyentes que se evalúan en orden; una regla nueva no toca las demás | El orden importa, así que la cadena se arma en un solo lugar (cadenaPorDefecto) |
 | Composite | ElementoMenu, GrupoMenu, OpcionMenu | ms-identidad, panel izquierdo de las 33 ventanas | El menú lateral es un árbol de grupos y opciones | Un rol nuevo no exige cambiar la SPA, que solo recorre el árbol |
 | Factory Method | Usuario.construirMenu() en cada rol; CreadorNotificacion, CreadorCorreo y CreadorAlarmaApp | ms-identidad y ms-notificaciones, V01 y V05 | La subclase decide qué producto crear: el menú del rol o el tipo de notificación | Una clase creadora por variante |
