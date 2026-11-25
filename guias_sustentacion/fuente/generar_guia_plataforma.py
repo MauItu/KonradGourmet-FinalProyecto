@@ -504,7 +504,7 @@ mismo punto, por ejemplo después de un ensayo, se vuelve al paso 1.</p>
 <h3>Las otras instancias del equipo</h3>
 <table><thead><tr><th>Instancia</th><th>Para qué</th></tr></thead><tbody>
 <tr><td><code>kg-demo</code></td><td>La demo de la sustentación; se restablece desde kg-mockups</td></tr>
-<tr><td><code>kg-mockups</code></td><td>Los datos con que se hicieron los mockups (COT-018 a COT-022, OC-0012); no se usa en vivo</td></tr>
+<tr><td><code>kg-mockups</code></td><td>Los datos de partida de la demo (COT-018 a COT-022, OC-0012); no se usa en vivo</td></tr>
 <tr><td><code>kg-limpio</code></td><td>Las pruebas de punta a punta (<code>probar_todo.sh</code>)</td></tr>
 <tr><td><code>konrad-gourmet</code></td><td>La instancia de trabajo, con datos de pruebas manuales</td></tr>
 </tbody></table>
