@@ -283,7 +283,10 @@ el consumo del día, y analítica, para los indicadores.»</p>"""))
         + con_pines("d05_V07_alarma", "V07 con la alarma en vivo", [
             f"La alarma llega sola, sin recargar: «{E(alarma)}».", "«Solicitar» (paso 3).",
             f"La res ya descontada: {E(res_desp[3])} kg, «{E(res_desp[6])}»."])
-        + f'<p class="debe"><b>Debe verse:</b> la alarma roja «{E(alarma)}» arriba a la derecha y, en Mailpit, el correo «Stock bajo: Res».</p>',
+        + f'<p class="debe"><b>Debe verse:</b> la alarma roja «{E(alarma)}» arriba a la derecha y, en Mailpit, el correo «Stock bajo: Res».</p>'
+        + f'<p class="suave">Si preguntan por qué la res baja {E(res_antes[3])} → {E(res_desp[3])} kg si la bandeja paisa '
+        'lleva 0,5 kg: el cierre descuenta todo lo vendido desde el último cierre, que es PED-0251 de los datos de partida '
+        '(2 bandejas paisas y un ajiaco, que no lleva res) y PED-0252 (1 bandeja paisa): 3 × 0,5 kg = 1,5 kg.</p>',
         et("Eventos", "inventario.stock-bajo", "Tarea programada con ShedLock", "PD-01: Redis pub/sub y WebSocket", "Factory Method"),
         f"""<p>«Ahora el jefe de cocina. Cada noche, a las 23:59, una tarea programada descuenta lo que se vendió en el
 día; con ShedLock la ejecuta una sola réplica. Aquí la adelantamos con este botón.»</p>
