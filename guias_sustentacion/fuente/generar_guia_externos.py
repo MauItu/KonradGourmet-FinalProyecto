@@ -512,7 +512,7 @@ en tendencia de la semana, de más a menos menciones, con {r["demora"]} ms de de
 {terminal("n_cuenta")}
 {terminal("n_cuenta2", nota=f"31 segundos después: {HE['redes_llamadas'][0]} → {HE['redes_llamadas'][1]}. Es <code>TendenciasJob</code>, no nosotros.")}
 {con_pines("externos", DX, "e02_promociones", "Correo de promociones en Mailpit", [
-    "El correo que sale de <code>tendencia.detectada</code>: una línea por plato de la carta que está en tendencia."])}
+    "El correo que sale de <code>tendencia.detectada</code>: una línea por plato sugerido, con su motivo (en tendencia en redes, entre los 3 más pedidos de la semana o las dos cosas) y su vigencia."])}
 <div class="dir"><b>Qué mostrar:</b> la respuesta con el token, el 401 sin él y la cuenta antes y después de 30 segundos;
 luego el correo de promociones en Mailpit.</div>
 """
