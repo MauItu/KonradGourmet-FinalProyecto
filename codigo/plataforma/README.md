@@ -222,7 +222,7 @@ La funcionalidad es la misma; cambia la infraestructura, que en un solo equipo n
 | 5 | ms-ordenes y ms-notificaciones (V20–V23, correos con el PDF, alarma en vivo, orden recibida, reproceso de la cola de errores), DEC-75 a DEC-82 | Aprobado |
 | 6a | ms-administracion (auditoría, parámetros y tema, logs de errores con Elasticsearch, usuarios y destinatarios), DEC-83 a DEC-87 | Aprobado |
 | 6b | ms-analitica (tablero BAM del director comercial, promociones de HU-19 con la API de redes simulada y `tendencia.detectada`, PD-05), DEC-88 a DEC-91 | Aprobado |
-| 7 | Mockups que faltaban (DEC-96); mensajes de las historias (DEC-97) y coma decimal (DEC-98); historia de punta a punta y `probar_todo.sh` (DEC-99); revisión de la plataforma completa (`documentos/VALIDACION_CORTE7.md`) y sus correcciones: «Solicitar» con el producto (DEC-100), `reactivar()` en el diagrama (DEC-101), V05 y el correo con la sucursal (DEC-102), V11 de a 25 (DEC-103), outbox, consumidores idempotentes y límite de tasa (DEC-104 y DEC-105); README y LEEME finales y el reporte regenerado | Aprobado |
+| 7 | Mockups que faltaban (DEC-96); mensajes de las historias (DEC-97) y coma decimal (DEC-98); historia de punta a punta y `probar_todo.sh` (DEC-99); revisión de la plataforma completa (`documentos/VALIDACION_CORTE7.md`) y sus correcciones: «Solicitar» con el producto (DEC-100), `reactivar()` en el diagrama (DEC-101), V05 y el correo con la sucursal (DEC-102), V11 de a 25 (DEC-103), outbox, consumidores idempotentes y límite de tasa (DEC-104 y DEC-105); README de la raíz y de la plataforma finales y el reporte regenerado | Aprobado |
 
 ## Probar de punta a punta
 

@@ -263,7 +263,7 @@ Además de la versión en memoria, el sistema corre completo en el stack del dia
 (DEC-58), con Docker Compose: API Gateway, Eureka, Kafka, PostgreSQL, Redis, almacén S3, Elasticsearch y la SPA
 en React, y los 11 microservicios Spring Boot (ms-identidad, ms-menu, ms-pedidos, ms-inventario, ms-solicitudes,
 ms-integracion, ms-cotizaciones, ms-ordenes, ms-notificaciones, ms-administracion y ms-analitica). Se armó en 7
-cortes, todos aprobados; el detalle de cada uno está en `plataforma/LEEME.md`. Tiene:
+cortes, todos aprobados; el detalle de cada uno está en `plataforma/README.md`. Tiene:
 - las ventanas V01 a V23, los proveedores, las cinco del administrador (parámetros y tema, auditoría, logs de errores
   en Elasticsearch, usuarios y destinatarios), el tablero BAM del director comercial y las promociones sugeridas del
   jefe de cocina (con la API de redes simulada y su correo), cada una con su mockup (DEC-96);
