@@ -52,7 +52,9 @@ DIAGRAMAS["casos_de_uso"] = dict(
         "Antes de la arquitectura, mostramos quién usa el sistema. Son seis roles: mesero, jefe de cocina, auxiliar de "
         "compras, director de compras, director comercial y administrador. Todos heredan de un actor abstracto, Usuario, "
         "y por eso todos inician sesión con el mismo caso de uso, el CU-01.",
-        "Los 19 casos de uso cubren las 19 historias de usuario. El flujo principal es el de abastecimiento: el jefe de "
+        "Las 19 historias de usuario quedan cubiertas por trece casos de uso (CU-02 a CU-14); los otros seis salen de los "
+        "requisitos de seguridad (iniciar sesión), de administración (parámetros, auditoría, logs y usuarios) y de "
+        "integración (el SOAP). El flujo principal es el de abastecimiento: el jefe de "
         "cocina pide alimentos, el auxiliar envía la solicitud de cotización al proveedor con el precio del Ministerio, "
         "y el director de compras valida y genera la orden. Alrededor están el pedido del mesero, la alerta de inventario, "
         "el tablero BAM y las funciones del administrador.",
@@ -118,7 +120,7 @@ DIAGRAMAS["3a"] = dict(
     elementos=[
         ("c3a_boundary", None, "Límite del sistema", "Todo lo que está dentro del recuadro punteado es nuestro; lo de afuera son personas y sistemas externos."),
         ("c3a_p_mesero", None, "Las seis personas", "Los mismos seis roles del nivel 1, con su color. Todos usan la SPA por HTTPS."),
-        ("c3a_p_proveedor", "c", "Proveedor", "Responde por correo, fuera del sistema; el director digita los valores en V18."),
+        ("c3a_p_proveedor", "fi", "Proveedor", "Responde por correo, fuera del sistema; el director digita los valores en V18."),
         ("c3a_web", None, "Servidor web (Nginx)", "Entrega los archivos estáticos de la SPA, detrás de una CDN con WAF."),
         ("c3a_spa", None, "SPA Konrad Gourmet", "React + TypeScript, se ejecuta en el navegador y es responsive (web y móvil). El menú lateral de cada rol llega en el JWT."),
         ("c3a_gateway", None, "API Gateway «Facade»", "Spring Cloud Gateway: punto único de entrada. Valida el JWT, limita la tasa y enruta por prefijo (13 prefijos para los 11 servicios)."),
@@ -198,14 +200,14 @@ DIAGRAMAS["1"] = dict(
         ("v126", None, "Chain of Responsibility", "Las tres reglas de validación: más de 25 % por encima, RECHAZADA; más de 50 % por debajo, SOSPECHOSA; el resto, OPCIONADA."),
         ("v140", None, "ms-ordenes", "Órdenes de compra desde cotizaciones OPCIONADAS y su PDF (V21 a V23); consulta la cotización por REST a ms-cotizaciones."),
         ("v152", None, "ms-administracion", "Parámetros e imagen corporativa, auditoría y logs."),
-        ("v158", None, "Singleton", "ParametrosSistema: una sola fuente de parámetros por réplica (tema, logos)."),
+        ("v158", "fd", "Singleton", "ParametrosSistema: una sola fuente de parámetros por réplica (tema, logos)."),
         ("v163", None, "ms-analitica", "Tablero BAM (KPI), tendencias y promociones sugeridas; lee las redes sociales."),
         ("v166", None, "Strategy", "CalculadorKpi con un cálculo intercambiable por KPI: producto y sucursal con mayor demanda y proveedor con mejores precios."),
         ("v180", None, "ms-notificaciones", "Correos certificados con sello de tiempo y la alarma en vivo de V05 (WebSocket)."),
         ("v183", None, "Factory Method + Decorator", "Factory Method crea la notificación (correo o alarma); los decoradores agregan certificado y sello de tiempo al correo SMTP."),
         ("v194", None, "ms-integracion", "Frontera SOA: consume el SOAP del Ministerio y expone servicios SOAP; apoya V13 y V14."),
-        ("ad_integracion_b1", None, "Proxy con caché", "PrecioReferenciaCacheProxy: si el precio está en Redis, responde; si no, lo pide al Ministerio y lo guarda un día."),
-        ("db_integracion", "ii", "Redis", "Caché de precios compartida por las réplicas."),
+        ("ad_integracion_b1", "fi", "Proxy con caché", "PrecioReferenciaCacheProxy: si el precio está en Redis, responde; si no, lo pide al Ministerio y lo guarda un día."),
+        ("db_integracion", "fi", "Redis", "Caché de precios compartida por las réplicas."),
         ("db_objetos", None, "Almacén de objetos [S3]", "PDF e imágenes de platos; lo usan ms-menu, ms-cotizaciones, ms-ordenes y ms-notificaciones."),
         ("db_elk", None, "Logs de error [Elasticsearch]", "Los consulta ms-administracion."),
         ("ext_ministerio", None, "Ministerio de Comercio", "Servicio web SOAP con el precio estándar."),

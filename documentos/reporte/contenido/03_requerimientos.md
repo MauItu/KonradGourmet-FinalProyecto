@@ -1,4 +1,4 @@
-<!-- §3. Correcciones: R-08, R-09, R-11, R-12, R-13 y R-63. R-10 ya es cierto. R-14 es opcional y no se aplica. -->
+<!-- §3. Correcciones: R-08, R-09, R-11, R-12, R-13 y R-63. R-10 ya es cierto. R-14, opcional, se aplica (DEC-116). -->
 # 3. Requerimientos no funcionales y decisiones
 
 La tabla 3 recorre los requerimientos no funcionales del enunciado (algunos agrupados) y muestra qué decisión produce cada uno, qué arquitectura la asume y dónde se ve en el diagrama.
@@ -20,6 +20,6 @@ La tabla 3 recorre los requerimientos no funcionales del enunciado (algunos agru
 | Backup diario | Bases: copia completa nocturna más registros WAL continuos. Almacén de objetos: copia diaria y réplica en la región alterna. Retención de 30 días | Apoyo (despliegue) | Despliegue, respaldo diario |
 | Cambio fácil de motor de base de datos | Cada repositorio es un puerto; el motor vive en un adaptador JPA que se reemplaza sin tocar el dominio | Hexagonal | Adaptadores \*JpaAdapter |
 | Auditoría de cada CRUD con acción, usuario, fecha y hora | Cada uno de los otros diez servicios publica auditoria.evento después de cada escritura; ms-administracion lo consume y lo guarda en su bitácora, y sus propias escrituras las registra directo. El usuario de cada registro sale del JWT de quien hizo la acción | Eventos | Tópico auditoria.evento |
-| Registro de cada error en un log | Logs centralizados (ELK) con trazas OpenTelemetry; consulta desde ms-administracion | Apoyo | Despliegue, observabilidad |
+| Registro de cada error en un log | Logs centralizados (ELK) con trazas OpenTelemetry; ms-administracion los consulta en Elasticsearch por el puerto LogsPort | Apoyo | Despliegue, observabilidad |
 | Tecnología libre de licenciamiento y versiones estables | Java 21, Spring Boot 3, PostgreSQL, Apache Kafka, Redis, React, Kubernetes: todo de código abierto | Todas | Etiquetas [tecnología] del mapa |
 | Exponer servicios a sistemas externos por SOAP | ms-integracion concentra la frontera SOA: publica un endpoint SOAP y consume el servicio web del Ministerio de Comercio; los sistemas externos se autentican con OAuth 2.0 client credentials y el gateway valida su JWT, que solo da acceso a /api/integracion/\*\* | SOA (apoyo) y hexagonal | Endpoint SOAP de ms-integracion |

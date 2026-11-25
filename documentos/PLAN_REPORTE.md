@@ -153,6 +153,6 @@ Al terminar, el original sigue intacto en su lugar.
    - R-39 (§12): agregar «almacén de objetos» a lo que coordina la fachada;
    - R-53 (§15): una tabla extra con los métodos de controlador que no tienen ventana.
 
-   Recomendación: aplicar R-14, R-19 y R-39, que son una frase cada una y dejan el reporte más exacto, y omitir R-53, que suma una tabla larga que nadie pidió. **Mauricio (2026-11-09): quedan como opcionales, para revisar después.**
+   Recomendación: aplicar R-14, R-19 y R-39, que son una frase cada una y dejan el reporte más exacto, y omitir R-53, que suma una tabla larga que nadie pidió. **Mauricio (2026-11-09): quedan como opcionales, para revisar después.** **Mauricio (2026-11-24, DEC-116): se aplican R-14, R-19 (con la lista completa de estados del código) y R-39; R-53 se descarta.**
 2. **La portada:** resuelta, con los nombres dados por Mauricio (provisional).
 3. **El aspecto:** si la página de prueba de REP-02 está bien, antes de pasar todo el texto.

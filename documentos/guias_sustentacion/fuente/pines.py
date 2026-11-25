@@ -46,7 +46,8 @@ def diametro(ancho):
 def exportar(drawio, salida, pines):
     """pines: {clave de página: [(id de celda, posición), ...]} en el orden de los números.
 
-    posición: 'si' (esquina superior izquierda, por omisión), 'sd', 'ii', 'id' o 'c' (centro).
+    posición: 'si' (esquina superior izquierda, por omisión), 'sd', 'ii', 'id', 'c' (centro), o 'fi' y 'fd' (fuera, a la
+    izquierda o a la derecha, a media altura: para no tapar el texto del elemento).
     Devuelve {clave: {"ancho": w, "alto": h, "pines": [(n, x, y), ...]}} en píxeles de la imagen."""
     texto = Path(drawio).read_text(encoding="utf-8")
     raiz = ET.fromstring(texto)
@@ -68,7 +69,8 @@ def exportar(drawio, salida, pines):
         for n, (cid, pos) in enumerate(lista, 1):
             x, y, w, h = absoluta(cid)
             cx, cy = {"si": (x, y), "sd": (x + w, y), "ii": (x, y + h), "id": (x + w, y + h),
-                      "c": (x + w / 2, y + h / 2)}[pos or "si"]
+                      "c": (x + w / 2, y + h / 2), "fi": (x - d / 2 - 6, y + h / 2),
+                      "fd": (x + w + d / 2 + 6, y + h / 2)}[pos or "si"]
             cent.append((n, cx, cy))
         ax = min(min(xs), min(c[1] for c in cent) - d / 2) - 40
         ay = min(min(ys), min(c[2] for c in cent) - d / 2) - 40

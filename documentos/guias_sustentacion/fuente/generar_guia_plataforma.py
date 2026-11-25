@@ -95,7 +95,7 @@ VENTANAS = {
         ("V02", "Inicio del mesero", "v02", "Resumen del turno: los pedidos que registró hoy y un acceso a «Nuevo pedido».",
          "ms-pedidos", "GET /api/pedidos?turno=actual", "—", et("Microservicios", "REST")),
         ("V03", "Nuevo pedido", "d02_V03_pedido",
-         "Catálogo de platos con su foto y precio, cantidades, mesa y total. El catálogo es una copia local que ms-pedidos arma con los eventos de ms-menu.",
+         "Catálogo de platos con su foto si la tiene (si no, su ícono) y precio, cantidades, mesa y total. El catálogo es una copia local que ms-pedidos arma con los eventos de ms-menu.",
          "ms-pedidos (la foto, de ms-menu)", "GET /api/pedidos/catalogo, GET /api/pedidos/mesas, POST /api/pedidos",
          "consume menu.actualizado", et("Microservicios", "Eventos", "Hexagonal")),
         ("V04", "Pedido registrado", "d03_V04_registrado",
@@ -117,7 +117,7 @@ VENTANAS = {
          et("Eventos", "Tarea programada con ShedLock")),
         ("V08", "Nueva solicitud de alimentos", "d06_V08_solicitud",
          "Categoría, producto, cantidad, unidad y marca. Desde la alarma o una alerta, «Solicitar» la abre con el producto ya escogido.",
-         "ms-solicitudes", "POST /api/solicitudes; GET /api/platos/productos?categoria=…", "—", et("Hexagonal")),
+         "ms-solicitudes (los productos, de ms-menu)", "POST /api/solicitudes; GET /api/platos/productos?categoria=…", "—", et("Hexagonal")),
         ("V09", "Solicitud registrada", "d07_V09_registrada", f"Confirmación con el número ({SOL}) en estado PENDIENTE.",
          "ms-solicitudes", "201 Created", "publica solicitud.registrada → ms-notificaciones, ms-analitica y ms-inventario (alerta atendida)",
          et("Eventos")),
@@ -129,8 +129,8 @@ VENTANAS = {
     "Auxiliar de compras (Isabella Castro)": [
         ("V11", "Inicio del auxiliar", "v11", "Solicitudes pendientes de todas las sucursales y accesos a cotizaciones y proveedores.",
          "ms-solicitudes", "GET /api/solicitudes?estado=PENDIENTE", "—", et("Microservicios")),
-        ("V12", "Solicitudes, con «Generar cotización»", "v12",
-         "Filtros de HU-07 (estado, sucursal, fechas, producto) y el detalle de la solicitud con quién la pidió y el botón para cotizarla.",
+        ("V12", "Inicio con «Generar cotización»", "v12",
+         "Filtros de HU-07 (fechas, producto, marca y estado) y el detalle de la solicitud con quién la pidió y el botón para cotizarla.",
          "ms-solicitudes", "GET /api/solicitudes, GET /api/solicitudes/{id}", "—", et("Microservicios", "REST")),
         ("V13", "Generar solicitud de cotización", "d10_V13_generar",
          "Una o varias solicitudes, los productos a cotizar, el proveedor y la fecha límite. Un clic pide el precio del Ministerio, guarda el PDF y lo envía por correo.",
@@ -143,8 +143,8 @@ VENTANAS = {
         ("V15", "Cotizaciones enviadas", "v15", "Las cotizaciones del auxiliar con su estado y su detalle.",
          "ms-cotizaciones", "GET /api/cotizaciones", "consume orden.generada (CON ORDEN)", et("Microservicios")),
     ],
-    "Directora de compras (Laura Gómez)": [
-        ("V16", "Inicio de la directora", "v16", "Cotizaciones pendientes de atención y accesos a validar, opcionadas y órdenes.",
+    "Director de compras (Laura Gómez)": [
+        ("V16", "Inicio del director", "v16", "Cotizaciones pendientes de atención y accesos a validar, opcionadas y órdenes.",
          "ms-cotizaciones", "GET /api/cotizaciones/pendientes", "—", et("Microservicios")),
         ("V17", "Todas las cotizaciones", "v17", "Todas las cotizaciones, con filtros y el detalle de cada una (estado y diferencia).",
          "ms-cotizaciones", "GET /api/cotizaciones", "—", et("Microservicios")),
@@ -212,7 +212,8 @@ def seccion_ventanas():
     partes = ["""<p>La SPA tiene <b>33 ventanas</b>: las 23 del prototipo (V01 a V23) y otras diez para funciones que el
 prototipo no dibujaba. Cada rol ve solo las suyas: el menú lateral llega dentro del JWT, armado por ms-identidad. Las
 imágenes son de la aplicación con los datos de la demo; al tocarlas se abren en tamaño real. Las de V03, V04, V08,
-V09, V13, V14, V18, V19, V21 y V22 aparecen solo después de una acción, así que son las del recorrido de la demo.</p>"""]
+V09, V13, V14, V18, V19, V21 y V22 son las del recorrido de la demo (V04, V09, V14, V18, V19, V21 y V22 se abren
+después de una acción).</p>"""]
     for rol, lista in VENTANAS.items():
         partes.append(f"<h3>{E(rol)}</h3><div class=\"ventanas\">" + "".join(tarjeta_ventana(*v) for v in lista) + "</div>")
     partes.append("<h3>Las otras diez ventanas</h3><div class=\"ventanas\">" + "".join(
@@ -283,9 +284,12 @@ el consumo del día, y analítica, para los indicadores.»</p>"""))
         + con_pines("d05_V07_alarma", "V07 con la alarma en vivo", [
             f"La alarma llega sola, sin recargar: «{E(alarma)}».", "«Solicitar» (paso 3).",
             f"La res ya descontada: {E(res_desp[3])} kg, «{E(res_desp[6])}»."])
-        + f'<p class="debe"><b>Debe verse:</b> la alarma roja «{E(alarma)}» arriba a la derecha y, en Mailpit, el correo «Stock bajo: Res».</p>',
+        + f'<p class="debe"><b>Debe verse:</b> la alarma roja «{E(alarma)}» arriba a la derecha y, en Mailpit, el correo «Stock bajo: Res».</p>'
+        + f'<p class="suave">Si preguntan por qué la res baja {E(res_antes[3])} → {E(res_desp[3])} kg si la bandeja paisa '
+        'lleva 0,5 kg: el cierre descuenta todo lo vendido desde el último cierre, que es PED-0251 de los datos de partida '
+        '(2 bandejas paisas y un ajiaco, que no lleva res) y PED-0252 (1 bandeja paisa): 3 × 0,5 kg = 1,5 kg.</p>',
         et("Eventos", "inventario.stock-bajo", "Tarea programada con ShedLock", "PD-01: Redis pub/sub y WebSocket", "Factory Method"),
-        f"""<p>«Ahora el jefe de cocina. En el sistema real, a las 23:59 una tarea programada descuenta lo que se vendió en el
+        f"""<p>«Ahora el jefe de cocina. Cada noche, a las 23:59, una tarea programada descuenta lo que se vendió en el
 día; con ShedLock la ejecuta una sola réplica. Aquí la adelantamos con este botón.»</p>
 <p>«La res estaba en el 25 % y con lo vendido queda por debajo. ms-inventario publica <i>inventario.stock-bajo</i>;
 ms-notificaciones lo recibe, lo publica en Redis y la réplica que tiene abierta la sesión del jefe le entrega la
@@ -330,7 +334,7 @@ Ministerio.»</p>
 <p>«ms-cotizaciones publica <i>cotizacion.enviada</i>: notificaciones envía el PDF al proveedor por correo certificado
 y solicitudes pasa la solicitud del jefe a EN TRÁMITE. Si cambiamos a la pestaña del jefe, ya lo ve.»</p>"""))
 
-    pasos.append(paso(5, "La directora registra los valores y valida", f"Directora de compras · {c('laura.gomez@konradgourmet.com')}", "≈ 1½ min",
+    pasos.append(paso(5, "La directora registra los valores y valida", f"Director de compras · {c('laura.gomez@konradgourmet.com')}", "≈ 1½ min",
         con_pines("d14_V18_valores", "V18 con el precio del proveedor", [
             "El estándar del Ministerio: $20.000 por kilo.",
             f"El precio que respondió el {COT1['proveedor']}: {pesos(COT1['precio'])} por kilo.",
@@ -353,7 +357,7 @@ opcionada.»</p>
 {E(COT2['diferencia'].replace('Diferencia ', ''))}: rechazada. Cada validación publica <i>cotizacion.validada</i> para el
 indicador de proveedores.»</p>"""))
 
-    pasos.append(paso(6, "La orden de compra", "Directora de compras (la misma pestaña)", "≈ 1½ min",
+    pasos.append(paso(6, "La orden de compra", "Director de compras (la misma pestaña)", "≈ 1½ min",
         con_pines("d17_V20_opcionadas", "V20 con la comparación", [
             f"La solicitud: {SOL}.", f"{COT1['numero']}, la única opcionada de {SOL}.", "«Seleccionar para compra»."])
         + con_pines("d18_V21_generar", "V21", [f"La solicitud de origen: {SOL}.", f"El total: {pesos(H['orden_total'])}.",
@@ -479,7 +483,8 @@ qué reemplaza a cada sistema externo salvo que lo pregunten (ver «Preguntas pr
 usan los mismos puertos, así que <b>solo puede estar encendida una a la vez</b>: el nombre de la instancia lo da
 <code>COMPOSE_PROJECT_NAME</code>.</p>
 <h3>Para la demo: la instancia kg-demo</h3>
-<pre><code># 1. Dejarla con los datos de la demo (copia los datos de kg-mockups; detiene las dos si están encendidas)
+<pre><code># 1. Dejarla con los datos de la demo (copia las bases, los PDF y los logs de kg-mockups y vacía
+#    los tópicos y la caché; detiene las dos si están encendidas)
 documentos/guias_sustentacion/fuente/restablecer_demo.sh
 
 # 2. Encenderla (unos 4 minutos)
@@ -501,7 +506,7 @@ mismo punto, por ejemplo después de un ensayo, se vuelve al paso 1.</p>
 <h3>Las otras instancias del equipo</h3>
 <table><thead><tr><th>Instancia</th><th>Para qué</th></tr></thead><tbody>
 <tr><td><code>kg-demo</code></td><td>La demo de la sustentación; se restablece desde kg-mockups</td></tr>
-<tr><td><code>kg-mockups</code></td><td>Los datos con que se hicieron los mockups (COT-018 a COT-022, OC-0012); no se usa en vivo</td></tr>
+<tr><td><code>kg-mockups</code></td><td>Los datos de partida de la demo (COT-018 a COT-022, OC-0012); no se usa en vivo</td></tr>
 <tr><td><code>kg-limpio</code></td><td>Las pruebas de punta a punta (<code>probar_todo.sh</code>)</td></tr>
 <tr><td><code>konrad-gourmet</code></td><td>La instancia de trabajo, con datos de pruebas manuales</td></tr>
 </tbody></table>
@@ -516,7 +521,7 @@ como un árbol de grupos y opciones (Composite) y viaja dentro del JWT. La sesi�
 <tr><td>Mesero</td><td><code>isabella.torres@konradgourmet.com</code></td><td>Inicio (V02), Pedidos del turno, Nuevo pedido (V03)</td></tr>
 <tr><td>Jefe de cocina</td><td><code>carlos.mendoza@konradgourmet.com</code></td><td>Inicio (V05), Platos (V06 y editar), Inventario (V07), Solicitudes (V08 y V10), Promociones</td></tr>
 <tr><td>Auxiliar de compras</td><td><code>isabella.castro@konradgourmet.com</code></td><td>Inicio (V11), Todas las solicitudes (V12), Generar cotización (V13), Cotizaciones enviadas (V15), Proveedores</td></tr>
-<tr><td>Directora de compras</td><td><code>laura.gomez@konradgourmet.com</code></td><td>Inicio (V16), Todas (V17), Pendientes de validar (V18), Opcionadas (V20), Órdenes de compra (V23)</td></tr>
+<tr><td>Director de compras</td><td><code>laura.gomez@konradgourmet.com</code></td><td>Inicio (V16), Todas (V17), Pendientes de validar (V18), Opcionadas (V20), Órdenes de compra (V23)</td></tr>
 <tr><td>Director comercial</td><td><code>andres.rojas@konradgourmet.com</code></td><td>Tablero BAM (entra directo a él)</td></tr>
 <tr><td>Administradora</td><td><code>paula.herrera@konradgourmet.com</code></td><td>Inicio, Parámetros y tema, Auditoría, Logs de errores, Usuarios, Destinatarios</td></tr>
 </tbody></table>
@@ -543,8 +548,8 @@ la próxima vez.</td></tr>
 confirma el envío. Si el correo falla, reintenta solo y luego pasa a la cola de errores.</td></tr>
 <tr><td>El Ministerio no responde</td><td>La cotización queda PENDIENTE DE PRECIO y se guarda sin enviar (ventana
 «Reenviar una cotización»): mostrarlo como resiliencia y reenviarla desde «Cotizaciones enviadas» cuando vuelva.</td></tr>
-<tr><td>Se hizo un paso dos veces</td><td>No pasa nada: los números siguientes cambian (por ejemplo, {SOL} pasa a ser el
-siguiente). Seguir con el número que muestre la pantalla.</td></tr>
+<tr><td>Se hizo un paso dos veces</td><td>No pasa nada: los números siguientes cambian (por ejemplo, la solicitud sale
+{SOL[:-3]}{int(SOL[-3:]) + 1:03d} en vez de {SOL}). Seguir con el número que muestre la pantalla.</td></tr>
 <tr><td>La plataforma no enciende o el equipo está muy lento</td><td>Hacer la demo con las imágenes de la sección 5 de esta
 guía, en el mismo orden, y decir lo mismo.</td></tr>
 </tbody></table>
@@ -564,7 +569,7 @@ en «Todas las solicitudes», <b>4</b> directora en «Inicio», <b>5</b> Mailpit
 <li>Zoom del navegador al 100 % o 110 %, pantalla completa, notificaciones del sistema silenciadas, equipo conectado
 a la corriente.</li>
 <li>Esta guía abierta en otro dispositivo o en otra ventana, por si hay que pasar al plan B.</li>
-<li>Al terminar, apagar <code>kg-demo</code> con <code>stop</code>.</li>
+<li>Al terminar: <code>restablecer_demo.sh</code>, que detiene <code>kg-demo</code> (con <code>stop</code>) y la deja restablecida para el siguiente ensayo.</li>
 </ol>
 """))
 
@@ -590,8 +595,8 @@ adjuntos y cabeceras; en producción se cambia la dirección del servidor de cor
 cada noche, con ShedLock para que la haga una sola réplica.</dd>
 <dt>¿Cómo se sabe quién hizo cada cosa?</dt><dd>El usuario sale del JWT y viaja en cada evento; la auditoría lo muestra
 con la fecha y la acción, y cada historia comparte un identificador de correlación.</dd>
-<dt>¿Cómo se probó?</dt><dd><code>probar_todo.sh</code> corre sobre una instalación limpia 1.254 comprobaciones sin fallas:
-400 del núcleo, 91 pruebas JUnit y 763 de recorridos en el navegador y verificadores, uno de ellos esta misma historia
+<dt>¿Cómo se probó?</dt><dd><code>probar_todo.sh</code> corre sobre una instalación limpia 1.255 comprobaciones sin fallas:
+400 del núcleo, 91 pruebas JUnit y 764 de recorridos en el navegador y verificadores, uno de ellos esta misma historia
 de punta a punta.</dd>
 <dt>¿Funciona en el celular?</dt><dd>Sí, las 33 ventanas son responsive (sección 4, al final).</dd>
 </dl>

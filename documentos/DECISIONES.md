@@ -30,7 +30,9 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 - **DEC-97:** Mauricio pidió el 2026-11-23 «la que incluya menos modificaciones»; se compararon las dos y aplicó la de la web.
 - **DEC-98:** la decidió Mauricio el 2026-11-23, durante el 7b, siguiendo la recomendación técnica. **DEC-99** se asumió el mismo día y la confirmó Mauricio al aprobar el 7b. **DEC-100** la decidió Mauricio el mismo día, siguiendo la recomendación técnica, y se aplica en el 7c. El lugar de la figura de casos de uso (DEC-95, punto 3) lo confirmó Mauricio el mismo día.
 - **DEC-101 a DEC-104:** las decidió Mauricio el 2026-11-23, al revisar la validación del 7c (DEC-101 a DEC-103 siguiendo la recomendación del revisor o de la implementación; en DEC-104 escogió implementar todo, que no era la recomendada). **DEC-105** se asumió el mismo día y la confirmó Mauricio. **DEC-106** se asumió el 2026-11-23, en el 7d, y la confirmó Mauricio el mismo día, con un ajuste en el punto de la tabla 13. **DEC-107** la decidió Mauricio el mismo día, al revisar el reporte del 7d.
-- **DEC-108:** la decidió Mauricio el 2026-11-23, al pedir los guiones de la sustentación (no siguió el plan G1–G5 propuesto en la implementación). **DEC-109** se asumió el mismo día y la confirmó Mauricio el 2026-11-24, al aprobar la guía de los diagramas. **DEC-110** la decidió Mauricio el 2026-11-24 («corrije»), al revisar la guía de los diagramas. **DEC-111** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de la plataforma (las tres recomendaciones).
+- **DEC-108:** la decidió Mauricio el 2026-11-23, al pedir los guiones de la sustentación (no siguió el plan G1–G5 propuesto en la implementación). **DEC-109** se asumió el mismo día y la confirmó Mauricio el 2026-11-24, al aprobar la guía de los diagramas. **DEC-110** la decidió Mauricio el 2026-11-24 («corrije»), al revisar la guía de los diagramas. **DEC-111** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de la plataforma (las tres recomendaciones). **DEC-112** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de los microservicios («ok»: recortes por servicio). **DEC-113** la decidió Mauricio el 2026-11-24, al aprobar el plan de la guía de lo que está fuera de la plataforma (las cuatro recomendaciones: «1 a, 2 si, 3 esta bien, 4 esta bien»).
+- **DEC-114:** Mauricio pidió la corrección el 2026-11-24 (al aprobar la guía 5, «corrijelo»); la forma (opción A) se escogió en la implementación y Mauricio la confirmó el mismo día («apruebo lo recomendado»). **DEC-117** la decidió Mauricio el mismo día, siguiendo la recomendación técnica.
+- **DEC-115 y DEC-116:** las decidió Mauricio el 2026-11-24, antes de la revisión de las guías, siguiendo la recomendación técnica (DEC-114 queda para el volumen de Kafka, ya pedido).
 - **Hallazgos citados (H1–H26, E1–E3, D1–D12):** están en `REVISION_2026-11-07.md` y en `ESTADO_PROYECTO_Y_C4.md` §5.
 
 | Id | Tema | Decisión | Estado |
@@ -157,6 +159,12 @@ Cada decisión dice por qué hubo que decidir, qué opciones había, cuál se es
 | DEC-109 | Detalles de las guías | En `documentos/guias_sustentacion/`, con su generador; los números de los diagramas se ponen en una copia temporal del `.drawio` (el original no cambia); la página 6 y los casos de uso usan sus propios números; guion sugerido sin reparto de oradores ni duración fija; una guía por mensaje | Asumida en la implementación (2026-11-23) y confirmada por Mauricio (2026-11-24) |
 | DEC-110 | «Ventanas nuevas» y «23 ventanas» | La página 1 dice «Otras ventanas»; la 3a y el reporte (§4 y §12) dicen 33 ventanas donde hablan de todas; las figuras y el reporte se regeneran | Decidida por Mauricio (2026-11-24) |
 | DEC-111 | Imágenes e instancia de la guía de la plataforma | Las imágenes salen de la aplicación con los datos de la demo; la demo corre en `kg-demo`, copia de los volúmenes de `kg-mockups`, que se restablece copiándolos otra vez; el recorrido empieza en el pedido (el plato de V06 es opcional) | Decidida por Mauricio (2026-11-24) |
+| DEC-112 | Imágenes, orden y fuente de datos de la guía de los microservicios | Un recorte del paquete de cada servicio sacado de las imágenes de la guía 1 (con sus números); miniaturas de las ventanas de la guía 3; orden del flujo; endpoints, tópicos, tablas, clases, prefijos y réplicas leídos del código y del `.drawio` al generar | Decidida por Mauricio (2026-11-24) |
+| DEC-113 | Cómo se muestra lo que está fuera de la plataforma (guía 5) | Lo que no se publica se ve por las ventanas de la aplicación y con `docker compose exec`/`run` sobre kg-demo, sin tocar el compose; la guía trae un paso opcional con un error real (Mailpit detenido); el ensayo de la guía 3 se repite en otra carpeta (`SALIDA`); se llama `guia_externos.html` | Decidida por Mauricio (2026-11-24) |
+| DEC-114 | Volumen de Kafka en el compose | `KAFKA_LOG_DIRS=/var/lib/kafka/data`: Kafka guarda los tópicos en el volumen `datos-kafka`, que ya estaba montado ahí, y sobreviven a `down`; `restablecer_demo.sh` vacía ese volumen en kg-demo en lugar de copiarlo | Pedida por Mauricio (2026-11-24); forma asumida en la implementación y confirmada por Mauricio (2026-11-24) |
+| DEC-115 | Total del correo de la orden de compra | El cuerpo dice «total $840.000», con el mismo formato de pesos que la aplicación y el PDF; antes, «total 840000» | Decidida por Mauricio (2026-11-24) |
+| DEC-116 | Correcciones opcionales del reporte | Se aplican R-14 (los logs se consultan en Elasticsearch por `LogsPort`), R-19 (con la lista completa de estados del código) y R-39 (la fachada también coordina el almacén de objetos); R-53 se descarta | Decidida por Mauricio (2026-11-24) |
+| DEC-117 | Cifra de pruebas después de DEC-115 | Los documentos vigentes dicen 1.255 comprobaciones (400 + 91 + 764); los registros de cortes ya aprobados conservan 1.254 | Decidida por Mauricio (2026-11-24) |
 
 ---
 
@@ -1909,6 +1917,78 @@ Se asumieron el 2026-11-23 y los confirmó Mauricio el mismo día. Ninguno cambi
 - **Inicio del recorrido.** Opciones: (a) crear un plato en V06, como el recorrido del corte 7; (b) **escogida:** empezar en el pedido del mesero con un plato que ya existe; el plato de V06 queda como paso opcional.
 
 **Qué implica:** `kg-mockups`, `kg-limpio` y `konrad-gourmet` no se tocan; `kg-demo` se detiene al terminar.
+
+
+## DEC-112 · Imágenes, orden y fuente de datos de la guía de los microservicios (G-04)
+
+**Contexto.** La guía 4 (DEC-108) explica los 11 microservicios, el gateway y Eureka, con una ficha igual para cada uno. Hacía falta escoger qué imagen acompaña a cada servicio, en qué orden van y de dónde salen los datos, para que no se contradigan con el código ni con las otras guías.
+
+- **Imagen de cada servicio.** Opciones: (a) **escogida:** un recorte del paquete del servicio sacado de las imágenes de la guía de los diagramas (páginas 4a a 4e y, para el gateway y Eureka, la 3a), con la posición del paquete en el `.drawio`, que está a la misma escala; conserva los números de la guía 1, así se pueden citar; (b) la página de clases completa con el visor, sin recortes; (c) imágenes nuevas de la aplicación, que obligarían a encender la plataforma.
+- **Ventanas.** Opciones: (a) **escogida:** miniaturas de las imágenes de la guía de la plataforma (`img/plataforma/`), y la lista de qué ventana atiende cada servicio se importa del generador de esa guía para que coincidan; (b) solo los códigos de las ventanas, sin imagen.
+- **Orden.** Opciones: (a) **escogida:** el del flujo (identidad, pedidos, menú, inventario, solicitudes, cotizaciones, órdenes, notificaciones, integración, administración y analítica), precedido de la vista general (matriz servicios × tópicos, los 13 prefijos y las llamadas síncronas) y del gateway con Eureka; (b) alfabético; (c) el de la tabla 5 del reporte.
+- **Fuente de los datos.** Opciones: (a) **escogida:** como la guía del código, el generador lee del código al generar los endpoints (anotaciones de Spring), los tópicos que consume (`@KafkaListener`) y publica (el `tipo()` de cada evento y el módulo que lo crea), las tablas de Flyway, las clases del núcleo y los adaptadores Spring, los prefijos del gateway y las réplicas de la página 5, y se niega a generar si algo no cuadra (13 prefijos, 33 ventanas, ms-administracion sin publicar `auditoria.evento`, `evento_procesado` solo en los que consumen, un «para qué» por cada entrada); (b) escribir las tablas a mano. Los textos de responsabilidad, patrones y caídas se escriben a mano a partir del LEEME, el README, las tablas 5, 10, 11 y 13 del reporte y el comportamiento del código.
+
+**Qué implica:** `guias_sustentacion/fuente/generar_guia_microservicios.py` (los recortes necesitan Pillow: `mockups_nuevos/.venv/bin/python`) deja `guia_microservicios.html` y `img/microservicios/` (13 recortes). No hace falta encender la plataforma; ninguna instancia se toca.
+
+## DEC-113 · Cómo se muestra lo que está fuera de la plataforma (G-05)
+
+**Contexto.** La guía 5 (DEC-108, DEC-109) explica lo que en el equipo reemplaza a un sistema externo (Mailpit, los dos WireMock) y las consolas de apoyo. El compose solo publica tres puertos en el equipo: 8080 (la aplicación), 8025 (Mailpit) y 8761 (Eureka); el almacén de objetos, Elasticsearch, los dos WireMock, Kafka, Redis y PostgreSQL solo se ven dentro de la red de Docker. Hacía falta escoger cómo mostrarlos, si la guía provoca un error de verdad para que se vea en los logs, de dónde sale el estado de la demo y cómo se llama.
+
+- **Cómo se ve lo que no se publica.** Opciones: (a) **escogida:** por las ventanas de la aplicación (el PDF de V14 y V23 sale del almacén de objetos, «Logs de errores» lee Elasticsearch, la diferencia de V18 y V19 usa el precio del Ministerio) y, en la terminal, con `docker compose exec` y la herramienta de cada contenedor (`curl` en WireMock y Elasticsearch, `redis-cli`, `psql`, los `kafka-*.sh`) y `docker compose run` del contenedor que crea los buckets (`aws s3 ls`); el compose no cambia; (b) lo mismo más un archivo `docker-compose.consolas.yml` aparte, solo para kg-demo, que publique Elasticsearch, el filer de SeaweedFS y la administración de los WireMock: toca el compose y obliga a correr `probar_todo.sh`; (c) solo las ventanas de la aplicación, sin terminal.
+- **Un error real.** Opciones: (a) **escogida:** un paso opcional en el guion: se detiene Mailpit, se registra una solicitud, el error llega a «Logs de errores» con su correlación y, al encender Mailpit, la cola de errores reenvía el correo; (b) solo contarlo.
+- **El estado de la demo.** Opciones: (a) **escogida:** repetir en kg-demo el ensayo de la guía 3 (`imagenes_plataforma.py`) con la carpeta de salida en la variable `SALIDA`, para no pisar las imágenes de la guía 3, y comprobar que los números coincidan con los suyos (PED-0252 a OC-0013); (b) ensayarlo otra vez desde el script de la guía 5, duplicando el recorrido; (c) regenerar las imágenes de la guía 3.
+- **Nombre:** `guia_externos.html`.
+
+**Qué implica:** `guias_sustentacion/fuente/imagenes_externos.py` (solo en kg-demo; al terminar se restablece con `restablecer_demo.sh`) deja en `img/externos/` las imágenes y la salida real de cada consulta, y `fuente/generar_guia_externos.py` arma la guía leyendo además la configuración (mappings de WireMock, compose, adaptadores) y se niega a generar si algo no cuadra. El código de la plataforma y el compose no cambian. Al preparar la guía se vio que `restablecer_demo.sh` no vaciaba Redis (la imagen guarda `/data` en un volumen anónimo que sobrevive a `stop`), así que la caché de precios de un ensayo seguía en el siguiente y la primera cotización no siempre consultaba al Ministerio; desde aquí el script quita el contenedor de Redis con ese volumen y `levantar.sh` lo vuelve a crear vacío. Lo mismo pasaba con Kafka: la imagen `apache/kafka` guarda los datos en `/tmp/kafka-logs`, dentro del contenedor, y no en `/var/lib/kafka/data`, donde el compose monta el volumen `datos-kafka` (que queda vacío en todas las instancias), así que los tópicos de kg-demo acumulaban los eventos de cada ensayo (cinco `orden.generada` de OC-0013); el script quita también el contenedor de Kafka y `levantar.sh` vuelve a crear los tópicos. El compose no se cambió: el volumen de Kafka quedó anotado como observación para que Mauricio decida. Se corrigió después en DEC-114.
+
+## DEC-114 · ¿Cómo se corrige el volumen de Kafka del compose?
+
+**Contexto.** Al preparar la guía 5 (DEC-113) se vio que el compose monta el volumen `datos-kafka` en `/var/lib/kafka/data`, pero la imagen `apache/kafka:3.9.1`, configurada por variables de entorno, no fija `log.dirs` y Kafka usa su valor por omisión, `/tmp/kafka-logs`, dentro del contenedor. El volumen quedaba vacío en todas las instancias: los tópicos y sus eventos (y lo que ya leyó cada grupo) se conservaban con `stop` y se perdían con `down`, aunque el LEEME dice que `bajar.sh` «apaga todo y conserva los datos». Mauricio pidió corregirlo el 2026-11-24.
+
+**Opciones:**
+- **A. `KAFKA_LOG_DIRS=/var/lib/kafka/data` en el servicio `kafka`.** ✅ **Escogida en la implementación y confirmada por Mauricio el 2026-11-24.** Una línea; el volumen y su punto de montaje no cambian; `/var/lib/kafka/data` ya existe en la imagen y es del usuario con que corre Kafka (1000).
+- **B. Montar el volumen en `/tmp/kafka-logs`.** También funciona, pero depende de un valor por omisión de la imagen que puede cambiar entre versiones, y deja los datos en una carpeta temporal.
+- **C. Quitar el volumen** y aceptar que Kafka no conserva nada: el LEEME tendría que decir que `down` borra los tópicos.
+
+**Qué implica:**
+- Código: una línea en `plataforma/docker-compose.yml` (commit 526f590). Comprobado en kg-limpio: un evento escrito antes de `docker compose down` (sin `-v`) se lee después de volver a levantar Kafka. `probar_todo.sh` con este cambio y DEC-115, en kg-limpio (2026-11-24): 1.255 comprobaciones sin fallas (400 + 91 + 764; la nueva es la del texto del correo en `verificar_corte5.py`). El ensayo de las guías 3 y 5 en kg-demo con el compose nuevo dio los mismos números (PED-0252 a OC-0013).
+- `restablecer_demo.sh` (GR-14): ya no copia `datos-kafka` de kg-mockups; lo vacía y lo deja del usuario 1000, para que los tópicos de kg-demo solo tengan los eventos de cada demo, como hasta ahora. Las bases siguen copiándose, así que los consumidores no vuelven a procesar nada.
+- Las instancias que ya existen: la primera vez que se levanten con el cambio, Kafka arranca con el volumen vacío y `levantar.sh` crea los tópicos, igual que después de un `down`; lo que tenían en `/tmp/kafka-logs` se pierde una vez (los eventos ya procesados; las bases no cambian).
+- Documentación: ni el reporte ni el `.drawio` describen dónde guarda Kafka los datos en el entorno local, y el LEEME ya decía que `bajar.sh` conserva los datos; ahora es cierto también para los tópicos. No hay CD nuevo. DEC-113 queda como el registro de cuando se encontró.
+
+## DEC-115 · ¿Lleva formato de pesos el total del correo de la orden de compra?
+
+**Contexto.** Al ensayar la guía 3 se vio que el correo de la orden al proveedor dice «Orden OC-0013 sobre la cotización COT-023, total 840000. El PDF va adjunto.»: `NotificacionService` escribe el total con `toPlainString()`. La aplicación (V21 a V23) y el PDF de la orden dicen $840.000. La guía 5 lo dejó anotado como observado, sin corregir.
+
+**Opciones:**
+- **A. Formato de pesos, «total $840.000»**, como la aplicación y el PDF (punto de miles, sin decimales). ✅ **Escogida por Mauricio el 2026-11-24** (la recomendada).
+- **B. Dejarlo** como está.
+
+**Qué implica:** un cambio de código en ms-notificaciones, con su commit; se prueba con `probar_todo.sh` en la misma corrida del volumen de Kafka (DEC-114). La imagen del correo en Mailpit de la guía 5 se vuelve a sacar en kg-demo y se quita la nota «observado, sin corregir».
+
+## DEC-116 · ¿Qué se hace con las correcciones opcionales R-14, R-19, R-39 y R-53 del reporte?
+
+**Contexto.** Las cuatro quedaron como opcionales desde el 2026-11-09 (`CORRECCIONES_REPORTE.md`, `PLAN_REPORTE.md` §7). Revisadas contra el código vigente: `LogsPort` existe en ms-administracion (R-14); los estados del código son PENDIENTE, EN_TRAMITE y COMPLETADA en la solicitud y PENDIENTE_PRECIO, ENVIADA, RECHAZADA, SOSPECHOSA, OPCIONADA y CON_ORDEN en la cotización, así que al texto de R-19 le faltan RECHAZADA y SOSPECHOSA (R-19); `GenerarCotizacionFacade` guarda el PDF por `AlmacenArchivosPort` (R-39); y la tabla de R-53 («métodos de controlador que no atienden una ventana») ya no es cierta, porque desde DEC-96 todas esas rutas tienen ventana y mockup.
+
+**Opciones** (por cada una, aplicarla o descartarla):
+- **R-14 (§3, fila «Registro de cada error en un log»):** sumar «ms-administracion los consulta en Elasticsearch por el puerto LogsPort». ✅ **Se aplica.**
+- **R-19 (§5, desventajas):** la lista de estados, completa como en el código. ✅ **Se aplica** con la lista completa.
+- **R-39 (§12, fila «Facade»):** «precio sugerido, repositorio, PDF, almacén de objetos y evento». ✅ **Se aplica.**
+- **R-53 (§15):** la tabla de métodos sin ventana. ❌ **Se descarta.**
+
+Escogidas por Mauricio el 2026-11-24 (la recomendación técnica: aplicar las tres frases y descartar la tabla).
+
+**Qué implica:** un commit por corrección en `reporte/contenido/` y el reporte regenerado (PDF y `.docx`) antes de la revisión de las guías.
+
+## DEC-117 · ¿Qué cifra de pruebas dicen los documentos después de DEC-115?
+
+**Contexto.** DEC-115 sumó una comprobación a `verificar_corte5.py` (el texto del correo de la orden en Mailpit), así que `probar_todo.sh` dio 1.255 comprobaciones sin fallas (400 + 91 + 764). El reporte (§13.4), el README, el LEEME, las guías del código y de la plataforma, `ESTADO_PROYECTO_Y_C4.md` y `PLAN_Y_ESTADO.md` decían 1.254.
+
+**Opciones:**
+- **A. Pasar a 1.255 todo lo que describe el estado actual** y regenerar el reporte y las dos guías. ✅ **Escogida por Mauricio el 2026-11-24** (la recomendada).
+- **B. Quitar la comprobación nueva del verificador** y dejar 1.254; el JUnit seguiría comprobando el correo.
+
+**Qué implica:** cambian el reporte (§13.4, regenerado), el README y el LEEME de `KonradGourmet/`, `generar_guia_codigo.py` y `generar_guia_plataforma.py` (guías regeneradas), `ESTADO_PROYECTO_Y_C4.md` (estado de la plataforma y del reporte) y `PLAN_Y_ESTADO.md`. Lo que registra un corte ya aprobado (el 7b en `ESTADO_PROYECTO_Y_C4.md`, `VALIDACION_CORTE7.md`, `CAMBIOS_A_DOCUMENTAR.md`, las decisiones anteriores) conserva 1.254, porque fue la cifra de ese momento.
 
 ---
 

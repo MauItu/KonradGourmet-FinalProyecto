@@ -8,6 +8,7 @@ círculos numerados sobre lo que se pulsa o se señala, en la posición que da P
 
 Deja en img/plataforma/ los PNG y datos.json (los números de la historia y la posición de cada círculo), que lee
 generar_guia_plataforma.py. Cambia los datos de kg-demo: al terminar hay que restablecerla con restablecer_demo.sh.
+Con la variable SALIDA deja todo en esa carpeta (la guía 5 repite el ensayo así, DEC-113).
 
 Uso, desde FinalProyecto, con kg-demo recién restablecida y encendida (y ~75 s de espera por Eureka):
     COMPOSE_PROJECT_NAME=kg-demo mockups_nuevos/.venv/bin/python documentos/guias_sustentacion/fuente/imagenes_plataforma.py
@@ -23,7 +24,8 @@ if PROYECTO != 'kg-demo':
     sys.exit('Solo corre sobre la instancia kg-demo (COMPOSE_PROJECT_NAME=kg-demo): cambia sus datos.')
 BASE = 'http://localhost:8080'
 AQUI = Path(__file__).resolve().parent
-OUT = AQUI.parent / 'img' / 'plataforma'
+# SALIDA: otra carpeta para el ensayo (la guía 5 lo repite sin pisar las imágenes de esta guía, DEC-113)
+OUT = Path(os.environ['SALIDA']).resolve() if os.environ.get('SALIDA') else AQUI.parent / 'img' / 'plataforma'
 FALTANTES = AQUI.parent.parent / 'mockups_faltantes'
 CLAVE = 'Konrad2026'
 MESERO, JEFE, AUX, DIRECTORA, COMERCIAL, ADMIN = (f'{u}@konradgourmet.com' for u in (
@@ -74,7 +76,8 @@ def tarjeta(page, titulo):
 
 
 def foto(page, nombre, pines=(), completa=False):
-    """Guarda la imagen; pines = [(n, locator)], cada círculo sobre la esquina superior izquierda del elemento."""
+    """Guarda la imagen; pines = [(n, locator)], cada círculo sobre la esquina superior izquierda del elemento, o
+    [(n, locator, 'fi')] para ponerlo fuera, a la izquierda y a media altura, sin tapar lo que muestra (GR-20)."""
     page.wait_for_timeout(500)
     ruta = OUT / f'{nombre}.png'
     page.screenshot(path=str(ruta), full_page=completa)
@@ -84,12 +87,14 @@ def foto(page, nombre, pines=(), completa=False):
     if pines:
         dib = ImageDraw.Draw(img)
         sx, sy = (page.evaluate('[scrollX, scrollY]') if completa else (0, 0))
-        for n, loc in pines:
+        for n, loc, *pos in pines:
             caja = loc.first.bounding_box()
             if caja is None:
                 ok(False, f'{nombre}: el círculo {n} no encontró su elemento')
                 continue
             x, y = caja['x'] + sx + 2, caja['y'] + sy + 2
+            if pos == ['fi']:
+                x, y = caja['x'] + sx - R - 6, caja['y'] + sy + caja['height'] / 2
             x, y = min(max(x, R + 2), ancho - R - 2), min(max(y, R + 2), alto - R - 2)
             dib.ellipse((x - R, y - R, x + R, y + R), fill=(216, 27, 96), outline=(255, 255, 255), width=3)
             dib.text((x, y), str(n), font=FUENTE, fill='white', anchor='mm')
@@ -264,7 +269,7 @@ with sync_playwright() as pw:
         expect(v18.locator('.totals b').nth(1)).to_have_text(pesos(KILOS * c['precio']))
         if k == 0:
             foto(dire, 'd14_V18_valores', [(1, v18.locator('tbody tr').first.locator('td').nth(2)),
-                                           (2, v18.get_by_label(re.compile('Precio del proveedor por .* de Res'))),
+                                           (2, v18.get_by_label(re.compile('Precio del proveedor por .* de Res')).locator('xpath=..'), 'fi'),
                                            (3, v18.locator('.totals')), (4, v18.get_by_role('button', name='Validar cotización'))])
         with dire.expect_response(lambda r: r.url.endswith(f'/{cot}/validacion')) as resp:
             v18.get_by_role('button', name='Validar cotización').click()
