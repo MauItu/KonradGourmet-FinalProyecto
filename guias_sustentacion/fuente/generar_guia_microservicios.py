@@ -654,7 +654,7 @@ def seccion_servicio(n, s, datos):
 
     pub_html = "<br>".join(f"{c(t)} → {E(destinos(t))}" for t in publica) or "Nada"
     cons_html = "<br>".join(f"{c(t)} ← {E(', '.join('ms-' + x for x in datos['pub'].get(t, [])) or 'ms-notificaciones')}"
-                            for t in consume) or "Nada"
+                            for t in consume if t != "notificaciones.dlq") or "Nada"
     if s == "notificaciones":
         pub_html += f"<br>{c('notificaciones.dlq')} → ms-notificaciones (los envíos que fallaron)"
         cons_html += f"<br>{c('notificaciones.dlq')} ← ms-notificaciones (los vuelve a procesar)"
