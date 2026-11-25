@@ -117,7 +117,7 @@ VENTANAS = {
          et("Eventos", "Tarea programada con ShedLock")),
         ("V08", "Nueva solicitud de alimentos", "d06_V08_solicitud",
          "Categoría, producto, cantidad, unidad y marca. Desde la alarma o una alerta, «Solicitar» la abre con el producto ya escogido.",
-         "ms-solicitudes", "POST /api/solicitudes; GET /api/platos/productos?categoria=…", "—", et("Hexagonal")),
+         "ms-solicitudes (los productos, de ms-menu)", "POST /api/solicitudes; GET /api/platos/productos?categoria=…", "—", et("Hexagonal")),
         ("V09", "Solicitud registrada", "d07_V09_registrada", f"Confirmación con el número ({SOL}) en estado PENDIENTE.",
          "ms-solicitudes", "201 Created", "publica solicitud.registrada → ms-notificaciones, ms-analitica y ms-inventario (alerta atendida)",
          et("Eventos")),
