@@ -546,8 +546,8 @@ la próxima vez.</td></tr>
 confirma el envío. Si el correo falla, reintenta solo y luego pasa a la cola de errores.</td></tr>
 <tr><td>El Ministerio no responde</td><td>La cotización queda PENDIENTE DE PRECIO y se guarda sin enviar (ventana
 «Reenviar una cotización»): mostrarlo como resiliencia y reenviarla desde «Cotizaciones enviadas» cuando vuelva.</td></tr>
-<tr><td>Se hizo un paso dos veces</td><td>No pasa nada: los números siguientes cambian (por ejemplo, {SOL} pasa a ser el
-siguiente). Seguir con el número que muestre la pantalla.</td></tr>
+<tr><td>Se hizo un paso dos veces</td><td>No pasa nada: los números siguientes cambian (por ejemplo, la solicitud sale
+{SOL[:-3]}{int(SOL[-3:]) + 1:03d} en vez de {SOL}). Seguir con el número que muestre la pantalla.</td></tr>
 <tr><td>La plataforma no enciende o el equipo está muy lento</td><td>Hacer la demo con las imágenes de la sección 5 de esta
 guía, en el mismo orden, y decir lo mismo.</td></tr>
 </tbody></table>
