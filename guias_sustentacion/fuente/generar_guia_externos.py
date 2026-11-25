@@ -436,8 +436,8 @@ otro decorador.</p>
 <div>{con_pines("plataforma", DP, "d25_mailpit_orden", "Correo de la orden en Mailpit", [f"El asunto, con {OC}.", f"El adjunto {OC}.pdf."])}</div>
 <div>{figura("plataforma", DP, "d21_pdf_orden", "PDF de la orden", f"El PDF de {OC}: el mismo que abre V23 y que va adjunto.")}</div>
 </div>
-<p class="suave">El cuerpo del correo de la orden dice «total {HIS['orden_total']}» sin formato de pesos (observado, sin
-corregir).</p>
+<p class="suave">El cuerpo del correo de la orden dice «{E(cuerpo_orden())}»: el total en pesos, como en V21 y en el PDF
+(DEC-115).</p>
 <div class="dir"><b>Qué mostrar:</b> la bandeja, el correo de {c(COT1['numero'])} con la pestaña <i>Headers</i> (las dos
 cabeceras) y su adjunto; si hay tiempo, la huella con <code>sha256sum</code>.</div>
 """
@@ -575,6 +575,14 @@ Lee solo ms-administracion (<code>ElasticsearchLogsAdapter</code>) para la venta
 <p>Para ver un error de verdad, el paso opcional de la sección 13 detiene el correo un momento: el error aparece aquí con
 su servicio, su mensaje y la correlación del recorrido.</p>
 """
+
+
+def cuerpo_orden():
+    """El texto del correo de la orden en Mailpit, tal como salió en el ensayo; el total tiene que ir en pesos (DEC-115)."""
+    cuerpo = next((x["cuerpo"] for x in HE["correos"] if x["asunto"] == f"Orden de compra {OC}"), "").strip()
+    total = "$" + f"{HIS['orden_total']:,}".replace(",", ".")
+    exige(f"total {total}." in cuerpo, f"el correo de la orden no dice «total {total}»: {cuerpo!r}")
+    return cuerpo
 
 
 def seccion_kafka():

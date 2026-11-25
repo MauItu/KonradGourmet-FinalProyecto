@@ -183,7 +183,7 @@ ensayo; los números de la historia (<code>SOL-034</code>, <code>COT-023</code>,
 <code>new CorreoCertificadoDecorator(new EstampaCronologicaDecorator(smtp))</code>. Cada uno agrega su cabecera y pasa el
 mensaje al siguiente; el adaptador SMTP no sabe que existen. Agregar otra garantía (por ejemplo, una firma) es agregar
 otro decorador.</p>
-<div class="visor" id="v-e01_cabeceras" data-w="1440" data-h="900"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/externos/e01_cabeceras.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/externos/e01_cabeceras.png" alt="Cabeceras del correo de COT-023 en Mailpit" width="1440" height="900" loading="lazy"><span class="zona" data-n="1" title="1" style="left:25.694%;top:78.000%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="2" title="2" style="left:25.694%;top:83.111%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="3" title="3" style="left:91.111%;top:8.000%;width:2.361%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué señalar</th></tr></thead><tbody><tr id="v-e01_cabeceras-n1"><td class="num"><button class="pin" data-visor="v-e01_cabeceras" data-n="1">1</button></td><td><code>X-Certificado: SHA-256:8c11bad11e6ec426</code>: los primeros 8 bytes (16 caracteres) de la huella SHA-256 del destinatario y el cuerpo. Si alguien cambia el texto o el destinatario, la huella ya no coincide.</td></tr><tr id="v-e01_cabeceras-n2"><td class="num"><button class="pin" data-visor="v-e01_cabeceras" data-n="2">2</button></td><td><code>X-Sello-Tiempo: 2026-11-24T16:20:23-05:00</code>: la fecha y hora de Bogotá en que salió, con su zona horaria.</td></tr><tr id="v-e01_cabeceras-n3"><td class="num"><button class="pin" data-visor="v-e01_cabeceras" data-n="3">3</button></td><td>El adjunto COT-023.pdf: el PDF que ms-cotizaciones guardó en el almacén; el evento solo llevaba su dirección.</td></tr></tbody></table>
+<div class="visor" id="v-e01_cabeceras" data-w="1440" data-h="900"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/externos/e01_cabeceras.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/externos/e01_cabeceras.png" alt="Cabeceras del correo de COT-023 en Mailpit" width="1440" height="900" loading="lazy"><span class="zona" data-n="1" title="1" style="left:25.694%;top:78.000%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="2" title="2" style="left:25.694%;top:83.111%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="3" title="3" style="left:91.111%;top:8.000%;width:2.361%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué señalar</th></tr></thead><tbody><tr id="v-e01_cabeceras-n1"><td class="num"><button class="pin" data-visor="v-e01_cabeceras" data-n="1">1</button></td><td><code>X-Certificado: SHA-256:8c11bad11e6ec426</code>: los primeros 8 bytes (16 caracteres) de la huella SHA-256 del destinatario y el cuerpo. Si alguien cambia el texto o el destinatario, la huella ya no coincide.</td></tr><tr id="v-e01_cabeceras-n2"><td class="num"><button class="pin" data-visor="v-e01_cabeceras" data-n="2">2</button></td><td><code>X-Sello-Tiempo: 2026-11-24T21:53:31-05:00</code>: la fecha y hora de Bogotá en que salió, con su zona horaria.</td></tr><tr id="v-e01_cabeceras-n3"><td class="num"><button class="pin" data-visor="v-e01_cabeceras" data-n="3">3</button></td><td>El adjunto COT-023.pdf: el PDF que ms-cotizaciones guardó en el almacén; el evento solo llevaba su dirección.</td></tr></tbody></table>
 <p>La huella se puede comprobar en vivo con el destinatario y el cuerpo del correo (pestaña <i>Text</i>):</p>
 <div class="term"><div class="cmd"><span>$</span> printf &#x27;%s\n%s&#x27; &#x27;ventas@proveedorabc.com&#x27; &#x27;Por favor cotice los productos del PDF adjunto.&#x27; | sha256sum | cut -c1-16</div><pre class="sal">8c11bad11e6ec426</pre><p class=nota>Da lo mismo que la cabecera <code>X-Certificado</code>.</p></div>
 <h3>El correo de la orden y su PDF</h3>
@@ -191,8 +191,8 @@ otro decorador.</p>
 <div><div class="visor" id="v-d25_mailpit_orden" data-w="1440" data-h="900"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/plataforma/d25_mailpit_orden.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/plataforma/d25_mailpit_orden.png" alt="Correo de la orden en Mailpit" width="1440" height="900" loading="lazy"><span class="zona" data-n="1" title="1" style="left:25.694%;top:13.333%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="2" title="2" style="left:25.764%;top:50.556%;width:2.361%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué señalar</th></tr></thead><tbody><tr id="v-d25_mailpit_orden-n1"><td class="num"><button class="pin" data-visor="v-d25_mailpit_orden" data-n="1">1</button></td><td>El asunto, con OC-0013.</td></tr><tr id="v-d25_mailpit_orden-n2"><td class="num"><button class="pin" data-visor="v-d25_mailpit_orden" data-n="2">2</button></td><td>El adjunto OC-0013.pdf.</td></tr></tbody></table></div>
 <div><figure class="vent"><a href="img/plataforma/d21_pdf_orden.png" target="_blank" rel="noopener"><img src="img/plataforma/d21_pdf_orden.png" alt="PDF de la orden" width="935" height="1210" loading="lazy"></a><figcaption>El PDF de OC-0013: el mismo que abre V23 y que va adjunto.</figcaption></figure></div>
 </div>
-<p class="suave">El cuerpo del correo de la orden dice «total 840000» sin formato de pesos (observado, sin
-corregir).</p>
+<p class="suave">El cuerpo del correo de la orden dice «Orden OC-0013 sobre la cotización COT-023, total $840.000. El PDF va adjunto.»: el total en pesos, como en V21 y en el PDF
+(DEC-115).</p>
 <div class="dir"><b>Qué mostrar:</b> la bandeja, el correo de <code>COT-023</code> con la pestaña <i>Headers</i> (las dos
 cabeceras) y su adjunto; si hay tiempo, la huella con <code>sha256sum</code>.</div>
 </section><section class="bloque" id="ministerio"><h2>4. WireMock · el Ministerio de Comercio</h2>
@@ -230,9 +230,9 @@ que se note cuándo responde la caché:</p>
              name=&quot;PreciosEstandarService&quot;&gt;
 … (32 líneas más)</pre><p class=nota>El contrato que sigue <code>MinisterioSoapClient</code>: <code>consultarPrecioEstandar(codigoProducto)</code> → <code>precio</code>. Su comentario dice que lo sirve el contenedor del entorno local: si se muestra en vivo, basta con la respuesta de la res.</p></div>
 <div class="term"><div class="cmd"><span>$</span> kg exec ministerio curl -s -w &#x27;\n%{http_code} en %{time_total} s\n&#x27; -H &#x27;Content-Type: text/xml&#x27; localhost:8080/precios -d &#x27;&lt;soap:Envelope xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:min=&quot;http://precios.ministerio-comercio.simulado/&quot;&gt;&lt;soap:Body&gt;&lt;min:consultarPrecioEstandar&gt;&lt;codigoProducto&gt;1&lt;/codigoProducto&gt;&lt;/min:consultarPrecioEstandar&gt;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;&#x27;</div><pre class="sal">&lt;soap:Envelope xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&lt;soap:Body&gt;&lt;min:consultarPrecioEstandarResponse xmlns:min=&quot;http://precios.ministerio-comercio.simulado/&quot;&gt;&lt;precio&gt;20000.0&lt;/precio&gt;&lt;/min:consultarPrecioEstandarResponse&gt;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;
-200 en 0.305221 s</pre><p class=nota>La res: 20000.0, en unos 300 ms.</p></div>
+200 en 0.306917 s</pre><p class=nota>La res: 20000.0, en unos 300 ms.</p></div>
 <div class="term"><div class="cmd"><span>$</span> kg exec ministerio curl -s -w &#x27;\n%{http_code} en %{time_total} s\n&#x27; -H &#x27;Content-Type: text/xml&#x27; localhost:8080/precios -d &#x27;&lt;soap:Envelope xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:min=&quot;http://precios.ministerio-comercio.simulado/&quot;&gt;&lt;soap:Body&gt;&lt;min:consultarPrecioEstandar&gt;&lt;codigoProducto&gt;99&lt;/codigoProducto&gt;&lt;/min:consultarPrecioEstandar&gt;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;&#x27;</div><pre class="sal">&lt;soap:Envelope xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&lt;soap:Body&gt;&lt;soap:Fault&gt;&lt;faultcode&gt;soap:Client&lt;/faultcode&gt;&lt;faultstring&gt;El Ministerio no tiene precio para el producto 99&lt;/faultstring&gt;&lt;/soap:Fault&gt;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;
-500 en 0.351820 s</pre><p class=nota>Un producto sin precio: SOAP Fault con el código 500. ms-integracion lo convierte en un error del puerto y la cotización queda PENDIENTE DE PRECIO.</p></div>
+500 en 0.359876 s</pre><p class=nota>Un producto sin precio: SOAP Fault con el código 500. ms-integracion lo convierte en un error del puerto y la cotización queda PENDIENTE DE PRECIO.</p></div>
 <h3>La cuenta de llamadas: la caché de Redis</h3>
 <p>En el ensayo se generaron dos cotizaciones de res (<code>COT-023</code> y <code>COT-024</code>). WireMock lleva la cuenta
 de lo que recibe, y antes de las consultas a mano de arriba tenía una sola llamada: la primera cotización le preguntó al
@@ -241,8 +241,8 @@ Ministerio y la segunda la respondió el Proxy desde Redis.</p>
   &quot;count&quot; : 1,
   &quot;requestJournalDisabled&quot; : false
 }</pre><p class=nota>Ojo: las consultas a mano con <code>curl</code> también cuentan; para mostrar la caché, contar antes de probar.</p></div>
-<div class="term"><div class="cmd"><span>$</span> kg exec redis redis-cli GET precio-referencia:1</div><pre class="sal">{&quot;productoId&quot;:1,&quot;valor&quot;:&quot;20000.0&quot;,&quot;consultadoEn&quot;:&quot;2026-11-24T16:20:23.172804749&quot;}</pre></div>
-<div class="term"><div class="cmd"><span>$</span> kg exec redis redis-cli TTL precio-referencia:1</div><pre class="sal">86322</pre><p class=nota>Segundos que le quedan: la llave vence en un día (supuesto S3), el mismo plazo con que el Proxy da por vencido un precio.</p></div>
+<div class="term"><div class="cmd"><span>$</span> kg exec redis redis-cli GET precio-referencia:1</div><pre class="sal">{&quot;productoId&quot;:1,&quot;valor&quot;:&quot;20000.0&quot;,&quot;consultadoEn&quot;:&quot;2026-11-24T21:53:30.291167270&quot;}</pre></div>
+<div class="term"><div class="cmd"><span>$</span> kg exec redis redis-cli TTL precio-referencia:1</div><pre class="sal">86318</pre><p class=nota>Segundos que le quedan: la llave vence en un día (supuesto S3), el mismo plazo con que el Proxy da por vencido un precio.</p></div>
 <h3>Si el Ministerio no responde</h3>
 <div class="par">
 <div><figure class="vent"><a href="img/plataforma/reenviar.png" target="_blank" rel="noopener"><img src="img/plataforma/reenviar.png" alt="Cotización pendiente de precio" width="1440" height="900" loading="lazy"></a><figcaption>«Reenviar una cotización»: la cotización quedó PENDIENTE DE PRECIO y se reenvía cuando el Ministerio vuelve.</figcaption></figure></div>
@@ -270,18 +270,18 @@ Se publica a lo sumo un evento por día.</dd>
 en tendencia de la semana, de más a menos menciones, con 200 ms de demora; sin token, 401.</p>
 <table><thead><tr><th>Producto</th><th>Menciones</th></tr></thead><tbody><tr><td>Ajiaco</td><td>1.840</td></tr><tr><td>Limonada natural</td><td>960</td></tr></tbody></table>
 <div class="term"><div class="cmd"><span>$</span> kg exec redes curl -s -w &#x27;\n%{http_code} en %{time_total} s\n&#x27; -H &#x27;Authorization: Bearer konrad-redes-local&#x27; &#x27;localhost:8080/v1/tendencias?pais=CO&amp;categoria=gastronomia&amp;periodo=semana&#x27;</div><pre class="sal">{&quot;pais&quot;:&quot;CO&quot;,&quot;categoria&quot;:&quot;gastronomia&quot;,&quot;periodo&quot;:&quot;semana&quot;,&quot;tendencias&quot;:[{&quot;producto&quot;:&quot;Ajiaco&quot;,&quot;menciones&quot;:1840},{&quot;producto&quot;:&quot;Limonada natural&quot;,&quot;menciones&quot;:960}]}
-200 en 0.203463 s</pre></div>
+200 en 0.203022 s</pre></div>
 <div class="term"><div class="cmd"><span>$</span> kg exec redes curl -s -w &#x27;\n%{http_code}\n&#x27; &#x27;localhost:8080/v1/tendencias?pais=CO&amp;categoria=gastronomia&amp;periodo=semana&#x27;</div><pre class="sal">{&quot;error&quot;:&quot;token de acceso inválido&quot;}
 401</pre></div>
 <h3>La cuenta sube sola</h3>
 <div class="term"><div class="cmd"><span>$</span> kg exec redes curl -s -X POST localhost:8080/__admin/requests/count -d &#x27;{&quot;method&quot;:&quot;GET&quot;,&quot;urlPath&quot;:&quot;/v1/tendencias&quot;}&#x27;</div><pre class="sal">{
-  &quot;count&quot; : 7,
+  &quot;count&quot; : 6,
   &quot;requestJournalDisabled&quot; : false
 }</pre></div>
 <div class="term"><div class="cmd"><span>$</span> kg exec redes curl -s -X POST localhost:8080/__admin/requests/count -d &#x27;{&quot;method&quot;:&quot;GET&quot;,&quot;urlPath&quot;:&quot;/v1/tendencias&quot;}&#x27;</div><pre class="sal">{
-  &quot;count&quot; : 8,
+  &quot;count&quot; : 7,
   &quot;requestJournalDisabled&quot; : false
-}</pre><p class=nota>31 segundos después: 7 → 8. Es <code>TendenciasJob</code>, no nosotros.</p></div>
+}</pre><p class=nota>31 segundos después: 6 → 7. Es <code>TendenciasJob</code>, no nosotros.</p></div>
 <div class="visor" id="v-e02_promociones" data-w="1440" data-h="900"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/externos/e02_promociones.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/externos/e02_promociones.png" alt="Correo de promociones en Mailpit" width="1440" height="900" loading="lazy"><span class="zona" data-n="1" title="1" style="left:25.694%;top:29.556%;width:2.361%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué señalar</th></tr></thead><tbody><tr id="v-e02_promociones-n1"><td class="num"><button class="pin" data-visor="v-e02_promociones" data-n="1">1</button></td><td>El correo que sale de <code>tendencia.detectada</code>: una línea por plato sugerido, con su motivo (en tendencia en redes, entre los 3 más pedidos de la semana o las dos cosas) y su vigencia.</td></tr></tbody></table>
 <div class="dir"><b>Qué mostrar:</b> la respuesta con el token, el 401 sin él y la cuenta antes y después de 30 segundos;
 luego el correo de promociones en Mailpit.</div>
@@ -331,10 +331,10 @@ ms-notificaciones descarga el PDF para adjuntarlo.</dd>
 2026-11-23 19:58:00       2329 cotizaciones/COT-020.pdf
 2026-11-23 19:58:01       2332 cotizaciones/COT-021.pdf
 2026-11-23 19:58:37       2226 cotizaciones/COT-022.pdf
-2026-11-24 21:20:23       2232 cotizaciones/COT-023.pdf
-2026-11-24 21:20:25       2226 cotizaciones/COT-024.pdf
+2026-11-25 02:53:30       2232 cotizaciones/COT-023.pdf
+2026-11-25 02:53:33       2226 cotizaciones/COT-024.pdf
 2026-11-23 19:58:05       2308 ordenes/OC-0012.pdf
-2026-11-24 21:20:34       2183 ordenes/OC-0013.pdf</pre><p class=nota>COT-023, COT-024 y OC-0013 son los del ensayo; los anteriores vienen con los datos de la demo.</p></div>
+2026-11-25 02:53:42       2183 ordenes/OC-0013.pdf</pre><p class=nota>COT-023, COT-024 y OC-0013 son los del ensayo; los anteriores vienen con los datos de la demo.</p></div>
 <div class="term"><div class="cmd"><span>$</span> kgs3 s3 ls --recursive s3://imagenes-platos</div><pre class="sal">(no imprime nada)</pre><p class=nota>Vacío en la demo: los platos de la carta inicial no tienen foto (V03 muestra su ícono). El bucket se llena cuando el jefe de cocina sube la foto de un plato en V06.</p></div>
 <div class="par">
 <div><figure class="vent"><a href="img/plataforma/d12_pdf_cotizacion.png" target="_blank" rel="noopener"><img src="img/plataforma/d12_pdf_cotizacion.png" alt="PDF de la cotización" width="935" height="1210" loading="lazy"></a><figcaption>El PDF de COT-023 (V14): sale de <code>documentos-pdf/cotizaciones/</code>.</figcaption></figure></div>
@@ -388,10 +388,10 @@ inventario.stock-bajo 0 0
 inventario.stock-bajo 1 -
 solicitud.en-tramite 2 -
 solicitud.en-tramite 1 -
-tendencia.detectada 1 0
+tendencia.detectada 1 -
 solicitud.en-tramite 0 0
-tendencia.detectada 0 -</pre><p class=nota>Tópico, partición y atraso (LAG) del grupo de ms-notificaciones: 0 es que ya procesó todo; «-», una partición que todavía no ha recibido eventos (cada tópico tiene tres).</p></div>
-<div class="term"><div class="cmd"><span>$</span> kg exec kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic orden.generada --from-beginning --timeout-ms 8000</div><pre class="sal">{&quot;usuario&quot;:&quot;laura.gomez@konradgourmet.com&quot;,&quot;numero&quot;:&quot;OC-0013&quot;,&quot;cotizacionNumero&quot;:&quot;COT-023&quot;,&quot;solicitudNumeros&quot;:[&quot;SOL-034&quot;],&quot;proveedor&quot;:&quot;Proveedor ABC&quot;,&quot;correoProveedor&quot;:&quot;ventas@proveedorabc.com&quot;,&quot;pdfUrl&quot;:&quot;s3://documentos-pdf/ordenes/OC-0013.pdf&quot;,&quot;total&quot;:8.4E+5,&quot;id&quot;:&quot;9a2038f8-efc3-4c0f-b75e-28a413c55ff8&quot;,&quot;correlacionId&quot;:&quot;9b7ab6f8-9b2b-4126-8095-a7c0968c2fb2&quot;,&quot;ocurridoEn&quot;:&quot;2026-11-24T16:20:34.414213694&quot;}</pre><p class=nota>El evento <code>orden.generada</code> de OC-0013 lleva <code>pdfUrl</code> (la dirección en el almacén), el correo de quien lo hizo y la correlación del recorrido.</p></div>
+tendencia.detectada 0 0</pre><p class=nota>Tópico, partición y atraso (LAG) del grupo de ms-notificaciones: 0 es que ya procesó todo; «-», una partición que todavía no ha recibido eventos (cada tópico tiene tres).</p></div>
+<div class="term"><div class="cmd"><span>$</span> kg exec kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic orden.generada --from-beginning --timeout-ms 8000</div><pre class="sal">{&quot;usuario&quot;:&quot;laura.gomez@konradgourmet.com&quot;,&quot;numero&quot;:&quot;OC-0013&quot;,&quot;cotizacionNumero&quot;:&quot;COT-023&quot;,&quot;solicitudNumeros&quot;:[&quot;SOL-034&quot;],&quot;proveedor&quot;:&quot;Proveedor ABC&quot;,&quot;correoProveedor&quot;:&quot;ventas@proveedorabc.com&quot;,&quot;pdfUrl&quot;:&quot;s3://documentos-pdf/ordenes/OC-0013.pdf&quot;,&quot;total&quot;:8.4E+5,&quot;id&quot;:&quot;747d440e-4f9f-44f1-916e-f641ae6f4c09&quot;,&quot;correlacionId&quot;:&quot;ea774b3c-080a-4f50-96e0-fdf3d9fb18d2&quot;,&quot;ocurridoEn&quot;:&quot;2026-11-24T21:53:43.006484616&quot;}</pre><p class=nota>El evento <code>orden.generada</code> de OC-0013 lleva <code>pdfUrl</code> (la dirección en el almacén), el correo de quien lo hizo y la correlación del recorrido.</p></div>
 </section><section class="bloque" id="redis"><h2>10. Redis · caché, alarmas y límite de tasa</h2>
 <dl class="ficha">
 <dt>Qué es</dt><dd>p. 3a · n.º 13; p. 5 · n.º 17. Tres usos separados: la caché de precios del
@@ -409,16 +409,16 @@ alarmas:stock-bajo
 1
 message
 alarmas:stock-bajo
-{&quot;destino&quot;:&quot;carlos.mendoza@konradgourmet.com&quot;,&quot;contenido&quot;:&quot;Res al 22 %: realice una solicitud&quot;,&quot;fechaHora&quot;:&quot;2026-11-24T16:20:12&quot;}</pre></div>
+{&quot;destino&quot;:&quot;carlos.mendoza@konradgourmet.com&quot;,&quot;contenido&quot;:&quot;Res al 22 %: realice una solicitud&quot;,&quot;fechaHora&quot;:&quot;2026-11-24T21:53:19&quot;}</pre></div>
 <h3>El límite de tasa</h3>
-<div class="term"><div class="cmd"><span>$</span> kg exec redis redis-cli --scan --pattern &#x27;request_rate_limiter*&#x27;</div><pre class="sal">request_rate_limiter.{identidad-auth.ip:172.23.0.1}.timestamp
-request_rate_limiter.{analitica-bam.usuario:5}.timestamp
-request_rate_limiter.{identidad-auth.ip:172.23.0.1}.tokens
+<div class="term"><div class="cmd"><span>$</span> kg exec redis redis-cli --scan --pattern &#x27;request_rate_limiter*&#x27;</div><pre class="sal">request_rate_limiter.{analitica-bam.usuario:5}.timestamp
 request_rate_limiter.{solicitudes-solicitudes.usuario:2}.timestamp
-request_rate_limiter.{solicitudes-solicitudes.usuario:2}.tokens
 request_rate_limiter.{administracion-admin.usuario:5}.timestamp
-request_rate_limiter.{analitica-bam.usuario:5}.tokens
-request_rate_limiter.{administracion-admin.usuario:5}.tokens</pre><p class=nota>Un balde por usuario con sesión (<code>usuario:2</code> es el jefe de cocina) y otro por IP para el inicio de sesión. Duran unos segundos, así que hay que consultarlos justo después de usar la aplicación.</p></div>
+request_rate_limiter.{administracion-admin.usuario:5}.tokens
+request_rate_limiter.{identidad-auth.ip:172.23.0.1}.timestamp
+request_rate_limiter.{identidad-auth.ip:172.23.0.1}.tokens
+request_rate_limiter.{solicitudes-solicitudes.usuario:2}.tokens
+request_rate_limiter.{analitica-bam.usuario:5}.tokens</pre><p class=nota>Un balde por usuario con sesión (<code>usuario:2</code> es el jefe de cocina) y otro por IP para el inicio de sesión. Duran unos segundos, así que hay que consultarlos justo después de usar la aplicación.</p></div>
 </section><section class="bloque" id="postgres"><h2>11. PostgreSQL · una base por servicio</h2>
 <dl class="ficha">
 <dt>Qué es</dt><dd>p. 5 · n.º 16: una base por servicio, cada una con su usuario, que no puede entrar a las demás.</dd>
@@ -468,20 +468,20 @@ un archivo temporal que borra al detenerse, así que con <code>stop</code> la ba
           &quot;servicio&quot; : &quot;ms-notificaciones&quot;,
           &quot;nivel&quot; : &quot;ERROR&quot;,
           &quot;mensaje&quot; : &quot;No se pudo notificar un evento de solicitud.registrada después de 3 intentos; pasa a la cola de errores notificaciones.dlq · java.net.SocketTimeoutException: Read timed out&quot;,
-          &quot;fechaHora&quot; : &quot;2026-11-24T16:22:57.94142154-05:00&quot;,
-          &quot;correlacionId&quot; : &quot;ce6f14c3-e04a-4e24-b5a9-8a378b8da9ef&quot;
+          &quot;fechaHora&quot; : &quot;2026-11-24T21:56:12.815056993-05:00&quot;,
+          &quot;correlacionId&quot; : &quot;bce48c28-89eb-47d0-8bf3-c80bedd2cd3e&quot;
         }
       }
     ]
   }
 }</pre></div><div class="term"><div class="cmd"><span>$</span> kg exec elasticsearch curl -s &#x27;localhost:9200/_cat/indices?v&#x27;</div><pre class="sal">health status index        uuid                   pri rep docs.count docs.deleted store.size pri.store.size dataset.size
-green  open   logs-errores VAQo870BSnGqf6EPMFg73g   1   0          1            0     10.8kb         10.8kb       10.8kb</pre></div>
-<div class="visor" id="v-e03_logs_error" data-w="1440" data-h="900"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/externos/e03_logs_error.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/externos/e03_logs_error.png" alt="Logs de errores con el error" width="1440" height="900" loading="lazy"><span class="zona" data-n="1" title="1" style="left:30.694%;top:40.444%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="2" title="2" style="left:41.111%;top:40.444%;width:2.361%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué señalar</th></tr></thead><tbody><tr id="v-e03_logs_error-n1"><td class="num"><button class="pin" data-visor="v-e03_logs_error" data-n="1">1</button></td><td>El servicio que falló: ms-notificaciones.</td></tr><tr id="v-e03_logs_error-n2"><td class="num"><button class="pin" data-visor="v-e03_logs_error" data-n="2">2</button></td><td>El mensaje: qué evento no se pudo notificar, después de cuántos intentos, que pasó a la cola de errores y por qué (el servidor no respondió).</td></tr></tbody></table>
+green  open   logs-errores hBLue5iaSJC3FWZB8OO3kw   1   0          1            0     10.8kb         10.8kb       10.8kb</pre></div>
+<div class="visor" id="v-e03_logs_error" data-w="1440" data-h="900"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/externos/e03_logs_error.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/externos/e03_logs_error.png" alt="Logs de errores con el error" width="1440" height="900" loading="lazy"><span class="zona" data-n="1" title="1" style="left:30.556%;top:40.444%;width:2.361%;aspect-ratio:1"></span><span class="zona" data-n="2" title="2" style="left:40.903%;top:40.444%;width:2.361%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué señalar</th></tr></thead><tbody><tr id="v-e03_logs_error-n1"><td class="num"><button class="pin" data-visor="v-e03_logs_error" data-n="1">1</button></td><td>El servicio que falló: ms-notificaciones.</td></tr><tr id="v-e03_logs_error-n2"><td class="num"><button class="pin" data-visor="v-e03_logs_error" data-n="2">2</button></td><td>El mensaje: qué evento no se pudo notificar, después de cuántos intentos, que pasó a la cola de errores y por qué (el servidor no respondió).</td></tr></tbody></table>
 <div class="term"><div class="cmd"><span>$</span> kg exec kafka /opt/kafka/bin/kafka-get-offsets.sh --bootstrap-server localhost:9092 --topic notificaciones.dlq</div><pre class="sal">notificaciones.dlq:0:0
 notificaciones.dlq:1:1
 notificaciones.dlq:2:0</pre><p class=nota>La cola de errores tiene un evento más (0 → 1).</p></div></li>
 <li><b>Reanudar el correo.</b><div class="term"><div class="cmd"><span>$</span> kg unpause correo</div><pre class="sal">(no imprime nada)</pre></div> <code>ReprocesoColaErrores</code> vuelve a procesar la cola cada
-30 s en el equipo (5 min por defecto); en el ensayo el correo llegó a los 24 s.
+30 s en el equipo (5 min por defecto); en el ensayo el correo llegó a los 23 s.
 <div class="visor" id="v-e04_mailpit_reenvio" data-w="1440" data-h="900"><div class="barra"><button data-a="ajustar">Ajustar</button><button data-a="menos">−</button><button data-a="mas">+</button><button data-a="real">Tamaño real</button><span>Arrastra para moverte; toca un número para ir a su fila.</span><a href="img/externos/e04_mailpit_reenvio.png" target="_blank" rel="noopener">Abrir la imagen</a></div><div class="marco"><div class="lienzo"><img src="img/externos/e04_mailpit_reenvio.png" alt="Mailpit con el correo reenviado" width="1440" height="900" loading="lazy"><span class="zona" data-n="1" title="1" style="left:17.222%;top:7.111%;width:2.361%;aspect-ratio:1"></span></div></div></div><table class="pines"><thead><tr><th class="c-num">N.º</th><th>Qué señalar</th></tr></thead><tbody><tr id="v-e04_mailpit_reenvio-n1"><td class="num"><button class="pin" data-visor="v-e04_mailpit_reenvio" data-n="1">1</button></td><td>«Solicitud SOL-035 registrada»: llegó una sola vez, sin repetir los anteriores.</td></tr></tbody></table></li>
 </ol>
 <div class="dir"><b>Qué decir:</b> «Si el servidor de correo no responde, la solicitud igual queda registrada; el correo se
