@@ -20,12 +20,37 @@ La propuesta combina tres arquitecturas, cada una en el nivel donde resuelve un 
 
 ## La plataforma
 
-El diagrama de contenedores (página 3a) corriendo en un solo equipo: 11 microservicios en Spring Boot 3.5 y Spring Cloud, API Gateway, Eureka, Kafka, PostgreSQL (una base y un usuario por servicio), Redis, almacén de objetos S3, Elasticsearch, servidor de correo y la SPA en React + TypeScript con sus 33 ventanas. Solo necesita Docker.
+El diagrama de contenedores (página 3a) corriendo en un solo equipo: 11 microservicios en Spring Boot 3.5 y Spring Cloud, API Gateway, Eureka, Kafka, PostgreSQL (una base y un usuario por servicio), Redis, almacén de objetos S3, Elasticsearch, servidor de correo y la SPA en React + TypeScript con sus 33 ventanas.
+
+### Requisitos
+
+| Qué | Detalle |
+|---|---|
+| Docker con Compose v2 | El comando `docker compose`. En Windows y macOS, Docker Desktop. Se probó en Linux con Docker 29 y Compose 5.8 |
+| Bash y `curl` | Los scripts de `codigo/plataforma/` son de Bash. En Windows, desde WSL 2 |
+| Memoria | Unos 6 GB de RAM con los 22 contenedores: un equipo de 16 GB va holgado; con 8 GB, cerrando lo demás |
+| Disco | Unos 12 GB (imágenes y dependencias de Maven) |
+| Puertos libres | 8080, 8025 y 8761 |
+| Internet, la primera vez | Para bajar las imágenes y las dependencias |
+
+No hace falta instalar Java, Maven ni Node: todo se compila dentro de contenedores. Las pruebas de punta a punta y
+la versión del núcleo sin Docker piden algo más (ver «Pruebas» y la sección «Código»).
+
+### Cómo ejecutarla
 
 ```bash
-cd codigo
-./plataforma/levantar.sh                # compila los servicios y levanta todo (unos minutos la primera vez)
+git clone https://github.com/MauItu/KonradGourmet-FinalProyecto.git
+cd KonradGourmet-FinalProyecto/codigo
+./plataforma/levantar.sh                # compila los servicios y levanta todo; la primera vez tarda más (baja las imágenes)
+```
+
+El script termina cuando la aplicación ya responde. Conviene esperar un minuto más, mientras los servicios se
+encuentran entre sí en Eureka (si no, la primera operación entre dos servicios puede responder 503), y abrir
+http://localhost:8080 con uno de los usuarios de abajo.
+
+```bash
 ./plataforma/bajar.sh                   # la apaga y conserva los datos
+./plataforma/bajar.sh --borrar          # la apaga y borra bases, tópicos y PDF (vuelve a los datos iniciales)
 ```
 
 | Dirección | Qué es |
@@ -46,7 +71,8 @@ Usuarios de demostración, todos con la clave `Konrad2026` (la pantalla de inici
 | Director comercial | andres.rojas@konradgourmet.com |
 | Administradora | paula.herrera@konradgourmet.com |
 
-**Pruebas.** `./plataforma/probar_todo.sh` levanta una instancia limpia y corre 1.255 comprobaciones: 400 verificaciones del núcleo, 91 pruebas JUnit de los servicios y 764 comprobaciones de los recorridos en el navegador y de los verificadores, entre ellas una compra completa que cruza los 11 servicios y los 6 roles. Los detalles (qué corre en cada contenedor, seguridad, outbox, avance por cortes) están en `codigo/plataforma/LEEME.md`.
+**Pruebas.** `./plataforma/probar_todo.sh` (≈ 40 minutos; necesita además Python 3 con Playwright, Chromium y
+poppler-utils) levanta una instancia limpia y corre 1.255 comprobaciones: 400 verificaciones del núcleo, 91 pruebas JUnit de los servicios y 764 comprobaciones de los recorridos en el navegador y de los verificadores, entre ellas una compra completa que cruza los 11 servicios y los 6 roles. Los detalles (qué corre en cada contenedor, seguridad, outbox, avance por cortes) están en `codigo/plataforma/LEEME.md`.
 
 ## Páginas del diagrama
 
@@ -93,12 +119,18 @@ Abrir `documentos/Arquitectura_Konrad_Gourmet.drawio` en [draw.io](https://app.d
 
 | Carpeta | Qué es |
 |---|---|
-| `src/` | El núcleo: las 195 clases de los diagramas de clases, organizadas por capas hexagonales (`co.edu.konradlorenz.<servicio>.<capa>`), en Java puro; `./ejecutar.sh` compila, corre la demostración y las verificaciones (Java 21, sin Maven) |
+| `src/` | El núcleo: las 195 clases de los diagramas de clases, organizadas por capas hexagonales (`co.edu.konradlorenz.<servicio>.<capa>`), en Java puro; `./ejecutar.sh` compila, corre la demostración y las verificaciones (necesita un JDK 21; no usa Docker ni Maven) |
 | `servicios/` | Los once microservicios en Spring Boot, que copian el núcleo de su módulo al compilar y le agregan sus adaptadores (REST, Kafka, JPA, SOAP, PDF, correo) |
 | `web/` | La SPA en React + TypeScript |
 | `plataforma/` | Docker Compose, los scripts para levantarla y probarla, y los recorridos de prueba |
 
-Su `README.md` explica la organización y los patrones; `plataforma/LEEME.md`, la plataforma.
+Hay tres archivos de presentación, cada uno para un nivel:
+
+| Archivo | Para qué |
+|---|---|
+| `README.md` (este) | De qué va el proyecto, los entregables y cómo ejecutar la plataforma |
+| `codigo/README.md` | El código: el núcleo hexagonal, sus módulos y los patrones de diseño, clase por clase |
+| `codigo/plataforma/LEEME.md` | La plataforma en detalle: qué corre en cada contenedor, la seguridad, la outbox, las clases que no están en el diagrama, el avance por cortes y cada prueba. «LEEME» es «README» en español; está en la carpeta que describe |
 
 ## Historial de la revisión
 
