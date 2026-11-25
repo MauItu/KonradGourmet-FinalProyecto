@@ -483,7 +483,8 @@ qué reemplaza a cada sistema externo salvo que lo pregunten (ver «Preguntas pr
 usan los mismos puertos, así que <b>solo puede estar encendida una a la vez</b>: el nombre de la instancia lo da
 <code>COMPOSE_PROJECT_NAME</code>.</p>
 <h3>Para la demo: la instancia kg-demo</h3>
-<pre><code># 1. Dejarla con los datos de la demo (copia los datos de kg-mockups; detiene las dos si están encendidas)
+<pre><code># 1. Dejarla con los datos de la demo (copia las bases, los PDF y los logs de kg-mockups y vacía
+#    los tópicos y la caché; detiene las dos si están encendidas)
 documentos/guias_sustentacion/fuente/restablecer_demo.sh
 
 # 2. Encenderla (unos 4 minutos)

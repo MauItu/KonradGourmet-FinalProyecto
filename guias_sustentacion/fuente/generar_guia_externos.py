@@ -752,8 +752,8 @@ def seccion_antes():
 <ul class="lista-control">
 <li>kg-demo restablecida y encendida: <code>documentos/guias_sustentacion/fuente/restablecer_demo.sh</code> y
 <code>COMPOSE_PROJECT_NAME=kg-demo KonradGourmet/plataforma/levantar.sh --sin-compilar</code>; esperar ~75 s. El
-restablecimiento también vacía Redis y Kafka: la primera cotización le pregunta al Ministerio y los tópicos solo tienen
-los eventos de esta demo.</li>
+restablecimiento también vacía Redis y el volumen de Kafka: la primera cotización le pregunta al Ministerio y los tópicos
+solo tienen los eventos de esta demo.</li>
 <li>Hecha la demo de la guía de la plataforma (sin ella no están {c(SOL)}, {c(COT1['numero'])}, {c(OC)} ni los correos).</li>
 <li>Una terminal en <code>FinalProyecto/</code> con los atajos <code>kg</code> y <code>kgs3</code> pegados, y la letra grande.</li>
 <li>Pestañas abiertas: {c("localhost:8025")} (Mailpit), {c("localhost:8761")} (Eureka) y {c("localhost:8080/plataforma/")}.</li>
