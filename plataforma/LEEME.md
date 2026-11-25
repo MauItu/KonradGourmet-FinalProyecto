@@ -231,11 +231,11 @@ espera 75 s después de `levantar.sh` a que Eureka propague las instancias entre
 | Corte 3: recorrido · verificador | 23 · 22 |
 | Corte 4a | 41 · 33 |
 | Corte 4b | 66 · 72 |
-| Corte 5 | 57 · 83 |
+| Corte 5 | 57 · 84 |
 | Corte 6a | 59 · 57 |
 | Corte 6b | 40 · 60 |
 | Corte 7 | 56 · 94 |
-| **Total** | **1.254** (400 + 91 + 763), sin fallas, en una instancia limpia |
+| **Total** | **1.255** (400 + 91 + 764), sin fallas, en una instancia limpia |
 
 **Corte por corte**, con la plataforma arriba (mejor recién levantada con `./plataforma/bajar.sh --borrar` y
 `levantar.sh`, y en el orden de abajo):

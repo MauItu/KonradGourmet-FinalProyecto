@@ -304,14 +304,14 @@ PYTHON=/ruta/al/venv/bin/python ./plataforma/probar_todo.sh /tmp/pruebas   # reg
 
 Usa su propia instancia (`kg-limpio`, u otra con `COMPOSE_PROJECT_NAME`), que borra al empezar y detiene al terminar;
 no corre sobre `konrad-gourmet`, la de todos los días. La última corrida, en una instancia limpia, dio
-**1.254 comprobaciones sin fallas**:
+**1.255 comprobaciones sin fallas**:
 
 | Parte | Comprobaciones |
 |---|---|
 | Núcleo (`pruebas/`, 8 clases) | 400 |
 | JUnit de los servicios | 91 |
-| Recorridos y verificadores de los cortes 3 a 7 | 763 |
-| **Total** | **1.254** |
+| Recorridos y verificadores de los cortes 3 a 7 | 764 |
+| **Total** | **1.255** |
 
 El corte 7 cierra con una historia que cruza los 11 servicios y los 6 roles (`recorrido_corte7.py` y
 `verificar_corte7.py`): del plato nuevo del jefe de cocina a la orden de compra recibida, el tablero del director
