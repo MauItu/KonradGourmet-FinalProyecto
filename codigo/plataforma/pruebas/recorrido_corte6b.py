@@ -193,6 +193,11 @@ with sync_playwright() as pw:
         if tag == 'escritorio':
             menu = ' '.join(jefe.locator('.sidebar .nav').all_inner_texts())
             ok('Tablero BAM' not in menu, 'el jefe de cocina no tiene el tablero en su menú')
+            # la tabla puede tardar un render en mostrar todas las filas: se espera la cuarta antes de contar
+            try:
+                expect(jefe.locator('tbody tr').nth(3)).to_be_visible(timeout=10000)
+            except AssertionError:
+                pass
             filas = jefe.locator('tbody tr').count()
             ok(filas >= 4, f'el histórico tiene las sugerencias del análisis semanal ({filas})')
             aj = fila(jefe, 'Ajiaco')
